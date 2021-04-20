@@ -76,12 +76,12 @@ dictonary_of_itemset[["TYPE"]][["UOSL"]][["T"]]<-list(list("MBRN", "10")) #?
 dictonary_of_itemset[["TYPE"]][["UOSL"]][["MD"]]<-list()
 dictonary_of_itemset[["TYPE"]][["UOSL"]][["UNK"]]<-list()
 
-type_our_study[["University_of_Aarhus"]][["LB"]]<-list(list("MFR", "1"))
-type_our_study[["University_of_Aarhus"]][["SB"]]<-list(list("MFR", "0"))
-type_our_study[["University_of_Aarhus"]][["SA"]]<-list()
-type_our_study[["University_of_Aarhus"]][["T"]]<-list()
-type_our_study[["University_of_Aarhus"]][["MD"]]<-list()
-type_our_study[["University_of_Aarhus"]][["UNK"]]<-list()
+dictonary_of_itemset[["University_of_Aarhus"]][["LB"]]<-list(list("MFR", "1"))
+dictonary_of_itemset[["University_of_Aarhus"]][["SB"]]<-list(list("MFR", "0"))
+dictonary_of_itemset[["University_of_Aarhus"]][["SA"]]<-list()
+dictonary_of_itemset[["University_of_Aarhus"]][["T"]]<-list()
+dictonary_of_itemset[["University_of_Aarhus"]][["MD"]]<-list()
+dictonary_of_itemset[["University_of_Aarhus"]][["UNK"]]<-list()
 
 dictonary_of_itemset[["TYPE"]][["CHUT"]][["LB"]]<-list(list("EFEMERIS_ISSUE", "1"))
 dictonary_of_itemset[["TYPE"]][["CHUT"]][["SB"]]<-list(list("EFEMERIS_INTERRUPTION", "MFIU"), list("EFEMERIS_INTERRUPTION", "MORT-NES"))
