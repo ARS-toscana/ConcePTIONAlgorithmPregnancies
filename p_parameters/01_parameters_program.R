@@ -1,13 +1,13 @@
 # set directory with input data
-# setwd("..")
-# setwd("..")
-# dirbase<-getwd()
-# dirinput <- paste0(dirbase,"/CDMInstances/ACCESS/")
+setwd("..")
+setwd("..")
+dirbase<-getwd()
+dirinput <- paste0(dirbase,"/CDMInstances/DataCharacterisation_v2/")
 
 #setwd("..")
 # setwd("..")
-dirbase<-getwd()
-dirinput <- paste0(dirbase,"/i_input/")
+# dirbase<-getwd()
+# dirinput <- paste0(dirbase,"/i_input/")
 
 # set other directories
 diroutput <- paste0(thisdir,"/g_output/")
@@ -79,6 +79,13 @@ firstjan2018<-as.Date(as.character(20180101), date_format)
 
 CDM_SOURCE<- fread(paste0(dirinput,"CDM_SOURCE.csv"))
 thisdatasource <- as.character(CDM_SOURCE[1,3])
+
+#---------------------------------------
+# understand which datasource the script is querying
+
+INSTANCE<- fread(paste0(dirinput,"INSTANCE.csv"), fill=T)
+date_start_min <- as.Date(as.character(min(INSTANCE[,since_when_data_complete],na.rm = T)),date_format)
+
 
 #---------------------------------------
 # assess datasource-specific parameters
