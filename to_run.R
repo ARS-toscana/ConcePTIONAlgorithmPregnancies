@@ -18,7 +18,7 @@ source(paste0(thisdir,"/p_parameters/01_parameters_program.R"))
 source(paste0(thisdir,"/p_parameters/02_parameters_CDM.R"))
 source(paste0(thisdir,"/p_parameters/03_concept_sets.R"))
 source(paste0(thisdir,"/p_parameters/04_item_sets.R"))
-# source(paste0(thisdir,"/p_parameters/05_subpopulations_restricting_meanings.R"))
+source(paste0(thisdir,"/p_parameters/05_subpopulations_restricting_meanings.R"))
 source(paste0(thisdir,"/p_parameters/06_algorithms.R"))
 
 
@@ -30,7 +30,7 @@ source(paste0(thisdir,"/p_parameters/06_algorithms.R"))
 system.time(source(paste0(thisdir,"/p_steps/step_01_1_T2.1_create_conceptset_datasets.R")))
 # # in case you choose to optimise memory use, instead of execution time, please comment the previous line, and un-comment the next one
 # #system.time(source(paste0(thisdir,"/p_steps/step_01_1_T2.1_create_conceptset_datasets_memory_optimizer.R")))
-#system.time(source(paste0(thisdir,"/p_steps/step_01_2_T2.1_create_spells.R")))
+system.time(source(paste0(thisdir,"/p_steps/step_01_2_T2.1_create_spells.R")))
 system.time(source(paste0(thisdir,"/p_steps/step_01_3_T2.1_create_dates_in_PERSONS.R"))) 
 system.time(source(paste0(thisdir,"/p_steps/step_01_4_T2.1_create_prompt_and_itemset_datasets.R")))
 

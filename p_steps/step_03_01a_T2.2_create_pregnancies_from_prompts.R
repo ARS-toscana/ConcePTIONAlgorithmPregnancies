@@ -159,24 +159,41 @@ for (i in 1:length(files)) {
   }
 }
 
+# OBSERVATION_PERIODS <- data.table()
+# files<-sub('\\.csv$', '', list.files(dirinput))
+# for (i in 1:length(files)) {
+#   if (str_detect(files[i],"^OBSERVATION_PERIODS")) {  
+#     temp <- fread(paste0(dirinput,files[i],".csv"))
+#     OBSERVATION_PERIODS <- rbind(OBSERVATION_PERIODS, temp,fill=T)
+#     rm(temp)
+#   }
+# }
+# OBSERVATION_PERIODS[,op_start_date:=ymd(op_start_date)]
+# OBSERVATION_PERIODS[,op_end_date:=ymd(op_end_date)]
+
+load(paste0(dirtemp,"output_spells_category.RData"))
 
 # link to D3_PERSONS
 D3_study_population_pregnancy <-merge(D3_study_population_pregnancy_intermediate, D3_PERSONS, by=c("person_id"), all.x = T) 
 
 ##impute missing pregnancy_start_date
-## put 22 weeks for ABS
+## put 42 days for ABS
 abs<-unlist(meaning_of_survey_our_study_this_datasource[names(meaning_of_survey_our_study_this_datasource)=="spontaneous_abortion"])
 D3_study_population_pregnancy<-D3_study_population_pregnancy[is.na(pregnancy_start_date) & meaning_end_date%in%abs, 
-                                                             `:=`(pregnancy_start_date=pregnancy_end_date-(22*7), imputed_start_pregnancy=1)]
-## put 12 weeks for IVG
+                                                             `:=`(pregnancy_start_date=pregnancy_end_date-42, imputed_start_pregnancy=1)]
+## put 49 days for IVG
 ivg<-unlist(meaning_of_survey_our_study_this_datasource[names(meaning_of_survey_our_study_this_datasource)=="termination"])
 D3_study_population_pregnancy<-D3_study_population_pregnancy[is.na(pregnancy_start_date) & meaning_end_date%in%ivg, 
-                                                             `:=`(pregnancy_start_date=pregnancy_end_date-(12*7), imputed_start_pregnancy=1)]
+                                                             `:=`(pregnancy_start_date=pregnancy_end_date-49, imputed_start_pregnancy=1)]
 
-## put 40 weeks for CAP
+## put 154 days for stilbirth
 cap<-unlist(meaning_of_survey_our_study_this_datasource[names(meaning_of_survey_our_study_this_datasource)=="birth_registry"])
-D3_study_population_pregnancy<-D3_study_population_pregnancy[is.na(pregnancy_start_date) & meaning_end_date%in%cap, 
-                                                             `:=`(pregnancy_start_date=pregnancy_end_date-(40*7), imputed_start_pregnancy=1)]
+D3_study_population_pregnancy<-D3_study_population_pregnancy[is.na(pregnancy_start_date) & meaning_end_date%in%cap & type_of_pregnancy_end=="stillbirth", 
+                                                             `:=`(pregnancy_start_date=pregnancy_end_date-154, imputed_start_pregnancy=1)]
+## put 259 days for livebirth
+cap<-unlist(meaning_of_survey_our_study_this_datasource[names(meaning_of_survey_our_study_this_datasource)=="birth_registry"])
+D3_study_population_pregnancy<-D3_study_population_pregnancy[is.na(pregnancy_start_date) & meaning_end_date%in%cap & type_of_pregnancy_end=="livebirth", 
+                                                             `:=`(pregnancy_start_date=pregnancy_end_date-259, imputed_start_pregnancy=1)]
 
 
 ## create label for pregnancies to be excluded or classified
@@ -190,21 +207,28 @@ table(D3_study_population_pregnancy$no_female) # 234453 deleted
 D3_study_population_pregnancy <-D3_study_population_pregnancy[,age_at_pregnancy_start:=age_fast(date_birth,pregnancy_start_date)][age_at_pregnancy_start>55 | age_at_pregnancy_start<12, no_fertile_age:=1][is.na(no_fertile_age),no_fertile_age:=0]
 table(D3_study_population_pregnancy$no_fertile_age) # 455658 deleted
 
+D3_study_population_pregnancy_spells<-merge(D3_study_population_pregnancy,output_spells_category, by="person_id", all.x = T)
+# not in OBS_PER at the begining of pregancy
+D3_study_population_pregnancy_spells <-D3_study_population_pregnancy_spells[pregnancy_start_date>=entry_spell_category & pregnancy_start_date<=exit_spell_category,pregnancy_start_in_spells:=1, by="person_id"][is.na(pregnancy_start_in_spells),pregnancy_start_in_spells:=0]
+table(D3_study_population_pregnancy_spells$pregnancy_start_in_spells) #1061703 rows deleted
+# not in OBS_PER at some point during of pregnancy
+D3_study_population_pregnancy_spells <-D3_study_population_pregnancy_spells[pregnancy_end_date>=entry_spell_category & pregnancy_end_date<=exit_spell_category,pregnancy_end_in_spells:=1, by="person_id"][is.na(pregnancy_end_in_spells),pregnancy_end_in_spells:=0]
+table(D3_study_population_pregnancy_spells$pregnancy_end_in_spells) #750892 rows deleted
 
 
 # pregancies to be excluded:
-D3_excluded_pregnancies_from_prompts <- D3_study_population_pregnancy[no_link_to_person==1 | no_female==1 | no_fertile_age==1,]  # to further explore exclusion
+D3_excluded_pregnancies_from_prompts <- D3_study_population_pregnancy_spells[no_link_to_person==1 | no_female==1 | no_fertile_age==1 | pregnancy_start_in_spells==0 | pregnancy_end_in_spells==0,]  # to further explore exclusion
 save(D3_excluded_pregnancies_from_prompts, file=paste0(dirtemp,"D3_excluded_pregnancies_from_prompts.RData")) # 663830
 
 
 # pregnancies to be included in next steps
-D3_study_population_pregnancy_from_prompts<-D3_study_population_pregnancy[no_link_to_person==0 & no_female==0 & no_fertile_age==0,] [,-c("no_link_to_person","no_female","no_fertile_age")] # 554767
+D3_study_population_pregnancy_from_prompts<-D3_study_population_pregnancy_spells[no_link_to_person==0 & no_female==0 & no_fertile_age==0 & pregnancy_start_in_spells==1 & pregnancy_end_in_spells==1,] [,-c("no_link_to_person","no_female","no_fertile_age","pregnancy_start_in_spells","pregnancy_end_in_spells")] # 554767 against 429699
 save(D3_study_population_pregnancy_from_prompts, file=paste0(dirtemp,"D3_study_population_pregnancy_from_prompts.RData"))
 
 
 
 
-rm(D3_excluded_pregnancies_1,D3_excluded_pregnancies_from_prompts, D3_PERSONS, D3_study_population_pregnancy, D3_study_population_pregnancy_from_prompts, D3_study_population_pregnancy_intermediate)
+rm(D3_excluded_pregnancies_1,D3_excluded_pregnancies_from_prompts, D3_PERSONS, D3_study_population_pregnancy, D3_study_population_pregnancy_from_prompts, D3_study_population_pregnancy_intermediate, D3_study_population_pregnancy_spells)
 
-# 3 volte separto e poi tutto insieme per overlap
+# 3 volte separato e poi tutto insieme per overlap
 
