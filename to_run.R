@@ -51,7 +51,8 @@ source(paste0(thisdir,"/p_steps/step_03_03b_T2.3_merge_streams_from_EUROCAT.R"))
 source(paste0(thisdir,"/p_steps/step_03_03c_T2.2_classify_pregnancies_from_EUROCAT.R"))
 
 source(paste0(thisdir,"/p_steps/step_03_04a_T2.2_create_pregnancies_from_itemsets.R"))
-source(paste0(thisdir,"/p_steps/step_03_04b_T2.2_classify_pregnancies_from_itemsets.R"))
+source(paste0(thisdir,"/p_steps/step_03_04b_T2.3_merge_streams_from_itemsets.R"))
+source(paste0(thisdir,"/p_steps/step_03_04c_T2.2_classify_pregnancies_from_itemsets.R"))
 
 
 source(paste0(thisdir,"/p_steps/step_03_04_T2.3_.R")) # per ogni persona tutte le gravidanze da riconciliare
