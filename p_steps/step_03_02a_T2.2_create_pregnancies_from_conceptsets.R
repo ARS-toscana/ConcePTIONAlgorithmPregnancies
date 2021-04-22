@@ -38,23 +38,24 @@ for (conceptvar in concept_sets_of_end_of_pregnancy){
 dataset_concept_sets1<-unique(merge(dataset_start_concept_sets, dataset_ongoing_concept_sets, by="person_id", all=T))
 dataset_concept_sets<-unique(merge(dataset_concept_sets1, dataset_end_concept_sets, by="person_id", all=T , allow.cartesian=TRUE)) # , allow.cartesian=TRUE
 rm(dataset_concept_sets1)
-setnames(dataset_concept_sets,"date.x","date_start_of_pregnancy")
-setnames(dataset_concept_sets,"date.y","date_ongoing_pregnancy")
-setnames(dataset_concept_sets,"date","date_end_of_pregnancy")
-dataset_concept_sets[,.(person_id,date_start_of_pregnancy,date_ongoing_pregnancy,date_end_of_pregnancy)]
+setnames(dataset_concept_sets,"date.x","pregnancy_start_date")
+setnames(dataset_concept_sets,"concept_set.x","meaning_start_date")
+setnames(dataset_concept_sets,"date.y","pregnancy_ongoing_date")
+setnames(dataset_concept_sets,"concept_set.y","meaning_ongoing_date")
+setnames(dataset_concept_sets,"date","pregnancy_end_date")
+setnames(dataset_concept_sets,"concept_set","meaning_end_date")
 
 # create TOPFA var as empty and CONCEPTSET
-dataset_concept_sets[,TOPFA:=""]
-dataset_concept_sets[,CONCEPTSET:="yes"]
-
+dataset_concept_sets<-dataset_concept_sets[,TOPFA:=""]
+dataset_concept_sets<-dataset_concept_sets[,CONCEPTSET:="yes"]
 
 
 
 # keep only vars neeed
-D3_study_population_pregnancy_intermediate_from_conceptsets <- dataset_concept_sets[,.(pregnancy_id,person_id,survey_id,pregnancy_start_date,pregnancy_end_date,meaning_start_date,meaning_end_date,type_of_pregnancy_end,TOPFA,CONCEPTSET)] #,multiple_pregnancy,survey_id_1,visit_occurrence_id_1
+D3_study_population_pregnancy_intermediate_from_conceptsets <- dataset_concept_sets[,.(person_id,pregnancy_start_date,pregnancy_ongoing_date,pregnancy_end_date,meaning_start_date,meaning_ongoing_date,meaning_end_date,TOPFA,CONCEPTSET)] #,multiple_pregnancy,survey_id_1,visit_occurrence_id_1 ,pregnancy_id,survey_id,type_of_pregnancy_end
 save(D3_study_population_pregnancy_intermediate_from_conceptsets, file=paste0(dirtemp,"D3_study_population_pregnancy_intermediate_from_conceptsets.RData"))
 
 
-rm(dataset_concept_sets,dataset_concept_sets2, dataset_end_concept_sets, dataset_ongoing_concept_sets, dataset_start_concept_sets)
+rm(dataset_concept_sets, dataset_end_concept_sets, dataset_ongoing_concept_sets, dataset_start_concept_sets,D3_study_population_pregnancy_intermediate_from_conceptsets)
 rm(Startofpregnancy,Gestationalage,Ongoingpregnancy,Birth,Interruption,Spontaneousabortion, Ectopicpregnancy)
 ##################################################################################################################################

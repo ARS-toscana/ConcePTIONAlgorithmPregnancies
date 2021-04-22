@@ -20,10 +20,10 @@ load(paste0(dirtemp,"D3_study_population_pregnancy_intermediate_from_conceptsets
 
 
 ## define quality vars , added year end>2021
-D3_study_population_pregnancy1<- D3_study_population_pregnancy_intermediate_from_conceptsets[date_end_of_pregnancy<date_start_min | year(date_end_of_pregnancy)>2021, pregnancy_with_dates_out_of_range:=1][is.na(pregnancy_with_dates_out_of_range),pregnancy_with_dates_out_of_range:=0]
+D3_study_population_pregnancy1<- D3_study_population_pregnancy_intermediate_from_conceptsets[pregnancy_end_date<date_start_min | year(pregnancy_end_date)>2021, pregnancy_with_dates_out_of_range:=1][is.na(pregnancy_with_dates_out_of_range),pregnancy_with_dates_out_of_range:=0]
 table(D3_study_population_pregnancy1$pregnancy_with_dates_out_of_range) # 4 deleted
 
-D3_study_population_pregnancy1<- D3_study_population_pregnancy1[is.na(date_end_of_pregnancy), no_end_of_pregnancy:=1][is.na(no_end_of_pregnancy),no_end_of_pregnancy:=0]
+D3_study_population_pregnancy1<- D3_study_population_pregnancy1[is.na(pregnancy_end_date), no_end_of_pregnancy:=1][is.na(no_end_of_pregnancy),no_end_of_pregnancy:=0]
 table(D3_study_population_pregnancy1$no_end_of_pregnancy) #49812 deleted
 #D3_excluded_pregnancies_1 <-dataset_concept_sets2[pregnancy_with_dates_out_of_range==1 | no_end_of_pregnancy==1,]
 
@@ -60,6 +60,14 @@ table(D3_study_population_pregnancy3$pregnancy_start_in_spells) #1061703 rows de
 # not in OBS_PER at some point during of pregnancy
 D3_study_population_pregnancy3 <-D3_study_population_pregnancy3[pregnancy_end_date>=entry_spell_category & pregnancy_end_date<=exit_spell_category,pregnancy_end_in_spells:=0, by="person_id"][is.na(pregnancy_end_in_spells),pregnancy_end_in_spells:=1]
 table(D3_study_population_pregnancy3$pregnancy_end_in_spells) #750892 rows deleted
+
+
+if type_end_of_pregnancy==’LB’  then pregnancy_start_date = max(pregnancy_end_date – 280, pregnancy_start_date[previous pregnancy]+retry period)
+else if outcome.type==’SB’ then pregnancy_start_date max(pregnancy_end_date – 196, pregnancy_start_date[previous pregnancy]+retry period)
+else if outcome.type==’ECT’ then pregnancy_start_date max(pregnancy_end_date – 56, pregnancy_start_date[previous pregnancy]+retry period)
+else if outcome.type==’AB’  then pregnancy_start_date max(pregnancy_end_date – 70, pregnancy_start_date[previous pregnancy]+retry period)
+where retry period is 28 days for LB and SB and 14 days for other outcomes
+If the pregnancy is ongoing in the record, then pregnancy_end_date is missing and  pregnancy_start_date  
 
 
 # # pregancies to be excluded:
