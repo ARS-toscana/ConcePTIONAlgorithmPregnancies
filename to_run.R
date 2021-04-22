@@ -40,10 +40,15 @@ system.time(source(paste0(thisdir,"/p_steps/step_01_4_T2.1_create_prompt_and_ite
 # 03 CREATE PREGNANCIES 
 source(paste0(thisdir,"/p_steps/step_03_01a_T2.2_create_pregnancies_from_prompts.R"))
 source(paste0(thisdir,"/p_steps/step_03_01b_T2.2_classify_pregnancies_from_prompts.R"))
+
 source(paste0(thisdir,"/p_steps/step_03_02a_T2.2_create_pregnancies_from_conceptsets.R"))
 source(paste0(thisdir,"/p_steps/step_03_02b_T2.2_classify_pregnancies_from_conceptsets.R"))
+
 source(paste0(thisdir,"/p_steps/step_03_03a_T2.2_create_pregnancies_from_EUROCAT.R"))
 source(paste0(thisdir,"/p_steps/step_03_03b_T2.2_classify_pregnancies_from_EUROCAT.R"))
+
+source(paste0(thisdir,"/p_steps/step_03_04a_T2.2_create_pregnancies_from_itemsets.R"))
+source(paste0(thisdir,"/p_steps/step_03_04b_T2.2_classify_pregnancies_from_itemsets.R"))
 
 
 source(paste0(thisdir,"/p_steps/step_03_04_T2.3_.R")) # per ogni persona tutte le gravidanze da riconciliare
