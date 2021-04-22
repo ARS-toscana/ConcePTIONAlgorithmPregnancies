@@ -44,7 +44,7 @@ source(paste0(thisdir,"/p_steps/step_03_01c_T2.2_classify_pregnancies_from_promp
 
 source(paste0(thisdir,"/p_steps/step_03_02a_T2.2_create_pregnancies_from_conceptsets.R"))
 source(paste0(thisdir,"/p_steps/step_03_02b_T2.3_merge_streams_from_conceptsets.R"))
-source(paste0(thisdir,"/p_steps/step_03_022_T2.2_classify_pregnancies_from_conceptsets.R"))
+source(paste0(thisdir,"/p_steps/step_03_02c_T2.2_classify_pregnancies_from_conceptsets.R"))
 
 source(paste0(thisdir,"/p_steps/step_03_03a_T2.2_create_pregnancies_from_EUROCAT.R"))
 source(paste0(thisdir,"/p_steps/step_03_03b_T2.3_merge_streams_from_EUROCAT.R"))
