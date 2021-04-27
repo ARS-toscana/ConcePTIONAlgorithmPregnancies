@@ -67,6 +67,7 @@ dictonary_of_itemset[["TYPE"]][["ARS"]][["SB"]]<-list(list("CAP2", "2"))
 dictonary_of_itemset[["TYPE"]][["ARS"]][["SA"]]<-list()
 dictonary_of_itemset[["TYPE"]][["ARS"]][["T"]]<-list()
 dictonary_of_itemset[["TYPE"]][["ARS"]][["MD"]]<-list()
+dictonary_of_itemset[["TYPE"]][["ARS"]][["ECT"]]<-list()
 dictonary_of_itemset[["TYPE"]][["ARS"]][["UNK"]]<-list()
 
 dictonary_of_itemset[["TYPE"]][["UOSL"]][["LB"]]<-list(list("MBRN", "0"), list("MBRN", "1"), list("MBRN", "2"), list("MBRN", "3"), list("MBRN", "4"), list("MBRN", "5"), list("MBRN", "6"), list("MBRN", "11"), list("MBRN", "12"), list("MBRN", "13"))
@@ -74,6 +75,7 @@ dictonary_of_itemset[["TYPE"]][["UOSL"]][["SB"]]<-list(list("MBRN", "7"), list("
 dictonary_of_itemset[["TYPE"]][["UOSL"]][["SA"]]<-list()
 dictonary_of_itemset[["TYPE"]][["UOSL"]][["T"]]<-list(list("MBRN", "10")) #?
 dictonary_of_itemset[["TYPE"]][["UOSL"]][["MD"]]<-list()
+dictonary_of_itemset[["TYPE"]][["UOSL"]][["ECT"]]<-list()
 dictonary_of_itemset[["TYPE"]][["UOSL"]][["UNK"]]<-list()
 
 dictonary_of_itemset[["University_of_Aarhus"]][["LB"]]<-list(list("MFR", "1"))
@@ -81,6 +83,7 @@ dictonary_of_itemset[["University_of_Aarhus"]][["SB"]]<-list(list("MFR", "0"))
 dictonary_of_itemset[["University_of_Aarhus"]][["SA"]]<-list()
 dictonary_of_itemset[["University_of_Aarhus"]][["T"]]<-list()
 dictonary_of_itemset[["University_of_Aarhus"]][["MD"]]<-list()
+dictonary_of_itemset[["University_of_Aarhus"]][["ECT"]]<-list()
 dictonary_of_itemset[["University_of_Aarhus"]][["UNK"]]<-list()
 
 dictonary_of_itemset[["TYPE"]][["CHUT"]][["LB"]]<-list(list("EFEMERIS_ISSUE", "1"))
@@ -88,6 +91,7 @@ dictonary_of_itemset[["TYPE"]][["CHUT"]][["SB"]]<-list(list("EFEMERIS_INTERRUPTI
 dictonary_of_itemset[["TYPE"]][["CHUT"]][["SA"]]<-list(list("EFEMERIS_INTERRUPTION", "FCS"))
 dictonary_of_itemset[["TYPE"]][["CHUT"]][["T"]]<-list(list("EFEMERIS_INTERRUPTION", "IVG"), list("EFEMERIS_INTERRUPTION", "IMG"))
 dictonary_of_itemset[["TYPE"]][["CHUT"]][["MD"]]<-list()
+dictonary_of_itemset[["TYPE"]][["CHUT"]][["ECT"]]<-list()
 dictonary_of_itemset[["TYPE"]][["CHUT"]][["UNK"]]<-list(list("EFEMERIS_INTERRUPTION", "AUTRE"))
 
 dictonary_of_itemset[["TYPE"]][["BIPS"]][["LB"]]<-list(list("T_PREG", "1"), list("T_PREG", "2"), list("T_PREG", "3"))
@@ -95,6 +99,7 @@ dictonary_of_itemset[["TYPE"]][["BIPS"]][["SB"]]<-list(list("T_PREG", "4"))
 dictonary_of_itemset[["TYPE"]][["BIPS"]][["SA"]]<-list(list("T_PREG", "7"))
 dictonary_of_itemset[["TYPE"]][["BIPS"]][["T"]]<-list(list("T_PREG", "5"))
 dictonary_of_itemset[["TYPE"]][["BIPS"]][["MD"]]<-list()
+dictonary_of_itemset[["TYPE"]][["BIPS"]][["ECT"]]<-list()
 dictonary_of_itemset[["TYPE"]][["BIPS"]][["UNK"]]<-list()
 
 dictonary_of_itemset[["TYPE"]][["BIFAP"]][["LB"]]<-list(list("EMB_BIFAP", "1"))
@@ -102,6 +107,7 @@ dictonary_of_itemset[["TYPE"]][["BIFAP"]][["SB"]]<-list(list("EMB_BIFAP", "2"))
 dictonary_of_itemset[["TYPE"]][["BIFAP"]][["SA"]]<-list()
 dictonary_of_itemset[["TYPE"]][["BIFAP"]][["T"]]<-list(list("EMB_BIFAP", "3"))
 dictonary_of_itemset[["TYPE"]][["BIFAP"]][["MD"]]<-list()
+dictonary_of_itemset[["TYPE"]][["BIFAP"]][["ECT"]]<-list()
 dictonary_of_itemset[["TYPE"]][["BIFAP"]][["UNK"]]<-list()
 
 dictonary_of_itemset[["TYPE"]][["FISABIO"]][["LB"]]<-list() #EUROmediCAT
@@ -109,6 +115,7 @@ dictonary_of_itemset[["TYPE"]][["FISABIO"]][["SB"]]<-list()
 dictonary_of_itemset[["TYPE"]][["FISABIO"]][["SA"]]<-list()
 dictonary_of_itemset[["TYPE"]][["FISABIO"]][["T"]]<-list()
 dictonary_of_itemset[["TYPE"]][["FISABIO"]][["MD"]]<-list()
+dictonary_of_itemset[["TYPE"]][["FISABIO"]][["ECT"]]<-list()
 dictonary_of_itemset[["TYPE"]][["FISABIO"]][["UNK"]]<-list()
 
 dictonary_of_itemset[["TYPE"]][["SIDIAP"]][["LB"]]<-list(list("Pregnancies", "P"), list("Pregnancies", "Pr"), list("Pregnancies", "C"), list("Pregnancies", "Al")) 
@@ -116,6 +123,7 @@ dictonary_of_itemset[["TYPE"]][["SIDIAP"]][["SB"]]<-list()
 dictonary_of_itemset[["TYPE"]][["SIDIAP"]][["SA"]]<-list(list("Pregnancies", "MF"), list("Pregnancies", "A"))
 dictonary_of_itemset[["TYPE"]][["SIDIAP"]][["T"]]<-list(list("Pregnancies", "IV"))
 dictonary_of_itemset[["TYPE"]][["SIDIAP"]][["MD"]]<-list()
+dictonary_of_itemset[["TYPE"]][["SIDIAP"]][["ECT"]]<-list()
 dictonary_of_itemset[["TYPE"]][["SIDIAP"]][["UNK"]]<-list()
 
 dictonary_of_itemset[["TYPE"]][["CNR-IFC"]][["LB"]]<-list() # EUROmediCAT
@@ -123,6 +131,7 @@ dictonary_of_itemset[["TYPE"]][["CNR-IFC"]][["SB"]]<-list()
 dictonary_of_itemset[["TYPE"]][["CNR-IFC"]][["SA"]]<-list()
 dictonary_of_itemset[["TYPE"]][["CNR-IFC"]][["T"]]<-list()
 dictonary_of_itemset[["TYPE"]][["CNR-IFC"]][["MD"]]<-list()
+dictonary_of_itemset[["TYPE"]][["CNR-IFC"]][["ECT"]]<-list()
 dictonary_of_itemset[["TYPE"]][["CNR-IFC"]][["UNK"]]<-list()
 
 dictonary_of_itemset[["TYPE"]][["UNIME"]][["LB"]]<-list() # dubt
@@ -130,6 +139,7 @@ dictonary_of_itemset[["TYPE"]][["UNIME"]][["SB"]]<-list()
 dictonary_of_itemset[["TYPE"]][["UNIME"]][["SA"]]<-list()
 dictonary_of_itemset[["TYPE"]][["UNIME"]][["T"]]<-list()
 dictonary_of_itemset[["TYPE"]][["UNIME"]][["MD"]]<-list()
+dictonary_of_itemset[["TYPE"]][["UNIME"]][["ECT"]]<-list()
 dictonary_of_itemset[["TYPE"]][["UNIME"]][["UNK"]]<-list()
 
 dictonary_of_itemset[["TYPE"]][["THL"]][["LB"]]<-list(list("SR_BASIC", "1"), list("SR_BASIC", "3"), list("ER_BASIC", "1"))
@@ -137,6 +147,7 @@ dictonary_of_itemset[["TYPE"]][["THL"]][["SB"]]<-list(list("SR_BASIC", "2"), lis
 dictonary_of_itemset[["TYPE"]][["THL"]][["SA"]]<-list(list("ER_BASIC", "3"))
 dictonary_of_itemset[["TYPE"]][["THL"]][["T"]]<-list(list("ER_BASIC", "4"), list("ER_BASIC", "5"), list("ER_BASIC", "6"), list("ER_BASIC", "7"), list("ER_BASIC", "11"), list("ER_BASIC", "12"))
 dictonary_of_itemset[["TYPE"]][["THL"]][["MD"]]<-list()
+dictonary_of_itemset[["TYPE"]][["THL"]][["ECT"]]<-list()
 dictonary_of_itemset[["TYPE"]][["THL"]][["UNK"]]<-list(list("ER_BASIC", "99"))
 
 dictonary_of_itemset[["TYPE"]][["CPRD"]][["LB"]]<-list(list("PregnancyRegister", "1"))
@@ -144,6 +155,7 @@ dictonary_of_itemset[["TYPE"]][["CPRD"]][["SB"]]<-list(list("PregnancyRegister",
 dictonary_of_itemset[["TYPE"]][["CPRD"]][["SA"]]<-list(list("PregnancyRegister", "4"))
 dictonary_of_itemset[["TYPE"]][["CPRD"]][["T"]]<-list(list("PregnancyRegister", "5"))
 dictonary_of_itemset[["TYPE"]][["CPRD"]][["MD"]]<-list()
+dictonary_of_itemset[["TYPE"]][["CPRD"]][["ECT"]]<-list()
 dictonary_of_itemset[["TYPE"]][["CPRD"]][["UNK"]]<-list(list("PregnancyRegister", "13"))
 
 dictonary_of_itemset_this_datasource<-vector(mode="list")
