@@ -119,8 +119,11 @@ dataset_pregnancies3[!is.na(pregnancy_start_date) & !is.na(GESTAGE_FROM_LMP_WEEK
 #dataset_pregnancies3[,TOPFA:=""]
 dataset_pregnancies3[,PROMPT:="yes"]
 
+# rename survey_date in record_date
+setnames(dataset_pregnancies3,"survey_date","record_date")
+
 # keep only vars neeed
-D3_Stream_PROMPTS <- dataset_pregnancies3[,.(pregnancy_id,person_id,survey_id,pregnancy_start_date,pregnancy_end_date,meaning_start_date,meaning_end_date,type_of_pregnancy_end,PROMPT)] #TOPFA,multiple_pregnancy,survey_id_1,visit_occurrence_id_1
+D3_Stream_PROMPTS <- dataset_pregnancies3[,.(pregnancy_id,person_id,record_date,survey_id,pregnancy_start_date,pregnancy_end_date,meaning_start_date,meaning_end_date,type_of_pregnancy_end,PROMPT)] 
 save(D3_Stream_PROMPTS, file=paste0(dirtemp,"D3_Stream_PROMPTS.RData"))
 
 

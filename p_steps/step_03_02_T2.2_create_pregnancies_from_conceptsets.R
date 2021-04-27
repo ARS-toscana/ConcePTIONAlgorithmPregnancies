@@ -1,6 +1,6 @@
 #-----------------------------------------------
 # merge together all the concept sets to define start_of_pregnancy and end_of_pregnancy
-concept_sets_of_our_study <- c("Startofpregnancy","Gestationalage","Ongoingpregnancy","Birth", "Interruption","Spontaneousabortion", "Ectopicpregnancy")
+concept_sets_of_our_study <- c("Startofpregnancy","Gestationalage_36_35","Ongoingpregnancy","Birth", "Interruption","Spontaneousabortion", "Ectopicpregnancy")
 
 concept_sets_of_start_of_pregnancy <- c("Startofpregnancy","Gestationalage_36_35") 
 concept_sets_of_ongoing_of_pregnancy <- c("Ongoingpregnancy") 
@@ -47,31 +47,29 @@ dataset_end_concept_sets<-unique(dataset_end_concept_sets, by=c("person_id","vis
 
 
 
+## append the 3 datasets to obtain information to complete pregnancy
+dataset_concept_sets<-rbind(dataset_start_concept_sets,dataset_ongoing_concept_sets,dataset_end_concept_sets)
+
+# order dataset for person_id, 
+setorderv(dataset_concept_sets,c("person_id","date"), na.last = T)
 
 
 
-## merge the 3 datasets to obtain information to complete pregnancy
-dataset_concept_sets1<-unique(merge(dataset_start_concept_sets, dataset_ongoing_concept_sets, by="person_id", all=T))
-dataset_concept_sets<-unique(merge(dataset_concept_sets1, dataset_end_concept_sets, by="person_id", all=T , allow.cartesian=TRUE)) # , allow.cartesian=TRUE
-rm(dataset_concept_sets1)
-setnames(dataset_concept_sets,"date.x","pregnancy_start_date")
-setnames(dataset_concept_sets,"concept_set.x","meaning_start_date")
-setnames(dataset_concept_sets,"date.y","pregnancy_ongoing_date")
-setnames(dataset_concept_sets,"concept_set.y","meaning_ongoing_date")
-setnames(dataset_concept_sets,"date","pregnancy_end_date")
-setnames(dataset_concept_sets,"concept_set","meaning_end_date")
 
-# create TOPFA var as empty and CONCEPTSET
+
+
+
+# create TOPFA var as empty and CONCEPTSETS and CONCEPTSET
 #dataset_concept_sets<-dataset_concept_sets[,TOPFA:=""]
-dataset_concept_sets<-dataset_concept_sets[,CONCEPTSET:="yes"]
-
+dataset_concept_sets<-dataset_concept_sets[,CONCEPTSETS:="yes"]
+setnames(dataset_concept_sets,"concept_set","CONCEPTSET")
 
 
 # keep only vars neeed
-D3_Stream_CONCEPTSETS <- dataset_concept_sets[,.(person_id,pregnancy_start_date,pregnancy_ongoing_date,pregnancy_end_date,meaning_start_date,meaning_ongoing_date,meaning_end_date,CONCEPTSET)] #,TOPFA,multiple_pregnancy,survey_id_1,visit_occurrence_id_1 ,pregnancy_id,survey_id,type_of_pregnancy_end
-save(D3_Stream_CONCEPTSETS, file=paste0(dirtemp,"D3_Stream_PROMPTS.RData"))
+D3_Stream_CONCEPTSETS <- dataset_concept_sets[,.(pregnancy_id,person_id,record_date,pregnancy_start_date,pregnancy_ongoing_date,pregnancy_end_date,meaning_start_date,meaning_ongoing_date,meaning_end_date,meaning_of_event,type_of_pregnancy_end,visit_occurrence_id,CONCEPTSETS,CONCEPTSET)] # 
+save(D3_Stream_CONCEPTSETS, file=paste0(dirtemp,"D3_Stream_CONCEPTSETS.RData"))
 
 
 rm(dataset_concept_sets, dataset_end_concept_sets, dataset_ongoing_concept_sets, dataset_start_concept_sets,D3_Stream_CONCEPTSETS)
-rm(Startofpregnancy,Gestationalage,Ongoingpregnancy,Birth,Interruption,Spontaneousabortion, Ectopicpregnancy)
+rm(Startofpregnancy,Gestationalage_36_35,Ongoingpregnancy,Birth,Interruption,Spontaneousabortion, Ectopicpregnancy, still_birth, live_birth, pre_term_birth)
 ##################################################################################################################################

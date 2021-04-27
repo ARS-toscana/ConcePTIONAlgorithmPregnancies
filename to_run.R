@@ -38,17 +38,15 @@ system.time(source(paste0(thisdir,"/p_steps/step_01_4_T2.1_create_prompt_and_ite
 #system.time(source(paste0(thisdir,"/p_steps/step_02_T2.2_count_codes.R")))
   
 # 03 CREATE PREGNANCIES 
-source(paste0(thisdir,"/p_steps/step_03_01a_T2.2_create_pregnancies_from_prompts.R")) #--> D3_Stream_PROMPTS
+source(paste0(thisdir,"/p_steps/step_03_01_T2.2_create_pregnancies_from_prompts.R")) #--> D3_Stream_PROMPTS
+source(paste0(thisdir,"/p_steps/step_03_02_T2.2_create_pregnancies_from_conceptsets.R")) #--> D3_Stream_CONCEPTSETS
+source(paste0(thisdir,"/p_steps/step_03_03_T2.2_create_pregnancies_from_EUROCAT.R")) #--> D3_Stream_EUROCAT
+source(paste0(thisdir,"/p_steps/step_03_04_T2.2_create_pregnancies_from_itemsets.R")) #--> D3_Stream_ITEMSETS
 
-source(paste0(thisdir,"/p_steps/step_03_02a_T2.2_create_pregnancies_from_conceptsets.R")) #--> D3_Stream_CONCEPTSETS
-
-source(paste0(thisdir,"/p_steps/step_03_03a_T2.2_create_pregnancies_from_EUROCAT.R")) #--> D3_Stream_EUROCAT
-
-source(paste0(thisdir,"/p_steps/step_03_04a_T2.2_create_pregnancies_from_itemsets.R")) #--> D3_Stream_ITEMSETS
-
+source(paste0(thisdir,"/p_steps/step_03_05_T2.2_internal_consistency_for_streams.R"))  
 
 
-source(paste0(thisdir,"/p_steps/step_03_05_T2.3_merge_stream_of_same_person.R")) # per ogni persona tutte le gravidanze da riconciliare
+source(paste0(thisdir,"/p_steps/step_03_06_T2.3_merge_stream_of_same_person.R")) # per ogni persona tutte le gravidanze da riconciliare
 
 
 
