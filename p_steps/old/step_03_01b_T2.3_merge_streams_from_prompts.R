@@ -95,7 +95,7 @@ D3_study_population_pregnancy4<-D3_study_population_pregnancy4[is.na(pregnancy_s
 
 
 
-D3_Stream_PROMPTS<-D3_study_population_pregnancy4
+D3_Stream_PROMPTS<-D3_study_population_pregnancy4[,.(pregnancy_id,person_id,record_date,pregnancy_start_date,pregnancy_end_date,meaning_start_date,meaning_end_date,type_of_pregnancy_end,survey_id,PROMPT)]
 save(D3_Stream_PROMPTS, file=paste0(dirtemp,"D3_Stream_PROMPTS.RData"))
 
 
