@@ -1,7 +1,7 @@
 ## second draft of concept sets - 210413
 
 
-concept_sets_of_our_study <- c("Startofpregnancy","Gestationalage","Ongoingpregnancy","Birth", "Interruption", "Spontaneousabortion", "Ectopicpregnancy")
+concept_sets_of_our_study <- c("Startofpregnancy","Gestationalage_36-35","Gestationalage_","Ongoingpregnancy","Birth","pre-term birth","live birth","still birth","Interruption", "Spontaneousabortion", "Ectopicpregnancy")
 
 concept_set_domains<- vector(mode="list")
 for (conceptset in concept_sets_of_our_study){
@@ -21,12 +21,12 @@ concept_set_codes_our_study[["Startofpregnancy"]][["READ"]] <- c("K590.","K590z"
 concept_set_codes_our_study[["Startofpregnancy"]][["ICPC2P"]] <- c("W59002","X05001")
 concept_set_codes_our_study[["Startofpregnancy"]][["SNOMED"]] <- c("14302001","156037007","250423000","315900008","316583008","58533008","6099009")
 
-####### Gestational age ###############
-concept_set_codes_our_study[["Gestationalage"]][["ICD9"]] <- c("674.4","765.23","765.24","765.25","765.26","765.27","765.28","765.29")
-concept_set_codes_our_study[["Gestationalage"]][["ICD10"]] <- c()
-concept_set_codes_our_study[["Gestationalage"]][["READ"]] <- c()
-concept_set_codes_our_study[["Gestationalage"]][["ICPC2P"]] <- c()
-concept_set_codes_our_study[["Gestationalage"]][["SNOMED"]] <- c()
+####### Gestational age 36-35 ###############
+concept_set_codes_our_study[["Gestationalage_36-35"]][["ICD9"]] <- c("674.4","765.23","765.24","765.25","765.26","765.27","765.28","765.29")
+concept_set_codes_our_study[["Gestationalage_36-35"]][["ICD10"]] <- c()
+concept_set_codes_our_study[["Gestationalage_36-35"]][["READ"]] <- c()
+concept_set_codes_our_study[["Gestationalage_36-35"]][["ICPC2P"]] <- c()
+concept_set_codes_our_study[["Gestationalage_36-35"]][["SNOMED"]] <- c()
 
 
 ####### Ongoing pregnancy ###############
