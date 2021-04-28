@@ -1,7 +1,7 @@
 ## second draft of concept sets - 210413
 
 
-concept_sets_of_our_study <- c("Startofpregnancy","Gestationalage_36_35","Ongoingpregnancy","Birth","pre_term_birth","live_birth","still_birth","Interruption", "Spontaneousabortion", "Ectopicpregnancy")
+concept_sets_of_our_study <- c("Startofpregnancy","Gestationalage_36_35","Ongoingpregnancy","Birth","Pre_term_birth","Live_birth","Still_birth","Interruption", "Spontaneousabortion", "Ectopicpregnancy")
 
 concept_set_domains<- vector(mode="list")
 for (conceptset in concept_sets_of_our_study){
@@ -46,25 +46,25 @@ concept_set_codes_our_study[["Birth"]][["ICD9"]] <- c("277.01","641","641.01","6
 
 
 ####### pre-term_birth ###############
-concept_set_codes_our_study[["pre-term_birth"]][["ICD9"]] <- c()
-concept_set_codes_our_study[["pre-term_birth"]][["ICD10"]] <- c()
-concept_set_codes_our_study[["pre-term_birth"]][["READ"]] <- c()
-concept_set_codes_our_study[["pre-term_birth"]][["ICPC2P"]] <- c()
-concept_set_codes_our_study[["pre-term_birth"]][["SNOMED"]] <- c()
+concept_set_codes_our_study[["Pre_term_birth"]][["ICD9"]] <- c()
+concept_set_codes_our_study[["Pre_term_birth"]][["ICD10"]] <- c()
+concept_set_codes_our_study[["Pre_term_birth"]][["READ"]] <- c()
+concept_set_codes_our_study[["Pre_term_birth"]][["ICPC2P"]] <- c()
+concept_set_codes_our_study[["Pre_term_birth"]][["SNOMED"]] <- c()
 
 ####### live_birth ###############
-concept_set_codes_our_study[["live_birth"]][["ICD9"]] <- c()
-concept_set_codes_our_study[["live_birth"]][["ICD10"]] <- c()
-concept_set_codes_our_study[["live_birth"]][["READ"]] <- c()
-concept_set_codes_our_study[["live_birth"]][["ICPC2P"]] <- c()
-concept_set_codes_our_study[["live_birth"]][["SNOMED"]] <- c()
+concept_set_codes_our_study[["Live_birth"]][["ICD9"]] <- c()
+concept_set_codes_our_study[["Live_birth"]][["ICD10"]] <- c()
+concept_set_codes_our_study[["Live_birth"]][["READ"]] <- c()
+concept_set_codes_our_study[["Live_birth"]][["ICPC2P"]] <- c()
+concept_set_codes_our_study[["Live_birth"]][["SNOMED"]] <- c()
 
 ####### still_birth ###############
-concept_set_codes_our_study[["still_birth"]][["ICD9"]] <- c()
-concept_set_codes_our_study[["still_birth"]][["ICD10"]] <- c()
-concept_set_codes_our_study[["still_birth"]][["READ"]] <- c()
-concept_set_codes_our_study[["still_birth"]][["ICPC2P"]] <- c()
-concept_set_codes_our_study[["still_birth"]][["SNOMED"]] <- c()
+concept_set_codes_our_study[["Still_birth"]][["ICD9"]] <- c()
+concept_set_codes_our_study[["Still_birth"]][["ICD10"]] <- c()
+concept_set_codes_our_study[["Still_birth"]][["READ"]] <- c()
+concept_set_codes_our_study[["Still_birth"]][["ICPC2P"]] <- c()
+concept_set_codes_our_study[["Still_birth"]][["SNOMED"]] <- c()
 
 
 ####### Interruption ###############
