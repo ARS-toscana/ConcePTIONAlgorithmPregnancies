@@ -19,8 +19,8 @@ suppressWarnings(D3_EUROCAT_intermediate[,birthdate:=ymd(birthdate)])
 # create pregnancy_start_date from birthdate and gestlength
 D3_EUROCAT_intermediate<-D3_EUROCAT_intermediate[,pregnancy_start_date:=birthdate-(gestlength*7)]
 
-D3_EUROCAT_intermediate<-D3_EUROCAT_intermediate[!is.na(pregnancy_start_date),meaning_start_date:="from_gestlength_EUROCAT"]
-D3_EUROCAT_intermediate<-D3_EUROCAT_intermediate[!is.na(birthdate),meaning_end_date:="from_birthdate_EUROCAT"]
+D3_EUROCAT_intermediate<-D3_EUROCAT_intermediate[!is.na(pregnancy_start_date),meaning_start_date:="from_EUROCAT_gestlength"]
+D3_EUROCAT_intermediate<-D3_EUROCAT_intermediate[!is.na(birthdate),meaning_end_date:="from_EUROCAT_birthdate"]
 # adjust type 
 # 1 = Live birth 
 # 2 = Stillbirth 
