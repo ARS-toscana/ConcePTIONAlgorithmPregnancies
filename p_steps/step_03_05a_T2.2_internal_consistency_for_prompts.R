@@ -24,24 +24,23 @@ load(paste0(dirtemp,"output_spells_category.RData"))
 D3_study_population_pregnancy1<- D3_Stream_PROMPTS[pregnancy_end_date<date_start_min | year(pregnancy_end_date)>2021, pregnancy_with_dates_out_of_range:=1][is.na(pregnancy_with_dates_out_of_range),pregnancy_with_dates_out_of_range:=0]
 table(D3_study_population_pregnancy1$pregnancy_with_dates_out_of_range) # 19 deleted
 
-D3_study_population_pregnancy1<- D3_study_population_pregnancy1[is.na(pregnancy_end_date), no_end_of_pregnancy:=1][is.na(no_end_of_pregnancy),no_end_of_pregnancy:=0]
-table(D3_study_population_pregnancy1$no_end_of_pregnancy) #74 deleted
-#D3_excluded_pregnancies_1 <-D3_study_population_pregnancy1[pregnancy_with_dates_out_of_range==1 | no_end_of_pregnancy==1,]
+# D3_study_population_pregnancy1<- D3_study_population_pregnancy1[is.na(pregnancy_end_date), no_end_of_pregnancy:=1][is.na(no_end_of_pregnancy),no_end_of_pregnancy:=0]
+# table(D3_study_population_pregnancy1$no_end_of_pregnancy) #74 deleted
 
-D3_study_population_pregnancy1 <-D3_study_population_pregnancy1#[pregnancy_with_dates_out_of_range==0 & no_end_of_pregnancy==0,]
+D3_excluded_pregnancies_from_prompts_1 <-D3_study_population_pregnancy1[pregnancy_with_dates_out_of_range==1,] #| no_end_of_pregnancy==1
+D3_study_population_pregnancy2 <-D3_study_population_pregnancy1[pregnancy_with_dates_out_of_range==0,][,-c("pregnancy_with_dates_out_of_range")] #& no_end_of_pregnancy==0
 
 
 
 
 ## link to D3_PERSONS
-D3_study_population_pregnancy2 <-merge(D3_study_population_pregnancy1, D3_PERSONS[,.(person_id,sex_at_instance_creation,date_birth,date_death)], by=c("person_id"), all.x = T) 
-
+D3_study_population_pregnancy2 <-merge(D3_study_population_pregnancy2, D3_PERSONS[,.(person_id,sex_at_instance_creation,date_birth,date_death)], by=c("person_id"), all.x = T) 
 
 ## create label for pregnancies to be excluded or classified
 # no_linked_to_person
 D3_study_population_pregnancy2 <-D3_study_population_pregnancy2[is.na(date_birth),no_linked_to_person:=1][is.na(no_linked_to_person),no_linked_to_person:=0]
 table(D3_study_population_pregnancy2$no_linked_to_person) # 208007 deleted
-# no_linked_to_person
+# no_female
 D3_study_population_pregnancy2 <-D3_study_population_pregnancy2[sex_at_instance_creation=="M",person_not_female:=1][is.na(person_not_female),person_not_female:=0]
 table(D3_study_population_pregnancy2$person_not_female) # 234453 deleted
 # person not in fertile age (between 12 and 55) at start of pregnancy
@@ -64,40 +63,24 @@ D3_study_population_pregnancy3 <-D3_study_population_pregnancy3[pregnancy_end_da
 table(D3_study_population_pregnancy3$pregnancy_end_in_spells) #750892 rows deleted
 
 
-# # pregancies to be excluded:
-# D3_excluded_pregnancies_from_prompts <- D3_study_population_pregnancy3[no_link_to_person==1 | no_female==1 | no_fertile_age==1 | pregnancy_start_in_spells==1 | pregnancy_end_in_spells==1,]  # to further explore exclusion
-# save(D3_excluded_pregnancies_from_prompts, file=paste0(dirtemp,"D3_excluded_pregnancies_from_prompts.RData")) # 663830
-# 
-# # pregnancies to be included in next steps
-# D3_study_population_pregnancy_from_prompts<-D3_study_population_pregnancy_spells[no_link_to_person==0 & no_female==0 & no_fertile_age==0 & pregnancy_start_in_spells==1 & pregnancy_end_in_spells==1,] [,-c("no_link_to_person","no_female","no_fertile_age","pregnancy_start_in_spells","pregnancy_end_in_spells")] # 554767 against 429699
-# save(D3_study_population_pregnancy_from_prompts, file=paste0(dirtemp,"D3_study_population_pregnancy_from_prompts.RData"))
 
 
+# pregancies to be excluded:
+D3_excluded_pregnancies_from_prompts_2 <- D3_study_population_pregnancy3[no_linked_to_person==1 | person_not_female==1 | person_not_in_fertile_age==1 | pregnancy_start_in_spells==1 | pregnancy_end_in_spells==1,]  # to further explore exclusion
+
+D3_excluded_pregnancies_from_prompts<-rbind(D3_excluded_pregnancies_from_prompts_1,D3_excluded_pregnancies_from_prompts_2,fill=TRUE)[,-c( "sex_at_instance_creation","date_birth","date_death", "age_at_pregnancy_start","op_meaning","num_spell","entry_spell_category","exit_spell_category")]
+save(D3_excluded_pregnancies_from_prompts, file=paste0(dirtemp,"D3_excluded_pregnancies_from_prompts.RData")) # 663830
 
 
-##impute missing pregnancy_start_date
-## put 42 days for ABS
-abs<-unlist(meaning_of_survey_our_study_this_datasource[names(meaning_of_survey_our_study_this_datasource)=="spontaneous_abortion"])
-D3_study_population_pregnancy4<-D3_study_population_pregnancy3[is.na(pregnancy_start_date) & meaning_end_date%in%abs, 
-                                                               `:=`(pregnancy_start_date=pregnancy_end_date-42, imputed_start_pregnancy=1)]
-## put 49 days for IVG
-ivg<-unlist(meaning_of_survey_our_study_this_datasource[names(meaning_of_survey_our_study_this_datasource)=="termination"])
-D3_study_population_pregnancy4<-D3_study_population_pregnancy4[is.na(pregnancy_start_date) & meaning_end_date%in%ivg, 
-                                                               `:=`(pregnancy_start_date=pregnancy_end_date-49, imputed_start_pregnancy=1)]
-
-## put 154 days for stilbirth
-cap<-unlist(meaning_of_survey_our_study_this_datasource[names(meaning_of_survey_our_study_this_datasource)=="birth_registry"])
-D3_study_population_pregnancy4<-D3_study_population_pregnancy4[is.na(pregnancy_start_date) & meaning_end_date%in%cap & type_of_pregnancy_end=="stillbirth", 
-                                                               `:=`(pregnancy_start_date=pregnancy_end_date-154, imputed_start_pregnancy=1)]
-## put 259 days for livebirth
-cap<-unlist(meaning_of_survey_our_study_this_datasource[names(meaning_of_survey_our_study_this_datasource)=="birth_registry"])
-D3_study_population_pregnancy4<-D3_study_population_pregnancy4[is.na(pregnancy_start_date) & meaning_end_date%in%cap & type_of_pregnancy_end=="livebirth", 
-                                                               `:=`(pregnancy_start_date=pregnancy_end_date-259, imputed_start_pregnancy=1)]
+# pregnancies to be included in next steps
+D3_study_population_pregnancy_from_prompts<-D3_study_population_pregnancy3[no_linked_to_person==0 & person_not_female==0 & person_not_in_fertile_age==0 & pregnancy_start_in_spells==0 & pregnancy_end_in_spells==0,] [,-c("no_linked_to_person","person_not_female","person_not_in_fertile_age","pregnancy_start_in_spells","pregnancy_end_in_spells")] # 554767 against 429699
 
 
-
-D3_Stream_PROMPTS_check<-D3_study_population_pregnancy4[,.(pregnancy_id,person_id,pregnancy_start_date,pregnancy_end_date,meaning_start_date,meaning_end_date,type_of_pregnancy_end,survey_id,PROMPT)]#,record_date
+D3_Stream_PROMPTS_check<-D3_study_population_pregnancy_from_prompts[,.(pregnancy_id,person_id,record_date,pregnancy_start_date,pregnancy_end_date,meaning_start_date,meaning_end_date,type_of_pregnancy_end,survey_id,PROMPT)]#
 save(D3_Stream_PROMPTS_check, file=paste0(dirtemp,"D3_Stream_PROMPTS_check.RData"))
-rm(D3_study_population_pregnancy1, D3_study_population_pregnancy2, D3_study_population_pregnancy3, D3_study_population_pregnancy4, D3_Stream_PROMPTS,D3_Stream_PROMPTS_check)
+
+
+rm(D3_study_population_pregnancy1, D3_study_population_pregnancy2, D3_study_population_pregnancy3, D3_Stream_PROMPTS,D3_Stream_PROMPTS_check, D3_PERSONS, output_spells_category)
+rm(D3_excluded_pregnancies_from_prompts, D3_excluded_pregnancies_from_prompts_1, D3_excluded_pregnancies_from_prompts_2, D3_study_population_pregnancy_from_prompts)
 
 ###############################################################################################################

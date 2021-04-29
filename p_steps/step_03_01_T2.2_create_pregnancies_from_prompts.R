@@ -73,17 +73,17 @@ dataset_pregnancies2[is.na(pregnancy_end_date),pregnancy_end_date:=END_TERMINATI
 dataset_pregnancies2[is.na(pregnancy_end_date),pregnancy_end_date:=END_ABORTION][!is.na(pregnancy_end_date)& is.na(meaning_end_date),meaning_end_date:=survey_meaning]
 
 # impute type for unclassified dates 
-dataset_pregnancies2[meaning_end_date==unlist(meaning_of_survey_our_study_this_datasource[["spontaneous_abortion"]]),type_of_pregnancy_end:="spontaneous abortion"] #is.na(type_of_pregnancy_end) & 
-dataset_pregnancies2[meaning_end_date==unlist(meaning_of_survey_our_study_this_datasource[["termination"]]),type_of_pregnancy_end:="termination"] #is.na(type_of_pregnancy_end) & 
-dataset_pregnancies2[meaning_end_date==unlist(meaning_of_survey_our_study_this_datasource[["birth_registry"]]),type_of_pregnancy_end:="livebirth/stillbirth"] #is.na(type_of_pregnancy_end) &
+dataset_pregnancies2[meaning_end_date==unlist(meaning_of_survey_our_study_this_datasource[["spontaneous_abortion"]]),type_of_pregnancy_end:="SA"] #is.na(type_of_pregnancy_end) & 
+dataset_pregnancies2[meaning_end_date==unlist(meaning_of_survey_our_study_this_datasource[["termination"]]),type_of_pregnancy_end:="T"] #is.na(type_of_pregnancy_end) & 
+dataset_pregnancies2[meaning_end_date==unlist(meaning_of_survey_our_study_this_datasource[["birth_registry"]]),type_of_pregnancy_end:="LB/SB"] #is.na(type_of_pregnancy_end) &
 
 # classified DATEENDPREGNANCY with TYPE
-dataset_pregnancies2[pregnancy_end_date==DATEENDPREGNANCY & TYPE%in%unlist(dictonary_of_itemset_this_datasource[["LB"]]),type_of_pregnancy_end:="livebirth"]
-dataset_pregnancies2[pregnancy_end_date==DATEENDPREGNANCY & TYPE%in%unlist(dictonary_of_itemset_this_datasource[["SB"]]),type_of_pregnancy_end:="stillbirth"]
-dataset_pregnancies2[pregnancy_end_date==DATEENDPREGNANCY & TYPE%in%unlist(dictonary_of_itemset_this_datasource[["SA"]]),type_of_pregnancy_end:="spontaneous abortion"]
-dataset_pregnancies2[pregnancy_end_date==DATEENDPREGNANCY & TYPE%in%unlist(dictonary_of_itemset_this_datasource[["T"]]) ,type_of_pregnancy_end:="termination"]
-dataset_pregnancies2[pregnancy_end_date==DATEENDPREGNANCY & TYPE%in%unlist(dictonary_of_itemset_this_datasource[["MD"]]),type_of_pregnancy_end:="maternal death"]
-dataset_pregnancies2[pregnancy_end_date==DATEENDPREGNANCY & TYPE%in%unlist(dictonary_of_itemset_this_datasource[["UNK"]]),type_of_pregnancy_end:="unknown"]
+dataset_pregnancies2[pregnancy_end_date==DATEENDPREGNANCY & TYPE%in%unlist(dictonary_of_itemset_this_datasource[["LB"]]),type_of_pregnancy_end:="LB"]
+dataset_pregnancies2[pregnancy_end_date==DATEENDPREGNANCY & TYPE%in%unlist(dictonary_of_itemset_this_datasource[["SB"]]),type_of_pregnancy_end:="SB"]
+dataset_pregnancies2[pregnancy_end_date==DATEENDPREGNANCY & TYPE%in%unlist(dictonary_of_itemset_this_datasource[["SA"]]),type_of_pregnancy_end:="SA"]
+dataset_pregnancies2[pregnancy_end_date==DATEENDPREGNANCY & TYPE%in%unlist(dictonary_of_itemset_this_datasource[["T"]]) ,type_of_pregnancy_end:="T"]
+dataset_pregnancies2[pregnancy_end_date==DATEENDPREGNANCY & TYPE%in%unlist(dictonary_of_itemset_this_datasource[["MD"]]),type_of_pregnancy_end:="MD"]
+dataset_pregnancies2[pregnancy_end_date==DATEENDPREGNANCY & TYPE%in%unlist(dictonary_of_itemset_this_datasource[["UNK"]]),type_of_pregnancy_end:="UNK"]
 
 
 
@@ -114,6 +114,15 @@ dataset_pregnancies3[!is.na(pregnancy_start_date) & !is.na(GESTAGE_FROM_LMP_DAYS
 dataset_pregnancies3[is.na(pregnancy_start_date) & !is.na(GESTAGE_FROM_LMP_WEEKS),pregnancy_start_date:=pregnancy_end_date-(GESTAGE_FROM_LMP_WEEKS*7)]
 dataset_pregnancies3[!is.na(pregnancy_start_date) & !is.na(GESTAGE_FROM_LMP_WEEKS) & is.na(meaning_start_date),meaning_start_date:="GESTAGE_FROM_LMP_WEEKS"]
 
+
+
+# impute pregnancy_start_date when pregnancy_end_date is not missing
+#dataset_pregnancies3<-dataset_pregnancies3[!is.na(pregnancy_end_date) & is.na(pregnancy_start_date) & type_of_pregnancy_end=="LB" & concept_set=="Pre_term_birth",`:=`(pregnancy_start_date= pregnancy_end_date-245, imputed_start_of_pregnancy=1)]
+dataset_pregnancies3<-dataset_pregnancies3[!is.na(pregnancy_end_date) & is.na(pregnancy_start_date) & type_of_pregnancy_end=="LB",`:=`(pregnancy_start_date= pregnancy_end_date-280, imputed_start_of_pregnancy=1, meaning_start_date=paste0("imputed_prompt_from_",type_of_pregnancy_end) )]
+dataset_pregnancies3<-dataset_pregnancies3[!is.na(pregnancy_end_date) & is.na(pregnancy_start_date) & type_of_pregnancy_end=="SB",`:=`(pregnancy_start_date= pregnancy_end_date-196, imputed_start_of_pregnancy=1, meaning_start_date=paste0("imputed_prompt_from_",type_of_pregnancy_end))]
+#dataset_pregnancies3<-dataset_pregnancies3[!is.na(pregnancy_end_date) & is.na(pregnancy_start_date) & type_of_pregnancy_end=="ECT",`:=`(pregnancy_start_date= pregnancy_end_date-56, imputed_start_of_pregnancy=1)]
+dataset_pregnancies3<-dataset_pregnancies3[!is.na(pregnancy_end_date) & is.na(pregnancy_start_date) & type_of_pregnancy_end=="T",`:=`(pregnancy_start_date= pregnancy_end_date-70, imputed_start_of_pregnancy=1, meaning_start_date=paste0("imputed_prompt_from_",type_of_pregnancy_end))]
+#dataset_pregnancies3<-dataset_pregnancies3[!is.na(pregnancy_ongoing_date) & is.na(pregnancy_start_date),`:=`(pregnancy_start_date= pregnancy_ongoing_date-55, imputed_start_of_pregnancy=1)]
 
 # create TOPFA var as empty and PROMPT
 #dataset_pregnancies3[,TOPFA:=""]
