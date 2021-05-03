@@ -77,8 +77,8 @@ if (dim(D3_Stream_PROMPTS)[1]!=0){
   # pregancies to be excluded:
   D3_excluded_pregnancies_from_prompts_2 <- D3_study_population_pregnancy3[no_linked_to_person==1 | person_not_female==1 | person_not_in_fertile_age==1 | pregnancy_start_in_spells==1 | pregnancy_end_in_spells==1,]  # to further explore exclusion
   
-  D3_excluded_pregnancies_from_prompts<-rbind(D3_excluded_pregnancies_from_prompts_1,D3_excluded_pregnancies_from_prompts_2,fill=TRUE)[,-c( "sex_at_instance_creation","date_birth","date_death", "age_at_pregnancy_start","op_meaning","num_spell","entry_spell_category","exit_spell_category")]
-  save(D3_excluded_pregnancies_from_prompts, file=paste0(dirtemp,"D3_excluded_pregnancies_from_prompts.RData")) # 663830
+  D3_excluded_pregnancies_from_PROMPT<-rbind(D3_excluded_pregnancies_from_prompts_1,D3_excluded_pregnancies_from_prompts_2,fill=TRUE)[,-c( "sex_at_instance_creation","date_birth","date_death", "age_at_pregnancy_start","op_meaning","num_spell","entry_spell_category","exit_spell_category")]
+  save(D3_excluded_pregnancies_from_PROMPT, file=paste0(dirtemp,"D3_excluded_pregnancies_from_PROMPT.RData")) # 663830
   
   
   # pregnancies to be included in next steps
@@ -89,8 +89,8 @@ if (dim(D3_Stream_PROMPTS)[1]!=0){
   save(D3_Stream_PROMPTS_check, file=paste0(dirtemp,"D3_Stream_PROMPTS_check.RData"))
   
   
-  rm(D3_study_population_pregnancy1, D3_study_population_pregnancy2, D3_study_population_pregnancy3, D3_Stream_PROMPTS,D3_Stream_PROMPTS_check, D3_PERSONS, output_spells_category)
-  rm(D3_excluded_pregnancies_from_prompts, D3_excluded_pregnancies_from_prompts_1, D3_excluded_pregnancies_from_prompts_2, D3_study_population_pregnancy_from_prompts)
+  rm(D3_study_population_pregnancy1, D3_study_population_pregnancy2, D3_study_population_pregnancy3, D3_Stream_PROMPTS_check, D3_PERSONS, output_spells_category)
+  rm(D3_excluded_pregnancies_from_PROMPT, D3_excluded_pregnancies_from_prompts_1, D3_excluded_pregnancies_from_prompts_2, D3_study_population_pregnancy_from_prompts)
   
   print("Internal consistency for PROMPTS checked")
 }

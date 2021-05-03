@@ -12,6 +12,7 @@ if(dim(D3_Stream_PROMPTS_check)[1]==0) {
     D3_Stream_PROMPTS_check<-data.table(PROMPT=character(0))
 }
 
+
 D3_Stream_EUROCAT_check<-data.table()
 for (i in 1:length(files)) {
     if (str_detect(files[i],"^D3_Stream_EUROCAT_check")) { 

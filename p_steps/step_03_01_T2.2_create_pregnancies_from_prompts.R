@@ -2,6 +2,10 @@
 #load SURVEY_ID_BR
 load(paste0(dirtemp,"SURVEY_ID_BR.RData"))
 
+study_variables_start_of_pregnancy <- c("DATESTARTPREGNANCY","GESTAGE_FROM_DAPS_CRITERIA_DAYS","GESTAGE_FROM_DAPS_CRITERIA_WEEKS","GESTAGE_FROM_USOUNDS_DAYS","GESTAGE_FROM_USOUNDS_WEEKS","GESTAGE_FROM_LMP_DAYS","GESTAGE_FROM_LMP_WEEKS") 
+study_variables_end_of_pregnancy <- c("DATEENDPREGNANCY","END_LIVEBIRTH","END_STILLBIRTH","END_TERMINATION","END_ABORTION")
+study_variables_type_of_pregnancy <- c("TYPE")
+
 # check if it exists in DAP
 if (dim(SURVEY_ID_BR)[1]!=0){
 
@@ -11,13 +15,6 @@ if (dim(SURVEY_ID_BR)[1]!=0){
   
   
   # merge with SURVEY_ID_BR both LMP and USOUNDS, define two variables start_of_pregnancy_LMP and start_of_pregnancy_USOUNDS, define pregnancy_id as survey_id
-  
-  study_variables_start_of_pregnancy <- c("DATESTARTPREGNANCY","GESTAGE_FROM_DAPS_CRITERIA_DAYS","GESTAGE_FROM_DAPS_CRITERIA_WEEKS","GESTAGE_FROM_USOUNDS_DAYS","GESTAGE_FROM_USOUNDS_WEEKS","GESTAGE_FROM_LMP_DAYS","GESTAGE_FROM_LMP_WEEKS") 
-  study_variables_end_of_pregnancy <- c("DATEENDPREGNANCY","END_LIVEBIRTH","END_STILLBIRTH","END_TERMINATION","END_ABORTION")
-  study_variables_type_of_pregnancy <- c("TYPE")
-  
-  
-  
   
   dataset_pregnancies <- SURVEY_ID_BR
 
