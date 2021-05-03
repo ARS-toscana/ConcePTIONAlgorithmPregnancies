@@ -84,3 +84,5 @@ save(D3_Stream_CONCEPTSETS_check, file=paste0(dirtemp,"D3_Stream_CONCEPTSETS_che
 
 rm(D3_Stream_CONCEPTSETS,D3_study_population_pregnancy1,D3_study_population_pregnancy2, D3_study_population_pregnancy3,D3_Stream_CONCEPTSETS_check, D3_excluded_pregnancies_from_CONCEPTSETS)
 rm(D3_excluded_pregnancies_from_CONCEPTSETS_1, D3_excluded_pregnancies_from_CONCEPTSETS_2,D3_PERSONS,D3_study_population_pregnancy_from_CONCEPTSETS, output_spells_category)
+
+print("Internal consistency for CONCEPTSETS checked")

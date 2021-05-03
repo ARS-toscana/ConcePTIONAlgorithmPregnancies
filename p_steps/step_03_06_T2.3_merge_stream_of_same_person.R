@@ -1,12 +1,36 @@
 ## import D3_Streams...
+files<-sub('\\.RData$', '', list.files(dirtemp))
 
-load(paste0(dirtemp,"D3_Stream_PROMPTS_check.RData"))
+D3_Stream_PROMPTS_check<-data.table()
+for (i in 1:length(files)) {
+    if (str_detect(files[i],"^D3_Stream_PROMPTS_check")) { 
+        load(paste0(dirtemp,files[i],".RData")) 
+    }
+} 
+
+if(dim(D3_Stream_PROMPTS_check)[1]==0) {
+    D3_Stream_PROMPTS_check<-data.table(PROMPT=character(0))
+}
+
+D3_Stream_EUROCAT_check<-data.table()
+for (i in 1:length(files)) {
+    if (str_detect(files[i],"^D3_Stream_EUROCAT_check")) { 
+        load(paste0(dirtemp,files[i],".RData")) 
+    }
+} 
+if(dim(D3_Stream_EUROCAT_check)[1]==0) {
+    D3_Stream_EUROCAT_check<-data.table(EUROCAT=character(0))
+}
+  
+
+
+#load(paste0(dirtemp,"D3_Stream_PROMPTS_check.RData"))
 load(paste0(dirtemp,"D3_Stream_CONCEPTSETS_check.RData"))
-load(paste0(dirtemp,"D3_Stream_EUROCAT_check.RData"))
+#load(paste0(dirtemp,"D3_Stream_EUROCAT_check.RData"))
 #load(paste0(dirtemp,"D3_Stream_ITEMSETS_check.RData"))
 
-# putt together all the D3_Stream..
-groups_of_pregnancies<-rbind(D3_Stream_PROMPTS_check, D3_Stream_CONCEPTSETS_check, D3_Stream_EUROCAT_check, fill=T)
+# put together all the D3_Stream..
+groups_of_pregnancies<-rbind(D3_Stream_CONCEPTSETS_check,D3_Stream_PROMPTS_check,D3_Stream_EUROCAT_check, fill=T)
 groups_of_pregnancies<-groups_of_pregnancies[,.(pregnancy_id,person_id,record_date,pregnancy_start_date,meaning_start_date,pregnancy_ongoing_date,meaning_ongoing_date,pregnancy_end_date,meaning_end_date,type_of_pregnancy_end,survey_id,visit_occurrence_id,PROMPT,EUROCAT,CONCEPTSETS,CONCEPTSET)]# ITEMSETS
 
 groups_of_pregnancies<-groups_of_pregnancies[is.na(PROMPT),PROMPT:="no"]
@@ -46,6 +70,16 @@ groups_of_pregnancies<-groups_of_pregnancies[CONCEPTSETS=="yes" & CONCEPTSET=="P
 table(groups_of_pregnancies[,order_quality], useNA = "ifany")
 
 
+setorderv(groups_of_pregnancies,c("person_id","pregnancy_start_date","pregnancy_end_date"), na.last = T)
+groups_of_pregnancies_overlap<-groups_of_pregnancies[,pregnancy_start_next:=lead(pregnancy_start_date),by="person_id"]
+groups_of_pregnancies_overlap[pregnancy_start_next<pregnancy_end_date & (pregnancy_start_next!=pregnancy_start_date & pregnancy_start_next!=pregnancy_start_date+1), overlap:=1][is.na(overlap), overlap:=0]
+
+groups_of_pregnancies_overlap[,overlap_person:=max(overlap), by="person_id"]
+addmargins(table(groups_of_pregnancies_overlap$overlap)) #409
+
+View(groups_of_pregnancies_overlap[,.(person_id,pregnancy_id, pregnancy_start_date,pregnancy_end_date, pregnancy_start_next,overlap,overlap_person)])
+length(unique(groups_of_pregnancies_overlap[overlap_person==1,person_id])) #404
+groups_of_pregnancies<-groups_of_pregnancies[,group_identifier]
 
 
 

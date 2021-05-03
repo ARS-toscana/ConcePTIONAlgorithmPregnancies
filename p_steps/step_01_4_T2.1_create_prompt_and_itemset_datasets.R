@@ -13,26 +13,30 @@ for (i in 1:length(files)) {
   }
 }
 
+if (dim(SURVEY_ID_BR)[1]!=0){
+    
+  SURVEY_ID_BR<-SURVEY_ID_BR[,survey_date:=ymd(survey_date)]
+  SURVEY_ID_BR<-unique(SURVEY_ID_BR, by=c("person_id","survey_id","survey_date"))
+  
+  save(SURVEY_ID_BR,file=paste0(dirtemp,"SURVEY_ID_BR.RData"))
+  #rm(SURVEY_ID_BR)
+  
+  
+  # APPLY RetrieveRecordsFromEAVDatasets TO SURVEY_OBSERVATIONS TO RETRIEVE ALL itemsets IS ASSOCIATED WITH THE STUDY VARIABLES ('LMP', 'USOUNDS',...)
+  
+  CreateItemsetDatasets(EAVtables = ConcePTION_CDM_EAV_tables_retrieve,
+                        datevar= ConcePTION_CDM_datevar_retrieve,
+                        dateformat= "YYYYmmdd",
+                        rename_col = list(person_id=person_id,date=date),
+                        study_variable_names = study_variables_of_our_study,
+                        itemset = itemset_AVpair_our_study_this_datasource, 
+                        dirinput = dirinput,
+                        diroutput = dirtemp,
+                        extension = c("csv"))
+  
+  
+  rm(GESTAGE_FROM_DAPS_CRITERIA_DAYS, GESTAGE_FROM_DAPS_CRITERIA_WEEKS, GESTAGE_FROM_LMP_DAYS, GESTAGE_FROM_LMP_WEEKS, GESTAGE_FROM_USOUNDS_DAYS, GESTAGE_FROM_USOUNDS_WEEKS, DATEENDPREGNANCY, DATESTARTPREGNANCY, END_ABORTION, END_LIVEBIRTH, END_STILLBIRTH, END_TERMINATION, TYPE)
 
-SURVEY_ID_BR<-SURVEY_ID_BR[,survey_date:=ymd(survey_date)]
-SURVEY_ID_BR<-unique(SURVEY_ID_BR, by=c("person_id","survey_id","survey_date"))
+}
 
-save(SURVEY_ID_BR,file=paste0(dirtemp,"SURVEY_ID_BR.RData"))
 rm(SURVEY_ID_BR)
-
-
-# APPLY RetrieveRecordsFromEAVDatasets TO SURVEY_OBSERVATIONS TO RETRIEVE ALL itemsets IS ASSOCIATED WITH THE STUDY VARIABLES ('LMP', 'USOUNDS',...)
-
-CreateItemsetDatasets(EAVtables = ConcePTION_CDM_EAV_tables_retrieve,
-                      datevar= ConcePTION_CDM_datevar_retrieve,
-                      dateformat= "YYYYmmdd",
-                      rename_col = list(person_id=person_id,date=date),
-                      study_variable_names = study_variables_of_our_study,
-                      itemset = itemset_AVpair_our_study_this_datasource, 
-                      dirinput = dirinput,
-                      diroutput = dirtemp,
-                      extension = c("csv"))
-
-
-rm(GESTAGE_FROM_DAPS_CRITERIA_DAYS, GESTAGE_FROM_DAPS_CRITERIA_WEEKS, GESTAGE_FROM_LMP_DAYS, GESTAGE_FROM_LMP_WEEKS, GESTAGE_FROM_USOUNDS_DAYS, GESTAGE_FROM_USOUNDS_WEEKS, DATEENDPREGNANCY, DATESTARTPREGNANCY, END_ABORTION, END_LIVEBIRTH, END_STILLBIRTH, END_TERMINATION, TYPE)
-
