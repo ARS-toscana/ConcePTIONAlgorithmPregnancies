@@ -351,7 +351,7 @@ for (t in  names(itemset_AVpair_our_study)) {
     
 
 #####################################################################################
-# 
+
 # for (t in  names(person_id)) {
 #   person_id = person_id [[t]]
 # }
@@ -360,7 +360,7 @@ for (t in  names(itemset_AVpair_our_study)) {
 # for (t in  names(date)) {
 #   date = date [[t]]
 # }
-
+# 
 # date = date [["Diagnosis"]]
 # person_id = person_id[["Diagnosis"]]
 
