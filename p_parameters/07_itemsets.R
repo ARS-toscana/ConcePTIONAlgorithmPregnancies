@@ -52,3 +52,14 @@ item_set_codes_our_study[["others"]][["ITA_procedures_coding_system"]] <- c("75.
   }
 }
 
+itemset_our_study_this_datasource<-vector(mode="list")
+
+for (t in  names(item_set_codes_our_study)) {
+  for (f in names(item_set_codes_our_study[[t]])) {
+    for (s in names(item_set_codes_our_study[[t]][[f]])) {
+      if (s==thisdatasource ){
+        itemset_our_study_this_datasource[[t]][[f]]<-item_set_codes_our_study[[t]][[f]][[s]]
+      }
+    }
+  }
+}
