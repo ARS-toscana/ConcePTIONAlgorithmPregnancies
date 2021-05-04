@@ -141,6 +141,10 @@ CreateConceptSetDatasets <- function(dataset,codvar,datevar,EAVtables,EAVattribu
             }
           }
         }
+        
+        # if (concept == "gestational_diabetes" & df2 == "PROCEDURES_SDO") {
+        #   browser()
+        # }
 
         if (!missing(vocabulary) && dom %in% names(vocabulary) && df2 %in% names(vocabulary[[dom]])) {
           cod_system_indataset1 <- unique(used_df[,get(vocabulary[[dom]][[df2]])])
@@ -148,9 +152,10 @@ CreateConceptSetDatasets <- function(dataset,codvar,datevar,EAVtables,EAVattribu
         } else {
           cod_system_indataset <- names(concept_set_codes[[concept]])
         }
+      
 
         if (length(cod_system_indataset) == 0) {
-          used_df[,c("Filter", paste0("Col_", concept)) := list(0, NA)]
+          next
         } else {
           for (col in codvar[[conc_dom]][[df2]]) {
             used_df<-used_df[, paste0(col, "_tmp") := gsub("\\.", "", get(col))]
@@ -293,11 +298,19 @@ CreateConceptSetDatasets <- function(dataset,codvar,datevar,EAVtables,EAVattribu
       if (concept %in% concept_set_names) {
         export_df <- as.data.table(data.frame(matrix(ncol = 0, nrow = 0)))
         for (df2 in dataset1[[dom]]) {
-          if (exists(paste0(concept,"_",df2))){
-            browser()
-            export_df = suppressWarnings( rbind(export_df, eval(parse(text = paste0(concept,"_",df2))),fill = T) )
+          if (dim(eval(parse(text = paste0(concept,"_",df2))))[1] != 0 && 
+              min(is.na(eval(parse(text = paste0(concept,"_",df2)))), na.rm = T) == 0){
+            export_df = suppressWarnings(rbind(export_df, eval(parse(text = paste0(concept,"_",df2))),fill = T) )
           }
         }
+        if (sum(dim(export_df)) == 0) {
+          n_col_empty <- ncol(eval(parse(text = paste0(concept,"_",df2))))
+          names_empty <- names(eval(parse(text = paste0(concept,"_",df2))))
+          export_df <- as.data.table(data.frame(matrix(ncol = n_col_empty, nrow = 1)))
+          names(export_df) <- names_empty
+          export_df[,] <- NA
+        }
+        
         export_df<-export_df[, .SD[!all(is.na(.SD))]]
 
         if (addtabcol == F) export_df<-export_df[,c("Table_cdm","Col"):=NULL]

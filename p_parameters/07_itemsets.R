@@ -2,8 +2,8 @@
 
 
 # -itemset_AVpair_our_study- is a nested list, with 3 levels: foreach study variable, for each coding system of its data domain, the list of AVpair is recorded
-
-item_sets_of_our_study <- c("gestational_diabetes","fetal_nuchal_translucency","amniocentesis","Chorionic_Villus_Sampling","others")
+# fetal_nuchal_translucency
+item_sets_of_our_study <- c("gestational_diabetes","fetal_nuchal_translucency", "amniocentesis","Chorionic_Villus_Sampling","others")
 
 datasources<-c("ARS", "UOSL", "BIPS", "BIFAP", "FISABIO", "SIDIAP", "CNR-IFC", "CHUT", "UNIME", "CPRD", "THL")
 
