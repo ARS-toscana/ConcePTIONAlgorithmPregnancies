@@ -88,12 +88,12 @@ dataset_concept_sets<-dataset_concept_sets[,CONCEPTSETS:="yes"]
 setnames(dataset_concept_sets,"concept_set","CONCEPTSET")
 setnames(dataset_concept_sets,"date","record_date")
 
-
+dataset_concept_sets[is.na(imputed_start_of_pregnancy),imputed_start_of_pregnancy:=0]
 # create variable pregnancy_id as survey_date
 dataset_concept_sets[,pregnancy_id:=paste0(visit_occurrence_id,"_",person_id,"_",record_date)] 
 
 # keep only vars neeed
-D3_Stream_CONCEPTSETS <- dataset_concept_sets[,.(pregnancy_id,person_id,record_date,pregnancy_start_date,pregnancy_ongoing_date,pregnancy_end_date,meaning_start_date,meaning_ongoing_date,meaning_end_date,type_of_pregnancy_end,meaning_of_event,visit_occurrence_id,CONCEPTSETS,CONCEPTSET)] # 
+D3_Stream_CONCEPTSETS <- dataset_concept_sets[,.(pregnancy_id,person_id,record_date,pregnancy_start_date,pregnancy_ongoing_date,pregnancy_end_date,meaning_start_date,meaning_ongoing_date,meaning_end_date,type_of_pregnancy_end,meaning_of_event,imputed_start_of_pregnancy,visit_occurrence_id,CONCEPTSETS,CONCEPTSET)] # 
 save(D3_Stream_CONCEPTSETS, file=paste0(dirtemp,"D3_Stream_CONCEPTSETS.RData"))
 
 

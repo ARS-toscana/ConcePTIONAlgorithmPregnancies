@@ -41,20 +41,23 @@ groups_of_pregnancies<-groups_of_pregnancies[is.na(EUROCAT),EUROCAT:="no"]
 groups_of_pregnancies<-groups_of_pregnancies[is.na(CONCEPTSETS),CONCEPTSETS:="no"]
 #groups_of_pregnancies<-groups_of_pregnancies[is.na(ITEMSETS),ITEMSETS:="no"]
 
+
+
 #order_quality: the default order is:
     # 1)	EUROCAT
     # 2)	PROMPT
-    # 3)	ITEMSETS
-    # 4)	CONCEPSETS, pregnancy completed: ongoing pregnancy from primary care medical record
-    # 5)	CONCEPSETS, pregnancy completed: ongoing pregnancy from specialist visit
-    # 6)	CONCEPSETS: live birth
-    # 7)	CONCEPSETS: pre-term birth
-    # 8)	CONCEPSETS: still birth
-    # 9)	CONCEPSETS: interruption
-    # 10)	CONCEPSETS: spontaneous abortion
-    # 11)	CONCEPSETS: procedures
-    # 12)	CONCEPSETS, pregnancy not completed: ongoing pregnancy from primary care medical record
-    # 13)	CONCEPSETS, pregnancy not completed: ongoing pregnancy from specialist visit
+    # 3)	ITEMSETS, pregnancy completed and start date recorded
+    # 4)	CONCEPSETS, pregnancy completed and start date recorded
+    # 5)	ITEMSETS, pregnancy completed and start date imputed
+    # 6)	CONCEPSETS: live birth, start date not available and imputed 
+    # 7)	CONCEPSETS: pre-term birth, start date not available and imputed
+    # 8)	CONCEPSETS: still birth, start date not available and imputed
+    # 9)	CONCEPSETS: interruption, start date not available and imputed
+    # 10)	CONCEPSETS: spontaneous abortion, start date not available and imputed
+    # 11)	all Streams: ongoing pregnancy and start of pregnancy recorded 
+    # 12)	CONCEPSETS: procedures
+    # 13)	all Streams: ongoing pregnancy and start of pregnancy not recorded 
+
 
 groups_of_pregnancies<-groups_of_pregnancies[EUROCAT=="yes",order_quality:=1]
 groups_of_pregnancies<-groups_of_pregnancies[PROMPT=="yes",order_quality:=2]
