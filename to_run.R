@@ -48,7 +48,9 @@ source(paste0(thisdir,"/p_steps/step_03_03a_T2.2_create_pregnancies_from_EUROCAT
 source(paste0(thisdir,"/p_steps/step_03_03b_T2.2_classify_pregnancies_from_EUROCAT.R"))
 
 
-source(paste0(thisdir,"/p_steps/step_03_04_T2.3_.R")) # per ogni persona tutte le gravidanze da riconciliare
+source(paste0(thisdir,"/p_steps/step_03_06_T2.3_merge_stream_of_same_person.R")) 
+source(paste0(thisdir,"/p_steps/step_03_07_T2.2_process_pregnancies_excluded.R")) 
+
 
 
 
