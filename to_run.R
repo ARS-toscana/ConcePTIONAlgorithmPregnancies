@@ -17,9 +17,10 @@ thisdir<-setwd(dirname(rstudioapi::getSourceEditorContext()$path))
 source(paste0(thisdir,"/p_parameters/01_parameters_program.R"))
 source(paste0(thisdir,"/p_parameters/02_parameters_CDM.R"))
 source(paste0(thisdir,"/p_parameters/03_concept_sets.R"))
-source(paste0(thisdir,"/p_parameters/04_item_sets.R"))
+source(paste0(thisdir,"/p_parameters/04_prompts.R"))
 # source(paste0(thisdir,"/p_parameters/05_subpopulations_restricting_meanings.R"))
 source(paste0(thisdir,"/p_parameters/06_algorithms.R"))
+source(paste0(thisdir,"/p_parameters/07_itemsets.R"))
 
 
 
@@ -33,6 +34,7 @@ system.time(source(paste0(thisdir,"/p_steps/step_01_1_T2.1_create_conceptset_dat
 #system.time(source(paste0(thisdir,"/p_steps/step_01_2_T2.1_create_spells.R")))
 system.time(source(paste0(thisdir,"/p_steps/step_01_3_T2.1_create_dates_in_PERSONS.R"))) 
 system.time(source(paste0(thisdir,"/p_steps/step_01_4_T2.1_create_prompt_and_itemset_datasets.R")))
+system.time(source(paste0(thisdir,"/p_steps/step_01_5_T2.1_create_itemsets_datasets.R")))
 
 # 02 COUNT CODES 
 #system.time(source(paste0(thisdir,"/p_steps/step_02_T2.2_count_codes.R")))
