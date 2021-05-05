@@ -78,7 +78,7 @@ firstjan2018<-as.Date(as.character(20180101), date_format)
 # understand which datasource the script is querying
 
 CDM_SOURCE<- fread(paste0(dirinput,"CDM_SOURCE.csv"))
-thisdatasource <- as.character(CDM_SOURCE[1,3])
+thisdatasource <- as.character(CDM_SOURCE[1,2])
 
 #---------------------------------------
 # assess datasource-specific parameters
