@@ -126,6 +126,27 @@ if (length(ConcePTION_CDM_EAV_tables)!=0 ){
   }
 }
 
+ConcePTION_CDM_coding_system_list<-vector(mode="list")
+ConcePTION_CDM_coding_system_list<-c("ICD9","ICD10","SNOMED","SNOMED3","READ","ICD10CM","ICD10GM","kg")
+
+ConcePTION_CDM_EAV_attributes<-vector(mode="list")
+files<-sub('\\.csv$', '', list.files(dirinput))
+
+for (i in 1:length(files)) {
+  if (str_detect(files[i],"^SURVEY_OB")) { 
+    temp <- fread(paste0(dirinput,files[i],".csv"))
+     print(files[i])
+     ConcePTION_CDM_EAV_attributes<-rbind(ConcePTION_CDM_EAV_attributes,unique(temp[so_unit %in% ConcePTION_CDM_coding_system_list,.(so_source_column,so_source_table)]))
+  }
+}
+
+for (i in 1:length(files)) {
+  if (str_detect(files[i],"^MEDICAL_OB")) { 
+    temp <- fread(paste0(dirinput,files[i],".csv"))
+    print(files[i])
+    ConcePTION_CDM_EAV_attributes<-rbind(ConcePTION_CDM_EAV_attributes,unique(temp[mo_record_vocabulary %in% ConcePTION_CDM_coding_system_list,.(mo_source_column,mo_source_table)]),fill=T)
+  }
+}
 
 #DA CMD_SOURCE
 ConcePTION_CDM_EAV_attributes<-vector(mode="list")
