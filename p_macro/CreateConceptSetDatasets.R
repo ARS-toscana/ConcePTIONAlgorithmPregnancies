@@ -310,12 +310,15 @@ CreateConceptSetDatasets <- function(dataset,codvar,datevar,EAVtables,EAVattribu
             export_df = suppressWarnings(rbind(export_df, eval(parse(text = paste0(concept,"_",df2))),fill = T) )
           }
         }
+        # if (sum(dim(export_df)) == 0) {
+        #   n_col_empty <- ncol(eval(parse(text = paste0(concept,"_",df2))))
+        #   names_empty <- names(eval(parse(text = paste0(concept,"_",df2))))
+        #   export_df <- as.data.table(data.frame(matrix(ncol = n_col_empty, nrow = 1)))
+        #   names(export_df) <- names_empty
+        #   export_df[,] <- NA
+        # }
         if (sum(dim(export_df)) == 0) {
-          n_col_empty <- ncol(eval(parse(text = paste0(concept,"_",df2))))
-          names_empty <- names(eval(parse(text = paste0(concept,"_",df2))))
-          export_df <- as.data.table(data.frame(matrix(ncol = n_col_empty, nrow = 1)))
-          names(export_df) <- names_empty
-          export_df[,] <- NA
+          export_df <- used_df[0, ][, General := NULL]
         }
         
         #export_df<-export_df[, .SD[!all(is.na(.SD))]]
