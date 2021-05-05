@@ -88,7 +88,7 @@ if (dim(D3_Stream_EUROCAT)[1]!=0){
   save(D3_Stream_EUROCAT_check, file=paste0(dirtemp,"D3_Stream_EUROCAT_check.RData"))
   
   
-  rm(D3_Stream_EUROCAT_check,D3_Stream_EUROCAT, D3_PERSONS, output_spells_category, D3_study_population_pregnancy_from_EUROCAT,D3_study_population_pregnancy1,D3_study_population_pregnancy2, D3_excluded_pregnancies_from_EUROCAT,D3_excluded_pregnancies_from_EUROCAT_1,D3_excluded_pregnancies_from_EUROCAT_2,D3_study_population_pregnancy3)
+  rm(D3_Stream_EUROCAT_check,D3_PERSONS, output_spells_category, D3_study_population_pregnancy_from_EUROCAT,D3_study_population_pregnancy1,D3_study_population_pregnancy2, D3_excluded_pregnancies_from_EUROCAT,D3_excluded_pregnancies_from_EUROCAT_1,D3_excluded_pregnancies_from_EUROCAT_2,D3_study_population_pregnancy3)
   
   print("Internal consistency for EUROCAT checked")
 }

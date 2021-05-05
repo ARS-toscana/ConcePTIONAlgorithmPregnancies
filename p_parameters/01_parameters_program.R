@@ -80,6 +80,7 @@ firstjan2018<-as.Date(as.character(20180101), date_format)
 
 CDM_SOURCE<- fread(paste0(dirinput,"CDM_SOURCE.csv"))
 thisdatasource <- as.character(CDM_SOURCE[1,3])
+#thisdatasource <-"TEST"
 
 #---------------------------------------
 # understand which datasource the script is querying
@@ -211,3 +212,4 @@ age_fast = function(from, to) {
            (to_lt$mon == from_lt$mon & to_lt$mday < from_lt$mday),
          age - 1, age)
 }
+

@@ -318,7 +318,7 @@ CreateConceptSetDatasets <- function(dataset,codvar,datevar,EAVtables,EAVattribu
           export_df[,] <- NA
         }
         
-        export_df<-export_df[, .SD[!all(is.na(.SD))]]
+        #export_df<-export_df[, .SD[!all(is.na(.SD))]]
 
         if (addtabcol == F) export_df<-export_df[,c("Table_cdm","Col"):=NULL]
         if (discard_from_environment==T) {

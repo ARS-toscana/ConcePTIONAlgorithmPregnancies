@@ -30,6 +30,7 @@ item_set_codes_our_study[["ARS"]][["gestational_diabetes"]][["ITA_procedures_cod
 
 
 ####### Codes for fetal nuchal translucency ###############
+item_set_codes_our_study[["ARS"]][["fetal_nuchal_translucency"]][[""]] <- c("") # maybe also MA1AE 
 #item_set_codes_our_study[["fetal_nuchal_translucency"]][["THL"]][[""]] <- c("MA2JE") # maybe also MA1AE 
 
 
