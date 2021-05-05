@@ -30,7 +30,7 @@ for (i in 1:length(files)) {
     # itemset_AVpair_our_study[["GESTAGE_FROM_DAPS_CRITERIA_WEEKS"]][[files[i]]][["LAREB"]] <- list()
     # itemset_AVpair_our_study[["GESTAGE_FROM_DAPS_CRITERIA_WEEKS"]][[files[i]]][["PHARMO"]] <- list()
     itemset_AVpair_our_study[["GESTAGE_FROM_DAPS_CRITERIA_WEEKS"]][[files[i]]][["BIPS"]] <- list()
-    itemset_AVpair_our_study[["GESTAGE_FROM_DAPS_CRITERIA_WEEKS"]][[files[i]]][["FISABIO"]]<- list(list("META-B","SEMANAS_GESTACION"))
+    itemset_AVpair_our_study[["GESTAGE_FROM_DAPS_CRITERIA_WEEKS"]][[files[i]]][["FISABIO"]]<- list(list("META-B","SEMANAS_GESTACION"), list("RMPCV", "Edadg")) ##!!
     itemset_AVpair_our_study[["GESTAGE_FROM_DAPS_CRITERIA_WEEKS"]][[files[i]]][["SIDIAP"]] <- list(list("Pregnancies table","durada"))
     # itemset_AVpair_our_study[["GESTAGE_FROM_DAPS_CRITERIA_WEEKS"]][[files[i]]][["FERR"]] <- list()
     itemset_AVpair_our_study[["GESTAGE_FROM_DAPS_CRITERIA_WEEKS"]][[files[i]]][["CNR-IFC"]]<- list()  
@@ -67,7 +67,7 @@ for (i in 1:length(files)) {
     
     
     ### specification GESTAGE_FROM_LMP_WEEK
-    itemset_AVpair_our_study[["GESTAGE_FROM_LMP_WEEKS"]][[files[i]]][["ARS"]] <- list(list("CAP1","SETTAMEN_ARSNEW"), list("ABS","SETTAMEN_ARSNEW"), list("IVG","SETTAMEN_ARSNEW")) 
+    itemset_AVpair_our_study[["GESTAGE_FROM_LMP_WEEKS"]][[files[i]]][["ARS"]] <- list(list("CAP1","SETTAMEN_ARSNEW"), list("ABS","SETTAMEN_ARSNEW"), list("IVG","ETAGEST_ARSNEW")) ##!! CAPITAL, ETAGEST/SETTAMEN
     itemset_AVpair_our_study[["GESTAGE_FROM_LMP_WEEKS"]][[files[i]]][["UOSL"]] <- list()
     itemset_AVpair_our_study[["GESTAGE_FROM_LMP_WEEKS"]][[files[i]]][["University_of_Aarhus"]]<- list()
     # itemset_AVpair_our_study[["GESTAGE_FROM_LMP_WEEKS"]][[files[i]]][["University_of_Dundee"]]<- list()
@@ -154,7 +154,7 @@ for (i in 1:length(files)) {
     itemset_AVpair_our_study[["GESTAGE_FROM_USOUNDS_WEEKS"]][[files[i]]][["UNIME"]] <- list()
     # itemset_AVpair_our_study[["GESTAGE_FROM_USOUNDS_WEEKS"]][[files[i]]][["MMC Saxony-Anhalt"]] <- list()
     itemset_AVpair_our_study[["GESTAGE_FROM_USOUNDS_WEEKS"]][[files[i]]][["THL"]] <- list()
-    # itemset_AVpair_our_study[["GESTAGE_FROM_USOUNDS_WEEKS"]][[files[i]]][["USWAN"]]<- list()
+    # itemset_AVpair_our_study[["GESTAGE_FROM_USOUNDS_WEEKS"]][[files[i]]][["USWAN"]]<- list() ##!! "yes"??
     itemset_AVpair_our_study[["GESTAGE_FROM_USOUNDS_WEEKS"]][[files[i]]][["CPRD"]] <- list()
     itemset_AVpair_our_study[["GESTAGE_FROM_USOUNDS_WEEKS"]][[files[i]]][["BIFAP"]] <- list()
     
@@ -185,7 +185,7 @@ for (i in 1:length(files)) {
     
     ########################################## END ###################################################### 
     
-    itemset_AVpair_our_study[["DATEENDPREGNANCY"]][[files[i]]][["ARS"]] <- list(list("CAP1","DATAPARTO_ARSNEW"))
+    itemset_AVpair_our_study[["DATEENDPREGNANCY"]][[files[i]]][["ARS"]] <- list(list("CAP2","DATAPARTO_ARSNEW")) ##!! CAP1 
     itemset_AVpair_our_study[["DATEENDPREGNANCY"]][[files[i]]][["UOSL"]] <- list(list("MBRN", "FDATO")) 
     itemset_AVpair_our_study[["DATEENDPREGNANCY"]][[files[i]]][["University_of_Aarhus"]]<- list(list("MFR", "Foedselsdato"))
     # itemset_AVpair_our_study[["DATEENDPREGNANCY"]][[files[i]]][["University_of_Dundee"]]<- list()
@@ -220,14 +220,14 @@ for (i in 1:length(files)) {
     # itemset_AVpair_our_study[["END_LIVEBIRTH"]][[files[i]]][["LAREB"]] <- list()
     # itemset_AVpair_our_study[["END_LIVEBIRTH"]][[files[i]]][["PHARMO"]] <- list(list("PHARMO", "DDGEB"))
     itemset_AVpair_our_study[["END_LIVEBIRTH"]][[files[i]]][["BIPS"]] <- list() 
-    itemset_AVpair_our_study[["END_LIVEBIRTH"]][[files[i]]][["FISABIO"]] <- list()
+    itemset_AVpair_our_study[["END_LIVEBIRTH"]][[files[i]]][["FISABIO"]] <- list(list("RMPCV", "FechaNacNino")) #!!
     itemset_AVpair_our_study[["END_LIVEBIRTH"]][[files[i]]][["SIDIAP"]] <- list()
     # # itemset_AVpair_our_study[["END_LIVEBIRTH"]][[files[i]]][["FERR"]] <- list()
     itemset_AVpair_our_study[["END_LIVEBIRTH"]][[files[i]]][["CNR-IFC"]] <- list() 
     itemset_AVpair_our_study[["END_LIVEBIRTH"]][[files[i]]][["UNIME"]] <- list()
-    # itemset_AVpair_our_study[["END_LIVEBIRTH"]][[files[i]]][["MMC Saxony-Anhalt"]] <- list(list("MMCSaxony-Anhalt","BIRTH_DATE")) #TYPE
+    # itemset_AVpair_our_study[["END_LIVEBIRTH"]][[files[i]]][["MMC Saxony-Anhalt"]] <- list() 
     itemset_AVpair_our_study[["END_LIVEBIRTH"]][[files[i]]][["THL"]] <- list() 
-    # itemset_AVpair_our_study[["END_LIVEBIRTH"]][[files[i]]][["USWAN"]] <- list(list("ONS",""))
+    # itemset_AVpair_our_study[["END_LIVEBIRTH"]][[files[i]]][["USWAN"]] <- list()
     itemset_AVpair_our_study[["END_LIVEBIRTH"]][[files[i]]][["CPRD"]] <- list()
     itemset_AVpair_our_study[["END_LIVEBIRTH"]][[files[i]]][["BIFAP"]] <- list()
     
@@ -244,14 +244,14 @@ for (i in 1:length(files)) {
     # itemset_AVpair_our_study[["END_STILLBIRTH"]][[files[i]]][["LAREB"]] <- list()
     # itemset_AVpair_our_study[["END_STILLBIRTH"]][[files[i]]][["PHARMO"]] <- list() 
     itemset_AVpair_our_study[["END_STILLBIRTH"]][[files[i]]][["BIPS"]] <- list() 
-    itemset_AVpair_our_study[["END_STILLBIRTH"]][[files[i]]][["FISABIO"]] <- list()
+    itemset_AVpair_our_study[["END_STILLBIRTH"]][[files[i]]][["FISABIO"]] <- list("RMPCV", "FechaNacNino") #!!
     itemset_AVpair_our_study[["END_STILLBIRTH"]][[files[i]]][["SIDIAP"]] <- list()
     # # itemset_AVpair_our_study[["END_STILLBIRTH"]][[files[i]]][["FERR"]] <- list()
     itemset_AVpair_our_study[["END_STILLBIRTH"]][[files[i]]][["CNR-IFC"]] <- list() 
     itemset_AVpair_our_study[["END_STILLBIRTH"]][[files[i]]][["UNIME"]] <- list()
     # itemset_AVpair_our_study[["END_STILLBIRTH"]][[files[i]]][["MMC Saxony-Anhalt"]] <- list(list("MMCSaxony-Anhalt","BIRTH_DATE")) #TYPE
     itemset_AVpair_our_study[["END_STILLBIRTH"]][[files[i]]][["THL"]] <- list() 
-    # itemset_AVpair_our_study[["END_STILLBIRTH"]][[files[i]]][["USWAN"]] <- list(list("ONS",""))
+    # itemset_AVpair_our_study[["END_STILLBIRTH"]][[files[i]]][["USWAN"]] <- list()
     itemset_AVpair_our_study[["END_STILLBIRTH"]][[files[i]]][["CPRD"]] <- list()
     itemset_AVpair_our_study[["END_STILLBIRTH"]][[files[i]]][["BIFAP"]] <- list()
     
@@ -292,7 +292,7 @@ for (i in 1:length(files)) {
     # itemset_AVpair_our_study[["END_ABORTION"]][[files[i]]][["LAREB"]] <- list()
     # itemset_AVpair_our_study[["END_ABORTION"]][[files[i]]][["PHARMO"]] <- list() 
     itemset_AVpair_our_study[["END_ABORTION"]][[files[i]]][["BIPS"]] <- list() 
-    itemset_AVpair_our_study[["END_ABORTION"]][[files[i]]][["FISABIO"]] <- list()
+    itemset_AVpair_our_study[["END_ABORTION"]][[files[i]]][["FISABIO"]] <- list(list("RMPCV", "Fecham"))
     itemset_AVpair_our_study[["END_ABORTION"]][[files[i]]][["SIDIAP"]] <- list() 
     # # itemset_AVpair_our_study[["END_ABORTION"]][[files[i]]][["FERR"]] <- list()
     itemset_AVpair_our_study[["END_ABORTION"]][[files[i]]][["CNR-IFC"]] <- list() 
