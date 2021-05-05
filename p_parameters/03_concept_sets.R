@@ -123,13 +123,11 @@ concept_set_codes_our_study_procedure[["ARS"]][["gestational_diabetes"]][["ITA_p
 
 
 ####### Codes for fetal nuchal translucency ###############
-concept_set_codes_our_study_procedure[["ARS"]][["fetal_nuchal_translucency"]][[""]] <- c("") # maybe also MA1AE 
 #concept_set_codes_our_study_procedure[["fetal_nuchal_translucency"]][["THL"]][[""]] <- c("MA2JE") # maybe also MA1AE 
 
 
 ####### Codes for amniocentesis ###############
 concept_set_codes_our_study_procedure[["ARS"]][["amniocentesis"]][["ITA_procedures_coding_system"]] <- c("75.10.2", "75.10.3")
-#concept_set_codes_our_study_procedure[["amniocentesis"]][["UNIME"]][["ITA_procedures_coding_system"]] <- c("88.78")
 #concept_set_codes_our_study_procedure[["amniocentesis"]][["THL"]][[""]] <- c("MAA00")
 
 
@@ -141,7 +139,7 @@ concept_set_codes_our_study_procedure[["ARS"]][["Chorionic_Villus_Sampling"]][["
 
 # ####### Codes for tests for others ###############
 concept_set_codes_our_study_procedure[["ARS"]][["others"]][["ITA_procedures_coding_system"]] <- c("75.34.1")
-#concept_set_codes_our_study_procedure[["others"]][["UNIME"]][["ICD9"]] <- c("645.1", "644.2", "650", "72.", "73.", "74.", "75.", "640.xx", "642.xx", "648.xx", "651.xx", "652.xx", "653.xx", "654.xx", "655.xx", "656.xx", "657.xx", "658.xx", "659.xx") 
+#concept_set_codes_our_study_procedure[["others"]][["UNIME"]][["ICD9"]] <- c("645.1", "644.2", "650", "72.xx", "73.xx", "74.xx", "75.xx", "640.xx", "642.xx", "648.xx", "651.xx", "652.xx", "653.xx", "654.xx", "655.xx", "656.xx", "657.xx", "658.xx", "659.xx") 
 #concept_set_codes_our_study_procedure[["others"]][["FISABIO"]][["ICD9"]] <- c("72.", "73.", "74.", "75.")
 #concept_set_codes_our_study_procedure[["others"]][["FISABIO"]][["ICD10"]] <- c("102", "109", "10A", "10D", "10E", "10H", "10J", "10P", "10Q", "10S", "10T", "10Y") #ICD-10-Spanish version, Chapter 1 Obstetricia
 
