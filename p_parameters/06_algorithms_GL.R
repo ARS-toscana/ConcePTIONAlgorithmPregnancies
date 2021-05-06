@@ -57,8 +57,8 @@ meaning_of_survey_our_study[["UNIME"]][["other"]]<-list()
 
 meaning_of_survey_our_study[["THL"]][["livebirth_or_stillbirth"]]<-list("birth_registry")
 meaning_of_survey_our_study[["THL"]][["ongoing_pregnancy"]]<-list()
-meaning_of_survey_our_study[["THL"]][["spontaneous_abortion"]]<-list("induced_termination_registry")
-meaning_of_survey_our_study[["THL"]][["induced_termination"]]<-list()
+meaning_of_survey_our_study[["THL"]][["spontaneous_abortion"]]<-list()
+meaning_of_survey_our_study[["THL"]][["induced_termination"]]<-list("induced_termination_registry")
 meaning_of_survey_our_study[["THL"]][["other"]]<-list()
 
 meaning_of_survey_our_study[["CPRD"]][["livebirth_or_stillbirth"]]<-list()
