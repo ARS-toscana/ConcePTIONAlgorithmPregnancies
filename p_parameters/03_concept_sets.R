@@ -9,7 +9,7 @@ for (conceptset in concept_sets_of_our_study){
 } 
 
 concept_set_codes_our_study<-vector(mode="list")
-concept_set_codes_our_study_excl<-vector(mode="list")
+#concept_set_codes_our_study_excl<-vector(mode="list")
 
 
 #--------------------------
