@@ -88,6 +88,9 @@ dataset_concept_sets<-dataset_concept_sets[!is.na(pregnancy_end_date) & is.na(pr
 dataset_concept_sets<-dataset_concept_sets[!is.na(pregnancy_end_date) & is.na(pregnancy_start_date) & type_of_pregnancy_end=="T",`:=`(pregnancy_start_date= pregnancy_end_date-70, imputed_start_of_pregnancy=1)]
 dataset_concept_sets<-dataset_concept_sets[!is.na(pregnancy_ongoing_date) & is.na(pregnancy_start_date),`:=`(pregnancy_start_date= pregnancy_ongoing_date-55, imputed_start_of_pregnancy=1)]
                                            
+# impute pregnancy_start_date and pregnancy_end_date when pregnancy_ongoing_date is not missing
+dataset_concept_sets<-dataset_concept_sets[!is.na(pregnancy_start_date) & is.na(pregnancy_ongoing_date),`:=`(pregnancy_start_date= pregnancy_ongoing_date-55, imputed_start_of_pregnancy=1)]
+dataset_concept_sets<-dataset_concept_sets[!is.na(pregnancy_end_date) & is.na(pregnancy_ongoing_date),`:=`(pregnancy_end_date= pregnancy_ongoing_date+280, imputed_end_of_pregnancy=1)]
 
 # create TOPFA var as empty and CONCEPTSETS and CONCEPTSET
 #dataset_concept_sets<-dataset_concept_sets[,TOPFA:=""]
@@ -96,11 +99,12 @@ setnames(dataset_concept_sets,"concept_set","CONCEPTSET")
 setnames(dataset_concept_sets,"date","record_date")
 
 dataset_concept_sets[is.na(imputed_start_of_pregnancy),imputed_start_of_pregnancy:=0]
+dataset_concept_sets[is.na(imputed_end_of_pregnancy),imputed_end_of_pregnancy:=0]
 # create variable pregnancy_id as survey_date
 dataset_concept_sets[,pregnancy_id:=paste0(visit_occurrence_id,"_",person_id,"_",record_date)] 
 
 # keep only vars neeed
-D3_Stream_CONCEPTSETS <- dataset_concept_sets[,.(pregnancy_id,person_id,record_date,pregnancy_start_date,pregnancy_ongoing_date,pregnancy_end_date,meaning_start_date,meaning_ongoing_date,meaning_end_date,type_of_pregnancy_end,meaning_of_event,imputed_start_of_pregnancy,visit_occurrence_id,CONCEPTSETS,CONCEPTSET)] # 
+D3_Stream_CONCEPTSETS <- dataset_concept_sets[,.(pregnancy_id,person_id,record_date,pregnancy_start_date,pregnancy_ongoing_date,pregnancy_end_date,meaning_start_date,meaning_ongoing_date,meaning_end_date,type_of_pregnancy_end,meaning_of_event,imputed_start_of_pregnancy,imputed_end_of_pregnancy,visit_occurrence_id,CONCEPTSETS,CONCEPTSET)] # 
 save(D3_Stream_CONCEPTSETS, file=paste0(dirtemp,"D3_Stream_CONCEPTSETS.RData"))
 
 
