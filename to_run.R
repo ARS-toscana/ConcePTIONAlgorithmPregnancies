@@ -47,7 +47,7 @@ source(paste0(thisdir,"/p_steps/step_03_03_T2.2_create_pregnancies_from_EUROCAT.
 source(paste0(thisdir,"/p_steps/step_03_05a_T2.2_internal_consistency_for_prompts.R")) 
 source(paste0(thisdir,"/p_steps/step_03_05b_T2.2_internal_consistency_for_conceptsets.R")) 
 source(paste0(thisdir,"/p_steps/step_03_05c_T2.2_internal_consistency_for_EUROCAT.R")) 
-source(paste0(thisdir,"/p_steps/step_03_05d_T2.2_internal_consistency_for_itemsets.R")) 
+#source(paste0(thisdir,"/p_steps/step_03_05d_T2.2_internal_consistency_for_itemsets.R")) #--> (empty now)
 
 source(paste0(thisdir,"/p_steps/step_03_06_T2.3_merge_stream_of_same_person.R")) 
 source(paste0(thisdir,"/p_steps/step_03_07_T2.2_process_pregnancies_excluded.R"))
