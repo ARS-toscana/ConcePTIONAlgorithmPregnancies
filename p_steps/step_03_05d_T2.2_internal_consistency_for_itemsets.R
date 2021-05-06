@@ -74,7 +74,7 @@ D3_study_population_pregnancy_from_ITEMSETS<-D3_study_population_pregnancy3[no_l
 
 
 
-D3_Stream_ITEMSETS_check<-D3_study_population_pregnancy_from_ITEMSETS[,.(pregnancy_id,person_id,record_date,pregnancy_start_date,pregnancy_end_date,meaning_start_date,meaning_end_date,type_of_pregnancy_end,survey_id,ITEMSETS)]#
+D3_Stream_ITEMSETS_check<-D3_study_population_pregnancy_from_ITEMSETS[,.(pregnancy_id,person_id,record_date,pregnancy_start_date,pregnancy_end_date,meaning_start_date,meaning_end_date,type_of_pregnancy_end,imputed_start_of_pregnancy,survey_id,ITEMSETS)]#
 save(D3_Stream_ITEMSETS_check, file=paste0(dirtemp,"D3_Stream_ITEMSETS_check.RData.RData"))
 
 
