@@ -170,6 +170,14 @@ firstYearComponentAnalysis = firstYearComponentAnalysis_datasource[[thisdatasour
 secondYearComponentAnalysis = secondYearComponentAnalysis_datasource[[thisdatasource]]
 
 
+datasources_with_itemsets_stream <- c("TEST","GePaRD") # MED_OBS
+#datasources_with_itemsets_stream <- c()
+this_datasource_has_itemsets_stream <- ifelse(thisdatasource %in% datasources_with_itemsets_stream,TRUE,FALSE) 
+
+datasources_with_itemset_linked_to_conceptset <- c("TEST","BIFAP") # MED_OBS
+#datasources_with_itemset_linked_to_conceptset <- c()
+this_datasource_has_itemset_linked_to_conceptset <- ifelse(thisdatasource %in% datasources_with_itemset_linked_to_conceptset,TRUE,FALSE) 
+
 ###################################################################
 # CREATE FOLDERS
 ###################################################################

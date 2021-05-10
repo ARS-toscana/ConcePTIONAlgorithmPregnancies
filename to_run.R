@@ -32,8 +32,8 @@ system.time(source(paste0(thisdir,"/p_steps/step_01_1_T2.1_create_conceptset_dat
 # #system.time(source(paste0(thisdir,"/p_steps/step_01_1_T2.1_create_conceptset_datasets_memory_optimizer.R")))
 system.time(source(paste0(thisdir,"/p_steps/step_01_2_T2.1_create_spells.R")))
 system.time(source(paste0(thisdir,"/p_steps/step_01_3_T2.1_create_dates_in_PERSONS.R"))) 
-system.time(source(paste0(thisdir,"/p_steps/step_01_4_T2.1_create_prompt_and_itemset_datasets.R")))
-#system.time(source(paste0(thisdir,"/p_steps/step_01_5_T2.1_create_itemsets_datasets.R"))) # -->empty now!!
+system.time(source(paste0(thisdir,"/p_steps/step_01_4_T2.1_create_prompt_datasets.R")))
+system.time(source(paste0(thisdir,"/p_steps/step_01_5_T2.1_create_itemsets_datasets.R"))) # -->empty now!!
 
 # 02 COUNT CODES 
 #system.time(source(paste0(thisdir,"/p_steps/step_02_T2.2_count_codes.R")))
