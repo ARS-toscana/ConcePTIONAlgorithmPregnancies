@@ -26,10 +26,18 @@ for (i in 1:length(files)) {
   }
 }
 
-ConcePTION_CDM_EAV_tables_retrieve <- vector(mode="list")
+ConcePTION_CDM_EAV_tables_retrieve_so <- vector(mode="list")
 
 for (i in 1:length(files)) {
-  if (str_detect(files[i],"^SURVEY_OB")) { ConcePTION_CDM_EAV_tables_retrieve[[(length(ConcePTION_CDM_EAV_tables_retrieve) + 1)]]<-list(list(files[i], "so_source_table", "so_source_column"))
+  if (str_detect(files[i],"^SURVEY_OB")) { ConcePTION_CDM_EAV_tables_retrieve_so[[(length(ConcePTION_CDM_EAV_tables_retrieve_so) + 1)]]<-list(list(files[i], "so_source_table", "so_source_column"))
+  #EAV_table<-append(EAV_table,files[i])
+  }
+}
+
+ConcePTION_CDM_EAV_tables_retrieve_mo <- vector(mode="list")
+
+for (i in 1:length(files)) {
+  if (str_detect(files[i],"^MEDICAL_OB")) { ConcePTION_CDM_EAV_tables_retrieve_o[[(length(ConcePTION_CDM_EAV_tables_retrieve_mo) + 1)]]<-list(list(files[i], "mo_source_table", "mo_source_column"))
   #EAV_table<-append(EAV_table,files[i])
   }
 }
