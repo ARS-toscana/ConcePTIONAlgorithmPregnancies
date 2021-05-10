@@ -49,7 +49,7 @@ source(paste0(dirmacro,"CreateConceptSetDatasets.R"))
 #source(paste0(dirmacro,"RetrieveRecordsFromEAVDatasets.R"))
 source(paste0(dirmacro,"CreateItemsetDatasets.R"))
 source(paste0(dirmacro,"MergeFilterAndCollapse_v5.R"))
-source(paste0(dirmacro,"CreateSpells_v10.R"))
+source(paste0(dirmacro,"CreateSpells_v13.R"))
 source(paste0(dirmacro,"CreateFlowChart.R"))
 source(paste0(dirmacro,"CountPersonTimeV10.2.R"))
 source(paste0(dirmacro,"ApplyComponentStrategy_v13_2.R"))
@@ -169,6 +169,14 @@ for (datas in c('ARS','BIFAP','AARHUS','GePaRD','PEDIANET','FISABIO','CPRD','SID
 firstYearComponentAnalysis = firstYearComponentAnalysis_datasource[[thisdatasource]]
 secondYearComponentAnalysis = secondYearComponentAnalysis_datasource[[thisdatasource]]
 
+
+datasources_with_itemsets_stream <- c("TEST","GePaRD") # MED_OBS
+#datasources_with_itemsets_stream <- c()
+this_datasource_has_itemsets_stream <- ifelse(thisdatasource %in% datasources_with_itemsets_stream,TRUE,FALSE) 
+
+datasources_with_itemset_linked_to_conceptset <- c("TEST","BIFAP") # MED_OBS
+#datasources_with_itemset_linked_to_conceptset <- c()
+this_datasource_has_itemset_linked_to_conceptset <- ifelse(thisdatasource %in% datasources_with_itemset_linked_to_conceptset,TRUE,FALSE) 
 
 ###################################################################
 # CREATE FOLDERS
