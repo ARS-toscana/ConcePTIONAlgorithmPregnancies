@@ -331,4 +331,5 @@ CreateConceptSetDatasets <- function(dataset,codvar,datevar,EAVtables,EAVattribu
       }
     }
   }
+  print(paste("Concept set datasets saved in",diroutput))
 }
