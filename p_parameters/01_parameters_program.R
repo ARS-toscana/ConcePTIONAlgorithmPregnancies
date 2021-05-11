@@ -49,7 +49,7 @@ source(paste0(dirmacro,"CreateConceptSetDatasets.R"))
 #source(paste0(dirmacro,"RetrieveRecordsFromEAVDatasets.R"))
 source(paste0(dirmacro,"CreateItemsetDatasets.R"))
 source(paste0(dirmacro,"MergeFilterAndCollapse_v5.R"))
-source(paste0(dirmacro,"CreateSpells_v13.R"))
+source(paste0(dirmacro,"CreateSpells_v14.R"))
 source(paste0(dirmacro,"CreateFlowChart.R"))
 source(paste0(dirmacro,"CountPersonTimeV10.2.R"))
 source(paste0(dirmacro,"ApplyComponentStrategy_v13_2.R"))
@@ -125,9 +125,8 @@ study_end_datasource[['FISABIO']] <- as.Date(as.character(20201130), date_format
 study_end_datasource[['CPRD']] <- as.Date(as.character(20200930), date_format)
 study_end_datasource[['SIDIAP']] <- as.Date(as.character(20200630), date_format)
 
-
-
 study_end <- study_end_datasource[[thisdatasource]]
+
 
 # study start coprimary_c and coprimary_d
 
@@ -169,6 +168,8 @@ for (datas in c('ARS','BIFAP','AARHUS','GePaRD','PEDIANET','FISABIO','CPRD','SID
 firstYearComponentAnalysis = firstYearComponentAnalysis_datasource[[thisdatasource]]
 secondYearComponentAnalysis = secondYearComponentAnalysis_datasource[[thisdatasource]]
 
+# gap allowed for CreateSpells
+gap_allowed_thisdatasource = ifelse(thisdatasource == "ARS",21,1)
 
 datasources_with_itemsets_stream <- c("TEST","GePaRD") # MED_OBS
 #datasources_with_itemsets_stream <- c()

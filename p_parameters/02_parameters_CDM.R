@@ -37,7 +37,7 @@ for (i in 1:length(files)) {
 ConcePTION_CDM_EAV_tables_retrieve_mo <- vector(mode="list")
 
 for (i in 1:length(files)) {
-  if (str_detect(files[i],"^MEDICAL_OB")) { ConcePTION_CDM_EAV_tables_retrieve_o[[(length(ConcePTION_CDM_EAV_tables_retrieve_mo) + 1)]]<-list(list(files[i], "mo_source_table", "mo_source_column"))
+  if (str_detect(files[i],"^MEDICAL_OB")) { ConcePTION_CDM_EAV_tables_retrieve_mo[[(length(ConcePTION_CDM_EAV_tables_retrieve_mo) + 1)]]<-list(list(files[i], "mo_source_table", "mo_source_column"))
   #EAV_table<-append(EAV_table,files[i])
   }
 }
