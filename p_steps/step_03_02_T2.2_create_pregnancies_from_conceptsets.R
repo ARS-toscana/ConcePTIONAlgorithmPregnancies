@@ -83,14 +83,20 @@ dataset_concept_sets<-dataset_concept_sets[!is.na(pregnancy_end_date) & concept_
 # impute pregnancy_start_date when pregnancy_end_date is not missing
 dataset_concept_sets<-dataset_concept_sets[!is.na(pregnancy_end_date) & is.na(pregnancy_start_date) & type_of_pregnancy_end=="LB" & concept_set=="Pre_term_birth",`:=`(pregnancy_start_date= pregnancy_end_date-245, imputed_start_of_pregnancy=1)]
 dataset_concept_sets<-dataset_concept_sets[!is.na(pregnancy_end_date) & is.na(pregnancy_start_date) & type_of_pregnancy_end=="LB" & concept_set=="Live_birth",`:=`(pregnancy_start_date= pregnancy_end_date-280, imputed_start_of_pregnancy=1)]
+dataset_concept_sets<-dataset_concept_sets[!is.na(pregnancy_end_date) & is.na(pregnancy_start_date) & type_of_pregnancy_end=="LB" & concept_set=="Birth",`:=`(pregnancy_start_date= pregnancy_end_date-280, imputed_start_of_pregnancy=1)]
+dataset_concept_sets<-dataset_concept_sets[!is.na(pregnancy_end_date) & is.na(pregnancy_start_date) & type_of_pregnancy_end=="SA",`:=`(pregnancy_start_date= pregnancy_end_date-70, imputed_start_of_pregnancy=1)]
 dataset_concept_sets<-dataset_concept_sets[!is.na(pregnancy_end_date) & is.na(pregnancy_start_date) & type_of_pregnancy_end=="SB",`:=`(pregnancy_start_date= pregnancy_end_date-196, imputed_start_of_pregnancy=1)]
 dataset_concept_sets<-dataset_concept_sets[!is.na(pregnancy_end_date) & is.na(pregnancy_start_date) & type_of_pregnancy_end=="ECT",`:=`(pregnancy_start_date= pregnancy_end_date-56, imputed_start_of_pregnancy=1)]
 dataset_concept_sets<-dataset_concept_sets[!is.na(pregnancy_end_date) & is.na(pregnancy_start_date) & type_of_pregnancy_end=="T",`:=`(pregnancy_start_date= pregnancy_end_date-70, imputed_start_of_pregnancy=1)]
+
+# impute pregnancy_start_date when pregnancy_ongoing_date is not missing
 dataset_concept_sets<-dataset_concept_sets[!is.na(pregnancy_ongoing_date) & is.na(pregnancy_start_date),`:=`(pregnancy_start_date= pregnancy_ongoing_date-55, imputed_start_of_pregnancy=1)]
                                            
-# impute pregnancy_start_date and pregnancy_end_date when pregnancy_ongoing_date is not missing
-dataset_concept_sets<-dataset_concept_sets[!is.na(pregnancy_start_date) & is.na(pregnancy_ongoing_date),`:=`(pregnancy_start_date= pregnancy_ongoing_date-55, imputed_start_of_pregnancy=1)]
-dataset_concept_sets<-dataset_concept_sets[!is.na(pregnancy_end_date) & is.na(pregnancy_ongoing_date),`:=`(pregnancy_end_date= pregnancy_ongoing_date+280, imputed_end_of_pregnancy=1)]
+# impute pregnancy_end_date when pregnancy_ongoing_date is not missing
+dataset_concept_sets<-dataset_concept_sets[!is.na(pregnancy_ongoing_date) & is.na(pregnancy_end_date),`:=`(pregnancy_end_date= pregnancy_start_date+280, imputed_end_of_pregnancy=1)]
+
+# impute pregnancy_end_date when pregnancy_start_date is not missing
+dataset_concept_sets<-dataset_concept_sets[!is.na(pregnancy_start_date) & is.na(pregnancy_end_date),`:=`(pregnancy_end_date= pregnancy_start_date+280, imputed_end_of_pregnancy=1)]
 
 # create TOPFA var as empty and CONCEPTSETS and CONCEPTSET
 #dataset_concept_sets<-dataset_concept_sets[,TOPFA:=""]
