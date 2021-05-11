@@ -11,17 +11,17 @@ meaning_of_survey_our_study[["UOSL"]][["birth_registry"]]<-list("birth_registry_
 meaning_of_survey_our_study[["UOSL"]][["spontaneous_abortion"]]<-list()
 meaning_of_survey_our_study[["UOSL"]][["termination"]]<-list()
 
-meaning_of_survey_our_study[["University_of_Aarhus"]][["birth_registry"]]<-list("birth_registry")
-meaning_of_survey_our_study[["University_of_Aarhus"]][["spontaneous_abortion"]]<-list()
-meaning_of_survey_our_study[["University_of_Aarhus"]][["termination"]]<-list()
+meaning_of_survey_our_study[["AARHUS"]][["birth_registry"]]<-list("birth_registry")
+meaning_of_survey_our_study[["AARHUS"]][["spontaneous_abortion"]]<-list()
+meaning_of_survey_our_study[["AARHUS"]][["termination"]]<-list()
 
 meaning_of_survey_our_study[["CHUT"]][["birth_registry"]]<-list("pregnancy_characteristics")
 meaning_of_survey_our_study[["CHUT"]][["spontaneous_abortion"]]<-list("pregnancy_characteristics")
 meaning_of_survey_our_study[["CHUT"]][["termination"]]<-list("pregnancy_characteristics")
 
-meaning_of_survey_our_study[["BIPS"]][["birth_registry"]]<-list("algorithm_pregnancy") 
-meaning_of_survey_our_study[["BIPS"]][["spontaneous_abortion"]]<-list("algorithm_pregnancy") 
-meaning_of_survey_our_study[["BIPS"]][["termination"]]<-list("algorithm_pregnancy") 
+meaning_of_survey_our_study[["GePaRD"]][["birth_registry"]]<-list("algorithm_pregnancy") 
+meaning_of_survey_our_study[["GePaRD"]][["spontaneous_abortion"]]<-list("algorithm_pregnancy") 
+meaning_of_survey_our_study[["GePaRD"]][["termination"]]<-list("algorithm_pregnancy") 
 
 meaning_of_survey_our_study[["BIFAP"]][["birth_registry"]]<-list("algorithm_pregnancy")
 meaning_of_survey_our_study[["BIFAP"]][["spontaneous_abortion"]]<-list("algorithm_pregnancy")
@@ -51,7 +51,9 @@ meaning_of_survey_our_study[["CNR-IFC"]][["birth_registry"]]<-list("birth_regist
 meaning_of_survey_our_study[["CNR-IFC"]][["spontaneous_abortion"]]<-list()
 meaning_of_survey_our_study[["CNR-IFC"]][["termination"]]<-list()
 
-
+meaning_of_survey_our_study[["PEDIANET"]][["birth_registry"]]<-list()
+meaning_of_survey_our_study[["PEDIANET"]][["spontaneous_abortion"]]<-list()
+meaning_of_survey_our_study[["PEDIANET"]][["termination"]]<-list()
 
 meaning_of_survey_our_study_this_datasource<-vector(mode="list")
 
@@ -78,13 +80,13 @@ dictonary_of_itemset[["TYPE"]][["UOSL"]][["MD"]]<-list()
 dictonary_of_itemset[["TYPE"]][["UOSL"]][["ECT"]]<-list()
 dictonary_of_itemset[["TYPE"]][["UOSL"]][["UNK"]]<-list()
 
-dictonary_of_itemset[["University_of_Aarhus"]][["LB"]]<-list(list("MFR", "1"))
-dictonary_of_itemset[["University_of_Aarhus"]][["SB"]]<-list(list("MFR", "0"))
-dictonary_of_itemset[["University_of_Aarhus"]][["SA"]]<-list()
-dictonary_of_itemset[["University_of_Aarhus"]][["T"]]<-list()
-dictonary_of_itemset[["University_of_Aarhus"]][["MD"]]<-list()
-dictonary_of_itemset[["University_of_Aarhus"]][["ECT"]]<-list()
-dictonary_of_itemset[["University_of_Aarhus"]][["UNK"]]<-list()
+dictonary_of_itemset[["TYPE"]][["AARHUS"]][["LB"]]<-list(list("MFR", "1"))
+dictonary_of_itemset[["TYPE"]][["AARHUS"]][["SB"]]<-list(list("MFR", "0"))
+dictonary_of_itemset[["TYPE"]][["AARHUS"]][["SA"]]<-list()
+dictonary_of_itemset[["TYPE"]][["AARHUS"]][["T"]]<-list()
+dictonary_of_itemset[["TYPE"]][["AARHUS"]][["MD"]]<-list()
+dictonary_of_itemset[["TYPE"]][["AARHUS"]][["ECT"]]<-list()
+dictonary_of_itemset[["TYPE"]][["AARHUS"]][["UNK"]]<-list()
 
 dictonary_of_itemset[["TYPE"]][["CHUT"]][["LB"]]<-list(list("EFEMERIS_ISSUE", "1"))
 dictonary_of_itemset[["TYPE"]][["CHUT"]][["SB"]]<-list(list("EFEMERIS_INTERRUPTION", "MFIU"), list("EFEMERIS_INTERRUPTION", "MORT-NES"))
@@ -94,13 +96,13 @@ dictonary_of_itemset[["TYPE"]][["CHUT"]][["MD"]]<-list()
 dictonary_of_itemset[["TYPE"]][["CHUT"]][["ECT"]]<-list()
 dictonary_of_itemset[["TYPE"]][["CHUT"]][["UNK"]]<-list(list("EFEMERIS_INTERRUPTION", "AUTRE"))
 
-dictonary_of_itemset[["TYPE"]][["BIPS"]][["LB"]]<-list(list("T_PREG", "1"), list("T_PREG", "2"), list("T_PREG", "3"))
-dictonary_of_itemset[["TYPE"]][["BIPS"]][["SB"]]<-list(list("T_PREG", "4"))
-dictonary_of_itemset[["TYPE"]][["BIPS"]][["SA"]]<-list(list("T_PREG", "7"))
-dictonary_of_itemset[["TYPE"]][["BIPS"]][["T"]]<-list(list("T_PREG", "5"))
-dictonary_of_itemset[["TYPE"]][["BIPS"]][["MD"]]<-list()
-dictonary_of_itemset[["TYPE"]][["BIPS"]][["ECT"]]<-list()
-dictonary_of_itemset[["TYPE"]][["BIPS"]][["UNK"]]<-list()
+dictonary_of_itemset[["TYPE"]][["GePaRD"]][["LB"]]<-list(list("T_PREG", "1"), list("T_PREG", "2"), list("T_PREG", "3"))
+dictonary_of_itemset[["TYPE"]][["GePaRD"]][["SB"]]<-list(list("T_PREG", "4"))
+dictonary_of_itemset[["TYPE"]][["GePaRD"]][["SA"]]<-list(list("T_PREG", "7"))
+dictonary_of_itemset[["TYPE"]][["GePaRD"]][["T"]]<-list(list("T_PREG", "5"))
+dictonary_of_itemset[["TYPE"]][["GePaRD"]][["MD"]]<-list()
+dictonary_of_itemset[["TYPE"]][["GePaRD"]][["ECT"]]<-list()
+dictonary_of_itemset[["TYPE"]][["GePaRD"]][["UNK"]]<-list()
 
 dictonary_of_itemset[["TYPE"]][["BIFAP"]][["LB"]]<-list(list("EMB_BIFAP", "1"))
 dictonary_of_itemset[["TYPE"]][["BIFAP"]][["SB"]]<-list(list("EMB_BIFAP", "2"))
@@ -157,6 +159,14 @@ dictonary_of_itemset[["TYPE"]][["CPRD"]][["T"]]<-list(list("PregnancyRegister", 
 dictonary_of_itemset[["TYPE"]][["CPRD"]][["MD"]]<-list()
 dictonary_of_itemset[["TYPE"]][["CPRD"]][["ECT"]]<-list()
 dictonary_of_itemset[["TYPE"]][["CPRD"]][["UNK"]]<-list(list("PregnancyRegister", "13"))
+
+dictonary_of_itemset[["TYPE"]][["PEDIANET"]][["LB"]]<-list() 
+dictonary_of_itemset[["TYPE"]][["PEDIANET"]][["SB"]]<-list()
+dictonary_of_itemset[["TYPE"]][["PEDIANET"]][["SA"]]<-list()
+dictonary_of_itemset[["TYPE"]][["PEDIANET"]][["T"]]<-list()
+dictonary_of_itemset[["TYPE"]][["PEDIANET"]][["MD"]]<-list()
+dictonary_of_itemset[["TYPE"]][["PEDIANET"]][["ECT"]]<-list()
+dictonary_of_itemset[["TYPE"]][["PEDIANET"]][["UNK"]]<-list()
 
 dictonary_of_itemset_this_datasource<-vector(mode="list")
 
