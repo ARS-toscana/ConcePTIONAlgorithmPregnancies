@@ -56,6 +56,8 @@ source(paste0(dirmacro,"ApplyComponentStrategy_v13_2.R"))
 source(paste0(dirmacro,"CreateFigureComponentStrategy_v4.R"))
 source(paste0(dirmacro,"DRECountThresholdV3.R"))
 
+# datasources
+datasources<-c("ARS", "UOSL", "GePaRD", "BIFAP", "FISABIO", "SIDIAP", "CNR-IFC", "CHUT", "UNIME", "CPRD", "THL")
 
 #other parameters
 
