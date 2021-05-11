@@ -11,7 +11,7 @@ if (dim(SURVEY_ID_BR)[1]!=0){
   
   # APPLY RetrieveRecordsFromEAVDatasets TO SURVEY_OBSERVATIONS TO RETRIEVE ALL itemsets IS ASSOCIATED WITH THE STUDY VARIABLES ('LMP', 'USOUNDS',...)
   
-  CreateItemsetDatasets(EAVtables = ConcePTION_CDM_EAV_tables_retrieve,
+  CreateItemsetDatasets(EAVtables = ConcePTION_CDM_EAV_tables_retrieve_so,
                         datevar= ConcePTION_CDM_datevar_retrieve,
                         dateformat= "YYYYmmdd",
                         rename_col = list(person_id=person_id,date=date),
@@ -33,17 +33,39 @@ if (dim(SURVEY_ID_BR)[1]!=0){
 rm(SURVEY_ID_BR)
 
 
-## aggiungi itemset per Stream 4 -> BIPS
+## add itemset for Stream 4 -> BIPS
 if (this_datasource_has_itemsets_stream){
+  print("this datasource HAS itemsets stream")
   
+  CreateItemsetDatasets(EAVtables = ConcePTION_CDM_EAV_tables_retrieve_mo,
+                        datevar= ConcePTION_CDM_datevar_retrieve,
+                        dateformat= "YYYYmmdd",
+                        rename_col = list(person_id=person_id,date=date),
+                        study_variable_names = study_variables_of_our_study,
+                        itemset = itemset_AVpair_our_study_this_datasource, 
+                        dirinput = dirinput,
+                        diroutput = dirtemp,
+                        extension = c("csv"))
 } else {
   print("this datasource has NO itemsets stream")
 }
 
-## aggiungi itemset che ci agganciano a concept_set -> BIFAP
+
+## add itemset that liked with concept_set -> BIFAP from medical_observation
 if (this_datasource_has_itemset_linked_to_conceptset){
+  print("this datasource HAS itemsets linked to conceptset")
   
-}else {
+  CreateItemsetDatasets(EAVtables = ConcePTION_CDM_EAV_tables_retrieve_mo,
+                        datevar= ConcePTION_CDM_datevar_retrieve,
+                        dateformat= "YYYYmmdd",
+                        rename_col = list(person_id=person_id,date=date),
+                        study_variable_names = study_variables_of_our_study,
+                        itemset = itemset_AVpair_our_study_this_datasource, 
+                        dirinput = dirinput,
+                        diroutput = dirtemp,
+                        extension = c("csv"))
+  
+} else {
   print("this datasource has NO itemsets linked to conceptset")
 }
   
