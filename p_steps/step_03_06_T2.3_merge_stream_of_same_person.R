@@ -7,7 +7,6 @@ for (i in 1:length(files)) {
         load(paste0(dirtemp,files[i],".RData")) 
     }
 } 
-
 if(dim(D3_Stream_PROMPTS_check)[1]==0) {
     D3_Stream_PROMPTS_check<-data.table(PROMPT=character(0))
 }
@@ -91,10 +90,10 @@ groups_of_pregnancies<-groups_of_pregnancies[CONCEPTSETS=="yes" & CONCEPTSET=="S
 groups_of_pregnancies<-groups_of_pregnancies[CONCEPTSETS=="yes" & CONCEPTSET=="Interruption" & coloured_order=="2_yellow",order_quality:=10]
 groups_of_pregnancies<-groups_of_pregnancies[CONCEPTSETS=="yes" & CONCEPTSET=="Spontaneousabortion" & coloured_order=="2_yellow",order_quality:=11]
 
-#groups_of_pregnancies<-groups_of_pregnancies[coloured_order=="3_blue",order_quality:=12]
+groups_of_pregnancies<-groups_of_pregnancies[coloured_order=="3_blue",order_quality:=12]
 
-groups_of_pregnancies<-groups_of_pregnancies[CONCEPTSETS=="yes" & coloured_order=="4_red",order_quality:=13] # & pregnancy_ongoing_date *INIZIA PER* from_conceptset_procedures
-groups_of_pregnancies<-groups_of_pregnancies[CONCEPTSETS=="yes" & is.na(pregnancy_ongoing_date),order_quality:=13] # & meaning_of_event=="specialist visit"
+groups_of_pregnancies<-groups_of_pregnancies[CONCEPTSETS=="yes" & str_detect(meaning_ongoing_date,"^from_conceptset_procedures") & coloured_order=="4_red",order_quality:=13] 
+groups_of_pregnancies<-groups_of_pregnancies[CONCEPTSETS=="yes" & is.na(order_quality) & !is.na(pregnancy_ongoing_date),order_quality:=13] # & meaning_of_event=="specialist visit"
 
 table(groups_of_pregnancies[,order_quality], useNA = "ifany")
 
