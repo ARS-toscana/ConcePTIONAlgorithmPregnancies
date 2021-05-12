@@ -17,8 +17,8 @@
 #' NOTE: Developed under R 3.6.1
 
 
-CreateSpells<-function(dataset,id,start_date,end_date,category,category_is_numeric=F,replace_missing_end_date,
-                       overlap=F,dataset_overlap,only_overlaps=F,gap_allowed = 1){
+CreateSpells<-function(dataset, id, start_date, end_date, category, category_is_numeric=F, replace_missing_end_date,
+                       overlap=F, dataset_overlap = "df_overlap", only_overlaps=F, gap_allowed = 1){
   if (!require("dplyr")) install.packages("dplyr")
   library(dplyr)
   if (!require("RcppAlgos")) install.packages("RcppAlgos")
@@ -120,7 +120,8 @@ CreateSpells<-function(dataset,id,start_date,end_date,category,category_is_numer
     #	For each pair of values A and B, create two temporary datasets
     #vec<-c(id)
     #dataset<-dataset[, .SD[length(unique(get(category))) > 1], keyby = vec]
-    for (i in nrow(permut)) {
+
+    for (i in seq_len(nrow(permut))) {
 
       p_1 <- permut[i, 1]
       p_2 <- permut[i, 2]
@@ -149,10 +150,10 @@ CreateSpells<-function(dataset,id,start_date,end_date,category,category_is_numer
       }
 
       CAT <- CAT[, `:=`(entry_spell_category = max(get(ens_1), get(ens_2)),
-                        exit_spell_category = min(get(exs_1), get(exs_2)),
-                        category = paste(p_1, p_2, sep = "_"))]
+                        exit_spell_category = min(get(exs_1), get(exs_2))), by = id]
+      CAT <- CAT[, (category) := paste(p_1, p_2, sep = "_")]
       # CAT<-CAT[!grepl("NA", category)]
-      CAT <- CAT[order(get(id), entry_spell_category)][, c(..id, "entry_spell_category", "exit_spell_category", "category")]
+      CAT <- CAT[order(get(id), entry_spell_category)][, c(..id, "entry_spell_category", "exit_spell_category", ..category)]
       CAT <- CAT[, num_spell := rowid(get(id))]
 
       export_df <- rbind(export_df, CAT)
