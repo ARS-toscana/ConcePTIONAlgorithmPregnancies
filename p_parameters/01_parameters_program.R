@@ -7,7 +7,8 @@
 #setwd("..")
 #setwd("..")
 dirbase<-getwd()
-dirinput <- paste0(dirbase,"/i_input/")
+#dirinput <- paste0(dirbase,"/i_input/")
+dirinput <- paste0(dirbase,"/i_input_test/")
 
 # set other directories
 diroutput <- paste0(thisdir,"/g_output/")
@@ -173,10 +174,12 @@ secondYearComponentAnalysis = secondYearComponentAnalysis_datasource[[thisdataso
 # gap allowed for CreateSpells
 gap_allowed_thisdatasource = ifelse(thisdatasource == "ARS",21,1)
 
+#datasource with itemsets stream
 datasources_with_itemsets_stream <- c("TEST","GePaRD") # MED_OBS
 #datasources_with_itemsets_stream <- c()
 this_datasource_has_itemsets_stream <- ifelse(thisdatasource %in% datasources_with_itemsets_stream,TRUE,FALSE) 
 
+# datasources with itemset linked to conceptset
 datasources_with_itemset_linked_to_conceptset <- c("TEST","BIFAP") # MED_OBS
 #datasources_with_itemset_linked_to_conceptset <- c()
 this_datasource_has_itemset_linked_to_conceptset <- ifelse(thisdatasource %in% datasources_with_itemset_linked_to_conceptset,TRUE,FALSE) 
