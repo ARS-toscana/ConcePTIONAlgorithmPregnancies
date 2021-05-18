@@ -21,8 +21,9 @@ if (dim(SURVEY_ID_BR)[1]!=0){
   for (studyvar in c(study_variables_end_of_pregnancy,study_variables_type_of_pregnancy,study_variables_start_of_pregnancy)){
     print(studyvar)
     studyvardataset <- get(studyvar)
-    dataset_pregnancies <- merge(dataset_pregnancies,studyvardataset[,.(survey_id,so_source_value)],by=c("survey_id"),all.x=T) #,"person_id"
+    dataset_pregnancies <- merge(dataset_pregnancies,studyvardataset[,.(survey_id,so_source_value,so_source_table)],by=c("survey_id"),all.x=T) #,"person_id"
     setnames(dataset_pregnancies,"so_source_value",studyvar)
+    setnames(dataset_pregnancies,"so_source_table",paste0("table_",studyvar))
   }
   
   # check if dataset is unique for person_id, survey_id and survey_date
@@ -46,7 +47,7 @@ if (dim(SURVEY_ID_BR)[1]!=0){
   dataset_pregnancies[,GESTAGE_FROM_LMP_DAYS:=as.numeric(unclass(GESTAGE_FROM_LMP_DAYS))]
   dataset_pregnancies[,GESTAGE_FROM_LMP_WEEKS:=as.numeric(unclass(GESTAGE_FROM_LMP_WEEKS))]
   
-  ## HANDLE EXCEPTIONFOR DAPs
+  ## HANDLE EXCEPTION FOR DAPs
   # transform to NA incorrect values'
   if(thisdatasource=="ARS"){
     dataset_pregnancies<-dataset_pregnancies[GESTAGE_FROM_LMP_WEEKS==99,GESTAGE_FROM_LMP_WEEKS:=NA]
@@ -64,11 +65,11 @@ if (dim(SURVEY_ID_BR)[1]!=0){
   
   # create variable end of pregnancy as survey_date
   #dataset_pregnancies[,end_of_pregnancy:=survey_date]
-  dataset_pregnancies2<-dataset_pregnancies[,pregnancy_end_date:=as.Date(DATEENDPREGNANCY)][!is.na(pregnancy_end_date),meaning_end_date:=survey_meaning]
-  dataset_pregnancies2[is.na(pregnancy_end_date),pregnancy_end_date:=END_LIVEBIRTH][!is.na(pregnancy_end_date) & is.na(meaning_end_date),meaning_end_date:=survey_meaning]
-  dataset_pregnancies2[is.na(pregnancy_end_date),pregnancy_end_date:=END_STILLBIRTH][!is.na(pregnancy_end_date)& is.na(meaning_end_date),meaning_end_date:=survey_meaning]
-  dataset_pregnancies2[is.na(pregnancy_end_date),pregnancy_end_date:=END_TERMINATION][!is.na(pregnancy_end_date)& is.na(meaning_end_date),meaning_end_date:=survey_meaning]
-  dataset_pregnancies2[is.na(pregnancy_end_date),pregnancy_end_date:=END_ABORTION][!is.na(pregnancy_end_date)& is.na(meaning_end_date),meaning_end_date:=survey_meaning]
+  dataset_pregnancies2<-dataset_pregnancies[,pregnancy_end_date:=as.Date(DATEENDPREGNANCY)][!is.na(pregnancy_end_date),`:=`(meaning_end_date=survey_meaning, origin=table_DATEENDPREGNANCY)]
+  dataset_pregnancies2[is.na(pregnancy_end_date),pregnancy_end_date:=END_LIVEBIRTH][!is.na(pregnancy_end_date) & is.na(meaning_end_date),`:=`(meaning_end_date=survey_meaning, origin=table_END_LIVEBIRTH)]
+  dataset_pregnancies2[is.na(pregnancy_end_date),pregnancy_end_date:=END_STILLBIRTH][!is.na(pregnancy_end_date)& is.na(meaning_end_date),`:=`(meaning_end_date=survey_meaning, origin= table_END_STILLBIRTH)]
+  dataset_pregnancies2[is.na(pregnancy_end_date),pregnancy_end_date:=END_TERMINATION][!is.na(pregnancy_end_date)& is.na(meaning_end_date),`:=`(meaning_end_date=survey_meaning, origin=table_END_TERMINATION)]
+  dataset_pregnancies2[is.na(pregnancy_end_date),pregnancy_end_date:=END_ABORTION][!is.na(pregnancy_end_date)& is.na(meaning_end_date),`:=`(meaning_end_date=survey_meaning, origin=table_END_ABORTION)]
   
   # impute type for unclassified dates 
   dataset_pregnancies2[meaning_end_date==unlist(meaning_of_survey_our_study_this_datasource[["spontaneous_abortion"]]),type_of_pregnancy_end:="SA"] #is.na(type_of_pregnancy_end) & 
@@ -92,25 +93,28 @@ if (dim(SURVEY_ID_BR)[1]!=0){
   
   # create variable start of pregnancy as a hyerarchical procedure: first as DATESTARTPREGNANCY, then ultrasounds, etc
   dataset_pregnancies3<-dataset_pregnancies2[!is.na(DATESTARTPREGNANCY),pregnancy_start_date:=as.Date(DATESTARTPREGNANCY)]
-  dataset_pregnancies3[!is.na(pregnancy_start_date),meaning_start_date:=paste0("from_prompts_",survey_meaning)]
+  dataset_pregnancies3[!is.na(pregnancy_start_date),`:=`(meaning_start_date=paste0("from_prompts_",survey_meaning),origin=table_DATESTARTPREGNANCY)]
   
   dataset_pregnancies3[is.na(pregnancy_start_date) & !is.na(GESTAGE_FROM_DAPS_CRITERIA_DAYS),pregnancy_start_date:=pregnancy_end_date-as.numeric(GESTAGE_FROM_DAPS_CRITERIA_DAYS)]
-  dataset_pregnancies3[!is.na(pregnancy_start_date) & !is.na(GESTAGE_FROM_DAPS_CRITERIA_DAYS) & is.na(meaning_start_date),meaning_start_date:=paste0("from_prompts_","GESTAGE_FROM_DAPS_CRITERIA_DAYS")]
+  dataset_pregnancies3[!is.na(pregnancy_start_date) & !is.na(GESTAGE_FROM_DAPS_CRITERIA_DAYS) & is.na(meaning_start_date),`:=`(meaning_start_date=paste0("from_prompts_","GESTAGE_FROM_DAPS_CRITERIA_DAYS"),origin=table_GESTAGE_FROM_DAPS_CRITERIA_DAYS)]
   
   dataset_pregnancies3[is.na(pregnancy_start_date) & !is.na(GESTAGE_FROM_DAPS_CRITERIA_WEEKS),pregnancy_start_date:=pregnancy_end_date-as.numeric(GESTAGE_FROM_DAPS_CRITERIA_WEEKS)*7]
-  dataset_pregnancies3[!is.na(pregnancy_start_date) & !is.na(GESTAGE_FROM_DAPS_CRITERIA_WEEKS) & is.na(meaning_start_date),meaning_start_date:=paste0("from_prompts_","GESTAGE_FROM_DAPS_CRITERIA_WEEKS")]
+  dataset_pregnancies3[!is.na(pregnancy_start_date) & !is.na(GESTAGE_FROM_DAPS_CRITERIA_WEEKS) & is.na(meaning_start_date),`:=`(meaning_start_date=paste0("from_prompts_","GESTAGE_FROM_DAPS_CRITERIA_WEEKS"),origin=table_GESTAGE_FROM_DAPS_CRITERIA_WEEKS)]
   
   dataset_pregnancies3[is.na(pregnancy_start_date) & !is.na(GESTAGE_FROM_USOUNDS_DAYS),pregnancy_start_date:=pregnancy_end_date-as.numeric(GESTAGE_FROM_USOUNDS_DAYS)]
-  dataset_pregnancies3[!is.na(pregnancy_start_date) & !is.na(GESTAGE_FROM_USOUNDS_DAYS) & is.na(meaning_start_date),meaning_start_date:=paste0("from_prompts_","GESTAGE_FROM_USOUNDS_DAYS")]
+  dataset_pregnancies3[!is.na(pregnancy_start_date) & !is.na(GESTAGE_FROM_USOUNDS_DAYS) & is.na(meaning_start_date),`:=`(meaning_start_date=paste0("from_prompts_","GESTAGE_FROM_USOUNDS_DAYS"),origin=table_GESTAGE_FROM_USOUNDS_DAYS)]
   
   dataset_pregnancies3[is.na(pregnancy_start_date) & !is.na(GESTAGE_FROM_USOUNDS_WEEKS),pregnancy_start_date:=pregnancy_end_date-as.numeric(GESTAGE_FROM_USOUNDS_WEEKS)*7]
-  dataset_pregnancies3[!is.na(pregnancy_start_date) & !is.na(GESTAGE_FROM_USOUNDS_WEEKS) & is.na(meaning_start_date), meaning_start_date:=paste0("from_prompts_","GESTAGE_FROM_USOUNDS_WEEKS")]
+  dataset_pregnancies3[!is.na(pregnancy_start_date) & !is.na(GESTAGE_FROM_USOUNDS_WEEKS) & is.na(meaning_start_date),`:=`(meaning_start_date=paste0("from_prompts_","GESTAGE_FROM_USOUNDS_WEEKS"),origin=table_GESTAGE_FROM_USOUNDS_WEEKS)]
   
   dataset_pregnancies3[is.na(pregnancy_start_date) & !is.na(GESTAGE_FROM_LMP_DAYS),pregnancy_start_date:=pregnancy_end_date-as.numeric(GESTAGE_FROM_LMP_DAYS)]
-  dataset_pregnancies3[!is.na(pregnancy_start_date) & !is.na(GESTAGE_FROM_LMP_DAYS) & is.na(meaning_start_date),meaning_start_date:=paste0("from_prompts_","GESTAGE_FROM_LMP_DAYS")]
+  dataset_pregnancies3[!is.na(pregnancy_start_date) & !is.na(GESTAGE_FROM_LMP_DAYS) & is.na(meaning_start_date),`:=`(meaning_start_date=paste0("from_prompts_","GESTAGE_FROM_LMP_DAYS"), origin=table_GESTAGE_FROM_LMP_DAYS)]
   
   dataset_pregnancies3[is.na(pregnancy_start_date) & !is.na(GESTAGE_FROM_LMP_WEEKS),pregnancy_start_date:=pregnancy_end_date-(GESTAGE_FROM_LMP_WEEKS*7)]
-  dataset_pregnancies3[!is.na(pregnancy_start_date) & !is.na(GESTAGE_FROM_LMP_WEEKS) & is.na(meaning_start_date),meaning_start_date:=paste0("from_prompts_","GESTAGE_FROM_LMP_WEEKS")]
+  dataset_pregnancies3[!is.na(pregnancy_start_date) & !is.na(GESTAGE_FROM_LMP_WEEKS) & is.na(meaning_start_date),`:=`(meaning_start_date=paste0("from_prompts_","GESTAGE_FROM_LMP_WEEKS"),origin=table_GESTAGE_FROM_LMP_WEEKS)]
+  
+
+  
   
   
   
@@ -126,12 +130,13 @@ if (dim(SURVEY_ID_BR)[1]!=0){
   # create TOPFA var as empty and PROMPT
   #dataset_pregnancies3[,TOPFA:=""]
   dataset_pregnancies3[,PROMPT:="yes"]
+  dataset_pregnancies3[,meaning:=""]
   
   # rename survey_date in record_date
   setnames(dataset_pregnancies3,"survey_date","record_date")
   
   # keep only vars neeed
-  D3_Stream_PROMPTS <- dataset_pregnancies3[,.(pregnancy_id,person_id,record_date,survey_id,pregnancy_start_date,pregnancy_end_date,meaning_start_date,meaning_end_date,imputed_start_of_pregnancy,type_of_pregnancy_end,PROMPT)] 
+  D3_Stream_PROMPTS <- dataset_pregnancies3[,.(pregnancy_id,person_id,record_date,survey_id,pregnancy_start_date,pregnancy_end_date,meaning_start_date,meaning_end_date,imputed_start_of_pregnancy,type_of_pregnancy_end,origin,meaning,PROMPT)] 
   save(D3_Stream_PROMPTS, file=paste0(dirtemp,"D3_Stream_PROMPTS.RData"))
   
   
