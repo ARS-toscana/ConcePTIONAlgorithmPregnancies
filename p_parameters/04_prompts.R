@@ -38,6 +38,9 @@ for (i in 1:length(files)) {
     itemset_AVpair_our_study[["GESTAGE_FROM_DAPS_CRITERIA_WEEKS"]][[files[i]]][["BIFAP"]] <- list()
     #itemset_AVpair_our_study[["GESTAGE_FROM_DAPS_CRITERIA_WEEKS"]][[files[i]]][["PEDIANET"]] <- list()
     
+    itemset_AVpair_our_study[["GESTAGE_FROM_DAPS_CRITERIA_WEEKS"]][[files[i]]][["TEST"]] <- list()
+    
+    
     
     ### specification GESTAGE_FROM_DAPS_CRITERIA_DAYS
     itemset_AVpair_our_study[["GESTAGE_FROM_DAPS_CRITERIA_DAYS"]][[files[i]]][["ARS"]] <- list()
@@ -62,6 +65,9 @@ for (i in 1:length(files)) {
     itemset_AVpair_our_study[["GESTAGE_FROM_DAPS_CRITERIA_DAYS"]][[files[i]]][["CPRD"]] <- list(list("PregnancyRegister", "Gestdays"))
     itemset_AVpair_our_study[["GESTAGE_FROM_DAPS_CRITERIA_DAYS"]][[files[i]]][["BIFAP"]] <- list()
     #itemset_AVpair_our_study[["GESTAGE_FROM_DAPS_CRITERIA_DAYS"]][[files[i]]][["PEDIANET"]] <- list()
+    
+    itemset_AVpair_our_study[["GESTAGE_FROM_DAPS_CRITERIA_DAYS"]][[files[i]]][["TEST"]] <- list()
+    
     
     
     ### specification GESTAGE_FROM_LMP_WEEK
@@ -88,6 +94,10 @@ for (i in 1:length(files)) {
     itemset_AVpair_our_study[["GESTAGE_FROM_LMP_WEEKS"]][[files[i]]][["BIFAP"]] <- list()
     #itemset_AVpair_our_study[["GESTAGE_FROM_LMP_WEEKS"]][[files[i]]][["PEDIANET"]] <- list()
     
+    itemset_AVpair_our_study[["GESTAGE_FROM_LMP_WEEKS"]][[files[i]]][["TEST"]] <- list()
+    
+    
+    
     # specification GESTAGE_FROM_LMP_DAYS
     itemset_AVpair_our_study[["GESTAGE_FROM_LMP_DAYS"]][[files[i]]][["ARS"]] <- list()
     itemset_AVpair_our_study[["GESTAGE_FROM_LMP_DAYS"]][[files[i]]][["UOSL"]] <- list(list("MBRN","SVLEN_SM_DG"))
@@ -111,6 +121,10 @@ for (i in 1:length(files)) {
     itemset_AVpair_our_study[["GESTAGE_FROM_LMP_DAYS"]][[files[i]]][["CPRD"]] <- list()
     itemset_AVpair_our_study[["GESTAGE_FROM_LMP_DAYS"]][[files[i]]][["BIFAP"]] <- list()
     #itemset_AVpair_our_study[["GESTAGE_FROM_LMP_DAYS"]][[files[i]]][["PEDIANET"]] <- list()
+    
+    itemset_AVpair_our_study[["GESTAGE_FROM_LMP_DAYS"]][[files[i]]][["TEST"]] <- list()
+    
+    
     
     # # specification GESTAGE_FROM_USOUNDS_DAYS
     itemset_AVpair_our_study[["GESTAGE_FROM_USOUNDS_DAYS"]][[files[i]]][["ARS"]] <- list()
@@ -136,6 +150,10 @@ for (i in 1:length(files)) {
     itemset_AVpair_our_study[["GESTAGE_FROM_USOUNDS_DAYS"]][[files[i]]][["BIFAP"]] <- list()
     #itemset_AVpair_our_study[["GESTAGE_FROM_USOUNDS_DAYS"]][[files[i]]][["PEDIANET"]] <- list()
     
+    itemset_AVpair_our_study[["GESTAGE_FROM_USOUNDS_DAYS"]][[files[i]]][["TEST"]] <- list()
+    
+    
+    
     # # specification GESTAGE_FROM_USOUNDS_WEEKS
     itemset_AVpair_our_study[["GESTAGE_FROM_USOUNDS_WEEKS"]][[files[i]]][["ARS"]]  <- list(list("CAP1","GEST_ECO"))
     itemset_AVpair_our_study[["GESTAGE_FROM_USOUNDS_WEEKS"]][[files[i]]][["UOSL"]] <- list()
@@ -159,6 +177,9 @@ for (i in 1:length(files)) {
     itemset_AVpair_our_study[["GESTAGE_FROM_USOUNDS_WEEKS"]][[files[i]]][["CPRD"]] <- list()
     itemset_AVpair_our_study[["GESTAGE_FROM_USOUNDS_WEEKS"]][[files[i]]][["BIFAP"]] <- list()
     #itemset_AVpair_our_study[["GESTAGE_FROM_USOUNDS_WEEKS"]][[files[i]]][["PEDIANET"]] <- list()
+    
+    itemset_AVpair_our_study[["GESTAGE_FROM_USOUNDS_WEEKS"]][[files[i]]][["TEST"]] <- list()
+    
     
     
     # specification DATESTARTPREGNANCY
@@ -184,6 +205,9 @@ for (i in 1:length(files)) {
     itemset_AVpair_our_study[["DATESTARTPREGNANCY"]][[files[i]]][["CPRD"]] <- list(list("PregnancyRegister", "Pregstart"))
     itemset_AVpair_our_study[["DATESTARTPREGNANCY"]][[files[i]]][["BIFAP"]] <- list(list("EMB_BIFAP", "EMB_FUR_ORI"), list("EMB_BIFAP", "EMB_FUR_IMP"))
     #itemset_AVpair_our_study[["DATESTARTPREGNANCY"]][[files[i]]][["PEDIANET"]] <- list()
+    
+    itemset_AVpair_our_study[["DATESTARTPREGNANCY"]][[files[i]]][["TEST"]] <- list(list("T_PREG","PREG_BEG_EDD"), list("T_PREG","PREG_BEG_MED"), list("EMB_BIFAP", "EMB_FUR_ORI"), list("EMB_BIFAP", "EMB_FUR_IMP")) 
+    
     
     
     ########################################## END ###################################################### 
@@ -211,6 +235,9 @@ for (i in 1:length(files)) {
     itemset_AVpair_our_study[["DATEENDPREGNANCY"]][[files[i]]][["BIFAP"]] <- list(list("EMB_BIFAP", "EMB_F_FIN"))
     #itemset_AVpair_our_study[["DATEENDPREGNANCY"]][[files[i]]][["PEDIANET"]] <- list()
     
+    itemset_AVpair_our_study[["DATEENDPREGNANCY"]][[files[i]]][["TEST"]] <- list(list("T_PREG", "PREG_END"), list("EMB_BIFAP", "EMB_F_FIN"))
+    
+  
     
     ### specification END_LIVEBIRTH
     itemset_AVpair_our_study[["END_LIVEBIRTH"]][[files[i]]][["ARS"]] <- list()
@@ -235,6 +262,9 @@ for (i in 1:length(files)) {
     itemset_AVpair_our_study[["END_LIVEBIRTH"]][[files[i]]][["CPRD"]] <- list()
     itemset_AVpair_our_study[["END_LIVEBIRTH"]][[files[i]]][["BIFAP"]] <- list()
     #itemset_AVpair_our_study[["END_LIVEBIRTH"]][[files[i]]][["PEDIANET"]] <- list()
+    
+    itemset_AVpair_our_study[["END_LIVEBIRTH"]][[files[i]]][["TEST"]] <- list()
+    
     
     
     ### specification END_STILLBIRTH
@@ -261,6 +291,8 @@ for (i in 1:length(files)) {
     itemset_AVpair_our_study[["END_STILLBIRTH"]][[files[i]]][["BIFAP"]] <- list()
     #itemset_AVpair_our_study[["END_STILLBIRTH"]][[files[i]]][["PEDIANET"]] <- list()
     
+    itemset_AVpair_our_study[["END_STILLBIRTH"]][[files[i]]][["TEST"]] <- list()
+    
     
     # specification END_TERMINATION
     itemset_AVpair_our_study[["END_TERMINATION"]][[files[i]]][["ARS"]] <- list(list("IVG","DATAINT"))
@@ -286,6 +318,8 @@ for (i in 1:length(files)) {
     itemset_AVpair_our_study[["END_TERMINATION"]][[files[i]]][["BIFAP"]] <- list()
     #itemset_AVpair_our_study[["END_TERMINATION"]][[files[i]]][["PEDIANET"]] <- list()
     
+    itemset_AVpair_our_study[["END_TERMINATION"]][[files[i]]][["TEST"]] <- list()
+    
     
     ### specification END_ABORTION
     itemset_AVpair_our_study[["END_ABORTION"]][[files[i]]][["ARS"]] <- list(list("ABS","DATAINT"))
@@ -310,6 +344,9 @@ for (i in 1:length(files)) {
     itemset_AVpair_our_study[["END_ABORTION"]][[files[i]]][["CPRD"]] <- list()
     itemset_AVpair_our_study[["END_ABORTION"]][[files[i]]][["BIFAP"]] <- list()
     #itemset_AVpair_our_study[["END_ABORTION"]][[files[i]]][["PEDIANET"]] <- list()
+    
+    itemset_AVpair_our_study[["END_ABORTION"]][[files[i]]][["TEST"]] <- list()
+    
     
     
     ########################################### TYPE #######################################
@@ -337,6 +374,7 @@ for (i in 1:length(files)) {
     itemset_AVpair_our_study[["TYPE"]][[files[i]]][["BIFAP"]] <- list(list("EMB_BIFAP", "EMB_GRUPO_FIN"))
     #itemset_AVpair_our_study[["TYPE"]][[files[i]]][["PEDIANET"]] <- list()
     
+    itemset_AVpair_our_study[["TYPE"]][[files[i]]][["GePaRD"]] <- list(list("T_PREG","PREG_TYPE"), list("EMB_BIFAP", "EMB_GRUPO_FIN"))
     
     
     
