@@ -374,7 +374,7 @@ for (i in 1:length(files)) {
     itemset_AVpair_our_study[["TYPE"]][[files[i]]][["BIFAP"]] <- list(list("EMB_BIFAP", "EMB_GRUPO_FIN"))
     #itemset_AVpair_our_study[["TYPE"]][[files[i]]][["PEDIANET"]] <- list()
     
-    itemset_AVpair_our_study[["TYPE"]][[files[i]]][["GePaRD"]] <- list(list("T_PREG","PREG_TYPE"), list("EMB_BIFAP", "EMB_GRUPO_FIN"))
+    itemset_AVpair_our_study[["TYPE"]][[files[i]]][["TEST"]] <- list(list("T_PREG","PREG_TYPE"), list("EMB_BIFAP", "EMB_GRUPO_FIN"))
     
     
     
