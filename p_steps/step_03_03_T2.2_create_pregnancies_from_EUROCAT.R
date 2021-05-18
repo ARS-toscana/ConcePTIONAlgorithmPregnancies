@@ -42,6 +42,8 @@ if (dim(D3_EUROCAT)[1]!=0){
   D3_EUROCAT_intermediate<-D3_EUROCAT_intermediate[,EUROCAT:="yes"]
   D3_EUROCAT_intermediate<-D3_EUROCAT_intermediate[,pregnancy_id:=paste0("EUROCAT_",seq_along(pregnancy_end_date))]
   D3_EUROCAT_intermediate<-D3_EUROCAT_intermediate[,record_date:=pregnancy_end_date]
+  D3_EUROCAT_intermediate<-D3_EUROCAT_intermediate[,origin:="EUROCAT"]
+  D3_EUROCAT_intermediate<-D3_EUROCAT_intermediate[,meaning:=""]
   
   D3_Stream_EUROCAT<-D3_EUROCAT_intermediate[,.(pregnancy_id,person_id,record_date,pregnancy_start_date,pregnancy_end_date,meaning_start_date,meaning_end_date,type_of_pregnancy_end,survey_id,EUROCAT)]
   

@@ -90,11 +90,12 @@ thisdatasource <- as.character(CDM_SOURCE[1,3])
 
 INSTANCE<- fread(paste0(dirinput,"INSTANCE.csv"), fill=T)
 list_tables<-unique(INSTANCE[,source_table_name])
-date_min <- vector(mode="list")
+#list_tables<-sub(" ","",list_tables, fixed = TRUE)
+date_range <- vector(mode="list")
 
 for (t in list_tables){
-  date_min[['ARS']][[t]][["since_when_data_complete"]] <- INSTANCE[source_table_name==t, list(since_when_data_complete=min(since_when_data_complete, na.rm = T))]
-  date_min[['ARS']][[t]][["up_to_when_data_complete"]] <- INSTANCE[source_table_name==t, list(up_to_when_data_complete=max(up_to_when_data_complete, na.rm = T))]
+  date_range[['ARS']][[t]][["since_when_data_complete"]] <- INSTANCE[source_table_name==t, list(since_when_data_complete=min(since_when_data_complete, na.rm = T))]
+  date_range[['ARS']][[t]][["up_to_when_data_complete"]] <- INSTANCE[source_table_name==t, list(up_to_when_data_complete=max(up_to_when_data_complete, na.rm = T))]
   
 } 
 # lista tabelle , poi ciclo assegni minimo della tabella
