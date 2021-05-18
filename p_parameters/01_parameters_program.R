@@ -7,8 +7,8 @@
 #setwd("..")
 #setwd("..")
 dirbase<-getwd()
-#dirinput <- paste0(dirbase,"/i_input/")
-dirinput <- paste0(dirbase,"/i_input_test/")
+dirinput <- paste0(dirbase,"/i_input/")
+#dirinput <- paste0(dirbase,"/i_input_test/")
 
 # set other directories
 diroutput <- paste0(thisdir,"/g_output/")
@@ -89,8 +89,15 @@ thisdatasource <- as.character(CDM_SOURCE[1,3])
 # understand which datasource the script is querying
 
 INSTANCE<- fread(paste0(dirinput,"INSTANCE.csv"), fill=T)
-date_start_min <- as.Date(as.character(min(INSTANCE[,since_when_data_complete],na.rm = T)),date_format)
+list_tables<-unique(INSTANCE[,source_table_name])
+date_min <- vector(mode="list")
 
+for (t in list_tables){
+  date_min[['ARS']][[t]][["since_when_data_complete"]] <- INSTANCE[source_table_name==t, list(since_when_data_complete=min(since_when_data_complete, na.rm = T))]
+  date_min[['ARS']][[t]][["up_to_when_data_complete"]] <- INSTANCE[source_table_name==t, list(up_to_when_data_complete=max(up_to_when_data_complete, na.rm = T))]
+  
+} 
+# lista tabelle , poi ciclo assegni minimo della tabella
 
 #---------------------------------------
 # assess datasource-specific parameters
