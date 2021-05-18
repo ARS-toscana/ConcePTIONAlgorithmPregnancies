@@ -80,6 +80,12 @@ meaning_of_survey_our_study[["PEDIANET"]][["induced_termination"]]<-list()
 meaning_of_survey_our_study[["PEDIANET"]][["other"]]<-list()
 
 
+meaning_of_survey_our_study[["TEST"]][["livebirth_or_stillbirth"]]<-list("algorithm_pregnancy") 
+meaning_of_survey_our_study[["TEST"]][["ongoing_pregnancy"]]<-list()
+meaning_of_survey_our_study[["TEST"]][["spontaneous_abortion"]]<-list("algorithm_pregnancy") 
+meaning_of_survey_our_study[["TEST"]][["induced_termination"]]<-list("algorithm_pregnancy") 
+meaning_of_survey_our_study[["TEST"]][["other"]]<-list()
+
 meaning_of_survey_our_study_this_datasource<-vector(mode="list")
 
 for (i in 1:length(meaning_of_survey_our_study)) {
@@ -192,6 +198,16 @@ dictonary_of_itemset[["TYPE"]][["PEDIANET"]][["T"]]<-list()
 dictonary_of_itemset[["TYPE"]][["PEDIANET"]][["MD"]]<-list()
 dictonary_of_itemset[["TYPE"]][["PEDIANET"]][["ECT"]]<-list()
 dictonary_of_itemset[["TYPE"]][["PEDIANET"]][["UNK"]]<-list()
+
+
+dictonary_of_itemset[["TYPE"]][["TEST"]][["LB"]]<-list(list("T_PREG", "1"), list("T_PREG", "2"), list("T_PREG", "3"), list("EMB_BIFAP", "1"))
+dictonary_of_itemset[["TYPE"]][["TEST"]][["SB"]]<-list(list("T_PREG", "4"), list("EMB_BIFAP", "2"))
+dictonary_of_itemset[["TYPE"]][["TEST"]][["SA"]]<-list(list("T_PREG", "7"))
+dictonary_of_itemset[["TYPE"]][["TEST"]][["T"]]<-list(list("T_PREG", "5"), list("EMB_BIFAP", "3"))
+dictonary_of_itemset[["TYPE"]][["TEST"]][["MD"]]<-list()
+dictonary_of_itemset[["TYPE"]][["TEST"]][["ECT"]]<-list()
+dictonary_of_itemset[["TYPE"]][["TEST"]][["UNK"]]<-list()
+
 
 dictonary_of_itemset_this_datasource<-vector(mode="list")
 
