@@ -98,7 +98,7 @@ groups_of_pregnancies<-groups_of_pregnancies[CONCEPTSETS=="yes" & is.na(order_qu
 
 table(groups_of_pregnancies[,order_quality], useNA = "ifany")
 
-
+# isolare solo GREEN
 setorderv(groups_of_pregnancies,c("person_id","pregnancy_start_date","pregnancy_end_date","order_quality"), na.last = T)
 groups_of_pregnancies_overlap<-groups_of_pregnancies[,pregnancy_start_next:=lead(pregnancy_start_date),by="person_id"]
 groups_of_pregnancies_overlap[pregnancy_start_next<pregnancy_end_date & (pregnancy_start_next!=pregnancy_start_date & pregnancy_start_next!=pregnancy_start_date+1), overlap:=1][is.na(overlap), overlap:=0]
