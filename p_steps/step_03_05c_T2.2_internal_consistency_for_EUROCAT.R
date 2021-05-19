@@ -40,7 +40,7 @@ if (dim(D3_Stream_EUROCAT)[1]!=0){
   table(D3_study_population_pregnancy1$pregnancy_with_dates_out_of_range) # 19 deleted
   
   ## define quality vars , added year end>2021
-  D3_study_population_pregnancy1<- D3_Stream_EUROCAT[pregnancy_end_date<date_start_min | year(pregnancy_end_date)>2021, pregnancy_with_dates_out_of_range:=1][is.na(pregnancy_with_dates_out_of_range),pregnancy_with_dates_out_of_range:=0]
+  D3_study_population_pregnancy1<- D3_Stream_EUROCAT[pregnancy_end_date<data_min | record_date>data_max, pregnancy_with_dates_out_of_range:=1][is.na(pregnancy_with_dates_out_of_range),pregnancy_with_dates_out_of_range:=0]
   table(D3_study_population_pregnancy1$pregnancy_with_dates_out_of_range) # 4 deleted
   
   # D3_study_population_pregnancy1<- D3_study_population_pregnancy1[is.na(pregnancy_end_date), no_end_of_pregnancy:=1][is.na(no_end_of_pregnancy),no_end_of_pregnancy:=0]
