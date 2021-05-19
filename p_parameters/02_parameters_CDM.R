@@ -141,6 +141,7 @@ if (length(ConcePTION_CDM_EAV_tables)!=0 ){
   }
 }
 
+
 #NEW ATTRIBUTES DEFINITION
 # ConcePTION_CDM_coding_system_list<-vector(mode="list")
 # ConcePTION_CDM_coding_system_list<-c("ICD9","ICD10","SNOMED","SNOMED3","READ","ICD10CM","ICD10GM","kg")
@@ -166,24 +167,54 @@ if (length(ConcePTION_CDM_EAV_tables)!=0 ){
 # }
 
 
-#DA CMD_SOURCE
+ConcePTION_CDM_coding_system_list<-vector(mode="list")
+ConcePTION_CDM_coding_system_list<-c("ICD9","ICD10","SNOMED","SNOMED3","READ","ICD10CM","ICD10GM","kg")
+
+
 ConcePTION_CDM_EAV_attributes<-vector(mode="list")
-datasources<-c("ARS")
 
 if (length(ConcePTION_CDM_EAV_tables)!=0 ){
-  for (dom in alldomain) {
-    for (i in 1:(length(ConcePTION_CDM_EAV_tables[[dom]]))){
-      for (ds in ConcePTION_CDM_EAV_tables[[dom]][[i]][[1]][[1]]) {
-        for (dat in datasources) {
-          if (dom=="Diagnosis") ConcePTION_CDM_EAV_attributes[[dom]][[ds]][[dat]][["ICD9"]] <-  list(list("RMR","CAUSAMORTE"))
-          ConcePTION_CDM_EAV_attributes[[dom]][[ds]][[dat]][["ICD10"]] <-  list(list("RMR","CAUSAMORTE_ICDX"))
-          ConcePTION_CDM_EAV_attributes[[dom]][[ds]][[dat]][["SNOMED"]] <-  list(list("AP","COD_MORF_1"),list("AP","COD_MORF_2"),list("AP","COD_MORF_3"),list("AP","COD_TOPOG"))
-          #        if (dom=="Medicines") ConcePTION_CDM_EAV_attributes[[dom]][[ds]][[dat]][["ICD9"]] <-  list(list("CAP1","SETTAMEN_ARSNEW"),list("CAP1","GEST_ECO"),list("AP","COD_MORF_1"),list("AP","COD_MORF_2"),list("AP","COD_MORF_3"),list("AP","COD_TOPOG"))
-        }
+    for (i in 1:(length(ConcePTION_CDM_EAV_tables[["Diagnosis"]]))){
+      for (ds in ConcePTION_CDM_EAV_tables[["Diagnosis"]][[i]][[1]][[1]]) {
+        temp <- fread(paste0(dirinput,ds,".csv"))
+          for( cod_syst in ConcePTION_CDM_coding_system_list) {
+           if ("mo_source_table" %in% names(temp) ) {
+             temp1<-unique(temp[mo_record_vocabulary %in% cod_syst,.(mo_source_table,mo_source_column)])
+           if (nrow(temp1)!=0) ConcePTION_CDM_EAV_attributes[["Diagnosis"]][[ds]][[thisdatasource]][[cod_syst]]<-as.list(as.data.table(t(temp1)))
+           } else{
+             temp1<-unique(temp[so_unit %in% cod_syst,.(so_source_table,so_source_column)])
+             if (nrow(temp1)!=0) ConcePTION_CDM_EAV_attributes[["Diagnosis"]][[ds]][[thisdatasource]][[cod_syst]]<-as.list(as.data.table(t(temp1)))
+           }
+
+          }
       }
     }
-  }
 }
+            
+
+
+        
+
+
+
+# #DA CMD_SOURCE
+# ConcePTION_CDM_EAV_attributes<-vector(mode="list")
+# datasources<-c("ARS")
+# 
+# if (length(ConcePTION_CDM_EAV_tables)!=0 ){
+#   for (dom in alldomain) {
+#     for (i in 1:(length(ConcePTION_CDM_EAV_tables[[dom]]))){
+#       for (ds in ConcePTION_CDM_EAV_tables[[dom]][[i]][[1]][[1]]) {
+#         for (dat in datasources) {
+#           if (dom=="Diagnosis") ConcePTION_CDM_EAV_attributes[[dom]][[ds]][[dat]][["ICD9"]] <-  list(list("RMR","CAUSAMORTE"))
+#           ConcePTION_CDM_EAV_attributes[[dom]][[ds]][[dat]][["ICD10"]] <-  list(list("RMR","CAUSAMORTE_ICDX"))
+#           ConcePTION_CDM_EAV_attributes[[dom]][[ds]][[dat]][["SNOMED"]] <-  list(list("AP","COD_MORF_1"),list("AP","COD_MORF_2"),list("AP","COD_MORF_3"),list("AP","COD_TOPOG"))
+#           #        if (dom=="Medicines") ConcePTION_CDM_EAV_attributes[[dom]][[ds]][[dat]][["ICD9"]] <-  list(list("CAP1","SETTAMEN_ARSNEW"),list("CAP1","GEST_ECO"),list("AP","COD_MORF_1"),list("AP","COD_MORF_2"),list("AP","COD_MORF_3"),list("AP","COD_TOPOG"))
+#         }
+#       }
+#     }
+#   }
+# }
 
 
 ConcePTION_CDM_EAV_attributes_this_datasource<-vector(mode="list")

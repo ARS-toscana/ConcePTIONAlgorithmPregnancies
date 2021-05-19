@@ -98,7 +98,7 @@ for (t in list_tables){
   date_range[['ARS']][[t]][["up_to_when_data_complete"]] <- INSTANCE[source_table_name==t, list(up_to_when_data_complete=max(up_to_when_data_complete, na.rm = T))]
   
 } 
-# lista tabelle , poi ciclo assegni minimo della tabella
+
 
 #---------------------------------------
 # assess datasource-specific parameters
