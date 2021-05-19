@@ -1,13 +1,14 @@
-# set directory with input data
+# # set directory with input data
 # setwd("..")
 # setwd("..")
 # dirbase<-getwd()
-# dirinput <- paste0(dirbase,"/CDMInstances/ACCESS/")
+# dirinput <- paste0(dirbase,"/CDMInstances/DataCharacterisation_v2/")
 
 #setwd("..")
-# setwd("..")
+#setwd("..")
 dirbase<-getwd()
 dirinput <- paste0(dirbase,"/i_input/")
+#dirinput <- paste0(dirbase,"/i_input_test/")
 
 # set other directories
 diroutput <- paste0(thisdir,"/g_output/")
@@ -44,17 +45,20 @@ library(survival)
 
 # load macros
 
-source(paste0(dirmacro,"CreateConceptSetDatasets_v14.R"))
+#source(paste0(dirmacro,"CreateConceptSetDatasets_v14.R"))
+source(paste0(dirmacro,"CreateConceptSetDatasets.R"))
 #source(paste0(dirmacro,"RetrieveRecordsFromEAVDatasets.R"))
 source(paste0(dirmacro,"CreateItemsetDatasets.R"))
 source(paste0(dirmacro,"MergeFilterAndCollapse_v5.R"))
-source(paste0(dirmacro,"CreateSpells_v10.R"))
+source(paste0(dirmacro,"CreateSpells_v14.R"))
 source(paste0(dirmacro,"CreateFlowChart.R"))
 source(paste0(dirmacro,"CountPersonTimeV10.2.R"))
 source(paste0(dirmacro,"ApplyComponentStrategy_v13_2.R"))
 source(paste0(dirmacro,"CreateFigureComponentStrategy_v4.R"))
 source(paste0(dirmacro,"DRECountThresholdV3.R"))
 
+# datasources
+datasources<-c("ARS", "UOSL", "GePaRD", "BIFAP", "FISABIO", "SIDIAP", "CNR-IFC", "CHUT", "UNIME", "CPRD", "THL")
 
 #other parameters
 
@@ -78,7 +82,23 @@ firstjan2018<-as.Date(as.character(20180101), date_format)
 # understand which datasource the script is querying
 
 CDM_SOURCE<- fread(paste0(dirinput,"CDM_SOURCE.csv"))
-thisdatasource <- as.character(CDM_SOURCE[1,2])
+thisdatasource <- as.character(CDM_SOURCE[1,3])
+#thisdatasource <-"TEST"
+
+#---------------------------------------
+# understand which datasource the script is querying
+
+INSTANCE<- fread(paste0(dirinput,"INSTANCE.csv"), fill=T)
+list_tables<-unique(INSTANCE[,source_table_name])
+#list_tables<-sub(" ","",list_tables, fixed = TRUE)
+date_range <- vector(mode="list")
+
+for (t in list_tables){
+  date_range[['ARS']][[t]][["since_when_data_complete"]] <- INSTANCE[source_table_name==t, list(since_when_data_complete=min(since_when_data_complete, na.rm = T))]
+  date_range[['ARS']][[t]][["up_to_when_data_complete"]] <- INSTANCE[source_table_name==t, list(up_to_when_data_complete=max(up_to_when_data_complete, na.rm = T))]
+  
+} 
+
 
 #---------------------------------------
 # assess datasource-specific parameters
@@ -116,9 +136,8 @@ study_end_datasource[['FISABIO']] <- as.Date(as.character(20201130), date_format
 study_end_datasource[['CPRD']] <- as.Date(as.character(20200930), date_format)
 study_end_datasource[['SIDIAP']] <- as.Date(as.character(20200630), date_format)
 
-
-
 study_end <- study_end_datasource[[thisdatasource]]
+
 
 # study start coprimary_c and coprimary_d
 
@@ -160,6 +179,18 @@ for (datas in c('ARS','BIFAP','AARHUS','GePaRD','PEDIANET','FISABIO','CPRD','SID
 firstYearComponentAnalysis = firstYearComponentAnalysis_datasource[[thisdatasource]]
 secondYearComponentAnalysis = secondYearComponentAnalysis_datasource[[thisdatasource]]
 
+# gap allowed for CreateSpells
+gap_allowed_thisdatasource = ifelse(thisdatasource == "ARS",21,1)
+
+#datasource with itemsets stream
+datasources_with_itemsets_stream <- c("TEST","GePaRD") # MED_OBS
+#datasources_with_itemsets_stream <- c()
+this_datasource_has_itemsets_stream <- ifelse(thisdatasource %in% datasources_with_itemsets_stream,TRUE,FALSE) 
+
+# datasources with itemset linked to conceptset
+datasources_with_itemset_linked_to_conceptset <- c("TEST","BIFAP") # MED_OBS
+#datasources_with_itemset_linked_to_conceptset <- c()
+this_datasource_has_itemset_linked_to_conceptset <- ifelse(thisdatasource %in% datasources_with_itemset_linked_to_conceptset,TRUE,FALSE) 
 
 ###################################################################
 # CREATE FOLDERS
@@ -203,3 +234,4 @@ age_fast = function(from, to) {
            (to_lt$mon == from_lt$mon & to_lt$mday < from_lt$mday),
          age - 1, age)
 }
+

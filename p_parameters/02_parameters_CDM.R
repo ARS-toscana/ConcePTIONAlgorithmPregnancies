@@ -8,9 +8,11 @@ ConcePTION_CDM_tables <- vector(mode="list")
 
 files<-sub('\\.csv$', '', list.files(dirinput))
 for (i in 1:length(files)) {
-  if (str_detect(files[i],"^EVENTS"))  ConcePTION_CDM_tables[["Diagnosis"]][[(length(ConcePTION_CDM_tables[["Diagnosis"]]) + 1)]]<-files[i]
-  else{if (str_detect(files[i],"^MEDICINES")) ConcePTION_CDM_tables[["Medicines"]][[(length(ConcePTION_CDM_tables[["Medicines"]]) + 1)]]<-files[i] }
+  if (str_detect(files[i],"^EVENTS")) { ConcePTION_CDM_tables[["Diagnosis"]][[(length(ConcePTION_CDM_tables[["Diagnosis"]]) + 1)]]<-files[i]
+  } else if (str_detect(files[i],"^MEDICINES")){ ConcePTION_CDM_tables[["Medicines"]][[(length(ConcePTION_CDM_tables[["Medicines"]]) + 1)]]<-files[i] 
+  } else if (str_detect(files[i],"^PROCEDURES")) { ConcePTION_CDM_tables[["Procedures"]][[(length(ConcePTION_CDM_tables[["Procedures"]]) + 1)]]<-files[i] }
 }
+
 
 #define tables for createconceptset
 ConcePTION_CDM_EAV_tables <- vector(mode="list")
@@ -24,10 +26,18 @@ for (i in 1:length(files)) {
   }
 }
 
-ConcePTION_CDM_EAV_tables_retrieve <- vector(mode="list")
+ConcePTION_CDM_EAV_tables_retrieve_so <- vector(mode="list")
 
 for (i in 1:length(files)) {
-  if (str_detect(files[i],"^SURVEY_OB")) { ConcePTION_CDM_EAV_tables_retrieve[[(length(ConcePTION_CDM_EAV_tables_retrieve) + 1)]]<-list(list(files[i], "so_source_table", "so_source_column"))
+  if (str_detect(files[i],"^SURVEY_OB")) { ConcePTION_CDM_EAV_tables_retrieve_so[[(length(ConcePTION_CDM_EAV_tables_retrieve_so) + 1)]]<-list(list(files[i], "so_source_table", "so_source_column"))
+  #EAV_table<-append(EAV_table,files[i])
+  }
+}
+
+ConcePTION_CDM_EAV_tables_retrieve_mo <- vector(mode="list")
+
+for (i in 1:length(files)) {
+  if (str_detect(files[i],"^MEDICAL_OB")) { ConcePTION_CDM_EAV_tables_retrieve_mo[[(length(ConcePTION_CDM_EAV_tables_retrieve_mo) + 1)]]<-list(list(files[i], "mo_source_table", "mo_source_column"))
   #EAV_table<-append(EAV_table,files[i])
   }
 }
@@ -47,6 +57,7 @@ if (length(ConcePTION_CDM_EAV_tables)!=0 ){
         }else{
           if (dom=="Medicines") ConcePTION_CDM_codvar[[dom]][[ds]]="product_ATCcode"
           if (dom=="Diagnosis") ConcePTION_CDM_codvar[[dom]][[ds]]="event_code"
+          if (dom=="Procedures") ConcePTION_CDM_codvar[[dom]][[ds]]="procedure_code"
         }
       }
     }
@@ -56,6 +67,7 @@ if (length(ConcePTION_CDM_EAV_tables)!=0 ){
     for (ds in ConcePTION_CDM_tables[[dom]]) {
       if (dom=="Medicines") ConcePTION_CDM_codvar[[dom]][[ds]]="product_ATCcode"
       if (dom=="Diagnosis") ConcePTION_CDM_codvar[[dom]][[ds]]="event_code"
+      if (dom=="Procedures") ConcePTION_CDM_codvar[[dom]][[ds]]="procedure_code"
     }
   }
 }
@@ -64,6 +76,7 @@ if (length(ConcePTION_CDM_EAV_tables)!=0 ){
 for (dom in alldomain) {
   for (ds in ConcePTION_CDM_tables[[dom]]) {
     if (dom=="Diagnosis") ConcePTION_CDM_coding_system_cols[[dom]][[ds]] = "event_record_vocabulary"
+    if (dom=="Procedures") ConcePTION_CDM_coding_system_cols[[dom]][[ds]] = "procedure_code_vocabulary"
     #    if (dom=="Medicines") ConcePTION_CDM_coding_system_cols[[dom]][[ds]] = "code_indication_vocabulary"
   }
 }
@@ -107,6 +120,7 @@ if (length(ConcePTION_CDM_EAV_tables)!=0 ){
             }
           }
           if (dom=="Diagnosis") date[[dom]][[ds]]="start_date_record"
+          if (dom=="Procedures") date[[dom]][[ds]]="procedure_date"
         }
       }
     }
@@ -122,12 +136,40 @@ if (length(ConcePTION_CDM_EAV_tables)!=0 ){
         }
       }
       if (dom=="Diagnosis") date[[dom]][[ds]]="start_date_record"
+      if (dom=="Procedures") date[[dom]][[ds]]="procedure_date"
     }
   }
 }
 
+
+#NEW ATTRIBUTES DEFINITION
+# ConcePTION_CDM_coding_system_list<-vector(mode="list")
+# ConcePTION_CDM_coding_system_list<-c("ICD9","ICD10","SNOMED","SNOMED3","READ","ICD10CM","ICD10GM","kg")
+# 
+# ConcePTION_CDM_EAV_attributes<-vector(mode="list")
+# 
+# if (length(ConcePTION_CDM_EAV_tables)!=0 ){
+#   for (i in 1:(length(ConcePTION_CDM_EAV_tables[["Diagnosis"]]))){
+#     for (ds in ConcePTION_CDM_EAV_tables[["Diagnosis"]][[i]][[1]][[1]]) {
+#       temp <- fread(paste0(dirinput,ds,".csv"))
+#       for( cod_syst in ConcePTION_CDM_coding_system_list) {
+#         if ("mo_source_table" %in% names(temp) ) {
+#           temp1<-unique(temp[mo_record_vocabulary %in% cod_syst,.(mo_source_table,mo_source_column)])
+#           if (nrow(temp1)!=0) ConcePTION_CDM_EAV_attributes[["Diagnosis"]][[ds]][[thisdatasource]][[cod_syst]]<-as.list(as.data.table(t(temp1)))
+#         } else{
+#           temp1<-unique(temp[so_unit %in% cod_syst,.(so_source_table,so_source_column)])
+#           if (nrow(temp1)!=0) ConcePTION_CDM_EAV_attributes[["Diagnosis"]][[ds]][[thisdatasource]][[cod_syst]]<-as.list(as.data.table(t(temp1)))
+#         }
+#         
+#       }
+#     }
+#   }
+# }
+
+
 ConcePTION_CDM_coding_system_list<-vector(mode="list")
 ConcePTION_CDM_coding_system_list<-c("ICD9","ICD10","SNOMED","SNOMED3","READ","ICD10CM","ICD10GM","kg")
+
 
 ConcePTION_CDM_EAV_attributes<-vector(mode="list")
 
@@ -201,6 +243,7 @@ if (length(ConcePTION_CDM_EAV_tables)!=0 ){
         }else{
           if (dom=="Medicines") ConcePTION_CDM_datevar[[dom]][[ds]]= list("date_dispensing","date_prescription")
           if (dom=="Diagnosis") ConcePTION_CDM_datevar[[dom]][[ds]]=list("start_date_record","end_date_record")
+          if (dom=="Procedures") ConcePTION_CDM_datevar[[dom]][[ds]]=list("procedure_date")
         }
       }
     }
@@ -210,6 +253,7 @@ if (length(ConcePTION_CDM_EAV_tables)!=0 ){
     for (ds in ConcePTION_CDM_tables[[dom]]) { 
       if (dom=="Medicines") ConcePTION_CDM_datevar[[dom]][[ds]]= list("date_dispensing","date_prescription")
       if (dom=="Diagnosis") ConcePTION_CDM_datevar[[dom]][[ds]]=list("start_date_record","end_date_record")
+      if (dom=="Procedures") ConcePTION_CDM_datevar[[dom]][[ds]]=list("procedure_date")
     }
   }
 }

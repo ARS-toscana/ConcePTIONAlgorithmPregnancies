@@ -13,7 +13,7 @@ OBSERVATION_PERIODS <- data.table()
 files<-sub('\\.csv$', '', list.files(dirinput))
 for (i in 1:length(files)) {
   if (str_detect(files[i],"^OBSERVATION_PERIODS")) {  
-    temp <- fread(paste0(dirinput,files[i],".csv"))
+    temp <- fread(paste0(dirinput,files[i],".csv"), colClasses = list( character="person_id"))
     OBSERVATION_PERIODS <- rbind(OBSERVATION_PERIODS, temp,fill=T)
     rm(temp)
   }
@@ -35,14 +35,15 @@ if (this_datasource_has_subpopulations == FALSE){
     start_date = "op_start_date",
     end_date = "op_end_date",
     category ="op_meaning",
-    replace_missing_end_date = study_end
-    )
+    replace_missing_end_date = study_end,
+    gap_allowed = gap_allowed_thisdatasource
+  )
   
   output_spells_category<-as.data.table(output_spells_category)
   setkeyv(
     output_spells_category,
     c("person_id", "entry_spell_category", "exit_spell_category", "num_spell", "op_meaning")
-    )
+  )
   
   save(output_spells_category,file=paste0(dirtemp,"output_spells_category.RData"))
   
@@ -70,7 +71,8 @@ if (this_datasource_has_subpopulations == TRUE){
       start_date = "op_start_date",
       end_date = "op_end_date",
       category ="op_meaning",
-      replace_missing_end_date = study_end
+      replace_missing_end_date = study_end,
+      gap_allowed = gap_allowed_thisdatasource
     )
     if (nrow(output_spells_op_meaning_set)>0){
       output_spells_op_meaning_set<-as.data.table(output_spells_op_meaning_set)
@@ -119,6 +121,7 @@ if (this_datasource_has_subpopulations == TRUE){
               start_date = "entry_spell_category",
               end_date = "exit_spell_category",
               category = "op_meaning",
+              gap_allowed = gap_allowed_thisdatasource,
               overlap = T,
               dataset_overlap = "overlap",
               replace_missing_end_date = study_end,
@@ -153,13 +156,12 @@ if (this_datasource_has_subpopulations == TRUE){
       concat_op_meaning_sets_in_subpop = op_meaning_sets_in_subpop[1]
       for (j in 2:length(op_meaning_sets_in_subpop)){
         concat_op_meaning_sets_in_subpop = paste0(concat_op_meaning_sets_in_subpop,'_',op_meaning_sets_in_subpop[j])
-        }
+      }
       output_spells_category[[subpop]] <- output_spells_category_meaning_set[[concat_op_meaning_sets_in_subpop]]
     }
   }
   save(output_spells_category,file=paste0(dirtemp,"output_spells_category.RData"))
   rm(output_spells_category_meaning_set,output_spells_category)
 }
-  
-rm(OBSERVATION_PERIODS)
-    
+
+

@@ -9,8 +9,8 @@ print('PRE-PROCESSING OF PERSONS')
 PERSONS <- data.table()
 files<-sub('\\.csv$', '', list.files(dirinput))
 for (i in 1:length(files)) {
-  if (str_detect(files[i],"^PERSONS")) {  
-    temp <- fread(paste0(dirinput,files[i],".csv"))
+  if (str_detect(files[i], "^PERSONS")) {  
+    temp <- fread(paste0(dirinput,files[i],".csv"), colClasses = list( character="person_id"))
     PERSONS <- rbind(PERSONS, temp,fill=T)
     rm(temp)
   }
@@ -20,21 +20,22 @@ OBSERVATION_PERIODS <- data.table()
 files<-sub('\\.csv$', '', list.files(dirinput))
 for (i in 1:length(files)) {
   if (str_detect(files[i],"^OBSERVATION_PERIODS")) {  
-    temp <- fread(paste0(dirinput,files[i],".csv"))
+    temp <- fread(paste0(dirinput,files[i],".csv"), colClasses = list( character="person_id"))
     OBSERVATION_PERIODS <- rbind(OBSERVATION_PERIODS, temp,fill=T)
     rm(temp)
   }
 }
 
-
+D3_PERSONS <- PERSONS
+rm(PERSONS)
 
 # decide if pre-processing is needed (dim != 0)
-if( dim(PERSONS[is.na(day_of_birth) | is.na(month_of_birth),])[1]!=0 ){
+if( dim(D3_PERSONS[is.na(day_of_birth) | is.na(month_of_birth),])[1]!=0 ){
   
   print('SOME PERSONS HAVE DAYS OR MONTHS OF BIRTH MISSING')
   #fwrite(PERSONS,paste0(dirinput,"/old_PERSONS.csv")) #changed name
   
-  PERSONS_date_missing <- PERSONS[is.na(day_of_birth) | is.na(month_of_birth),]
+  PERSONS_date_missing <- D3_PERSONS[is.na(day_of_birth) | is.na(month_of_birth),]
   
   # vector of person who has day or month missing 
   PERSONS_date_missing_iduni <- PERSONS_date_missing[,person_id]
@@ -53,15 +54,12 @@ if( dim(PERSONS[is.na(day_of_birth) | is.na(month_of_birth),])[1]!=0 ){
   CreateDate<-unique(CreateDate, by="person_id")
   
   # write file of PERSONS processed
-  fwrite(CreateDate,paste0(dirinput,"PERSONS.csv"))
+  D3_PERSONS <- rbind(D3_PERSONS[!is.na(day_of_birth) & !is.na(month_of_birth),], CreateDate)
   
   rm(CreateDate, PERSONS_date_missing, OBSERVATION_PERIODS_date_missing)
   
   print('DATE OF BIRTH IN PERSONS ADJUSTED')
 }
-
-D3_PERSONS <- PERSONS
-rm(PERSONS)
 
 
 # RETRIEVE FROM PERSONS ALL DEATHS AND SAVE
