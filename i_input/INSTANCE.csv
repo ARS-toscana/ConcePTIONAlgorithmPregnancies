@@ -31,39 +31,39 @@ SDO,DATCHI5,yes,20200710,20010101,20191231,no,,
 SDO,DATCHI6,yes,20200710,20010101,20191231,no,,
 SDO,TITSTU,yes,20200710,20080101,20191231,no,,
 SDO,CREATININA,yes,20200710,20170101,20191231,no,,
-SPA,IDUNI,yes,20200407,20020101,20191231,yes,,basedonrestrictiontotheARS_ARS_ANAG_MED_RES_storicoG_MED_RES_storico table:onlypersonsrecordedthereasbeingeverlegalresidentsinTuscanyandyearofbirth>1949
+SPA,IDUNI,yes,20200407,20020101,20191231,yes,,"basedonrestrictiontotheARS_ARS_ANAG_MED_RES_storicoG_MED_RES_storico table:onlypersonsrecordedthereasbeingeverlegalresidentsinTuscanyandyearofbirth>1949"
 SPA,DATAINI,yes,20200407,20020101,20191231,no,,
 SPA,SPECIALI,yes,20200407,20020101,20191231,no,,
 SPA,CODPRES ,yes,20200407,20020101,20191231,no,,
-PS,IDUNI,yes,20200801,20140101,20200801,yes,,basedonrestrictiontotheARS_ARS_ANAG_MED_RES_storicoG_MED_RES_storico table:onlypersonsrecordedthereasbeingeverlegalresidentsinTuscanyandyearofbirth>1949
+PS,IDUNI,yes,20200801,20140101,20200801,yes,,"basedonrestrictiontotheARS_ARS_ANAG_MED_RES_storicoG_MED_RES_storico table:onlypersonsrecordedthereasbeingeverlegalresidentsinTuscanyandyearofbirth>1949"
 PS,DATA_DIMI,yes,20200801,20140101,20200801,no,,
 PS,DIAGNOSI_PRINC,yes,20200801,20140101,20200801,no,,
 PS,PROGNOSI_TESTO,yes,20200801,20140101,20200801,no,,
-SEA,IDUNI,yes,20200407,20010101,20200407,yes,,basedonrestrictiontotheARS_ARS_ANAG_MED_RES_storicoG_MED_RES_storico table:onlypersonsrecordedthereasbeingeverlegalresidentsinTuscanyandyearofbirth>1949
+SEA,IDUNI,yes,20200407,20010101,20200407,yes,,"basedonrestrictiontotheARS_ARS_ANAG_MED_RES_storicoG_MED_RES_storico table:onlypersonsrecordedthereasbeingeverlegalresidentsinTuscanyandyearofbirth>1949"
 SEA,RILASCIO,yes,20200407,20010101,20200407,no,,
 SEA,ICD9CM,yes,20200407,20010101,20200407,no,,
-SALM ,IDUNI,yes,20200407,20100101,20200407,yes,,basedonrestrictiontotheARS_ARS_ANAG_MED_RES_storicoG_MED_RES_storico table:onlypersonsrecordedthereasbeingeverlegalresidentsinTuscanyandyearofbirth>1949
+SALM,IDUNI,yes,20200407,20100101,20200407,yes,,"basedonrestrictiontotheARS_ARS_ANAG_MED_RES_storicoG_MED_RES_storico table:onlypersonsrecordedthereasbeingeverlegalresidentsinTuscanyandyearofbirth>1949"
 SALM,DATA,yes,20200407,20100101,20200407,no,,
 SALM,DIAGNOSI_PRINCIPALE,yes,20200407,20100101,20200407,no,,
 SALM,COMORBIDITA_1,yes,20200407,20100101,20200407,no,,
 SALM,SETTORE,yes,20200407,20100101,20200407,no,,
-AP,IDUNI,yes,20200416,20100101,20171231,yes,,basedonrestrictiontotheARS_ARS_ANAG_MED_RES_storicoG_MED_RES_storico table:onlypersonsrecordedthereasbeingeverlegalresidentsinTuscanyandyearofbirth>1949
+AP,IDUNI,yes,20200416,20100101,20171231,yes,,"basedonrestrictiontotheARS_ARS_ANAG_MED_RES_storicoG_MED_RES_storico table:onlypersonsrecordedthereasbeingeverlegalresidentsinTuscanyandyearofbirth>1949"
 AP,COD_MORF_1,yes,20200416,20100101,20171231,no,,
 AP,COD_MORF_2,yes,20200416,20100101,20171231,no,,
 AP,COD_MORF_3,yes,20200416,20100101,20171231,no,,
 AP,COD_TOPOG,yes,20200416,20100101,20171231,no,,
 AP,DIAGNOSI,yes,20200416,20100101,20171231,no,,
 AP,MACROSCOPIA,yes,20200416,20100101,20171231,no,,
-FED,IDUNI,yes,20200809,20040101,20200301,yes,,basedonrestrictiontotheARS_ARS_ANAG_MED_RES_storicoG_MED_RES_storico table:onlypersonsrecordedthereasbeingeverlegalresidentsinTuscanyandyearofbirth>1949
+FED,IDUNI,yes,20200809,20040101,20200301,yes,,"basedonrestrictiontotheARS_ARS_ANAG_MED_RES_storicoG_MED_RES_storico table:onlypersonsrecordedthereasbeingeverlegalresidentsinTuscanyandyearofbirth>1949"
 FED,DATAERO,yes,20200809,20040101,20200301,no,,
 FED,PEZZI_ARSNEW,yes,20200809,20040101,20200301,no,,
 FED,TARGATURA,yes,20200809,20040101,20200301,no,,
 FED,CODFARM,yes,20200809,20040101,20200301,no,,
-SPF,IDUNI,yes,20200416,20030101,20200401,yes,,basedonrestrictiontotheARS_ARS_ANAG_MED_RES_storicoG_MED_RES_storico table:onlypersonsrecordedthereasbeingeverlegalresidentsinTuscanyandyearofbirth>1949
+SPF,IDUNI,yes,20200416,20030101,20200401,yes,,"basedonrestrictiontotheARS_ARS_ANAG_MED_RES_storicoG_MED_RES_storico table:onlypersonsrecordedthereasbeingeverlegalresidentsinTuscanyandyearofbirth>1949"
 SPF,DATAERO,yes,20200416,20030101,20200401,no,,
 SPF,NUMFARM,yes,20200416,20030101,20200401,no,,
 SPF,CODFARM,yes,20200416,20030101,20200401,no,,
-VCN,IDUNI,yes,20191231,20180101,20191231,yes,,basedonrestrictiontotheARS_ARS_ANAG_MED_RES_storicoG_MED_RES_storico table:onlypersonsrecordedthereasbeingeverlegalresidentsinTuscanyandyearofbirth>1949
+VCN,IDUNI,yes,20191231,20180101,20191231,yes,,"basedonrestrictiontotheARS_ARS_ANAG_MED_RES_storicoG_MED_RES_storico table:onlypersonsrecordedthereasbeingeverlegalresidentsinTuscanyandyearofbirth>1949"
 VCN,DATA_ULTIMO_EVENTO,yes,20191231,20180101,20191231,no,,
 VCN,DATA_SOMMINISTRAZIONE,yes,20191231,20180101,20191231,no,,
 VCN,COD_ATC5,yes,20191231,20180101,20191231,no,,
@@ -71,8 +71,8 @@ VCN,COD_PREST_VACCINO,yes,20191231,20180101,20191231,no,,
 VCN,DOSE_SOMMINISTRATA,yes,20191231,20180101,20191231,no,,
 VCN,TITOLARE_AIC,yes,20191231,20180101,20191231,no,,
 VCN,NUM_LOTTO,yes,20191231,20180101,20191231,no,,
-CAP1,IDUNI,yes,20200414,20010101,20191231,yes,,basedonrestrictiontotheARS_ANAG_MED_RES_storico table:onlypersonsrecordedthereasbeingeverlegalresidentsinTuscanyandyearofbirth>1949
-CAP1,ID_CAP1_ARSNEW,yes,20200414,20010101,20191231,yes,,basedonrestrictiontotheARS_ANAG_MED_RES_storico table:onlypersonsrecordedthereasbeingeverlegalresidentsinTuscanyandyearofbirth>1949
+CAP1,IDUNI,yes,20200414,20010101,20191231,yes,,"basedonrestrictiontotheARS_ANAG_MED_RES_storico table:onlypersonsrecordedthereasbeingeverlegalresidentsinTuscanyandyearofbirth>1949"
+CAP1,ID_CAP1_ARSNEW,yes,20200414,20010101,20191231,yes,,"basedonrestrictiontotheARS_ANAG_MED_RES_storico table:onlypersonsrecordedthereasbeingeverlegalresidentsinTuscanyandyearofbirth>1949"
 CAP1,IDUNI_M,yes,20200414,20010101,20191231,no,,
 CAP1,DATAPARTO_ARSNEW,yes,20200414,20010101,20191231,no,,
 CAP1,ABORTI,yes,20200414,20010101,20191231,no,,
@@ -245,7 +245,7 @@ IVG,DEGENZA,,,20000101,20191231,no,,
 IVG,COMPLIC,,,20010101,20191231,no,,
 IVG,ETAMADRE_ARSNEW,,,20010101,20191231,no,,
 IVG,ETAGEST_ARSNEW,,,20010101,20191231,no,,
-RMR,IDUNI,,,19870101,20161231,yes,,basedonrestrictiontotheARS_ANAG_MED_RES_storico table:onlypersonsrecordedthereasbeingeverlegalresidentsinTuscanyandyearofbirth>1949
+RMR,IDUNI,,,19870101,20161231,yes,,"basedonrestrictiontotheARS_ANAG_MED_RES_storico table:onlypersonsrecordedthereasbeingeverlegalresidentsinTuscanyandyearofbirth>1949"
 RMR,CAUSAMORTE,,,19870101,20161231,no,,
 RMR,CAUSAMORTE_ICDX,,,19870101,20161231,no,,
 RMR,CAUSAVIOLENTA,,,19870101,20161231,no,,
@@ -256,7 +256,7 @@ RMR,LUOGO,,,19870101,20161231,no,,
 RMR,LUOGOACC,,,19870101,20161231,no,,
 RMR,MEV_GD,,,19870101,20161231,no,,
 RMR,MEV_TI,,,19870101,20161231,no,,
-ARS_ANAG_MED_RES_storico,IDUNI,,,20030101,20200401,yes,,basedonrestrictiontotheARS_ANAG_MED_RES_storico table:onlypersonsrecordedthereasbeingeverlegalresidentsinTuscanyandyearofbirth>1949
+ARS_ANAG_MED_RES_storico,IDUNI,,,20030101,20200401,yes,,"basedonrestrictiontotheARS_ANAG_MED_RES_storico table:onlypersonsrecordedthereasbeingeverlegalresidentsinTuscanyandyearofbirth>1949"
 ARS_ANAG_MED_RES_storico,SESSO,,,20030101,20200401,no,,
 ARS_ANAG_MED_RES_storico,DATA_NASCITA,,,20030101,20200401,no,,
 ARS_ANAG_MED_RES_storico,DATA_MORTE_MARSI,,,20030101,20200401,no,,
@@ -272,3 +272,5 @@ COD_FARMACI_SPF,GG,,,20030101,20200401,no,,
 COD_FARMACI_SPF,UNITA_POSOLOGIA,,,20030101,20200401,no,,
 COD_FARMACI_SPF,TITOLARE_AIC,,,20030101,20200401,no
 EUROCAT,birthdate,,,20030101,20200401,no
+datos_generales_paciente,LMP,,,20030101,20200501,no
+datos_generales_paciente,GA,,,20030101,20200501,no

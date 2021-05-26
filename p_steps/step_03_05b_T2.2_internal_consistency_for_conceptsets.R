@@ -22,7 +22,7 @@ load(paste0(dirtemp,"output_spells_category.RData"))
 
 
 
-## define quality vars in D3_study_population_pregnancy_intermediate_from_prompt
+## define quality vars in D3_study_population_pregnancy_intermediate_from_conceptset
 D3_study_population_pregnancy1<-c()
 temp2<-D3_Stream_CONCEPTSETS
 for(tab in list_tables){

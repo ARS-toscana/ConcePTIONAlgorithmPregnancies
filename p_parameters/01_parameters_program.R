@@ -83,9 +83,9 @@ firstjan2018<-as.Date(as.character(20180101), date_format)
 
 CDM_SOURCE<- fread(paste0(dirinput,"CDM_SOURCE.csv"))
 thisdatasource <- as.character(CDM_SOURCE[1,3])
-
-CDM_SOURCE<- fread(paste0(dirinput,"CDM_SOURCE_test.csv"))
-thisdatasource <- as.character(CDM_SOURCE[1,3])
+# 
+# CDM_SOURCE<- fread(paste0(dirinput,"CDM_SOURCE_test.csv"))
+# thisdatasource <- as.character(CDM_SOURCE[1,3])
 
 #---------------------------------------
 # understand which datasource the script is querying
@@ -99,6 +99,8 @@ for (t in list_tables){
   date_range[['ARS']][[t]][["since_when_data_complete"]] <- INSTANCE[source_table_name==t, list(since_when_data_complete=min(since_when_data_complete, na.rm = T))]
   date_range[['ARS']][[t]][["up_to_when_data_complete"]] <- INSTANCE[source_table_name==t, list(up_to_when_data_complete=max(up_to_when_data_complete, na.rm = T))]
   
+  date_range[['TEST']][[t]][["since_when_data_complete"]] <- INSTANCE[source_table_name==t, list(since_when_data_complete=min(since_when_data_complete, na.rm = T))]
+  date_range[['TEST']][[t]][["up_to_when_data_complete"]] <- INSTANCE[source_table_name==t, list(up_to_when_data_complete=max(up_to_when_data_complete, na.rm = T))]
 } 
 
 

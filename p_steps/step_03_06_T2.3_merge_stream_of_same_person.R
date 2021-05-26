@@ -86,6 +86,7 @@ groups_of_pregnancies<-groups_of_pregnancies[PROMPT=="yes" & coloured_order=="2_
 groups_of_pregnancies<-groups_of_pregnancies[ITEMSETS=="yes" & coloured_order=="2_yellow",order_quality:=6] 
 
 groups_of_pregnancies<-groups_of_pregnancies[CONCEPTSETS=="yes" & CONCEPTSET=="Live_birth" & coloured_order=="2_yellow",order_quality:=7] #
+groups_of_pregnancies<-groups_of_pregnancies[CONCEPTSETS=="yes" & CONCEPTSET=="Birth" & coloured_order=="2_yellow",order_quality:=7] #
 groups_of_pregnancies<-groups_of_pregnancies[CONCEPTSETS=="yes" & CONCEPTSET=="Pre_term_birth" & coloured_order=="2_yellow",order_quality:=8]
 groups_of_pregnancies<-groups_of_pregnancies[CONCEPTSETS=="yes" & CONCEPTSET=="Still_birth" & coloured_order=="2_yellow",order_quality:=9]
 groups_of_pregnancies<-groups_of_pregnancies[CONCEPTSETS=="yes" & CONCEPTSET=="Interruption" & coloured_order=="2_yellow",order_quality:=10]
@@ -93,8 +94,7 @@ groups_of_pregnancies<-groups_of_pregnancies[CONCEPTSETS=="yes" & CONCEPTSET=="S
 
 groups_of_pregnancies<-groups_of_pregnancies[coloured_order=="3_blue",order_quality:=12]
 
-#groups_of_pregnancies<-groups_of_pregnancies[CONCEPTSETS=="yes" & str_detect(meaning_ongoing_date,"^from_conceptset_procedures") & coloured_order=="4_red",order_quality:=13] 
-groups_of_pregnancies<-groups_of_pregnancies[CONCEPTSETS=="yes" & is.na(order_quality) & is.na(pregnancy_start_date) & coloured_order=="4_red",order_quality:=13]
+groups_of_pregnancies<-groups_of_pregnancies[is.na(order_quality) & coloured_order=="4_red",order_quality:=13]
 
 table(groups_of_pregnancies[,order_quality], useNA = "ifany")
 
