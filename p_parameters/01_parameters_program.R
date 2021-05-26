@@ -83,7 +83,9 @@ firstjan2018<-as.Date(as.character(20180101), date_format)
 
 CDM_SOURCE<- fread(paste0(dirinput,"CDM_SOURCE.csv"))
 thisdatasource <- as.character(CDM_SOURCE[1,3])
-#thisdatasource <-"TEST"
+
+CDM_SOURCE<- fread(paste0(dirinput,"CDM_SOURCE_test.csv"))
+thisdatasource <- as.character(CDM_SOURCE[1,3])
 
 #---------------------------------------
 # understand which datasource the script is querying
@@ -183,14 +185,14 @@ secondYearComponentAnalysis = secondYearComponentAnalysis_datasource[[thisdataso
 gap_allowed_thisdatasource = ifelse(thisdatasource == "ARS",21,1)
 
 #datasource with itemsets stream
-datasources_with_itemsets_stream <- c("TEST","GePaRD") # MED_OBS
+datasources_with_itemsets_stream <- c("TEST","GePaRD","BIFAP") # MED_OBS
 #datasources_with_itemsets_stream <- c()
 this_datasource_has_itemsets_stream <- ifelse(thisdatasource %in% datasources_with_itemsets_stream,TRUE,FALSE) 
 
-# datasources with itemset linked to conceptset
-datasources_with_itemset_linked_to_conceptset <- c("TEST","BIFAP") # MED_OBS
-#datasources_with_itemset_linked_to_conceptset <- c()
-this_datasource_has_itemset_linked_to_conceptset <- ifelse(thisdatasource %in% datasources_with_itemset_linked_to_conceptset,TRUE,FALSE) 
+# # datasources with itemset linked to conceptset
+# datasources_with_itemset_linked_to_conceptset <- c("TEST",) # MED_OBS
+# #datasources_with_itemset_linked_to_conceptset <- c()
+# this_datasource_has_itemset_linked_to_conceptset <- ifelse(thisdatasource %in% datasources_with_itemset_linked_to_conceptset,TRUE,FALSE) 
 
 ###################################################################
 # CREATE FOLDERS
