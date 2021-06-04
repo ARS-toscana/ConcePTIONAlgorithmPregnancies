@@ -52,10 +52,10 @@ if (this_datasource_has_itemsets_stream){
   
   dataset_item_sets[is.na(imputed_end_of_pregnancy),imputed_end_of_pregnancy:=0]
   # create variable pregnancy_id as survey_date
-  dataset_item_sets[,pregnancy_id:=paste0(visit_occurrence_id,"_",person_id,"_",record_date)] 
+  dataset_item_sets[,pregnancy_id:=paste0(person_id,"_",visit_occurrence_id,"_",record_date)] 
   
   # keep only vars neeed
-  D3_Stream_ITEMSETS <- dataset_item_sets[,.(pregnancy_id,person_id,record_date,pregnancy_start_date,pregnancy_ongoing_date,pregnancy_end_date,meaning_start_date,meaning_end_date,meaning_ongoing_date,type_of_pregnancy_end,visit_occurrence_id,mo_meaning,mo_source_column,mo_source_value,mo_unit,ITEMSETS,origin)] # 
+  D3_Stream_ITEMSETS <- dataset_item_sets[,.(pregnancy_id,person_id,record_date,pregnancy_start_date,pregnancy_ongoing_date,pregnancy_end_date,meaning_start_date,meaning_end_date,meaning_ongoing_date,type_of_pregnancy_end,imputed_end_of_pregnancy,visit_occurrence_id,mo_meaning,mo_source_column,mo_source_value,mo_unit,ITEMSETS,origin)] # 
   save(D3_Stream_ITEMSETS, file=paste0(dirtemp,"D3_Stream_ITEMSETS.RData"))
   
   

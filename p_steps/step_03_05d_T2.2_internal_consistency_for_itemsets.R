@@ -4,6 +4,8 @@ if (this_datasource_has_itemsets_stream){
   ## import D3_Stream_ITEMSETS
   load(paste0(dirtemp,"D3_Stream_ITEMSETS.RData"))
   
+  D3_Stream_ITEMSETS <-D3_Stream_ITEMSETS[,person_id:=as.character(person_id)]
+  
   # linkare D3_study_population_pregnancy with PERSONS, verify if person_id, survey_id e survey_date are unique key.
   # create var link_to_person:=1 if it links with PERSONS, 
   
@@ -18,6 +20,7 @@ if (this_datasource_has_itemsets_stream){
       D3_PERSONS <-D3_PERSONS[!(is.na(person_id) | person_id==""), ]
     }
   }
+  D3_PERSONS <-D3_PERSONS[,person_id:=as.character(person_id)]
   
   load(paste0(dirtemp,"output_spells_category.RData"))
   
@@ -89,10 +92,11 @@ if (this_datasource_has_itemsets_stream){
   
   
   
-  D3_Stream_ITEMSETS_check<-D3_study_population_pregnancy_from_ITEMSETS[,.(pregnancy_id,person_id,record_date,pregnancy_start_date,pregnancy_ongoing_date,pregnancy_end_date,meaning_start_date,meaning_ongoing_date,meaning_end_date,type_of_pregnancy_end,imputed_end_of_pregnancy,survey_id,ITEMSETS)]#
+  D3_Stream_ITEMSETS_check<-D3_study_population_pregnancy_from_ITEMSETS[,.(pregnancy_id,person_id,record_date,pregnancy_start_date,pregnancy_ongoing_date,pregnancy_end_date,meaning_start_date,meaning_ongoing_date,meaning_end_date,type_of_pregnancy_end,imputed_end_of_pregnancy,ITEMSETS)]#
   save(D3_Stream_ITEMSETS_check, file=paste0(dirtemp,"D3_Stream_ITEMSETS_check.RData"))
   
   
   rm(D3_Stream_ITEMSETS_check,D3_Stream_ITEMSETS, D3_PERSONS, output_spells_category, D3_study_population_pregnancy_from_ITEMSETS,D3_study_population_pregnancy1,D3_study_population_pregnancy2, D3_excluded_pregnancies_from_ITEMSETS,D3_excluded_pregnancies_from_ITEMSETS_1,D3_excluded_pregnancies_from_ITEMSETS_2,D3_study_population_pregnancy3)
   
+  print("Internal consistency for ITEMSETS checked")
 } 

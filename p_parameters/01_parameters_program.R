@@ -83,9 +83,9 @@ firstjan2018<-as.Date(as.character(20180101), date_format)
 
 CDM_SOURCE<- fread(paste0(dirinput,"CDM_SOURCE.csv"))
 thisdatasource <- as.character(CDM_SOURCE[1,3])
-# 
-# CDM_SOURCE<- fread(paste0(dirinput,"CDM_SOURCE_test.csv"))
-# thisdatasource <- as.character(CDM_SOURCE[1,3])
+
+CDM_SOURCE<- fread(paste0(dirinput,"CDM_SOURCE_test.csv"))
+thisdatasource <- as.character(CDM_SOURCE[1,3])
 
 #---------------------------------------
 # understand which datasource the script is querying
