@@ -63,19 +63,22 @@ table(groups_of_pregnancies[,coloured_order], useNA = "ifany")
 
 #order_quality: the default order is:
         # 1)	EUROCAT
-        # 2)	PROMPT, pregnancy completed and pregnancy_start_date recorded
-        # 3)	ITEMSETS, pregnancy completed and pregnancy_start_date recorded
+        # 2)	PROMPT
+        # 3)	ITEMSETS
         # 4)	CONCEPSETS, pregnancy completed and pregnancy_start_date recorded
-        # 5)	PROMPT pregnancy completed and pregnancy_start_date imputed
-        # 6)	ITEMSETS, pregnancy completed and pregnancy_start_date imputed
-        # 7)	CONCEPSETS: live birth, pregnancy_start_date not available and imputed 
-        # 8)	CONCEPSETS: pre-term birth, pregnancy_start_date not available and imputed
-        # 9)	CONCEPSETS: still birth, pregnancy_start_date not available and imputed
-        # 10)	CONCEPSETS: interruption, pregnancy_start_date not available and imputed
-        # 11)	CONCEPSETS: spontaneous abortion, pregnancy_start_date not available and imputed
-        # 12)	all Streams: ongoing pregnancy and pregnancy_start_date recorded 
-        # 13)	CONCEPSETS: procedures
-        # 14)	all Streams: ongoing pregnancy and pregnancy_start_date not recorded 
+
+        # 5)	PROMPT, pregnancy completed and pregnancy_start_date not available and imputed
+        # 6)	ITEMSETS, pregnancy completed and pregnancy_start_date not available and imputed
+        # 7)	CONCEPSETS: live birth, meaning non primary care, pregnancy_start_date not available and imputed 
+        # 8)	CONCEPSETS: pre-term birth, meaning non primary care,  pregnancy_start_date not available and imputed
+        # 9)	CONCEPSETS: still birth, meaning non primary care,  pregnancy_start_date not available and imputed
+        # 10)	CONCEPSETS: interruption, meaning non primary care,  pregnancy_start_date not available and imputed
+        # 11)	CONCEPTSETS: spontaneous abortion, meaning non primary care, pregnancy_start_date not available and imputed
+        # 12)	CONCEPTSETS: meaning implying primary care, pregnancy_start_date not available and imputed, end date estimated with record date 
+
+        # 13)	all Streams: ongoing pregnancy and pregnancy_start_date recorded
+
+        # 14)	all Streams: ongoing pregnancy having pregnancy_start_date not available and imputed 
 
 groups_of_pregnancies<-groups_of_pregnancies[EUROCAT=="yes" & coloured_order=="1_green",order_quality:=1]
 groups_of_pregnancies<-groups_of_pregnancies[PROMPT=="yes" & coloured_order=="1_green",order_quality:=2]
@@ -85,23 +88,46 @@ groups_of_pregnancies<-groups_of_pregnancies[CONCEPTSETS=="yes" & coloured_order
 groups_of_pregnancies<-groups_of_pregnancies[PROMPT=="yes" & coloured_order=="2_yellow",order_quality:=5] 
 groups_of_pregnancies<-groups_of_pregnancies[ITEMSETS=="yes" & coloured_order=="2_yellow",order_quality:=6] 
 
-groups_of_pregnancies<-groups_of_pregnancies[CONCEPTSETS=="yes" & CONCEPTSET=="Live_birth" & coloured_order=="2_yellow",order_quality:=7] #
-groups_of_pregnancies<-groups_of_pregnancies[CONCEPTSETS=="yes" & CONCEPTSET=="Birth" & coloured_order=="2_yellow",order_quality:=7] #
-groups_of_pregnancies<-groups_of_pregnancies[CONCEPTSETS=="yes" & CONCEPTSET=="Pre_term_birth" & coloured_order=="2_yellow",order_quality:=8]
-groups_of_pregnancies<-groups_of_pregnancies[CONCEPTSETS=="yes" & CONCEPTSET=="Still_birth" & coloured_order=="2_yellow",order_quality:=9]
-groups_of_pregnancies<-groups_of_pregnancies[CONCEPTSETS=="yes" & CONCEPTSET=="Interruption" & coloured_order=="2_yellow",order_quality:=10]
-groups_of_pregnancies<-groups_of_pregnancies[CONCEPTSETS=="yes" & CONCEPTSET=="Spontaneousabortion" & coloured_order=="2_yellow",order_quality:=11]
+groups_of_pregnancies<-groups_of_pregnancies[CONCEPTSETS=="yes" & CONCEPTSET=="Live_birth" & coloured_order=="2_yellow" & !eval(parse(text = condmeaning$PC)), order_quality:=7] #
+groups_of_pregnancies<-groups_of_pregnancies[CONCEPTSETS=="yes" & CONCEPTSET=="Birth" & coloured_order=="2_yellow" & !eval(parse(text = condmeaning$PC)),order_quality:=7] #
+groups_of_pregnancies<-groups_of_pregnancies[CONCEPTSETS=="yes" & CONCEPTSET=="Pre_term_birth" & coloured_order=="2_yellow" & !eval(parse(text = condmeaning$PC)),order_quality:=8]
+groups_of_pregnancies<-groups_of_pregnancies[CONCEPTSETS=="yes" & CONCEPTSET=="Still_birth" & coloured_order=="2_yellow" & !eval(parse(text = condmeaning$PC)),order_quality:=9]
+groups_of_pregnancies<-groups_of_pregnancies[CONCEPTSETS=="yes" & CONCEPTSET=="Interruption" & coloured_order=="2_yellow" & !eval(parse(text = condmeaning$PC)),order_quality:=10]
+groups_of_pregnancies<-groups_of_pregnancies[CONCEPTSETS=="yes" & CONCEPTSET=="Spontaneousabortion" & coloured_order=="2_yellow" & !eval(parse(text = condmeaning$PC)),order_quality:=11]
+groups_of_pregnancies<-groups_of_pregnancies[CONCEPTSETS=="yes" & coloured_order=="2_yellow" & eval(parse(text = condmeaning$PC)),order_quality:=12]
+ 
+groups_of_pregnancies<-groups_of_pregnancies[coloured_order=="3_blue",order_quality:=13]
 
-groups_of_pregnancies<-groups_of_pregnancies[coloured_order=="3_blue",order_quality:=12]
-
-groups_of_pregnancies<-groups_of_pregnancies[is.na(order_quality) & coloured_order=="4_red",order_quality:=13]
+groups_of_pregnancies<-groups_of_pregnancies[coloured_order=="4_red",order_quality:=14]
 
 table(groups_of_pregnancies[,order_quality], useNA = "ifany")
+table(groups_of_pregnancies[,.(order_quality, coloured_order)], useNA = "ifany")
+
+
+
+# only GREEN record:
+groups_of_pregnancies_green<-groups_of_pregnancies[coloured_order=="1_green",]
+groups_of_pregnancies_green<-groups_of_pregnancies_green[order(person_id, -pregnancy_end_date),]
+groups_of_pregnancies_green<-groups_of_pregnancies_green[,n_person:=seq_along(.I), by=.(person_id)]
+groups_of_pregnancies_green<-groups_of_pregnancies_green[n_person==1,`:=`(group=1, group_start_date= pregnancy_start_date, group_end_date= pregnancy_end_date)]
+groups_of_pregnancies_green<-groups_of_pregnancies_green[,pregnancy_start_next:=lead(pregnancy_start_date),by="person_id"]
+groups_of_pregnancies_green<-groups_of_pregnancies_green[,pregnancy_end_next:=lead(pregnancy_end_date),by="person_id"]
+
+groups_of_pregnancies_green<-groups_of_pregnancies_green[,pregnancy_start_prev:=shift(pregnancy_start_date),by="person_id"]
+groups_of_pregnancies_green<-groups_of_pregnancies_green[,pregnancy_end_prev:=shift(pregnancy_end_date),by="person_id"]
+
+View(groups_of_pregnancies_green[,.(person_id,pregnancy_start_date,pregnancy_end_date,n_person,group,group_start_date,group_end_date,pregnancy_start_next,pregnancy_end_next)])
+
+groups_of_pregnancies_green<-groups_of_pregnancies_green[,check:=(pregnancy_start_next>=group_start_date-28) & (pregnancy_end_next<=group_end_date+28)]
+groups_of_pregnancies_green<-as.data.table(groups_of_pregnancies_green %>% group_by(person_id) %>%  mutate (Episode=Reduce(sum, check, accumulate = TRUE)+1))
+
+View(groups_of_pregnancies_green[,.(person_id,pregnancy_start_date,pregnancy_end_date,n_person,group,group_start_date,group_end_date,pregnancy_start_next,pregnancy_end_next,check,Episode)])
 
 
 
 
-# isolare solo GREEN
+
+
 setorderv(groups_of_pregnancies,c("person_id","pregnancy_start_date","pregnancy_end_date","order_quality"), na.last = T)
 groups_of_pregnancies_overlap<-groups_of_pregnancies[,pregnancy_start_next:=lead(pregnancy_start_date),by="person_id"]
 groups_of_pregnancies_overlap[pregnancy_start_next<pregnancy_end_date & (pregnancy_start_next!=pregnancy_start_date & pregnancy_start_next!=pregnancy_start_date+1), overlap:=1][is.na(overlap), overlap:=0]
