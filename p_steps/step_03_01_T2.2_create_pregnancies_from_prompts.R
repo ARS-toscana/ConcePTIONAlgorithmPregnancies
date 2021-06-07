@@ -30,7 +30,7 @@ if (dim(SURVEY_ID_BR)[1]!=0){
   dataset_pregnancies<-unique(dataset_pregnancies, by=c("person_id","survey_id", "survey_date"))
   
   # create variable pregnancy_id as survey_date
-  dataset_pregnancies[,pregnancy_id:=paste0(survey_id,"_",person_id,"_",survey_date)] 
+  dataset_pregnancies[,pregnancy_id:=paste0(person_id,"_",survey_id,"_",survey_date)] 
   
   # adapt format for variables used in computation:
   dataset_pregnancies[,DATEENDPREGNANCY:=as.Date(DATEENDPREGNANCY)]
