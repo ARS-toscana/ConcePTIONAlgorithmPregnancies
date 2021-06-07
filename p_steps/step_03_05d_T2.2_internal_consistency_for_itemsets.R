@@ -4,7 +4,7 @@ if (this_datasource_has_itemsets_stream){
   ## import D3_Stream_ITEMSETS
   load(paste0(dirtemp,"D3_Stream_ITEMSETS.RData"))
   
-  D3_Stream_ITEMSETS <-D3_Stream_ITEMSETS[,person_id:=as.character(person_id)]
+  #D3_Stream_ITEMSETS <-D3_Stream_ITEMSETS[,person_id:=as.character(person_id)]
   
   # linkare D3_study_population_pregnancy with PERSONS, verify if person_id, survey_id e survey_date are unique key.
   # create var link_to_person:=1 if it links with PERSONS, 

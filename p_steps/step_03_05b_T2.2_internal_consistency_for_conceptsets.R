@@ -1,7 +1,7 @@
 ## import D3_Stream_CONCEPTSETS
 load(paste0(dirtemp,"D3_Stream_CONCEPTSETS.RData"))
 
-D3_Stream_CONCEPTSETS<-D3_Stream_CONCEPTSETS[,record_date:=as.Date(as.character(record_date), date_format)]
+#D3_Stream_CONCEPTSETS<-D3_Stream_CONCEPTSETS[,record_date:=as.Date(as.character(record_date), date_format)]
 
 # linkare D3_study_population_pregnancy with PERSONS, verify if person_id, survey_id e survey_date are unique key.
 # create var link_to_person:=1 if it links with PERSONS, 
