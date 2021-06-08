@@ -8,7 +8,7 @@ study_variables_type_of_pregnancy <- c("TYPE")
 
 # check if it exists in DAP
 if (dim(SURVEY_ID_BR)[1]!=0){
-
+  
   for (studyvar in c(study_variables_end_of_pregnancy,study_variables_type_of_pregnancy,study_variables_start_of_pregnancy)){
     load(paste0(dirtemp,studyvar,".RData"))
   }
@@ -17,7 +17,7 @@ if (dim(SURVEY_ID_BR)[1]!=0){
   # merge with SURVEY_ID_BR both LMP and USOUNDS, define two variables start_of_pregnancy_LMP and start_of_pregnancy_USOUNDS, define pregnancy_id as survey_id
   
   dataset_pregnancies <- SURVEY_ID_BR
-
+  
   for (studyvar in c(study_variables_end_of_pregnancy,study_variables_type_of_pregnancy,study_variables_start_of_pregnancy)){
     print(studyvar)
     studyvardataset <- get(studyvar)
@@ -33,6 +33,7 @@ if (dim(SURVEY_ID_BR)[1]!=0){
   dataset_pregnancies[,pregnancy_id:=paste0(person_id,"_",survey_id,"_",survey_date)] 
   
   # adapt format for variables used in computation:
+  dataset_pregnancies[,survey_date:=ymd(survey_date)]
   dataset_pregnancies[,DATEENDPREGNANCY:=as.Date(DATEENDPREGNANCY)]
   dataset_pregnancies[,END_LIVEBIRTH:=as.Date(END_LIVEBIRTH)]
   dataset_pregnancies[,END_STILLBIRTH:=as.Date(END_STILLBIRTH)]
@@ -58,7 +59,7 @@ if (dim(SURVEY_ID_BR)[1]!=0){
     dataset_pregnancies<-dataset_pregnancies[survey_meaning==unlist(meaning_of_survey_our_study_this_datasource[["birth_registry"]]) & (GESTAGE_FROM_LMP_WEEKS<22 | GESTAGE_FROM_LMP_WEEKS>46), GESTAGE_FROM_LMP_WEEKS:=NA]
     
   }
-    
+  
   
   
   ## END OF PREGNANCY:
@@ -114,7 +115,7 @@ if (dim(SURVEY_ID_BR)[1]!=0){
   dataset_pregnancies3[is.na(pregnancy_start_date) & !is.na(GESTAGE_FROM_LMP_WEEKS),pregnancy_start_date:=pregnancy_end_date-(GESTAGE_FROM_LMP_WEEKS*7)]
   dataset_pregnancies3[!is.na(pregnancy_start_date) & !is.na(GESTAGE_FROM_LMP_WEEKS) & is.na(meaning_start_date),`:=`(meaning_start_date=paste0("from_prompts_","GESTAGE_FROM_LMP_WEEKS"),origin=table_GESTAGE_FROM_LMP_WEEKS)]
   
-
+  
   
   
   
