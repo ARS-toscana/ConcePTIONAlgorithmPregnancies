@@ -109,33 +109,21 @@ table(groups_of_pregnancies[,.(order_quality, coloured_order)], useNA = "ifany")
 groups_of_pregnancies_green<-groups_of_pregnancies[coloured_order=="1_green",]
 groups_of_pregnancies_green<-groups_of_pregnancies_green[order(person_id, -pregnancy_end_date),]
 groups_of_pregnancies_green<-groups_of_pregnancies_green[,n_person:=seq_along(.I), by=.(person_id)]
-groups_of_pregnancies_green<-groups_of_pregnancies_green[n_person==1,`:=`(group=1, group_start_date= pregnancy_start_date, group_end_date= pregnancy_end_date)]
-groups_of_pregnancies_green<-groups_of_pregnancies_green[,pregnancy_start_next:=lead(pregnancy_start_date),by="person_id"]
-groups_of_pregnancies_green<-groups_of_pregnancies_green[,pregnancy_end_next:=lead(pregnancy_end_date),by="person_id"]
-
+groups_of_pregnancies_green<-groups_of_pregnancies_green[n_person==1,`:=`(group=1)]
+groups_of_pregnancies_green<-groups_of_pregnancies_green[,`:=`(group_start_date=pregnancy_start_date, group_end_date= pregnancy_end_date)] #group=1, 
 groups_of_pregnancies_green<-groups_of_pregnancies_green[,pregnancy_start_prev:=shift(pregnancy_start_date),by="person_id"]
 groups_of_pregnancies_green<-groups_of_pregnancies_green[,pregnancy_end_prev:=shift(pregnancy_end_date),by="person_id"]
+View(groups_of_pregnancies_green[,.(person_id,pregnancy_start_date,pregnancy_end_date,n_person,group,group_start_date,group_end_date,pregnancy_start_prev,pregnancy_end_prev)]) 
 
-View(groups_of_pregnancies_green[,.(person_id,pregnancy_start_date,pregnancy_end_date,n_person,group,group_start_date,group_end_date,pregnancy_start_next,pregnancy_end_next)])
+groups_of_pregnancies_green<-groups_of_pregnancies_green[,diff:=!(group_start_date>=pregnancy_start_prev-28 & group_end_date<=pregnancy_end_prev+28)]
+groups_of_pregnancies_green<-groups_of_pregnancies_green[group==1,diff:=F]
+groups_of_pregnancies_green<-as.data.table(groups_of_pregnancies_green %>% group_by(person_id) %>%  mutate (Episode=Reduce(sum, diff, accumulate = TRUE)+1))
 
-groups_of_pregnancies_green<-groups_of_pregnancies_green[,check:=(pregnancy_start_next>=group_start_date-28) & (pregnancy_end_next<=group_end_date+28)]
-groups_of_pregnancies_green<-as.data.table(groups_of_pregnancies_green %>% group_by(person_id) %>%  mutate (Episode=Reduce(sum, check, accumulate = TRUE)+1))
-
-View(groups_of_pregnancies_green[,.(person_id,pregnancy_start_date,pregnancy_end_date,n_person,group,group_start_date,group_end_date,pregnancy_start_next,pregnancy_end_next,check,Episode)])
-
-
+View(groups_of_pregnancies_green[,.(person_id,pregnancy_start_date,pregnancy_end_date,n_person,group,group_start_date,group_end_date,pregnancy_start_prev,pregnancy_end_prev,diff,Episode)])
 
 
 
 
-setorderv(groups_of_pregnancies,c("person_id","pregnancy_start_date","pregnancy_end_date","order_quality"), na.last = T)
-groups_of_pregnancies_overlap<-groups_of_pregnancies[,pregnancy_start_next:=lead(pregnancy_start_date),by="person_id"]
-groups_of_pregnancies_overlap[pregnancy_start_next<pregnancy_end_date & (pregnancy_start_next!=pregnancy_start_date & pregnancy_start_next!=pregnancy_start_date+1), overlap:=1][is.na(overlap), overlap:=0]
-
-groups_of_pregnancies_overlap[,overlap_person:=max(overlap), by="person_id"]
-addmargins(table(groups_of_pregnancies_overlap$overlap)) #409
-
-View(groups_of_pregnancies_overlap[,.(person_id,pregnancy_id, pregnancy_start_date,pregnancy_end_date, pregnancy_start_next,overlap,overlap_person)])
 
 groups_of_pregnancies<-groups_of_pregnancies[,group_identifier]
 

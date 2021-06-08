@@ -47,7 +47,7 @@ PERSONS_GEPARD_test <- temp[ , .(person_id, day_of_birth, month_of_birth, year_o
 ## MEDICAL_OBSERVATIONS_EDD
 MEDICAL_OBSERVATIONS_EDD <- temp[ , .(person_id, mo_date, mo_code, mo_record_vocabulary, mo_source_table, mo_source_column, mo_source_value, mo_unit, mo_meaning, mo_origin, visit_occurrence_id)]
 
-MEDICAL_OBSERVATIONS_EDD <- MEDICAL_OBSERVATIONS_EDD[, mo_date:=(as.integer(format(sample(seq((ymd(mo_source_value) - 120), ymd(mo_source_value), by= "day"), 1), format = dformat)))
+MEDICAL_OBSERVATIONS_EDD <- MEDICAL_OBSERVATIONS_EDD[, mo_date:=(as.integer(format(sample(seq((ymd(mo_source_value) - 120),(ymd(mo_source_value) - 90), by= "day"), 1), format = dformat)))
                                                      , by = person_id]
 
 
@@ -55,12 +55,13 @@ MEDICAL_OBSERVATIONS_EDD <- MEDICAL_OBSERVATIONS_EDD[, mo_date:=(as.integer(form
 
 MEDICAL_OBSERVATIONS_EDD_doble <- MEDICAL_OBSERVATIONS_EDD[sample(nrow(MEDICAL_OBSERVATIONS_EDD), 30), ]
 
-MEDICAL_OBSERVATIONS_EDD_doble <- MEDICAL_OBSERVATIONS_EDD_doble[, mo_date:=(as.integer(format(sample(seq(ymd(mo_date), ymd(mo_source_value), by= "day"), 1), format = dformat)))
+MEDICAL_OBSERVATIONS_EDD_doble <- MEDICAL_OBSERVATIONS_EDD_doble[, mo_date:=(as.integer(format(sample(seq((ymd(mo_source_value) - 120),(ymd(mo_source_value) - 90), by= "day"), 1), format = dformat)))
                                                                  , by = person_id]
+
 
 MEDICAL_OBSERVATIONS_EDD_test <- rbind(MEDICAL_OBSERVATIONS_EDD, MEDICAL_OBSERVATIONS_EDD_doble)
 
 ## fwrite
-fwrite(MEDICAL_OBSERVATIONS_EDD_test, "i_input/MEDICAL_OBSERVATIONS_EDD_test.csv")
+fwrite(MEDICAL_OBSERVATIONS_EDD_test, "i_input/MEDICAL_OBSERVATIONS_EDD.csv")
 
-fwrite(PERSONS_GEPARD_test, "i_input/PERSONS_GEPARD_test.csv")
+fwrite(PERSONS_GEPARD_test, "i_input/PERSONS_GEPARD.csv")
