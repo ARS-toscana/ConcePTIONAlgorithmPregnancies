@@ -43,6 +43,8 @@ library(dplyr)
 if (!require("survival")) install.packages("survival")
 library(survival)
 
+`%notin%` <- Negate(`%in%`)
+
 # load macros
 
 #source(paste0(dirmacro,"CreateConceptSetDatasets_v14.R"))
