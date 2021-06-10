@@ -86,7 +86,7 @@ D3_excluded_pregnancies_from_CONCEPTSETS<-rbind(D3_excluded_pregnancies_from_CON
 save(D3_excluded_pregnancies_from_CONCEPTSETS, file=paste0(dirtemp,"D3_excluded_pregnancies_from_CONCEPTSETS.RData")) # 663830
 
 # pregnancies to be included in next steps
-D3_study_population_pregnancy_from_CONCEPTSETS<-D3_study_population_pregnancy3[no_linked_to_person==0 & person_not_female==0 & person_not_in_fertile_age==0 & pregnancy_start_in_spells==1 & pregnancy_end_in_spells==1,] [,-c("no_linked_to_person","person_not_female","person_not_in_fertile_age","pregnancy_start_in_spells","pregnancy_end_in_spells")] # 554767 against 429699
+D3_study_population_pregnancy_from_CONCEPTSETS<-D3_study_population_pregnancy3[no_linked_to_person==0 & person_not_female==0 & person_not_in_fertile_age==0 & pregnancy_start_in_spells==0 & pregnancy_end_in_spells==0,] [,-c("no_linked_to_person","person_not_female","person_not_in_fertile_age","pregnancy_start_in_spells","pregnancy_end_in_spells")] # 554767 against 429699
 save(D3_study_population_pregnancy_from_CONCEPTSETS, file=paste0(dirtemp,"D3_study_population_pregnancy_from_CONCEPTSETS.RData"))
 
 
