@@ -10,32 +10,12 @@ for (conceptvar in concept_sets_outcomes){
   load(paste0(dirtemp,conceptvar,".RData"))
 }
 
-################## simulated data ####################
-#pregnancy
-D3_included_pregnancy_sim <- data.table(ID=paste0("pregnancy_", seq_along(seq(1, 100))))
-dformat <- "%Y%m%d"
-
-D3_included_pregnancy_sim <- D3_included_pregnancy_sim[,date_start_pregnancy := as.integer(format(sample(seq(as.Date('1996/01/01'), as.Date('2021/01/01'), by= "day"), 1), format = dformat)), by=ID]
-
-D3_included_pregnancy_sim <- D3_included_pregnancy_sim[,date_end_pregnancy:= format((ymd(date_start_pregnancy) + 280), dformat) ]
-
-
-#insulin
-insulin_between <- D3_included_pregnancy_sim[sample(30)]
-insulin_between <-   insulin_between[, record := as.integer(format(sample( seq( ymd(date_start_pregnancy), ymd(date_end_pregnancy), by= "day"), 1), format = dformat)), by=ID][,.(ID, record)]
-
-insulin_befor <- insulin_between[sample(15)]
-
-insulin_befor <- insulin_befor[, record := as.integer(format(sample( seq( ymd(record)-365, ymd(record), by= "day"), 1), format = dformat)), by=ID]
-
-
-insulin <- rbind(insulin_between, insulin_befor)
 
 # Gestational diabetes
+insuline_first_record
 
 
-
-dataset_merged <- MergeFilterAndCollapse(list(D3_included_pregnancies, insulin),
+dataset_merged <- MergeFilterAndCollapse(list(D3_included_pregnancies, insuline),
                                          condition = insuline_first_record >= pregnancy_start_date & insuline_first_record <= pregnancy_end_date,
                                          additionalvar = list(),
                                          strata=c())
