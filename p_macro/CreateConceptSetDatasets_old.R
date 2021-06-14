@@ -102,14 +102,11 @@ CreateConceptSetDatasets <- function(dataset,codvar,datevar,EAVtables,EAVattribu
         for (datevar_dom_df2 in datevar[[dom]][[df2]]) {
           first_char <- substring(dateformat, 1,1)
           if (stringr::str_count(dateformat, "m") == 3 || stringr::str_count(dateformat, "M") == 3) {
-            used_df <- used_df[, (datevar_dom_df2) := as.Date(get(datevar_dom_df2),"%d%b%Y")]
-            # used_df[,datevar_dom_df2] <- as.Date(used_df[,get(datevar_dom_df2)],"%d%b%Y")
+            used_df[,datevar_dom_df2] <- as.Date(used_df[,get(datevar_dom_df2)],"%d%b%Y")
           } else if (first_char %in% c("Y", "y")) {
-            used_df <- used_df[, (datevar_dom_df2) := lubridate::ymd(get(datevar_dom_df2))]
-            # used_df[,datevar_dom_df2] <- lubridate::ymd(used_df[,get(datevar_dom_df2)])
+            used_df[,datevar_dom_df2] <- lubridate::ymd(used_df[,get(datevar_dom_df2)])
           } else if (first_char %in% c("D", "d")) {
-            # used_df[,datevar_dom_df2] <- lubridate::dmy(used_df[,get(datevar_dom_df2)])
-            used_df <- used_df[, (datevar_dom_df2) := lubridate::dmy(get(datevar_dom_df2))]
+            used_df[,datevar_dom_df2] <- lubridate::dmy(used_df[,get(datevar_dom_df2)])
           }
         }
       }
@@ -127,7 +124,7 @@ CreateConceptSetDatasets <- function(dataset,codvar,datevar,EAVtables,EAVattribu
           print(paste("concept set", concept))
           if (!missing(EAVtables)) {
             for (p in seq_along(EAVtables[[dom]])) {
-              if (df2 %in% EAVtables[[dom]][[p]][[1]][[1]]) {
+              if (df2 %in% EAVtables[[dom]][[p]][[1]][[1]] & df2 %in% names(ConcePTION_CDM_EAV_attributes_this_datasource[[dom]])) {
                 used_dfAEV<-data.table()
                 for (elem1 in names(EAVattributes[[concept_set_domains[[concept]]]][[df2]])) {
                   #TODO improve naming of lenght_first_df2, df2_elem and EAV_concept_p
@@ -153,6 +150,7 @@ CreateConceptSetDatasets <- function(dataset,codvar,datevar,EAVtables,EAVattribu
         } else {
           cod_system_indataset <- names(concept_set_codes[[concept]])
         }
+      
 
         if (length(cod_system_indataset) == 0) {
           next
@@ -175,11 +173,12 @@ CreateConceptSetDatasets <- function(dataset,codvar,datevar,EAVtables,EAVattribu
               if (stop == TRUE) {
                 next
               }
-
+              
               if (df2 %in% dataset[[dom]]) {################### IF I GIVE VOCABULARY IN INPUT
                 is_wildcard = try(type_cod %in% vocabularies_with_dot_wildcard, silent=TRUE)
                 is_keep_dot = try(type_cod %in% vocabularies_with_keep_dot, silent=TRUE)
                 if ((class(is_wildcard) != "try-error" && is_wildcard) || (class(is_keep_dot) != "try-error" && is_keep_dot)) {
+                  
                   vocab_dom_df2_eq_type_cod <- vocabulary[[dom]][[df2]] == type_cod
                 } else {
                   vocab_dom_df2_eq_type_cod <- T
@@ -206,7 +205,6 @@ CreateConceptSetDatasets <- function(dataset,codvar,datevar,EAVtables,EAVattribu
                 }
               }
             }
-
             if (!missing(concept_set_codes_excl)){
               if (!missing(vocabulary) && dom %in% names(vocabulary) && df2 %in% names(vocabulary[[dom]])) {
                 cod_system_indataset1_excl<-unique(used_df[,get(vocabulary[[dom]][[df2]])])
@@ -247,13 +245,13 @@ CreateConceptSetDatasets <- function(dataset,codvar,datevar,EAVtables,EAVattribu
           }
         }
       }
-
+      
       for (col in names(used_df)) {
         if (col == codvar[[dom]][[df2]]) {
           setnames(used_df, col, "codvar" )
         }
       }
-
+      
       if(!missing(rename_col)){
         ###################RENAME THE COLUMNS ID AND DATE
         for (elem in names(rename_col)) {
@@ -289,9 +287,9 @@ CreateConceptSetDatasets <- function(dataset,codvar,datevar,EAVtables,EAVattribu
             Newfilter2 <- paste0("Filter_",concept)
             setnames(filtered_df,old = "Filter",new = Newfilter2)
           } else {
-            filtered_concept <- used_df[0, ][, !grep("^Filter", names(used_df)), with = F][,"General":=NULL]
-            rbind(filtered_concept[NA], filtered_concept)
-            filtered_concept <- filtered_concept[, !grep("^Col", names(filtered_concept)), with = F]
+            filtered_concept <- used_df[1,!grep("^Filter", names(used_df)),with = F] [,"General":=NULL]
+            filtered_concept[,] <- NA
+            filtered_concept <- filtered_concept[,!grep("^Col", names(filtered_concept)),with = F]
           }
 
           if (verbose) {
@@ -307,11 +305,8 @@ CreateConceptSetDatasets <- function(dataset,codvar,datevar,EAVtables,EAVattribu
     for (concept in concept_set_dom[[dom]]) {
       if (concept %in% concept_set_names) {
         export_df <- as.data.table(data.frame(matrix(ncol = 0, nrow = 0)))
-        all_col_df <- data.table()
         for (df2 in dataset1[[dom]]) {
-          all_col_df <- as.data.table(cbind(all_col_df, eval(parse(text = paste0(concept,"_",df2)))[0, ]))
-          all_col_df <- all_col_df[, .SD, .SDcols = unique(names(all_col_df))]
-          if (dim(eval(parse(text = paste0(concept,"_",df2))))[1] != 0 &&
+          if (dim(eval(parse(text = paste0(concept,"_",df2))))[1] != 0 && 
               min(is.na(eval(parse(text = paste0(concept,"_",df2)))), na.rm = T) == 0){
             export_df = suppressWarnings(rbind(export_df, eval(parse(text = paste0(concept,"_",df2))),fill = T) )
           }
@@ -323,16 +318,11 @@ CreateConceptSetDatasets <- function(dataset,codvar,datevar,EAVtables,EAVattribu
         #   names(export_df) <- names_empty
         #   export_df[,] <- NA
         # }
-        # These are the column of the last used_df not of the concept so it may not be what we want
-        # if (sum(dim(export_df)) == 0) {
-        #   export_df <- used_df[0, ][, General := NULL]
-        # }
-
-        col_to_add <- setdiff(names(all_col_df), names(export_df))
-
-        if (length(col_to_add) != 0L) {
-          export_df <- rbind(all_col_df, export_df, fill = T)
+        if (sum(dim(export_df)) == 0) {
+          export_df <- used_df[0, ][, General := NULL]
         }
+        
+        #export_df<-export_df[, .SD[!all(is.na(.SD))]]
 
         if (addtabcol == F) export_df<-export_df[,c("Table_cdm","Col"):=NULL]
         if (discard_from_environment==T) {
