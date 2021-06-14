@@ -161,7 +161,7 @@ if (length(ConcePTION_CDM_EAV_tables)!=0 ){
 
 #NEW ATTRIBUTES DEFINITION
 ConcePTION_CDM_coding_system_list<-vector(mode="list")
-METADATA<-fread(paste0(dirinput,"METADATA.CSV"))
+METADATA<-fread(paste0(dirinput,"METADATA.csv"))
 ConcePTION_CDM_coding_system_list<-unique(unlist(str_split(unique(METADATA[type_of_metadata=="list_of_values" & (columnname=="so_unit" | columnname=="mo_record_vocabulary"),values])," ")))
 
 ConcePTION_CDM_EAV_attributes<-vector(mode="list")
