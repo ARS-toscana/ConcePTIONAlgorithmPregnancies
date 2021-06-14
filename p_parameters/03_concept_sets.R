@@ -1,7 +1,7 @@
 ## third draft of concept sets - 210614
 
 
-concept_sets_of_our_study <- c("Startofpregnancy","Gestation_less24","Gestation_24","Gestation_25_26","Gestation_27_28","Gestation_29_30","Gestation_31_32","Gestation_33_34","Gestation_36_35","Gestation_more37","Ongoingpregnancy","Birth","Preterm","Atterm","Postterm","Livebirth","Stillbirth","Interruption", "Spontaneousabortion", "Ectopicpregnancy")
+concept_sets_of_our_study <- c("Gestation_less24","Gestation_24","Gestation_25_26","Gestation_27_28","Gestation_29_30","Gestation_31_32","Gestation_33_34","Gestation_36_35","Gestation_more37","Ongoingpregnancy","Birth","Preterm","Atterm","Postterm","Livebirth","Stillbirth","Interruption", "Spontaneousabortion", "Ectopicpregnancy")
 
 
 concept_set_domains<- vector(mode="list")
@@ -15,12 +15,12 @@ concept_set_codes_our_study<-vector(mode="list")
 
 #--------------------------
 
-####### Start of pregnancy ###############
-concept_set_codes_our_study[["Startofpregnancy"]][["ICD9"]] <-c("626","631","69.92","765.2","765.2","V22.0","V72.40","V72.42")
-concept_set_codes_our_study[["Startofpregnancy"]][["ICD10"]] <-c("N91.2","O02.81","Z34.0","Z3A")
-concept_set_codes_our_study[["Startofpregnancy"]][["READ"]] <-c("K590.","K590z","X76Qv","X76xx","XE0hz","ZV220","ZV724","6211","62X..","8C81.","K590.","K590z","ZV220","ZV724")
-concept_set_codes_our_study[["Startofpregnancy"]][["ICPC2P"]] <-c("W59002","X05001")
-concept_set_codes_our_study[["Startofpregnancy"]][["SNOMED"]] <-c("14302001","156037007","250423000","315900008","316583008","58533008","6099009")
+# ####### Start of pregnancy ###############
+# concept_set_codes_our_study[["Startofpregnancy"]][["ICD9"]] <-c("626","631","69.92","765.2","765.2","V22.0","V72.40","V72.42")
+# concept_set_codes_our_study[["Startofpregnancy"]][["ICD10"]] <-c("N91.2","O02.81","Z34.0","Z3A")
+# concept_set_codes_our_study[["Startofpregnancy"]][["READ"]] <-c("K590.","K590z","X76Qv","X76xx","XE0hz","ZV220","ZV724","6211","62X..","8C81.","K590.","K590z","ZV220","ZV724")
+# concept_set_codes_our_study[["Startofpregnancy"]][["ICPC2P"]] <-c("W59002","X05001")
+# concept_set_codes_our_study[["Startofpregnancy"]][["SNOMED"]] <-c("14302001","156037007","250423000","315900008","316583008","58533008","6099009")
 
 ####### Gestation less 24 ###############
 concept_set_codes_our_study[["Gestation_less24"]][["ICD9"]] <- c("765.21")
