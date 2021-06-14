@@ -1,9 +1,6 @@
-# load D3_included_pregnancies
-load(paste0(dirtemp,"D3_included_pregnancies.RData"))
+# load D3_included_pregnancies  load(paste0(dirtemp,"D3_included_pregnancies.RData"))
 
-# load D3_Stream_CONCEPTSETS
-load(paste0(dirtemp,"D3_Stream_CONCEPTSETS.RData"))
-
+# load D3_Stream_CONCEPTSETS 
 concept_sets_outcomes <- c()
 
 for (conceptvar in concept_sets_outcomes){
@@ -21,33 +18,44 @@ D3_included_pregnancy_sim <- D3_included_pregnancy_sim[,date_end_pregnancy:= for
 
 
 #insulin
-insulin_between <- D3_included_pregnancy_sim[sample(30)]
-insulin_between <-   insulin_between[, record := as.integer(format(sample( seq( ymd(date_start_pregnancy), ymd(date_end_pregnancy), by= "day"), 1), format = dformat)), by=ID][,.(ID, record)]
+insuline_sample <- D3_included_pregnancy_sim[sample( nrow(D3_included_pregnancy_sim),40, replace = FALSE)]
 
-insulin_befor <- insulin_between[sample(15)]
+insuline_between <- insuline_sample[1:30,]
+insuline_between <-   insuline_between[, record := as.integer(format(sample( seq( ymd(date_start_pregnancy), ymd(date_end_pregnancy), by= "day"), 1), format = dformat)), by=ID]
 
-insulin_befor <- insulin_befor[, record := as.integer(format(sample( seq( ymd(record)-365, ymd(record), by= "day"), 1), format = dformat)), by=ID]
+insuline_between_and_befor <- insuline_between[sample(nrow(insuline_between),15, replace = FALSE)]
+insuline_between_and_befor <- insuline_between_and_befor[, record := as.integer(format(sample( seq( ymd(date_start_pregnancy)-365, ymd(date_start_pregnancy), by= "day"), 1), format = dformat)), by=ID]
 
 
-insulin <- rbind(insulin_between, insulin_befor)
+insuline_befor <- insuline_sample[31:40,]
+insuline_befor <- insuline_befor[, record := as.integer(format(sample( seq( ymd(date_start_pregnancy)-365, ymd(date_start_pregnancy), by= "day"), 1), format = dformat)), by=ID]
+
+
+insuline <- rbind(insuline_between, insuline_between_and_befor, insuline_befor)
+
+
+
 
 # Gestational diabetes
+# DF1 <- MergeFilterAndCollapse(list(insuline),
+#                               datasetS= D3_included_pregnancy_sim,
+#                               key = "ID",
+#                                          condition = "record >= date_start_pregnancy  & record <= date_end_pregnancy",
+#                                          additionalvar = list(),
+#                                          strata=c(), 
+#                               summarystat = list(list("count", "ID" )))
 
 
 
-dataset_merged <- MergeFilterAndCollapse(list(D3_included_pregnancies, insulin),
-                                         condition = insuline_first_record >= pregnancy_start_date & insuline_first_record <= pregnancy_end_date,
-                                         additionalvar = list(),
-                                         strata=c())
+dataset_merged <- merge(D3_included_pregnancy_sim, insuline, all = T)
 
-
-
-DF1 <- dataset_merged[!is.na(insuline_first_record) &
-                        insuline_first_record >= pregnancy_start_date &
-                        insuline_first_record <= pregnancy_end_date,
+DF1 <- dataset_merged[!is.na(record) &
+                        record >= date_start_pregnancy &
+                        record <= date_end_pregnancy,
                       gestational_diabetes:=1]
 DF1 <- DF1[is.na(gestational_diabetes), gestational_diabetes:=0]
 
+DF1[gestational_diabetes==1, .N]
 
 # Pre-eclampsia
 pre_eclampsia_record
