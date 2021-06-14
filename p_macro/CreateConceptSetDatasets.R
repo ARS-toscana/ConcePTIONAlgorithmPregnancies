@@ -80,7 +80,7 @@ CreateConceptSetDatasets <- function(dataset,codvar,datevar,EAVtables,EAVattribu
 
     dataset1[[dom]] <- dataset[[dom]]
     if (!missing(EAVtables) && !missing(EAVattributes) && dom %in% names(EAVtables) && length(EAVattributes)!=0) {
-      for (EAVtab_dom in EAVtables[[dom]]) {
+      for (EAVtab_dom in names(EAVattributes[[dom]])) {
         dataset1[[dom]] <- append(dataset1[[dom]], EAVtab_dom[[1]][[1]])
       }
     }
@@ -124,7 +124,7 @@ CreateConceptSetDatasets <- function(dataset,codvar,datevar,EAVtables,EAVattribu
           print(paste("concept set", concept))
           if (!missing(EAVtables)) {
             for (p in seq_along(EAVtables[[dom]])) {
-              if (df2 %in% EAVtables[[dom]][[p]][[1]][[1]]) {
+              if (df2 %in% EAVtables[[dom]][[p]][[1]][[1]] & df2 %in% names(ConcePTION_CDM_EAV_attributes_this_datasource[[dom]])) {
                 used_dfAEV<-data.table()
                 for (elem1 in names(EAVattributes[[concept_set_domains[[concept]]]][[df2]])) {
                   #TODO improve naming of lenght_first_df2, df2_elem and EAV_concept_p
