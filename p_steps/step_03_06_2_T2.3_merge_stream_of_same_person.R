@@ -62,24 +62,24 @@ groups_of_pregnancies<-groups_of_pregnancies[!is.na(pregnancy_start_date) & !is.
 table(groups_of_pregnancies[,coloured_order], useNA = "ifany")
 
 #order_quality: the default order is:
-# 1)	EUROCAT
-# 2)	PROMPT
-# 3)	ITEMSETS
-# 4)	CONCEPSETS, pregnancy completed and pregnancy_start_date recorded
-
-# 5)	PROMPT, pregnancy completed and pregnancy_start_date not available and imputed
-# 6)	ITEMSETS, pregnancy completed and pregnancy_start_date not available and imputed
-# 7)	CONCEPSETS: live birth, meaning non primary care, pregnancy_start_date not available and imputed 
-# 8)	CONCEPSETS: pre-term birth, meaning non primary care,  pregnancy_start_date not available and imputed
-# 9)	CONCEPSETS: still birth, meaning non primary care,  pregnancy_start_date not available and imputed
-# 10)	CONCEPSETS: interruption, meaning non primary care,  pregnancy_start_date not available and imputed
-# 11)	CONCEPTSETS: spontaneous abortion, meaning non primary care, pregnancy_start_date not available and imputed
-# 12)	CONCEPTSETS: ectopic pregnancy, meaning non primary care, pregnancy_start_date not available and imputed
-# 13)	CONCEPTSETS: meaning implying primary care, pregnancy_start_date not available and imputed, end date estimated with record date 
-
-# 14)	all Streams: ongoing pregnancy and pregnancy_start_date recorded
-
-# 15)	all Streams: ongoing pregnancy having pregnancy_start_date not available and imputed 
+              # 1)	EUROCAT
+              # 2)	PROMPT
+              # 3)	ITEMSETS
+              # 4)	CONCEPSETS, pregnancy completed and pregnancy_start_date recorded
+              
+              # 5)	PROMPT, pregnancy completed and pregnancy_start_date not available and imputed
+              # 6)	ITEMSETS, pregnancy completed and pregnancy_start_date not available and imputed
+              # 7)	CONCEPSETS: live birth, meaning non primary care, pregnancy_start_date not available and imputed 
+              # 8)	CONCEPSETS: pre-term birth, meaning non primary care,  pregnancy_start_date not available and imputed
+              # 9)	CONCEPSETS: still birth, meaning non primary care,  pregnancy_start_date not available and imputed
+              # 10)	CONCEPSETS: interruption, meaning non primary care,  pregnancy_start_date not available and imputed
+              # 11)	CONCEPTSETS: spontaneous abortion, meaning non primary care, pregnancy_start_date not available and imputed
+              # 12)	CONCEPTSETS: ectopic pregnancy, meaning non primary care, pregnancy_start_date not available and imputed
+              # 13)	CONCEPTSETS: meaning implying primary care, pregnancy_start_date not available and imputed, end date estimated with record date 
+              
+              # 14)	all Streams: ongoing pregnancy and pregnancy_start_date recorded
+              
+              # 15)	all Streams: ongoing pregnancy having pregnancy_start_date not available and imputed 
 
 groups_of_pregnancies<-groups_of_pregnancies[EUROCAT=="yes" & coloured_order=="1_green",order_quality:=1]
 groups_of_pregnancies<-groups_of_pregnancies[PROMPT=="yes" & coloured_order=="1_green",order_quality:=2]
@@ -129,21 +129,21 @@ suppressWarnings(gop_green<-as.data.table(gop_green %>% group_by(person_id) %>% 
 #recalculate group of pregnancy:
 gop_green<-gop_green[Episode==1,`:=`(group_start_date=min(group_start_date, pregnancy_start_date), group_end_date=max(group_end_date, pregnancy_end_date)), by=.(Episode, person_id)]
 gop_green<-gop_green[Episode!=1,`:=`(group_start_date=min(pregnancy_start_date), group_end_date= max(pregnancy_end_date)), by=.(Episode, person_id)]
-setnames(gop_green, "Episode","Group")
+setnames(gop_green, "Episode","group_identifier")
 # keep only needed vars for green
-gop_green<-gop_green[,.(pregnancy_id,person_id,record_date,pregnancy_start_date,meaning_start_date,pregnancy_ongoing_date, meaning_ongoing_date,pregnancy_end_date,meaning_end_date,type_of_pregnancy_end,imputed_start_of_pregnancy,imputed_end_of_pregnancy,meaning_of_event,survey_id,visit_occurrence_id,PROMPT,EUROCAT,CONCEPTSETS, CONCEPTSET,ITEMSETS,coloured_order, order_quality,ID,group_start_date,group_end_date,Group)]
+gop_green<-gop_green[,.(pregnancy_id,person_id,record_date,pregnancy_start_date,meaning_start_date,pregnancy_ongoing_date, meaning_ongoing_date,pregnancy_end_date,meaning_end_date,type_of_pregnancy_end,imputed_start_of_pregnancy,imputed_end_of_pregnancy,meaning_of_event,survey_id,visit_occurrence_id,PROMPT,EUROCAT,CONCEPTSETS, CONCEPTSET,ITEMSETS,coloured_order, order_quality,ID,group_start_date,group_end_date,group_identifier)]
 gop_green<-gop_green[,`:=`(group_start_date_28=group_start_date-28, group_end_date_28=group_end_date+28)]
 
 
 # reconciling green to yellow, blue and red
-gop_ybr_Ingreen<-unique(gop_ybr[gop_green,.(pregnancy_id,person_id,record_date=x.record_date,pregnancy_start_date,meaning_start_date,pregnancy_ongoing_date,meaning_ongoing_date,pregnancy_end_date,meaning_end_date,type_of_pregnancy_end,imputed_start_of_pregnancy,imputed_end_of_pregnancy,meaning_of_event,survey_id,visit_occurrence_id,PROMPT,EUROCAT,CONCEPTSETS,CONCEPTSET,ITEMSETS,coloured_order,order_quality,ID,Group),on =.(person_id==person_id, record_date<=group_end_date_28, record_date>=group_start_date_28), nomatch=0L])
+gop_ybr_Ingreen<-unique(gop_ybr[gop_green,.(pregnancy_id,person_id,record_date=x.record_date,pregnancy_start_date,meaning_start_date,pregnancy_ongoing_date,meaning_ongoing_date,pregnancy_end_date,meaning_end_date,type_of_pregnancy_end,imputed_start_of_pregnancy,imputed_end_of_pregnancy,meaning_of_event,survey_id,visit_occurrence_id,PROMPT,EUROCAT,CONCEPTSETS,CONCEPTSET,ITEMSETS,coloured_order,order_quality,ID,group_identifier),on =.(person_id==person_id, record_date<=group_end_date_28, record_date>=group_start_date_28), nomatch=0L])
 #gop_ybr_Ingreen<-gop_ybr_Ingreen[,n:=seq_along(.I), by="ID"]
 
 # append green to record that matched from ybr (FIRST)
 gop_gybr1<-rbind(gop_green,gop_ybr_Ingreen,fill=TRUE)[,highest_quality:="Green"]
 ## update group_start_date group_end_date
-gop_gybr1<-gop_gybr1[,group_start_date:=max(group_start_date, na.rm = T), by=.(person_id,Group)]
-gop_gybr1<-gop_gybr1[,group_end_date:=max(group_end_date, na.rm = T), by=.(person_id,Group)]
+gop_gybr1<-gop_gybr1[,group_start_date:=max(group_start_date, na.rm = T), by=.(person_id,group_identifier)]
+gop_gybr1<-gop_gybr1[,group_end_date:=max(group_end_date, na.rm = T), by=.(person_id,group_identifier)]
 
 
 
@@ -171,20 +171,20 @@ suppressWarnings(gop_yellow_NOT1<-as.data.table(gop_yellow_NOT1 %>% group_by(per
 #recalculate group of pregnancy:
 gop_yellow_NOT1<-gop_yellow_NOT1[Episode==1,`:=`(group_start_date=min(group_start_date, pregnancy_start_date),group_end_date=min(group_end_date, pregnancy_end_date)), by=.(Episode, person_id)]
 gop_yellow_NOT1<-gop_yellow_NOT1[Episode!=1,`:=`(group_start_date=min(pregnancy_start_date), group_end_date= max(pregnancy_end_date)), by=.(Episode, person_id)]
-setnames(gop_yellow_NOT1, "Episode","Group")
+setnames(gop_yellow_NOT1, "Episode","group_identifier")
 # keep only needed vars for yellow
-gop_yellow_NOT1<-gop_yellow_NOT1[,.(pregnancy_id,person_id,record_date,pregnancy_start_date,meaning_start_date,pregnancy_ongoing_date, meaning_ongoing_date,pregnancy_end_date,meaning_end_date,type_of_pregnancy_end,imputed_start_of_pregnancy,imputed_end_of_pregnancy,meaning_of_event,survey_id,visit_occurrence_id,PROMPT,EUROCAT,CONCEPTSETS,CONCEPTSET,ITEMSETS,coloured_order, order_quality,group_start_date,group_end_date,Group,ID)]
+gop_yellow_NOT1<-gop_yellow_NOT1[,.(pregnancy_id,person_id,record_date,pregnancy_start_date,meaning_start_date,pregnancy_ongoing_date, meaning_ongoing_date,pregnancy_end_date,meaning_end_date,type_of_pregnancy_end,imputed_start_of_pregnancy,imputed_end_of_pregnancy,meaning_of_event,survey_id,visit_occurrence_id,PROMPT,EUROCAT,CONCEPTSETS,CONCEPTSET,ITEMSETS,coloured_order, order_quality,group_start_date,group_end_date,group_identifier,ID)]
 gop_yellow_NOT1<-gop_yellow_NOT1[,`:=`(group_start_date_28=group_start_date-28, group_end_date_28=group_end_date+28)]
 
 # reconciling with blue and red
-gop_br_Inyellow<-unique(gop_br_NOT1[gop_yellow_NOT1,.(pregnancy_id,person_id,record_date=x.record_date,pregnancy_start_date,meaning_start_date,pregnancy_ongoing_date,meaning_ongoing_date,pregnancy_end_date,meaning_end_date,type_of_pregnancy_end,imputed_start_of_pregnancy,imputed_end_of_pregnancy,meaning_of_event,survey_id,visit_occurrence_id,PROMPT,EUROCAT,CONCEPTSETS,CONCEPTSET,ITEMSETS,coloured_order,order_quality,ID,Group),on =.(person_id==person_id, record_date<=group_end_date_28, record_date>=group_start_date_28), nomatch=0L])
+gop_br_Inyellow<-unique(gop_br_NOT1[gop_yellow_NOT1,.(pregnancy_id,person_id,record_date=x.record_date,pregnancy_start_date,meaning_start_date,pregnancy_ongoing_date,meaning_ongoing_date,pregnancy_end_date,meaning_end_date,type_of_pregnancy_end,imputed_start_of_pregnancy,imputed_end_of_pregnancy,meaning_of_event,survey_id,visit_occurrence_id,PROMPT,EUROCAT,CONCEPTSETS,CONCEPTSET,ITEMSETS,coloured_order,order_quality,ID,group_identifier),on =.(person_id==person_id, record_date<=group_end_date_28, record_date>=group_start_date_28), nomatch=0L])
 
 
 # append yellow to record that matched from br (SEC)
 gop_gybr2<-rbind(gop_yellow_NOT1,gop_br_Inyellow,fill=TRUE)[,highest_quality:="Yellow"]
 ## update group_start_date group_end_date!?!
-gop_gybr2<-gop_gybr2[,group_start_date:=max(group_start_date, na.rm = T), by=.(person_id,Group)]
-gop_gybr2<-gop_gybr2[,group_end_date:=max(group_end_date, na.rm = T), by=.(person_id,Group)]
+gop_gybr2<-gop_gybr2[,group_start_date:=max(group_start_date, na.rm = T), by=.(person_id,group_identifier)]
+gop_gybr2<-gop_gybr2[,group_end_date:=max(group_end_date, na.rm = T), by=.(person_id,group_identifier)]
 
 
 
@@ -213,19 +213,19 @@ suppressWarnings(gop_blue_NOT2<-as.data.table(gop_blue_NOT2 %>% group_by(person_
 #recalculate group of pregnancy:
 gop_blue_NOT2<-gop_blue_NOT2[Episode==1,`:=`(group_start_date=min(group_start_date, pregnancy_start_date),group_end_date=min(group_end_date, pregnancy_end_date)), by=.(Episode, person_id)]
 gop_blue_NOT2<-gop_blue_NOT2[Episode!=1,`:=`(group_start_date=min(pregnancy_start_date), group_end_date= max(pregnancy_end_date)), by=.(Episode, person_id)]
-setnames(gop_blue_NOT2, "Episode","Group")
+setnames(gop_blue_NOT2, "Episode","group_identifier")
 # keep only needed vars for yellow
-gop_blue_NOT2<-gop_blue_NOT2[,.(pregnancy_id,person_id,record_date,pregnancy_start_date,meaning_start_date,pregnancy_ongoing_date, meaning_ongoing_date,pregnancy_end_date,meaning_end_date,type_of_pregnancy_end,imputed_start_of_pregnancy,imputed_end_of_pregnancy,meaning_of_event,survey_id,visit_occurrence_id,PROMPT,EUROCAT,CONCEPTSETS, CONCEPTSET,ITEMSETS,coloured_order, order_quality ,group_start_date,group_end_date,Group,ID)]
+gop_blue_NOT2<-gop_blue_NOT2[,.(pregnancy_id,person_id,record_date,pregnancy_start_date,meaning_start_date,pregnancy_ongoing_date, meaning_ongoing_date,pregnancy_end_date,meaning_end_date,type_of_pregnancy_end,imputed_start_of_pregnancy,imputed_end_of_pregnancy,meaning_of_event,survey_id,visit_occurrence_id,PROMPT,EUROCAT,CONCEPTSETS, CONCEPTSET,ITEMSETS,coloured_order, order_quality ,group_start_date,group_end_date,group_identifier,ID)]
 gop_blue_NOT2<-gop_blue_NOT2[,`:=`(group_start_date_28=group_start_date-28, group_end_date_28=group_end_date+28)]
 
 # reconciling with blue and red
-gop_red_Inblue<-unique(gop_red_NOT2[gop_blue_NOT2,.(pregnancy_id,person_id,record_date=x.record_date,pregnancy_start_date,meaning_start_date,pregnancy_ongoing_date,meaning_ongoing_date,pregnancy_end_date,meaning_end_date,type_of_pregnancy_end,imputed_start_of_pregnancy,imputed_end_of_pregnancy,meaning_of_event,survey_id,visit_occurrence_id,PROMPT,EUROCAT,CONCEPTSETS,CONCEPTSET,ITEMSETS,coloured_order,order_quality,ID,Group),on =.(person_id==person_id, record_date<=group_end_date_28, record_date>=group_start_date_28), nomatch=0L])
+gop_red_Inblue<-unique(gop_red_NOT2[gop_blue_NOT2,.(pregnancy_id,person_id,record_date=x.record_date,pregnancy_start_date,meaning_start_date,pregnancy_ongoing_date,meaning_ongoing_date,pregnancy_end_date,meaning_end_date,type_of_pregnancy_end,imputed_start_of_pregnancy,imputed_end_of_pregnancy,meaning_of_event,survey_id,visit_occurrence_id,PROMPT,EUROCAT,CONCEPTSETS,CONCEPTSET,ITEMSETS,coloured_order,order_quality,ID,group_identifier),on =.(person_id==person_id, record_date<=group_end_date_28, record_date>=group_start_date_28), nomatch=0L])
 
 # append red to record that matched from br (THIRD)
 gop_gybr3<-rbind(gop_blue_NOT2,gop_red_Inblue,fill=TRUE) [,highest_quality:="Blue"]
 ## update group_start_date group_end_date
-gop_gybr3<-gop_gybr3[,group_start_date:=max(group_start_date, na.rm = T), by=.(person_id,Group)]
-gop_gybr3<-gop_gybr3[,group_end_date:=max(group_end_date, na.rm = T), by=.(person_id,Group)]
+gop_gybr3<-gop_gybr3[,group_start_date:=max(group_start_date, na.rm = T), by=.(person_id,group_identifier)]
+gop_gybr3<-gop_gybr3[,group_end_date:=max(group_end_date, na.rm = T), by=.(person_id,group_identifier)]
 ## recalculate group_start_date group_end_date!!
 
 
@@ -247,10 +247,9 @@ suppressWarnings(gop_red_NOT3<-as.data.table(gop_red_NOT3 %>% group_by(person_id
 #recalculate group of pregnancy:
 gop_red_NOT3<-gop_red_NOT3[Episode==1,`:=`(group_start_date=min(group_start_date, pregnancy_start_date),group_end_date=min(group_end_date, pregnancy_end_date)), by=.(Episode, person_id)]
 gop_red_NOT3<-gop_red_NOT3[Episode!=1,`:=`(group_start_date=min(pregnancy_start_date), group_end_date= max(pregnancy_end_date)), by=.(Episode, person_id)]
-setnames(gop_red_NOT3, "Episode","Group")
+setnames(gop_red_NOT3, "Episode","group_identifier")
 # keep only needed vars for yellow
-gop_gybr4<-gop_red_NOT3[,.(pregnancy_id,person_id,record_date,pregnancy_start_date,meaning_start_date,pregnancy_ongoing_date, meaning_ongoing_date,pregnancy_end_date,meaning_end_date,type_of_pregnancy_end,imputed_start_of_pregnancy,imputed_end_of_pregnancy,meaning_of_event,survey_id,visit_occurrence_id,PROMPT,EUROCAT,CONCEPTSETS, CONCEPTSET,ITEMSETS,coloured_order,order_quality,group_start_date,group_end_date,Group,ID,highest_quality)]
-
+gop_gybr4<-gop_red_NOT3[,.(pregnancy_id,person_id,record_date,pregnancy_start_date,meaning_start_date,pregnancy_ongoing_date, meaning_ongoing_date,pregnancy_end_date,meaning_end_date,type_of_pregnancy_end,imputed_start_of_pregnancy,imputed_end_of_pregnancy,meaning_of_event,survey_id,visit_occurrence_id,PROMPT,EUROCAT,CONCEPTSETS, CONCEPTSET,ITEMSETS,coloured_order,order_quality,group_start_date,group_end_date,group_identifier,ID,highest_quality)]
 
 
 # append together all the step (4)
@@ -259,4 +258,6 @@ D3_groups_of_pregnancies<-rbind(gop_gybr1,gop_gybr2, gop_gybr3, gop_gybr4, fill=
 
 save(D3_groups_of_pregnancies, file=paste0(dirtemp,"D3_groups_of_pregnancies.RData"))
 
+rm(gop_blue_NOT2, gop_br_Inyellow, gop_br_NOT1, gop_br_NOT2, gop_green, gop_gybr1, gop_gybr2, gop_gybr3, gop_gybr4, gop_red_Inblue, gop_red_NOT2, gop_red_NOT3, gop_ybr, gop_ybr_Ingreen, gop_ybr_NOT1, gop_yellow_NOT1)
+rm(groups_of_pregnancies, D3_Stream_CONCEPTSETS_check, D3_Stream_EUROCAT_check, D3_Stream_ITEMSETS_check, D3_Stream_PROMPTS_check, D3_groups_of_pregnancies, temp, temp1)
 
