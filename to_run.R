@@ -52,8 +52,10 @@ source(paste0(thisdir,"/p_steps/step_03_05b_T2.2_internal_consistency_for_concep
 source(paste0(thisdir,"/p_steps/step_03_05c_T2.2_internal_consistency_for_EUROCAT.R")) 
 source(paste0(thisdir,"/p_steps/step_03_05d_T2.2_internal_consistency_for_itemsets.R")) #--> aggiungere PERSONS con id di BIFAP finti!
 
-source(paste0(thisdir,"/p_steps/step_03_06_T2.3_merge_stream_of_same_person.R")) 
-source(paste0(thisdir,"/p_steps/step_03_07_T2.2_process_pregnancies_excluded.R"))
+source(paste0(thisdir,"/p_steps/step_03_06_1_T2.2_process_pregnancies_excluded.R")) 
+source(paste0(thisdir,"/p_steps/step_03_06_2_T2.3_merge_stream_of_same_person.R"))
+
+source(paste0(thisdir,"/p_steps/step_03_07_1_T2.2_process_pregnancies_included.R"))
 
 # XX D3s Description
 #source(paste0(thisdir,"/p_steps/step_XX_D3_description_HTML.R")) 

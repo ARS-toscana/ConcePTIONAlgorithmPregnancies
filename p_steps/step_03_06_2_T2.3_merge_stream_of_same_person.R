@@ -1,4 +1,5 @@
 ## import D3_Streams...
+print("import D3_Streams, if present")
 files<-sub('\\.RData$', '', list.files(dirtemp))
 
 D3_Stream_PROMPTS_check<-data.table()
@@ -62,24 +63,24 @@ groups_of_pregnancies<-groups_of_pregnancies[!is.na(pregnancy_start_date) & !is.
 table(groups_of_pregnancies[,coloured_order], useNA = "ifany")
 
 #order_quality: the default order is:
-              # 1)	EUROCAT
-              # 2)	PROMPT
-              # 3)	ITEMSETS
-              # 4)	CONCEPSETS, pregnancy completed and pregnancy_start_date recorded
-              
-              # 5)	PROMPT, pregnancy completed and pregnancy_start_date not available and imputed
-              # 6)	ITEMSETS, pregnancy completed and pregnancy_start_date not available and imputed
-              # 7)	CONCEPSETS: live birth, meaning non primary care, pregnancy_start_date not available and imputed 
-              # 8)	CONCEPSETS: pre-term birth, meaning non primary care,  pregnancy_start_date not available and imputed
-              # 9)	CONCEPSETS: still birth, meaning non primary care,  pregnancy_start_date not available and imputed
-              # 10)	CONCEPSETS: interruption, meaning non primary care,  pregnancy_start_date not available and imputed
-              # 11)	CONCEPTSETS: spontaneous abortion, meaning non primary care, pregnancy_start_date not available and imputed
-              # 12)	CONCEPTSETS: ectopic pregnancy, meaning non primary care, pregnancy_start_date not available and imputed
-              # 13)	CONCEPTSETS: meaning implying primary care, pregnancy_start_date not available and imputed, end date estimated with record date 
-              
-              # 14)	all Streams: ongoing pregnancy and pregnancy_start_date recorded
-              
-              # 15)	all Streams: ongoing pregnancy having pregnancy_start_date not available and imputed 
+# 1)	EUROCAT
+# 2)	PROMPT
+# 3)	ITEMSETS
+# 4)	CONCEPSETS, pregnancy completed and pregnancy_start_date recorded
+
+# 5)	PROMPT, pregnancy completed and pregnancy_start_date not available and imputed
+# 6)	ITEMSETS, pregnancy completed and pregnancy_start_date not available and imputed
+# 7)	CONCEPSETS: live birth, meaning non primary care, pregnancy_start_date not available and imputed 
+# 8)	CONCEPSETS: pre-term birth, meaning non primary care,  pregnancy_start_date not available and imputed
+# 9)	CONCEPSETS: still birth, meaning non primary care,  pregnancy_start_date not available and imputed
+# 10)	CONCEPSETS: interruption, meaning non primary care,  pregnancy_start_date not available and imputed
+# 11)	CONCEPTSETS: spontaneous abortion, meaning non primary care, pregnancy_start_date not available and imputed
+# 12)	CONCEPTSETS: ectopic pregnancy, meaning non primary care, pregnancy_start_date not available and imputed
+# 13)	CONCEPTSETS: meaning implying primary care, pregnancy_start_date not available and imputed, end date estimated with record date 
+
+# 14)	all Streams: ongoing pregnancy and pregnancy_start_date recorded
+
+# 15)	all Streams: ongoing pregnancy having pregnancy_start_date not available and imputed 
 
 groups_of_pregnancies<-groups_of_pregnancies[EUROCAT=="yes" & coloured_order=="1_green",order_quality:=1]
 groups_of_pregnancies<-groups_of_pregnancies[PROMPT=="yes" & coloured_order=="1_green",order_quality:=2]
@@ -108,8 +109,7 @@ groups_of_pregnancies<-groups_of_pregnancies[,ID:=paste0(pregnancy_id,"_",seq_al
 
 
 
-
-
+print("Start recoinciliation in group - GREEN")
 
 # divided group in color (green and no green):
 gop_green<-groups_of_pregnancies[coloured_order=="1_green",]
@@ -146,8 +146,7 @@ gop_gybr1<-gop_gybr1[,group_start_date:=max(group_start_date, na.rm = T), by=.(p
 gop_gybr1<-gop_gybr1[,group_end_date:=max(group_end_date, na.rm = T), by=.(person_id,group_identifier)]
 
 
-
-
+print("Start recoinciliation in group - YELLOW")
 
 #### continue with record in ybr that doesn't match in green
 Ingreen1<-unique(gop_ybr_Ingreen[,ID]) #27856 , unique 27800
@@ -187,9 +186,7 @@ gop_gybr2<-gop_gybr2[,group_start_date:=max(group_start_date, na.rm = T), by=.(p
 gop_gybr2<-gop_gybr2[,group_end_date:=max(group_end_date, na.rm = T), by=.(person_id,group_identifier)]
 
 
-
-
-
+print("Start recoinciliation in group - BLUE")
 
 #### continue with record in br that doesn't match in yellow
 Inyellow<-unique(gop_br_Inyellow[,ID]) #881551, unique 859448
@@ -228,6 +225,7 @@ gop_gybr3<-gop_gybr3[,group_start_date:=max(group_start_date, na.rm = T), by=.(p
 gop_gybr3<-gop_gybr3[,group_end_date:=max(group_end_date, na.rm = T), by=.(person_id,group_identifier)]
 ## recalculate group_start_date group_end_date!!
 
+print("Start recoinciliation in group - RED")
 
 #### select with record in br that doesn't match in blue
 Inblue<-unique(gop_red_Inblue[,ID]) #7, unique 7
@@ -252,9 +250,10 @@ setnames(gop_red_NOT3, "Episode","group_identifier")
 gop_gybr4<-gop_red_NOT3[,.(pregnancy_id,person_id,record_date,pregnancy_start_date,meaning_start_date,pregnancy_ongoing_date, meaning_ongoing_date,pregnancy_end_date,meaning_end_date,type_of_pregnancy_end,imputed_start_of_pregnancy,imputed_end_of_pregnancy,meaning_of_event,survey_id,visit_occurrence_id,PROMPT,EUROCAT,CONCEPTSETS, CONCEPTSET,ITEMSETS,coloured_order,order_quality,group_start_date,group_end_date,group_identifier,ID,highest_quality)]
 
 
+print("Save D3_groups_of_pregnancies")
+
 # append together all the step (4)
 D3_groups_of_pregnancies<-rbind(gop_gybr1,gop_gybr2, gop_gybr3, gop_gybr4, fill=T)
-
 
 save(D3_groups_of_pregnancies, file=paste0(dirtemp,"D3_groups_of_pregnancies.RData"))
 

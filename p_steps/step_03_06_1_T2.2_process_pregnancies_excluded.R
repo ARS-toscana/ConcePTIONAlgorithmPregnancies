@@ -8,11 +8,11 @@ for (i in 1:length(files)) {
   }
 } 
 
-if(dim(D3_excluded_pregnancies_from_CONCEPTSETS)[1]==0) {
+if(dim(D3_excluded_pregnancies_from_PROMPT)[1]==0) {
   D3_excluded_pregnancies_from_PROMPT<-data.table(PROMPT=character(0))
 }
 
-D3_excluded_pregnancies_from_CONCEPTSETS<-data.table()
+D3_excluded_pregnancies_from_EUROCAT<-data.table()
 for (i in 1:length(files)) {
   if (str_detect(files[i],"^D3_excluded_pregnancies_from_EUROCAT")) { 
     load(paste0(dirtemp,files[i],".RData")) 
@@ -36,6 +36,8 @@ if(dim(D3_excluded_pregnancies_from_ITEMSETS)[1]==0) {
 load(paste0(dirtemp,"D3_excluded_pregnancies_from_CONCEPTSETS.RData"))
 #load(paste0(dirtemp,"D3_excluded_pregnancies_from_EUROCAT.RData"))
 #load(paste0(dirtemp,"D3_excluded_pregnancies_from_ITEMSETS.RData"))
+
+
 
 # put together all the D3_Stream..
 groups_of_excluded_pregnancies<-rbind(D3_excluded_pregnancies_from_CONCEPTSETS,D3_excluded_pregnancies_from_EUROCAT,D3_excluded_pregnancies_from_PROMPT,D3_excluded_pregnancies_from_ITEMSETS, fill=T)[is.na(pregnancy_with_dates_out_of_range),pregnancy_with_dates_out_of_range:=0][is.na(no_linked_to_person),no_linked_to_person:=0][is.na(person_not_female),person_not_female:=0][is.na(person_not_in_fertile_age),person_not_in_fertile_age:=0][is.na(pregnancy_start_in_spells),pregnancy_start_in_spells:=0][is.na(pregnancy_end_in_spells),pregnancy_end_in_spells:=0]
