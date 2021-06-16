@@ -1,0 +1,23 @@
+---
+title: "Description of the pregnancy cohort"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = F)
+```
+
+## D3 Pregnancy Groups
+
+```{r}
+```
+
+## D3 Included Pregnancy
+
+```{r}
+```
+
+## D3 Excluded Pregnancy
+
+```{r}
+```
