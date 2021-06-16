@@ -55,7 +55,7 @@ if (length(ConcePTION_CDM_EAV_tables)!=0 ){
           if (str_detect(ds,"^SURVEY_OB"))  ConcePTION_CDM_codvar[["Diagnosis"]][[ds]]="so_source_value"
           if (str_detect(ds,"^MEDICAL_OB"))  ConcePTION_CDM_codvar[["Diagnosis"]][[ds]]="mo_source_value"
         }else{
-          if (dom=="Medicines") ConcePTION_CDM_codvar[[dom]][[ds]]="product_ATCcode"
+          if (dom=="Medicines") ConcePTION_CDM_codvar[[dom]][[ds]]="medicinal_product_atc_code"
           if (dom=="Diagnosis") ConcePTION_CDM_codvar[[dom]][[ds]]="event_code"
           if (dom=="Procedures") ConcePTION_CDM_codvar[[dom]][[ds]]="procedure_code"
         }
@@ -65,7 +65,7 @@ if (length(ConcePTION_CDM_EAV_tables)!=0 ){
 }else{
   for (dom in alldomain) {
     for (ds in ConcePTION_CDM_tables[[dom]]) {
-      if (dom=="Medicines") ConcePTION_CDM_codvar[[dom]][[ds]]="product_ATCcode"
+      if (dom=="Medicines") ConcePTION_CDM_codvar[[dom]][[ds]]="medicinal_product_atc_code"
       if (dom=="Diagnosis") ConcePTION_CDM_codvar[[dom]][[ds]]="event_code"
       if (dom=="Procedures") ConcePTION_CDM_codvar[[dom]][[ds]]="procedure_code"
     }

@@ -61,4 +61,4 @@ D3_excluded_pregnancies[,.(pregnancy_id,person_id,reason_for_exclusion,survey_id
 save(D3_excluded_pregnancies, file=paste0(diroutput,"D3_excluded_pregnancies.RData"))
 
 
-rm(D3_excluded_pregnancies_from_CONCEPTSETS, D3_excluded_pregnancies_from_EUROCAT, D3_excluded_pregnancies_from_PROMPT, files, groups_of_excluded_pregnancies, D3_excluded_pregnancies)
+rm(D3_excluded_pregnancies_from_CONCEPTSETS, D3_excluded_pregnancies_from_EUROCAT, D3_excluded_pregnancies_from_PROMPT,D3_excluded_pregnancies_from_ITEMSETS, files, groups_of_excluded_pregnancies, D3_excluded_pregnancies)

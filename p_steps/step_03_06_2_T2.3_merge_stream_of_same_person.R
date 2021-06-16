@@ -149,8 +149,8 @@ gop_gybr1<-gop_gybr1[,group_end_date:=max(group_end_date, na.rm = T), by=.(perso
 print("Start recoinciliation in group - YELLOW")
 
 #### continue with record in ybr that doesn't match in green
-Ingreen1<-unique(gop_ybr_Ingreen[,ID]) #27856 , unique 27800
-gop_ybr_NOT1<-gop_ybr[!(ID%chin%Ingreen1),] # drop only unique ID
+Ingreen<-unique(gop_ybr_Ingreen[,ID]) #27856 , unique 27800
+gop_ybr_NOT1<-gop_ybr[!(ID%chin%Ingreen),] # drop only unique ID
 
 # divided group in color (yellow and no yellow):
 gop_yellow_NOT1<-gop_ybr_NOT1[coloured_order=="2_yellow",]
@@ -259,4 +259,4 @@ save(D3_groups_of_pregnancies, file=paste0(dirtemp,"D3_groups_of_pregnancies.RDa
 
 rm(gop_blue_NOT2, gop_br_Inyellow, gop_br_NOT1, gop_br_NOT2, gop_green, gop_gybr1, gop_gybr2, gop_gybr3, gop_gybr4, gop_red_Inblue, gop_red_NOT2, gop_red_NOT3, gop_ybr, gop_ybr_Ingreen, gop_ybr_NOT1, gop_yellow_NOT1)
 rm(groups_of_pregnancies, D3_Stream_CONCEPTSETS_check, D3_Stream_EUROCAT_check, D3_Stream_ITEMSETS_check, D3_Stream_PROMPTS_check, D3_groups_of_pregnancies, temp, temp1)
-
+rm(Ingreen, Inyellow, Inblue)

@@ -1,8 +1,12 @@
-concept_set_our_study_pre <- c("FGR_narrow","FGR_possible","GESTDIAB_narrow","GESTDIAB_possible","MAJORCA_narrow","MAJORCA_possible","MATERNALDEATH_narrow","MATERNALDEATH_possible","MICROCEPHALY_narrow","MICROCEPHALY_possible","PREECLAMP_narrow","PREECLAMP_possible","PRETERMBIRTH_narrow","PRETERMBIRTH_possible","SPONTABO_narrow","SPONTABO_possible","STILLBIRTH_narrow", "STILLBIRTH_possible", "TOPFA_narrow","TOPFA_possible")
+concept_set_our_study_pre <- c("INSULIN","FGR_narrow","FGR_possible","GESTDIAB_narrow","GESTDIAB_possible","MAJORCA_narrow","MAJORCA_possible","MATERNALDEATH_narrow","MATERNALDEATH_possible","MICROCEPHALY_narrow","MICROCEPHALY_possible","PREECLAMP_narrow","PREECLAMP_possible","PRETERMBIRTH_narrow","PRETERMBIRTH_possible","SPONTABO_narrow","SPONTABO_possible","STILLBIRTH_narrow", "STILLBIRTH_possible", "TOPFA_narrow","TOPFA_possible")
 
 concept_set_codes_our_study_pre<-vector(mode="list")
 concept_set_codes_our_study_pre_excl <- vector(mode="list")
 
+#--------------------------
+# INSULIN
+concept_set_domains[["INSULIN"]] = "Medicines"
+concept_set_codes_our_study_pre[["INSULIN"]][["ATC"]] <- c("A10A")
 
 #--------------------------
 # FGR_narrow
