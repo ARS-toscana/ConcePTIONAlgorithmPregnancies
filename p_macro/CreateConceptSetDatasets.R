@@ -91,7 +91,8 @@ CreateConceptSetDatasets <- function(dataset,codvar,datevar,EAVtables,EAVattribu
       path = paste0(dirinput,"/",df2,".",extension)
       if (extension == "dta") {used_df <- as.data.table(haven::read_dta(path))
       } else if (extension == "csv") {
-        used_df <- fread(path)
+        namecorrect= codvar[[dom]][[df2]]
+        used_df <- fread(path, colClasses = list(character = namecorrect, character="person_id"))
       } else if (extension == "RData") {assign('used_df', get(load(path)))
       } else {
         stop("File extension not recognized. Please use a supported file")
