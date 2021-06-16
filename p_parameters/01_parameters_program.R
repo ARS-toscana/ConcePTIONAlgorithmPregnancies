@@ -20,6 +20,7 @@ extension <- c(".csv")
 dirproducts <- paste0(thisdir,"/i_input/")
 dirpargen <- paste0(thisdir,"/g_parameters/")
 dirsmallcountsremoved <- paste0(thisdir,"/g_export_SMALL_COUNTS_REMOVED/")
+dirdescribe <- paste0(thisdir, "/g_describe_HTML")
 
 # load packages
 if (!require("haven")) install.packages("haven")
@@ -42,6 +43,8 @@ if (!require("dplyr")) install.packages("dplyr")
 library(dplyr)
 if (!require("survival")) install.packages("survival")
 library(survival)
+if (!require("rmarkdown")) install.packages("rmarkdown")
+library(rmarkdown )
 
 `%notin%` <- Negate(`%in%`)
 
@@ -208,7 +211,7 @@ suppressWarnings(if (!file.exists(direxp)) dir.create(file.path( direxp)))
 suppressWarnings(if (!file.exists(dirfigure)) dir.create(file.path( dirfigure)))
 suppressWarnings(if (!file.exists(dirpargen)) dir.create(file.path( dirpargen)))
 suppressWarnings(if (!file.exists(dirsmallcountsremoved)) dir.create(file.path(dirsmallcountsremoved)))
-
+suppressWarnings(if (!file.exists(dirdescribe)) dir.create(file.path(dirdescribe)))
 
 
 #############################################
