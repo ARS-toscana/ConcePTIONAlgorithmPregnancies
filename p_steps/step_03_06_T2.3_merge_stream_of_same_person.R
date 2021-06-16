@@ -104,17 +104,22 @@ groups_of_pregnancies<-groups_of_pregnancies[coloured_order=="4_red",order_quali
 
 # table(groups_of_pregnancies[,order_quality], useNA = "ifany")
 # table(groups_of_pregnancies[,.(order_quality, coloured_order)], useNA = "ifany")
-
 groups_of_pregnancies<-groups_of_pregnancies[,ID:=paste0(pregnancy_id,"_",seq_along(.I)),by="pregnancy_id"]
+
+
+
+
+
+
 # divided group in color (green and no green):
 groups_of_pregnancies_green<-groups_of_pregnancies[coloured_order=="1_green",]
 groups_of_pregnancies_ybr<-groups_of_pregnancies[coloured_order!="1_green",]
 
-##### only GREEN record:
+############### only GREEN record:
 groups_of_pregnancies_green<-groups_of_pregnancies_green[order(person_id, -pregnancy_end_date),]
 groups_of_pregnancies_green<-groups_of_pregnancies_green[,n_person:=seq_along(.I), by=.(person_id)]
 groups_of_pregnancies_green<-groups_of_pregnancies_green[n_person==1,`:=`(group=1)]
-groups_of_pregnancies_green<-groups_of_pregnancies_green[,`:=`(group_start_date=pregnancy_start_date, group_end_date= pregnancy_end_date)] #group=1, 
+groups_of_pregnancies_green<-groups_of_pregnancies_green[,`:=`(group_start_date=pregnancy_start_date, group_end_date= pregnancy_end_date)]  
 groups_of_pregnancies_green<-groups_of_pregnancies_green[,pregnancy_start_prev:=shift(pregnancy_start_date),by="person_id"]
 groups_of_pregnancies_green<-groups_of_pregnancies_green[,pregnancy_end_prev:=shift(pregnancy_end_date),by="person_id"]
 groups_of_pregnancies_green<-groups_of_pregnancies_green[,diff:=!(group_start_date>=pregnancy_start_prev-28 & group_end_date<=pregnancy_end_prev+28)]
@@ -123,91 +128,120 @@ suppressWarnings(groups_of_pregnancies_green<-as.data.table(groups_of_pregnancie
 
 #recalculate group of pregnancy:
 groups_of_pregnancies_green<-groups_of_pregnancies_green[Episode==1,`:=`(group_start_date=min(group_start_date, pregnancy_start_date), group_end_date=max(group_end_date, pregnancy_end_date)), by=.(Episode, person_id)]
-groups_of_pregnancies_green<-groups_of_pregnancies_green[Episode!=1,`:=`(group_start_date=pregnancy_start_date, group_end_date= pregnancy_end_date), by=.(Episode, person_id)]
+groups_of_pregnancies_green<-groups_of_pregnancies_green[Episode!=1,`:=`(group_start_date=min(pregnancy_start_date), group_end_date= max(pregnancy_end_date)), by=.(Episode, person_id)]
 setnames(groups_of_pregnancies_green, "Episode","Group")
 # keep only needed vars for green
-groups_of_pregnancies_green<-groups_of_pregnancies_green[,.(pregnancy_id,person_id,record_date,pregnancy_start_date,meaning_start_date,pregnancy_ongoing_date, meaning_ongoing_date,pregnancy_end_date,meaning_end_date,type_of_pregnancy_end,imputed_start_of_pregnancy,imputed_end_of_pregnancy,meaning_of_event,survey_id,visit_occurrence_id,PROMPT,EUROCAT,CONCEPTSETS, CONCEPTSET,ITEMSETS,coloured_order, order_quality, ID ,group_start_date,group_end_date,Group)]
+groups_of_pregnancies_green<-groups_of_pregnancies_green[,.(pregnancy_id,person_id,record_date,pregnancy_start_date,meaning_start_date,pregnancy_ongoing_date, meaning_ongoing_date,pregnancy_end_date,meaning_end_date,type_of_pregnancy_end,imputed_start_of_pregnancy,imputed_end_of_pregnancy,meaning_of_event,survey_id,visit_occurrence_id,PROMPT,EUROCAT,CONCEPTSETS, CONCEPTSET,ITEMSETS,coloured_order, order_quality,ID,group_start_date,group_end_date,Group)]
 groups_of_pregnancies_green<-groups_of_pregnancies_green[,`:=`(group_start_date_28=group_start_date-28, group_end_date_28=group_end_date+28)]
 
 
 # reconciling green to yellow, blue and red
-groups_of_pregnancies_ybr_Ingreen<-groups_of_pregnancies_ybr[groups_of_pregnancies_green, on =.(person_id==person_id, record_date<=group_end_date_28, record_date>=group_start_date_28), nomatch=NULL][,-c("record_date","record_date.1","i.pregnancy_id","i.pregnancy_start_date","i.meaning_start_date","i.pregnancy_ongoing_date","i.meaning_ongoing_date","i.pregnancy_end_date","i.meaning_end_date","i.type_of_pregnancy_end","i.imputed_start_of_pregnancy","i.imputed_end_of_pregnancy","i.meaning_of_event","i.survey_id","i.visit_occurrence_id","i.PROMPT","i.EUROCAT","i.CONCEPTSETS","i.CONCEPTSET","i.ITEMSETS","i.coloured_order","i.order_quality","i.ID")] # 1280393 record matched in green
-groups_of_pregnancies_ybr_Ingreen0<-unique(groups_of_pregnancies_ybr_Ingreen)
+groups_of_pregnancies_ybr_Ingreen<-unique(groups_of_pregnancies_ybr[groups_of_pregnancies_green, on =.(person_id==person_id, record_date<=group_end_date_28, record_date>=group_start_date_28), nomatch=NULL][,-c("i.pregnancy_id","i.pregnancy_start_date","i.meaning_start_date","i.pregnancy_ongoing_date","i.meaning_ongoing_date","i.pregnancy_end_date","i.meaning_end_date","i.type_of_pregnancy_end","i.imputed_start_of_pregnancy","i.imputed_end_of_pregnancy","i.meaning_of_event","i.survey_id","i.visit_occurrence_id","i.PROMPT","i.EUROCAT","i.CONCEPTSETS","i.CONCEPTSET","i.ITEMSETS","i.coloured_order","i.order_quality","i.ID","group_start_date","group_end_date","record_date", "record_date.1")]) # 1280393 record matched in green ,"record_date", "record_date.1", "i.record_date"
 setnames(groups_of_pregnancies_ybr_Ingreen,"i.record_date", "record_date")
+#groups_of_pregnancies_ybr_Ingreen<-groups_of_pregnancies_ybr_Ingreen[,n:=seq_along(.I), by="ID"]
 
 # append green to record that matched from ybr
-groups_of_pregnancies_gybr1<-rbind(groups_of_pregnancies_green,groups_of_pregnancies_ybr_Ingreen,fill=TRUE)
-## recalculate group_start_date group_end_date!?!
+groups_of_pregnancies_gybr1<-rbind(groups_of_pregnancies_green,groups_of_pregnancies_ybr_Ingreen,fill=TRUE)[, highest_quality:="Green"] [,-c("group_end_date_28","group_start_date_28")]
+## update group_start_date group_end_date!?!
+groups_of_pregnancies_gybr1<-groups_of_pregnancies_gybr1[,group_start_date:=max(group_start_date, na.rm = T), by=.(person_id,Group)]
+groups_of_pregnancies_gybr1<-groups_of_pregnancies_gybr1[,group_end_date:=max(group_end_date, na.rm = T), by=.(person_id,Group)]
+
+
+
 
 
 #### continue with record in ybr that doesn't match in green
-Ingreen1<-groups_of_pregnancies_ybr_Ingreen0[,ID]
+Ingreen1<-groups_of_pregnancies_ybr_Ingreen[,ID] #27970 , unique 27800
 groups_of_pregnancies_ybr_NOT1<-groups_of_pregnancies_ybr[!(ID%chin%Ingreen1),]
 
-groups_of_pregnancies_yellow_NOTingreen<-groups_of_pregnancies_ybr_NOTingreen[coloured_order=="2_yellow",]
-groups_of_pregnancies_br_NOTingreen<-groups_of_pregnancies_ybr_NOTingreen[coloured_order!="2_yellow",]
+# divided group in color (yellow and no yellow):
+groups_of_pregnancies_yellow_NOT1<-groups_of_pregnancies_ybr_NOT1[coloured_order=="2_yellow",]
+groups_of_pregnancies_br_NOT1<-groups_of_pregnancies_ybr_NOT1[coloured_order!="2_yellow",]
 
 
-groups_of_pregnancies_yellow_NOTingreen<-groups_of_pregnancies_yellow_NOTingreen[order(person_id, -pregnancy_end_date),]
-groups_of_pregnancies_yellow_NOTingreen<-groups_of_pregnancies_yellow_NOTingreen[,n_person:=seq_along(.I), by=.(person_id)]
-groups_of_pregnancies_yellow_NOTingreen<-groups_of_pregnancies_yellow_NOTingreen[n_person==1,`:=`(group=1)]
-groups_of_pregnancies_yellow_NOTingreen<-groups_of_pregnancies_yellow_NOTingreen[,`:=`(group_start_date=pregnancy_start_date, group_end_date= pregnancy_end_date)] #group=1, 
-groups_of_pregnancies_yellow_NOTingreen<-groups_of_pregnancies_yellow_NOTingreen[,pregnancy_start_prev:=shift(pregnancy_start_date),by="person_id"]
-groups_of_pregnancies_yellow_NOTingreen<-groups_of_pregnancies_yellow_NOTingreen[,pregnancy_end_prev:=shift(pregnancy_end_date),by="person_id"]
-groups_of_pregnancies_yellow_NOTingreen<-groups_of_pregnancies_yellow_NOTingreen[,diff:=!(group_start_date>=pregnancy_start_prev-28 & group_end_date<=pregnancy_end_prev+28)]
-groups_of_pregnancies_yellow_NOTingreen<-groups_of_pregnancies_yellow_NOTingreen[group==1,diff:=F]
-suppressWarnings(groups_of_pregnancies_yellow_NOTingreen<-as.data.table(groups_of_pregnancies_yellow_NOTingreen %>% group_by(person_id) %>%  mutate (Episode=Reduce(sum, diff, accumulate = TRUE)+1)))
+groups_of_pregnancies_yellow_NOT1<-groups_of_pregnancies_yellow_NOT1[order(person_id, -pregnancy_end_date),]
+groups_of_pregnancies_yellow_NOT1<-groups_of_pregnancies_yellow_NOT1[,n_person:=seq_along(.I), by=.(person_id)]
+groups_of_pregnancies_yellow_NOT1<-groups_of_pregnancies_yellow_NOT1[n_person==1,`:=`(group=1)]
+groups_of_pregnancies_yellow_NOT1<-groups_of_pregnancies_yellow_NOT1[,`:=`(group_start_date=pregnancy_start_date, group_end_date= pregnancy_end_date)] #group=1, 
+groups_of_pregnancies_yellow_NOT1<-groups_of_pregnancies_yellow_NOT1[,pregnancy_start_prev:=shift(pregnancy_start_date),by="person_id"]
+groups_of_pregnancies_yellow_NOT1<-groups_of_pregnancies_yellow_NOT1[,pregnancy_end_prev:=shift(pregnancy_end_date),by="person_id"]
+groups_of_pregnancies_yellow_NOT1<-groups_of_pregnancies_yellow_NOT1[,diff:=!(group_start_date>=pregnancy_start_prev-28 & group_end_date<=pregnancy_end_prev+28)]
+groups_of_pregnancies_yellow_NOT1<-groups_of_pregnancies_yellow_NOT1[group==1, diff:=F]
+suppressWarnings(groups_of_pregnancies_yellow_NOT1<-as.data.table(groups_of_pregnancies_yellow_NOT1 %>% group_by(person_id) %>%  mutate (Episode=Reduce(sum, diff, accumulate = TRUE)+1)))
 
 #recalculate group of pregnancy:
-groups_of_pregnancies_yellow_NOTingreen<-groups_of_pregnancies_yellow_NOTingreen[Episode==1,`:=`(group_start_date=min(group_start_date, pregnancy_start_date),group_end_date=min(group_end_date, pregnancy_end_date)), by=.(Episode, person_id)]
-groups_of_pregnancies_yellow_NOTingreen<-groups_of_pregnancies_yellow_NOTingreen[Episode!=1,`:=`(group_start_date=pregnancy_start_date,group_end_date= pregnancy_end_date), by=.(Episode, person_id)]
-setnames(groups_of_pregnancies_yellow_NOTingreen, "Episode","Group")
+groups_of_pregnancies_yellow_NOT1<-groups_of_pregnancies_yellow_NOT1[Episode==1,`:=`(group_start_date=min(group_start_date, pregnancy_start_date),group_end_date=min(group_end_date, pregnancy_end_date)), by=.(Episode, person_id)]
+groups_of_pregnancies_yellow_NOT1<-groups_of_pregnancies_yellow_NOT1[Episode!=1,`:=`(group_start_date=min(pregnancy_start_date), group_end_date= max(pregnancy_end_date)), by=.(Episode, person_id)]
+setnames(groups_of_pregnancies_yellow_NOT1, "Episode","Group")
 # keep only needed vars for yellow
-groups_of_pregnancies_yellow_NOTingreen<-groups_of_pregnancies_yellow_NOTingreen[,.(pregnancy_id,person_id,record_date,pregnancy_start_date,meaning_start_date,pregnancy_ongoing_date, meaning_ongoing_date,pregnancy_end_date,meaning_end_date,type_of_pregnancy_end,imputed_start_of_pregnancy,imputed_end_of_pregnancy,meaning_of_event,survey_id,visit_occurrence_id,PROMPT,EUROCAT,CONCEPTSETS, CONCEPTSET,ITEMSETS,coloured_order, order_quality ,group_start_date,group_end_date,Group)]
-groups_of_pregnancies_yellow_NOTingreen<-groups_of_pregnancies_yellow_NOTingreen[,`:=`(group_start_date_28=group_start_date-28, group_end_date_28=group_end_date+28)]
+groups_of_pregnancies_yellow_NOT1<-groups_of_pregnancies_yellow_NOT1[,.(pregnancy_id,person_id,record_date,pregnancy_start_date,meaning_start_date,pregnancy_ongoing_date, meaning_ongoing_date,pregnancy_end_date,meaning_end_date,type_of_pregnancy_end,imputed_start_of_pregnancy,imputed_end_of_pregnancy,meaning_of_event,survey_id,visit_occurrence_id,PROMPT,EUROCAT,CONCEPTSETS,CONCEPTSET,ITEMSETS,coloured_order, order_quality,group_start_date,group_end_date,Group,ID)]
+groups_of_pregnancies_yellow_NOT1<-groups_of_pregnancies_yellow_NOT1[,`:=`(group_start_date_28=group_start_date-28, group_end_date_28=group_end_date+28)]
 
 # reconciling with blue and red
-groups_of_pregnancies_br_Inyellow<-groups_of_pregnancies_br_NOTingreen[groups_of_pregnancies_yellow_NOTingreen, on =.(person_id==person_id,record_date<=group_end_date_28, record_date>=group_start_date_28), nomatch=NULL] [,-c("record_date","record_date.1","i.pregnancy_id","i.pregnancy_start_date","i.meaning_start_date","i.pregnancy_ongoing_date","i.meaning_ongoing_date","i.pregnancy_end_date","i.meaning_end_date","i.type_of_pregnancy_end","i.imputed_start_of_pregnancy","i.imputed_end_of_pregnancy","i.meaning_of_event","i.survey_id","i.visit_occurrence_id","i.PROMPT","i.EUROCAT","i.CONCEPTSETS","i.CONCEPTSET","i.ITEMSETS","i.coloured_order","i.order_quality","group_start_date","group_end_date")] # 3 record matched in green
+groups_of_pregnancies_br_Inyellow<-unique(groups_of_pregnancies_br_NOT1[groups_of_pregnancies_yellow_NOT1, on =.(person_id==person_id,record_date<=group_end_date_28, record_date>=group_start_date_28), nomatch=NULL][,-c("i.pregnancy_id","i.pregnancy_start_date","i.meaning_start_date","i.pregnancy_ongoing_date","i.meaning_ongoing_date","i.pregnancy_end_date","i.meaning_end_date","i.type_of_pregnancy_end","i.imputed_start_of_pregnancy","i.imputed_end_of_pregnancy","i.meaning_of_event","i.survey_id","i.visit_occurrence_id","i.PROMPT","i.EUROCAT","i.CONCEPTSETS","i.CONCEPTSET","i.ITEMSETS","i.coloured_order","i.order_quality","i.ID","group_start_date","group_end_date","record_date", "record_date.1")]) # 3 record matched in green
 setnames(groups_of_pregnancies_br_Inyellow,"i.record_date", "record_date")
 
 # append yellow to record that matched from br
-groups_of_pregnancies_gybr2<-rbind(groups_of_pregnancies_yellow_NOTingreen,groups_of_pregnancies_br_Inyellow,fill=TRUE)
-## recalculate group_start_date group_end_date!!
+groups_of_pregnancies_gybr2<-rbind(groups_of_pregnancies_yellow_NOT1,groups_of_pregnancies_br_Inyellow,fill=TRUE)[, highest_quality:="Yellow"][,-c("group_end_date_28","group_start_date_28")]
+## update group_start_date group_end_date!?!
+groups_of_pregnancies_gybr2<-groups_of_pregnancies_gybr2[,group_start_date:=max(group_start_date, na.rm = T), by=.(person_id,Group)]
+groups_of_pregnancies_gybr2<-groups_of_pregnancies_gybr2[,group_end_date:=max(group_end_date, na.rm = T), by=.(person_id,Group)]
+
+
+
+
 
 
 #### continue with record in br that doesn't match in yellow
-Inyellow<-groups_of_pregnancies_br_Inyellow[,pregnancy_id]
-groups_of_pregnancies_br_NOTingreenyellow<-groups_of_pregnancies_ybr_NOTingreen[pregnancy_id%notin%Inyellow,]
+Inyellow<-groups_of_pregnancies_br_Inyellow[,ID] #881551, unique 859448
+groups_of_pregnancies_br_NOT2<-groups_of_pregnancies_ybr_NOT1[!ID%chin%Inyellow,]
 
-groups_of_pregnancies_blue_NOTingreenyellow<-groups_of_pregnancies_br_NOTingreenyellow[coloured_order=="3_blue",]
-groups_of_pregnancies_red_NOTingreenyellow<-groups_of_pregnancies_br_NOTingreenyellow[coloured_order!="3_blue",]
+# divided group in color (blue and no blue):
+groups_of_pregnancies_blue_NOT2<-groups_of_pregnancies_br_NOT2[coloured_order=="3_blue",]
+groups_of_pregnancies_red_NOT2<-groups_of_pregnancies_br_NOT2[coloured_order!="3_blue",]
 
 
-groups_of_pregnancies_yellow_NOTingreen<-groups_of_pregnancies_yellow_NOTingreen[order(person_id, -pregnancy_end_date),]
-groups_of_pregnancies_yellow_NOTingreen<-groups_of_pregnancies_yellow_NOTingreen[,n_person:=seq_along(.I), by=.(person_id)]
-groups_of_pregnancies_yellow_NOTingreen<-groups_of_pregnancies_yellow_NOTingreen[n_person==1,`:=`(group=1)]
-groups_of_pregnancies_yellow_NOTingreen<-groups_of_pregnancies_yellow_NOTingreen[,`:=`(group_start_date=pregnancy_start_date, group_end_date= pregnancy_end_date)] #group=1, 
-groups_of_pregnancies_yellow_NOTingreen<-groups_of_pregnancies_yellow_NOTingreen[,pregnancy_start_prev:=shift(pregnancy_start_date),by="person_id"]
-groups_of_pregnancies_yellow_NOTingreen<-groups_of_pregnancies_yellow_NOTingreen[,pregnancy_end_prev:=shift(pregnancy_end_date),by="person_id"]
-groups_of_pregnancies_yellow_NOTingreen<-groups_of_pregnancies_yellow_NOTingreen[,diff:=!(group_start_date>=pregnancy_start_prev-28 & group_end_date<=pregnancy_end_prev+28)]
-groups_of_pregnancies_yellow_NOTingreen<-groups_of_pregnancies_yellow_NOTingreen[group==1,diff:=F]
-suppressWarnings(groups_of_pregnancies_yellow_NOTingreen<-as.data.table(groups_of_pregnancies_yellow_NOTingreen %>% group_by(person_id) %>%  mutate (Episode=Reduce(sum, diff, accumulate = TRUE)+1)))
+groups_of_pregnancies_blue_NOT2<-groups_of_pregnancies_blue_NOT2[order(person_id, -pregnancy_end_date),]
+groups_of_pregnancies_blue_NOT2<-groups_of_pregnancies_blue_NOT2[,n_person:=seq_along(.I), by=.(person_id)]
+groups_of_pregnancies_blue_NOT2<-groups_of_pregnancies_blue_NOT2[n_person==1,`:=`(group=1)]
+groups_of_pregnancies_blue_NOT2<-groups_of_pregnancies_blue_NOT2[,`:=`(group_start_date=pregnancy_start_date, group_end_date= pregnancy_end_date)]  
+groups_of_pregnancies_blue_NOT2<-groups_of_pregnancies_blue_NOT2[,pregnancy_start_prev:=shift(pregnancy_start_date),by="person_id"]
+groups_of_pregnancies_blue_NOT2<-groups_of_pregnancies_blue_NOT2[,pregnancy_end_prev:=shift(pregnancy_end_date),by="person_id"]
+groups_of_pregnancies_blue_NOT2<-groups_of_pregnancies_blue_NOT2[,diff:=!(group_start_date>=pregnancy_start_prev-28 & group_end_date<=pregnancy_end_prev+28)]
+groups_of_pregnancies_blue_NOT2<-groups_of_pregnancies_blue_NOT2[group==1,diff:=F]
+suppressWarnings(groups_of_pregnancies_blue_NOT2<-as.data.table(groups_of_pregnancies_blue_NOT2 %>% group_by(person_id) %>%  mutate (Episode=Reduce(sum, diff, accumulate = TRUE)+1)))
 
 #recalculate group of pregnancy:
-groups_of_pregnancies_yellow_NOTingreen<-groups_of_pregnancies_yellow_NOTingreen[Episode==1,`:=`(group_start_date=min(group_start_date, pregnancy_start_date),group_end_date=min(group_end_date, pregnancy_end_date)), by=.(Episode, person_id)]
-groups_of_pregnancies_yellow_NOTingreen<-groups_of_pregnancies_yellow_NOTingreen[Episode!=1,`:=`(group_start_date=pregnancy_start_date,group_end_date= pregnancy_end_date), by=.(Episode, person_id)]
-setnames(groups_of_pregnancies_yellow_NOTingreen, "Episode","Group")
+groups_of_pregnancies_blue_NOT2<-groups_of_pregnancies_blue_NOT2[Episode==1,`:=`(group_start_date=min(group_start_date, pregnancy_start_date),group_end_date=min(group_end_date, pregnancy_end_date)), by=.(Episode, person_id)]
+groups_of_pregnancies_blue_NOT2<-groups_of_pregnancies_blue_NOT2[Episode!=1,`:=`(group_start_date=min(pregnancy_start_date), group_end_date= max(pregnancy_end_date)), by=.(Episode, person_id)]
+setnames(groups_of_pregnancies_blue_NOT2, "Episode","Group")
 # keep only needed vars for yellow
-groups_of_pregnancies_yellow_NOTingreen<-groups_of_pregnancies_yellow_NOTingreen[,.(pregnancy_id,person_id,record_date,pregnancy_start_date,meaning_start_date,pregnancy_ongoing_date, meaning_ongoing_date,pregnancy_end_date,meaning_end_date,type_of_pregnancy_end,imputed_start_of_pregnancy,imputed_end_of_pregnancy,meaning_of_event,survey_id,visit_occurrence_id,PROMPT,EUROCAT,CONCEPTSETS, CONCEPTSET,ITEMSETS,coloured_order, order_quality ,group_start_date,group_end_date,Group)]
-groups_of_pregnancies_yellow_NOTingreen<-groups_of_pregnancies_yellow_NOTingreen[,`:=`(group_start_date_28=group_start_date-28, group_end_date_28=group_end_date+28)]
+groups_of_pregnancies_blue_NOT2<-groups_of_pregnancies_blue_NOT2[,.(pregnancy_id,person_id,record_date,pregnancy_start_date,meaning_start_date,pregnancy_ongoing_date, meaning_ongoing_date,pregnancy_end_date,meaning_end_date,type_of_pregnancy_end,imputed_start_of_pregnancy,imputed_end_of_pregnancy,meaning_of_event,survey_id,visit_occurrence_id,PROMPT,EUROCAT,CONCEPTSETS, CONCEPTSET,ITEMSETS,coloured_order, order_quality ,group_start_date,group_end_date,Group,ID)]
+groups_of_pregnancies_blue_NOT2<-groups_of_pregnancies_blue_NOT2[,`:=`(group_start_date_28=group_start_date-28, group_end_date_28=group_end_date+28)]
 
 # reconciling with blue and red
-groups_of_pregnancies_br_Inyellow<-groups_of_pregnancies_br_NOTingreen[groups_of_pregnancies_yellow_NOTingreen, on =.(person_id==person_id,record_date<=group_end_date_28, record_date>=group_start_date_28), nomatch=NULL] [,-c("record_date","record_date.1","i.pregnancy_id","i.pregnancy_start_date","i.meaning_start_date","i.pregnancy_ongoing_date","i.meaning_ongoing_date","i.pregnancy_end_date","i.meaning_end_date","i.type_of_pregnancy_end","i.imputed_start_of_pregnancy","i.imputed_end_of_pregnancy","i.meaning_of_event","i.survey_id","i.visit_occurrence_id","i.PROMPT","i.EUROCAT","i.CONCEPTSETS","i.CONCEPTSET","i.ITEMSETS","i.coloured_order","i.order_quality","group_start_date","group_end_date")] # 3 record matched in green
-setnames(groups_of_pregnancies_br_Inyellow,"i.record_date", "record_date")
+groups_of_pregnancies_red_Inblue<-unique(groups_of_pregnancies_red_NOT2[groups_of_pregnancies_blue_NOT2, on =.(person_id==person_id,record_date<=group_end_date_28, record_date>=group_start_date_28), nomatch=NULL][,-c("i.pregnancy_id","i.pregnancy_start_date","i.meaning_start_date","i.pregnancy_ongoing_date","i.meaning_ongoing_date","i.pregnancy_end_date","i.meaning_end_date","i.type_of_pregnancy_end","i.imputed_start_of_pregnancy","i.imputed_end_of_pregnancy","i.meaning_of_event","i.survey_id","i.visit_occurrence_id","i.PROMPT","i.EUROCAT","i.CONCEPTSETS","i.CONCEPTSET","i.ITEMSETS","i.coloured_order","i.order_quality","i.ID","group_start_date","group_end_date","record_date", "record_date.1")]) # 3 record matched in green
+setnames(groups_of_pregnancies_red_Inblue,"i.record_date", "record_date")
 
-# append yellow to record that matched from br
-groups_of_pregnancies_gybr2<-rbind(groups_of_pregnancies_yellow_NOTingreen,groups_of_pregnancies_br_Inyellow,fill=TRUE)
+# append red to record that matched from br
+groups_of_pregnancies_gybr3<-rbind(groups_of_pregnancies_blue_NOT2,groups_of_pregnancies_red_Inblue,fill=TRUE) [, highest_quality:="Blue"][,-c("group_end_date_28","group_start_date_28")]
+## update group_start_date group_end_date!?!
+groups_of_pregnancies_gybr3<-groups_of_pregnancies_gybr3[,group_start_date:=max(group_start_date, na.rm = T), by=.(person_id,Group)]
+groups_of_pregnancies_gybr3<-groups_of_pregnancies_gybr3[,group_end_date:=max(group_end_date, na.rm = T), by=.(person_id,Group)]
 ## recalculate group_start_date group_end_date!!
+
+
+
+
+#### complete with record in red that doesn't match in blue
+Inblue<-groups_of_pregnancies_red_Inblue[,ID] #7, unique 7
+groups_of_pregnancies_red_NOT3<-groups_of_pregnancies_br_NOT2[!ID%chin%Inblue,]
+
+# divided group in color (blue and no blue):
+groups_of_pregnancies_blue_NOT3<-groups_of_pregnancies_red_NOT3[coloured_order=="3_blue",]
+groups_of_pregnancies_red_NOT3<-groups_of_pregnancies_red_NOT3[coloured_order!="3_blue",]
+
+
 
 
 
