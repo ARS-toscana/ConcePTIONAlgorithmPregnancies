@@ -56,7 +56,8 @@ CreateItemsetDatasets <- function(EAVtables,datevar,dateformat, rename_col,numer
         used_df <- as.data.table(read_dta(paste0(dirinput,"/",df2,".",extension)))
       } else if (extension == "csv") {
         options(readr.num_columns = 0)
-        used_df <- fread(paste0(dirinput,"/",df2,".",extension))
+        used_df <- fread(paste0(dirinput,"/",df2,".",extension),colClasses = list( character="person_id"))
+        
       }
       else if (extension == "RData") {
         assign('used_df', get(load(paste0(dirinput,"/",df2,".",extension))))
