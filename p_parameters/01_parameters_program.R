@@ -43,6 +43,8 @@ if (!require("dplyr")) install.packages("dplyr")
 library(dplyr)
 if (!require("survival")) install.packages("survival")
 library(survival)
+if (!require("rmarkdown")) install.packages("rmarkdown")
+library(rmarkdown )
 
 `%notin%` <- Negate(`%in%`)
 
