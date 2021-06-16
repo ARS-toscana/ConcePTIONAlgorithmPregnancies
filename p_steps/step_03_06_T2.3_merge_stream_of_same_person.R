@@ -139,7 +139,7 @@ gop_green<-gop_green[,`:=`(group_start_date_28=group_start_date-28, group_end_da
 gop_ybr_Ingreen<-unique(gop_ybr[gop_green,.(pregnancy_id,person_id,record_date=x.record_date,pregnancy_start_date,meaning_start_date,pregnancy_ongoing_date,meaning_ongoing_date,pregnancy_end_date,meaning_end_date,type_of_pregnancy_end,imputed_start_of_pregnancy,imputed_end_of_pregnancy,meaning_of_event,survey_id,visit_occurrence_id,PROMPT,EUROCAT,CONCEPTSETS,CONCEPTSET,ITEMSETS,coloured_order,order_quality,ID,Group),on =.(person_id==person_id, record_date<=group_end_date_28, record_date>=group_start_date_28), nomatch=0L])
 #gop_ybr_Ingreen<-gop_ybr_Ingreen[,n:=seq_along(.I), by="ID"]
 
-# append green to record that matched from ybr (F)
+# append green to record that matched from ybr (FIRST)
 gop_gybr1<-rbind(gop_green,gop_ybr_Ingreen,fill=TRUE)[,highest_quality:="Green"]
 ## update group_start_date group_end_date
 gop_gybr1<-gop_gybr1[,group_start_date:=max(group_start_date, na.rm = T), by=.(person_id,Group)]
@@ -150,7 +150,7 @@ gop_gybr1<-gop_gybr1[,group_end_date:=max(group_end_date, na.rm = T), by=.(perso
 
 
 #### continue with record in ybr that doesn't match in green
-Ingreen1<-gop_ybr_Ingreen[,ID] #27856 , unique 27800
+Ingreen1<-unique(gop_ybr_Ingreen[,ID]) #27856 , unique 27800
 gop_ybr_NOT1<-gop_ybr[!(ID%chin%Ingreen1),] # drop only unique ID
 
 # divided group in color (yellow and no yellow):
@@ -177,11 +177,11 @@ gop_yellow_NOT1<-gop_yellow_NOT1[,.(pregnancy_id,person_id,record_date,pregnancy
 gop_yellow_NOT1<-gop_yellow_NOT1[,`:=`(group_start_date_28=group_start_date-28, group_end_date_28=group_end_date+28)]
 
 # reconciling with blue and red
-gop_br_Inyellow<-unique(gop_br_NOT1[gop_yellow_NOT1, on =.(person_id==person_id,record_date<=group_end_date_28, record_date>=group_start_date_28), nomatch=NULL][,-c("i.pregnancy_id","i.pregnancy_start_date","i.meaning_start_date","i.pregnancy_ongoing_date","i.meaning_ongoing_date","i.pregnancy_end_date","i.meaning_end_date","i.type_of_pregnancy_end","i.imputed_start_of_pregnancy","i.imputed_end_of_pregnancy","i.meaning_of_event","i.survey_id","i.visit_occurrence_id","i.PROMPT","i.EUROCAT","i.CONCEPTSETS","i.CONCEPTSET","i.ITEMSETS","i.coloured_order","i.order_quality","i.ID","group_start_date","group_end_date","record_date", "record_date.1")]) # 3 record matched in green
-setnames(gop_br_Inyellow,"i.record_date", "record_date")
+gop_br_Inyellow<-unique(gop_br_NOT1[gop_yellow_NOT1,.(pregnancy_id,person_id,record_date=x.record_date,pregnancy_start_date,meaning_start_date,pregnancy_ongoing_date,meaning_ongoing_date,pregnancy_end_date,meaning_end_date,type_of_pregnancy_end,imputed_start_of_pregnancy,imputed_end_of_pregnancy,meaning_of_event,survey_id,visit_occurrence_id,PROMPT,EUROCAT,CONCEPTSETS,CONCEPTSET,ITEMSETS,coloured_order,order_quality,ID,Group),on =.(person_id==person_id, record_date<=group_end_date_28, record_date>=group_start_date_28), nomatch=0L])
 
-# append yellow to record that matched from br
-gop_gybr2<-rbind(gop_yellow_NOT1,gop_br_Inyellow,fill=TRUE)[, highest_quality:="Yellow"][,-c("group_end_date_28","group_start_date_28")]
+
+# append yellow to record that matched from br (SEC)
+gop_gybr2<-rbind(gop_yellow_NOT1,gop_br_Inyellow,fill=TRUE)[,highest_quality:="Yellow"]
 ## update group_start_date group_end_date!?!
 gop_gybr2<-gop_gybr2[,group_start_date:=max(group_start_date, na.rm = T), by=.(person_id,Group)]
 gop_gybr2<-gop_gybr2[,group_end_date:=max(group_end_date, na.rm = T), by=.(person_id,Group)]
@@ -192,8 +192,8 @@ gop_gybr2<-gop_gybr2[,group_end_date:=max(group_end_date, na.rm = T), by=.(perso
 
 
 #### continue with record in br that doesn't match in yellow
-Inyellow<-gop_br_Inyellow[,ID] #881551, unique 859448
-gop_br_NOT2<-gop_ybr_NOT1[!ID%chin%Inyellow,]
+Inyellow<-unique(gop_br_Inyellow[,ID]) #881551, unique 859448
+gop_br_NOT2<-gop_br_NOT1[!ID%chin%Inyellow,]
 
 # divided group in color (blue and no blue):
 gop_blue_NOT2<-gop_br_NOT2[coloured_order=="3_blue",]
@@ -219,33 +219,44 @@ gop_blue_NOT2<-gop_blue_NOT2[,.(pregnancy_id,person_id,record_date,pregnancy_sta
 gop_blue_NOT2<-gop_blue_NOT2[,`:=`(group_start_date_28=group_start_date-28, group_end_date_28=group_end_date+28)]
 
 # reconciling with blue and red
-gop_red_Inblue<-unique(gop_red_NOT2[gop_blue_NOT2, on =.(person_id==person_id,record_date<=group_end_date_28, record_date>=group_start_date_28), nomatch=NULL][,-c("i.pregnancy_id","i.pregnancy_start_date","i.meaning_start_date","i.pregnancy_ongoing_date","i.meaning_ongoing_date","i.pregnancy_end_date","i.meaning_end_date","i.type_of_pregnancy_end","i.imputed_start_of_pregnancy","i.imputed_end_of_pregnancy","i.meaning_of_event","i.survey_id","i.visit_occurrence_id","i.PROMPT","i.EUROCAT","i.CONCEPTSETS","i.CONCEPTSET","i.ITEMSETS","i.coloured_order","i.order_quality","i.ID","group_start_date","group_end_date","record_date", "record_date.1")]) # 3 record matched in green
-setnames(gop_red_Inblue,"i.record_date", "record_date")
+gop_red_Inblue<-unique(gop_red_NOT2[gop_blue_NOT2,.(pregnancy_id,person_id,record_date=x.record_date,pregnancy_start_date,meaning_start_date,pregnancy_ongoing_date,meaning_ongoing_date,pregnancy_end_date,meaning_end_date,type_of_pregnancy_end,imputed_start_of_pregnancy,imputed_end_of_pregnancy,meaning_of_event,survey_id,visit_occurrence_id,PROMPT,EUROCAT,CONCEPTSETS,CONCEPTSET,ITEMSETS,coloured_order,order_quality,ID,Group),on =.(person_id==person_id, record_date<=group_end_date_28, record_date>=group_start_date_28), nomatch=0L])
 
-# append red to record that matched from br
-gop_gybr3<-rbind(gop_blue_NOT2,gop_red_Inblue,fill=TRUE) [, highest_quality:="Blue"][,-c("group_end_date_28","group_start_date_28")]
-## update group_start_date group_end_date!?!
+# append red to record that matched from br (THIRD)
+gop_gybr3<-rbind(gop_blue_NOT2,gop_red_Inblue,fill=TRUE) [,highest_quality:="Blue"]
+## update group_start_date group_end_date
 gop_gybr3<-gop_gybr3[,group_start_date:=max(group_start_date, na.rm = T), by=.(person_id,Group)]
 gop_gybr3<-gop_gybr3[,group_end_date:=max(group_end_date, na.rm = T), by=.(person_id,Group)]
 ## recalculate group_start_date group_end_date!!
 
 
+#### select with record in br that doesn't match in blue
+Inblue<-unique(gop_red_Inblue[,ID]) #7, unique 7
+gop_red_NOT3<-gop_red_NOT2[!ID%chin%Inblue,][,highest_quality:="Red"]
+
+# create group also in red
+gop_red_NOT3<-gop_red_NOT3[order(person_id, -pregnancy_end_date),]
+gop_red_NOT3<-gop_red_NOT3[,n_person:=seq_along(.I), by=.(person_id)]
+gop_red_NOT3<-gop_red_NOT3[n_person==1,`:=`(group=1)]
+gop_red_NOT3<-gop_red_NOT3[,`:=`(group_start_date=pregnancy_start_date, group_end_date= pregnancy_end_date)]  
+gop_red_NOT3<-gop_red_NOT3[,pregnancy_start_prev:=shift(pregnancy_start_date),by="person_id"]
+gop_red_NOT3<-gop_red_NOT3[,pregnancy_end_prev:=shift(pregnancy_end_date),by="person_id"]
+gop_red_NOT3<-gop_red_NOT3[,diff:=!(group_start_date>=pregnancy_start_prev-28 & group_end_date<=pregnancy_end_prev+28)]
+gop_red_NOT3<-gop_red_NOT3[group==1,diff:=F]
+suppressWarnings(gop_red_NOT3<-as.data.table(gop_red_NOT3 %>% group_by(person_id) %>%  mutate (Episode=Reduce(sum, diff, accumulate = TRUE)+1)))
+
+#recalculate group of pregnancy:
+gop_red_NOT3<-gop_red_NOT3[Episode==1,`:=`(group_start_date=min(group_start_date, pregnancy_start_date),group_end_date=min(group_end_date, pregnancy_end_date)), by=.(Episode, person_id)]
+gop_red_NOT3<-gop_red_NOT3[Episode!=1,`:=`(group_start_date=min(pregnancy_start_date), group_end_date= max(pregnancy_end_date)), by=.(Episode, person_id)]
+setnames(gop_red_NOT3, "Episode","Group")
+# keep only needed vars for yellow
+gop_gybr4<-gop_red_NOT3[,.(pregnancy_id,person_id,record_date,pregnancy_start_date,meaning_start_date,pregnancy_ongoing_date, meaning_ongoing_date,pregnancy_end_date,meaning_end_date,type_of_pregnancy_end,imputed_start_of_pregnancy,imputed_end_of_pregnancy,meaning_of_event,survey_id,visit_occurrence_id,PROMPT,EUROCAT,CONCEPTSETS, CONCEPTSET,ITEMSETS,coloured_order,order_quality,group_start_date,group_end_date,Group,ID,highest_quality)]
 
 
-#### complete with record in red that doesn't match in blue
-Inblue<-gop_red_Inblue[,ID] #7, unique 7
-gop_red_NOT3<-gop_br_NOT2[!ID%chin%Inblue,]
 
-# divided group in color (blue and no blue):
-gop_blue_NOT3<-gop_red_NOT3[coloured_order=="3_blue",]
-gop_red_NOT3<-gop_red_NOT3[coloured_order!="3_blue",]
+# append together all the step (4)
+D3_groups_of_pregnancies<-rbind(gop_gybr1,gop_gybr2, gop_gybr3, gop_gybr4, fill=T)
 
 
-
-
-
-
-D3_groups_of_pregnancies[,.(pregnancy_id,person_id,record_date,order_quality,pregnancy_start_date,pregnancy_ongoing,pregnancy_end_date,meaning_start_date,meaning_end_date,meaning_ongoing_date,type_of_pregnancy_end,group_identifier,visit_occurrence_id,EUROCAT,PROMPT,CONCEPTSETS,CONCEPTSET,ITEMSETS)] #,mo_meaning,mo_source_column,mo_source_value,mo_unit
 save(D3_groups_of_pregnancies, file=paste0(dirtemp,"D3_groups_of_pregnancies.RData"))
 
 
