@@ -394,3 +394,4 @@ if (length(ConcePTION_CDM_EAV_tables)!=0 ){
 }
 
 #ConcePTION_CDM_datevar_retrieve<-ConcePTION_CDM_datevar_retrieveA
+rm(temp, temp1)

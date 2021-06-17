@@ -141,9 +141,27 @@ gop_ybr_Ingreen<-unique(gop_ybr[gop_green,.(pregnancy_id,person_id,record_date=x
 
 # append green to record that matched from ybr (FIRST)
 gop_gybr1<-rbind(gop_green,gop_ybr_Ingreen,fill=TRUE)[,highest_quality:="Green"]
+
+# -case 1: repeted record, in case we'll bind them
+gop_gybr1<-gop_gybr1[order(person_id, group_identifier),]
+gop_gybr1<-gop_gybr1[,n_rep:=seq_along(.I), by="ID"][,n_rep:=max(n_rep), by=.(ID)][,n_rep_max:=max(n_rep), by=.(group_identifier,person_id)]
+gop_gybr1<-gop_gybr1[n_rep_max>1, group_identifier:=min(group_identifier),by=.(person_id)]
 ## update group_start_date group_end_date
-gop_gybr1<-gop_gybr1[,group_start_date:=max(group_start_date, na.rm = T), by=.(person_id,group_identifier)]
+gop_gybr1<-gop_gybr1[,group_start_date:=min(group_start_date, na.rm = T), by=.(person_id,group_identifier)]
 gop_gybr1<-gop_gybr1[,group_end_date:=max(group_end_date, na.rm = T), by=.(person_id,group_identifier)]
+
+# -case 2: check if group overlap and in case we'll bind them
+gop_gybr1<-gop_gybr1[order(person_id, group_identifier),]
+gop_gybr1<-gop_gybr1[,group_end_prev:=shift(group_end_date),by=.(person_id)]
+gop_gybr1<-gop_gybr1[group_end_prev==group_end_date, group_end_prev:=NA]
+gop_gybr1<-gop_gybr1[,overlap:=(group_end_prev>=group_start_date)*1][is.na(overlap),overlap:=0]
+gop_gybr1<-gop_gybr1[,overlap:=max(overlap),by=.(person_id)]
+gop_gybr1<-gop_gybr1[overlap==1, group_identifier:=min(group_identifier),by=.(person_id)]
+gop_gybr1<-gop_gybr1[,group_start_date:=min(group_start_date, na.rm = T), by=.(person_id,group_identifier)]
+gop_gybr1<-gop_gybr1[,group_end_date:=max(group_end_date, na.rm = T), by=.(person_id,group_identifier)]
+
+gop_gybr1<-gop_gybr1[,-c("group_end_prev","n_rep","n_rep_max","overlap")]
+gop_gybr1<-unique(gop_gybr1)
 
 
 print("Start recoinciliation in group - YELLOW")
@@ -181,9 +199,28 @@ gop_br_Inyellow<-unique(gop_br_NOT1[gop_yellow_NOT1,.(pregnancy_id,person_id,rec
 
 # append yellow to record that matched from br (SEC)
 gop_gybr2<-rbind(gop_yellow_NOT1,gop_br_Inyellow,fill=TRUE)[,highest_quality:="Yellow"]
-## update group_start_date group_end_date!?!
-gop_gybr2<-gop_gybr2[,group_start_date:=max(group_start_date, na.rm = T), by=.(person_id,group_identifier)]
+
+# -case 1: repeted record, in case we'll bind them
+gop_gybr2<-gop_gybr2[order(person_id, group_identifier),]
+gop_gybr2<-gop_gybr2[,n_rep:=seq_along(.I), by="ID"][,n_rep:=max(n_rep), by=.(ID)][,n_rep_max:=max(n_rep), by=.(group_identifier,person_id)]
+gop_gybr2<-gop_gybr2[n_rep_max>1, group_identifier:=min(group_identifier),by=.(person_id)]
+## update group_start_date group_end_date
+gop_gybr2<-gop_gybr2[,group_start_date:=min(group_start_date, na.rm = T), by=.(person_id,group_identifier)]
 gop_gybr2<-gop_gybr2[,group_end_date:=max(group_end_date, na.rm = T), by=.(person_id,group_identifier)]
+
+# -case 2: check if group overlap and in case we'll bind them
+gop_gybr2<-gop_gybr2[order(person_id, group_identifier),]
+gop_gybr2<-gop_gybr2[,group_end_prev:=shift(group_end_date),by=.(person_id)]
+gop_gybr2<-gop_gybr2[group_end_prev==group_end_date, group_end_prev:=NA]
+gop_gybr2<-gop_gybr2[,overlap:=(group_end_prev>=group_start_date)*1][is.na(overlap),overlap:=0]
+gop_gybr2<-gop_gybr2[,overlap:=max(overlap),by=.(person_id)]
+gop_gybr2<-gop_gybr2[overlap==1, group_identifier:=min(group_identifier),by=.(person_id)]
+gop_gybr2<-gop_gybr2[,group_start_date:=min(group_start_date, na.rm = T), by=.(person_id,group_identifier)]
+gop_gybr2<-gop_gybr2[,group_end_date:=max(group_end_date, na.rm = T), by=.(person_id,group_identifier)]
+
+gop_gybr2<-gop_gybr2[,-c("group_end_prev","n_rep","n_rep_max","overlap")]
+gop_gybr2<-unique(gop_gybr2)
+
 
 
 print("Start recoinciliation in group - BLUE")
@@ -220,10 +257,29 @@ gop_red_Inblue<-unique(gop_red_NOT2[gop_blue_NOT2,.(pregnancy_id,person_id,recor
 
 # append red to record that matched from br (THIRD)
 gop_gybr3<-rbind(gop_blue_NOT2,gop_red_Inblue,fill=TRUE) [,highest_quality:="Blue"]
+
+# -case 1: repeted record, in case we'll bind them
+gop_gybr3<-gop_gybr3[order(person_id, group_identifier),]
+gop_gybr3<-gop_gybr3[,n_rep:=seq_along(.I), by="ID"][,n_rep:=max(n_rep), by=.(ID)][,n_rep_max:=max(n_rep), by=.(group_identifier,person_id)]
+gop_gybr3<-gop_gybr3[n_rep_max>1, group_identifier:=min(group_identifier),by=.(person_id)]
 ## update group_start_date group_end_date
-gop_gybr3<-gop_gybr3[,group_start_date:=max(group_start_date, na.rm = T), by=.(person_id,group_identifier)]
+gop_gybr3<-gop_gybr3[,group_start_date:=min(group_start_date, na.rm = T), by=.(person_id,group_identifier)]
 gop_gybr3<-gop_gybr3[,group_end_date:=max(group_end_date, na.rm = T), by=.(person_id,group_identifier)]
-## recalculate group_start_date group_end_date!!
+
+# -case 2: check if group overlap and in case we'll bind them
+gop_gybr3<-gop_gybr3[order(person_id, group_identifier),]
+gop_gybr3<-gop_gybr3[,group_end_prev:=shift(group_end_date),by=.(person_id)]
+gop_gybr3<-gop_gybr3[group_end_prev==group_end_date, group_end_prev:=NA]
+gop_gybr3<-gop_gybr3[,overlap:=(group_end_prev>=group_start_date)*1][is.na(overlap),overlap:=0]
+gop_gybr3<-gop_gybr3[,overlap:=max(overlap),by=.(person_id)]
+gop_gybr3<-gop_gybr3[overlap==1, group_identifier:=min(group_identifier),by=.(person_id)]
+gop_gybr3<-gop_gybr3[,group_start_date:=min(group_start_date, na.rm = T), by=.(person_id,group_identifier)]
+gop_gybr3<-gop_gybr3[,group_end_date:=max(group_end_date, na.rm = T), by=.(person_id,group_identifier)]
+
+gop_gybr3<-gop_gybr3[,-c("group_end_prev","n_rep","n_rep_max","overlap")]
+gop_gybr3<-unique(gop_gybr3)
+
+
 
 print("Start recoinciliation in group - RED")
 
@@ -258,5 +314,5 @@ D3_groups_of_pregnancies<-rbind(gop_gybr1,gop_gybr2, gop_gybr3, gop_gybr4, fill=
 save(D3_groups_of_pregnancies, file=paste0(dirtemp,"D3_groups_of_pregnancies.RData"))
 
 rm(gop_blue_NOT2, gop_br_Inyellow, gop_br_NOT1, gop_br_NOT2, gop_green, gop_gybr1, gop_gybr2, gop_gybr3, gop_gybr4, gop_red_Inblue, gop_red_NOT2, gop_red_NOT3, gop_ybr, gop_ybr_Ingreen, gop_ybr_NOT1, gop_yellow_NOT1)
-rm(groups_of_pregnancies, D3_Stream_CONCEPTSETS_check, D3_Stream_EUROCAT_check, D3_Stream_ITEMSETS_check, D3_Stream_PROMPTS_check, D3_groups_of_pregnancies, temp, temp1)
+rm(groups_of_pregnancies, D3_Stream_CONCEPTSETS_check, D3_Stream_EUROCAT_check, D3_Stream_ITEMSETS_check, D3_Stream_PROMPTS_check, D3_groups_of_pregnancies)
 rm(Ingreen, Inyellow, Inblue)
