@@ -8,7 +8,7 @@
 print('RETRIEVE FROM CDM RECORDS CORRESPONDING TO CONCEPT SETS')
 
 
-CreateConceptSetDatasets(concept_set_names = c(concept_sets_of_our_study),
+CreateConceptSetDatasets(concept_set_names = c(concept_sets_of_our_study_eve),
                          dataset = ConcePTION_CDM_tables,
                          codvar = ConcePTION_CDM_codvar,
                          datevar= ConcePTION_CDM_datevar,
@@ -38,7 +38,7 @@ CreateConceptSetDatasets(concept_set_names = c(concept_sets_of_our_study),
 print('RETRIEVE FROM CDM RECORDS CORRESPONDING TO CONCEPT SETS')
 
 
-CreateConceptSetDatasets(concept_set_names = c(concept_sets_of_our_study_procedure),
+CreateConceptSetDatasets(concept_set_names = c(concept_sets_of_our_study_eve_procedure),
                          dataset = ConcePTION_CDM_tables,
                          codvar = ConcePTION_CDM_codvar,
                          datevar= ConcePTION_CDM_datevar,
