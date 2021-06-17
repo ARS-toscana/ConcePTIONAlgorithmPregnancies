@@ -51,7 +51,7 @@ library(rmarkdown )
 # load macros
 
 #source(paste0(dirmacro,"CreateConceptSetDatasets_v14.R"))
-source(paste0(dirmacro,"CreateConceptSetDatasets.R"))
+source(paste0(dirmacro,"CreateConceptSetDatasets_v17.R"))
 #source(paste0(dirmacro,"RetrieveRecordsFromEAVDatasets.R"))
 source(paste0(dirmacro,"CreateItemsetDatasets.R"))
 source(paste0(dirmacro,"MergeFilterAndCollapse_v5.R"))
