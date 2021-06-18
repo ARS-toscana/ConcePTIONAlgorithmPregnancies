@@ -237,3 +237,85 @@ for (level1 in c("HOSP","PC")) {
     }
   }
 }
+
+
+#-------------------------------------
+# set concept sets
+
+# concept_set_codes_our_study <- c(concept_sets_of_our_study_eve, concept_set_our_study_pre, concept_sets_of_our_study_eve_procedure)
+concept_set_codes_our_study_excl <- concept_set_codes_our_study_excl
+
+# augment ICPC codes
+# for (outcome in OUTCOME_events){
+#   outnarrow <- paste0(outcome,'_narrow')
+#   outpossible <- paste0(outcome,'_possible')
+#   if (length(concept_set_codes_our_study_pre[[outnarrow]][["ICPC"]]) == 0 & length(concept_set_codes_our_study_pre[[outnarrow]][["ICPC2P"]]) >0 ){
+#     concept_set_codes_our_study[[outpossible]][["ICPC"]] <- unique(c(concept_set_codes_our_study_pre[[outpossible]][["ICPC"]],substr(concept_set_codes_our_study_pre[[outnarrow]][["ICPC2P"]],1,3)))
+#   }
+# }
+
+# for (conceptset in c(COV_conceptssets,SEVERCOVID_conceptsets)){
+#   if (length(concept_set_codes_our_study_pre[[conceptset]][["ICPC2P"]]) >0 ){
+#     concept_set_codes_our_study[[conceptset]][["ICPC"]] <- unique(c(concept_set_codes_our_study_pre[[conceptset]][["ICPC"]],substr(concept_set_codes_our_study_pre[[conceptset]][["ICPC2P"]],1,3)))
+#   }
+# }
+
+#-------------------------------------
+# fix for ICPC2P
+
+for (conceptset in concept_set_our_study){
+  if (length(concept_set_codes_our_study[[conceptset]][["ICPC2P"]]) >0 ){
+    concept_set_codes_our_study[[conceptset]][["ICPC"]] <- unique(c(concept_set_codes_our_study[[conceptset]][["ICPC"]],substr(concept_set_codes_our_study[[conceptset]][["ICPC2P"]],1,3)))
+  }
+}
+
+
+
+#-------------------------------------
+# fix for ICD10GM
+
+for (conceptset in concept_set_our_study){
+  print(conceptset)
+  if (concept_set_domains[[conceptset]] == "Diagnosis"){
+    concept_set_codes_our_study[[conceptset]][["ICD10GM"]] <- concept_set_codes_our_study[[conceptset]][["ICD10"]]
+  }
+}
+
+#-------------------------------------
+# fix for ICD10CM
+for (conceptset in concept_set_our_study){
+  if (concept_set_domains[[conceptset]] == "Diagnosis"){
+    concept_set_codes_our_study[[conceptset]][["ICD10CM"]] <- concept_set_codes_our_study[[conceptset]][["ICD10"]]
+  }
+}
+
+#-------------------------------------
+# fix for CIM10
+for (conceptset in concept_set_our_study){
+  if (concept_set_domains[[conceptset]] == "Diagnosis"){
+    concept_set_codes_our_study[[conceptset]][["CIM10"]] <- concept_set_codes_our_study[[conceptset]][["ICD10"]]
+  }
+}
+
+#-------------------------------------
+# fix for SNOMED3
+for (conceptset in concept_set_our_study){
+  if (concept_set_domains[[conceptset]] == "Diagnosis"){
+    concept_set_codes_our_study[[conceptset]][["SNOMED3"]] <- concept_set_codes_our_study[[conceptset]][["SNOMED"]]
+  }
+}
+
+save(concept_set_codes_our_study,file=paste0(direxp,"concept_set_codes_our_study.RData"))
+save(concept_set_codes_our_study_excl,file=paste0(direxp,"concept_set_codes_our_study_excl.RData"))
+save(concept_set_codes_our_study,file=paste0(dirsmallcountsremoved,"concept_set_codes_our_study.RData"))
+save(concept_set_codes_our_study_excl,file=paste0(dirsmallcountsremoved,"concept_set_codes_our_study_excl.RData"))
+
+if (this_datasource_has_subpopulations == TRUE){
+  for (subpop in subpopulations[[thisdatasource]]){
+    save(concept_set_codes_our_study,file=paste0(direxpsubpop[[subpop]],"concept_set_codes_our_study.RData"))
+    save(concept_set_codes_our_study_excl,file=paste0(direxpsubpop[[subpop]],"concept_set_codes_our_study_excl.RData"))
+    save(concept_set_codes_our_study_excl,file=paste0(dirsmallcountsremovedsubpop[[subpop]],"concept_set_codes_our_study_excl.RData"))
+
+  }
+}
+
