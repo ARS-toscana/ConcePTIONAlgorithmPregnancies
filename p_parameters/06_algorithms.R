@@ -275,7 +275,7 @@ for (conceptset in concept_set_our_study){
 # fix for ICD10GM
 
 for (conceptset in concept_set_our_study){
-  print(conceptset)
+  #print(conceptset)
   if (concept_set_domains[[conceptset]] == "Diagnosis"){
     concept_set_codes_our_study[[conceptset]][["ICD10GM"]] <- concept_set_codes_our_study[[conceptset]][["ICD10"]]
   }

@@ -14,3 +14,15 @@ for (i in 1:length(files)) {
 }
 
 save(SURVEY_ID_BR, file=paste0(dirtemp,"SURVEY_ID_BR.RData"))
+
+# RETRIEVE FROM VISIT_OCCURRENCE_ID ALL RECORDS WHOSE meaning IS "first_encounter_for_ongoing_pregnancy", "service_before_termination" , "service_for_ongoing_pregnancy" AND SAVE
+
+meaning_of_visit_ARS<-c("first_encounter_for_ongoing_pregnancy", "service_before_termination" , "service_for_ongoing_pregnancy")
+
+if (thisdatasource=="ARS") {
+  
+  SPC_pregnancies <- fread(paste0(dirinput,"VISIT_OCCURRENCE_SPC.csv")[meaning_of_visit %in% meaning_of_visit_ARS,])
+  
+  save(SPC_pregnancies, file=paste0(dirtemp,"SPC_pregnancies.RData"))
+  
+}
