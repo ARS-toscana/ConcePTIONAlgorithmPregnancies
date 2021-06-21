@@ -1,13 +1,13 @@
 ################################ MEANING_OF_SURVEY ##################################
 meaning_of_survey_our_study <- vector(mode="list")
 
-meaning_of_survey_our_study[["ARS"]][["livebirth_or_stillbirth"]]<-list("birth_registry_child")
+meaning_of_survey_our_study[["ARS"]][["livebirth_or_stillbirth"]]<-list("birth_registry_mother")
 meaning_of_survey_our_study[["ARS"]][["ongoing_pregnancy"]]<-list()
 meaning_of_survey_our_study[["ARS"]][["spontaneous_abortion"]]<-list("spontaneous_abortion_registry")
 meaning_of_survey_our_study[["ARS"]][["induced_termination"]]<-list("induced_termination_registry")
 meaning_of_survey_our_study[["ARS"]][["other"]]<-list()
 
-meaning_of_survey_our_study[["UOSL"]][["livebirth_or_stillbirth"]]<-list("birth_registry_mother", "birth_registry_father", "birth_registry_child")
+meaning_of_survey_our_study[["UOSL"]][["livebirth_or_stillbirth"]]<-list("birth_registry_mother") #, "birth_registry_father", "birth_registry_child"
 meaning_of_survey_our_study[["UOSL"]][["ongoing_pregnancy"]]<-list()
 meaning_of_survey_our_study[["UOSL"]][["spontaneous_abortion"]]<-list()
 meaning_of_survey_our_study[["UOSL"]][["induced_termination"]]<-list()
