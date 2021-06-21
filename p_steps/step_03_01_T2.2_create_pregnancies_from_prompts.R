@@ -100,7 +100,7 @@ if (dim(SURVEY_ID_BR)[1]!=0){
   
   # create variable start of pregnancy as a hyerarchical procedure: first as DATESTARTPREGNANCY, then ultrasounds, etc
   dataset_pregnancies3<-dataset_pregnancies2[!is.na(DATESTARTPREGNANCY),pregnancy_start_date:=as.Date(DATESTARTPREGNANCY)]
-  dataset_pregnancies3[!is.na(pregnancy_start_date),`:=`(meaning_start_date=paste0("from_prompts_",survey_meaning),origin=table_DATESTARTPREGNANCY)]
+  dataset_pregnancies3[!is.na(pregnancy_start_date),`:=`(meaning_start_date=paste0("from_prompts_DATESTARTPREGNANCY"),origin=table_DATESTARTPREGNANCY)]
   
   dataset_pregnancies3[is.na(pregnancy_start_date) & !is.na(GESTAGE_FROM_DAPS_CRITERIA_DAYS),pregnancy_start_date:=pregnancy_end_date-as.numeric(GESTAGE_FROM_DAPS_CRITERIA_DAYS)]
   dataset_pregnancies3[!is.na(pregnancy_start_date) & !is.na(GESTAGE_FROM_DAPS_CRITERIA_DAYS) & is.na(meaning_start_date),`:=`(meaning_start_date=paste0("from_prompts_","GESTAGE_FROM_DAPS_CRITERIA_DAYS"),origin=table_GESTAGE_FROM_DAPS_CRITERIA_DAYS)]
@@ -137,13 +137,16 @@ if (dim(SURVEY_ID_BR)[1]!=0){
   # create TOPFA var as empty and PROMPT
   #dataset_pregnancies3[,TOPFA:=""]
   dataset_pregnancies3[,PROMPT:="yes"]
-  dataset_pregnancies3[,meaning:=""]
+  #dataset_pregnancies3[,meaning:=""]
   
   # rename survey_date in record_date
   setnames(dataset_pregnancies3,"survey_date","record_date")
+  setnames(dataset_pregnancies3,"survey_meaning","meaning")
+  
+  
   
   # keep only vars neeed
-  D3_Stream_PROMPTS <- dataset_pregnancies3[,.(pregnancy_id,person_id,record_date,survey_id,pregnancy_start_date,pregnancy_end_date,meaning_start_date,meaning_end_date,imputed_start_of_pregnancy,type_of_pregnancy_end,origin,meaning,PROMPT)] 
+  D3_Stream_PROMPTS <- dataset_pregnancies3[,.(pregnancy_id,person_id,record_date,survey_id,pregnancy_start_date,pregnancy_end_date,meaning_start_date,meaning_end_date,imputed_start_of_pregnancy,type_of_pregnancy_end,origin,meaning, PROMPT)] 
   save(D3_Stream_PROMPTS, file=paste0(dirtemp,"D3_Stream_PROMPTS.RData"))
   
   
