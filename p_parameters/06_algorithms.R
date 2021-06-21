@@ -7,17 +7,17 @@ meaning_of_survey_our_study[["ARS"]][["spontaneous_abortion"]]<-list("spontaneou
 meaning_of_survey_our_study[["ARS"]][["induced_termination"]]<-list("induced_termination_registry")
 meaning_of_survey_our_study[["ARS"]][["other"]]<-list()
 
-meaning_of_survey_our_study[["UOSL"]][["livebirth_or_stillbirth"]]<-list("birth_registry_mother", "birth_registry_father", "birth_registry_child")
+meaning_of_survey_our_study[["UOSL"]][["livebirth_or_stillbirth"]]<-list("birth_registry_mother") #, "birth_registry_father", "birth_registry_child"
 meaning_of_survey_our_study[["UOSL"]][["ongoing_pregnancy"]]<-list()
 meaning_of_survey_our_study[["UOSL"]][["spontaneous_abortion"]]<-list()
 meaning_of_survey_our_study[["UOSL"]][["induced_termination"]]<-list()
 meaning_of_survey_our_study[["UOSL"]][["other"]]<-list()
 
-meaning_of_survey_our_study[["University_of_Aarhus"]][["livebirth_or_stillbirth"]]<-list("birth_registry")
-meaning_of_survey_our_study[["University_of_Aarhus"]][["ongoing_pregnancy"]]<-list()
-meaning_of_survey_our_study[["University_of_Aarhus"]][["spontaneous_abortion"]]<-list()
-meaning_of_survey_our_study[["University_of_Aarhus"]][["induced_termination"]]<-list()
-meaning_of_survey_our_study[["University_of_Aarhus"]][["other"]]<-list()
+meaning_of_survey_our_study[["AARHUS"]][["livebirth_or_stillbirth"]]<-list("birth_registry")
+meaning_of_survey_our_study[["AARHUS"]][["ongoing_pregnancy"]]<-list()
+meaning_of_survey_our_study[["AARHUS"]][["spontaneous_abortion"]]<-list()
+meaning_of_survey_our_study[["AARHUS"]][["induced_termination"]]<-list()
+meaning_of_survey_our_study[["AARHUS"]][["other"]]<-list()
 
 meaning_of_survey_our_study[["CHUT"]][["livebirth_or_stillbirth"]]<-list("pregnancy_characteristics")
 meaning_of_survey_our_study[["CHUT"]][["ongoing_pregnancy"]]<-list()
@@ -25,11 +25,11 @@ meaning_of_survey_our_study[["CHUT"]][["spontaneous_abortion"]]<-list("pregnancy
 meaning_of_survey_our_study[["CHUT"]][["induced_termination"]]<-list("pregnancy_characteristics")
 meaning_of_survey_our_study[["CHUT"]][["other"]]<-list()
 
-meaning_of_survey_our_study[["BIPS"]][["livebirth_or_stillbirth"]]<-list("algorithm_pregnancy") 
-meaning_of_survey_our_study[["BIPS"]][["ongoing_pregnancy"]]<-list()
-meaning_of_survey_our_study[["BIPS"]][["spontaneous_abortion"]]<-list("algorithm_pregnancy") 
-meaning_of_survey_our_study[["BIPS"]][["induced_termination"]]<-list("algorithm_pregnancy") 
-meaning_of_survey_our_study[["BIPS"]][["other"]]<-list()
+meaning_of_survey_our_study[["GePaRD"]][["livebirth_or_stillbirth"]]<-list("algorithm_pregnancy") 
+meaning_of_survey_our_study[["GePaRD"]][["ongoing_pregnancy"]]<-list()
+meaning_of_survey_our_study[["GePaRD"]][["spontaneous_abortion"]]<-list("algorithm_pregnancy") 
+meaning_of_survey_our_study[["GePaRD"]][["induced_termination"]]<-list("algorithm_pregnancy") 
+meaning_of_survey_our_study[["GePaRD"]][["other"]]<-list()
 
 meaning_of_survey_our_study[["BIFAP"]][["livebirth_or_stillbirth"]]<-list("algorithm_pregnancy")
 meaning_of_survey_our_study[["BIFAP"]][["ongoing_pregnancy"]]<-list()
@@ -80,6 +80,12 @@ meaning_of_survey_our_study[["PEDIANET"]][["induced_termination"]]<-list()
 meaning_of_survey_our_study[["PEDIANET"]][["other"]]<-list()
 
 
+meaning_of_survey_our_study[["TEST"]][["livebirth_or_stillbirth"]]<-list("algorithm_pregnancy") 
+meaning_of_survey_our_study[["TEST"]][["ongoing_pregnancy"]]<-list()
+meaning_of_survey_our_study[["TEST"]][["spontaneous_abortion"]]<-list("algorithm_pregnancy") 
+meaning_of_survey_our_study[["TEST"]][["induced_termination"]]<-list("algorithm_pregnancy") 
+meaning_of_survey_our_study[["TEST"]][["other"]]<-list()
+
 meaning_of_survey_our_study_this_datasource<-vector(mode="list")
 
 for (i in 1:length(meaning_of_survey_our_study)) {
@@ -105,13 +111,13 @@ dictonary_of_itemset[["TYPE"]][["UOSL"]][["MD"]]<-list()
 dictonary_of_itemset[["TYPE"]][["UOSL"]][["ECT"]]<-list()
 dictonary_of_itemset[["TYPE"]][["UOSL"]][["UNK"]]<-list()
 
-dictonary_of_itemset[["TYPE"]][["University_of_Aarhus"]][["LB"]]<-list(list("MFR", "1"))
-dictonary_of_itemset[["TYPE"]][["University_of_Aarhus"]][["SB"]]<-list(list("MFR", "0"))
-dictonary_of_itemset[["TYPE"]][["University_of_Aarhus"]][["SA"]]<-list()
-dictonary_of_itemset[["TYPE"]][["University_of_Aarhus"]][["T"]]<-list()
-dictonary_of_itemset[["TYPE"]][["University_of_Aarhus"]][["MD"]]<-list()
-dictonary_of_itemset[["TYPE"]][["University_of_Aarhus"]][["ECT"]]<-list()
-dictonary_of_itemset[["TYPE"]][["University_of_Aarhus"]][["UNK"]]<-list()
+dictonary_of_itemset[["TYPE"]][["AARHUS"]][["LB"]]<-list(list("MFR", "1"))
+dictonary_of_itemset[["TYPE"]][["AARHUS"]][["SB"]]<-list(list("MFR", "0"))
+dictonary_of_itemset[["TYPE"]][["AARHUS"]][["SA"]]<-list()
+dictonary_of_itemset[["TYPE"]][["AARHUS"]][["T"]]<-list()
+dictonary_of_itemset[["TYPE"]][["AARHUS"]][["MD"]]<-list()
+dictonary_of_itemset[["TYPE"]][["AARHUS"]][["ECT"]]<-list()
+dictonary_of_itemset[["TYPE"]][["AARHUS"]][["UNK"]]<-list()
 
 dictonary_of_itemset[["TYPE"]][["CHUT"]][["LB"]]<-list(list("EFEMERIS_ISSUE", "1"))
 dictonary_of_itemset[["TYPE"]][["CHUT"]][["SB"]]<-list(list("EFEMERIS_INTERRUPTION", "MFIU"), list("EFEMERIS_INTERRUPTION", "MORT-NES"))
@@ -121,13 +127,13 @@ dictonary_of_itemset[["TYPE"]][["CHUT"]][["MD"]]<-list()
 dictonary_of_itemset[["TYPE"]][["CHUT"]][["ECT"]]<-list()
 dictonary_of_itemset[["TYPE"]][["CHUT"]][["UNK"]]<-list(list("EFEMERIS_INTERRUPTION", "AUTRE"))
 
-dictonary_of_itemset[["TYPE"]][["BIPS"]][["LB"]]<-list(list("T_PREG", "1"), list("T_PREG", "2"), list("T_PREG", "3"))
-dictonary_of_itemset[["TYPE"]][["BIPS"]][["SB"]]<-list(list("T_PREG", "4"))
-dictonary_of_itemset[["TYPE"]][["BIPS"]][["SA"]]<-list(list("T_PREG", "7"))
-dictonary_of_itemset[["TYPE"]][["BIPS"]][["T"]]<-list(list("T_PREG", "5"))
-dictonary_of_itemset[["TYPE"]][["BIPS"]][["MD"]]<-list()
-dictonary_of_itemset[["TYPE"]][["BIPS"]][["ECT"]]<-list()
-dictonary_of_itemset[["TYPE"]][["BIPS"]][["UNK"]]<-list()
+dictonary_of_itemset[["TYPE"]][["GePaRD"]][["LB"]]<-list(list("T_PREG", "1"), list("T_PREG", "2"), list("T_PREG", "3"))
+dictonary_of_itemset[["TYPE"]][["GePaRD"]][["SB"]]<-list(list("T_PREG", "4"))
+dictonary_of_itemset[["TYPE"]][["GePaRD"]][["SA"]]<-list(list("T_PREG", "7"))
+dictonary_of_itemset[["TYPE"]][["GePaRD"]][["T"]]<-list(list("T_PREG", "5"))
+dictonary_of_itemset[["TYPE"]][["GePaRD"]][["MD"]]<-list()
+dictonary_of_itemset[["TYPE"]][["GePaRD"]][["ECT"]]<-list()
+dictonary_of_itemset[["TYPE"]][["GePaRD"]][["UNK"]]<-list()
 
 dictonary_of_itemset[["TYPE"]][["BIFAP"]][["LB"]]<-list(list("EMB_BIFAP", "1"))
 dictonary_of_itemset[["TYPE"]][["BIFAP"]][["SB"]]<-list(list("EMB_BIFAP", "2"))
@@ -193,8 +199,123 @@ dictonary_of_itemset[["TYPE"]][["PEDIANET"]][["MD"]]<-list()
 dictonary_of_itemset[["TYPE"]][["PEDIANET"]][["ECT"]]<-list()
 dictonary_of_itemset[["TYPE"]][["PEDIANET"]][["UNK"]]<-list()
 
+
+dictonary_of_itemset[["TYPE"]][["TEST"]][["LB"]]<-list(list("T_PREG", "1"), list("T_PREG", "2"), list("T_PREG", "3"), list("EMB_BIFAP", "1"))
+dictonary_of_itemset[["TYPE"]][["TEST"]][["SB"]]<-list(list("T_PREG", "4"), list("EMB_BIFAP", "2"))
+dictonary_of_itemset[["TYPE"]][["TEST"]][["SA"]]<-list(list("T_PREG", "7"))
+dictonary_of_itemset[["TYPE"]][["TEST"]][["T"]]<-list(list("T_PREG", "5"), list("EMB_BIFAP", "3"))
+dictonary_of_itemset[["TYPE"]][["TEST"]][["MD"]]<-list()
+dictonary_of_itemset[["TYPE"]][["TEST"]][["ECT"]]<-list()
+dictonary_of_itemset[["TYPE"]][["TEST"]][["UNK"]]<-list()
+
+
 dictonary_of_itemset_this_datasource<-vector(mode="list")
 
 for (i in 1:length(dictonary_of_itemset$TYPE)) {
   if(names(dictonary_of_itemset$TYPE)[[i]]==thisdatasource) dictonary_of_itemset_this_datasource<-dictonary_of_itemset$TYPE[[i]]
 }
+
+
+
+
+
+
+# we need to create two groups of meanings: one referring to hospitals HOSP (excluding emergency care) and one referring to primary care PC
+
+meanings_of_this_study<-vector(mode="list")
+meanings_of_this_study[["HOSP"]]=c("hospitalisation_primary","hospitalisation_secondary","hospital_diagnosis","hopitalisation_diagnosis_unspecified","episode_primary_diagnosis","episode_secondary_diagnosis","diagnosis_procedure","hospitalisation_associated","hospitalisation_linked","HH","NH")
+meanings_of_this_study[["PC"]]=c("primary_care_event","primary_care_diagnosis","primary_care_events_BIFAP","primary_care_antecedents_BIFAP","primary_care_condicionants_BIFAP")
+
+# create two conditions on the meaning_of_event variable, associated to HOSP and to PC as listed above
+
+condmeaning <- list()
+for (level1 in c("HOSP","PC")) {
+  for (meaning in meanings_of_this_study[[level1]]) {
+    if (length(condmeaning[[level1]])==0) {condmeaning[[level1]]=paste0("meaning_of_event=='",meanings_of_this_study[[level1]][[1]],"'")
+    }else{
+      condmeaning[[level1]]=paste0(condmeaning[[level1]], " | meaning_of_event=='",meaning,"'")
+    }
+  }
+}
+
+
+#-------------------------------------
+# set concept sets
+
+# concept_set_codes_our_study <- c(concept_sets_of_our_study_eve, concept_set_our_study_pre, concept_sets_of_our_study_eve_procedure)
+concept_set_codes_our_study_excl <- concept_set_codes_our_study_excl
+
+# augment ICPC codes
+# for (outcome in OUTCOME_events){
+#   outnarrow <- paste0(outcome,'_narrow')
+#   outpossible <- paste0(outcome,'_possible')
+#   if (length(concept_set_codes_our_study_pre[[outnarrow]][["ICPC"]]) == 0 & length(concept_set_codes_our_study_pre[[outnarrow]][["ICPC2P"]]) >0 ){
+#     concept_set_codes_our_study[[outpossible]][["ICPC"]] <- unique(c(concept_set_codes_our_study_pre[[outpossible]][["ICPC"]],substr(concept_set_codes_our_study_pre[[outnarrow]][["ICPC2P"]],1,3)))
+#   }
+# }
+
+# for (conceptset in c(COV_conceptssets,SEVERCOVID_conceptsets)){
+#   if (length(concept_set_codes_our_study_pre[[conceptset]][["ICPC2P"]]) >0 ){
+#     concept_set_codes_our_study[[conceptset]][["ICPC"]] <- unique(c(concept_set_codes_our_study_pre[[conceptset]][["ICPC"]],substr(concept_set_codes_our_study_pre[[conceptset]][["ICPC2P"]],1,3)))
+#   }
+# }
+
+#-------------------------------------
+# fix for ICPC2P
+
+for (conceptset in concept_set_our_study){
+  if (length(concept_set_codes_our_study[[conceptset]][["ICPC2P"]]) >0 ){
+    concept_set_codes_our_study[[conceptset]][["ICPC"]] <- unique(c(concept_set_codes_our_study[[conceptset]][["ICPC"]],substr(concept_set_codes_our_study[[conceptset]][["ICPC2P"]],1,3)))
+  }
+}
+
+
+
+#-------------------------------------
+# fix for ICD10GM
+
+for (conceptset in concept_set_our_study){
+  #print(conceptset)
+  if (concept_set_domains[[conceptset]] == "Diagnosis"){
+    concept_set_codes_our_study[[conceptset]][["ICD10GM"]] <- concept_set_codes_our_study[[conceptset]][["ICD10"]]
+  }
+}
+
+#-------------------------------------
+# fix for ICD10CM
+for (conceptset in concept_set_our_study){
+  if (concept_set_domains[[conceptset]] == "Diagnosis"){
+    concept_set_codes_our_study[[conceptset]][["ICD10CM"]] <- concept_set_codes_our_study[[conceptset]][["ICD10"]]
+  }
+}
+
+#-------------------------------------
+# fix for CIM10
+for (conceptset in concept_set_our_study){
+  if (concept_set_domains[[conceptset]] == "Diagnosis"){
+    concept_set_codes_our_study[[conceptset]][["CIM10"]] <- concept_set_codes_our_study[[conceptset]][["ICD10"]]
+  }
+}
+
+#-------------------------------------
+# fix for SNOMED3
+for (conceptset in concept_set_our_study){
+  if (concept_set_domains[[conceptset]] == "Diagnosis"){
+    concept_set_codes_our_study[[conceptset]][["SNOMED3"]] <- concept_set_codes_our_study[[conceptset]][["SNOMED"]]
+  }
+}
+
+save(concept_set_codes_our_study,file=paste0(direxp,"concept_set_codes_our_study.RData"))
+save(concept_set_codes_our_study_excl,file=paste0(direxp,"concept_set_codes_our_study_excl.RData"))
+save(concept_set_codes_our_study,file=paste0(dirsmallcountsremoved,"concept_set_codes_our_study.RData"))
+save(concept_set_codes_our_study_excl,file=paste0(dirsmallcountsremoved,"concept_set_codes_our_study_excl.RData"))
+
+if (this_datasource_has_subpopulations == TRUE){
+  for (subpop in subpopulations[[thisdatasource]]){
+    save(concept_set_codes_our_study,file=paste0(direxpsubpop[[subpop]],"concept_set_codes_our_study.RData"))
+    save(concept_set_codes_our_study_excl,file=paste0(direxpsubpop[[subpop]],"concept_set_codes_our_study_excl.RData"))
+    save(concept_set_codes_our_study_excl,file=paste0(dirsmallcountsremovedsubpop[[subpop]],"concept_set_codes_our_study_excl.RData"))
+
+  }
+}
+

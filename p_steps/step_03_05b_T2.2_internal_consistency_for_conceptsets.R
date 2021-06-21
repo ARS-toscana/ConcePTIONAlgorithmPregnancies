@@ -1,6 +1,8 @@
 ## import D3_Stream_CONCEPTSETS
 load(paste0(dirtemp,"D3_Stream_CONCEPTSETS.RData"))
 
+#D3_Stream_CONCEPTSETS<-D3_Stream_CONCEPTSETS[,record_date:=as.Date(as.character(record_date), date_format)]
+
 # linkare D3_study_population_pregnancy with PERSONS, verify if person_id, survey_id e survey_date are unique key.
 # create var link_to_person:=1 if it links with PERSONS, 
 
@@ -20,9 +22,21 @@ load(paste0(dirtemp,"output_spells_category.RData"))
 
 
 
-## define quality vars , added year end>2021
-D3_study_population_pregnancy1<- D3_Stream_CONCEPTSETS[pregnancy_end_date<date_start_min | year(pregnancy_end_date)>2021, pregnancy_with_dates_out_of_range:=1][is.na(pregnancy_with_dates_out_of_range),pregnancy_with_dates_out_of_range:=0]
-table(D3_study_population_pregnancy1$pregnancy_with_dates_out_of_range) # 4 deleted
+## define quality vars in D3_study_population_pregnancy_intermediate_from_conceptset
+D3_study_population_pregnancy1<-c()
+temp2<-D3_Stream_CONCEPTSETS
+for(tab in list_tables){
+  #print(tab)
+  data_min<-as.Date(as.character(unlist(date_range[[thisdatasource]][[tab]][["since_when_data_complete"]])), date_format)
+  data_max<-as.Date(as.character(unlist(date_range[[thisdatasource]][[tab]][["up_to_when_data_complete"]])), date_format)
+  
+  temp<-temp2[origin==tab,] 
+  
+  D3_study_population_pregnancy1<- rbind(D3_study_population_pregnancy1,temp[record_date<data_min | record_date>data_max, pregnancy_with_dates_out_of_range:=1][is.na(pregnancy_with_dates_out_of_range),pregnancy_with_dates_out_of_range:=0])
+}
+
+table(D3_study_population_pregnancy1$pregnancy_with_dates_out_of_range) # 19 deleted
+
 
 # D3_study_population_pregnancy1<- D3_study_population_pregnancy1[is.na(pregnancy_end_date), no_end_of_pregnancy:=1][is.na(no_end_of_pregnancy),no_end_of_pregnancy:=0]
 # table(D3_study_population_pregnancy1$no_end_of_pregnancy) #49812 deleted
@@ -72,14 +86,14 @@ D3_excluded_pregnancies_from_CONCEPTSETS<-rbind(D3_excluded_pregnancies_from_CON
 save(D3_excluded_pregnancies_from_CONCEPTSETS, file=paste0(dirtemp,"D3_excluded_pregnancies_from_CONCEPTSETS.RData")) # 663830
 
 # pregnancies to be included in next steps
-D3_study_population_pregnancy_from_CONCEPTSETS<-D3_study_population_pregnancy3[no_linked_to_person==0 & person_not_female==0 & person_not_in_fertile_age==0 & pregnancy_start_in_spells==1 & pregnancy_end_in_spells==1,] [,-c("no_linked_to_person","person_not_female","person_not_in_fertile_age","pregnancy_start_in_spells","pregnancy_end_in_spells")] # 554767 against 429699
+D3_study_population_pregnancy_from_CONCEPTSETS<-D3_study_population_pregnancy3[no_linked_to_person==0 & person_not_female==0 & person_not_in_fertile_age==0 & pregnancy_start_in_spells==0 & pregnancy_end_in_spells==0,] [,-c("no_linked_to_person","person_not_female","person_not_in_fertile_age","pregnancy_start_in_spells","pregnancy_end_in_spells")] # 554767 against 429699
 save(D3_study_population_pregnancy_from_CONCEPTSETS, file=paste0(dirtemp,"D3_study_population_pregnancy_from_CONCEPTSETS.RData"))
 
 
 
 
 
-D3_Stream_CONCEPTSETS_check<-D3_study_population_pregnancy3[,.(pregnancy_id,person_id,record_date,pregnancy_start_date,pregnancy_ongoing_date,pregnancy_end_date,meaning_start_date,meaning_end_date,meaning_ongoing_date,type_of_pregnancy_end,meaning_of_event,imputed_start_of_pregnancy,imputed_end_of_pregnancy,visit_occurrence_id,CONCEPTSETS,CONCEPTSET)] #meaning_of_event
+D3_Stream_CONCEPTSETS_check<-D3_study_population_pregnancy_from_CONCEPTSETS[,.(pregnancy_id,person_id,record_date,pregnancy_start_date,pregnancy_ongoing_date,pregnancy_end_date,meaning_start_date,meaning_end_date,meaning_ongoing_date,type_of_pregnancy_end,meaning_of_event,imputed_start_of_pregnancy,imputed_end_of_pregnancy,visit_occurrence_id,CONCEPTSETS,CONCEPTSET)] #meaning_of_event
 save(D3_Stream_CONCEPTSETS_check, file=paste0(dirtemp,"D3_Stream_CONCEPTSETS_check.RData"))
 
 rm(D3_Stream_CONCEPTSETS,D3_study_population_pregnancy1,D3_study_population_pregnancy2, D3_study_population_pregnancy3,D3_Stream_CONCEPTSETS_check, D3_excluded_pregnancies_from_CONCEPTSETS)

@@ -19,11 +19,11 @@ if (dim(SURVEY_ID_BR)[1]!=0){
                         itemset = itemset_AVpair_our_study_this_datasource, 
                         dirinput = dirinput,
                         diroutput = dirtemp,
+                        discard_from_environment = T,
                         extension = c("csv"))
   
   
-  rm(GESTAGE_FROM_DAPS_CRITERIA_DAYS, GESTAGE_FROM_DAPS_CRITERIA_WEEKS, GESTAGE_FROM_LMP_DAYS, GESTAGE_FROM_LMP_WEEKS, GESTAGE_FROM_USOUNDS_DAYS, GESTAGE_FROM_USOUNDS_WEEKS, DATEENDPREGNANCY, DATESTARTPREGNANCY, END_ABORTION, END_LIVEBIRTH, END_STILLBIRTH, END_TERMINATION, TYPE)
-  
+
 } else {
   SURVEY_ID_BR<-data.table()
   save(SURVEY_ID_BR,file=paste0(dirtemp,"SURVEY_ID_BR.RData"))
@@ -33,7 +33,7 @@ if (dim(SURVEY_ID_BR)[1]!=0){
 rm(SURVEY_ID_BR)
 
 
-## add itemset for Stream 4 -> BIPS
+## add itemset for Stream 4 -> BIPS, GePaRD
 if (this_datasource_has_itemsets_stream){
   print("this datasource HAS itemsets stream")
   
@@ -41,32 +41,33 @@ if (this_datasource_has_itemsets_stream){
                         datevar= ConcePTION_CDM_datevar_retrieve,
                         dateformat= "YYYYmmdd",
                         rename_col = list(person_id=person_id,date=date),
-                        study_variable_names = study_variables_of_our_study,
-                        itemset = itemset_AVpair_our_study_this_datasource, 
+                        study_variable_names = study_itemset_of_our_study,
+                        itemset = itemsetMED_AVpair_our_study_this_datasource, 
                         dirinput = dirinput,
                         diroutput = dirtemp,
+                        discard_from_environment = T,
                         extension = c("csv"))
 } else {
   print("this datasource has NO itemsets stream")
 }
 
 
-## add itemset that liked with concept_set -> BIFAP from medical_observation
-if (this_datasource_has_itemset_linked_to_conceptset){
-  print("this datasource HAS itemsets linked to conceptset")
-  
-  CreateItemsetDatasets(EAVtables = ConcePTION_CDM_EAV_tables_retrieve_mo,
-                        datevar= ConcePTION_CDM_datevar_retrieve,
-                        dateformat= "YYYYmmdd",
-                        rename_col = list(person_id=person_id,date=date),
-                        study_variable_names = study_variables_of_our_study,
-                        itemset = itemset_AVpair_our_study_this_datasource, 
-                        dirinput = dirinput,
-                        diroutput = dirtemp,
-                        extension = c("csv"))
-  
-} else {
-  print("this datasource has NO itemsets linked to conceptset")
-}
-  
+# ## add itemset that liked with concept_set -> BIFAP from medical_observation
+# if (this_datasource_has_itemset_linked_to_conceptset){
+#   print("this datasource HAS itemsets linked to conceptset")
+#   
+#   CreateItemsetDatasets(EAVtables = ConcePTION_CDM_EAV_tables_retrieve_mo,
+#                         datevar= ConcePTION_CDM_datevar_retrieve,
+#                         dateformat= "YYYYmmdd",
+#                         rename_col = list(person_id=person_id,date=date),
+#                         study_variable_names = study_variables_of_our_study,
+#                         itemset = itemset_AVpair_our_study_this_datasource, 
+#                         dirinput = dirinput,
+#                         diroutput = dirtemp,
+#                         extension = c("csv"))
+#   
+# } else {
+#   print("this datasource has NO itemsets linked to conceptset")
+# }
+#   
   

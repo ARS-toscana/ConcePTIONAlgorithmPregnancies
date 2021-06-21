@@ -8,8 +8,9 @@ for (i in 1:length(files)) {
   }
 } 
   
-if (dim(D3_Stream_PROMPTS)[1]!=0){  
-   
+if (dim(D3_Stream_PROMPTS)[1]!=0){ 
+  
+  #D3_Stream_PROMPTS<-D3_Stream_PROMPTS[,record_date:=as.Date(as.character(record_date), date_format)]
   # linkare D3_study_population_pregnancy with PERSONS, verify if person_id, survey_id e survey_date are unique key.
   # create var link_to_person:=1 if it links with PERSONS, 
   
@@ -30,7 +31,18 @@ if (dim(D3_Stream_PROMPTS)[1]!=0){
   
   
   ## define quality vars in D3_study_population_pregnancy_intermediate_from_prompt
-  D3_study_population_pregnancy1<- D3_Stream_PROMPTS[pregnancy_end_date<date_start_min | year(pregnancy_end_date)>2021, pregnancy_with_dates_out_of_range:=1][is.na(pregnancy_with_dates_out_of_range),pregnancy_with_dates_out_of_range:=0]
+  D3_study_population_pregnancy1<-c()
+  temp2<-D3_Stream_PROMPTS
+  for(tab in list_tables){
+    #print(tab)
+    data_min<-as.Date(as.character(unlist(date_range[[thisdatasource]][[tab]][["since_when_data_complete"]])), date_format)
+    data_max<-as.Date(as.character(unlist(date_range[[thisdatasource]][[tab]][["up_to_when_data_complete"]])), date_format)
+    
+    temp<-temp2[origin==tab,] 
+    
+    D3_study_population_pregnancy1<- rbind(D3_study_population_pregnancy1,temp[record_date<data_min | record_date>data_max, pregnancy_with_dates_out_of_range:=1][is.na(pregnancy_with_dates_out_of_range),pregnancy_with_dates_out_of_range:=0])
+  }
+  
   table(D3_study_population_pregnancy1$pregnancy_with_dates_out_of_range) # 19 deleted
   
   # D3_study_population_pregnancy1<- D3_study_population_pregnancy1[is.na(pregnancy_end_date), no_end_of_pregnancy:=1][is.na(no_end_of_pregnancy),no_end_of_pregnancy:=0]
