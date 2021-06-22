@@ -62,6 +62,7 @@ dataset_end_concept_sets<-unique(dataset_end_concept_sets, by=c("person_id","vis
 
 ## append the 3 datasets to obtain information to complete pregnancy
 dataset_concept_sets<-rbind(dataset_start_concept_sets,dataset_ongoing_concept_sets,dataset_end_concept_sets)
+setnames(dataset_concept_sets, "meaning_of_event","meaning")
 
 # order dataset for person_id, 
 setorderv(dataset_concept_sets,c("person_id","date"), na.last = T)
@@ -113,7 +114,7 @@ dataset_concept_sets[is.na(imputed_end_of_pregnancy),imputed_end_of_pregnancy:=0
 dataset_concept_sets[,pregnancy_id:=paste0(person_id,"_",visit_occurrence_id,"_",record_date)] 
 
 # keep only vars neeed
-D3_Stream_CONCEPTSETS <- dataset_concept_sets[,.(pregnancy_id,person_id,record_date,pregnancy_start_date,pregnancy_ongoing_date,pregnancy_end_date,meaning_start_date,meaning_ongoing_date,meaning_end_date,type_of_pregnancy_end,meaning_of_event,imputed_start_of_pregnancy,imputed_end_of_pregnancy,visit_occurrence_id,origin,CONCEPTSETS,CONCEPTSET)] # 
+D3_Stream_CONCEPTSETS <- dataset_concept_sets[,.(pregnancy_id,person_id,record_date,pregnancy_start_date,pregnancy_ongoing_date,pregnancy_end_date,meaning_start_date,meaning_ongoing_date,meaning_end_date,type_of_pregnancy_end,meaning,imputed_start_of_pregnancy,imputed_end_of_pregnancy,visit_occurrence_id,origin,CONCEPTSETS,CONCEPTSET)] # 
 save(D3_Stream_CONCEPTSETS, file=paste0(dirtemp,"D3_Stream_CONCEPTSETS.RData"))
 
 
