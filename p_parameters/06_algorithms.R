@@ -238,6 +238,7 @@ for (level1 in c("HOSP","PC")) {
   }
 }
 
+rm(meaning)
 
 #-------------------------------------
 # set concept sets
@@ -315,7 +316,7 @@ if (this_datasource_has_subpopulations == TRUE){
     save(concept_set_codes_our_study,file=paste0(direxpsubpop[[subpop]],"concept_set_codes_our_study.RData"))
     save(concept_set_codes_our_study_excl,file=paste0(direxpsubpop[[subpop]],"concept_set_codes_our_study_excl.RData"))
     save(concept_set_codes_our_study_excl,file=paste0(dirsmallcountsremovedsubpop[[subpop]],"concept_set_codes_our_study_excl.RData"))
-
+    
   }
 }
 

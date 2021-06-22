@@ -53,13 +53,13 @@ groups_of_pregnancies<-groups_of_pregnancies[is.na(imputed_end_of_pregnancy),imp
 
 #An ordering of quality of records is established and stored in variable order_quality; records are of 
 # •	quality green if both pregnancy_start_date and pregnancy_end_date are recorded; (1-4)
-# •	quality yellow if pregnancy_end_date is recorded and pregnancy_start_date is imputed; (5-13)
-# •	quality blue if pregnancy_start_date is recorded and pregnancy_end_date is imputed; (14)
-# •	quality red if both pregnancy_start_date and pregnancy_end_date are imputed; the default order is as follows (15)
+# •	quality yellow if pregnancy_end_date is recorded and pregnancy_start_date is imputed; (5-11)
+# •	quality blue if pregnancy_start_date is recorded and pregnancy_end_date is imputed; (12)
+# •	quality red if both pregnancy_start_date and pregnancy_end_date are imputed; the default order is as follows (13-14)
 groups_of_pregnancies<-groups_of_pregnancies[!is.na(pregnancy_start_date) & !is.na(pregnancy_end_date) & imputed_start_of_pregnancy==0 & imputed_end_of_pregnancy==0,coloured_order:="1_green"]
-groups_of_pregnancies<-groups_of_pregnancies[is.na(coloured_order) & !is.na(pregnancy_start_date) & !is.na(pregnancy_end_date) & imputed_start_of_pregnancy==1 & imputed_end_of_pregnancy==0,coloured_order:="2_yellow"]
+groups_of_pregnancies<-groups_of_pregnancies[is.na(coloured_order) & !is.na(pregnancy_start_date) & !is.na(pregnancy_end_date) & imputed_start_of_pregnancy==1 & imputed_end_of_pregnancy==0, coloured_order:="2_yellow"]
 groups_of_pregnancies<-groups_of_pregnancies[is.na(coloured_order) & !is.na(pregnancy_start_date) & !is.na(pregnancy_end_date) & imputed_start_of_pregnancy==0 & imputed_end_of_pregnancy==1,coloured_order:="3_blue"]
-groups_of_pregnancies<-groups_of_pregnancies[!is.na(pregnancy_start_date) & !is.na(pregnancy_end_date) & imputed_start_of_pregnancy==1 & imputed_end_of_pregnancy==1,coloured_order:="4_red"]
+groups_of_pregnancies<-groups_of_pregnancies[!is.na(pregnancy_ongoing_date) | (!is.na(pregnancy_start_date) & !is.na(pregnancy_end_date) & imputed_start_of_pregnancy==1 & imputed_end_of_pregnancy==1),coloured_order:="4_red"]
 table(groups_of_pregnancies[,coloured_order], useNA = "ifany")
 
 #order_quality: the default order is:
@@ -144,7 +144,7 @@ gop_gybr1<-rbind(gop_green,gop_ybr_Ingreen,fill=TRUE)
 
 # -case 1: repeted record, in case we'll bind them
 gop_gybr1<-gop_gybr1[order(person_id, group_identifier),]
-suppressWarnings(gop_gybr1<-gop_gybr1[,n_rep:=seq_along(.I), by="ID"][,n_rep:=max(n_rep), by=.(ID)][,n_rep_max:=max(n_rep), by=.(group_identifier,person_id)])
+gop_gybr1<-gop_gybr1[,n_rep:=seq_along(.I), by="ID"][,n_rep:=max(n_rep), by=.(ID)][,n_rep_max:=max(n_rep), by=.(group_identifier,person_id)]
 gop_gybr1<-gop_gybr1[n_rep_max>1, group_identifier:=min(group_identifier),by=.(person_id)]
 ## update group_start_date group_end_date
 gop_gybr1<-gop_gybr1[,group_start_date:=min(group_start_date, na.rm = T), by=.(person_id,group_identifier)]
@@ -317,3 +317,4 @@ save(D3_groups_of_pregnancies, file=paste0(dirtemp,"D3_groups_of_pregnancies.RDa
 rm(gop_blue_NOT2, gop_br_Inyellow, gop_br_NOT1, gop_br_NOT2, gop_green, gop_gybr1, gop_gybr2, gop_gybr3, gop_gybr4, gop_red_Inblue, gop_red_NOT2, gop_red_NOT3, gop_ybr, gop_ybr_Ingreen, gop_ybr_NOT1, gop_yellow_NOT1)
 rm(groups_of_pregnancies, D3_Stream_CONCEPTSETS_check, D3_Stream_EUROCAT_check, D3_Stream_ITEMSETS_check, D3_Stream_PROMPTS_check, D3_groups_of_pregnancies)
 rm(Ingreen, Inyellow, Inblue)
+

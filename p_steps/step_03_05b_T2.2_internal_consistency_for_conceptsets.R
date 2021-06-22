@@ -35,7 +35,7 @@ for(tab in list_tables){
   D3_study_population_pregnancy1<- rbind(D3_study_population_pregnancy1,temp[record_date<data_min | record_date>data_max, pregnancy_with_dates_out_of_range:=1][is.na(pregnancy_with_dates_out_of_range),pregnancy_with_dates_out_of_range:=0])
 }
 
-table(D3_study_population_pregnancy1$pregnancy_with_dates_out_of_range) # 19 deleted
+table(D3_study_population_pregnancy1$pregnancy_with_dates_out_of_range) # 527503 deleted
 
 
 # D3_study_population_pregnancy1<- D3_study_population_pregnancy1[is.na(pregnancy_end_date), no_end_of_pregnancy:=1][is.na(no_end_of_pregnancy),no_end_of_pregnancy:=0]
@@ -50,19 +50,19 @@ D3_study_population_pregnancy2 <-D3_study_population_pregnancy1[pregnancy_with_d
 
 
 ## link to D3_PERSONS
-D3_study_population_pregnancy2 <-merge(D3_study_population_pregnancy2, D3_PERSONS[,.(person_id,sex_at_instance_creation,date_birth,date_death)], by=c("person_id"), all.x = T) 
+D3_study_population_pregnancy2 <-merge(D3_study_population_pregnancy2, D3_PERSONS[,.(person_id,sex_at_instance_creation,date_of_birth,date_death)], by=c("person_id"), all.x = T) 
 
 
 ## create label for pregnancies to be excluded or classified
 # no_linked_to_person
-D3_study_population_pregnancy2 <-D3_study_population_pregnancy2[is.na(date_birth),no_linked_to_person:=1][is.na(no_linked_to_person),no_linked_to_person:=0]
-table(D3_study_population_pregnancy2$no_linked_to_person) # 208007 deleted
+D3_study_population_pregnancy2 <-D3_study_population_pregnancy2[is.na(date_of_birth),no_linked_to_person:=1][is.na(no_linked_to_person),no_linked_to_person:=0]
+table(D3_study_population_pregnancy2$no_linked_to_person) # 125057 deleted
 # no_linked_to_person
 D3_study_population_pregnancy2 <-D3_study_population_pregnancy2[sex_at_instance_creation=="M",person_not_female:=1][is.na(person_not_female),person_not_female:=0]
 table(D3_study_population_pregnancy2$person_not_female) # 234453 deleted
 # person not in fertile age (between 12 and 55) at start of pregnancy
-D3_study_population_pregnancy2 <-D3_study_population_pregnancy2[,age_at_pregnancy_start:=age_fast(date_birth,pregnancy_start_date)][age_at_pregnancy_start>55 | age_at_pregnancy_start<12, person_not_in_fertile_age:=1][is.na(person_not_in_fertile_age),person_not_in_fertile_age:=0]
-table(D3_study_population_pregnancy2$person_not_in_fertile_age) # 455658 deleted
+D3_study_population_pregnancy2 <-D3_study_population_pregnancy2[,age_at_pregnancy_start:=age_fast(date_of_birth,pregnancy_start_date)][age_at_pregnancy_start>55 | age_at_pregnancy_start<12, person_not_in_fertile_age:=1][is.na(person_not_in_fertile_age),person_not_in_fertile_age:=0]
+table(D3_study_population_pregnancy2$person_not_in_fertile_age) # 344053 deleted
 
 
 # link to output_spells_category
@@ -73,16 +73,16 @@ D3_study_population_pregnancy3<-D3_study_population_pregnancy3[,-"max_spell"]
 
 ## create label for pregnancies to be excluded or classified
 # not in OBS_PER at the beginning of pregancy
-D3_study_population_pregnancy3 <-D3_study_population_pregnancy3[pregnancy_start_date>=entry_spell_category & pregnancy_start_date<=exit_spell_category,pregnancy_start_in_spells:=0, by="person_id"][is.na(pregnancy_start_in_spells),pregnancy_start_in_spells:=1]
-table(D3_study_population_pregnancy3$pregnancy_start_in_spells) #1061703 rows deleted
+D3_study_population_pregnancy3 <-D3_study_population_pregnancy3[(pregnancy_start_date>=entry_spell_category & pregnancy_start_date<=exit_spell_category) | is.na(pregnancy_start_date),pregnancy_start_in_spells:=0, by="person_id"][is.na(pregnancy_start_in_spells),pregnancy_start_in_spells:=1]
+table(D3_study_population_pregnancy3$pregnancy_start_in_spells) #1372005 rows deleted
 # not in OBS_PER at some point during of pregnancy
-D3_study_population_pregnancy3 <-D3_study_population_pregnancy3[pregnancy_end_date>=entry_spell_category & pregnancy_end_date<=exit_spell_category,pregnancy_end_in_spells:=0, by="person_id"][is.na(pregnancy_end_in_spells),pregnancy_end_in_spells:=1]
-table(D3_study_population_pregnancy3$pregnancy_end_in_spells) #750892 rows deleted
+D3_study_population_pregnancy3 <-D3_study_population_pregnancy3[(pregnancy_end_date>=entry_spell_category & pregnancy_end_date<=exit_spell_category) | is.na(pregnancy_end_date),pregnancy_end_in_spells:=0, by="person_id"][is.na(pregnancy_end_in_spells),pregnancy_end_in_spells:=1]
+table(D3_study_population_pregnancy3$pregnancy_end_in_spells) #968605 rows deleted
 
 
 # pregancies to be excluded:
 D3_excluded_pregnancies_from_CONCEPTSETS_2 <- D3_study_population_pregnancy3[no_linked_to_person==1 | person_not_female==1 | person_not_in_fertile_age==1 | pregnancy_start_in_spells==1 | pregnancy_end_in_spells==1,]  # to further explore exclusion
-D3_excluded_pregnancies_from_CONCEPTSETS<-rbind(D3_excluded_pregnancies_from_CONCEPTSETS_1,D3_excluded_pregnancies_from_CONCEPTSETS_2,fill=TRUE)[,-c( "sex_at_instance_creation","date_birth","date_death", "age_at_pregnancy_start","op_meaning","num_spell","entry_spell_category","exit_spell_category")]
+D3_excluded_pregnancies_from_CONCEPTSETS<-rbind(D3_excluded_pregnancies_from_CONCEPTSETS_1,D3_excluded_pregnancies_from_CONCEPTSETS_2,fill=TRUE)[,-c( "sex_at_instance_creation","date_of_birth","date_death", "age_at_pregnancy_start","op_meaning","num_spell","entry_spell_category","exit_spell_category")]
 save(D3_excluded_pregnancies_from_CONCEPTSETS, file=paste0(dirtemp,"D3_excluded_pregnancies_from_CONCEPTSETS.RData")) # 663830
 
 # pregnancies to be included in next steps
@@ -100,3 +100,4 @@ rm(D3_Stream_CONCEPTSETS,D3_study_population_pregnancy1,D3_study_population_preg
 rm(D3_excluded_pregnancies_from_CONCEPTSETS_1, D3_excluded_pregnancies_from_CONCEPTSETS_2,D3_PERSONS,D3_study_population_pregnancy_from_CONCEPTSETS, output_spells_category)
 
 print("Internal consistency for CONCEPTSETS checked")
+
