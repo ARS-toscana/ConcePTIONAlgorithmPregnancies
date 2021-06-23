@@ -61,7 +61,7 @@ meaning_of_survey_our_study[["THL"]][["spontaneous_abortion"]]<-list()
 meaning_of_survey_our_study[["THL"]][["induced_termination"]]<-list("induced_termination_registry")
 meaning_of_survey_our_study[["THL"]][["other"]]<-list()
 
-meaning_of_survey_our_study[["CPRD"]][["livebirth_or_stillbirth"]]<-list()
+meaning_of_survey_our_study[["CPRD"]][["livebirth_or_stillbirth"]]<-list("pregnancy register")
 meaning_of_survey_our_study[["CPRD"]][["ongoing_pregnancy"]]<-list()
 meaning_of_survey_our_study[["CPRD"]][["spontaneous_abortion"]]<-list()
 meaning_of_survey_our_study[["CPRD"]][["induced_termination"]]<-list()
@@ -231,9 +231,9 @@ meanings_of_this_study[["PC"]]=c("primary_care_event","primary_care_diagnosis","
 condmeaning <- list()
 for (level1 in c("HOSP","PC")) {
   for (meaning in meanings_of_this_study[[level1]]) {
-    if (length(condmeaning[[level1]])==0) {condmeaning[[level1]]=paste0("meaning_of_event=='",meanings_of_this_study[[level1]][[1]],"'")
+    if (length(condmeaning[[level1]])==0) {condmeaning[[level1]]=paste0("meaning=='",meanings_of_this_study[[level1]][[1]],"'") #meaning_of_event
     }else{
-      condmeaning[[level1]]=paste0(condmeaning[[level1]], " | meaning_of_event=='",meaning,"'")
+      condmeaning[[level1]]=paste0(condmeaning[[level1]], " | meaning=='",meaning,"'") #_of_event
     }
   }
 }
