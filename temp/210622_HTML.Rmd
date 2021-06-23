@@ -1,0 +1,336 @@
+---
+title: "Description of the pregnancy cohort"
+output: 
+  html_document:
+    theme: united
+    toc: TRUE
+    toc_float: TRUE
+params:
+  DF_gruops: NULL
+  DF_included: NULL
+  DF_excluded: NULL
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = F)
+
+library(ggplot2)
+library(ggthemes)
+library(plotly)
+library(data.table)
+library(rmarkdown)
+
+```
+
+```{css}
+h1 {color: #ed008c}
+h2 {color: #00adef}
+h3 {color: #6ccff6}
+.list-group-item.active, .list-group-item.active:focus, .list-group-item.active:hover {background-color: #00adef; border-color: #00adef}
+```
+```{r dataset_prep}
+
+load(paste0("/home/rosgin/FEPI/ConcePTION/StudyScripts/pregnancy_CONSIGN/g_intermediate/","D3_groups_of_pregnancies.RData"))
+
+# ordering 1556427
+D3_gop<-D3_groups_of_pregnancies[order(person_id,group_identifier, order_quality, -record_date),]
+
+
+# creating record number for each group of pregnancy
+D3_gop<-D3_gop[,n:=seq_along(.I), by=.(group_identifier, person_id, highest_quality)]
+#creating unique identifier for each group of pregnancy
+D3_gop<-D3_gop[,pers_group_id:=paste0(person_id,"_", group_identifier_colored)]
+
+
+# create variable for D3_included
+D3_gop <- D3_gop[, number_of_records_in_the_group := max(n), by = "pers_group_id"]
+
+D3_gop <- D3_gop[coloured_order == "1_green", number_green := .N, by = "pers_group_id"][is.na(number_green), number_green:= 0]
+D3_gop <- D3_gop[, number_green:= max(number_green),  by = "pers_group_id" ]
+D3_gop <- D3_gop[coloured_order == "2_yellow", number_yellow := .N, by = "pers_group_id"][is.na(number_yellow), number_yellow:= 0]
+D3_gop <- D3_gop[, number_yellow:= max(number_yellow),  by = "pers_group_id" ]
+D3_gop <- D3_gop[coloured_order == "3_blue", number_blue := .N, by = "pers_group_id"][is.na(number_blue), number_blue:= 0]
+D3_gop <- D3_gop[, number_blue:= max(number_blue),  by = "pers_group_id" ]
+D3_gop <- D3_gop[coloured_order == "4_red", number_red := .N, by = "pers_group_id"][is.na(number_red), number_red:= 0]
+D3_gop <- D3_gop[, number_red:= max(number_red),  by = "pers_group_id" ]
+
+D3_gop <- D3_gop[n==1, date_of_principal_record := record_date,  by = "pers_group_id" ][is.na(date_of_principal_record), date_of_principal_record:=0]
+D3_gop <- D3_gop[, date_of_principal_record:= max(date_of_principal_record),  by = "pers_group_id" ]
+
+D3_gop <- D3_gop[, date_of_oldest_record := min(record_date), by = "pers_group_id" ]
+
+D3_gop <- D3_gop[, year_end_pregnancy:= format(pregnancy_end_date, format = "%Y")]
+D3_gop <- D3_gop[, year_start_pregnancy:= format(pregnancy_start_date, format = "%Y")]
+D3_gop <- D3_gop[ITEMSETS=="yes", source:="ITEMSETS"]
+D3_gop <- D3_gop[PROMPT=="yes", source:="PROMPT"]
+D3_gop <- D3_gop[EUROCAT=="yes", source:="EUROCAT"]
+D3_gop <- D3_gop[CONCEPTSETS=="yes", source:="CONCEPTSETS"]
+
+D3_gop <- D3_gop[, distance:=record_date - pregnancy_start_date]
+
+```
+
+## Highest quality record
+
+```{r all_pregnancy}
+################################################################################
+#########################   first record   #####################################
+################################################################################
+uniqueN(D3_gop[year(pregnancy_end_date)==2021 & coloured_order=="4_red",.(ID, group_identifier_colored)])
+D3_gop_first_record <- D3_gop[n==1]
+
+D3_gop_first_record <- D3_gop_first_record[,Quality:=as.factor(order_quality)]
+
+p_first_record <- ggplot(D3_gop_first_record[year_start_pregnancy>2015], aes(year_start_pregnancy, fill=Quality))+
+  geom_bar()+
+  scale_fill_manual(values = c("2" = "limegreen", "5" = "gold", "7" = "yellow", "9" = "khaki1", "10" = "khaki2", "11" = "khaki3", "12" = "gold2", "15" = "orangered2"))+
+  labs(title = " ", fill = "Highest \n quality")+
+  xlab("Year start pregnancy")+
+  ylab("N")+
+  theme_hc()
+
+pl_first_record<-ggplotly(p_first_record)
+pl_first_record
+```
+```{r all_pregnancy_outcomes}
+################################################################################
+#########################   first record   #####################################
+################################################################################
+D3_gop_first_record[is.na(type_of_pregnancy_end),  type_of_pregnancy_end := "UNK"]
+p_first_record <- ggplot(D3_gop_first_record[year_start_pregnancy>2015], aes(year_start_pregnancy, fill=as.factor(type_of_pregnancy_end)))+
+  geom_bar()+
+  labs(title = "", fill = "Type")+
+  scale_fill_manual(values = c("red", "limegreen", "blue", "yellow", "purple", "orange"))+
+  xlab("Year start pregnancy")+
+  ylab("N")+
+  theme_hc()
+
+pl_first_record<-ggplotly(p_first_record)
+pl_first_record
+```
+
+
+## Live Birth
+
+```{r live_birth}
+################################################################################
+#########################    live birth    #####################################
+################################################################################
+D3_gop_LB <- D3_gop_first_record[type_of_pregnancy_end=="LB"]
+
+p_LB <- ggplot(D3_gop_LB[year_start_pregnancy>2015], aes(year_start_pregnancy, fill=source))+
+  geom_bar()+
+  scale_fill_manual(values = c("CONCEPTSETS" = "yellow", "PROMPT" = "limegreen"))+
+  labs(title = "Live Birth")+
+  theme_hc()
+
+pl_LB<-ggplotly(p_LB)
+pl_LB
+```
+
+## Still Birth
+
+```{r still_birth}
+################################################################################
+#########################    still birth   #####################################
+################################################################################
+D3_gop_SB <- D3_gop_first_record[type_of_pregnancy_end=="SB"]
+
+p_SB <- ggplot(D3_gop_SB, aes(year_end_pregnancy, fill=source))+
+  geom_bar()+
+  scale_fill_manual(values = c("CONCEPTSETS" = "yellow", "PROMPT" = "limegreen"))+
+  labs(title = "Still Birth")+
+  theme_hc()
+
+pl_SB<-ggplotly(p_SB)
+pl_SB
+
+```
+
+## Termination
+
+```{r termination}
+################################################################################
+#########################    termination   #####################################
+################################################################################
+D3_gop_T <- D3_gop_first_record[type_of_pregnancy_end=="T"]
+
+p_T <- ggplot(D3_gop_T[!is.na(year_end_pregnancy)], aes(year_end_pregnancy, fill=source))+
+  geom_bar()+
+  labs(title = "Termination")+
+  scale_fill_manual(values = c("CONCEPTSETS" = "yellow", "PROMPT" = "limegreen"))+
+  theme_hc()
+
+pl_T<-ggplotly(p_T)
+pl_T
+```
+
+
+
+## Distance
+
+```{r distance}
+d<-ggplot(D3_gop, aes(as.integer(distance), fill=coloured_order))+
+  geom_histogram(bins = 100, na.rm=TRUE)+
+  scale_fill_manual(values = c("1_green" = "green", "2_yellow" = "yellow", "3_blue" = "blue", "4_red" = "red"))+
+  scale_x_continuous(name="distance", limits=c(0, 300))+
+  theme_hc()
+d_pl<-ggplotly(d)
+d_pl
+
+```
+
+
+```{r distance_green}
+d<-ggplot(D3_gop[coloured_order=="1_green"], aes(as.integer(distance), fill=meaning_end_date))+
+  geom_histogram(bins = 100, na.rm=TRUE)+
+  scale_fill_manual(values = c("birth_registry_child" = "green3", "induced_termination_registry" = "greenyellow", "spontaneous_abortion_registry" = "green"))+
+  scale_x_continuous(name="distance", limits=c(0, 300))+
+  labs(title = "Record of quality green: distance from pregnancy start date")+
+  theme_hc()
+d_plg<-ggplotly(d)
+suppressWarnings(d_plg) 
+
+```
+
+
+```{r distance_green}
+group_to_keep <- D3_gop[coloured_order=="1_green" & n==1, pers_group_id]
+DF_plot_green_distance <- D3_gop[ pers_group_id  %in%  group_to_keep]
+DF_plot_green_distance <- DF_plot_green_distance[n==1, start_of_green:= pregnancy_start_date][is.na(start_of_green), start_of_green:=0]
+DF_plot_green_distance <- DF_plot_green_distance[, start_of_green:= max(start_of_green), by = pers_group_id]
+DF_plot_green_distance <- DF_plot_green_distance[, distance_from_green:= as.integer(record_date - start_of_green)]
+
+
+
+
+
+DF_plot_green_distance <- DF_plot_green_distance[n==1, start_of_green:= pregnancy_start_date][is.na(start_of_green), start_of_green:=0]
+DF_plot_green_distance <- DF_plot_green_distance[, start_of_green:= max(start_of_green), by = pers_group_id]
+DF_plot_green_distance <- DF_plot_green_distance[, distance_from_green:= as.integer(record_date - start_of_green)]
+
+
+
+
+
+#DF_plot_green_distance[, hist(distance_from_green)]
+
+DF_plot_green_distance_unique <- unique(DF_plot_green_distance, by = c("record_date", "coloured_order", "pers_group_id"))
+DF_plot_green_distance_unique <- DF_plot_green_distance_unique[, Quality:=coloured_order]
+#DF_plot_green_distance <- DF_plot_green_distance[order(pers_group_id, )]
+d<-ggplot(DF_plot_green_distance_unique[year_start_pregnancy == 2019], aes(as.integer(distance_from_green), fill=Quality))+
+  geom_histogram(bins = 60, na.rm=TRUE)+
+  scale_fill_manual(values = c("1_green" = "green", "2_yellow" = "yellow", "3_blue" = "blue", "4_red" = "red"))+
+  scale_x_continuous(name="Days from start of pregnancy", limits=c(0, 350), breaks=c(0,50,100,150,200,250,300))+
+  labs(title = "26197 pregnancies in 2019: 166998 records", fill = "Record colour")+
+  ylab("Number of record")+
+  theme_hc()
+d_plg<-ggplotly(d)
+suppressWarnings(d_plg) 
+DF_plot_green_distance_unique[year_start_pregnancy == 2019, .N]
+length(unique(DF_plot_green_distance_unique[year_start_pregnancy == 2019, pers_group_id]))
+```
+
+
+## Dummy table 
+
+```{r dummy_table, include=F, echo=F}
+streams <- list("EUROCAT", "PROMPT", "ITEMSETS", "CONCEPTSETS")
+quality_table_outcomes <- data.table(coloured_order=numeric(), "NA"=numeric(), ECT=numeric(), LB=numeric(), SA=numeric(), SB=numeric(), "T"=numeric(),"UNK"=numeric())#, all_outcomes=numeric() )
+
+D3_gop_dummy <- copy(D3_gop)
+D3_gop_dummy <- D3_gop_dummy[EUROCAT=="no", EUROCAT:=0]
+D3_gop_dummy <- D3_gop_dummy[PROMPT=="no", PROMPT:=0]
+D3_gop_dummy <- D3_gop_dummy[CONCEPTSETS=="no", CONCEPTSETS:=0]
+D3_gop_dummy <- D3_gop_dummy[ITEMSETS=="no", ITEMSETS:=0]
+
+D3_gop_dummy <- D3_gop_dummy[EUROCAT=="yes", EUROCAT:=1]
+D3_gop_dummy <- D3_gop_dummy[PROMPT=="yes", PROMPT:=1]
+D3_gop_dummy <- D3_gop_dummy[CONCEPTSETS=="yes", CONCEPTSETS:=1]
+D3_gop_dummy <- D3_gop_dummy[ITEMSETS=="yes", ITEMSETS:=1]
+
+D3_gop_dummy <- D3_gop_dummy[, EUROCAT := as.integer(EUROCAT)]
+D3_gop_dummy <- D3_gop_dummy[, PROMPT := as.integer(PROMPT)]
+D3_gop_dummy <- D3_gop_dummy[, CONCEPTSETS := as.integer(CONCEPTSETS)]
+D3_gop_dummy <- D3_gop_dummy[, ITEMSETS := as.integer(ITEMSETS)]
+
+for (stream in streams) {
+  table <- D3_gop_dummy[, .(sum_of_stream=sum(get(stream))), by = .(coloured_order, type_of_pregnancy_end, pers_group_id)][order(type_of_pregnancy_end, coloured_order,pers_group_id)]
+  table2 <- table[, .(mean_of_records = mean(sum_of_stream)*100), by = .(coloured_order, type_of_pregnancy_end)][order(type_of_pregnancy_end, coloured_order)]
+  
+  ## all outcomes
+  # table_all_outcomes <- D3_gop_dummy[, .(sum_of_stream=sum(get(stream))), by = .(coloured_order, pers_group_id)][order(coloured_order, pers_group_id)]
+  # table_all_outcomes2 <- table_all_outcomes[, .(mean_of_records = mean(sum_of_stream)*100), by = .(coloured_order)][order(coloured_order)]
+  # table_all_outcomes3 <- table_all_outcomes2[, type_of_pregnancy_end := "all_outcomes"]
+  # table3 <- rbind(table2, table_all_outcomes3)
+  
+  
+  table4 <- dcast(table2,  coloured_order ~  type_of_pregnancy_end, value.var = "mean_of_records", fill = 0)
+  #setnames(table4, c( "yellow", "green", "red"), c( paste0(stream, ": yellow"), paste0(stream, ": green"), paste0(stream, ": red")))
+  table4 <- table4[coloured_order  == "1_green", coloured_order:= paste0(stream, ": green")]
+  table4 <- table4[coloured_order  == "2_yellow", coloured_order:= paste0(stream, ": yellow")]
+  table4 <- table4[coloured_order  == "3_blue", coloured_order:= paste0(stream, ": blue")]
+  table4 <- table4[coloured_order  == "4_red", coloured_order:= paste0(stream, ": red")]
+  
+  quality_table_outcomes<-rbind(quality_table_outcomes, table4)
+  
+}
+
+
+```
+```{r dummy_t}
+suppressWarnings(paged_table(quality_table_outcomes))
+```
+
+
+```{r dummy_t_age}
+load("/home/rosgin/FEPI/ConcePTION/StudyScripts/pregnancy_CONSIGN/g_intermediate/D3_PERSONS.RData")
+DF_dummy_age <- merge(D3_gop, D3_PERSONS, all.x = T, by = "person_id")
+DF_dummy_age <- DF_dummy_age[n==1]
+DF_dummy_age <- DF_dummy_age[!is.na(year_end_pregnancy), age_end_pregnancy:= (as.integer(year_end_pregnancy) - year_of_birth)]
+DF_dummy_age <- DF_dummy_age[, .(person_id, pers_group_id, age_end_pregnancy, type_of_pregnancy_end)]
+
+DF_dummy_age <- DF_dummy_age[age_end_pregnancy<=15, age_band := "12-15"]
+DF_dummy_age <- DF_dummy_age[age_end_pregnancy>15 & age_end_pregnancy<=20, age_band := "16-20"]
+DF_dummy_age <- DF_dummy_age[age_end_pregnancy>20 & age_end_pregnancy<=25, age_band := "21-25"]
+DF_dummy_age <- DF_dummy_age[age_end_pregnancy>25 & age_end_pregnancy<=30, age_band := "26-30"]
+DF_dummy_age <- DF_dummy_age[age_end_pregnancy>30 & age_end_pregnancy<=35, age_band := "31-35"]
+DF_dummy_age <- DF_dummy_age[age_end_pregnancy>35 & age_end_pregnancy<=40, age_band := "36-40"]
+DF_dummy_age <- DF_dummy_age[age_end_pregnancy>40 & age_end_pregnancy<=45, age_band := "41-45"]
+DF_dummy_age <- DF_dummy_age[age_end_pregnancy>45 & age_end_pregnancy<=50, age_band := "46-50"]
+DF_dummy_age <- DF_dummy_age[age_end_pregnancy>50, age_band := "51-55"]
+```
+
+```{r meaning_1}
+ D3_gop[meaning_start_date == "imputed_from_first_encounter_for_ongoing_pregnancy" , .N ]
+table(D3_gop[meaning_start_date == "imputed_from_first_encounter_for_ongoing_pregnancy" , .(year(record_date)) ])
+
+```
+```{r dummy_table_age_2, include=F, echo=F}
+outcomes <- list("NA", "ECT", "LB", "SA", "SB", "T", "UNK")
+quality_table_ages <- data.table(age_band=numeric(), "NA"=numeric(), ECT=numeric(), LB=numeric(), SA=numeric(), SB=numeric(), "T"=numeric(),"UNK"=numeric())#, all_outcomes=numeric() )
+
+
+
+
+  table <- DF_dummy_age[, .N, by = .(type_of_pregnancy_end, pers_group_id, age_band)][order(type_of_pregnancy_end,pers_group_id)]
+  table2 <- table[, .(mean_of_records = mean(N)*100), by = .( type_of_pregnancy_end, age_band)][order(type_of_pregnancy_end, age_band)]
+  
+  ## all outcomes
+  # table_all_outcomes <- D3_gop_dummy[, .(sum_of_stream=sum(get(stream))), by = .(coloured_order, pers_group_id)][order(coloured_order, pers_group_id)]
+  # table_all_outcomes2 <- table_all_outcomes[, .(mean_of_records = mean(sum_of_stream)*100), by = .(coloured_order)][order(coloured_order)]
+  # table_all_outcomes3 <- table_all_outcomes2[, type_of_pregnancy_end := "all_outcomes"]
+  # table3 <- rbind(table2, table_all_outcomes3)
+  
+  
+  table4 <- dcast(table2,  age_band ~  type_of_pregnancy_end, value.var = "mean_of_records", fill = 0)
+  #setnames(table4, c( "yellow", "green", "red"), c( paste0(stream, ": yellow"), paste0(stream, ": green"), paste0(stream, ": red")))
+  
+  quality_table_ages<-rbind(quality_table_ages, table4)
+  
+```
+
+
+```{r meaning}
+quality_table_ages
+```
