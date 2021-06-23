@@ -212,7 +212,7 @@ for (i in 1:length(files)) {
     
     ########################################## END ###################################################### 
     
-    itemset_AVpair_our_study[["DATEENDPREGNANCY"]][[files[i]]][["ARS"]] <- list(list("CAP2","DATPARTO")) ##!! CAP1 
+    itemset_AVpair_our_study[["DATEENDPREGNANCY"]][[files[i]]][["ARS"]] <- list(list("CAP2","DATAPARTO_ARSNEW")) ##!! DATPARTO
     itemset_AVpair_our_study[["DATEENDPREGNANCY"]][[files[i]]][["UOSL"]] <- list(list("MBRN", "FDATO")) 
     itemset_AVpair_our_study[["DATEENDPREGNANCY"]][[files[i]]][["AARHUS"]]<- list(list("MFR", "Foedselsdato"))
     # itemset_AVpair_our_study[["DATEENDPREGNANCY"]][[files[i]]][["University_of_Dundee"]]<- list()

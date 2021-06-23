@@ -1,5 +1,5 @@
 #-----------------------------------------------
-
+this_datasource_has_itemsets_stream=F
 if (this_datasource_has_itemsets_stream){
   
   if (thisdatasource=="ARS") {
