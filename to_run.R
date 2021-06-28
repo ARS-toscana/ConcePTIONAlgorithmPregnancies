@@ -17,11 +17,11 @@ thisdir<-setwd(dirname(rstudioapi::getSourceEditorContext()$path))
 source(paste0(thisdir,"/p_parameters/01_parameters_program.R"))
 source(paste0(thisdir,"/p_parameters/02_parameters_CDM.R"))
 source(paste0(thisdir,"/p_parameters/03_concept_sets.R"))
-#source(paste0(thisdir,"/p_parameters/03_concept_sets_outcomes.R"))
 source(paste0(thisdir,"/p_parameters/04_prompts.R"))
 source(paste0(thisdir,"/p_parameters/05_subpopulations_restricting_meanings.R"))
 source(paste0(thisdir,"/p_parameters/06_algorithms.R"))
 source(paste0(thisdir,"/p_parameters/07_itemsets.R"))
+source(paste0(thisdir,"/p_parameters/08_check_coding_system.R"))
 
 
 
@@ -40,7 +40,7 @@ system.time(source(paste0(thisdir,"/p_steps/step_01_5_T2.1_create_itemsets_datas
 
 # 02 COUNT CODES 
 #system.time(source(paste0(thisdir,"/p_steps/step_02_T2.2_count_codes.R")))
-  
+
 # 03 CREATE PREGNANCIES 
 source(paste0(thisdir,"/p_steps/step_03_01_T2.2_create_pregnancies_from_prompts.R")) #--> D3_Stream_PROMPTS
 source(paste0(thisdir,"/p_steps/step_03_02_T2.2_create_pregnancies_from_conceptsets.R")) #--> D3_Stream_CONCEPTSETS

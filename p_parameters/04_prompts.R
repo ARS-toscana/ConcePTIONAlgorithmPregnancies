@@ -62,7 +62,7 @@ for (i in 1:length(files)) {
     # itemset_AVpair_our_study[["GESTAGE_FROM_DAPS_CRITERIA_DAYS"]][[files[i]]][["MMC Saxony-Anhalt"]] <- list()  ## to be checked
     itemset_AVpair_our_study[["GESTAGE_FROM_DAPS_CRITERIA_DAYS"]][[files[i]]][["THL"]] <- list() # list("AB_BASIC","KESTO")) ### Type for AB_BASIC is available
     # itemset_AVpair_our_study[["GESTAGE_FROM_DAPS_CRITERIA_DAYS"]][[files[i]]][["USWAN"]]<- list()
-    itemset_AVpair_our_study[["GESTAGE_FROM_DAPS_CRITERIA_DAYS"]][[files[i]]][["CPRD"]] <- list(list("PregnancyRegister", "Gestdays"))
+    itemset_AVpair_our_study[["GESTAGE_FROM_DAPS_CRITERIA_DAYS"]][[files[i]]][["CPRD"]] <- list(list("pregnancy register", "gestdays"))
     itemset_AVpair_our_study[["GESTAGE_FROM_DAPS_CRITERIA_DAYS"]][[files[i]]][["BIFAP"]] <- list()
     #itemset_AVpair_our_study[["GESTAGE_FROM_DAPS_CRITERIA_DAYS"]][[files[i]]][["PEDIANET"]] <- list()
     
@@ -71,7 +71,7 @@ for (i in 1:length(files)) {
     
     
     ### specification GESTAGE_FROM_LMP_WEEK
-    itemset_AVpair_our_study[["GESTAGE_FROM_LMP_WEEKS"]][[files[i]]][["ARS"]] <- list(list("CAP1","SETTAMEN_ARSNEW"), list("ABS","SETTAMEN_ARSNEW"), list("IVG","ETAGEST_ARSNEW")) ##!! CAPITAL, ETAGEST/SETTAME
+    itemset_AVpair_our_study[["GESTAGE_FROM_LMP_WEEKS"]][[files[i]]][["ARS"]] <- list(list("CAP2","SETTAMEN_ARSNEW"), list("ABS","SETTAMEN_ARSNEW"), list("IVG","ETAGEST_ARSNEW")) ##!! CAPITAL, ETAGEST/SETTAMEN
     itemset_AVpair_our_study[["GESTAGE_FROM_LMP_WEEKS"]][[files[i]]][["UOSL"]] <- list()
     itemset_AVpair_our_study[["GESTAGE_FROM_LMP_WEEKS"]][[files[i]]][["AARHUS"]]<- list()
     # itemset_AVpair_our_study[["GESTAGE_FROM_LMP_WEEKS"]][[files[i]]][["University_of_Dundee"]]<- list()
@@ -202,7 +202,7 @@ for (i in 1:length(files)) {
     # itemset_AVpair_our_study[["DATESTARTPREGNANCY"]][[files[i]]][["MMC Saxony-Anhalt"]] <- list()
     itemset_AVpair_our_study[["DATESTARTPREGNANCY"]][[files[i]]][["THL"]] <- list() 
     # itemset_AVpair_our_study[["DATESTARTPREGNANCY"]][[files[i]]][["USWAN"]]<- list()
-    itemset_AVpair_our_study[["DATESTARTPREGNANCY"]][[files[i]]][["CPRD"]] <- list(list("PregnancyRegister", "Pregstart"))
+    itemset_AVpair_our_study[["DATESTARTPREGNANCY"]][[files[i]]][["CPRD"]] <- list(list("pregnancy register", "pregstart"))
     itemset_AVpair_our_study[["DATESTARTPREGNANCY"]][[files[i]]][["BIFAP"]] <- list(list("EMB_BIFAP", "EMB_FUR_ORI"), list("EMB_BIFAP", "EMB_FUR_IMP"))
     #itemset_AVpair_our_study[["DATESTARTPREGNANCY"]][[files[i]]][["PEDIANET"]] <- list()
     
@@ -212,7 +212,7 @@ for (i in 1:length(files)) {
     
     ########################################## END ###################################################### 
     
-    itemset_AVpair_our_study[["DATEENDPREGNANCY"]][[files[i]]][["ARS"]] <- list(list("CAP2","DATAPARTO_ARSNEW")) ##!! CAP1 
+    itemset_AVpair_our_study[["DATEENDPREGNANCY"]][[files[i]]][["ARS"]] <- list(list("CAP2","DATAPARTO_ARSNEW")) ##!! DATPARTO
     itemset_AVpair_our_study[["DATEENDPREGNANCY"]][[files[i]]][["UOSL"]] <- list(list("MBRN", "FDATO")) 
     itemset_AVpair_our_study[["DATEENDPREGNANCY"]][[files[i]]][["AARHUS"]]<- list(list("MFR", "Foedselsdato"))
     # itemset_AVpair_our_study[["DATEENDPREGNANCY"]][[files[i]]][["University_of_Dundee"]]<- list()
@@ -231,7 +231,7 @@ for (i in 1:length(files)) {
     # itemset_AVpair_our_study[["DATEENDPREGNANCY"]][[files[i]]][["MMC Saxony-Anhalt"]] <- list()
     itemset_AVpair_our_study[["DATEENDPREGNANCY"]][[files[i]]][["THL"]] <- list(list("SR_BASIC","LAPSEN_SYNTYMAPVM"),list("AB_BASIC","TOIMENPIDE_PVM"), list("ER_BASIC","C_BIRTHDATE"))
     # itemset_AVpair_our_study[["DATEENDPREGNANCY"]][[files[i]]][["USWAN"]]<- list()
-    itemset_AVpair_our_study[["DATEENDPREGNANCY"]][[files[i]]][["CPRD"]] <- list(list("PregnancyRegister","Pregend"))
+    itemset_AVpair_our_study[["DATEENDPREGNANCY"]][[files[i]]][["CPRD"]] <- list(list("pregnancy register","pregend"))
     itemset_AVpair_our_study[["DATEENDPREGNANCY"]][[files[i]]][["BIFAP"]] <- list(list("EMB_BIFAP", "EMB_F_FIN"))
     #itemset_AVpair_our_study[["DATEENDPREGNANCY"]][[files[i]]][["PEDIANET"]] <- list()
     
@@ -370,7 +370,7 @@ for (i in 1:length(files)) {
     # itemset_AVpair_our_study[["TYPE"]][[files[i]]][["MMC Saxony-Anhalt"]] <- list()
     itemset_AVpair_our_study[["TYPE"]][[files[i]]][["THL"]] <- list(list("SR_BASIC","SYNTYMATILATUNNUS"), list("ER_BASIC","MANNER_OF_BIRTH"))
     # itemset_AVpair_our_study[["TYPE"]][[files[i]]][["USWAN"]]<- list()
-    itemset_AVpair_our_study[["TYPE"]][[files[i]]][["CPRD"]] <- list(list("PregnancyRegister", "outcome"))
+    itemset_AVpair_our_study[["TYPE"]][[files[i]]][["CPRD"]] <- list(list("pregnancy register", "outcome"))
     itemset_AVpair_our_study[["TYPE"]][[files[i]]][["BIFAP"]] <- list(list("EMB_BIFAP", "EMB_GRUPO_FIN"))
     #itemset_AVpair_our_study[["TYPE"]][[files[i]]][["PEDIANET"]] <- list()
     

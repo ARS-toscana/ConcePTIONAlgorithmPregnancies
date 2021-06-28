@@ -1,13 +1,13 @@
 ################################ MEANING_OF_SURVEY ##################################
 meaning_of_survey_our_study <- vector(mode="list")
 
-meaning_of_survey_our_study[["ARS"]][["livebirth_or_stillbirth"]]<-list("birth_registry_child")
+meaning_of_survey_our_study[["ARS"]][["livebirth_or_stillbirth"]]<-list("birth_registry_mother")
 meaning_of_survey_our_study[["ARS"]][["ongoing_pregnancy"]]<-list()
 meaning_of_survey_our_study[["ARS"]][["spontaneous_abortion"]]<-list("spontaneous_abortion_registry")
 meaning_of_survey_our_study[["ARS"]][["induced_termination"]]<-list("induced_termination_registry")
 meaning_of_survey_our_study[["ARS"]][["other"]]<-list()
 
-meaning_of_survey_our_study[["UOSL"]][["livebirth_or_stillbirth"]]<-list("birth_registry_mother", "birth_registry_father", "birth_registry_child")
+meaning_of_survey_our_study[["UOSL"]][["livebirth_or_stillbirth"]]<-list("birth_registry_mother") #, "birth_registry_father", "birth_registry_child"
 meaning_of_survey_our_study[["UOSL"]][["ongoing_pregnancy"]]<-list()
 meaning_of_survey_our_study[["UOSL"]][["spontaneous_abortion"]]<-list()
 meaning_of_survey_our_study[["UOSL"]][["induced_termination"]]<-list()
@@ -61,7 +61,7 @@ meaning_of_survey_our_study[["THL"]][["spontaneous_abortion"]]<-list()
 meaning_of_survey_our_study[["THL"]][["induced_termination"]]<-list("induced_termination_registry")
 meaning_of_survey_our_study[["THL"]][["other"]]<-list()
 
-meaning_of_survey_our_study[["CPRD"]][["livebirth_or_stillbirth"]]<-list()
+meaning_of_survey_our_study[["CPRD"]][["livebirth_or_stillbirth"]]<-list("pregnancy register")
 meaning_of_survey_our_study[["CPRD"]][["ongoing_pregnancy"]]<-list()
 meaning_of_survey_our_study[["CPRD"]][["spontaneous_abortion"]]<-list()
 meaning_of_survey_our_study[["CPRD"]][["induced_termination"]]<-list()
@@ -231,13 +231,14 @@ meanings_of_this_study[["PC"]]=c("primary_care_event","primary_care_diagnosis","
 condmeaning <- list()
 for (level1 in c("HOSP","PC")) {
   for (meaning in meanings_of_this_study[[level1]]) {
-    if (length(condmeaning[[level1]])==0) {condmeaning[[level1]]=paste0("meaning_of_event=='",meanings_of_this_study[[level1]][[1]],"'")
+    if (length(condmeaning[[level1]])==0) {condmeaning[[level1]]=paste0("meaning=='",meanings_of_this_study[[level1]][[1]],"'") #meaning_of_event
     }else{
-      condmeaning[[level1]]=paste0(condmeaning[[level1]], " | meaning_of_event=='",meaning,"'")
+      condmeaning[[level1]]=paste0(condmeaning[[level1]], " | meaning=='",meaning,"'") #_of_event
     }
   }
 }
 
+rm(meaning)
 
 #-------------------------------------
 # set concept sets
@@ -275,7 +276,7 @@ for (conceptset in concept_set_our_study){
 # fix for ICD10GM
 
 for (conceptset in concept_set_our_study){
-  print(conceptset)
+  #print(conceptset)
   if (concept_set_domains[[conceptset]] == "Diagnosis"){
     concept_set_codes_our_study[[conceptset]][["ICD10GM"]] <- concept_set_codes_our_study[[conceptset]][["ICD10"]]
   }
@@ -315,7 +316,7 @@ if (this_datasource_has_subpopulations == TRUE){
     save(concept_set_codes_our_study,file=paste0(direxpsubpop[[subpop]],"concept_set_codes_our_study.RData"))
     save(concept_set_codes_our_study_excl,file=paste0(direxpsubpop[[subpop]],"concept_set_codes_our_study_excl.RData"))
     save(concept_set_codes_our_study_excl,file=paste0(dirsmallcountsremovedsubpop[[subpop]],"concept_set_codes_our_study_excl.RData"))
-
+    
   }
 }
 

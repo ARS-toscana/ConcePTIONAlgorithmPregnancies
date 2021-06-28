@@ -1,0 +1,4 @@
+person_id,op_start_date,op_end_date,op_meaning,op_origin
+1505,20000215,99991231,CPRD_op_meaning,CPRD_op_origin
+2492,19900607,99991231,CPRD_op_meaning,CPRD_op_origin
+2616,19951221,99991231,CPRD_op_meaning,CPRD_op_origin

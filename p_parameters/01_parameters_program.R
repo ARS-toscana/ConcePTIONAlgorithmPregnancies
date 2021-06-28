@@ -2,7 +2,7 @@
 # setwd("..")
 # setwd("..")
 # dirbase<-getwd()
-# dirinput <- paste0(dirbase,"/CDMInstances/DataCharacterisation_v2/")
+# dirinput <- paste0(dirbase,"/CDMInstances/CONSIGN/")
 
 #setwd("..")
 #setwd("..")
@@ -192,7 +192,7 @@ secondYearComponentAnalysis = secondYearComponentAnalysis_datasource[[thisdataso
 gap_allowed_thisdatasource = ifelse(thisdatasource == "ARS",21,1)
 
 #datasource with itemsets stream
-datasources_with_itemsets_stream <- c("TEST","GePaRD","BIFAP") # MED_OBS
+datasources_with_itemsets_stream <- c("TEST","GePaRD","BIFAP","ARS") # MED_OBS
 #datasources_with_itemsets_stream <- c()
 this_datasource_has_itemsets_stream <- ifelse(thisdatasource %in% datasources_with_itemsets_stream,TRUE,FALSE) 
 
