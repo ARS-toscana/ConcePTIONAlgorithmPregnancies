@@ -1,9 +1,11 @@
 ## check coding system
 
 allcodes_inMETADATA<- unique(unlist(str_split(unique(METADATA[type_of_metadata=="list_of_values" & (columnname=="event_record_vocabulary" | columnname=="	
-procedure_code_vocabulary" | columnname=="mo_record_vocabulary" | columnname=="so_unit"),values])," "))) 
+procedure_code_vocabulary" | columnname=="mo_record_vocabulary" | columnname=="so_unit"),values])," ")))
+allcodes_inMETADATA0<- allcodes_inMETADATA[allcodes_inMETADATA!=""]
+
 # discard from this list any string that contains 'free_text' as a substring
-allcodes_inMETADATA_nofree<-allcodes_inMETADATA[tokeep=!(str_detect(allcodes_inMETADATA,"^free_text"))]
+allcodes_inMETADATA_nofree<-allcodes_inMETADATA0[tokeep=!(str_detect(allcodes_inMETADATA0,"^free_text"))]
 
 concept_set_prova<-names(concept_set_domains=="Diagnosis")[1]
 coding_system_in_concept_sets<-names(concept_set_codes_our_study[[concept_set_prova]])
