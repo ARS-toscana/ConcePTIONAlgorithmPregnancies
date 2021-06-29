@@ -4,7 +4,6 @@
 # restringiti al 2018 
 # precedura che genera tabella per ogni anno
 # procedura che genera grafici 
-# chiedi conferma per i codici 
 
 ################## simulated data ####################
 #D3_included_pregnancies_sim

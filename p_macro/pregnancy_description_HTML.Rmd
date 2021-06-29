@@ -29,7 +29,77 @@ h3 {color: #6ccff6}
 
 ## D3 Included Pregnancy
 
+```{r year_end_of_pregnancy}
+D3_included_pregnancies <- D3_included_pregnancies[, year_end_of_pregnancy:= as.integer(as.integer(pregnancy_end_date)/10000)]
+D3_included_pregnancies <- D3_included_pregnancies[EUROCAT== 1, source := "EUROCAT"]
+D3_included_pregnancies <- D3_included_pregnancies[PROMPT== 1, source := "PROMPT"]
+D3_included_pregnancies <- D3_included_pregnancies[CONCEPTSETS== 1, source := "CONCEPTSETS"]
+D3_included_pregnancies <- D3_included_pregnancies[ITEMSET== 1, source := "ITEMSET"]
+D3_included_pregnancies <- D3_included_pregnancies[is.na(source), source := "PROMPT"]
+
+```
+
 ```{r}
+library(plotly)
+library(ggthemes)
+p <- ggplot(D3_included_pregnancies, aes(x = year_end_of_pregnancy, fill= source))+
+  geom_bar()+
+  theme_hc()
+plot <- ggplotly(p)
+
+plot
+
+```
+```{r outcome1}
+D3_included_pregnancies <- D3_included_pregnancies[type_of_pregnancy_end == "LB"]
+
+p <- ggplot(D3_included_pregnancies, aes(x = year_end_of_pregnancy, fill= source))+
+  geom_bar(col="black", position = "identity")+
+  theme_hc()
+plot <- ggplotly(p)
+
+plot
+
+
+```
+
+```{r outcome1}
+D3_included_pregnancies <- D3_included_pregnancies[type_of_pregnancy_end == "SB"]
+
+p <- ggplot(D3_included_pregnancies, aes(x = year_end_of_pregnancy, fill= source))+
+  geom_bar()+
+  theme_hc()
+plot <- ggplotly(p)
+
+plot
+
+
+```
+
+```{r outcome1}
+D3_included_pregnancies <- D3_included_pregnancies[type_of_pregnancy_end == "SA"]
+
+p <- ggplot(D3_included_pregnancies, aes(x = year_end_of_pregnancy, fill= source))+
+  geom_bar()+
+  theme_hc()
+plot <- ggplotly(p)
+
+plot
+
+
+```
+
+```{r outcome1}
+D3_included_pregnancies <- D3_included_pregnancies[type_of_pregnancy_end == "T"]
+
+p <- ggplot(D3_included_pregnancies, aes(x = year_end_of_pregnancy, fill= source))+
+  geom_bar()+
+  theme_hc()
+plot <- ggplotly(p)
+
+plot
+
+
 ```
 
 ## D3 Excluded Pregnancy
