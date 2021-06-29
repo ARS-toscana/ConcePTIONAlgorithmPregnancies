@@ -72,9 +72,9 @@ if (dim(SURVEY_ID_BR)[1]!=0){
   
   # create variable end of pregnancy as survey_date
   #dataset_pregnancies0[,end_of_pregnancy:=survey_date]
-  dataset_pregnancies2<-dataset_pregnancies0[,meaning_end_date:=as.character(meaning_end_date)]
+  #dataset_pregnancies2<-dataset_pregnancies0[,meaning_end_date:=as.character(meaning_end_date)]
   
-  dataset_pregnancies2<-dataset_pregnancies2[,pregnancy_end_date:=as.Date(DATEENDPREGNANCY)][!is.na(pregnancy_end_date),`:=`(meaning_end_date=meaning_DATEENDPREGNANCY)]
+  dataset_pregnancies2<-dataset_pregnancies0[,pregnancy_end_date:=as.Date(DATEENDPREGNANCY)][!is.na(pregnancy_end_date),`:=`(meaning_end_date=meaning_DATEENDPREGNANCY)]
   dataset_pregnancies2<-dataset_pregnancies2[is.na(pregnancy_end_date),pregnancy_end_date:=END_LIVEBIRTH][!is.na(pregnancy_end_date) & is.na(meaning_end_date),`:=`(meaning_end_date=meaning_END_LIVEBIRTH)]
   dataset_pregnancies2<-dataset_pregnancies2[is.na(pregnancy_end_date),pregnancy_end_date:=END_STILLBIRTH][!is.na(pregnancy_end_date)& is.na(meaning_end_date),`:=`(meaning_end_date=meaning_END_STILLBIRTH)]
   dataset_pregnancies2<-dataset_pregnancies2[is.na(pregnancy_end_date),pregnancy_end_date:=END_TERMINATION][!is.na(pregnancy_end_date)& is.na(meaning_end_date),`:=`(meaning_end_date=meaning_END_TERMINATION)]
