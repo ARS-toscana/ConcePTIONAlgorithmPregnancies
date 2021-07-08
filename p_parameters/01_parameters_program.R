@@ -1,14 +1,14 @@
-# # set directory with input data
-# setwd("..")
-# setwd("..")
-# dirbase<-getwd()
-# dirinput <- paste0(dirbase,"/CDMInstances/CONSIGN/")
-
-#setwd("..")
-#setwd("..")
+# set directory with input data
+setwd("..")
+setwd("..")
 dirbase<-getwd()
-dirinput <- paste0(dirbase,"/i_input/")
-#dirinput <- paste0(dirbase,"/i_input_test/")
+dirinput <- paste0(dirbase,"/CDMInstances/CONSIGN/")
+
+# #setwd("..")
+# #setwd("..")
+# dirbase<-getwd()
+# dirinput <- paste0(dirbase,"/i_input/")
+# #dirinput <- paste0(dirbase,"/i_input_test/")
 
 # set other directories
 diroutput <- paste0(thisdir,"/g_output/")
@@ -45,6 +45,10 @@ if (!require("survival")) install.packages("survival")
 library(survival)
 if (!require("rmarkdown")) install.packages("rmarkdown")
 library(rmarkdown )
+if (!require("ggplot2")) install.packages("ggplot2")
+library(ggplot2 )
+if (!require("ggthemes")) install.packages("ggthemes")
+library(ggthemes)
 
 `%notin%` <- Negate(`%in%`)
 
@@ -89,7 +93,7 @@ firstjan2018<-as.Date(as.character(20180101), date_format)
 CDM_SOURCE<- fread(paste0(dirinput,"CDM_SOURCE.csv"))
 thisdatasource <- as.character(CDM_SOURCE[1,3])
 # 
-# CDM_SOURCE<- fread(paste0(dirinput,"CDM_SOURCE_test.csv"))
+# CDM_SOURCE<- fread(paste0(dirinput,"CDM_SOURCE_CPRD.csv"))
 # thisdatasource <- as.character(CDM_SOURCE[1,3])
 
 #---------------------------------------

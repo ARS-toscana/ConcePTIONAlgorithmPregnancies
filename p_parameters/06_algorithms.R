@@ -41,7 +41,7 @@ meaning_of_survey_our_study[["FISABIO"]][["livebirth_or_stillbirth"]]<-list("MET
 meaning_of_survey_our_study[["FISABIO"]][["ongoing_pregnancy"]]<-list()
 meaning_of_survey_our_study[["FISABIO"]][["spontaneous_abortion"]]<-list()
 meaning_of_survey_our_study[["FISABIO"]][["induced_termination"]]<-list()
-meaning_of_survey_our_study[["FISABIO"]][["other"]]<-list()
+meaning_of_survey_our_study[["FISABIO"]][["other"]]<-list("RPAC-CV-mother")
 
 meaning_of_survey_our_study[["SIDIAP"]][["livebirth_or_stillbirth"]]<-list("birth_registry")
 meaning_of_survey_our_study[["SIDIAP"]][["ongoing_pregnancy"]]<-list()
