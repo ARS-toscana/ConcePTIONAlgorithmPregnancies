@@ -7,7 +7,7 @@ meaning_of_survey_our_study[["ARS"]][["spontaneous_abortion"]]<-list("spontaneou
 meaning_of_survey_our_study[["ARS"]][["induced_termination"]]<-list("induced_termination_registry")
 meaning_of_survey_our_study[["ARS"]][["other"]]<-list()
 
-meaning_of_survey_our_study[["UOSL"]][["livebirth_or_stillbirth"]]<-list("birth_registry_mother", "birth_registry_father", "birth_registry_child")
+meaning_of_survey_our_study[["UOSL"]][["livebirth_or_stillbirth"]]<-list("birth_registry_mother") #, "birth_registry_father", "birth_registry_child"
 meaning_of_survey_our_study[["UOSL"]][["ongoing_pregnancy"]]<-list()
 meaning_of_survey_our_study[["UOSL"]][["spontaneous_abortion"]]<-list()
 meaning_of_survey_our_study[["UOSL"]][["induced_termination"]]<-list()
@@ -41,7 +41,7 @@ meaning_of_survey_our_study[["FISABIO"]][["livebirth_or_stillbirth"]]<-list("MET
 meaning_of_survey_our_study[["FISABIO"]][["ongoing_pregnancy"]]<-list()
 meaning_of_survey_our_study[["FISABIO"]][["spontaneous_abortion"]]<-list()
 meaning_of_survey_our_study[["FISABIO"]][["induced_termination"]]<-list()
-meaning_of_survey_our_study[["FISABIO"]][["other"]]<-list()
+meaning_of_survey_our_study[["FISABIO"]][["other"]]<-list("RPAC-CV-mother")
 
 meaning_of_survey_our_study[["SIDIAP"]][["livebirth_or_stillbirth"]]<-list("birth_registry")
 meaning_of_survey_our_study[["SIDIAP"]][["ongoing_pregnancy"]]<-list()
@@ -61,10 +61,10 @@ meaning_of_survey_our_study[["THL"]][["spontaneous_abortion"]]<-list()
 meaning_of_survey_our_study[["THL"]][["induced_termination"]]<-list("induced_termination_registry")
 meaning_of_survey_our_study[["THL"]][["other"]]<-list()
 
-meaning_of_survey_our_study[["CPRD"]][["livebirth_or_stillbirth"]]<-list()
+meaning_of_survey_our_study[["CPRD"]][["livebirth_or_stillbirth"]]<-list("pregnancy_register")
 meaning_of_survey_our_study[["CPRD"]][["ongoing_pregnancy"]]<-list()
-meaning_of_survey_our_study[["CPRD"]][["spontaneous_abortion"]]<-list()
-meaning_of_survey_our_study[["CPRD"]][["induced_termination"]]<-list()
+meaning_of_survey_our_study[["CPRD"]][["spontaneous_abortion"]]<-list("pregnancy_register")
+meaning_of_survey_our_study[["CPRD"]][["induced_termination"]]<-list("pregnancy_register")
 meaning_of_survey_our_study[["CPRD"]][["other"]]<-list()
 
 meaning_of_survey_our_study[["CNR-IFC"]][["livebirth_or_stillbirth"]]<-list("birth_registry_mother", "birth_registry_child")
@@ -183,13 +183,13 @@ dictonary_of_itemset[["TYPE"]][["THL"]][["MD"]]<-list()
 dictonary_of_itemset[["TYPE"]][["THL"]][["ECT"]]<-list()
 dictonary_of_itemset[["TYPE"]][["THL"]][["UNK"]]<-list(list("ER_BASIC", "99"))
 
-dictonary_of_itemset[["TYPE"]][["CPRD"]][["LB"]]<-list(list("PregnancyRegister", "1"))
-dictonary_of_itemset[["TYPE"]][["CPRD"]][["SB"]]<-list(list("PregnancyRegister", "2"))
-dictonary_of_itemset[["TYPE"]][["CPRD"]][["SA"]]<-list(list("PregnancyRegister", "4"))
-dictonary_of_itemset[["TYPE"]][["CPRD"]][["T"]]<-list(list("PregnancyRegister", "5"))
+dictonary_of_itemset[["TYPE"]][["CPRD"]][["LB"]]<-list(list("pregnancy_register", "1"))
+dictonary_of_itemset[["TYPE"]][["CPRD"]][["SB"]]<-list(list("pregnancy_register", "2"))
+dictonary_of_itemset[["TYPE"]][["CPRD"]][["SA"]]<-list(list("pregnancy_register", "4"))
+dictonary_of_itemset[["TYPE"]][["CPRD"]][["T"]]<-list(list("pregnancy_register", "5"))
 dictonary_of_itemset[["TYPE"]][["CPRD"]][["MD"]]<-list()
 dictonary_of_itemset[["TYPE"]][["CPRD"]][["ECT"]]<-list()
-dictonary_of_itemset[["TYPE"]][["CPRD"]][["UNK"]]<-list(list("PregnancyRegister", "13"))
+dictonary_of_itemset[["TYPE"]][["CPRD"]][["UNK"]]<-list(list("pregnancy_register", "13"))
 
 dictonary_of_itemset[["TYPE"]][["PEDIANET"]][["LB"]]<-list() 
 dictonary_of_itemset[["TYPE"]][["PEDIANET"]][["SB"]]<-list()
@@ -214,3 +214,109 @@ dictonary_of_itemset_this_datasource<-vector(mode="list")
 for (i in 1:length(dictonary_of_itemset$TYPE)) {
   if(names(dictonary_of_itemset$TYPE)[[i]]==thisdatasource) dictonary_of_itemset_this_datasource<-dictonary_of_itemset$TYPE[[i]]
 }
+
+
+
+
+
+
+# we need to create two groups of meanings: one referring to hospitals HOSP (excluding emergency care) and one referring to primary care PC
+
+meanings_of_this_study<-vector(mode="list")
+meanings_of_this_study[["HOSP"]]=c("hospitalisation_primary","hospitalisation_secondary","hospital_diagnosis","hopitalisation_diagnosis_unspecified","episode_primary_diagnosis","episode_secondary_diagnosis","diagnosis_procedure","hospitalisation_associated","hospitalisation_linked","HH","NH")
+meanings_of_this_study[["PC"]]=c("primary_care_event","primary_care_diagnosis","primary_care_events_BIFAP","primary_care_antecedents_BIFAP","primary_care_condicionants_BIFAP")
+
+# create two conditions on the meaning_of_event variable, associated to HOSP and to PC as listed above
+
+condmeaning <- list()
+for (level1 in c("HOSP","PC")) {
+  for (meaning in meanings_of_this_study[[level1]]) {
+    if (length(condmeaning[[level1]])==0) {condmeaning[[level1]]=paste0("meaning=='",meanings_of_this_study[[level1]][[1]],"'") #meaning_of_event
+    }else{
+      condmeaning[[level1]]=paste0(condmeaning[[level1]], " | meaning=='",meaning,"'") #_of_event
+    }
+  }
+}
+
+rm(meaning)
+
+#-------------------------------------
+# set concept sets
+
+# concept_set_codes_our_study <- c(concept_sets_of_our_study_eve, concept_set_our_study_pre, concept_sets_of_our_study_eve_procedure)
+concept_set_codes_our_study_excl <- concept_set_codes_our_study_excl
+
+# augment ICPC codes
+# for (outcome in OUTCOME_events){
+#   outnarrow <- paste0(outcome,'_narrow')
+#   outpossible <- paste0(outcome,'_possible')
+#   if (length(concept_set_codes_our_study_pre[[outnarrow]][["ICPC"]]) == 0 & length(concept_set_codes_our_study_pre[[outnarrow]][["ICPC2P"]]) >0 ){
+#     concept_set_codes_our_study[[outpossible]][["ICPC"]] <- unique(c(concept_set_codes_our_study_pre[[outpossible]][["ICPC"]],substr(concept_set_codes_our_study_pre[[outnarrow]][["ICPC2P"]],1,3)))
+#   }
+# }
+
+# for (conceptset in c(COV_conceptssets,SEVERCOVID_conceptsets)){
+#   if (length(concept_set_codes_our_study_pre[[conceptset]][["ICPC2P"]]) >0 ){
+#     concept_set_codes_our_study[[conceptset]][["ICPC"]] <- unique(c(concept_set_codes_our_study_pre[[conceptset]][["ICPC"]],substr(concept_set_codes_our_study_pre[[conceptset]][["ICPC2P"]],1,3)))
+#   }
+# }
+
+#-------------------------------------
+# fix for ICPC2P
+
+for (conceptset in concept_set_our_study){
+  if (length(concept_set_codes_our_study[[conceptset]][["ICPC2P"]]) >0 ){
+    concept_set_codes_our_study[[conceptset]][["ICPC"]] <- unique(c(concept_set_codes_our_study[[conceptset]][["ICPC"]],substr(concept_set_codes_our_study[[conceptset]][["ICPC2P"]],1,3)))
+  }
+}
+
+
+
+#-------------------------------------
+# fix for ICD10GM
+
+for (conceptset in concept_set_our_study){
+  #print(conceptset)
+  if (concept_set_domains[[conceptset]] == "Diagnosis"){
+    concept_set_codes_our_study[[conceptset]][["ICD10GM"]] <- concept_set_codes_our_study[[conceptset]][["ICD10"]]
+  }
+}
+
+#-------------------------------------
+# fix for ICD10CM
+for (conceptset in concept_set_our_study){
+  if (concept_set_domains[[conceptset]] == "Diagnosis"){
+    concept_set_codes_our_study[[conceptset]][["ICD10CM"]] <- concept_set_codes_our_study[[conceptset]][["ICD10"]]
+  }
+}
+
+#-------------------------------------
+# fix for CIM10
+for (conceptset in concept_set_our_study){
+  if (concept_set_domains[[conceptset]] == "Diagnosis"){
+    concept_set_codes_our_study[[conceptset]][["CIM10"]] <- concept_set_codes_our_study[[conceptset]][["ICD10"]]
+  }
+}
+
+#-------------------------------------
+# fix for SNOMED3
+for (conceptset in concept_set_our_study){
+  if (concept_set_domains[[conceptset]] == "Diagnosis"){
+    concept_set_codes_our_study[[conceptset]][["SNOMED3"]] <- concept_set_codes_our_study[[conceptset]][["SNOMED"]]
+  }
+}
+
+save(concept_set_codes_our_study,file=paste0(direxp,"concept_set_codes_our_study.RData"))
+save(concept_set_codes_our_study_excl,file=paste0(direxp,"concept_set_codes_our_study_excl.RData"))
+save(concept_set_codes_our_study,file=paste0(dirsmallcountsremoved,"concept_set_codes_our_study.RData"))
+save(concept_set_codes_our_study_excl,file=paste0(dirsmallcountsremoved,"concept_set_codes_our_study_excl.RData"))
+
+if (this_datasource_has_subpopulations == TRUE){
+  for (subpop in subpopulations[[thisdatasource]]){
+    save(concept_set_codes_our_study,file=paste0(direxpsubpop[[subpop]],"concept_set_codes_our_study.RData"))
+    save(concept_set_codes_our_study_excl,file=paste0(direxpsubpop[[subpop]],"concept_set_codes_our_study_excl.RData"))
+    save(concept_set_codes_our_study_excl,file=paste0(dirsmallcountsremovedsubpop[[subpop]],"concept_set_codes_our_study_excl.RData"))
+    
+  }
+}
+

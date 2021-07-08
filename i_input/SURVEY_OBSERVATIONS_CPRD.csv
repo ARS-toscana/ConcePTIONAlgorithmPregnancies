@@ -1,0 +1,17 @@
+person_id,survey_id,so_date,so_source_table,so_source_column,so_unit,so_meaning,so_origin,so_source_value
+1505,150501,20210303,pregnancy register CPRD Gold,pregstart,,pregnancy_register,pregnancy register CPRD Gold,20190303
+1505,150501,20210303,pregnancy register CPRD Gold,pregend,,pregnancy_register,pregnancy register CPRD Gold,20191124
+1505,150501,20210303,pregnancy register CPRD Gold,outcome,,pregnancy_register,pregnancy register CPRD Gold,1
+1505,150501,20210303,pregnancy register CPRD Gold,babypatid,,pregnancy_register,pregnancy register CPRD Gold,16239505
+2492,249207,20210303,pregnancy register CPRD Gold,pregstart,,pregnancy_register,pregnancy register CPRD Gold,20170228
+2492,249207,20210303,pregnancy register CPRD Gold,pregend,,pregnancy_register,pregnancy register CPRD Gold,20171205
+2492,249207,20210303,pregnancy register CPRD Gold,outcome,,pregnancy_register,pregnancy register CPRD Gold,1
+2492,249207,20210303,pregnancy register CPRD Gold,babypatid,,pregnancy_register,pregnancy register CPRD Gold,26442492
+2616,261601,20210303,pregnancy register CPRD Gold,pregstart,,pregnancy_register,pregnancy register CPRD Gold,20170108
+2616,261601,20210303,pregnancy register CPRD Gold,pregend,,pregnancy_register,pregnancy register CPRD Gold,20171015
+2616,261601,20210303,pregnancy register CPRD Gold,outcome,,pregnancy_register,pregnancy register CPRD Gold,1
+2616,261601,20210303,pregnancy register CPRD Gold,babypatid,,pregnancy_register,pregnancy register CPRD Gold,21222616
+2616,270101,20210303,pregnancy register CPRD Gold,pregstart,,pregnancy_register,pregnancy register CPRD Gold,20190325
+2616,270101,20210303,pregnancy register CPRD Gold,pregend,,pregnancy_register,pregnancy register CPRD Gold,20191230
+2616,270101,20210303,pregnancy register CPRD Gold,outcome,,pregnancy_register,pregnancy register CPRD Gold,1
+2616,270101,20210303,pregnancy register CPRD Gold,babypatid,,pregnancy_register,pregnancy register CPRD Gold,28524616

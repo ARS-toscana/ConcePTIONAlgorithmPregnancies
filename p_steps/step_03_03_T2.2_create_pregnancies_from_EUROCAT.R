@@ -45,7 +45,7 @@ if (dim(D3_EUROCAT)[1]!=0){
   D3_EUROCAT_intermediate<-D3_EUROCAT_intermediate[,origin:="EUROCAT"]
   D3_EUROCAT_intermediate<-D3_EUROCAT_intermediate[,meaning:=""]
   
-  D3_Stream_EUROCAT<-D3_EUROCAT_intermediate[,.(pregnancy_id,person_id,record_date,pregnancy_start_date,pregnancy_end_date,meaning_start_date,meaning_end_date,type_of_pregnancy_end,survey_id,EUROCAT)]
+  D3_Stream_EUROCAT<-D3_EUROCAT_intermediate[,.(pregnancy_id,person_id,record_date,pregnancy_start_date,pregnancy_end_date,meaning_start_date,meaning_end_date,type_of_pregnancy_end,survey_id,EUROCAT, meaning)]
   
   save(D3_Stream_EUROCAT, file=paste0(dirtemp,"D3_Stream_EUROCAT.RData"))
   

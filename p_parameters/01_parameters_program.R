@@ -1,14 +1,14 @@
-# # set directory with input data
-# setwd("..")
-# setwd("..")
-# dirbase<-getwd()
-# dirinput <- paste0(dirbase,"/CDMInstances/DataCharacterisation_v2/")
-
-#setwd("..")
-#setwd("..")
+# set directory with input data
+setwd("..")
+setwd("..")
 dirbase<-getwd()
-dirinput <- paste0(dirbase,"/i_input/")
-#dirinput <- paste0(dirbase,"/i_input_test/")
+dirinput <- paste0(dirbase,"/CDMInstances/CONSIGN/")
+
+# #setwd("..")
+# #setwd("..")
+# dirbase<-getwd()
+# dirinput <- paste0(dirbase,"/i_input/")
+# #dirinput <- paste0(dirbase,"/i_input_test/")
 
 # set other directories
 diroutput <- paste0(thisdir,"/g_output/")
@@ -20,6 +20,7 @@ extension <- c(".csv")
 dirproducts <- paste0(thisdir,"/i_input/")
 dirpargen <- paste0(thisdir,"/g_parameters/")
 dirsmallcountsremoved <- paste0(thisdir,"/g_export_SMALL_COUNTS_REMOVED/")
+dirdescribe <- paste0(thisdir, "/g_describe_HTML")
 
 # load packages
 if (!require("haven")) install.packages("haven")
@@ -42,11 +43,19 @@ if (!require("dplyr")) install.packages("dplyr")
 library(dplyr)
 if (!require("survival")) install.packages("survival")
 library(survival)
+if (!require("rmarkdown")) install.packages("rmarkdown")
+library(rmarkdown )
+if (!require("ggplot2")) install.packages("ggplot2")
+library(ggplot2 )
+if (!require("ggthemes")) install.packages("ggthemes")
+library(ggthemes)
+
+`%notin%` <- Negate(`%in%`)
 
 # load macros
 
 #source(paste0(dirmacro,"CreateConceptSetDatasets_v14.R"))
-source(paste0(dirmacro,"CreateConceptSetDatasets.R"))
+source(paste0(dirmacro,"CreateConceptSetDatasets_v18.R"))
 #source(paste0(dirmacro,"RetrieveRecordsFromEAVDatasets.R"))
 source(paste0(dirmacro,"CreateItemsetDatasets.R"))
 source(paste0(dirmacro,"MergeFilterAndCollapse_v5.R"))
@@ -83,7 +92,9 @@ firstjan2018<-as.Date(as.character(20180101), date_format)
 
 CDM_SOURCE<- fread(paste0(dirinput,"CDM_SOURCE.csv"))
 thisdatasource <- as.character(CDM_SOURCE[1,3])
-#thisdatasource <-"TEST"
+# 
+# CDM_SOURCE<- fread(paste0(dirinput,"CDM_SOURCE_CPRD.csv"))
+# thisdatasource <- as.character(CDM_SOURCE[1,3])
 
 #---------------------------------------
 # understand which datasource the script is querying
@@ -97,6 +108,8 @@ for (t in list_tables){
   date_range[['ARS']][[t]][["since_when_data_complete"]] <- INSTANCE[source_table_name==t, list(since_when_data_complete=min(since_when_data_complete, na.rm = T))]
   date_range[['ARS']][[t]][["up_to_when_data_complete"]] <- INSTANCE[source_table_name==t, list(up_to_when_data_complete=max(up_to_when_data_complete, na.rm = T))]
   
+  date_range[['TEST']][[t]][["since_when_data_complete"]] <- INSTANCE[source_table_name==t, list(since_when_data_complete=min(since_when_data_complete, na.rm = T))]
+  date_range[['TEST']][[t]][["up_to_when_data_complete"]] <- INSTANCE[source_table_name==t, list(up_to_when_data_complete=max(up_to_when_data_complete, na.rm = T))]
 } 
 
 
@@ -183,14 +196,14 @@ secondYearComponentAnalysis = secondYearComponentAnalysis_datasource[[thisdataso
 gap_allowed_thisdatasource = ifelse(thisdatasource == "ARS",21,1)
 
 #datasource with itemsets stream
-datasources_with_itemsets_stream <- c("TEST","GePaRD") # MED_OBS
+datasources_with_itemsets_stream <- c("TEST","GePaRD","BIFAP","ARS") # MED_OBS
 #datasources_with_itemsets_stream <- c()
 this_datasource_has_itemsets_stream <- ifelse(thisdatasource %in% datasources_with_itemsets_stream,TRUE,FALSE) 
 
-# datasources with itemset linked to conceptset
-datasources_with_itemset_linked_to_conceptset <- c("TEST","BIFAP") # MED_OBS
-#datasources_with_itemset_linked_to_conceptset <- c()
-this_datasource_has_itemset_linked_to_conceptset <- ifelse(thisdatasource %in% datasources_with_itemset_linked_to_conceptset,TRUE,FALSE) 
+# # datasources with itemset linked to conceptset
+# datasources_with_itemset_linked_to_conceptset <- c("TEST",) # MED_OBS
+# #datasources_with_itemset_linked_to_conceptset <- c()
+# this_datasource_has_itemset_linked_to_conceptset <- ifelse(thisdatasource %in% datasources_with_itemset_linked_to_conceptset,TRUE,FALSE) 
 
 ###################################################################
 # CREATE FOLDERS
@@ -202,7 +215,7 @@ suppressWarnings(if (!file.exists(direxp)) dir.create(file.path( direxp)))
 suppressWarnings(if (!file.exists(dirfigure)) dir.create(file.path( dirfigure)))
 suppressWarnings(if (!file.exists(dirpargen)) dir.create(file.path( dirpargen)))
 suppressWarnings(if (!file.exists(dirsmallcountsremoved)) dir.create(file.path(dirsmallcountsremoved)))
-
+suppressWarnings(if (!file.exists(dirdescribe)) dir.create(file.path(dirdescribe)))
 
 
 #############################################

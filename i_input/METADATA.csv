@@ -157,15 +157,14 @@ list_of_values;PROCEDURES;origin_of_procedure;;administrative_record
 list_of_values;VACCINES;origin_of_vx_record;;
 list_of_values;VACCINES;meaning_of_vx_record;;
 list_of_values;VACCINES;vx_dose;;
-list_of_values;MEDICAL_OBSERVATIONS;mo_code_vocabulary;;SNOMED3
+list_of_values;MEDICAL_OBSERVATIONS;mo_record_vocabulary;;SNOMED3
 list_of_values;MEDICAL_OBSERVATIONS;mo_source_table;;SDO AP SALM
-list_of_values;MEDICAL_OBSERVATIONS;mo_source_column;;"COD_MORF_1 COD_MORF_2 COD_MORF_3 COD_TOPOG DIAGNOSI MACROSCOPIA TITSTU CREATININA
-"
+list_of_values;MEDICAL_OBSERVATIONS;mo_source_column;;COD_MORF_1 COD_MORF_2 COD_MORF_3 COD_TOPOG DIAGNOSI MACROSCOPIA TITSTU CREATININA
 list_of_values;MEDICAL_OBSERVATIONS;mo_unit;;
 list_of_values;MEDICAL_OBSERVATIONS;mo_meaning;;pathology_report
 list_of_values;MEDICAL_OBSERVATIONS;mo_origin;;administrative_record medical_record_other_practices
 list_of_values;SURVEY_ID;survey_meaning;;birth_registry_child birth_registry_mother spontaneous_abortion_registry death_registry induced_termination_registry
-list_of_values;SURVEY_OBSERVATIONS;so_unit;;
+list_of_values;SURVEY_OBSERVATIONS;so_unit;;ICD9 ICD10
 list_of_values;PERSONS;sex_at_instance_creation;;M F
 list_of_values;PERSONS;race;;
 list_of_values;PERSONS;country_of_birth;;
