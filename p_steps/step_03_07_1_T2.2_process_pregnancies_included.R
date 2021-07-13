@@ -29,10 +29,7 @@ D3_gop <- D3_gop[, date_of_oldest_record := min(record_date), by = "pers_group_i
 ################################################################################
 ########################         Reconciliation         ########################
 ################################################################################
-D3_gop <- D3_gop[, algorithm_for_reconciliation_green := "_"]
-D3_gop <- D3_gop[, algorithm_for_reconciliation_yellow := "_"]
-D3_gop <- D3_gop[, algorithm_for_reconciliation_blue := "_"]
-D3_gop <- D3_gop[, algorithm_for_reconciliation_red := "_"]
+D3_gop <- D3_gop[, algorithm_for_reconciliation := ""]
 
 n_of_iteration <- max(D3_gop[, n])
 inconsistencies_allowed = 28 
@@ -43,64 +40,186 @@ for (i in seq(1, n_of_iteration)) {
   D3_gop <- D3_gop[, pregnancy_start_date_next_record := shift(pregnancy_start_date, n = i,  fill = as.Date("9999-12-31"), type=c("lead")), by = "pers_group_id"]
   D3_gop <- D3_gop[, pregnancy_end_date_next_record := shift(pregnancy_end_date, n = i,  fill = as.Date("9999-12-31"), type=c("lead")), by = "pers_group_id"]
   D3_gop <- D3_gop[, coloured_order_next_record := shift(coloured_order, n = i, fill = 0, type=c("lead")), by = "pers_group_id"]
+  D3_gop <- D3_gop[, recon := 0]
   #View(D3_gop[,.(pers_group_id, pregnancy_start_date, pregnancy_start_date_next_record, coloured_order, coloured_order_next_record)])
   
   #### Green - Green    
-  D3_gop <- D3_gop[n == 1 & coloured_order == "A_Green" & coloured_order_next_record == "A_Green" & 
+  D3_gop <- D3_gop[n == 1 & recon == 0  & coloured_order == "1_green" & coloured_order_next_record == "1_green" & 
                      pregnancy_start_date == pregnancy_start_date_next_record &
                      pregnancy_end_date == pregnancy_end_date_next_record,
-                   `:=`(algorithm_for_reconciliation_green = paste0(algorithm_for_reconciliation_green, " green concordant _"))]
+                   `:=`(algorithm_for_reconciliation = paste0(algorithm_for_reconciliation, "G/G:1_"),
+                        recon = 1)]
   
-  D3_gop <- D3_gop[n == 1 & coloured_order == "A_Green" & coloured_order_next_record == "A_Green" & 
-                     pregnancy_start_date < pregnancy_start_date_next_record & pregnancy_start_date >= pregnancy_start_date_next_record - 7,
-                   `:=`(algorithm_for_reconciliation_green = paste0(algorithm_for_reconciliation_green, " green disconcordant on the start (<= 7 days) _"))]
+  D3_gop <- D3_gop[n == 1 & recon == 0  & coloured_order == "1_green" & coloured_order_next_record == "1_green" & 
+                     ((pregnancy_start_date < pregnancy_start_date_next_record & pregnancy_start_date >= pregnancy_start_date_next_record - 7) |
+                        (pregnancy_start_date_next_record < pregnancy_start_date & pregnancy_start_date_next_record >= pregnancy_start_date - 7)),
+                   `:=`(algorithm_for_reconciliation = paste0(algorithm_for_reconciliation, "G/G:2s_"))]
   
-  D3_gop <- D3_gop[n == 1 & coloured_order == "A_Green" & coloured_order_next_record == "A_Green" & 
-                     pregnancy_start_date < pregnancy_start_date_next_record - 7,
-                   `:=`(algorithm_for_reconciliation_green = paste0(algorithm_for_reconciliation_green, " green disconcordant on the start (> 7 days) _"))]
+  D3_gop <- D3_gop[n == 1 & recon == 0  & coloured_order == "1_green" & coloured_order_next_record == "1_green" & 
+                     (pregnancy_start_date < pregnancy_start_date_next_record - 7 |
+                        pregnancy_start_date_next_record < pregnancy_start_date - 7),
+                   `:=`(algorithm_for_reconciliation = paste0(algorithm_for_reconciliation, "G/G:3s_"))]
   
-  D3_gop <- D3_gop[n == 1 & coloured_order == "A_Green" & coloured_order_next_record == "A_Green" & 
-                     pregnancy_end_date > pregnancy_end_date_next_record & pregnancy_end_date <= pregnancy_end_date_next_record + 7,
-                   `:=`(algorithm_for_reconciliation_green = paste0(algorithm_for_reconciliation_green, " green disconcordant on the end (<= 7 days) _"))]
+  D3_gop <- D3_gop[n == 1 & recon == 0  & coloured_order == "1_green" & coloured_order_next_record == "1_green" & 
+                     ((pregnancy_end_date < pregnancy_end_date_next_record & pregnancy_end_date >= pregnancy_end_date_next_record - 7) |
+                        (pregnancy_end_date_next_record < pregnancy_end_date & pregnancy_end_date_next_record >= pregnancy_end_date - 7)),
+                   `:=`(algorithm_for_reconciliation = paste0(algorithm_for_reconciliation, "G/G:2e_"))]
   
-  D3_gop <- D3_gop[n == 1 & coloured_order == "A_Green" & coloured_order_next_record == "A_Green" & 
-                     pregnancy_end_date > pregnancy_end_date_next_record + 7,
-                   `:=`(algorithm_for_reconciliation_green = paste0(algorithm_for_reconciliation_green, " green disconcordant on the end (> 7 days) _"))]
+  D3_gop <- D3_gop[n == 1 & recon == 0  & coloured_order == "1_green" & coloured_order_next_record == "1_green" & 
+                     (pregnancy_end_date > pregnancy_end_date_next_record + 7 |
+                        pregnancy_end_date_next_record > pregnancy_end_date + 7 ),
+                   `:=`(algorithm_for_reconciliation = paste0(algorithm_for_reconciliation, "G/G:3e_"))]
   
   #### Green - Blue
-  D3_gop <- D3_gop[n == 1 & coloured_order == "A_Green" & coloured_order_next_record == "C_Blue",
-                   `:=`( pregnancy_start_date = pregnancy_start_date_next_record,
-                        algorithm_for_reconciliation_green = paste0(algorithm_for_reconciliation_green, " blue: start updated _"))]
+  D3_gop <- D3_gop[n == 1 & recon == 0  & coloured_order == "1_green" & coloured_order_next_record == "3_blue" &
+                     pregnancy_start_date == pregnancy_start_date_next_record,
+                   `:=`( algorithm_for_reconciliation = paste0(algorithm_for_reconciliation, "G/B:1_"),
+                         recon = 1)]
   
-  #### Green - Yellow|Red
-  D3_gop <- D3_gop[n == 1 & coloured_order == "A_Green" & (coloured_order_next_record == "B_Yellow" | coloured_order_next_record == "D_Red") &
+  D3_gop <- D3_gop[n == 1 & recon == 0  & coloured_order == "1_green" & coloured_order_next_record == "3_blue" &
+                     pregnancy_start_date != pregnancy_start_date_next_record,
+                   `:=`( pregnancy_start_date = pregnancy_start_date_next_record,
+                        algorithm_for_reconciliation = paste0(algorithm_for_reconciliation, "G/B:upd_"))]
+  
+  #### Green - Yellow
+  D3_gop <- D3_gop[n == 1 & recon == 0  & coloured_order == "1_green" & coloured_order_next_record == "2_yellow_" &
+                     pregnancy_start_date == pregnancy_start_date_next_record & 
+                     pregnancy_end_date == pregnancy_end_date_next_record,
+                   `:=`( algorithm_for_reconciliation = paste0(algorithm_for_reconciliation, "G/Y:1_"),
+                         recon = 1)]
+  
+  D3_gop <- D3_gop[n == 1 & recon == 0  & coloured_order == "1_green" & coloured_order_next_record == "2_yellow_" &
                      pregnancy_start_date <= pregnancy_start_date_next_record & pregnancy_start_date >= pregnancy_start_date_next_record - inconsistencies_allowed &
-                     pregnancy_end_date > pregnancy_end_date_next_record & pregnancy_end_date <= pregnancy_end_date_next_record + inconsistencies_allowed,
-                   `:=`( algorithm_for_reconciliation_green = paste0(algorithm_for_reconciliation_green, " yellow/red: no relevant inconsistencies _"))]
+                     pregnancy_end_date >= pregnancy_end_date_next_record & pregnancy_end_date <= pregnancy_end_date_next_record + inconsistencies_allowed,
+                   `:=`( algorithm_for_reconciliation = paste0(algorithm_for_reconciliation, "G/Y:2_"))]
+  
+  D3_gop <- D3_gop[n == 1 & recon == 0  & coloured_order == "1_green" & coloured_order_next_record == "2_yellow" &
+                     !(pregnancy_start_date <= pregnancy_start_date_next_record & pregnancy_start_date >= pregnancy_start_date_next_record - inconsistencies_allowed &
+                     pregnancy_end_date >= pregnancy_end_date_next_record & pregnancy_end_date <= pregnancy_end_date_next_record + inconsistencies_allowed),
+                   `:=`( algorithm_for_reconciliation = paste0(algorithm_for_reconciliation, "G/Y:3_"))]
+  
+  #### Green - Red
+  D3_gop <- D3_gop[n == 1 & recon == 0  & coloured_order == "1_green" & coloured_order_next_record == "2_yellow_" &
+                     pregnancy_start_date == pregnancy_start_date_next_record & 
+                     pregnancy_end_date == pregnancy_end_date_next_record,
+                   `:=`( algorithm_for_reconciliation = paste0(algorithm_for_reconciliation, "G/R:1_"),
+                         recon = 1)]
+  
+  D3_gop <- D3_gop[n == 1 & recon == 0  & coloured_order == "1_green" & coloured_order_next_record == "4_red" &
+                     pregnancy_start_date <= pregnancy_start_date_next_record & pregnancy_start_date >= pregnancy_start_date_next_record - inconsistencies_allowed &
+                     pregnancy_end_date >= pregnancy_end_date_next_record & pregnancy_end_date <= pregnancy_end_date_next_record + inconsistencies_allowed,
+                   `:=`( algorithm_for_reconciliation = paste0(algorithm_for_reconciliation, "G/R:2_"))]
+  
+  D3_gop <- D3_gop[n == 1 & recon == 0  & coloured_order == "1_green" & coloured_order_next_record == "4_red" &
+                     !(pregnancy_start_date <= pregnancy_start_date_next_record & pregnancy_start_date >= pregnancy_start_date_next_record - inconsistencies_allowed &
+                         pregnancy_end_date >= pregnancy_end_date_next_record & pregnancy_end_date <= pregnancy_end_date_next_record + inconsistencies_allowed),
+                   `:=`( algorithm_for_reconciliation = paste0(algorithm_for_reconciliation, "G/R:3_"))]
   
   #### Yellow - Yellow
+  D3_gop <- D3_gop[n == 1 & recon == 0  & coloured_order == "2_yellow" & coloured_order_next_record == "2_yellow" & 
+                     pregnancy_start_date == pregnancy_start_date_next_record &
+                     pregnancy_end_date == pregnancy_end_date_next_record,
+                   `:=`(algorithm_for_reconciliation = paste0(algorithm_for_reconciliation, "Y/Y:1_"),
+                        recon = 1)]
+  
+  D3_gop <- D3_gop[n == 1 & recon == 0  & coloured_order == "2_yellow" & coloured_order_next_record == "2_yellow" & 
+                     ((pregnancy_start_date <= pregnancy_start_date_next_record & pregnancy_start_date >= pregnancy_start_date_next_record - 7 & 
+                        pregnancy_end_date <= pregnancy_end_date_next_record & pregnancy_end_date >= pregnancy_end_date_next_record - 7) |
+                        (pregnancy_start_date_next_record <= pregnancy_start_date & pregnancy_start_date_next_record >= pregnancy_start_date - 7 &
+                           pregnancy_end_date_next_record <= pregnancy_end_date & pregnancy_end_date_next_record >= pregnancy_end_date - 7)),
+                   `:=`(algorithm_for_reconciliation = paste0(algorithm_for_reconciliation, "Y/Y:2_"))]
+  
+  D3_gop <- D3_gop[n == 1 & recon == 0  & coloured_order == "2_yellow" & coloured_order_next_record == "2_yellow" & 
+                     (!(pregnancy_start_date <= pregnancy_start_date_next_record & pregnancy_start_date >= pregnancy_start_date_next_record - 7 & 
+                         pregnancy_end_date <= pregnancy_end_date_next_record & pregnancy_end_date >= pregnancy_end_date_next_record - 7) |
+                        !(pregnancy_start_date_next_record <= pregnancy_start_date & pregnancy_start_date_next_record >= pregnancy_start_date - 7 &
+                           pregnancy_end_date_next_record <= pregnancy_end_date & pregnancy_end_date_next_record >= pregnancy_end_date - 7)),
+                   `:=`(algorithm_for_reconciliation = paste0(algorithm_for_reconciliation, "Y/Y:3_"))]
+  
   #### Yellow - Blue
+  D3_gop <- D3_gop[n == 1 & recon == 0  & coloured_order == "2_yellow" & coloured_order_next_record == "3_blue" &
+                     pregnancy_start_date == pregnancy_start_date_next_record,
+                   `:=`( algorithm_for_reconciliation = paste0(algorithm_for_reconciliation, "Y/B:1"),
+                         recon == 1)]
+  
+  D3_gop <- D3_gop[n == 1 & recon == 0  & coloured_order == "2_yellow" & coloured_order_next_record == "3_blue" &
+                     pregnancy_start_date != pregnancy_start_date_next_record,
+                   `:=`( pregnancy_start_date = pregnancy_start_date_next_record,
+                         algorithm_for_reconciliation = paste0(algorithm_for_reconciliation, "Y/B:upd"))]
+  
   #### Yellow - Red
+  D3_gop <- D3_gop[n == 1 & recon == 0  & coloured_order == "2_yellow" & coloured_order_next_record == "4_red" & 
+                     pregnancy_start_date == pregnancy_start_date_next_record &
+                     pregnancy_end_date == pregnancy_end_date_next_record,
+                   `:=`(algorithm_for_reconciliation = paste0(algorithm_for_reconciliation, "Y/R:1_"),
+                        recon = 1)]
+  
+  D3_gop <- D3_gop[n == 1 & recon == 0  & coloured_order == "2_yellow" & coloured_order_next_record == "4_red" &
+                     ((pregnancy_start_date <= pregnancy_start_date_next_record & pregnancy_start_date >= pregnancy_start_date_next_record - 7 & 
+                         pregnancy_end_date <= pregnancy_end_date_next_record & pregnancy_end_date >= pregnancy_end_date_next_record - 7) |
+                        (pregnancy_start_date_next_record <= pregnancy_start_date & pregnancy_start_date_next_record >= pregnancy_start_date - 7 &
+                           pregnancy_end_date_next_record <= pregnancy_end_date & pregnancy_end_date_next_record >= pregnancy_end_date - 7)),
+                   `:=`( algorithm_for_reconciliation = paste0(algorithm_for_reconciliation, "Y/R:2_"))]
+  
+  D3_gop <- D3_gop[n == 1 & recon == 0  & coloured_order == "2_yellow" & coloured_order_next_record == "4_red" &
+                     (!(pregnancy_start_date <= pregnancy_start_date_next_record & pregnancy_start_date >= pregnancy_start_date_next_record - 7 & 
+                          pregnancy_end_date <= pregnancy_end_date_next_record & pregnancy_end_date >= pregnancy_end_date_next_record - 7) |
+                        !(pregnancy_start_date_next_record <= pregnancy_start_date & pregnancy_start_date_next_record >= pregnancy_start_date - 7 &
+                            pregnancy_end_date_next_record <= pregnancy_end_date & pregnancy_end_date_next_record >= pregnancy_end_date - 7)),
+                   `:=`( algorithm_for_reconciliation = paste0(algorithm_for_reconciliation, "Y/Y:3_"))]
+  
   #### Blue - Blue
+  D3_gop <- D3_gop[n == 1 & recon == 0  & coloured_order == "3_blue" & coloured_order_next_record == "3_blue" & 
+                     pregnancy_start_date == pregnancy_start_date_next_record &
+                     pregnancy_end_date == pregnancy_end_date_next_record,
+                   `:=`(algorithm_for_reconciliation = paste0(algorithm_for_reconciliation, "B/B:1_"),
+                        recon = 1)]
+  
+  D3_gop <- D3_gop[n == 1 & recon == 0  & coloured_order == "3_blue" & coloured_order_next_record == "3_blue" &
+                     pregnancy_start_date != pregnancy_start_date_next_record,
+                   `:=`( pregnancy_start_date = pregnancy_start_date_next_record,
+                         algorithm_for_reconciliation = paste0(algorithm_for_reconciliation, "B/B_upd _"))]
+  
+  
   #### Blue - Red
+  D3_gop <- D3_gop[n == 1 & recon == 0  & coloured_order == "3_blue" & coloured_order_next_record == "4_red" & 
+                     pregnancy_start_date == pregnancy_start_date_next_record &
+                     pregnancy_end_date == pregnancy_end_date_next_record,
+                   `:=`(algorithm_for_reconciliation = paste0(algorithm_for_reconciliation, "B/R:1_"),
+                        recon = 1)]
+  
+  D3_gop <- D3_gop[n == 1 & recon == 0  & coloured_order == "3_blue" & coloured_order_next_record == "4_red" &
+                     ((pregnancy_start_date <= pregnancy_start_date_next_record & pregnancy_start_date >= pregnancy_start_date_next_record - 7 & 
+                         pregnancy_end_date <= pregnancy_end_date_next_record & pregnancy_end_date >= pregnancy_end_date_next_record - 7) |
+                        (pregnancy_start_date_next_record <= pregnancy_start_date & pregnancy_start_date_next_record >= pregnancy_start_date - 7 &
+                           pregnancy_end_date_next_record <= pregnancy_end_date & pregnancy_end_date_next_record >= pregnancy_end_date - 7)),
+                   `:=`( algorithm_for_reconciliation = paste0(algorithm_for_reconciliation, "B/R:2_"))]
+  
+  D3_gop <- D3_gop[n == 1 & recon == 0  & coloured_order == "3_blue" & coloured_order_next_record == "4_red" &
+                     (!(pregnancy_start_date <= pregnancy_start_date_next_record & pregnancy_start_date >= pregnancy_start_date_next_record - 7 & 
+                         pregnancy_end_date <= pregnancy_end_date_next_record & pregnancy_end_date >= pregnancy_end_date_next_record - 7) |
+                        !(pregnancy_start_date_next_record <= pregnancy_start_date & pregnancy_start_date_next_record >= pregnancy_start_date - 7 &
+                           pregnancy_end_date_next_record <= pregnancy_end_date & pregnancy_end_date_next_record >= pregnancy_end_date - 7)),
+                   `:=`( algorithm_for_reconciliation = paste0(algorithm_for_reconciliation, "B/R:3_"))]
+  
   #### Red - Red
+  D3_gop <- D3_gop[n == 1 & recon == 0  & coloured_order == "4_red" & coloured_order_next_record == "4_red" & 
+                     pregnancy_start_date == pregnancy_start_date_next_record &
+                     pregnancy_end_date == pregnancy_end_date_next_record,
+                   `:=`(algorithm_for_reconciliation = paste0(algorithm_for_reconciliation, "R/R:1_"),
+                        recon = 1)]
   
+  D3_gop <- D3_gop[n == 1 & recon == 0  & coloured_order == "4_red" & coloured_order_next_record == "4_red" &
+                     ((pregnancy_start_date <= pregnancy_start_date_next_record & pregnancy_start_date >= pregnancy_start_date_next_record - 7 & 
+                         pregnancy_end_date <= pregnancy_end_date_next_record & pregnancy_end_date >= pregnancy_end_date_next_record - 7) |
+                        (pregnancy_start_date_next_record <= pregnancy_start_date & pregnancy_start_date_next_record >= pregnancy_start_date - 7 &
+                           pregnancy_end_date_next_record <= pregnancy_end_date & pregnancy_end_date_next_record >= pregnancy_end_date - 7)),
+                   `:=`( algorithm_for_reconciliation = paste0(algorithm_for_reconciliation, "R/R:2_"))]
   
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
+  D3_gop <- D3_gop[n == 1 & recon == 0  & coloured_order == "4_red" & coloured_order_next_record == "4_red" &
+                     (!(pregnancy_start_date <= pregnancy_start_date_next_record & pregnancy_start_date >= pregnancy_start_date_next_record - 7 & 
+                         pregnancy_end_date <= pregnancy_end_date_next_record & pregnancy_end_date >= pregnancy_end_date_next_record - 7) |
+                        !(pregnancy_start_date_next_record <= pregnancy_start_date & pregnancy_start_date_next_record >= pregnancy_start_date - 7 &
+                           pregnancy_end_date_next_record <= pregnancy_end_date & pregnancy_end_date_next_record >= pregnancy_end_date - 7)),
+                   `:=`( algorithm_for_reconciliation = paste0(algorithm_for_reconciliation, "R/R:3_"))]
 }
