@@ -125,7 +125,7 @@ for (i in seq(1, n_of_iteration)) {
   D3_gop <- D3_gop[n == 1 & recon == 0  & coloured_order == "2_yellow" & coloured_order_next_record == "3_blue" &
                      start_diff == 0,
                    `:=`( algorithm_for_reconciliation = paste0(algorithm_for_reconciliation, "Y/B:1"),
-                         recon == 1)]
+                         recon = 1)]
   
   D3_gop <- D3_gop[n == 1 & recon == 0  & coloured_order == "2_yellow" & coloured_order_next_record == "3_blue" &
                      start_diff != 0,
@@ -134,7 +134,7 @@ for (i in seq(1, n_of_iteration)) {
   
   #### Yellow - Red
   D3_gop <- D3_gop[n == 1 & recon == 0  & coloured_order == "2_yellow" & coloured_order_next_record == "4_red" & 
-                     start_diff == 0 & end_diff == 0,,
+                     start_diff == 0 & end_diff == 0,
                    `:=`(algorithm_for_reconciliation = paste0(algorithm_for_reconciliation, "Y/R:1_"),
                         recon = 1)]
   
@@ -160,7 +160,7 @@ for (i in seq(1, n_of_iteration)) {
   
   #### Blue - Red
   D3_gop <- D3_gop[n == 1 & recon == 0  & coloured_order == "3_blue" & coloured_order_next_record == "4_red" & 
-                     start_diff == 0 & end_diff == 0,,
+                     start_diff == 0 & end_diff == 0,
                    `:=`(algorithm_for_reconciliation = paste0(algorithm_for_reconciliation, "B/R:1_"),
                         recon = 1)]
   
