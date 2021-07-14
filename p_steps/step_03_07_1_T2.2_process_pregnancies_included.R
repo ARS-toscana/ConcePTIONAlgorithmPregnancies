@@ -39,17 +39,28 @@ D3_gop <- D3_gop[, date_of_oldest_record := min(record_date), by = "pers_group_i
 # survey_id_1 …
 # visit_occurrence_id_1 …
 
+# create folder for pregnancy rules datasets
+preg_rules_included <- paste0(dirtemp, "preg_rules_included/")
+suppressWarnings(if (!file.exists(preg_rules_included)) dir.create(file.path( preg_rules_included)))
+
+preg_rules_excluded <- paste0(dirtemp, "preg_rules_excluded/")
+suppressWarnings(if (!file.exists(preg_rules_excluded)) dir.create(file.path( preg_rules_excluded)))
+
 ################################################################################
 ################################     Rule 1     ################################
 ################################################################################
 # if there is no record of quality green nor of quality yellow (highest_quality = “red" or highest_quality = “blue"): 
 # move the pregnancy to D3_excluded_pregnancy and set reason_for_exclusion =   “no record of sufficient quality”
 # inconsistencies in such records are found if a recordrecrod date of the group is before a record start date of a  quality blue record
-# if no inconsistenciesinconsistendies are found between quality blue records and quality red records, 
+# if no inconsistencies are found between quality blue records and quality red records, 
 #such pregnancies are recorded as “ongoing pregnancy, no inconsistency”. otherwise as “ongoing pregnancy, with inconsistencies”.
 
-excluded_1 <- D3_gop[highest_quality == "C_Blue" | highest_quality == "D_Red"]
-D3_gop_after_1 <- D3_gop[!(highest_quality == "C_Blue" | highest_quality == "D_Red")]
+excluded_record_1 <- D3_gop[highest_quality == "C_Blue" | highest_quality == "D_Red"]
+D3_gop <- D3_gop[!(highest_quality == "C_Blue" | highest_quality == "D_Red")]
+
+included_record_1 <- D3_gop
+save(included_record_1, file=paste0(preg_rules_included, "included_record_1"))
+save(excluded_record_1, file=paste0(preg_rules_excluded, "excluded_record_1"))
 
 ## classify inconsistency
 
@@ -57,13 +68,20 @@ D3_gop_after_1 <- D3_gop[!(highest_quality == "C_Blue" | highest_quality == "D_R
 ################################     Rule 2     ################################
 ################################################################################
 
+# creating dummy defining if the first record is green and the second record is not green
+D3_gop<-D3_gop[n==2 & coloured_order!="1_green" & highest_quality == "A_Green", 
+               green_1_not_green_2 :=1 ][is.na(green_1_not_green_2), green_1_not_green_2:=0]
 
-# creating dummy defining if the second record is green
-D3_gop_after_1<-D3_gop_after_1[n==2 & (coloured_order=="1_green" & coloured_order!="3_blue"), green_notblue2:=1][is.na(green_notblue2), green_notblue2:=0]
-D3_gop_after_1<-D3_gop_after_1[, green_notblue2:=max(green_notblue2), by= "pers_group_id"]
+D3_gop<-D3_gop[, green_1_not_green_2:=max(green_1_not_green_2), by= "pers_group_id"]
+
+D3_gop<-D3_gop[]
+
+# 1) first green second not green 
+
+
 
 # dividing D3_gop_after_1 for each first record and second record
-included_2 <- D3_gop_after_1[highest_quality=="A_Green" & green_notblue2==0][,algorithm_for_reconciliation  := "no_inconsistencies"]
+D3_gop <- D3_gop[highest_quality=="A_Green" & green_notblue2==0][,algorithm_for_reconciliation  := "no_inconsistencies"]
 
 ## collapsing
 
