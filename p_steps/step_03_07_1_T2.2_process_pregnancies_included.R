@@ -1,7 +1,7 @@
 load(paste0(dirtemp,"D3_groups_of_pregnancies.RData"))
 
 # ordering 1556427
-D3_gop<-D3_groups_of_pregnancies[order(person_id,group_identifier, order_quality, -record_date),]
+D3_gop<-D3_groups_of_pregnancies[order(person_id, group_identifier, order_quality, -record_date),]
 # creating record number for each group of pregnancy
 D3_gop<-D3_gop[,n:=seq_along(.I), by=.(group_identifier, person_id, highest_quality)]
 #creating unique identifier for each group of pregnancy
@@ -25,19 +25,6 @@ D3_gop <- D3_gop[, date_of_principal_record:= max(date_of_principal_record),  by
 
 D3_gop <- D3_gop[, date_of_oldest_record := min(record_date), by = "pers_group_id" ]
 
-## variable to be added 
-# date_of_oldest_record_with_recorded_start_of_pregnancy
-# nature_of_principal_record
-# nature_of_oldest_record
-# 
-# detected_while_ongoing
-# time_since_start_when_detected
-# error_of_start_date_at_date_of_oldest_record
-# 
-# reconciliation_type
-# 
-# survey_id_1 …
-# visit_occurrence_id_1 …
 
 # create folder for pregnancy rules datasets
 preg_rules_included <- paste0(dirtemp, "preg_rules_included/")
@@ -47,8 +34,9 @@ preg_rules_excluded <- paste0(dirtemp, "preg_rules_excluded/")
 suppressWarnings(if (!file.exists(preg_rules_excluded)) dir.create(file.path( preg_rules_excluded)))
 
 ################################################################################
-################################     Rule 1     ################################
+########################         Reconciliation         ########################
 ################################################################################
+<<<<<<< HEAD
 # if there is no record of quality green nor of quality yellow (highest_quality = “red" or highest_quality = “blue"): 
 # move the pregnancy to D3_excluded_pregnancy and set reason_for_exclusion =   “no record of sufficient quality”
 # inconsistencies in such records are found if a recordrecrod date of the group is before a record start date of a  quality blue record
@@ -164,3 +152,162 @@ D3_gop_rule_5<-D3_gop_rule_5[, yellow_only1:=max(yellow_only1), by=.(person_id,g
 D3_gop_rule_4<-D3_gop_rule_2_2[highest_quality=="B_Yellow" & order_quality<13 , more2yellow:=(n>=2)*1, by=.(person_id,group_identifier_colored)][is.na(more2yellow),more2yellow:=0]
 D3_gop_rule_4<-D3_gop_rule_4[,more2yellow:=max(more2yellow), by=.(person_id,group_identifier_colored)]
 D3_gop_rule_4<-D3_gop_rule_4[more2yellow==1,]
+=======
+D3_gop <- D3_gop[, algorithm_for_reconciliation := ""]
+
+n_of_iteration <- max(D3_gop[, n])
+inconsistencies_allowed = 28 
+threshold_2 = 7 
+
+for (i in seq(1, n_of_iteration)) {
+  
+  D3_gop <- D3_gop[, pregnancy_start_date_next_record := shift(pregnancy_start_date, n = i,  fill = as.Date("9999-12-31"), type=c("lead")), by = "pers_group_id"]
+  D3_gop <- D3_gop[, pregnancy_end_date_next_record := shift(pregnancy_end_date, n = i,  fill = as.Date("9999-12-31"), type=c("lead")), by = "pers_group_id"]
+  D3_gop <- D3_gop[, coloured_order_next_record := shift(coloured_order, n = i, fill = 0, type=c("lead")), by = "pers_group_id"]
+  D3_gop <- D3_gop[, start_diff := abs(as.integer(pregnancy_start_date - pregnancy_start_date_next_record))]
+  D3_gop <- D3_gop[, end_diff := abs(as.integer(pregnancy_end_date - pregnancy_end_date_next_record))]
+  D3_gop <- D3_gop[, recon := 0]
+  
+  #View(D3_gop[,.(pers_group_id, pregnancy_start_date, pregnancy_end_date, pregnancy_start_date_next_record, coloured_order, coloured_order_next_record, start_diff, end_diff)])
+  
+  #### Green - Green    
+  D3_gop <- D3_gop[n == 1 & recon == 0  & coloured_order == "1_green" & coloured_order_next_record == "1_green" & 
+                     start_diff == 0 & end_diff == 0,
+                   `:=`(algorithm_for_reconciliation = paste0(algorithm_for_reconciliation, "G/G:1_"),
+                        recon = 1)]
+  
+  D3_gop <- D3_gop[n == 1 & recon == 0  & coloured_order == "1_green" & coloured_order_next_record == "1_green" & 
+                     start_diff <= threshold_2,
+                   `:=`(algorithm_for_reconciliation = paste0(algorithm_for_reconciliation, "G/G:2s_"))]
+  
+  D3_gop <- D3_gop[n == 1 & recon == 0  & coloured_order == "1_green" & coloured_order_next_record == "1_green" & 
+                     start_diff > threshold_2,
+                   `:=`(algorithm_for_reconciliation = paste0(algorithm_for_reconciliation, "G/G:3s_"))]
+  
+  D3_gop <- D3_gop[n == 1 & recon == 0  & coloured_order == "1_green" & coloured_order_next_record == "1_green" & 
+                     end_diff <= threshold_2,
+                   `:=`(algorithm_for_reconciliation = paste0(algorithm_for_reconciliation, "G/G:2e_"))]
+  
+  D3_gop <- D3_gop[n == 1 & recon == 0  & coloured_order == "1_green" & coloured_order_next_record == "1_green" & 
+                     end_diff > threshold_2,
+                   `:=`(algorithm_for_reconciliation = paste0(algorithm_for_reconciliation, "G/G:3e_"))]
+  
+  #### Green - Blue
+  D3_gop <- D3_gop[n == 1 & recon == 0  & coloured_order == "1_green" & coloured_order_next_record == "3_blue" &
+                     start_diff == 0,
+                   `:=`( algorithm_for_reconciliation = paste0(algorithm_for_reconciliation, "G/B:1_"),
+                         recon = 1)]
+  
+  D3_gop <- D3_gop[n == 1 & recon == 0  & coloured_order == "1_green" & coloured_order_next_record == "3_blue" &
+                     start_diff != 0,
+                   `:=`( pregnancy_start_date = pregnancy_start_date_next_record,
+                        algorithm_for_reconciliation = paste0(algorithm_for_reconciliation, "G/B:upd_"))]
+  
+  #### Green - Yellow
+  D3_gop <- D3_gop[n == 1 & recon == 0  & coloured_order == "1_green" & coloured_order_next_record == "2_yellow_" &
+                     start_diff == 0 & end_diff == 0,
+                   `:=`( algorithm_for_reconciliation = paste0(algorithm_for_reconciliation, "G/Y:1_"),
+                         recon = 1)]
+  
+  D3_gop <- D3_gop[n == 1 & recon == 0  & coloured_order == "1_green" & coloured_order_next_record == "2_yellow_" &
+                     (start_diff <= threshold_2 & end_diff <= threshold_2),
+                   `:=`( algorithm_for_reconciliation = paste0(algorithm_for_reconciliation, "G/Y:2_"))]
+  
+  D3_gop <- D3_gop[n == 1 & recon == 0  & coloured_order == "1_green" & coloured_order_next_record == "2_yellow" &
+                     (start_diff > threshold_2 | end_diff > threshold_2),
+                   `:=`( algorithm_for_reconciliation = paste0(algorithm_for_reconciliation, "G/Y:3_"))]
+  
+  #### Green - Red
+  D3_gop <- D3_gop[n == 1 & recon == 0  & coloured_order == "1_green" & coloured_order_next_record == "2_yellow_" &
+                     start_diff == 0 & end_diff == 0,
+                   `:=`( algorithm_for_reconciliation = paste0(algorithm_for_reconciliation, "G/R:1_"),
+                         recon = 1)]
+  
+  D3_gop <- D3_gop[n == 1 & recon == 0  & coloured_order == "1_green" & coloured_order_next_record == "4_red" &
+                     (start_diff <= threshold_2 & end_diff <= threshold_2),
+                   `:=`( algorithm_for_reconciliation = paste0(algorithm_for_reconciliation, "G/R:2_"))]
+  
+  D3_gop <- D3_gop[n == 1 & recon == 0  & coloured_order == "1_green" & coloured_order_next_record == "4_red" &
+                     (start_diff > threshold_2 | end_diff > threshold_2),
+                   `:=`( algorithm_for_reconciliation = paste0(algorithm_for_reconciliation, "G/R:3_"))]
+  
+  #### Yellow - Yellow
+  D3_gop <- D3_gop[n == 1 & recon == 0  & coloured_order == "2_yellow" & coloured_order_next_record == "2_yellow" & 
+                     start_diff == 0 & end_diff == 0,
+                   `:=`(algorithm_for_reconciliation = paste0(algorithm_for_reconciliation, "Y/Y:1_"),
+                        recon = 1)]
+  
+  D3_gop <- D3_gop[n == 1 & recon == 0  & coloured_order == "2_yellow" & coloured_order_next_record == "2_yellow" & 
+                     (start_diff <= threshold_2 & end_diff <= threshold_2),
+                   `:=`(algorithm_for_reconciliation = paste0(algorithm_for_reconciliation, "Y/Y:2_"))]
+  
+  D3_gop <- D3_gop[n == 1 & recon == 0  & coloured_order == "2_yellow" & coloured_order_next_record == "2_yellow" & 
+                     (start_diff > threshold_2 | end_diff > threshold_2),
+                   `:=`(algorithm_for_reconciliation = paste0(algorithm_for_reconciliation, "Y/Y:3_"))]
+  
+  #### Yellow - Blue
+  D3_gop <- D3_gop[n == 1 & recon == 0  & coloured_order == "2_yellow" & coloured_order_next_record == "3_blue" &
+                     start_diff == 0,
+                   `:=`( algorithm_for_reconciliation = paste0(algorithm_for_reconciliation, "Y/B:1"),
+                         recon == 1)]
+  
+  D3_gop <- D3_gop[n == 1 & recon == 0  & coloured_order == "2_yellow" & coloured_order_next_record == "3_blue" &
+                     start_diff != 0,
+                   `:=`( pregnancy_start_date = pregnancy_start_date_next_record,
+                         algorithm_for_reconciliation = paste0(algorithm_for_reconciliation, "Y/B:upd"))]
+  
+  #### Yellow - Red
+  D3_gop <- D3_gop[n == 1 & recon == 0  & coloured_order == "2_yellow" & coloured_order_next_record == "4_red" & 
+                     start_diff == 0 & end_diff == 0,,
+                   `:=`(algorithm_for_reconciliation = paste0(algorithm_for_reconciliation, "Y/R:1_"),
+                        recon = 1)]
+  
+  D3_gop <- D3_gop[n == 1 & recon == 0  & coloured_order == "2_yellow" & coloured_order_next_record == "4_red" &
+                     (start_diff <= threshold_2 & end_diff <= threshold_2),
+                   `:=`( algorithm_for_reconciliation = paste0(algorithm_for_reconciliation, "Y/R:2_"))]
+  
+  D3_gop <- D3_gop[n == 1 & recon == 0  & coloured_order == "2_yellow" & coloured_order_next_record == "4_red" &
+                     (start_diff > threshold_2 | end_diff > threshold_2),
+                   `:=`( algorithm_for_reconciliation = paste0(algorithm_for_reconciliation, "Y/Y:3_"))]
+  
+  #### Blue - Blue
+  D3_gop <- D3_gop[n == 1 & recon == 0  & coloured_order == "3_blue" & coloured_order_next_record == "3_blue" & 
+                     start_diff == 0,
+                   `:=`(algorithm_for_reconciliation = paste0(algorithm_for_reconciliation, "B/B:1_"),
+                        recon = 1)]
+  
+  D3_gop <- D3_gop[n == 1 & recon == 0  & coloured_order == "3_blue" & coloured_order_next_record == "3_blue" &
+                     start_diff != 0,
+                   `:=`( pregnancy_start_date = pregnancy_start_date_next_record,
+                         algorithm_for_reconciliation = paste0(algorithm_for_reconciliation, "B/B_upd _"))]
+  
+  
+  #### Blue - Red
+  D3_gop <- D3_gop[n == 1 & recon == 0  & coloured_order == "3_blue" & coloured_order_next_record == "4_red" & 
+                     start_diff == 0 & end_diff == 0,,
+                   `:=`(algorithm_for_reconciliation = paste0(algorithm_for_reconciliation, "B/R:1_"),
+                        recon = 1)]
+  
+  D3_gop <- D3_gop[n == 1 & recon == 0  & coloured_order == "3_blue" & coloured_order_next_record == "4_red" &
+                     (start_diff <= threshold_2 & end_diff <= threshold_2),
+                   `:=`( algorithm_for_reconciliation = paste0(algorithm_for_reconciliation, "B/R:2_"))]
+  
+  D3_gop <- D3_gop[n == 1 & recon == 0  & coloured_order == "3_blue" & coloured_order_next_record == "4_red" &
+                     (start_diff > threshold_2 | end_diff > threshold_2),
+                   `:=`( algorithm_for_reconciliation = paste0(algorithm_for_reconciliation, "B/R:3_"))]
+  
+  #### Red - Red
+  D3_gop <- D3_gop[n == 1 & recon == 0  & coloured_order == "4_red" & coloured_order_next_record == "4_red" & 
+                     start_diff == 0 & end_diff == 0,
+                   `:=`(algorithm_for_reconciliation = paste0(algorithm_for_reconciliation, "R/R:1_"),
+                        recon = 1)]
+  
+  D3_gop <- D3_gop[n == 1 & recon == 0  & coloured_order == "4_red" & coloured_order_next_record == "4_red" &
+                     (start_diff <= threshold_2 & end_diff <= threshold_2),
+                   `:=`( algorithm_for_reconciliation = paste0(algorithm_for_reconciliation, "R/R:2_"))]
+  
+  D3_gop <- D3_gop[n == 1 & recon == 0  & coloured_order == "4_red" & coloured_order_next_record == "4_red" &
+                     (start_diff > threshold_2 | end_diff > threshold_2),
+                   `:=`( algorithm_for_reconciliation = paste0(algorithm_for_reconciliation, "R/R:3_"))]
+}
+>>>>>>> 23c768bd7b82f5c548aadbe9336fb19f8831c4c2
