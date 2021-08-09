@@ -55,9 +55,7 @@ CreateItemsetDatasets <- function(EAVtables,datevar,dateformat, rename_col,numer
       if (extension == "dta") {
         used_df <- as.data.table(read_dta(paste0(dirinput,"/",df2,".",extension)))
       } else if (extension == "csv") {
-        options(readr.num_columns = 0)
-        used_df <- fread(paste0(dirinput,"/",df2,".",extension),colClasses = list( character="person_id"))
-        
+        used_df <- fread(paste0(dirinput,"/",df2,".",extension), colClasses = list(character="person_id"))
       }
       else if (extension == "RData") {
         assign('used_df', get(load(paste0(dirinput,"/",df2,".",extension))))
@@ -98,7 +96,7 @@ CreateItemsetDatasets <- function(EAVtables,datevar,dateformat, rename_col,numer
           }
         }
       }
-      
+      used_df_empty<-copy(used_df)[1,]
       used_df[, General:=0]
       used_df0<-as.data.table(data.frame(matrix(ncol = 0, nrow = 0)))
       #for each table search for pair in the specified columns
@@ -187,12 +185,22 @@ CreateItemsetDatasets <- function(EAVtables,datevar,dateformat, rename_col,numer
           }
           if (addtabcol == F) {export_df<-export_df[,c("Table_cdm","AVpair"):=NULL]}
           if (discard_from_environment==T) {
-            if (nrow(export_df)==0) {colnames <- colnames(used_df)
-            export_df <- setNames(as.data.table(matrix(nrow = 1, ncol = ncol(used_df))), nm = colnames)
+            if (nrow(export_df)==0) {  
+             # colnames <- colnames(used_df)
+             # export_df <- setNames(as.data.table(matrix(nrow = 1, ncol = ncol(used_df))), nm = colnames)
+             # export_df[] <- mapply(FUN = as,export_df,sapply(used_df,class),SIMPLIFY = FALSE)
+              export_df<-used_df_empty
+              export_df[1,]<-NA
             }
             assign(study_var, export_df)
-          }else{  if (nrow(export_df)==0) {colnames <- colnames(used_df)
-          export_df <- setNames(as.data.table(matrix(nrow = 1, ncol = ncol(used_df))), nm = colnames)
+          }else{  if (nrow(export_df)==0) {
+          #   colnames <- colnames(used_df)
+          # export_df <- setNames(as.data.table(matrix(nrow = 1, ncol = ncol(used_df))), nm = colnames)
+          #   export_df[] <- mapply(FUN = as,export_df,sapply(used_df,class),SIMPLIFY = FALSE)
+          #   
+            export_df<-used_df_empty[,General:=NULL]
+            export_df[1,]<-NA
+          
           }
             assign(study_var, export_df, envir = parent.frame())}
           save(study_var, file = paste0(diroutput,"/",study_var,".RData"),list = study_var)

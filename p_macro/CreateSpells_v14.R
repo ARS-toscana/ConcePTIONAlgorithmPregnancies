@@ -18,15 +18,15 @@
 
 
 CreateSpells <- function(dataset, id, start_date, end_date, category, category_is_numeric=F, replace_missing_end_date,
-                       overlap=F, dataset_overlap = "df_overlap", only_overlaps=F, gap_allowed = 1){
+                         overlap=F, dataset_overlap = "df_overlap", only_overlaps=F, gap_allowed = 1){
   if (!require("data.table")) install.packages("data.table")
   library(data.table)
-
+  
   if(overlap == T || only_overlaps == T){
     if (length(unique(dataset[[category]]))<=1)
       stop("The overlaps can not be computed as the dataset has only one category")
   }
-
+  
   flag_id = F
   flag_start_date = F
   flag_end_date = F
@@ -36,13 +36,13 @@ CreateSpells <- function(dataset, id, start_date, end_date, category, category_i
     id = "IDUNI"
     flag_id = T
   }
-
+  
   if ("start_date" %in% names(dataset)) {
     setnames(dataset, "start_date", "first_date")
     start_date = "first_date"
     flag_start_date = T
   }
-
+  
   if ("end_date" %in% names(dataset)) {
     setnames(dataset, "end_date", "second_date")
     end_date = "second_date"
@@ -53,10 +53,10 @@ CreateSpells <- function(dataset, id, start_date, end_date, category, category_i
     end_date = "op_meaning"
     flag_category = T
   }
-
+  
   if (only_overlaps==F) {
     dataset<-dataset[,(start_date) := lubridate::ymd(get(start_date))][, (end_date) := lubridate::ymd(get(end_date))]
-
+    
     if(sum(is.na(dataset[[start_date]]))==0) print("All start dates are not missing")
     else{print("Some start date are missing")}
     if(sum(is.na(dataset[[end_date]]))==0){print("All end dates are not missing")}
@@ -69,10 +69,10 @@ CreateSpells <- function(dataset, id, start_date, end_date, category, category_i
       }
       # NOTE maybe add else
     }
-
+    
     #filter dataset
     dataset<-dataset[get(start_date) < get(end_date)]
-
+    
     #add level overall if category is given as input and has more than 1 category
     if (!missing(category)){
       if(length(unique(dataset[[category]]))>1) {
@@ -83,17 +83,17 @@ CreateSpells <- function(dataset, id, start_date, end_date, category, category_i
         print("The level overall is added as the is more then one category")
       }
     }
-
+    
     #group by and arrange the dataset
     if(!missing(category)) {
       setorderv(dataset, c(id, category, start_date, end_date))
     } else {
       setorderv(dataset, c(id, start_date, end_date))
     }
-
+    
     #compute the number of spell
     year_1900 <- as.Date(lubridate::ymd(19000101))
-
+    
     if (missing(category)) {
       grouping_vars <- id
       dataset<-dataset[, `:=`(row_id = rowid(get(id)))]
@@ -101,14 +101,14 @@ CreateSpells <- function(dataset, id, start_date, end_date, category, category_i
       grouping_vars <- c(id, category)
       dataset<-dataset[, `:=`(row_id = rowid(get(id), get(category)))]
     }
-
+    
     dataset<-dataset[, `:=`(lag_end_date = fifelse(row_id > 1, shift(get(end_date)), get(end_date)))]
     dataset<-dataset[, `:=`(lag_end_date = as.integer(lag_end_date))]
     dataset<-dataset[, `:=`(lag_end_date = cummax(lag_end_date)), by = grouping_vars]
     dataset <- dataset[, `:=`(lag_end_date = as.Date(lag_end_date, "1970-01-01"))]
     dataset <- dataset[, `:=`(num_spell = fifelse(row_id > 1 & get(start_date) <= lag_end_date + gap_allowed, 0, 1))]
     dataset<-dataset[, `:=`(num_spell = cumsum(num_spell)), by = grouping_vars]
-
+    
     #group by num spell and compute min and max date for each one
     if(!missing(category)) {
       # dataset<-dataset[, c(entry_spell_category := min(get(start_date)),exit_spell_category := max(get(end_date))), by = c(id, category, "num_spell")]
@@ -121,61 +121,61 @@ CreateSpells <- function(dataset, id, start_date, end_date, category, category_i
       myVector <- c(id,"num_spell","entry_spell_category","exit_spell_category")
       dataset<-unique(dataset[, .(entry_spell_category = min(get(start_date)), exit_spell_category = max(get(end_date))), by = c(id, "num_spell")][, ..myVector])
     }
-
+    
     assign("output_spells_category", dataset)
   }
-
+  
   #OPTIONAL SECTION REGARDING OVERLAPS
-
+  
   if(overlap == T || only_overlaps == T){
     export_df <-data.table()
     dataset <- dataset[get(category) != "_overall",]
-
+    
     #Create the list of pairs of categories
     permut <- RcppAlgos::comboGeneral(unique(dataset[[category]]), m = 2)
-
+    
     #	For each pair of values A and B, create two temporary datasets
     #vec<-c(id)
     #dataset<-dataset[, .SD[length(unique(get(category))) > 1], keyby = vec]
-
+    
     for (i in seq_len(nrow(permut))) {
-
+      
       p_1 <- permut[i, 1]
       p_2 <- permut[i, 2]
-
+      
       if (is.na(p_1) | is.na(p_2)){
         next
       }
-
+      
       ens_1 <- paste0("entry_spell_category_", p_1)
       exs_1 <- paste0("exit_spell_category_", p_1)
       ens_2 <- paste0("entry_spell_category_", p_2)
       exs_2 <- paste0("exit_spell_category_", p_2)
-
+      
       outputA <- dataset[get(category) == p_1, ][, c("num_spell", category) := NULL]
       setnames(outputA, c("entry_spell_category", "exit_spell_category"), c(ens_1, exs_1))
-
+      
       outputB <- dataset[get(category) == p_2, ][, c("num_spell", category) := NULL]
       setnames(outputB, c("entry_spell_category", "exit_spell_category"), c(ens_2, exs_2))
       #	Perform a join multi-to-multi of the two datasets
-
+      
       CAT <- merge(outputA, outputB, by = c(id), all = T)
       CAT <- CAT[(get(ens_1) <= get(exs_2) + gap_allowed & get(exs_1) + gap_allowed >= get(ens_2)) | (get(ens_2) < get(exs_1) + gap_allowed & get(exs_2) + gap_allowed >= get(ens_1)), ]
-
+      
       if (dim(CAT)[1] == 0) {
         next
       }
-
+      
       CAT <- CAT[, `:=`(entry_spell_category = max(get(ens_1), get(ens_2)),
                         exit_spell_category = min(get(exs_1), get(exs_2))), by = id]
       CAT <- CAT[, (category) := paste(p_1, p_2, sep = "_")]
       # CAT<-CAT[!grepl("NA", category)]
       CAT <- CAT[order(get(id), entry_spell_category)][, c(..id, "entry_spell_category", "exit_spell_category", ..category)]
       CAT <- CAT[, num_spell := rowid(get(id))]
-
+      
       export_df <- rbind(export_df, CAT)
     }
-
+    
     #save the second output
     #write_csv(export_df, path = paste0(dataset_overlap,".csv"))
     if (flag_id) {
@@ -192,7 +192,7 @@ CreateSpells <- function(dataset, id, start_date, end_date, category, category_i
     }
     assign(dataset_overlap, export_df, envir = parent.frame())
   }
-
+  
   if(only_overlaps == F){
     if (flag_id) {
       setnames(output_spells_category, "IDUNI", "id")
