@@ -21,6 +21,7 @@ source(paste0(thisdir,"/p_parameters/04_prompts.R"))
 source(paste0(thisdir,"/p_parameters/05_subpopulations_restricting_meanings.R"))
 source(paste0(thisdir,"/p_parameters/06_algorithms.R"))
 source(paste0(thisdir,"/p_parameters/07_itemsets.R"))
+source(paste0(thisdir,"/p_parameters/08_check_coding_system.R"))
 
 
 
