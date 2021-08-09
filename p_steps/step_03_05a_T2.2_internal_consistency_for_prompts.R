@@ -102,7 +102,7 @@ if (dim(D3_Stream_PROMPTS)[1]!=0){
   D3_study_population_pregnancy_from_prompts<-D3_study_population_pregnancy3[no_linked_to_person==0 & person_not_female==0 & person_not_in_fertile_age==0 & pregnancy_start_in_spells==0 & pregnancy_end_in_spells==0,] [,-c("no_linked_to_person","person_not_female","person_not_in_fertile_age","pregnancy_start_in_spells","pregnancy_end_in_spells")] # 554767 against 429699
   
   
-  D3_Stream_PROMPTS_check<-D3_study_population_pregnancy_from_prompts[,.(pregnancy_id,person_id,record_date,pregnancy_start_date,pregnancy_end_date,meaning_start_date,meaning_end_date,type_of_pregnancy_end,imputed_start_of_pregnancy,meaning, origin,survey_id,PROMPT)]#
+  D3_Stream_PROMPTS_check<-D3_study_population_pregnancy_from_prompts[,.(pregnancy_id,person_id,record_date,pregnancy_start_date,pregnancy_end_date,meaning_start_date,meaning_end_date,type_of_pregnancy_end,imputed_start_of_pregnancy, column,meaning, origin,so_source_value,survey_id,PROMPT)]#
   save(D3_Stream_PROMPTS_check, file=paste0(dirtemp,"D3_Stream_PROMPTS_check.RData"))
   
   

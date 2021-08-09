@@ -1,5 +1,5 @@
 #-----------------------------------------------
-this_datasource_has_itemsets_stream=F
+
 if (this_datasource_has_itemsets_stream){
   
   if (thisdatasource=="ARS") {
@@ -12,13 +12,13 @@ if (this_datasource_has_itemsets_stream){
     setnames(SPC_pregnancies,"origin_of_visit","origin")
     
     ##first_encounter_for_ongoing_pregnancy
-    SPC_pregnancies<-SPC_pregnancies[meaning_of_visit=="first_encounter_for_ongoing_pregnancy", `:=`( pregnancy_start_date=record_date-60,pregnancy_ongoing_date=record_date,type_of_pregnancy_end="UNK", imputed_end_of_pregnancy=1, imputed_start_of_pregnancy=1, meaning_start_date="imputed_from_first_encounter_for_ongoing_pregnancy",meaning_ongoing_date="first_encounter_for_ongoing_pregnancy",meaning_end_date="unknown", ITEMSETS="Yes")] 
+    SPC_pregnancies<-SPC_pregnancies[meaning_of_visit=="first_encounter_for_ongoing_pregnancy", `:=`( pregnancy_start_date=record_date-60,pregnancy_ongoing_date=record_date,type_of_pregnancy_end="ONGOING", imputed_end_of_pregnancy=1, imputed_start_of_pregnancy=1, meaning_start_date="imputed_from_first_encounter_for_ongoing_pregnancy",meaning_ongoing_date="first_encounter_for_ongoing_pregnancy",meaning_end_date="unknown", ITEMSETS="Yes")] 
     SPC_pregnancies<-SPC_pregnancies[meaning_of_visit=="first_encounter_for_ongoing_pregnancy", pregnancy_end_date:=pregnancy_start_date+280]
     ##service_before_termination
     SPC_pregnancies<-SPC_pregnancies[meaning_of_visit=="service_before_termination", `:=`( pregnancy_start_date=record_date-70,pregnancy_ongoing_date=record_date, type_of_pregnancy_end="T", imputed_end_of_pregnancy=1, imputed_start_of_pregnancy=1, meaning_start_date="unknown",meaning_ongoing_date="service_before_termination",meaning_end_date="unknown", ITEMSETS="Yes")]
     SPC_pregnancies<-SPC_pregnancies[meaning_of_visit=="service_before_termination",pregnancy_end_date:=pregnancy_start_date+90]
     ##service_for_ongoing_pregnancy
-    SPC_pregnancies<-SPC_pregnancies[meaning_of_visit=="service_for_ongoing_pregnancy", `:=`(pregnancy_start_date=record_date-140,pregnancy_ongoing_date=record_date, type_of_pregnancy_end="UNK", imputed_end_of_pregnancy=1, imputed_start_of_pregnancy=1, meaning_start_date="unknown",meaning_ongoing_date="first_encounter_for_ongoing_pregnancy",meaning_end_date="unknown", ITEMSETS="Yes")]
+    SPC_pregnancies<-SPC_pregnancies[meaning_of_visit=="service_for_ongoing_pregnancy", `:=`(pregnancy_start_date=record_date-140,pregnancy_ongoing_date=record_date, type_of_pregnancy_end="ONGOING", imputed_end_of_pregnancy=1, imputed_start_of_pregnancy=1, meaning_start_date="unknown",meaning_ongoing_date="first_encounter_for_ongoing_pregnancy",meaning_end_date="unknown", ITEMSETS="Yes")]
     SPC_pregnancies<-SPC_pregnancies[meaning_of_visit=="service_for_ongoing_pregnancy", pregnancy_end_date:=pregnancy_start_date+280]
                                      
     SPC_pregnancies[is.na(imputed_end_of_pregnancy),imputed_end_of_pregnancy:=0]
