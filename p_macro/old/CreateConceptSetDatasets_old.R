@@ -80,7 +80,7 @@ CreateConceptSetDatasets <- function(dataset,codvar,datevar,EAVtables,EAVattribu
 
     dataset1[[dom]] <- dataset[[dom]]
     if (!missing(EAVtables) && !missing(EAVattributes) && dom %in% names(EAVtables) && length(EAVattributes)!=0) {
-      for (EAVtab_dom in names(EAVattributes[[dom]])) {
+      for (EAVtab_dom in EAVtables[[dom]]) {
         dataset1[[dom]] <- append(dataset1[[dom]], EAVtab_dom[[1]][[1]])
       }
     }
@@ -124,7 +124,7 @@ CreateConceptSetDatasets <- function(dataset,codvar,datevar,EAVtables,EAVattribu
           print(paste("concept set", concept))
           if (!missing(EAVtables)) {
             for (p in seq_along(EAVtables[[dom]])) {
-              if (df2 %in% EAVtables[[dom]][[p]][[1]][[1]] & df2 %in% names(ConcePTION_CDM_EAV_attributes_this_datasource[[dom]])) {
+              if (df2 %in% EAVtables[[dom]][[p]][[1]][[1]]) {
                 used_dfAEV<-data.table()
                 for (elem1 in names(EAVattributes[[concept_set_domains[[concept]]]][[df2]])) {
                   #TODO improve naming of lenght_first_df2, df2_elem and EAV_concept_p
@@ -173,12 +173,11 @@ CreateConceptSetDatasets <- function(dataset,codvar,datevar,EAVtables,EAVattribu
               if (stop == TRUE) {
                 next
               }
-              
+
               if (df2 %in% dataset[[dom]]) {################### IF I GIVE VOCABULARY IN INPUT
                 is_wildcard = try(type_cod %in% vocabularies_with_dot_wildcard, silent=TRUE)
                 is_keep_dot = try(type_cod %in% vocabularies_with_keep_dot, silent=TRUE)
                 if ((class(is_wildcard) != "try-error" && is_wildcard) || (class(is_keep_dot) != "try-error" && is_keep_dot)) {
-                  
                   vocab_dom_df2_eq_type_cod <- vocabulary[[dom]][[df2]] == type_cod
                 } else {
                   vocab_dom_df2_eq_type_cod <- T
@@ -200,7 +199,7 @@ CreateConceptSetDatasets <- function(dataset,codvar,datevar,EAVtables,EAVattribu
               } else {
                 for (EAVtab_dom in EAVtables[[dom]]) {
                   if (df2 %in% EAVtab_dom[[1]][[1]]) {
-                    used_df[(stringr::str_detect(get(paste0(col, "_tmp")), gsub("\\*", ".", paste(gsub("\\.", "", paste0("^", codes_rev)), collapse = "|")))) & get(vocabulary[[dom]][[df2]]) == type_cod, c("Filter", paste0("Col_", concept)) := list(1, list(c(get(EAVtab_dom[[1]][[2]]), get(EAVtab_dom[[1]][[3]]))))]
+                    used_df[(stringr::str_detect(get(paste0(col, "_tmp")), gsub("\\*", ".", paste(gsub("\\.", "", paste0("^", codes_rev)), collapse = "|")))), c("Filter", paste0("Col_", concept)) := list(1, list(c(get(EAVtab_dom[[1]][[2]]), get(EAVtab_dom[[1]][[3]]))))]
                   }
                 }
               }

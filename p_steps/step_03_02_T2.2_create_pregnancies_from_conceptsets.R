@@ -1,7 +1,11 @@
 #-----------------------------------------------
 # merge together all the concept sets to define start_of_pregnancy and end_of_pregnancy
 concept_sets_of_our_study <- c("Gestation_less24","Gestation_24","Gestation_25_26","Gestation_27_28","Gestation_29_30","Gestation_31_32","Gestation_33_34","Gestation_36_35","Gestation_more37","Ongoingpregnancy","Birth","Preterm","Atterm","Postterm","Livebirth","Stillbirth","Interruption", "Spontaneousabortion", "Ectopicpregnancy")
-concept_sets_of_our_study_procedure<-c("gestational_diabetes","fetal_nuchal_translucency", "amniocentesis","Chorionic_Villus_Sampling","others")
+if( thisdatasource=="CPRD"){
+  concept_sets_of_our_study_procedure<-c()
+} else {
+  concept_sets_of_our_study_procedure<-c("gestational_diabetes","fetal_nuchal_translucency", "amniocentesis","Chorionic_Villus_Sampling","others")
+}
 
 concept_sets_of_start_of_pregnancy <- c("Gestation_less24","Gestation_24","Gestation_25_26","Gestation_27_28","Gestation_29_30","Gestation_31_32","Gestation_33_34","Gestation_36_35","Gestation_more37") 
 concept_sets_of_ongoing_of_pregnancy <- c("Ongoingpregnancy") 
@@ -19,7 +23,7 @@ for (conceptvar in concept_sets_of_start_of_pregnancy){
   print(conceptvar)
   studyvardataset <- get(conceptvar)[!is.na(date),][,concept_set:=conceptvar]
   studyvardataset <- unique(studyvardataset,by=c("person_id","codvar","date"))
-  dataset_start_concept_sets <- rbind(dataset_start_concept_sets,studyvardataset[,.(person_id,date,concept_set,visit_occurrence_id, meaning_of_event, origin_of_event)], fill=TRUE) 
+  dataset_start_concept_sets <- rbind(dataset_start_concept_sets,studyvardataset[,.(person_id,date, codvar, concept_set,visit_occurrence_id, meaning_of_event, origin_of_event, event_record_vocabulary)], fill=TRUE) 
 }
 # check if dataset is unique for person_id, survey_id and survey_date
 dataset_start_concept_sets<-unique(dataset_start_concept_sets, by=c("person_id","visit_occurrence_id","date")) 
@@ -32,15 +36,22 @@ for (conceptvar in c(concept_sets_of_ongoing_of_pregnancy,concept_sets_of_our_st
   if (conceptvar %chin% concept_sets_of_ongoing_of_pregnancy){
     studyvardataset <- get(conceptvar)[!is.na(date),][,concept_set:=conceptvar]
     studyvardataset <- unique(studyvardataset,by=c("person_id","codvar","date"))
-    dataset_ongoing_concept_sets <- rbind(dataset_ongoing_concept_sets,studyvardataset[,.(person_id,date,concept_set,visit_occurrence_id,meaning_of_event,origin_of_event)], fill=TRUE) 
+    dataset_ongoing_concept_sets <- rbind(dataset_ongoing_concept_sets,studyvardataset[,.(person_id,date, codvar,concept_set,visit_occurrence_id,meaning_of_event,origin_of_event, event_record_vocabulary)], fill=TRUE) 
   } else {
     studyvardataset <- get(conceptvar)[!is.na(date),][,concept_set:=conceptvar]
     studyvardataset <- unique(studyvardataset,by=c("person_id","codvar","date"))
-    dataset_ongoing_concept_sets <- rbind(dataset_ongoing_concept_sets,studyvardataset[,.(person_id,date,concept_set,visit_occurrence_id, origin_of_procedure)], fill=TRUE)
+    dataset_ongoing_concept_sets <- rbind(dataset_ongoing_concept_sets,studyvardataset[,.(person_id,date, codvar,concept_set,visit_occurrence_id, origin_of_procedure, procedure_code_vocabulary)], fill=TRUE)
     
   }
 }
-dataset_ongoing_concept_sets<-dataset_ongoing_concept_sets[!is.na(origin_of_procedure),origin_of_event:=origin_of_procedure][,-"origin_of_procedure"]
+
+if( thisdatasource=="CPRD"){
+  
+} else {
+  dataset_ongoing_concept_sets<-dataset_ongoing_concept_sets[!is.na(origin_of_procedure),origin_of_event:=origin_of_procedure][,-"origin_of_procedure"]
+  dataset_ongoing_concept_sets<-dataset_ongoing_concept_sets[!is.na(procedure_code_vocabulary),event_record_vocabulary:=procedure_code_vocabulary][,-"procedure_code_vocabulary"]
+}
+
 # check if dataset is unique for person_id, survey_id and survey_date
 dataset_ongoing_concept_sets<-unique(dataset_ongoing_concept_sets, by=c("person_id","visit_occurrence_id","date")) 
 # create variable pregnancy_id as survey_date
@@ -51,7 +62,7 @@ for (conceptvar in concept_sets_of_end_of_pregnancy){
   print(conceptvar)
   studyvardataset <- get(conceptvar)[!is.na(date),][,concept_set:=conceptvar]
   studyvardataset <- unique(studyvardataset,by=c("person_id","codvar","date"))
-  dataset_end_concept_sets <- rbind(dataset_end_concept_sets,studyvardataset[,.(person_id,date,concept_set,visit_occurrence_id,meaning_of_event,origin_of_event)], fill=TRUE) 
+  dataset_end_concept_sets <- rbind(dataset_end_concept_sets,studyvardataset[,.(person_id,date, codvar,concept_set,visit_occurrence_id,meaning_of_event,origin_of_event, event_record_vocabulary)], fill=TRUE) 
 }
 # check if dataset is unique for person_id, survey_id and survey_date
 dataset_end_concept_sets<-unique(dataset_end_concept_sets, by=c("person_id","visit_occurrence_id","date")) 
@@ -82,6 +93,7 @@ dataset_concept_sets<-dataset_concept_sets[!is.na(pregnancy_end_date) & concept_
 dataset_concept_sets<-dataset_concept_sets[!is.na(pregnancy_end_date) & concept_set=="Interruption",type_of_pregnancy_end:="T"]
 dataset_concept_sets<-dataset_concept_sets[!is.na(pregnancy_end_date) & concept_set=="Spontaneousabortion",type_of_pregnancy_end:="SA"]
 dataset_concept_sets<-dataset_concept_sets[!is.na(pregnancy_end_date) & concept_set=="Ectopicpregnancy",type_of_pregnancy_end:="ECT"]
+dataset_concept_sets<-dataset_concept_sets[!is.na(pregnancy_end_date) & concept_set=="Ongoingpregnancy",type_of_pregnancy_end:="ONGOING"]
 
 # impute pregnancy_start_date when pregnancy_end_date is not missing
 dataset_concept_sets<-dataset_concept_sets[!is.na(pregnancy_end_date) & is.na(pregnancy_start_date) & type_of_pregnancy_end=="LB" & concept_set=="Preterm",`:=`(pregnancy_start_date= pregnancy_end_date-245, imputed_start_of_pregnancy=1)]
@@ -108,13 +120,17 @@ setnames(dataset_concept_sets,"concept_set","CONCEPTSET")
 setnames(dataset_concept_sets,"date","record_date")
 setnames(dataset_concept_sets,"origin_of_event","origin")
 
+setnames(dataset_concept_sets,"event_record_vocabulary","coding_system")
+
+
+
 dataset_concept_sets[is.na(imputed_start_of_pregnancy),imputed_start_of_pregnancy:=0]
 dataset_concept_sets[is.na(imputed_end_of_pregnancy),imputed_end_of_pregnancy:=0]
 # create variable pregnancy_id as survey_date
 dataset_concept_sets[,pregnancy_id:=paste0(person_id,"_",visit_occurrence_id,"_",record_date)] 
 
 # keep only vars neeed
-D3_Stream_CONCEPTSETS <- dataset_concept_sets[,.(pregnancy_id,person_id,record_date,pregnancy_start_date,pregnancy_ongoing_date,pregnancy_end_date,meaning_start_date,meaning_ongoing_date,meaning_end_date,type_of_pregnancy_end,meaning,imputed_start_of_pregnancy,imputed_end_of_pregnancy,visit_occurrence_id,origin,CONCEPTSETS,CONCEPTSET)] # 
+D3_Stream_CONCEPTSETS <- dataset_concept_sets[,.(pregnancy_id,person_id,record_date,pregnancy_start_date,pregnancy_ongoing_date,pregnancy_end_date,meaning_start_date,meaning_ongoing_date,meaning_end_date,type_of_pregnancy_end,meaning,imputed_start_of_pregnancy,imputed_end_of_pregnancy,visit_occurrence_id,origin,codvar,coding_system,CONCEPTSETS,CONCEPTSET )] # 
 save(D3_Stream_CONCEPTSETS, file=paste0(dirtemp,"D3_Stream_CONCEPTSETS.RData"))
 
 

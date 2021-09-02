@@ -1,6 +1,6 @@
 #-------------------------------
 # ConcePTION - Pregnancy script
-# v1.0 - 8 April 2021
+# v1.0 - 9 August 2021
 # authors: Claudia Bartolini, Rosa Gini, Giorgio Limoncella, Olga Paoletti, Davide Messina
 # -----------------------------
 
@@ -17,6 +17,7 @@ thisdir<-setwd(dirname(rstudioapi::getSourceEditorContext()$path))
 source(paste0(thisdir,"/p_parameters/01_parameters_program.R"))
 source(paste0(thisdir,"/p_parameters/02_parameters_CDM.R"))
 source(paste0(thisdir,"/p_parameters/03_concept_sets.R"))
+#source(paste0(thisdir,"/p_parameters/03_concept_sets_outcomes.R"))
 source(paste0(thisdir,"/p_parameters/04_prompts.R"))
 source(paste0(thisdir,"/p_parameters/05_subpopulations_restricting_meanings.R"))
 source(paste0(thisdir,"/p_parameters/06_algorithms.R"))
@@ -56,9 +57,13 @@ source(paste0(thisdir,"/p_steps/step_03_06_1_T2.2_process_pregnancies_excluded.R
 source(paste0(thisdir,"/p_steps/step_03_06_2_T2.3_merge_stream_of_same_person.R"))
 
 source(paste0(thisdir,"/p_steps/step_03_07_1_T2.2_process_pregnancies_included.R"))
+source(paste0(thisdir,"/p_steps/step_03_08_apply_exclusion_criteria.R"))
 
-# XX D3s Description
-#source(paste0(thisdir,"/p_steps/step_XX_D3_description_HTML.R")) 
+# 06 sample from pregnancies cohort 
+source(paste0(thisdir,"/p_steps/step_06_sample_from_pregnancies.R")) 
+
+# 07 Pregnancies Description
+source(paste0(thisdir,"/p_steps/step_07_pregnancies_description.R")) 
 
 
 

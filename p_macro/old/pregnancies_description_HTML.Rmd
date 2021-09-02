@@ -1,0 +1,541 @@
+---
+title: "Description of the pregnancies cohort"
+output: 
+  html_document:
+    theme: united
+    toc: TRUE
+    toc_float: TRUE
+params:
+  D3_pregnancy_reconciled: NULL
+  D3_groups_of_pregnancies_reconciled: NULL
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = F)
+```
+
+```{css}
+h1 {color: #ed008c}
+h2 {color: #00adef}
+h3 {color: #6ccff6}
+.list-group-item.active, .list-group-item.active:focus, .list-group-item.active:hover {background-color: #00adef; border-color: #00adef}
+```
+
+```{r}
+D3_pregnancy_reconciled <- data.table(params$D3_pregnancy_reconciled)
+D3_groups_of_pregnancies_reconciled <- data.table(params$D3_groups_of_pregnancies_reconciled)
+
+number_of_women <- uniqueN(D3_pregnancy_reconciled[, person_id])
+number_of_pregnancies <- D3_pregnancy_reconciled[, .N]
+number_of_records <- D3_groups_of_pregnancies_reconciled[, .N]
+
+D3_pregnancy_reconciled <- D3_pregnancy_reconciled[, year_start_of_pregnancy:= as.integer(year(pregnancy_start_date))]
+year_start_study <- min(D3_pregnancy_reconciled[, year_start_of_pregnancy])
+year_end_stydy <- max(D3_pregnancy_reconciled[, year_start_of_pregnancy])
+```
+
+<br/><br/>
+
+The algorithm has retrieved `r number_of_women ` women, for a total of  `r number_of_pregnancies ` pregnancies, from `r year_start_study ` to `r year_end_stydy `.
+`r number_of_records ` records were reconciled to build the pregnancies.
+<br/><br/><br/><br/>
+
+---
+
+## Streams 
+
+---
+
+Pregnancies are retrieved from four different streams:
+<br/>
+
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Page Title</title>
+    <style>
+      /* The . with the boxed represents that it is a class */
+      .boxed {
+        background: #def6ff;
+        color: black;
+        border: 1px solid #00adef;
+        margin: 0px auto;
+
+      }
+    </style>
+  </head>
+  <body>
+    <div class="boxed">
+    
+- **PROMPTS**: records from birth records, pregnancy termination records, and abortion records in <em>SURVEY_ID</em>: the existence of one of these records easily implies that a pregnancy is terminated 
+
+- **EUROCAT**: records from <em>EUROCAT</em> table
+
+- **CONCEPTSETS**: diagnostic codes from <em>EVENTS</em> or procedure codes from <em>PROCEDURES</em> or codes from the <em>MEDICAL_RECORDS</em> file that refer to a terminated or ongoing pregnancy 
+
+- **ITEMSETS**: routine health variables that are populated only when a woman is pregnant
+
+    </div>
+  </body>
+</html>
+
+<br/>
+
+
+Therefore, the source representing pregnancy is the highest quality source. 
+The subsequent figure shows the number of absolute pregnancies retrieved, divided by source and anchored to the pregnancy start year.
+
+```{r year_start_of_pregnancy}
+D3_pregnancy_reconciled <- D3_pregnancy_reconciled[EUROCAT== "yes", Stream := "EUROCAT"]
+D3_pregnancy_reconciled <- D3_pregnancy_reconciled[PROMPT== "yes", Stream := "PROMPT"]
+D3_pregnancy_reconciled <- D3_pregnancy_reconciled[CONCEPTSETS== "yes", Stream := "CONCEPTSETS"]
+D3_pregnancy_reconciled <- D3_pregnancy_reconciled[ITEMSETS== "yes", Stream := "ITEMSETS"]
+
+```
+
+```{r stream_graph}
+p <- ggplot(D3_pregnancy_reconciled, aes(x = year_start_of_pregnancy, fill= Stream))+
+  geom_bar()+
+  theme_hc()
+plot <- ggplotly(p)
+plot
+```
+
+
+<br/><br/><br/><br/>
+
+---
+
+## Record Quality
+
+---
+
+As reported in the sap, some records have both pregnancy start date and pregnancy end date available, for others one or both of these dates are imputed. Therefore, the quality of the record depends on both the source and the imputation. The complete list with the hierarchy of the fifteen different qualities is given below:
+
+<br/>
+
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Page Title</title>
+    <style>
+      /* The . with the boxed represents that it is a class */
+      .boxed {
+        background: #def6ff;
+        color: black;
+        border: 1px solid #00adef;
+        margin: 0px auto;
+
+      }
+    </style>
+  </head>
+  <body>
+    <div class="boxed">
+
+1. **EUROCAT**: both pregnancy_start_date and pregnancy_end_date are recorded
+
+2. **PROMPT**: both pregnancy_start_date and pregnancy_end_date are recorded
+
+3. **ITEMSETS**: both pregnancy_start_date and pregnancy_end_date are recorded
+
+4. **CONCEPSETS**: pregnancy completed and pregnancy_start_date recorded
+
+5. **PROMPT**: pregnancy completed and pregnancy_start_date not available and imputed
+
+6. **ITEMSETS**: pregnancy completed and pregnancy_start_date not available and imputed
+
+7. **CONCEPSETS**: live birth, meaning non primary care, pregnancy_start_date not available and imputed 
+
+8. **CONCEPSETS**: pre-term birth, meaning non primary care,  pregnancy_start_date not available and imputed
+
+9. **CONCEPSETS**: still birth, meaning non primary care,  pregnancy_start_date not available and imputed
+
+10. **CONCEPSETS**: interruption, meaning non primary care,  pregnancy_start_date not available and imputed
+
+11. **CONCEPTSETS**: spontaneous abortion, meaning non primary care, pregnancy_start_date not available and imputed
+
+12. **CONCEPTSETS**: ectopic pregnancy, meaning non primary care, pregnancy_start_date not available and imputed
+
+13. **CONCEPTSETS**: meaning implying primary care, pregnancy_start_date not available and imputed, end date estimated with record date
+
+14. **all Streams**: ongoing pregnancy and pregnancy_start_date recorded 
+
+15. **all Streams**: ongoing pregnancy having pregnancy_start_date not available and imputed 
+
+    </div>
+  </body>
+</html>
+
+<br/>
+
+The subsequent figure shows the number of absolute pregnancies retrieved, divided by record quality and anchored to the pregnancy start year.
+
+```{r quality_graph}
+quality_DF <- D3_pregnancy_reconciled[, order_quality := as.factor(order_quality)]
+p <- ggplot(quality_DF, aes(year_start_of_pregnancy, fill= order_quality))+
+  geom_bar(position = "stack")+
+  theme_hc()
+plot <- ggplotly(p)
+plot
+```
+
+The number of pregnancies is also shown in the table below.
+
+```{r stream_table}
+table_streams <- D3_pregnancy_reconciled[, .N, by = .(order_quality, year_start_of_pregnancy)][order(year_start_of_pregnancy, order_quality)]
+datatable(table_streams)
+```
+<br/><br/><br/><br/>
+
+---
+
+## Type of pregnancies end 
+
+---
+
+The same analysis is done for each of the five different types of end of pregnancy, which are:
+
+- LB : live birth 
+
+- SB : still birth 
+
+- T : termination 
+
+- SA : spontaneous abortion
+
+- ECT : ectopic pregnancy
+
+- UNK : unknown 
+
+<br/><br/>
+
+### Live Birth
+
+___
+
+
+```{r lb_graph}
+LB <- D3_pregnancy_reconciled[type_of_pregnancy_end == "LB"]
+p <- ggplot(LB, aes(x = year_start_of_pregnancy, fill= Stream))+
+  geom_bar()+
+  theme_hc()
+plot <- ggplotly(p)
+plot
+```
+
+<br/><br/>
+
+### Still Birth
+
+___
+
+
+```{r sb_graph}
+SB <- D3_pregnancy_reconciled[type_of_pregnancy_end == "SB"]
+p <- ggplot(SB, aes(x = as.factor(year_start_of_pregnancy), fill= Stream))+
+  geom_bar()+
+  theme_hc()
+plot <- ggplotly(p)
+plot
+```
+
+
+
+### Termination
+
+<br/><br/>
+
+___
+
+ 
+
+```{r t_graph}
+TE <- D3_pregnancy_reconciled[type_of_pregnancy_end == "T"]
+p <- ggplot(TE, aes(x = year_start_of_pregnancy, fill= Stream))+
+  geom_bar()+
+  theme_hc()
+plot <- ggplotly(p)
+plot
+```
+
+<br/><br/>
+
+### Spontaneous Abortion
+
+___
+
+ 
+
+```{r sa_graph}
+SA <- D3_pregnancy_reconciled[type_of_pregnancy_end == "SA"]
+p <- ggplot(SA, aes(x = year_start_of_pregnancy, fill= Stream))+
+  geom_bar()+
+  theme_hc()
+plot <- ggplotly(p)
+plot
+```
+
+<br/><br/>
+
+### Ectopic
+
+___
+
+ 
+
+
+```{r ect_graph}
+ECT <- D3_pregnancy_reconciled[type_of_pregnancy_end == "ECT"]
+p <- ggplot(ECT, aes(x = year_start_of_pregnancy, fill= Stream))+
+  geom_bar()+
+  theme_hc()
+plot <- ggplotly(p)
+plot
+```
+
+
+<br/><br/>
+
+### Unknown
+
+___
+
+ 
+
+```{r unk_graph}
+UNK <- D3_pregnancy_reconciled[type_of_pregnancy_end == "UNK" | is.na(type_of_pregnancy_end)]
+p <- ggplot(UNK, aes(x = year_start_of_pregnancy, fill= Stream))+
+  geom_bar()+
+  theme_hc()
+plot <- ggplotly(p)
+plot
+```
+
+
+<br/><br/><br/><br/>
+
+---
+
+## First record
+
+---
+
+
+```{r first_record}
+D3_pregnancy_reconciled[, days_before_first_record := date_of_oldest_record - pregnancy_start_date]
+```
+
+
+```{r first_record_plot}
+p <- ggplot(D3_pregnancy_reconciled, aes(x = days_before_first_record))+
+  geom_density(fill = "salmon", col = "salmon", alpha = 0.7, na.rm = TRUE)+
+  scale_x_continuous(name="Days between pregnancy start date and first observed record ", limits=c(0, 300))+
+  theme_hc()
+
+plot <- ggplotly(p)
+plot
+```
+
+
+
+
+
+
+<br/><br/><br/><br/>
+
+
+---
+
+## Excluded Pregnancies 
+
+---
+
+
+```{r excluded_graph}
+
+excluded <- D3_pregnancy_reconciled[excluded == 1]
+
+p <- ggplot(excluded, aes(x = year_start_of_pregnancy, fill= reason_for_exclusion))+
+  geom_bar()+
+  theme_hc()
+plot <- ggplotly(p)
+plot
+```
+
+```{r exclusion_table}
+exclusion_table <- excluded[, .N, by = .(reason_for_exclusion, year_start_of_pregnancy)][order(year_start_of_pregnancy, reason_for_exclusion)]
+datatable(exclusion_table)
+```
+___
+
+
+<br/><br/>
+
+```{r exclusion_total}
+sum_of_excluded <- excluded[, .N]
+```
+
+**The total number of excluded pregnancies is `r sum_of_excluded`, and the reason is shown in the following table.**
+
+<br/><br/>
+
+```{r exclusion_table_total}
+exclusion_table <- excluded[, .N, by = .(reason_for_exclusion)][order(reason_for_exclusion)]
+datatable(exclusion_table)
+```
+
+<br/><br/><br/><br/>
+
+
+---
+
+## Reconciliation 
+
+---
+
+
+add explanation
+
+
+```{r reconciliation}
+D3_pregnancy_reconciled <- D3_pregnancy_reconciled[is.na(type_of_pregnancy_end), type_of_pregnancy_end := "UNK"]
+D3_pregnancy_reconciled <- D3_pregnancy_reconciled[like(algorithm_for_reconciliation, ":Discordant"), Discordant := 1]
+D3_pregnancy_reconciled <- D3_pregnancy_reconciled[like(algorithm_for_reconciliation,":SlightlyDiscordant"), SlightlyDiscordant := 1]
+D3_pregnancy_reconciled <- D3_pregnancy_reconciled[like(algorithm_for_reconciliation, ":Inconsistency"), Inconsistency := 1]
+#D3_pregnancy_reconciled <- D3_pregnancy_reconciled[is.na(Reconciliation), Reconciliation := "Concordant"]
+
+reconciliation <- D3_pregnancy_reconciled[, .N, by = .(type_of_pregnancy_end, Discordant, SlightlyDiscordant, Inconsistency)]
+total <- unique(reconciliation[, total := sum(N), type_of_pregnancy_end][, .(type_of_pregnancy_end, total)])
+
+Discordant <- reconciliation[Discordant == 1 , .(N=sum(N)), type_of_pregnancy_end]
+Discordant <- Discordant[, reconciliation := "Discordant"]
+
+SlightlyDiscordant <- reconciliation[SlightlyDiscordant == 1 , .(N=sum(N)), type_of_pregnancy_end]
+SlightlyDiscordant <- SlightlyDiscordant[, reconciliation := "SlightlyDiscordant"]
+
+Inconsistency <- reconciliation[Inconsistency == 1 , .(N=sum(N)), type_of_pregnancy_end]
+Inconsistency <- Inconsistency[, reconciliation := "Inconsistency"]
+
+DF_plot_rec <- merge(rbind(Discordant, SlightlyDiscordant, Inconsistency), total, by = "type_of_pregnancy_end", all.x = TRUE)
+
+DF_plot_rec <- DF_plot_rec[, percentage := N/total * 100]
+datatable(DF_plot_rec)
+``` 
+ 
+
+
+```{r reconciliation_plot}
+p <- ggplot(DF_plot_rec, aes(x = type_of_pregnancy_end , y = percentage, fill= reconciliation))+
+  geom_col(position = position_dodge2(width = 0.9, preserve = "single"))+
+  theme_hc()
+plot <- ggplotly(p)
+plot
+``` 
+
+<br/><br/><br/><br/>
+
+
+---
+
+## Dummy Tables
+
+---
+
+
+```{r dummy_table_age}
+################################################################################
+#########################         AGE by OUTCOME         #######################
+################################################################################
+
+table_age_outcomes <- D3_groups_of_pregnancies_reconciled[, .(age_mean= mean(age_at_start_of_pregnancy),
+                                                            standard_deviation = sqrt(var(age_at_start_of_pregnancy)),
+                                                            quantile_25 = quantile(age_at_start_of_pregnancy, probs = 0.25), 
+                                                            age_median = quantile(age_at_start_of_pregnancy, probs = 0.5),
+                                                            quantile_75 = quantile(age_at_start_of_pregnancy, probs = 0.75)), 
+                                                          by = type_of_pregnancy_end]
+
+paged_table(table_age_outcomes[order(type_of_pregnancy_end)])
+```
+
+
+```{r dummy_table_ageband}
+# ################################################################################
+# #######################             Age Band             #######################
+# ################################################################################
+# DF_table2 <- D3_groups_of_pregnancies_reconciled
+# 
+# DF_table2 <- DF_table2[age_at_start_of_pregnancy<=15, age_band := "12-15"]
+# DF_table2 <- DF_table2[age_at_start_of_pregnancy>15 & age_at_start_of_pregnancy<=20, age_band := "16-20"]
+# DF_table2 <- DF_table2[age_at_start_of_pregnancy>20 & age_at_start_of_pregnancy<=25, age_band := "21-25"]
+# DF_table2 <- DF_table2[age_at_start_of_pregnancy>25 & age_at_start_of_pregnancy<=30, age_band := "26-30"]
+# DF_table2 <- DF_table2[age_at_start_of_pregnancy>30 & age_at_start_of_pregnancy<=35, age_band := "31-35"]
+# DF_table2 <- DF_table2[age_at_start_of_pregnancy>35 & age_at_start_of_pregnancy<=40, age_band := "36-40"]
+# DF_table2 <- DF_table2[age_at_start_of_pregnancy>40 & age_at_start_of_pregnancy<=45, age_band := "41-45"]
+# DF_table2 <- DF_table2[age_at_start_of_pregnancy>45 & age_at_start_of_pregnancy<=50, age_band := "46-50"]
+# DF_table2 <- DF_table2[age_at_start_of_pregnancy>50, age_band := "51-55"]
+# 
+# ################################################################################
+# #######################         table of Record          #######################
+# ################################################################################
+# 
+# #age
+# streams <- list("EUROCAT", "PROMPT", "ITEMSETS", "CONCEPTSETS")
+# quality_table_ages <- data.table(age_bands = c(unique(DF_table2[order(age_band),age_band]), "all_age_band"))
+# 
+# for (stream in streams) {
+#     if (DF_table2[get(stream)=="yes", .N] != 0 ){
+#         table <- DF_table2[get(stream)=="yes", .N, by = .(coloured_order, age_band, pers_group_id)][order(age_band, coloured_order,pers_group_id)]
+#         table2 <- table[, .(mean_of_records = mean(N)), by = .(coloured_order, age_band)][order(age_band, coloured_order)]
+#       
+#         ## all ages
+#         table_all_ages <- DF_table2[get(stream)=="yes", .N, by = .(coloured_order, pers_group_id)][order(coloured_order, pers_group_id)]
+#         table_all_ages2 <- table_all_ages[, .(mean_of_records = mean(N)), by = .(coloured_order)][order(coloured_order)]
+#         table_all_ages3 <- table_all_ages2[, age_band := "all_age_band"]
+#         table3 <- rbind(table2, table_all_ages3)
+#         
+#         table4 <- dcast(table3, age_band  ~ coloured_order , value.var = "mean_of_records", fill = 0)
+#         quality_table_ages <- cbind(quality_table_ages, table4[,-1])
+#  }
+# }
+# 
+# paged_table(quality_table_ages)
+```
+
+
+
+
+
+
+
+
+
+```{r dummy_table_outcomes}
+# #outcomes
+# 
+# streams <- list("EUROCAT", "PROMPT", "ITEMSETS", "CONCEPTSETS")
+# quality_table_outcomes <- data.table(outcomes = c(unique(DF_table2[,type_of_pregnancy_end]), "all_outcomes"))
+# 
+# 
+# for (stream in streams) {
+#   table <- DF_table2[, .(sum_of_stream=sum(get(stream))), by = .(coloured_order, type_of_pregnancy_end, pers_group_id)][order(type_of_pregnancy_end, coloured_order,pers_group_id)]
+#   table2 <- table[, .(mean_of_records = mean(sum_of_stream)), by = .(coloured_order, type_of_pregnancy_end)][order(type_of_pregnancy_end, coloured_order)]
+# 
+#   ## all outcomes
+#   table_all_outcomes <- DF_table2[, .(sum_of_stream=sum(get(stream))), by = .(coloured_order, pers_group_id)][order(coloured_order, pers_group_id)]
+#   table_all_outcomes2 <- table_all_outcomes[, .(mean_of_records = mean(sum_of_stream)), by = .(coloured_order)][order(coloured_order)]
+#   table_all_outcomes3 <- table_all_outcomes2[, type_of_pregnancy_end := "all_outcomes"]
+#   table3 <- rbind(table2, table_all_outcomes3)
+# 
+# 
+#   table4 <- dcast(table3, type_of_pregnancy_end  ~ coloured_order , value.var = "mean_of_records", fill = 0)
+#   #setnames(table4, c("3_blue", "2_yellow", "1_green", "4_red"), c(paste0(stream, ": blue"), paste0(stream, ": yellow"), paste0(stream, ": green"), paste0(stream, ": red")))
+# 
+#   quality_table_outcomes <- cbind(quality_table_outcomes, round(table4[,-1], 2))
+# 
+# }
+# 
+# quality_table_outcomes
+
+```

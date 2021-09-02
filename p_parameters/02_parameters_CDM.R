@@ -10,13 +10,9 @@ files<-sub('\\.csv$', '', list.files(dirinput))
 for (i in 1:length(files)) {
   if (str_detect(files[i],"^EVENTS")) { ConcePTION_CDM_tables[["Diagnosis"]][[(length(ConcePTION_CDM_tables[["Diagnosis"]]) + 1)]]<-files[i]
   } else if (str_detect(files[i],"^MEDICINES")){ ConcePTION_CDM_tables[["Medicines"]][[(length(ConcePTION_CDM_tables[["Medicines"]]) + 1)]]<-files[i] 
-  } else if (str_detect(files[i],"^PROCEDURES")) { ConcePTION_CDM_tables[["Procedures"]][[(length(ConcePTION_CDM_tables[["Procedures"]]) + 1)]]<-files[i] 
-  } else if (str_detect(files[i],"^VACCINES")) { ConcePTION_CDM_tables[["VaccineATC"]][[(length(ConcePTION_CDM_tables[["VaccineATC"]]) + 1)]]<-files[i] }
+  } else if (str_detect(files[i],"^PROCEDURES")) { ConcePTION_CDM_tables[["Procedures"]][[(length(ConcePTION_CDM_tables[["Procedures"]]) + 1)]]<-files[i] }
 }
 
-# for (i in 1:length(files)) {
-#   if (str_detect(files[i],"^VACCINES"))  ConcePTION_CDM_tables[["VaccineATC"]][[(length(ConcePTION_CDM_tables[["VaccineATC"]]) + 1)]]<-files[i]
-# }
 
 #define tables for createconceptset
 ConcePTION_CDM_EAV_tables <- vector(mode="list")
@@ -62,7 +58,6 @@ if (length(ConcePTION_CDM_EAV_tables)!=0 ){
           if (dom=="Medicines") ConcePTION_CDM_codvar[[dom]][[ds]]="medicinal_product_atc_code"
           if (dom=="Diagnosis") ConcePTION_CDM_codvar[[dom]][[ds]]="event_code"
           if (dom=="Procedures") ConcePTION_CDM_codvar[[dom]][[ds]]="procedure_code"
-          if (dom=="VaccineATC") ConcePTION_CDM_codvar[[dom]][[ds]]="vx_atc"
         }
       }
     }
@@ -73,7 +68,6 @@ if (length(ConcePTION_CDM_EAV_tables)!=0 ){
       if (dom=="Medicines") ConcePTION_CDM_codvar[[dom]][[ds]]="medicinal_product_atc_code"
       if (dom=="Diagnosis") ConcePTION_CDM_codvar[[dom]][[ds]]="event_code"
       if (dom=="Procedures") ConcePTION_CDM_codvar[[dom]][[ds]]="procedure_code"
-      if (dom=="VaccineATC") ConcePTION_CDM_codvar[[dom]][[ds]]="vx_atc"
     }
   }
 }
@@ -103,8 +97,6 @@ if (length(ConcePTION_CDM_EAV_tables)!=0 ){
     }
   }
 }
-
-
 
 # assign 2 more 2-level lists: -id- -date-. They encode from the data model the name of the column(s) of each data table that contain, respectively, the personal identifier and the date. Those 2 lists are to be inputted in the rename_col option of the function. 
 #NB: GENERAL  contains the names columns will have in the final datasets
@@ -146,8 +138,6 @@ if (length(ConcePTION_CDM_EAV_tables)!=0 ){
           }
           if (dom=="Diagnosis") date[[dom]][[ds]]="start_date_record"
           if (dom=="Procedures") date[[dom]][[ds]]="procedure_date"
-          if (dom=="VaccineATC") date[[dom]][[ds]] <- "vx_admin_date"
-          
         }
       }
     }
@@ -164,7 +154,6 @@ if (length(ConcePTION_CDM_EAV_tables)!=0 ){
       }
       if (dom=="Diagnosis") date[[dom]][[ds]]="start_date_record"
       if (dom=="Procedures") date[[dom]][[ds]]="procedure_date"
-      if (dom=="VaccineATC") date[[dom]][[ds]]="vx_admin_date"
     }
   }
 }
@@ -381,7 +370,6 @@ if (length(ConcePTION_CDM_EAV_tables)!=0 ){
           if (dom=="Medicines") ConcePTION_CDM_datevar[[dom]][[ds]]= list("date_dispensing","date_prescription")
           if (dom=="Diagnosis") ConcePTION_CDM_datevar[[dom]][[ds]]=list("start_date_record","end_date_record")
           if (dom=="Procedures") ConcePTION_CDM_datevar[[dom]][[ds]]=list("procedure_date")
-          if (dom=="VaccineATC") ConcePTION_CDM_datevar[[dom]][[ds]] <- "vx_admin_date"
         }
       }
     }
@@ -392,7 +380,6 @@ if (length(ConcePTION_CDM_EAV_tables)!=0 ){
       if (dom=="Medicines") ConcePTION_CDM_datevar[[dom]][[ds]]= list("date_dispensing","date_prescription")
       if (dom=="Diagnosis") ConcePTION_CDM_datevar[[dom]][[ds]]=list("start_date_record","end_date_record")
       if (dom=="Procedures") ConcePTION_CDM_datevar[[dom]][[ds]]=list("procedure_date")
-      if (dom=="VaccineATC") ConcePTION_CDM_datevar[[dom]][[ds]] <- "vx_admin_date"
     }
   }
 }

@@ -1,14 +1,15 @@
-# # set directory with input data
-# setwd("..")
-# setwd("..")
-# dirbase<-getwd()
-# dirinput <- paste0(dirbase,"/CDMInstances/CONSIGN/")
-
-#setwd("..")
-#setwd("..")
+# set directory with input data
+setwd("..")
+setwd("..")
+setwd("..")
 dirbase<-getwd()
-dirinput <- paste0(dirbase,"/i_input/")
-#dirinput <- paste0(dirbase,"/i_input_test/")
+dirinput <- paste0(dirbase,"/CDMInstances/DataCharacterisation_v2/")
+
+# #setwd("..")
+# #setwd("..")
+# dirbase<-getwd()
+# dirinput <- paste0(dirbase,"/i_input/")
+# #dirinput <- paste0(dirbase,"/i_input_test/")
 
 # set other directories
 diroutput <- paste0(thisdir,"/g_output/")
@@ -21,6 +22,7 @@ dirproducts <- paste0(thisdir,"/i_input/")
 dirpargen <- paste0(thisdir,"/g_parameters/")
 dirsmallcountsremoved <- paste0(thisdir,"/g_export_SMALL_COUNTS_REMOVED/")
 dirdescribe <- paste0(thisdir, "/g_describe_HTML")
+dirvalidation <- paste0(thisdir, "/g_validation")
 
 # load packages
 if (!require("haven")) install.packages("haven")
@@ -49,7 +51,10 @@ if (!require("ggplot2")) install.packages("ggplot2")
 library(ggplot2 )
 if (!require("ggthemes")) install.packages("ggthemes")
 library(ggthemes)
-
+if (!require("plotly")) install.packages("plotly")
+library(plotly)
+if (!require("DT")) install.packages("DT")
+library(DT)
 `%notin%` <- Negate(`%in%`)
 
 # load macros
@@ -216,7 +221,7 @@ suppressWarnings(if (!file.exists(dirfigure)) dir.create(file.path( dirfigure)))
 suppressWarnings(if (!file.exists(dirpargen)) dir.create(file.path( dirpargen)))
 suppressWarnings(if (!file.exists(dirsmallcountsremoved)) dir.create(file.path(dirsmallcountsremoved)))
 suppressWarnings(if (!file.exists(dirdescribe)) dir.create(file.path(dirdescribe)))
-
+suppressWarnings(if (!file.exists(dirvalidation)) dir.create(file.path(dirvalidation)))
 
 #############################################
 #SAVE METADATA TO direxp
@@ -228,7 +233,7 @@ file.copy(paste0(dirinput,'/INSTANCE.csv'), direxp)
 file.copy(paste0(dirinput,'/METADATA.csv'), dirsmallcountsremoved)
 file.copy(paste0(dirinput,'/CDM_SOURCE.csv'), dirsmallcountsremoved)
 file.copy(paste0(dirinput,'/INSTANCE.csv'), dirsmallcountsremoved)
-
+file.copy(paste0(dirmacro,'/post_validation_script.R'), dirvalidation)
 
 #############################################
 #FUNCTION TO COMPUTE AGE
