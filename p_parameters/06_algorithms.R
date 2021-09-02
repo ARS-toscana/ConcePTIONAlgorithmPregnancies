@@ -7,7 +7,7 @@ meaning_of_survey_our_study[["ARS"]][["spontaneous_abortion"]]<-list("spontaneou
 meaning_of_survey_our_study[["ARS"]][["induced_termination"]]<-list("induced_termination_registry")
 meaning_of_survey_our_study[["ARS"]][["other"]]<-list()
 
-meaning_of_survey_our_study[["UOSL"]][["livebirth_or_stillbirth"]]<-list("birth_registry_mother") #, "birth_registry_father", "birth_registry_child"
+meaning_of_survey_our_study[["UOSL"]][["livebirth_or_stillbirth"]]<-list("birth_registry") #, "birth_registry_father", "birth_registry_child"
 meaning_of_survey_our_study[["UOSL"]][["ongoing_pregnancy"]]<-list()
 meaning_of_survey_our_study[["UOSL"]][["spontaneous_abortion"]]<-list()
 meaning_of_survey_our_study[["UOSL"]][["induced_termination"]]<-list()
@@ -25,10 +25,10 @@ meaning_of_survey_our_study[["CHUT"]][["spontaneous_abortion"]]<-list("pregnancy
 meaning_of_survey_our_study[["CHUT"]][["induced_termination"]]<-list("pregnancy_characteristics")
 meaning_of_survey_our_study[["CHUT"]][["other"]]<-list()
 
-meaning_of_survey_our_study[["GePaRD"]][["livebirth_or_stillbirth"]]<-list("algorithm_pregnancy") 
+meaning_of_survey_our_study[["GePaRD"]][["livebirth_or_stillbirth"]]<-list("algorithm_pregnancy")
 meaning_of_survey_our_study[["GePaRD"]][["ongoing_pregnancy"]]<-list()
-meaning_of_survey_our_study[["GePaRD"]][["spontaneous_abortion"]]<-list("algorithm_pregnancy") 
-meaning_of_survey_our_study[["GePaRD"]][["induced_termination"]]<-list("algorithm_pregnancy") 
+meaning_of_survey_our_study[["GePaRD"]][["spontaneous_abortion"]]<-list("algorithm_pregnancy")
+meaning_of_survey_our_study[["GePaRD"]][["induced_termination"]]<-list("algorithm_pregnancy")
 meaning_of_survey_our_study[["GePaRD"]][["other"]]<-list()
 
 meaning_of_survey_our_study[["BIFAP"]][["livebirth_or_stillbirth"]]<-list("algorithm_pregnancy")
@@ -41,7 +41,7 @@ meaning_of_survey_our_study[["FISABIO"]][["livebirth_or_stillbirth"]]<-list("MET
 meaning_of_survey_our_study[["FISABIO"]][["ongoing_pregnancy"]]<-list()
 meaning_of_survey_our_study[["FISABIO"]][["spontaneous_abortion"]]<-list()
 meaning_of_survey_our_study[["FISABIO"]][["induced_termination"]]<-list()
-meaning_of_survey_our_study[["FISABIO"]][["other"]]<-list("RPAC-CV-mother")
+meaning_of_survey_our_study[["FISABIO"]][["other"]]<-list()
 
 meaning_of_survey_our_study[["SIDIAP"]][["livebirth_or_stillbirth"]]<-list("birth_registry")
 meaning_of_survey_our_study[["SIDIAP"]][["ongoing_pregnancy"]]<-list()
@@ -80,10 +80,10 @@ meaning_of_survey_our_study[["PEDIANET"]][["induced_termination"]]<-list()
 meaning_of_survey_our_study[["PEDIANET"]][["other"]]<-list()
 
 
-meaning_of_survey_our_study[["TEST"]][["livebirth_or_stillbirth"]]<-list("algorithm_pregnancy") 
+meaning_of_survey_our_study[["TEST"]][["livebirth_or_stillbirth"]]<-list("algorithm_pregnancy")
 meaning_of_survey_our_study[["TEST"]][["ongoing_pregnancy"]]<-list()
-meaning_of_survey_our_study[["TEST"]][["spontaneous_abortion"]]<-list("algorithm_pregnancy") 
-meaning_of_survey_our_study[["TEST"]][["induced_termination"]]<-list("algorithm_pregnancy") 
+meaning_of_survey_our_study[["TEST"]][["spontaneous_abortion"]]<-list("algorithm_pregnancy")
+meaning_of_survey_our_study[["TEST"]][["induced_termination"]]<-list("algorithm_pregnancy")
 meaning_of_survey_our_study[["TEST"]][["other"]]<-list()
 
 meaning_of_survey_our_study_this_datasource<-vector(mode="list")
@@ -151,7 +151,7 @@ dictonary_of_itemset[["TYPE"]][["FISABIO"]][["MD"]]<-list()
 dictonary_of_itemset[["TYPE"]][["FISABIO"]][["ECT"]]<-list()
 dictonary_of_itemset[["TYPE"]][["FISABIO"]][["UNK"]]<-list()
 
-dictonary_of_itemset[["TYPE"]][["SIDIAP"]][["LB"]]<-list(list("Pregnancies", "P"), list("Pregnancies", "Pr"), list("Pregnancies", "C"), list("Pregnancies", "Al")) 
+dictonary_of_itemset[["TYPE"]][["SIDIAP"]][["LB"]]<-list(list("Pregnancies", "P"), list("Pregnancies", "Pr"), list("Pregnancies", "C"), list("Pregnancies", "Al"))
 dictonary_of_itemset[["TYPE"]][["SIDIAP"]][["SB"]]<-list()
 dictonary_of_itemset[["TYPE"]][["SIDIAP"]][["SA"]]<-list(list("Pregnancies", "MF"), list("Pregnancies", "A"))
 dictonary_of_itemset[["TYPE"]][["SIDIAP"]][["T"]]<-list(list("Pregnancies", "IV"))
@@ -191,7 +191,7 @@ dictonary_of_itemset[["TYPE"]][["CPRD"]][["MD"]]<-list()
 dictonary_of_itemset[["TYPE"]][["CPRD"]][["ECT"]]<-list()
 dictonary_of_itemset[["TYPE"]][["CPRD"]][["UNK"]]<-list(list("pregnancy_register", "13"))
 
-dictonary_of_itemset[["TYPE"]][["PEDIANET"]][["LB"]]<-list() 
+dictonary_of_itemset[["TYPE"]][["PEDIANET"]][["LB"]]<-list()
 dictonary_of_itemset[["TYPE"]][["PEDIANET"]][["SB"]]<-list()
 dictonary_of_itemset[["TYPE"]][["PEDIANET"]][["SA"]]<-list()
 dictonary_of_itemset[["TYPE"]][["PEDIANET"]][["T"]]<-list()
@@ -316,7 +316,7 @@ if (this_datasource_has_subpopulations == TRUE){
     save(concept_set_codes_our_study,file=paste0(direxpsubpop[[subpop]],"concept_set_codes_our_study.RData"))
     save(concept_set_codes_our_study_excl,file=paste0(direxpsubpop[[subpop]],"concept_set_codes_our_study_excl.RData"))
     save(concept_set_codes_our_study_excl,file=paste0(dirsmallcountsremovedsubpop[[subpop]],"concept_set_codes_our_study_excl.RData"))
-    
+
   }
 }
 
