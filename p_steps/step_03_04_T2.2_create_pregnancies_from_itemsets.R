@@ -74,7 +74,7 @@ if (this_datasource_has_itemsets_stream){
       dataset_item_sets<-dataset_item_sets[, `:=`(pregnancy_end_date = pregnancy_start_date + 280, imputed_end_of_pregnancy=1, meaning_end_date=paste0("imputed_itemset_from_",item_set) )]
       
       dataset_item_sets<-dataset_item_sets[,type_of_pregnancy_end:="UNK"]
-      
+      dataset_item_sets<-dataset_item_sets[,imputed_start_of_pregnancy:=0]
     }
     
 
@@ -89,7 +89,7 @@ if (this_datasource_has_itemsets_stream){
     dataset_item_sets[,pregnancy_id:=paste0(visit_occurrence_id,"_",person_id,"_",record_date)] 
     
     # keep only vars neeed
-    D3_Stream_ITEMSETS <- dataset_item_sets[,.(pregnancy_id,person_id,record_date,pregnancy_start_date,pregnancy_ongoing_date,pregnancy_end_date,meaning_start_date,meaning_end_date,meaning_ongoing_date,type_of_pregnancy_end,visit_occurrence_id,mo_meaning,mo_source_column,mo_source_value,mo_unit,ITEMSETS,origin)] # 
+    D3_Stream_ITEMSETS <- dataset_item_sets[,.(pregnancy_id,person_id,record_date,pregnancy_start_date,pregnancy_ongoing_date,pregnancy_end_date,meaning_start_date,meaning_end_date,meaning_ongoing_date,type_of_pregnancy_end,visit_occurrence_id,mo_meaning,mo_source_column,mo_source_value,mo_unit,ITEMSETS,origin, imputed_start_of_pregnancy, imputed_end_of_pregnancy)] # 
     save(D3_Stream_ITEMSETS, file=paste0(dirtemp,"D3_Stream_ITEMSETS.RData"))
     
     

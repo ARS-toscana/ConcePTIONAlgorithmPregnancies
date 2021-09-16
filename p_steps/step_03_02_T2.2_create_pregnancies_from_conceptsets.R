@@ -1,7 +1,7 @@
 #-----------------------------------------------
 # merge together all the concept sets to define start_of_pregnancy and end_of_pregnancy
 concept_sets_of_our_study <- c("Gestation_less24","Gestation_24","Gestation_25_26","Gestation_27_28","Gestation_29_30","Gestation_31_32","Gestation_33_34","Gestation_35_36","Gestation_more37","Ongoingpregnancy","Birth","Preterm","Atterm","Postterm","Livebirth","Stillbirth","Interruption", "Spontaneousabortion", "Ectopicpregnancy")
-if( thisdatasource=="CPRD" | thisdatasource=="UOSL"){
+if( thisdatasource=="CPRD" | thisdatasource=="UOSL"| thisdatasource=="BIFAP"){
   concept_sets_of_our_study_procedure<-c()
 } else {
   concept_sets_of_our_study_procedure<-c("gestational_diabetes","fetal_nuchal_translucency", "amniocentesis","Chorionic_Villus_Sampling","others")
@@ -45,7 +45,7 @@ for (conceptvar in c(concept_sets_of_ongoing_of_pregnancy,concept_sets_of_our_st
   }
 }
 
-if( thisdatasource=="CPRD" | thisdatasource=="UOSL"){
+if( thisdatasource=="CPRD" | thisdatasource=="UOSL" | thisdatasource=="BIFAP"){
 
 } else {
   dataset_ongoing_concept_sets<-dataset_ongoing_concept_sets[!is.na(origin_of_procedure),origin_of_event:=origin_of_procedure][,-"origin_of_procedure"]
