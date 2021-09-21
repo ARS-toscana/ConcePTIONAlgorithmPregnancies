@@ -1,7 +1,10 @@
-load(paste0(dirtemp,"D3_pregnancy_reconciled.RData"))
-load(paste0(dirtemp,"D3_groups_of_pregnancies_reconciled.RData"))
+load(paste0(dirtemp,"D3_pregnancy_reconciled_before_excl.RData"))
+load(paste0(dirtemp,"D3_groups_of_pregnancies_reconciled_before_excl.RData"))
 
 #### Apply exclusion criteria 
+
+D3_pregnancy_reconciled <- D3_pregnancy_reconciled_before_excl
+D3_groups_of_pregnancies_reconciled <- D3_groups_of_pregnancies_reconciled_before_excl 
 
 ## D3_pregnancy_reconciled
 D3_pregnancy_reconciled <- D3_pregnancy_reconciled[like(algorithm_for_reconciliation, "GG:DiscordantEnd") , GGDE:=1]

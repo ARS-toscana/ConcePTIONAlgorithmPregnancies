@@ -290,7 +290,7 @@ D3_gop <- D3_gop[, age_at_start_of_pregnancy := as.integer((pregnancy_start_date
 # mean(red_record_from_green[coloured_order == "4_red",as.integer(distance)])
 
 ## cleaning the dataset
-D3_groups_of_pregnancies_reconciled <- D3_gop[, .(person_id, 
+D3_groups_of_pregnancies_reconciled <- D3_gop[, .(person_id,
                                                   age_at_start_of_pregnancy,
                                                   n,
                                                   record_date,
@@ -319,21 +319,18 @@ D3_groups_of_pregnancies_reconciled <- D3_gop[, .(person_id,
                                                   order_quality,
                                                   date_of_principal_record,         
                                                   date_of_oldest_record, 
-                                                  algorithm_for_reconciliation, 
-                                                  column, 
-                                                  origin, 
-                                                  codvar, 
-                                                  coding_system, 
-                                                  so_source_value)]
+                                                  algorithm_for_reconciliation,  
+                                                  survey_id,
+                                                  visit_occurrence_id)]
 
 D3_groups_of_pregnancies_reconciled <- D3_groups_of_pregnancies_reconciled[highest_quality == "4_red", 
                                                                            record_selected := as.integer(number_red/2) + 1] 
 
-D3_groups_of_pregnancies_reconciled <- D3_groups_of_pregnancies_reconciled[is.na(record_selected), record_selected:=1] 
+D3_groups_of_pregnancies_reconciled_before_excl <- D3_groups_of_pregnancies_reconciled[is.na(record_selected), record_selected:=1] 
 
-D3_pregnancy_reconciled <- D3_groups_of_pregnancies_reconciled[n==record_selected, -c("n")]
+D3_pregnancy_reconciled_before_excl <- D3_groups_of_pregnancies_reconciled[n==record_selected, -c("n")]
 
-save(D3_groups_of_pregnancies_reconciled, file=paste0(dirtemp,"D3_groups_of_pregnancies_reconciled.RData"))
-save(D3_pregnancy_reconciled, file=paste0(dirtemp,"D3_pregnancy_reconciled.RData"))
+save(D3_groups_of_pregnancies_reconciled_before_excl, file=paste0(dirtemp,"D3_groups_of_pregnancies_reconciled_before_excl.RData"))
+save(D3_pregnancy_reconciled_before_excl, file=paste0(dirtemp,"D3_pregnancy_reconciled_before_excl.RData"))
 
-rm(D3_groups_of_pregnancies_reconciled, D3_pregnancy_reconciled, D3_gop)
+rm(D3_groups_of_pregnancies_reconciled, D3_gop, D3_groups_of_pregnancies_reconciled_before_excl, D3_pregnancy_reconciled_before_excl)
