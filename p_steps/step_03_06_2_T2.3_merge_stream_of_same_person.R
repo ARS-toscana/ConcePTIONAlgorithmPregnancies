@@ -41,7 +41,7 @@ load(paste0(dirtemp,"D3_Stream_CONCEPTSETS_check.RData"))
 
 # put together all the D3_Stream..
 groups_of_pregnancies<-rbind(D3_Stream_CONCEPTSETS_check,D3_Stream_PROMPTS_check,D3_Stream_EUROCAT_check,D3_Stream_ITEMSETS_check, fill=T)
-groups_of_pregnancies<-groups_of_pregnancies[,.(pregnancy_id,person_id,record_date,pregnancy_start_date,meaning_start_date,pregnancy_ongoing_date,meaning_ongoing_date,pregnancy_end_date,meaning_end_date,type_of_pregnancy_end,imputed_start_of_pregnancy,imputed_end_of_pregnancy,origin,meaning,column,codvar,coding_system,so_source_value,survey_id,visit_occurrence_id,PROMPT,EUROCAT,CONCEPTSETS,CONCEPTSET,ITEMSETS)]
+groups_of_pregnancies<-groups_of_pregnancies[,.(pregnancy_id,person_id,record_date,pregnancy_start_date,meaning_start_date,pregnancy_ongoing_date,meaning_ongoing_date,pregnancy_end_date,meaning_end_date,type_of_pregnancy_end,imputed_start_of_pregnancy,imputed_end_of_pregnancy,origin,meaning,so_source_value,survey_id,visit_occurrence_id,PROMPT,EUROCAT,CONCEPTSETS,CONCEPTSET,ITEMSETS)]
 
 groups_of_pregnancies<-groups_of_pregnancies[is.na(PROMPT),PROMPT:="no"]
 groups_of_pregnancies<-groups_of_pregnancies[is.na(EUROCAT),EUROCAT:="no"]
@@ -107,6 +107,7 @@ groups_of_pregnancies<-groups_of_pregnancies[coloured_order=="4_red",order_quali
 # table(groups_of_pregnancies[,.(order_quality, coloured_order)], useNA = "ifany")
 groups_of_pregnancies<-groups_of_pregnancies[,ID:=paste0(pregnancy_id,"_",seq_along(.I)),by="pregnancy_id"]
 
+save(groups_of_pregnancies, file=paste0(dirtemp,"groups_of_pregnancies.RData"))
 
 
 print("Start recoinciliation in group - GREEN")
