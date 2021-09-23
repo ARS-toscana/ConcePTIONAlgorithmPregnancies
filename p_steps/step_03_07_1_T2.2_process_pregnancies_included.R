@@ -20,14 +20,14 @@ list_of_D3_gop <- vector( mode = "list")
 D3_gop <- D3_gop[, algorithm_for_reconciliation := ""]
 
 D3_gop <- D3_gop[, number_of_records_in_the_group := max(n), by = "pers_group_id"]
-
+#D3_gop <- D3_gop[1:50, ]
 threshold = 7 
 counter = 1
 while (D3_gop[,.N]!=0) {
   n_of_iteration <- max(D3_gop[, n])
   D3_gop <- D3_gop[, new_pregnancy_group := 0]
   D3_gop <- D3_gop[, new_group := 0]
-  
+
   for (i in seq(1, n_of_iteration)) {
     print(paste0("reconciling record ", i, " of ", n_of_iteration))
     
@@ -43,7 +43,7 @@ while (D3_gop[,.N]!=0) {
     D3_gop <- D3_gop[recon == 0, start_diff := abs(as.integer(pregnancy_start_date - pregnancy_start_date_next_record))]
     D3_gop <- D3_gop[recon == 0, end_diff := abs(as.integer(pregnancy_end_date - pregnancy_end_date_next_record))]
     
-    
+
     #### pers_group_id
     
     #dividing distante record
@@ -83,7 +83,7 @@ while (D3_gop[,.N]!=0) {
     
     D3_gop <- D3_gop[is.na(new_pregnancy_group), new_pregnancy_group:=0]
     D3_gop <- D3_gop[, new_pregnancy_group := max(new_pregnancy_group), by = "pers_group_id"]
-    
+
     D3_gop <- D3_gop[n == (1+i) & new_pregnancy_group == 1, 
                      `:=`(new_group = 1) ][is.na(new_group), new_group := 0]
     
@@ -93,29 +93,29 @@ while (D3_gop[,.N]!=0) {
     
     #### Type of end of pregnancy
     D3_gop <- D3_gop[ n == 1 & new_group_next_record != 1 & !is.na(type_of_pregnancy_end_next_record)  & !is.na(type_of_pregnancy_end) & 
-                        type_of_pregnancy_end != "UNK" & type_of_pregnancy_end_next_record != "UNK" &
-                        type_of_pregnancy_end != type_of_pregnancy_end_next_record,
-                      `:=`(algorithm_for_reconciliation = paste0(algorithm_for_reconciliation, "TypeDiff:", 
-                                                                 substr(coloured_order, 3, 3), "/", 
-                                                                 substr(coloured_order_next_record, 3, 3), "_" ))]
+                       type_of_pregnancy_end != "UNK" & type_of_pregnancy_end_next_record != "UNK" &
+                       type_of_pregnancy_end != type_of_pregnancy_end_next_record,
+                     `:=`(algorithm_for_reconciliation = paste0(algorithm_for_reconciliation, "TypeDiff:", 
+                                                                substr(coloured_order, 3, 3), "/", 
+                                                                substr(coloured_order_next_record, 3, 3), "_" ))]
     
     #### Green - Green    
     D3_gop <- D3_gop[ n == 1 & new_group_next_record != 1 & recon == 0 &  coloured_order == "1_green" & coloured_order_next_record == "1_green" & 
-                        start_diff == 0 & end_diff == 0,
-                      `:=`(algorithm_for_reconciliation = paste0(algorithm_for_reconciliation, "GG:concordant_"),
-                           recon = 1)]
+                       start_diff == 0 & end_diff == 0,
+                     `:=`(algorithm_for_reconciliation = paste0(algorithm_for_reconciliation, "GG:concordant_"),
+                          recon = 1)]
     
     D3_gop <- D3_gop[ n == 1 & new_group_next_record != 1 & recon == 0 & coloured_order == "1_green" & coloured_order_next_record == "1_green" & 
-                        start_diff <= threshold,
-                      `:=`(algorithm_for_reconciliation = paste0(algorithm_for_reconciliation, "GG:SlightlyDiscordantStart_"))]
+                       start_diff <= threshold,
+                     `:=`(algorithm_for_reconciliation = paste0(algorithm_for_reconciliation, "GG:SlightlyDiscordantStart_"))]
     
     D3_gop <- D3_gop[ n == 1 & new_group_next_record != 1 &  recon == 0 & coloured_order == "1_green" & coloured_order_next_record == "1_green" & 
-                        start_diff > threshold,
-                      `:=`(algorithm_for_reconciliation = paste0(algorithm_for_reconciliation, "GG:DiscordantStart_"))]
+                       start_diff > threshold,
+                     `:=`(algorithm_for_reconciliation = paste0(algorithm_for_reconciliation, "GG:DiscordantStart_"))]
     
     D3_gop <- D3_gop[ n == 1 & new_group_next_record != 1 &  recon == 0 & coloured_order == "1_green" & coloured_order_next_record == "1_green" & 
-                        end_diff <= threshold,
-                      `:=`(algorithm_for_reconciliation = paste0(algorithm_for_reconciliation, "GG:SlightlyDiscordantEnd_"))]
+                       end_diff <= threshold,
+                     `:=`(algorithm_for_reconciliation = paste0(algorithm_for_reconciliation, "GG:SlightlyDiscordantEnd_"))]
     
     D3_gop <- D3_gop[n == 1 & new_group_next_record != 1 &  recon == 0 & coloured_order == "1_green" & coloured_order_next_record == "1_green" & 
                        end_diff > threshold,
@@ -217,7 +217,7 @@ while (D3_gop[,.N]!=0) {
     D3_gop <- D3_gop[n == 1 & new_group_next_record != 1 &  recon == 0 & coloured_order == "3_blue" & coloured_order_next_record == "4_red" &
                        !(pregnancy_start_date <= record_date_next_record & record_date_next_record <= pregnancy_end_date),
                      `:=`( algorithm_for_reconciliation = paste0(algorithm_for_reconciliation, "BR:Inconsistency_"))]
-    
+     
     # #### Red - Red
     # D3_gop <- D3_gop[n == 1 & new_group_next_record != 1 &  recon == 0 & coloured_order == "4_red" & coloured_order_next_record == "4_red" & 
     #                    start_diff == 0,
@@ -301,6 +301,8 @@ D3_groups_of_pregnancies_reconciled <- D3_gop[, .(person_id,
                                                   pregnancy_end_date, 
                                                   meaning_end_date, 
                                                   type_of_pregnancy_end, 
+                                                  codvar, 
+                                                  coding_system,
                                                   imputed_start_of_pregnancy, 
                                                   imputed_end_of_pregnancy, 
                                                   meaning, 

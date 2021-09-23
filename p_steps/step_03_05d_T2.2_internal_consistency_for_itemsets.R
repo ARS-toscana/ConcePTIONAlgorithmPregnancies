@@ -4,7 +4,7 @@ if (this_datasource_has_itemsets_stream){
   ## import D3_Stream_ITEMSETS
   load(paste0(dirtemp,"D3_Stream_ITEMSETS.RData"))
   
-  # linkare D3_study_population_pregnancy with PERSONS, verify if person_id, survey_id e survey_date are unique key.
+  # linkare D3_study_population_pregnancy with PERSONS, verify if person_id, visit_occurrence_id e survey_date are unique key.
   # create var link_to_person:=1 if it links with PERSONS, 
   
   #load PERSON, output_spells_ctegory and D3_study_population_pregnancy_intermediate_from_prompt
@@ -78,7 +78,7 @@ if (this_datasource_has_itemsets_stream){
   D3_study_population_pregnancy3 <-D3_study_population_pregnancy3[(pregnancy_ongoing_date>=entry_spell_category & pregnancy_start_in_spells<=exit_spell_category) | is.na(pregnancy_ongoing_date),pregnancy_ongoing_in_spells:=0, by="person_id"][is.na(pregnancy_ongoing_in_spells),pregnancy_ongoing_in_spells:=1]
   table(D3_study_population_pregnancy3$pregnancy_ongoing_in_spells) #750892 rows deleted
 
-  if("survey_id" %notin%names(D3_study_population_pregnancy3)) D3_study_population_pregnancy3[,survey_id:=""]
+  if("visit_occurrence_id" %notin%names(D3_study_population_pregnancy3)) D3_study_population_pregnancy3[,visit_occurrence_id:=""]
   
   # pregancies to be excluded:
   D3_excluded_pregnancies_from_ITEMSETS_2 <- D3_study_population_pregnancy3[no_linked_to_person==1 | person_not_female==1 | person_not_in_fertile_age==1 | pregnancy_start_in_spells==1 |pregnancy_ongoing_in_spells==1 ,] #| pregnancy_end_in_spells==1 # to further explore exclusion
@@ -90,7 +90,7 @@ if (this_datasource_has_itemsets_stream){
   D3_study_population_pregnancy_from_ITEMSETS<-D3_study_population_pregnancy3[no_linked_to_person==0 & person_not_female==0 & person_not_in_fertile_age==0 & pregnancy_start_in_spells==0 & pregnancy_ongoing_in_spells==0, ] [,-c("no_linked_to_person","person_not_female","person_not_in_fertile_age","pregnancy_start_in_spells","pregnancy_ongoing_in_spells")] # & pregnancy_end_in_spells==0# 554767 against 429699
   
 
-  D3_Stream_ITEMSETS_check<-D3_study_population_pregnancy_from_ITEMSETS[,.(pregnancy_id,person_id,record_date,pregnancy_start_date,pregnancy_ongoing_date,pregnancy_end_date,meaning_start_date,meaning_ongoing_date,meaning_end_date,type_of_pregnancy_end,imputed_end_of_pregnancy,imputed_start_of_pregnancy,meaning,survey_id,ITEMSETS)]#
+  D3_Stream_ITEMSETS_check<-D3_study_population_pregnancy_from_ITEMSETS[,.(pregnancy_id,person_id,record_date,pregnancy_start_date,pregnancy_ongoing_date,pregnancy_end_date,meaning_start_date,meaning_ongoing_date,meaning_end_date,type_of_pregnancy_end,imputed_end_of_pregnancy,imputed_start_of_pregnancy,meaning,visit_occurrence_id,ITEMSETS)]#
   save(D3_Stream_ITEMSETS_check, file=paste0(dirtemp,"D3_Stream_ITEMSETS_check.RData"))
   
   

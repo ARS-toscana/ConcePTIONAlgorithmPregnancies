@@ -16,7 +16,7 @@ for (i in 1:length(files)) {
     
     ### specification GESTAGE_FROM_DAPS_CRITERIA_WEEKS
     itemset_AVpair_our_study[["GESTAGE_FROM_DAPS_CRITERIA_WEEKS"]][[files[i]]][["ARS"]] <- list()
-    itemset_AVpair_our_study[["GESTAGE_FROM_DAPS_CRITERIA_WEEKS"]][[files[i]]][["UOSL"]] <- list(list("MBRN","SVLEN"))
+    itemset_AVpair_our_study[["GESTAGE_FROM_DAPS_CRITERIA_WEEKS"]][[files[i]]][["UOSL"]] <- list()
     itemset_AVpair_our_study[["GESTAGE_FROM_DAPS_CRITERIA_WEEKS"]][[files[i]]][["AARHUS"]]<- list()
     # itemset_AVpair_our_study[["GESTAGE_FROM_DAPS_CRITERIA_WEEKS"]][[files[i]]][["University_of_Dundee"]]<- list()
     # itemset_AVpair_our_study[["GESTAGE_FROM_DAPS_CRITERIA_WEEKS"]][[files[i]]][["ULST"]] <- list()
@@ -44,7 +44,7 @@ for (i in 1:length(files)) {
     
     ### specification GESTAGE_FROM_DAPS_CRITERIA_DAYS
     itemset_AVpair_our_study[["GESTAGE_FROM_DAPS_CRITERIA_DAYS"]][[files[i]]][["ARS"]] <- list()
-    itemset_AVpair_our_study[["GESTAGE_FROM_DAPS_CRITERIA_DAYS"]][[files[i]]][["UOSL"]] <- list()
+    itemset_AVpair_our_study[["GESTAGE_FROM_DAPS_CRITERIA_DAYS"]][[files[i]]][["UOSL"]] <- list(list("MBRN","svlen_dg"))
     itemset_AVpair_our_study[["GESTAGE_FROM_DAPS_CRITERIA_DAYS"]][[files[i]]][["AARHUS"]]<- list() 
     # itemset_AVpair_our_study[["GESTAGE_FROM_DAPS_CRITERIA_DAYS"]][[files[i]]][["University_of_Dundee"]]<- list()
     # itemset_AVpair_our_study[["GESTAGE_FROM_DAPS_CRITERIA_DAYS"]][[files[i]]][["ULST"]] <- list()
@@ -100,7 +100,7 @@ for (i in 1:length(files)) {
     
     # specification GESTAGE_FROM_LMP_DAYS
     itemset_AVpair_our_study[["GESTAGE_FROM_LMP_DAYS"]][[files[i]]][["ARS"]] <- list()
-    itemset_AVpair_our_study[["GESTAGE_FROM_LMP_DAYS"]][[files[i]]][["UOSL"]] <- list(list("MBRN","SVLEN_SM_DG"))
+    itemset_AVpair_our_study[["GESTAGE_FROM_LMP_DAYS"]][[files[i]]][["UOSL"]] <- list()
     itemset_AVpair_our_study[["GESTAGE_FROM_LMP_DAYS"]][[files[i]]][["AARHUS"]]<- list(list("MFR","Gestationsalder_dage"))
     # itemset_AVpair_our_study[["GESTAGE_FROM_LMP_DAYS"]][[files[i]]][["University_of_Dundee"]]<- list()
     # itemset_AVpair_our_study[["GESTAGE_FROM_LMP_DAYS"]][[files[i]]][["ULST"]] <- list()
@@ -128,7 +128,7 @@ for (i in 1:length(files)) {
     
     # # specification GESTAGE_FROM_USOUNDS_DAYS
     itemset_AVpair_our_study[["GESTAGE_FROM_USOUNDS_DAYS"]][[files[i]]][["ARS"]] <- list()
-    itemset_AVpair_our_study[["GESTAGE_FROM_USOUNDS_DAYS"]][[files[i]]][["UOSL"]] <- list(list("MBRN","SVLEN_UL_DG")) #in days
+    itemset_AVpair_our_study[["GESTAGE_FROM_USOUNDS_DAYS"]][[files[i]]][["UOSL"]] <- list() #list(list("MBRN","SVLEN_UL_DG")) #in days
     itemset_AVpair_our_study[["GESTAGE_FROM_USOUNDS_DAYS"]][[files[i]]][["AARHUS"]]<- list()
     # itemset_AVpair_our_study[["GESTAGE_FROM_USOUNDS_DAYS"]][[files[i]]][["University_of_Dundee"]]<- list()
     # itemset_AVpair_our_study[["GESTAGE_FROM_USOUNDS_DAYS"]][[files[i]]][["ULST"]] <- list()
@@ -184,7 +184,7 @@ for (i in 1:length(files)) {
     
     # specification DATESTARTPREGNANCY
     itemset_AVpair_our_study[["DATESTARTPREGNANCY"]][[files[i]]][["ARS"]] <- list()
-    itemset_AVpair_our_study[["DATESTARTPREGNANCY"]][[files[i]]][["UOSL"]] <- list(list("MBRN", "SMENSD"))
+    itemset_AVpair_our_study[["DATESTARTPREGNANCY"]][[files[i]]][["UOSL"]] <- list() #list(list("MBRN", "SMENSD"))
     itemset_AVpair_our_study[["DATESTARTPREGNANCY"]][[files[i]]][["AARHUS"]]<- list()
     # itemset_AVpair_our_study[["DATESTARTPREGNANCY"]][[files[i]]][["University_of_Dundee"]]<- list()
     # itemset_AVpair_our_study[["DATESTARTPREGNANCY"]][[files[i]]][["ULST"]] <- list()
@@ -213,7 +213,7 @@ for (i in 1:length(files)) {
     ########################################## END ###################################################### 
     
     itemset_AVpair_our_study[["DATEENDPREGNANCY"]][[files[i]]][["ARS"]] <- list(list("CAP2","DATPARTO")) ##!! CAP1 
-    itemset_AVpair_our_study[["DATEENDPREGNANCY"]][[files[i]]][["UOSL"]] <- list(list("MBRN", "FDATO")) 
+    itemset_AVpair_our_study[["DATEENDPREGNANCY"]][[files[i]]][["UOSL"]] <- list(list("MBRN", "fdato")) 
     itemset_AVpair_our_study[["DATEENDPREGNANCY"]][[files[i]]][["AARHUS"]]<- list(list("MFR", "Foedselsdato"))
     # itemset_AVpair_our_study[["DATEENDPREGNANCY"]][[files[i]]][["University_of_Dundee"]]<- list()
     # itemset_AVpair_our_study[["DATEENDPREGNANCY"]][[files[i]]][["ULST"]] <- list()
@@ -352,7 +352,7 @@ for (i in 1:length(files)) {
     ########################################### TYPE #######################################
     
     itemset_AVpair_our_study[["TYPE"]][[files[i]]][["ARS"]] <- list(list("CAP2", "VITALITA_ARSNEW"))
-    itemset_AVpair_our_study[["TYPE"]][[files[i]]][["UOSL"]] <- list(list("MBRN","DODKAT")) 
+    itemset_AVpair_our_study[["TYPE"]][[files[i]]][["UOSL"]] <- list(list("MBRN","dodkat")) 
     itemset_AVpair_our_study[["TYPE"]][[files[i]]][["AARHUS"]]<- list(list("MFR", "Levende_eller_doedfoedt"))
     # itemset_AVpair_our_study[["TYPE"]][[files[i]]][["University_of_Dundee"]]<- list()
     # itemset_AVpair_our_study[["TYPE"]][[files[i]]][["ULST"]] <- list()

@@ -49,6 +49,9 @@ D3_excluded_pregnancies <- D3_pregnancy_reconciled[excluded == 1][, -c("excluded
 save(D3_included_pregnancies, file=paste0(dirtemp,"D3_included_pregnancies.RData"))
 save(D3_excluded_pregnancies, file=paste0(dirtemp,"D3_excluded_pregnancies.RData"))
 
+if (thisdatasource == "BIFAP"){
+  fwrite(D3_pregnancy_reconciled, paste0(dirvalidation, "/D3_pregnancy_reconciled.csv"))
+}
 
 rm(D3_groups_of_pregnancies_reconciled, D3_pregnancy_reconciled,
    D3_included_pregnancies, D3_excluded_pregnancies)

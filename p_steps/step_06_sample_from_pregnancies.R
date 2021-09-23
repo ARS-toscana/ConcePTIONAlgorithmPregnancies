@@ -147,7 +147,9 @@ for (studyvar in study_variables_of_our_study){
                                          link = NA,
                                          sample = NA)]
       
-      study_var_temp <-  merge(study_var_temp[, -c("person_id")], record_sample[!is.na(survey_id), .(survey_id, person_id)], by="survey_id", all.x = TRUE)
+      study_var_temp <-  merge(study_var_temp[, -c("person_id")], 
+                               record_sample[!is.na(survey_id), .(survey_id, person_id)], 
+                               by="survey_id", all.x = TRUE)
     }
     
     list_of_records[[studyvar]] <- study_var_temp
@@ -191,7 +193,7 @@ for (studyvar in study_itemset_of_our_study){
                                          from_algorithm = 0,
                                          link = NA,
                                          sample = NA)]
-      
+    
       list_of_records[[studyvar]] <- study_var_temp
     }
   }
@@ -247,7 +249,7 @@ for (concept in concept_set_list_1){
                                      from_algorithm = 0,
                                      link = NA,
                                      sample = NA)]
-      
+
       list_of_records[[concept]] <- concept_temp
     }
   }
@@ -290,7 +292,7 @@ for (concept in concept_set_list_2){
                                      link = NA,
                                      sample = NA)]
       
-      list_of_records[[concept]] <- concept_temp
+     list_of_records[[concept]] <- concept_temp
     }
   }
 }
@@ -331,7 +333,7 @@ for (concept in concept_set_list_3){
                                      from_algorithm = 0,
                                      link = NA,
                                      sample = NA)]
-      
+
       list_of_records[[concept]] <- concept_temp
     }
   }
@@ -342,7 +344,7 @@ for (i in 1:length(files_temp)) {
   if (str_detect(files_temp[i],"^SPC_pregnancies")) {
     print("SPC")
     assign("SPC", get(load(paste0(dirtemp,"SPC_pregnancies.RData"))))
-    if(nrow(concept_temp)>0){
+    if(nrow(SPC)>0){
       SPC <- SPC[visit_occurrence_id %in% record_sample[, survey_visit_id] &
                    person_id %in% record_sample[, person_id],
                  .(pregnancy_id = NA,
@@ -374,8 +376,8 @@ for (i in 1:length(files_temp)) {
                    from_algorithm = 0,
                    link = NA,
                    sample = NA)]
-      
-      list_of_records[["SPC"]] <- SPC
+
+     list_of_records[["SPC"]] <- SPC
     }
   }
 }
@@ -404,7 +406,7 @@ sample_from_pregnancies_anon <- sample_from_pregnancies_anon[record_date == "999
 
 sample_from_pregnancies_anon <- sample_from_pregnancies_anon[, -c("person_id", "survey_id", "visit_occurrence_id", "from_algorithm", "pers_group_id", "sample")]
 
-
+### set end to (0)
 sample_from_pregnancies_anon <- sample_from_pregnancies_anon[!is.na(pregnancy_start_date) & !is.na(pregnancy_start_date), pregnancy_length_days := as.Date(pregnancy_end_date) - as.Date(pregnancy_start_date)]
 sample_from_pregnancies_anon <- sample_from_pregnancies_anon[!is.na(pregnancy_start_date) & !is.na(pregnancy_start_date), pregnancy_length_weeks := as.integer(pregnancy_length_days/7)]
 
@@ -419,6 +421,7 @@ sample_from_pregnancies_anon <- sample_from_pregnancies_anon[n == 1, pregnancy_e
 
 sample_from_pregnancies_anon <- sample_from_pregnancies_anon[, record_date:= as.character(record_date)]
 sample_from_pregnancies_anon <- sample_from_pregnancies_anon[!is.na(record_date), record_date := paste0(record_date, " (", distance_from_preg_end, " d)")]
+sample_from_pregnancies_anon <- sample_from_pregnancies_anon[, -c("pregnancy_length_days", "pregnancy_length_weeks", "distance_from_preg_end")]
 
 ### save and remove
 DT_time <- data.table(time = now)
