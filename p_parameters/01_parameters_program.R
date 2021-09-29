@@ -21,8 +21,8 @@ extension <- c(".csv")
 dirproducts <- paste0(thisdir,"/i_input/")
 dirpargen <- paste0(thisdir,"/g_parameters/")
 dirsmallcountsremoved <- paste0(thisdir,"/g_export_SMALL_COUNTS_REMOVED/")
-dirdescribe <- paste0(thisdir, "/g_describe_HTML")
-dirvalidation <- paste0(thisdir, "/g_validation")
+dirdescribe <- paste0(thisdir, "/g_describe_HTML/")
+dirvalidation <- paste0(thisdir, "/g_validation/")
 
 # load packages
 if (!require("haven")) install.packages("haven")
@@ -138,6 +138,7 @@ study_start_datasource[['PEDIANET']] <- as.Date(as.character(20180101), date_for
 study_start_datasource[['FISABIO']] <- as.Date(as.character(20170101), date_format)
 study_start_datasource[['CPRD']] <- as.Date(as.character(20170101), date_format)
 study_start_datasource[['SIDIAP']] <- as.Date(as.character(20170101), date_format)
+study_start_datasource[['UOSL']] <- as.Date(as.character(20170101), date_format)
 
 study_start <- study_start_datasource[[thisdatasource]]
 
@@ -153,6 +154,7 @@ study_end_datasource[['PEDIANET']] <- as.Date(as.character(20201231), date_forma
 study_end_datasource[['FISABIO']] <- as.Date(as.character(20201130), date_format)
 study_end_datasource[['CPRD']] <- as.Date(as.character(20200930), date_format)
 study_end_datasource[['SIDIAP']] <- as.Date(as.character(20200630), date_format)
+study_end_datasource[['UOSL']] <- as.Date(as.character(20200630), date_format)
 
 study_end <- study_end_datasource[[thisdatasource]]
 
@@ -165,7 +167,7 @@ study_start_coprimary_d = study_start_coprimary_c
 #study_years_datasource
 
 study_years_datasource <- vector(mode="list")
-  
+
 study_years_datasource[['AARHUS']] <-  c("2010","2011","2012","2013")
 study_years_datasource[['ARS']] <-  c("2017","2018","2019","2020")
 study_years_datasource[['BIFAP']] <-  c("2017","2018","2019")
@@ -174,6 +176,7 @@ study_years_datasource[['GePaRD']] <-  c("2014","2015","2016","2017")
 study_years_datasource[['FISABIO']] <-  c("2017","2018","2019","2020")
 study_years_datasource[['CPRD']] <-  c("2017","2018","2019","2020")
 study_years_datasource[['SIDIAP']] <-  c("2017","2018","2019","2020")
+study_years_datasource[['UOSL']] <-  c("2017","2018","2019","2020")
 
 study_years <- study_years_datasource[[thisdatasource]]
 
@@ -189,8 +192,9 @@ firstYearComponentAnalysis_datasource[['PEDIANET']] <- '2018'
 firstYearComponentAnalysis_datasource[['FISABIO']] <- '2018'
 firstYearComponentAnalysis_datasource[['CPRD']] <- '2018'
 firstYearComponentAnalysis_datasource[['SIDIAP']] <- '2018'
+firstYearComponentAnalysis_datasource[['UOSL']] <- '2018'
 
-for (datas in c('ARS','BIFAP','AARHUS','GePaRD','PEDIANET','FISABIO','CPRD','SIDIAP')){
+for (datas in c('ARS','BIFAP','AARHUS','GePaRD','PEDIANET','FISABIO','CPRD','SIDIAP', 'UOSL')){
   secondYearComponentAnalysis_datasource[[datas]] = as.character(as.numeric(firstYearComponentAnalysis_datasource[[datas]])+1)
 }
 
