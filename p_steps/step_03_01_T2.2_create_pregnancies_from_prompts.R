@@ -83,9 +83,9 @@ if (dim(SURVEY_ID_BR)[1]!=0){
   dataset_pregnancies2[is.na(pregnancy_end_date),pregnancy_end_date:=END_ABORTION][!is.na(pregnancy_end_date)& is.na(meaning_end_date),`:=`(meaning_end_date=meaning_END_ABORTION, origin=table_END_ABORTION, column=column_END_ABORTION, so_source_value=END_ABORTION)]
   
   # impute type for unclassified dates 
-  dataset_pregnancies2[meaning_end_date==unlist(meaning_of_survey_our_study_this_datasource[["spontaneous_abortion"]]),type_of_pregnancy_end:="SA"] #is.na(type_of_pregnancy_end) & 
-  dataset_pregnancies2[meaning_end_date==unlist(meaning_of_survey_our_study_this_datasource[["induced_termination"]]),type_of_pregnancy_end:="T"] #is.na(type_of_pregnancy_end) & 
-  dataset_pregnancies2[meaning_end_date==unlist(meaning_of_survey_our_study_this_datasource[["livebirth_or_stillbirth"]]),type_of_pregnancy_end:="LB/SB"] #is.na(type_of_pregnancy_end) &
+  dataset_pregnancies2[meaning_end_date%in%unlist(meaning_of_survey_our_study_this_datasource[["spontaneous_abortion"]]),type_of_pregnancy_end:="SA"] #is.na(type_of_pregnancy_end) & 
+  dataset_pregnancies2[meaning_end_date%in%unlist(meaning_of_survey_our_study_this_datasource[["induced_termination"]]),type_of_pregnancy_end:="T"] #is.na(type_of_pregnancy_end) & 
+  dataset_pregnancies2[meaning_end_date%in%unlist(meaning_of_survey_our_study_this_datasource[["livebirth_or_stillbirth"]]),type_of_pregnancy_end:="LB/SB"] #is.na(type_of_pregnancy_end) &
   
   # classified DATEENDPREGNANCY with TYPE
   dataset_pregnancies2[pregnancy_end_date==DATEENDPREGNANCY & TYPE%in%unlist(dictonary_of_itemset_this_datasource[["LB"]]),type_of_pregnancy_end:="LB"]
@@ -150,15 +150,61 @@ if (dim(SURVEY_ID_BR)[1]!=0){
   
   
   # keep only vars neeed
-  D3_Stream_PROMPTS <- dataset_pregnancies3[,.(pregnancy_id,person_id,record_date,survey_id,pregnancy_start_date,pregnancy_end_date,meaning_start_date,meaning_end_date,imputed_start_of_pregnancy,type_of_pregnancy_end,origin,column,meaning,so_source_value, PROMPT)] 
-  save(D3_Stream_PROMPTS, file=paste0(dirtemp,"D3_Stream_PROMPTS.RData"))
+  D3_Stream_PROMPTS_survey_id <- dataset_pregnancies3[,.(pregnancy_id,person_id,record_date,survey_id,pregnancy_start_date,pregnancy_end_date,meaning_start_date,meaning_end_date,imputed_start_of_pregnancy,type_of_pregnancy_end,origin,column,meaning,so_source_value, PROMPT)] 
+  save(D3_Stream_PROMPTS_survey_id, file=paste0(dirtemp,"D3_Stream_PROMPTS_survey_id.RData"))
   
   
   
   rm(dataset_pregnancies,dataset_pregnancies2, dataset_pregnancies3, dataset_pregnancies0)
   rm(GESTAGE_FROM_DAPS_CRITERIA_DAYS, GESTAGE_FROM_DAPS_CRITERIA_WEEKS, GESTAGE_FROM_LMP_DAYS, GESTAGE_FROM_LMP_WEEKS, GESTAGE_FROM_USOUNDS_DAYS, GESTAGE_FROM_USOUNDS_WEEKS, DATEENDPREGNANCY, DATESTARTPREGNANCY, END_ABORTION, END_LIVEBIRTH, END_STILLBIRTH, END_TERMINATION)
-  rm(D3_Stream_PROMPTS)
   ##################################################################################################################################
 }
 
 rm(SURVEY_ID_BR)
+
+
+
+
+##############################################################################
+###########################  Visit occurence prompts #########################
+##############################################################################
+
+if (this_datasource_has_visit_occurrence_prompt) {
+  load(paste0(dirtemp,"VISIT_OCCURRENCE_PREG.RData"))
+  
+  VISIT_OCCURRENCE_PREG<-VISIT_OCCURRENCE_PREG[,visit_start_date:=ymd(visit_start_date)]
+  
+  #rename var already exited
+  setnames(VISIT_OCCURRENCE_PREG,"visit_start_date","record_date")
+  setnames(VISIT_OCCURRENCE_PREG,"origin_of_visit","origin")
+  
+  ##first_encounter_for_ongoing_pregnancy
+  VISIT_OCCURRENCE_PREG<-VISIT_OCCURRENCE_PREG[meaning_of_visit=="first_encounter_for_ongoing_pregnancy", `:=`( pregnancy_start_date=record_date-60,pregnancy_ongoing_date=record_date,type_of_pregnancy_end="ONGOING", imputed_end_of_pregnancy=1, imputed_start_of_pregnancy=1, meaning_start_date="imputed_from_first_encounter_for_ongoing_pregnancy",meaning_ongoing_date="first_encounter_for_ongoing_pregnancy",meaning_end_date="unknown", PROMPT="Yes")] 
+  VISIT_OCCURRENCE_PREG<-VISIT_OCCURRENCE_PREG[meaning_of_visit=="first_encounter_for_ongoing_pregnancy", pregnancy_end_date:=pregnancy_start_date+280]
+  ##service_before_termination
+  VISIT_OCCURRENCE_PREG<-VISIT_OCCURRENCE_PREG[meaning_of_visit=="service_before_termination", `:=`( pregnancy_start_date=record_date-70,pregnancy_ongoing_date=record_date, type_of_pregnancy_end="T", imputed_end_of_pregnancy=1, imputed_start_of_pregnancy=1, meaning_start_date="unknown",meaning_ongoing_date="service_before_termination",meaning_end_date="unknown", PROMPT="Yes")]
+  VISIT_OCCURRENCE_PREG<-VISIT_OCCURRENCE_PREG[meaning_of_visit=="service_before_termination",pregnancy_end_date:=pregnancy_start_date+90]
+  ##service_for_ongoing_pregnancy
+  VISIT_OCCURRENCE_PREG<-VISIT_OCCURRENCE_PREG[meaning_of_visit=="service_for_ongoing_pregnancy", `:=`(pregnancy_start_date=record_date-140,pregnancy_ongoing_date=record_date, type_of_pregnancy_end="ONGOING", imputed_end_of_pregnancy=1, imputed_start_of_pregnancy=1, meaning_start_date="unknown",meaning_ongoing_date="first_encounter_for_ongoing_pregnancy",meaning_end_date="unknown", PROMPT="Yes")]
+  VISIT_OCCURRENCE_PREG<-VISIT_OCCURRENCE_PREG[meaning_of_visit=="service_for_ongoing_pregnancy", pregnancy_end_date:=pregnancy_start_date+280]
+  
+  VISIT_OCCURRENCE_PREG[is.na(imputed_end_of_pregnancy),imputed_end_of_pregnancy:=0]
+  VISIT_OCCURRENCE_PREG[is.na(imputed_start_of_pregnancy),imputed_start_of_pregnancy:=0]
+  
+  # create variable pregnancy_id as survey_date
+  VISIT_OCCURRENCE_PREG[,pregnancy_id:=paste0(visit_occurrence_id,"_",person_id,"_",record_date)] 
+  
+  setnames(VISIT_OCCURRENCE_PREG,"meaning_of_visit","meaning")
+  # keep only vars neeed
+  D3_Stream_PROMPTS_visit_occurrence <- VISIT_OCCURRENCE_PREG[,.(pregnancy_id,person_id,record_date,pregnancy_start_date,pregnancy_ongoing_date,pregnancy_end_date,meaning_start_date,meaning_end_date,meaning_ongoing_date,type_of_pregnancy_end,imputed_start_of_pregnancy,imputed_end_of_pregnancy,visit_occurrence_id,PROMPT,origin, meaning)]
+  # 
+  save(D3_Stream_PROMPTS_visit_occurrence, file=paste0(dirtemp,"D3_Stream_PROMPTS_visit_occurrence.RData"))
+  print("Prompt from visit occurrence processed")
+}else{
+  D3_Stream_PROMPTS_visit_occurrence <- data.table()
+}
+
+D3_Stream_PROMPTS <- rbind(D3_Stream_PROMPTS_survey_id, D3_Stream_PROMPTS_visit_occurrence, fill = TRUE)
+save(D3_Stream_PROMPTS, file=paste0(dirtemp,"D3_Stream_PROMPTS.RData"))
+
+rm(D3_Stream_PROMPTS_visit_occurrence, D3_Stream_PROMPTS_survey_id, D3_Stream_PROMPTS)

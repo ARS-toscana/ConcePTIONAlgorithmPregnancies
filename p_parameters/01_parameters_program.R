@@ -167,7 +167,7 @@ study_start_coprimary_d = study_start_coprimary_c
 #study_years_datasource
 
 study_years_datasource <- vector(mode="list")
-
+  
 study_years_datasource[['AARHUS']] <-  c("2010","2011","2012","2013")
 study_years_datasource[['ARS']] <-  c("2017","2018","2019","2020")
 study_years_datasource[['BIFAP']] <-  c("2017","2018","2019")
@@ -205,9 +205,18 @@ secondYearComponentAnalysis = secondYearComponentAnalysis_datasource[[thisdataso
 gap_allowed_thisdatasource = ifelse(thisdatasource == "ARS",21,1)
 
 #datasource with itemsets stream
-datasources_with_itemsets_stream <- c("TEST","GePaRD","BIFAP","ARS") # MED_OBS
+datasources_with_itemsets_stream <- c("TEST","GePaRD","BIFAP","ARS") 
 #datasources_with_itemsets_stream <- c()
 this_datasource_has_itemsets_stream <- ifelse(thisdatasource %in% datasources_with_itemsets_stream,TRUE,FALSE) 
+
+datasource_with_itemsets_stream_from_medical_obs <- c("TEST","GePaRD","BIFAP") # MED_OBS
+this_datasource_has_itemsets_stream_from_medical_obs <- ifelse(thisdatasource %in% datasource_with_itemsets_stream_from_medical_obs,TRUE,FALSE) 
+
+
+#datasource with VISIT_OCCURRENCE prompt
+datasource_with_visit_occurrence_prompt <- c("ARS") 
+this_datasource_has_visit_occurrence_prompt <- ifelse(thisdatasource %in% datasources_with_itemsets_stream,TRUE,FALSE) 
+
 
 # # datasources with itemset linked to conceptset
 # datasources_with_itemset_linked_to_conceptset <- c("TEST",) # MED_OBS

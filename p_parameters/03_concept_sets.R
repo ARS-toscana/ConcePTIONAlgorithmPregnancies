@@ -172,9 +172,10 @@ if( thisdatasource=="CPRD") {
   concept_sets_of_our_study_procedure<-c()
   
 } else {
+  concept_set_codes_our_study_datasource <- vector(mode="list")
   
   concept_sets_of_our_study_procedure <- c("gestational_diabetes","fetal_nuchal_translucency", "amniocentesis","Chorionic_Villus_Sampling","others")
-  
+  coding_system_of_our_study_procedure <- c("ITA_procedures_coding_system", "ICD9", "ICD10")
   # datasources<-c("ARS", "UOSL", "GePaRD", "BIFAP", "FISABIO", "SIDIAP", "CNR-IFC", "CHUT", "UNIME", "CPRD", "THL", "PEDIANET", "TEST")
   
   #concept_set_domains<- vector(mode="list")
@@ -188,33 +189,48 @@ if( thisdatasource=="CPRD") {
   
   #--------------------------
   ####### Codes for tests for gestational diabetes ###############
-  concept_set_codes_our_study[["gestational_diabetes"]][["ITA_procedures_coding_system"]] <- c("90.26.7") #glucose tolerance test 60-120 minutes
-  #concept_set_codes_our_study[["gestational_diabetes"]][["FISABIO"]][["ICD9"]] <- c("648.8") #ICD-9-MC
-  #concept_set_codes_our_study[["gestational_diabetes"]][["FISABIO"]][["ICD10"]] <- c("O24.4") #ICD-10 Spanish version
+  concept_set_codes_our_study_datasource[["gestational_diabetes"]][["ARS"]][["ITA_procedures_coding_system"]] <- c("90.26.7") #glucose tolerance test 60-120 minutes
+  #concept_set_codes_our_study_datasource[["gestational_diabetes"]][["FISABIO"]][["ICD9"]] <- c("648.8") #ICD-9-MC
+  #concept_set_codes_our_study_datasource[["gestational_diabetes"]][["FISABIO"]][["ICD10"]] <- c("O24.4") #ICD-10 Spanish version
   
   
   ####### Codes for fetal nuchal translucency ###############
-  #concept_set_codes_our_study[["fetal_nuchal_translucency"]][["THL"]][[""]] <- c("MA2JE") # maybe also MA1AE 
+  #concept_set_codes_our_study_datasource[["fetal_nuchal_translucency"]][["THL"]][[""]] <- c("MA2JE") # maybe also MA1AE 
   
   
   ####### Codes for amniocentesis ###############
-  concept_set_codes_our_study[["amniocentesis"]][["ITA_procedures_coding_system"]] <- c("75.10.2", "75.10.3")
-  #concept_set_codes_our_study[["amniocentesis"]][["THL"]][[""]] <- c("MAA00")
+  concept_set_codes_our_study_datasource[["amniocentesis"]][["ARS"]][["ITA_procedures_coding_system"]] <- c("75.10.2", "75.10.3")
+  #concept_set_codes_our_study_datasource[["amniocentesis"]][["THL"]][[""]] <- c("MAA00")
   
   
   
   ####### Codes for Chorionic Villus Sampling ###############
-  concept_set_codes_our_study[["Chorionic_Villus_Sampling"]][["ITA_procedures_coding_system"]] <- c("75.10.1")
-  # concept_set_codes_our_study[["Chorionic_Villus_Sampling"]][["THL"]][[""]] <- c("MAA10")
+  concept_set_codes_our_study_datasource[["Chorionic_Villus_Sampling"]][["ARS"]][["ITA_procedures_coding_system"]] <- c("75.10.1")
+  # concept_set_codes_our_study_datasource[["Chorionic_Villus_Sampling"]][["THL"]][[""]] <- c("MAA10")
   
   
   # ####### Codes for tests for others ###############
-  concept_set_codes_our_study[["others"]][["ITA_procedures_coding_system"]] <- c("75.34.1")
-  #concept_set_codes_our_study[["others"]][["UNIME"]][["ICD9"]] <- c("645.1", "644.2", "650", "72.xx", "73.xx", "74.xx", "75.xx", "640.xx", "642.xx", "648.xx", "651.xx", "652.xx", "653.xx", "654.xx", "655.xx", "656.xx", "657.xx", "658.xx", "659.xx") 
-  #concept_set_codes_our_study[["others"]][["FISABIO"]][["ICD9"]] <- c("72.", "73.", "74.", "75.")
-  #concept_set_codes_our_study[["others"]][["FISABIO"]][["ICD10"]] <- c("102", "109", "10A", "10D", "10E", "10H", "10J", "10P", "10Q", "10S", "10T", "10Y") #ICD-10-Spanish version, Chapter 1 Obstetricia
+  concept_set_codes_our_study_datasource[["others"]][["ARS"]][["ITA_procedures_coding_system"]] <- c("75.34.1")
+  #concept_set_codes_our_study_datasource[["others"]][["UNIME"]][["ICD9"]] <- c("645.1", "644.2", "650", "72.", "73.", "74.", "75.", "640.", "642.", "648.", "651.", "652.", "653.", "654.", "655.", "656.", "657.", "658.", "659.") 
+  #concept_set_codes_our_study_datasource[["others"]][["FISABIO"]][["ICD9"]] <- c("72.", "73.", "74.", "75.")
+  #concept_set_codes_our_study_datasource[["others"]][["FISABIO"]][["ICD10"]] <- c("102", "109", "10A", "10D", "10E", "10H", "10J", "10P", "10Q", "10S", "10T", "10Y") #ICD-10-Spanish version, Chapter 1 Obstetricia
   
+  
+  for (procedure in concept_sets_of_our_study_procedure){
+    for (code in coding_system_of_our_study_procedure) {
+      concept_set_codes_our_study[[procedure]][[code]] <- concept_set_codes_our_study_datasource[[procedure]][[thisdatasource]][[code]]
+    }
+  }
 }
+
+
+
+
+
+
+# TO DO
+# CREATE SCYLE ACROSS PROCEDUSES ASSIGNED ABOVE AND CORRESPONDING CODING SYSTEMS
+# concept_set_codes_our_study[[proc]][[coding_system]] <- concept_set_codes_our_study_datasource[[proc]][[thisdatasource]][[coding_system]] 
 
 
 # conceptset_our_study_this_datasource_procedure<-vector(mode="list")

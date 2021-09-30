@@ -1,3 +1,5 @@
+## TO DO: retrieve from VISIT_OCCURRENCE_ID and from SURVEY_ID all the records that have the prompts listed in 04_prompts
+
 
 # RETRIEVE FROM SURVEY_ID ALL RECORDS WHOSE meaning IS "birth_registry_mother" AND SAVE
 
@@ -18,23 +20,21 @@ save(SURVEY_ID_BR, file=paste0(dirtemp,"SURVEY_ID_BR.RData"))
 
 # RETRIEVE FROM VISIT_OCCURRENCE_ID ALL RECORDS WHOSE meaning IS "first_encounter_for_ongoing_pregnancy", "service_before_termination" , "service_for_ongoing_pregnancy" AND SAVE
 
-meaning_of_visit_ARS<-c("first_encounter_for_ongoing_pregnancy", "service_before_termination" , "service_for_ongoing_pregnancy")
-
-if (thisdatasource=="ARS") {
+if (this_datasource_has_visit_occurrence_prompt) {
   
-  SPC_pregnancies <- data.table()
+  VISIT_OCCURRENCE_PREG <- data.table()
   files<-sub('\\.csv$', '', list.files(dirinput))
   
   for (i in 1:length(files)) {
     if (str_detect(files[i],"^VISIT_OCCURRENCE_SPC")) {
       
-      SPC_pregnancies <-rbind(SPC_pregnancies,fread(paste0(dirinput,files[i],".csv"))[(meaning_of_visit %chin% meaning_of_visit_ARS),])
+      VISIT_OCCURRENCE_PREG <-rbind(VISIT_OCCURRENCE_PREG,fread(paste0(dirinput,files[i],".csv"))[(meaning_of_visit %chin% unlist(meaning_of_visit_our_study_this_datasource)),])
       
     }
   }
   
-  save(SPC_pregnancies, file=paste0(dirtemp,"SPC_pregnancies.RData"))
-  rm(SPC_pregnancies)
+  save(VISIT_OCCURRENCE_PREG, file=paste0(dirtemp,"VISIT_OCCURRENCE_PREG.RData"))
+  rm(VISIT_OCCURRENCE_PREG)
   
 }
 
