@@ -22,6 +22,15 @@ dirproducts <- paste0(thisdir,"/i_input/")
 dirpargen <- paste0(thisdir,"/g_parameters/")
 dirsmallcountsremoved <- paste0(thisdir,"/g_export_SMALL_COUNTS_REMOVED/")
 dirdescribe <- paste0(thisdir, "/g_describe_HTML/")
+
+dirdescribesteps <- paste0(thisdir, "/g_describe_HTML/steps_description/")
+dirdescribe01 <- paste0(thisdir, "/g_describe_HTML/steps_description/01/")
+dirdescribe3_01_04 <- paste0(thisdir, "/g_describe_HTML/steps_description/3_01_04/")
+dirdescribe3_05 <- paste0(thisdir, "/g_describe_HTML/steps_description/3_05/")
+dirdescribe3_06 <- paste0(thisdir, "/g_describe_HTML/steps_description/3_06/")
+dirdescribe3_07 <- paste0(thisdir, "/g_describe_HTML/steps_description/3_07/")
+dirdescribe3_08 <- paste0(thisdir, "/g_describe_HTML/steps_description/3_08/")
+
 dirvalidation <- paste0(thisdir, "/g_validation/")
 
 # load packages
@@ -167,7 +176,7 @@ study_start_coprimary_d = study_start_coprimary_c
 #study_years_datasource
 
 study_years_datasource <- vector(mode="list")
-  
+
 study_years_datasource[['AARHUS']] <-  c("2010","2011","2012","2013")
 study_years_datasource[['ARS']] <-  c("2017","2018","2019","2020")
 study_years_datasource[['BIFAP']] <-  c("2017","2018","2019")
@@ -234,7 +243,18 @@ suppressWarnings(if (!file.exists(dirfigure)) dir.create(file.path( dirfigure)))
 suppressWarnings(if (!file.exists(dirpargen)) dir.create(file.path( dirpargen)))
 suppressWarnings(if (!file.exists(dirsmallcountsremoved)) dir.create(file.path(dirsmallcountsremoved)))
 suppressWarnings(if (!file.exists(dirdescribe)) dir.create(file.path(dirdescribe)))
+
+suppressWarnings(if (!file.exists(dirdescribesteps)) dir.create(file.path(dirdescribesteps)))
+suppressWarnings(if (!file.exists(dirdescribe01)) dir.create(file.path(dirdescribe01)))
+suppressWarnings(if (!file.exists(dirdescribe3_01_04)) dir.create(file.path(dirdescribe3_01_04)))
+suppressWarnings(if (!file.exists(dirdescribe3_05)) dir.create(file.path(dirdescribe3_05)))
+suppressWarnings(if (!file.exists(dirdescribe3_06)) dir.create(file.path(dirdescribe3_06)))
+suppressWarnings(if (!file.exists(dirdescribe3_07)) dir.create(file.path(dirdescribe3_07)))
+suppressWarnings(if (!file.exists(dirdescribe3_08)) dir.create(file.path(dirdescribe3_08)))
+
 suppressWarnings(if (!file.exists(dirvalidation)) dir.create(file.path(dirvalidation)))
+
+
 
 #############################################
 #SAVE METADATA TO direxp
