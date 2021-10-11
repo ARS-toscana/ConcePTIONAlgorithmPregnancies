@@ -97,6 +97,25 @@ if (dim(D3_Stream_EUROCAT)[1]!=0){
   D3_Stream_EUROCAT_check<-D3_study_population_pregnancy_from_EUROCAT[,.(pregnancy_id,person_id,record_date,pregnancy_start_date,pregnancy_end_date,meaning_start_date,meaning_end_date,type_of_pregnancy_end,survey_id,EUROCAT)]#
   save(D3_Stream_EUROCAT_check, file=paste0(dirtemp,"D3_Stream_EUROCAT_check.RData"))
   
+  ##### Description #####
+  DescribeThisDataset(Dataset = D3_Stream_EUROCAT_check,
+                      Individual=T,
+                      ColumnN=NULL,
+                      HeadOfDataset=FALSE,
+                      StructureOfDataset=FALSE,
+                      NameOutputFile="D3_Stream_EUROCAT_check",
+                      Cols=list("meaning_start_date",
+                                "meaning_end_date",
+                                "type_of_pregnancy_end",
+                                "meaning",),
+                      ColsFormat=list("categorical", 
+                                      "categorical",
+                                      "categorical",
+                                      "categorical"),
+                      DateFormat_ymd=FALSE,
+                      DetailInformation=TRUE,
+                      PathOutputFolder= dirdescribe03_internal_consistency)
+  ##### End Description #####
   
   rm(D3_Stream_EUROCAT_check,D3_PERSONS, output_spells_category, D3_study_population_pregnancy_from_EUROCAT,D3_study_population_pregnancy1,D3_study_population_pregnancy2, D3_excluded_pregnancies_from_EUROCAT,D3_excluded_pregnancies_from_EUROCAT_1,D3_excluded_pregnancies_from_EUROCAT_2,D3_study_population_pregnancy3)
   

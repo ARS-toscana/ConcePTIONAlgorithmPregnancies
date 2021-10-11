@@ -114,9 +114,9 @@ files_temp<-sub('\\.RData$', '', list.files(dirtemp))
 for (studyvar in study_variables_of_our_study){
   if (studyvar %in% files_temp) {
     assign("study_var_temp", get(load(paste0(dirtemp, studyvar, ".RData"))))
-    if(nrow(study_var_temp)>0){
+    if(!(nrow(study_var_temp) == 1 & is.na(study_var_temp[1, person_id])) | nrow(study_var_temp) !=0 ){
       print(studyvar)
-      study_var_temp <- study_var_temp[survey_id %in% record_sample[, survey_visit_id], 
+      study_var_temp <- study_var_temp[survey_id %in% record_sample[!is.na(survey_visit_id), survey_visit_id], 
                                        .(pregnancy_id = NA,
                                          person_id = NA,
                                          survey_id,

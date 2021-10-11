@@ -1,0 +1,23 @@
+th {width: 100%; width: 33.33%; }
+
+td {width: 100%; width: 33.33%; }
+
+table {
+    display: block;
+    overflow-x: auto;
+    overflow-y: auto;
+    white-space: nowrap;
+}
+
+/*
+tr > td:first-of-type {
+Position: absolute;
+width: 100px
+}
+*/
+
+h1 {color: #000000}
+h2 {color: #0579fc}
+h3 {color: #2387fa}
+
+.list-group-item.active, .list-group-item.active:focus, .list-group-item.active:hover {background-color: #2387fa; border-color: #2387fa}

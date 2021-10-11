@@ -19,7 +19,7 @@ if (dim(SURVEY_ID_BR)[1]!=0){
                         itemset = itemset_AVpair_our_study_this_datasource, 
                         dirinput = dirinput,
                         diroutput = dirtemp,
-                        discard_from_environment = T,
+                        discard_from_environment = FALSE,
                         extension = c("csv"))
   
   
@@ -45,7 +45,7 @@ if (this_datasource_has_itemsets_stream){
                         itemset = itemsetMED_AVpair_our_study_this_datasource, 
                         dirinput = dirinput,
                         diroutput = dirtemp,
-                        discard_from_environment = T,
+                        discard_from_environment = FALSE,
                         extension = c("csv"))
 } else {
   print("this datasource has NO itemsets stream")
@@ -70,4 +70,58 @@ if (this_datasource_has_itemsets_stream){
 #   print("this datasource has NO itemsets linked to conceptset")
 # }
 #   
+
+################################################################################
+###########################       Description        ###########################
+################################################################################
+
+# for (item in c(study_variables_of_our_study, study_itemset_of_our_study)) {
+#   if(item %in% files_it){
+#     load(paste0(dirtemp, item, ".RData"))
+#   }
+# }
+
+files_it<-sub('\\.RData$', '', list.files(dirtemp))
+
+for (item in study_variables_of_our_study) {
+  if( item %in% files_it ){
+    if( !(nrow(get(item)) == 1 & is.na(get(item)[1, person_id])) ){
+      print(paste0("Describing ", item))
+      DescribeThisDataset(Dataset = get(item),
+                          Individual=T,
+                          ColumnN=NULL,
+                          HeadOfDataset=FALSE,
+                          StructureOfDataset=FALSE,
+                          NameOutputFile=item,
+                          Cols=list("so_source_column", "so_origin", "so_meaning", "Table_cdm"),
+                          ColsFormat=list("categorical", "categorical", "categorical", "categorical"),
+                          DateFormat_ymd=FALSE,
+                          DetailInformation=TRUE,
+                          PathOutputFolder= dirdescribe01_items)
+    }
+  } 
+}
+
+for (item in study_itemset_of_our_study) {
+  if( item %in% files_it ){
+    if( !(nrow(get(item)) == 1 & is.na(get(item)[1, person_id])) ){
+      print(paste0("Describing ", item))
+      DescribeThisDataset(Dataset = get(item),
+                          Individual=T,
+                          ColumnN=NULL,
+                          HeadOfDataset=FALSE,
+                          StructureOfDataset=FALSE,
+                          NameOutputFile=item,
+                          Cols=list("mo_source_column", "mo_origin", "mo_meaning"),
+                          ColsFormat=list("categorical", "categorical", "categorical"),
+                          DateFormat_ymd=FALSE,
+                          DetailInformation=TRUE,
+                          PathOutputFolder= dirdescribe01_items)
+    }
+  } 
+}
   
+suppressWarnings(rm(list = study_variables_of_our_study))
+suppressWarnings(rm(list = study_itemset_of_our_study))
+
+

@@ -1,4 +1,3 @@
-
 #load SURVEY_ID_BR
 load(paste0(dirtemp,"SURVEY_ID_BR.RData"))
 
@@ -179,13 +178,15 @@ if (this_datasource_has_visit_occurrence_prompt) {
   setnames(VISIT_OCCURRENCE_PREG,"origin_of_visit","origin")
   
   ##first_encounter_for_ongoing_pregnancy
-  VISIT_OCCURRENCE_PREG<-VISIT_OCCURRENCE_PREG[meaning_of_visit=="first_encounter_for_ongoing_pregnancy", `:=`( pregnancy_start_date=record_date-60,pregnancy_ongoing_date=record_date,type_of_pregnancy_end="ONGOING", imputed_end_of_pregnancy=1, imputed_start_of_pregnancy=1, meaning_start_date="imputed_from_first_encounter_for_ongoing_pregnancy",meaning_ongoing_date="first_encounter_for_ongoing_pregnancy",meaning_end_date="unknown", PROMPT="Yes")] 
+  VISIT_OCCURRENCE_PREG<-VISIT_OCCURRENCE_PREG[meaning_of_visit=="first_encounter_for_ongoing_pregnancy", `:=`( pregnancy_start_date=record_date-60,pregnancy_ongoing_date=record_date,type_of_pregnancy_end="ONGOING", imputed_end_of_pregnancy=1, imputed_start_of_pregnancy=1, meaning_start_date="imputed_from_first_encounter_for_ongoing_pregnancy",meaning_ongoing_date="first_encounter_for_ongoing_pregnancy",meaning_end_date="unknown", PROMPT="yes")] 
   VISIT_OCCURRENCE_PREG<-VISIT_OCCURRENCE_PREG[meaning_of_visit=="first_encounter_for_ongoing_pregnancy", pregnancy_end_date:=pregnancy_start_date+280]
+  
   ##service_before_termination
-  VISIT_OCCURRENCE_PREG<-VISIT_OCCURRENCE_PREG[meaning_of_visit=="service_before_termination", `:=`( pregnancy_start_date=record_date-70,pregnancy_ongoing_date=record_date, type_of_pregnancy_end="T", imputed_end_of_pregnancy=1, imputed_start_of_pregnancy=1, meaning_start_date="unknown",meaning_ongoing_date="service_before_termination",meaning_end_date="unknown", PROMPT="Yes")]
+  VISIT_OCCURRENCE_PREG<-VISIT_OCCURRENCE_PREG[meaning_of_visit=="service_before_termination", `:=`( pregnancy_start_date=record_date-70,pregnancy_ongoing_date=record_date, type_of_pregnancy_end="T", imputed_end_of_pregnancy=1, imputed_start_of_pregnancy=1, meaning_start_date="unknown",meaning_ongoing_date="service_before_termination",meaning_end_date="unknown", PROMPT="yes")]
   VISIT_OCCURRENCE_PREG<-VISIT_OCCURRENCE_PREG[meaning_of_visit=="service_before_termination",pregnancy_end_date:=pregnancy_start_date+90]
+  
   ##service_for_ongoing_pregnancy
-  VISIT_OCCURRENCE_PREG<-VISIT_OCCURRENCE_PREG[meaning_of_visit=="service_for_ongoing_pregnancy", `:=`(pregnancy_start_date=record_date-140,pregnancy_ongoing_date=record_date, type_of_pregnancy_end="ONGOING", imputed_end_of_pregnancy=1, imputed_start_of_pregnancy=1, meaning_start_date="unknown",meaning_ongoing_date="first_encounter_for_ongoing_pregnancy",meaning_end_date="unknown", PROMPT="Yes")]
+  VISIT_OCCURRENCE_PREG<-VISIT_OCCURRENCE_PREG[meaning_of_visit=="service_for_ongoing_pregnancy", `:=`(pregnancy_start_date=record_date-140,pregnancy_ongoing_date=record_date, type_of_pregnancy_end="ONGOING", imputed_end_of_pregnancy=1, imputed_start_of_pregnancy=1, meaning_start_date="unknown",meaning_ongoing_date="first_encounter_for_ongoing_pregnancy",meaning_end_date="unknown", PROMPT="yes")]
   VISIT_OCCURRENCE_PREG<-VISIT_OCCURRENCE_PREG[meaning_of_visit=="service_for_ongoing_pregnancy", pregnancy_end_date:=pregnancy_start_date+280]
   
   VISIT_OCCURRENCE_PREG[is.na(imputed_end_of_pregnancy),imputed_end_of_pregnancy:=0]
@@ -206,5 +207,37 @@ if (this_datasource_has_visit_occurrence_prompt) {
 
 D3_Stream_PROMPTS <- rbind(D3_Stream_PROMPTS_survey_id, D3_Stream_PROMPTS_visit_occurrence, fill = TRUE)
 save(D3_Stream_PROMPTS, file=paste0(dirtemp,"D3_Stream_PROMPTS.RData"))
+
+##### Description #####
+DescribeThisDataset(Dataset = D3_Stream_PROMPTS,
+                    Individual=T,
+                    ColumnN=NULL,
+                    HeadOfDataset=FALSE,
+                    StructureOfDataset=FALSE,
+                    NameOutputFile="D3_Stream_PROMPTS",
+                    Cols=list("meaning_start_date", 
+                              "meaning_ongoing_date",
+                              "meaning_end_date",
+                              "type_of_pregnancy_end",
+                              "origin",
+                              "column",
+                              "meaning",
+                              "PROMPT",
+                              "imputed_start_of_pregnancy",
+                              "imputed_end_of_pregnancy"),
+                    ColsFormat=list("categorical", 
+                                    "categorical",
+                                    "categorical",
+                                    "categorical",
+                                    "categorical",
+                                    "categorical",
+                                    "categorical",
+                                    "categorical",
+                                    "categorical",
+                                    "categorical"),
+                    DateFormat_ymd=FALSE,
+                    DetailInformation=TRUE,
+                    PathOutputFolder= dirdescribe03_create_pregnancies)
+##### End Description #####
 
 rm(D3_Stream_PROMPTS_visit_occurrence, D3_Stream_PROMPTS_survey_id, D3_Stream_PROMPTS)

@@ -61,7 +61,31 @@ if (this_datasource_has_itemsets_stream_from_medical_obs){
     
   rm( dataset_item_sets)
   rm(LastMestrualPeriod, GestationalAge)
-    ##################################################################################################################################
+  
+  ##### Description #####
+  DescribeThisDataset(Dataset = D3_Stream_ITEMSETS,
+                      Individual=T,
+                      ColumnN=NULL,
+                      HeadOfDataset=FALSE,
+                      StructureOfDataset=FALSE,
+                      NameOutputFile="D3_Stream_ITEMSETS",
+                      Cols=list("meaning_start_date", 
+                                "meaning_ongoing_date",
+                                "meaning_end_date",
+                                "type_of_pregnancy_end",
+                                "origin",
+                                "mo_meaning"),
+                      ColsFormat=list("categorical", 
+                                      "categorical",
+                                      "categorical",
+                                      "categorical",
+                                      "categorical",
+                                      "categorical"),
+                      DateFormat_ymd=FALSE,
+                      DetailInformation=TRUE,
+                      PathOutputFolder= dirdescribe03_create_pregnancies)
+  ##### End Description #####
+  
 }else{
   D3_Stream_ITEMSETS <- data.table()
 }

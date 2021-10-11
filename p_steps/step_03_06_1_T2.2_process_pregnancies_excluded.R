@@ -60,5 +60,77 @@ D3_excluded_pregnancies<-D3_excluded_pregnancies[pregnancy_end_in_spells==1, rea
 D3_excluded_pregnancies[,.(pregnancy_id,person_id,reason_for_exclusion,survey_id,visit_occurrence_id)]#,age_at_start_of_pregnancy
 save(D3_excluded_pregnancies, file=paste0(diroutput,"D3_excluded_pregnancies.RData"))
 
+##### Description #####
+for (DT in list("D3_excluded_pregnancies_from_CONCEPTSETS", 
+                "D3_excluded_pregnancies_from_EUROCAT", 
+                "D3_excluded_pregnancies_from_PROMPT")) {
+  if (nrow(get(DT))>0){
+    print(paste0("Describing ", DT))
+    DescribeThisDataset(Dataset = get(DT),
+                        Individual=T,
+                        ColumnN=NULL,
+                        HeadOfDataset=FALSE,
+                        StructureOfDataset=FALSE,
+                        NameOutputFile=DT,
+                        Cols=list("pregnancy_with_dates_out_of_range",
+                                  "no_linked_to_person",
+                                  "person_not_female",
+                                  "person_not_in_fertile_age",
+                                  "pregnancy_start_in_spells",
+                                  "pregnancy_end_in_spells"),
+                        ColsFormat=list("categorical",
+                                        "categorical",
+                                        "categorical",
+                                        "categorical",
+                                        "categorical",
+                                        "categorical"),
+                        DateFormat_ymd=FALSE,
+                        DetailInformation=FALSE,
+                        PathOutputFolder= dirdescribe03_06_excluded_pregnancies)
+  }
+}
+
+for (DT in list("D3_excluded_pregnancies_from_ITEMSETS")) {
+  if (nrow(get(DT))>0){
+    print(paste0("Describing ", DT))
+    DescribeThisDataset(Dataset = get(DT),
+                        Individual=T,
+                        ColumnN=NULL,
+                        HeadOfDataset=FALSE,
+                        StructureOfDataset=FALSE,
+                        NameOutputFile=DT,
+                        Cols=list("pregnancy_with_dates_out_of_range",
+                                  "no_linked_to_person",
+                                  "person_not_female",
+                                  "person_not_in_fertile_age",
+                                  "pregnancy_start_in_spells",
+                                  "pregnancy_ongoing_in_spells"),
+                        ColsFormat=list("categorical",
+                                        "categorical",
+                                        "categorical",
+                                        "categorical",
+                                        "categorical",
+                                        "categorical"),
+                        DateFormat_ymd=FALSE,
+                        DetailInformation=FALSE,
+                        PathOutputFolder= dirdescribe03_06_excluded_pregnancies)
+  }
+}
+
+if (nrow(D3_excluded_pregnancies)>0){
+  print(paste0("Describing ", DT))
+  DescribeThisDataset(Dataset = D3_excluded_pregnancies,
+                      Individual=T,
+                      ColumnN=NULL,
+                      HeadOfDataset=FALSE,
+                      StructureOfDataset=FALSE,
+                      NameOutputFile="D3_excluded_pregnancies",
+                      Cols=list("reason_for_exclusion"),
+                      ColsFormat=list("categorical"),
+                      DateFormat_ymd=FALSE,
+                      DetailInformation=TRUE,
+                      PathOutputFolder= dirdescribe03_06_excluded_pregnancies)
+}
+##### End Description #####
 
 rm(D3_excluded_pregnancies_from_CONCEPTSETS, D3_excluded_pregnancies_from_EUROCAT, D3_excluded_pregnancies_from_PROMPT, D3_excluded_pregnancies_from_ITEMSETS, files, groups_of_excluded_pregnancies, D3_excluded_pregnancies)

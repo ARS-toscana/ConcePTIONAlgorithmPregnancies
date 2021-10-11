@@ -132,7 +132,35 @@ dataset_concept_sets[,pregnancy_id:=paste0(person_id,"_",visit_occurrence_id,"_"
 # keep only vars neeed
 D3_Stream_CONCEPTSETS <- dataset_concept_sets[,.(pregnancy_id,person_id,record_date,pregnancy_start_date,pregnancy_ongoing_date,pregnancy_end_date,meaning_start_date,meaning_ongoing_date,meaning_end_date,type_of_pregnancy_end,meaning,imputed_start_of_pregnancy,imputed_end_of_pregnancy,visit_occurrence_id,origin,codvar,coding_system,CONCEPTSETS,CONCEPTSET )] # 
 save(D3_Stream_CONCEPTSETS, file=paste0(dirtemp,"D3_Stream_CONCEPTSETS.RData"))
-
+##### Description #####
+DescribeThisDataset(Dataset = D3_Stream_CONCEPTSETS,
+                    Individual=T,
+                    ColumnN=NULL,
+                    HeadOfDataset=FALSE,
+                    StructureOfDataset=FALSE,
+                    NameOutputFile="D3_Stream_CONCEPTSETS",
+                    Cols=list("meaning_start_date", 
+                              "meaning_ongoing_date",
+                              "meaning_end_date",
+                              "type_of_pregnancy_end",
+                              "origin",
+                              "meaning",
+                              "imputed_start_of_pregnancy",
+                              "imputed_end_of_pregnancy",
+                              "CONCEPTSET"),
+                    ColsFormat=list("categorical", 
+                                    "categorical",
+                                    "categorical",
+                                    "categorical",
+                                    "categorical",
+                                    "categorical",
+                                    "categorical",
+                                    "categorical",
+                                    "categorical"),
+                    DateFormat_ymd=FALSE,
+                    DetailInformation=TRUE,
+                    PathOutputFolder= dirdescribe03_create_pregnancies)
+##### End Description #####
 
 rm(dataset_concept_sets, dataset_end_concept_sets, dataset_ongoing_concept_sets, dataset_start_concept_sets,D3_Stream_CONCEPTSETS)
 rm(Gestation_less24,Gestation_24,Gestation_25_26, Gestation_27_28, Gestation_29_30, Gestation_31_32, Gestation_33_34,Gestation_36_35,Gestation_more37,Ongoingpregnancy,Birth,Interruption,Spontaneousabortion, Ectopicpregnancy, Stillbirth, Livebirth, Preterm, Atterm,Postterm)

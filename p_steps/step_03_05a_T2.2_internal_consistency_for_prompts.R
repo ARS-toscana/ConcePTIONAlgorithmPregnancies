@@ -102,9 +102,38 @@ if (dim(D3_Stream_PROMPTS)[1]!=0){
   D3_study_population_pregnancy_from_prompts<-D3_study_population_pregnancy3[no_linked_to_person==0 & person_not_female==0 & person_not_in_fertile_age==0 & pregnancy_start_in_spells==0 & pregnancy_end_in_spells==0,] [,-c("no_linked_to_person","person_not_female","person_not_in_fertile_age","pregnancy_start_in_spells","pregnancy_end_in_spells")] # 554767 against 429699
   
   
-  D3_Stream_PROMPTS_check<-D3_study_population_pregnancy_from_prompts[,.(pregnancy_id,person_id,record_date,pregnancy_start_date,pregnancy_end_date,meaning_start_date,meaning_end_date,type_of_pregnancy_end,imputed_start_of_pregnancy, column,meaning, origin,so_source_value,survey_id,PROMPT)]#
+  D3_Stream_PROMPTS_check<-D3_study_population_pregnancy_from_prompts[,.(pregnancy_id,person_id,record_date,pregnancy_start_date,pregnancy_end_date,meaning_start_date,meaning_end_date,type_of_pregnancy_end,imputed_start_of_pregnancy,imputed_end_of_pregnancy, column,meaning, origin,so_source_value,survey_id,PROMPT)]#
   save(D3_Stream_PROMPTS_check, file=paste0(dirtemp,"D3_Stream_PROMPTS_check.RData"))
   
+  ##### Description #####
+  DescribeThisDataset(Dataset = D3_Stream_PROMPTS_check,
+                      Individual=T,
+                      ColumnN=NULL,
+                      HeadOfDataset=FALSE,
+                      StructureOfDataset=FALSE,
+                      NameOutputFile="D3_Stream_PROMPTS_check",
+                      Cols=list("meaning_start_date", 
+                                "meaning_end_date",
+                                "type_of_pregnancy_end",
+                                "origin",
+                                "column",
+                                "meaning",
+                                "PROMPT",
+                                "imputed_start_of_pregnancy",
+                                "imputed_end_of_pregnancy"),
+                      ColsFormat=list("categorical", 
+                                      "categorical",
+                                      "categorical",
+                                      "categorical",
+                                      "categorical",
+                                      "categorical",
+                                      "categorical",
+                                      "categorical",
+                                      "categorical"),
+                      DateFormat_ymd=FALSE,
+                      DetailInformation=TRUE,
+                      PathOutputFolder= dirdescribe03_internal_consistency)
+  ##### End Description #####
   
   rm(D3_study_population_pregnancy1, D3_study_population_pregnancy2, D3_study_population_pregnancy3, D3_Stream_PROMPTS_check, D3_PERSONS, output_spells_category)
   rm(D3_excluded_pregnancies_from_PROMPT, D3_excluded_pregnancies_from_prompts_1, D3_excluded_pregnancies_from_prompts_2, D3_study_population_pregnancy_from_prompts)

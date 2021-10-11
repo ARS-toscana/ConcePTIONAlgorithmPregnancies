@@ -15,6 +15,23 @@ for (i in 1:length(files)) {
   }
 }
 
+
+
+##### Description #####
+DescribeThisDataset(Dataset = SURVEY_ID_BR,
+                    Individual=T,
+                    ColumnN=NULL,
+                    HeadOfDataset=FALSE,
+                    StructureOfDataset=FALSE,
+                    NameOutputFile="SURVEY_ID_BR",
+                    Cols=list("survey_origin", "survey_meaning"),
+                    ColsFormat=list("categorical", "categorical"),
+                    DateFormat_ymd=FALSE,
+                    DetailInformation=TRUE,
+                    PathOutputFolder= dirdescribe01_prompts)
+##### End Description #####
+
+
 save(SURVEY_ID_BR, file=paste0(dirtemp,"SURVEY_ID_BR.RData"))
 
 
@@ -33,6 +50,20 @@ if (this_datasource_has_visit_occurrence_prompt) {
     }
   }
   
+  ##### Description #####
+  DescribeThisDataset(Dataset = VISIT_OCCURRENCE_PREG,
+                      Individual=T,
+                      ColumnN=NULL,
+                      HeadOfDataset=FALSE,
+                      StructureOfDataset=FALSE,
+                      NameOutputFile="VISIT_OCCURRENCE_PREG",
+                      Cols=list("meaning_of_visit", "origin_of_visit"),
+                      ColsFormat=list("categorical", "categorical"),
+                      DateFormat_ymd=FALSE,
+                      DetailInformation=TRUE,
+                      PathOutputFolder= dirdescribe01_prompts)
+  ##### End Description #####
+
   save(VISIT_OCCURRENCE_PREG, file=paste0(dirtemp,"VISIT_OCCURRENCE_PREG.RData"))
   rm(VISIT_OCCURRENCE_PREG)
   

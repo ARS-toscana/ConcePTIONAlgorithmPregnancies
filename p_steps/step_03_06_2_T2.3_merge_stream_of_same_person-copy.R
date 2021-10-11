@@ -108,6 +108,49 @@ groups_of_pregnancies<-groups_of_pregnancies[coloured_order=="4_red",order_quali
 # table(groups_of_pregnancies[,.(order_quality, coloured_order)], useNA = "ifany")
 groups_of_pregnancies<-groups_of_pregnancies[,ID:=paste0(pregnancy_id,"_",seq_along(.I)),by="pregnancy_id"]
 
+
+print("Describing groups_of_pregnancies")
+DescribeThisDataset(Dataset = groups_of_pregnancies,
+                    Individual=T,
+                    ColumnN=NULL,
+                    HeadOfDataset=FALSE,
+                    StructureOfDataset=FALSE,
+                    NameOutputFile="groups_of_pregnancies",
+                    Cols=list("type_of_pregnancy_end",
+                              "meaning_start_date",
+                              "meaning_ongoing_date",
+                              "meaning_end_date",
+                              "imputed_start_of_pregnancy",
+                              "imputed_end_of_pregnancy",
+                              "origin",
+                              "meaning",
+                              "PROMPT",
+                              "EUROCAT",
+                              "CONCEPTSETS",
+                              "CONCEPTSET",
+                              "ITEMSETS",
+                              "coloured_order",
+                              "order_quality"),
+                    ColsFormat=list("categorical",
+                                    "categorical",
+                                    "categorical",
+                                    "categorical",
+                                    "categorical",
+                                    "categorical",
+                                    "categorical",
+                                    "categorical",
+                                    "categorical",
+                                    "categorical",
+                                    "categorical",
+                                    "categorical",
+                                    "categorical",
+                                    "categorical",
+                                    "categorical"),
+                    DateFormat_ymd=FALSE,
+                    DetailInformation=TRUE,
+                    PathOutputFolder= dirdescribe03_06_groups_of_pregnancies)
+
+
 save(groups_of_pregnancies, file=paste0(dirtemp,"groups_of_pregnancies.RData"))
 
 rm(groups_of_pregnancies,D3_Stream_ITEMSETS_check,D3_Stream_PROMPTS_check, D3_Stream_CONCEPTSETS_check,D3_Stream_EUROCAT_check)
