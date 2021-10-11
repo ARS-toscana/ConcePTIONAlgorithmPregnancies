@@ -1,6 +1,6 @@
 #-------------------------------
 # ConcePTION - Pregnancy script
-# v1.0 - 9 August 2021
+# v2.0 - 11 October 2021
 # authors: Claudia Bartolini, Rosa Gini, Giorgio Limoncella, Olga Paoletti, Davide Messina
 # -----------------------------
 
