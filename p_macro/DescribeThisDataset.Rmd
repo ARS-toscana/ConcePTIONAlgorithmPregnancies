@@ -1,0 +1,428 @@
+---
+title: "Dataset Description"
+output: 
+  html_document:
+    toc: TRUE
+    toc_float: TRUE
+    theme: united
+    css: styles.css
+params:
+  Dataset: NULL
+  Individual: TRUE
+  ColumnN: NULL
+  HeadOfDataset: FALSE
+  StructureOfDataset: FALSE
+  NameOfDataset: "Dataset"
+  Cols: list()
+  ColsFormat: list()
+  DateFormat_ymd: TRUE
+  DetailInformation: TRUE
+  df_output: df_output
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+```{r parameters, include=FALSE}
+  Dataset = params$Dataset
+  Individual = params$Individual
+  HeadOfDataset = params$HeadOfDataset
+  StructureOfDataset = params$StructureOfDataset
+  NameOfDataset = params$NameOfDataset
+  Cols = params$Cols
+  ColsFormat = params$ColsFormat
+  DetailInformation = params$DetailInformation
+  DateFormat_ymd= params$DateFormat_ymd
+  df_output = params$df_output
+```
+
+```{r ARS_colours, echo = F}
+#\definecolor{lightblueARS}{RGB}{108,207,246} --> #6ccff6
+#\definecolor{blueARS}{RGB}{0,173,239}        --> #00adef
+#\definecolor{lightroseARS}{RGB}{245,155,193} --> #f59bc1
+#\definecolor{roseARS}{RGB}{237,0,140}        --> #ed008c
+#\definecolor{lightgrayARS}{RGB}{220,220,222} --> #dcdcde
+#\definecolor{grayARS}{RGB}{188,189,193}      --> #bcbdc1
+```
+
+```{css, echo = F}
+h1 {text-align: center; color: #00adef}
+h2 {text-align: center; color: #00adef}
+.list-group-item.active, .list-group-item.active:focus, .list-group-item.active:hover {background-color: #00adef; border-color: #00adef}
+    
+```
+
+This is a description of  **`r NameOfDataset`**, this dataset is composed by `r n_of_observations` observations of  `r n_of_variables` variables.
+
+## Diagnosi
+```{r DF_output, include=TRUE}
+knitr::kable(df_output)
+
+      cat('\n')
+      cat('\n')
+```
+ 
+ <br><br><br><br><br>
+ 
+```{r Head, include=TRUE}
+  if(HeadOfDataset==TRUE){
+    knitr::kable(head(Dataset),  caption = "Head of the dataset")
+
+      cat('\n')
+      cat('<br><br><br><br><br>') 
+      cat('\n')
+      
+  }
+```
+
+`r if(StructureOfDataset){"Structure of the dataset:"}`
+```{r Structure, include=TRUE}
+  if(StructureOfDataset){
+    str(Dataset)
+    
+      cat('\n')
+      cat('<br><br><br><br><br>') 
+      cat('\n')
+  }
+
+```
+
+```{r Boolean Definition, include=TRUE}
+  nVars_nForm = length(Cols)==0 & length(ColsFormat)==0 
+  Vars_nForm = length(Cols)!=0 & length(ColsFormat)==0 
+  Vars_Form_nDet = length(Cols)!=0 & length(ColsFormat)!=0 & !DetailInformation 
+  Vars_Form_Det = length(Cols)!=0 & length(ColsFormat)!=0 & DetailInformation 
+```
+      
+```{r Vars and Format non specified, include=TRUE}
+if(nVars_nForm){  
+  for(i in names(Dataset)){
+    if(df_output["unique_count",i]<=10){
+      p = ggplot(Dataset, aes_string(x=i))+
+           geom_bar()+
+           ggtitle(paste0("Bar graph of ",i, ":"))
+      suppressMessages(print(p))
+    }
+    if(df_output["unique_count",i]>10 & df_output["unique_count",i]<=50){
+      p = ggplot(Dataset, aes_string(x=i))+
+            geom_bar()+
+            ggtitle(paste0("Histogram of ",i, ":"))
+      suppressMessages(print(p))
+    }
+    if(df_output["unique_count",i]>50){
+      p = ggplot(Dataset, aes_string(x=i))+
+           geom_density()+
+           ggtitle(paste0("Density of ",i, ":"))
+      suppressMessages(print(p))
+      }
+  }
+}
+```
+
+```{r Vars specified and Format non specified, include=TRUE}
+if(Vars_nForm){
+  for(i in Cols){
+        if(df_output["unique_count",i]<=10){
+          p = ggplot(Dataset, aes_string(x=i))+
+               geom_bar()+
+               ggtitle(paste0("Bar graph of ",i, ":"))
+          suppressMessages(print(p))
+        }
+        if(df_output["unique_count",i]>10 & df_output["unique_count",i]<=50){
+          p = ggplot(Dataset, aes_string(x=i))+
+              geom_histogram()+
+              ggtitle(paste0("Histogram of ",i, ":"))
+          suppressMessages(print(p))
+        }
+        if(df_output["unique_count",i]>50){
+          p = ggplot(Dataset, aes_string(x=i))+
+               geom_density()+
+               ggtitle(paste0("Density of ",i, ":"))
+          suppressMessages(print(p))
+        }
+  }
+}
+```
+
+```{r Vars specified and Format specified and Detailed, results = "asis", include=TRUE}
+if(Vars_Form_Det){
+    form_iteration=1
+    for(i in Cols){
+      if(ColsFormat[form_iteration]=="binary"){
+        cat("\n")
+        cat(paste0("## **", as.character(i), "**"))
+        cat("\n")
+        
+        data_subset <- Dataset[ , get(i)] 
+        compDataset<-Dataset[complete.cases(data_subset), ]
+        
+        first_value = unique(compDataset[,get(i)])[1]
+        second_value = unique(compDataset[,get(i)])[2]
+        
+        n_firs_value = dim(compDataset[get(i)==first_value,])[1]
+        n_second_value = dim(compDataset[get(i)==second_value,])[1]
+        
+        prop_firs_value = n_firs_value/n_of_observations*100
+        prop_second_value = n_second_value/n_of_observations*100
+        
+        DF_binary=data.frame(c(first_value, second_value, NA),
+                             c(n_firs_value, n_second_value, df_output[1,i]),
+                             c(prop_firs_value, prop_second_value, df_output[2,i] ))
+        cat("\n")
+        print(knitr::kable(DF_binary, col.names = c("Values", "Count", "percentage")))
+        cat("\n")
+        
+        p=ggplot(Dataset, aes_string(x=i))+
+          geom_bar()+
+          ggtitle(paste0("Bar graph of ",i, " defined as binary:"))
+        suppressMessages(print(p))
+       cat("\n")
+       cat("\n")
+
+      }
+      if(ColsFormat[form_iteration]=="categorical"){
+        cat("\n")
+        cat(paste0("## **", as.character(i), "**"))
+        cat("\n")
+        
+        data_subset <- Dataset[ , get(i)] 
+        compDataset<-Dataset[complete.cases(data_subset), ]
+        
+        category=unique(compDataset[ , get(i)])
+        category=sort(category)
+        count=list()
+        percentage=list()
+        iteration_count=1
+        for(z in category){
+          count=append(count, dim(compDataset[get(i)==z,])[1])
+          percentage=append(percentage, round(count[[iteration_count]]/n_of_observations*100, 2))
+          iteration_count=iteration_count+1
+        }
+        category = append(category, NA)
+        count = append(count, df_output[1,i])
+        percentage = append(percentage, df_output[2,i])
+        
+        DF_categorical= data.frame(rbind(count, percentage))
+        names(DF_categorical) = category
+        
+        cat("\n")
+        print(knitr::kable(DF_categorical))
+        cat("\n")
+        
+        cat("\n")
+        p=ggplot(Dataset, aes_string(x=i))+
+          geom_bar()+
+          ggtitle(paste0("Bar graph of ",i, " defined as categorical:"))+
+          theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
+        suppressMessages(print(p))
+        cat("\n")
+      }
+      if(ColsFormat[form_iteration]=="continuous"){
+        cat("\n")
+        cat(paste0("## **", as.character(i), "**"))
+        cat("\n")
+        
+        quantile_table=quantile(Dataset[,get(i)], probs = seq(0, 1, 0.25), na.rm = FALSE)
+        variable_mean= mean(Dataset[,get(i)], na.rm=TRUE)
+        variable_sd=sqrt(var(Dataset[,get(i)], na.rm=TRUE))
+        quantile_table=append(quantile_table, c(variable_mean, variable_sd))
+        names(quantile_table)=c("Minimum",   "25th Percentile ",  "Median",  "75th Percentile",  "Maximum", "Mean", "Standar Deviation") 
+        
+        cat("\n")
+        print(knitr::kable(quantile_table, col.names = c( "Value"),  caption = "Mean, SD and Percentile table"))
+        cat("\n")
+        
+        p1=ggplot(Dataset, aes_string(x=i))+
+          geom_histogram()+
+          ggtitle(paste0("Histogram of ",i, " defined as continuous:"))
+        suppressMessages(print(p1))
+        
+        p2=ggplot(Dataset, aes_string(y=i))+
+        geom_boxplot()+
+        ggtitle(paste0("Box Plot of ",i, " defined as continuous:"))
+        suppressMessages(print(p2))
+        cat("\n")
+      }
+      
+      if(ColsFormat[form_iteration]=="date"){
+        cat("\n")
+        cat(paste0("## **", as.character(i), "**"))
+        cat("\n")
+        
+        if(DateFormat_ymd){
+          Dataset[,eval(i)]<-ymd(Dataset[,get(i)])
+        }
+        
+        date_table = c(min(Dataset[,get(i)]), max(Dataset[,get(i)]))
+        names(date_table) = c("Min", "Max" )
+        
+        cat("\n")
+        print(knitr::kable(date_table, col.names = c( "Date"),  caption = "Minumum and Maximum Date"))
+        cat("\n")
+          
+        p=ggplot(Dataset, aes_string(x=i))+
+          geom_histogram()+
+          scale_x_date(breaks="1 month")+
+          ggtitle(paste0("Histogram of ",i, " defined as date:"))+
+          theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
+        suppressMessages(print(p))
+        cat("\n")
+      }
+      if(ColsFormat[form_iteration]=="boolean"){
+        cat("\n")
+        cat(paste0("## **", as.character(i), "**"))
+        cat("\n")
+        
+        data_subset <- Dataset[ , get(i)] 
+        compDataset<-Dataset[complete.cases(data_subset), ]
+        
+        first_value = unique(compDataset[,get(i)])[1]
+        second_value = unique(compDataset[,get(i)])[2]
+        
+        n_firs_value = dim(compDataset[get(i)==first_value,])[1]
+        n_second_value = dim(compDataset[get(i)==second_value,])[1]
+        
+        prop_firs_value = n_firs_value/n_of_observations*100
+        prop_second_value = n_second_value/n_of_observations*100
+        
+        DF_binary=data.frame(c(first_value, second_value, NA),
+                             c(n_firs_value, n_second_value, df_output[1,i]),
+                             c(prop_firs_value, prop_second_value, df_output[2,i] ))
+        cat("\n")
+        print(knitr::kable(DF_binary, col.names = c("Values", "Count", "percentage")))
+        cat("\n")
+        
+        p=ggplot(Dataset, aes_string(x=i))+
+          geom_bar()+
+          ggtitle(paste0("Bar graph of ",i, " defined as boolean:"))
+        suppressMessages(print(p))
+        cat("\n")
+
+      }
+      form_iteration=form_iteration+1
+      cat('\n')
+      cat('<br><br><br>') 
+      cat('\n')
+    }
+}
+```
+
+```{r Vars specified and Format specified and non Detailed, results = "asis", include=TRUE}
+if(Vars_Form_nDet){
+    form_iteration=1
+    for(i in Cols){
+      if(ColsFormat[form_iteration]=="binary"){
+        cat("\n")
+        cat(paste0("## **", as.character(i), "**"))
+        cat("\n")
+        data_subset <- Dataset[ , get(i)] 
+        compDataset<-Dataset[complete.cases(data_subset), ]
+        
+        first_value = unique(compDataset[,get(i)])[1]
+        second_value = unique(compDataset[,get(i)])[2]
+        
+        prop_firs_value = dim(compDataset[get(i)==first_value,])[1]/n_of_observations*100
+        prop_second_value = dim(compDataset[get(i)==second_value,])[1]/n_of_observations*100
+        
+        DF_binary=data.frame(c(first_value, second_value, NA), c(prop_firs_value, prop_second_value, df_output[2,i] ))
+        
+        cat("\n")
+        print(knitr::kable(DF_binary, col.names = c("values", "percentage")))
+        cat("\n")
+        
+      }
+      if(ColsFormat[form_iteration]=="categorical"){
+        cat("\n")
+        cat(paste0("## **", as.character(i), "**"))
+        cat("\n")
+        
+        data_subset <- Dataset[ , get(i)] 
+        compDataset<-Dataset[complete.cases(data_subset), ]
+        
+        category=unique(compDataset[ , get(i)])
+        category=sort(category)
+        count=list()
+        percentage=list()
+        iteration_count=1
+        for(z in category){
+          count=append(count, dim(compDataset[get(i)==z,])[1])
+          percentage=append(percentage, round(count[[iteration_count]]/n_of_observations*100, 2))
+          iteration_count=iteration_count+1
+        }
+        category = append(category, NA)
+        count = append(count, df_output[1,i])
+        percentage = append(percentage, df_output[2,i])
+        
+        DF_categorical= data.frame(rbind(count, percentage))
+        names(DF_categorical) = category
+        
+        cat("\n")
+        print(knitr::kable(DF_categorical))
+        cat("\n")
+      }
+      
+      if(ColsFormat[form_iteration]=="continuous"){
+        cat("\n")
+        cat(paste0("## **", as.character(i), "**"))
+        cat("\n")
+        
+        quantile_table=quantile(Dataset[,get(i)], probs = seq(0, 1, 0.25), na.rm = FALSE)
+        variable_mean= mean(Dataset[,get(i)], na.rm=TRUE)
+        variable_sd=sqrt(var(Dataset[,get(i)], na.rm=TRUE))
+        quantile_table=append(quantile_table, c(variable_mean, variable_sd))
+        names(quantile_table)=c("Minimum",   "25th Percentile ",  "Median",  "75th Percentile",  "Maximum", "Mean", "Standar Deviation") 
+        
+        cat("\n")
+        print(knitr::kable(quantile_table, col.names = c( "Value"),  caption = "Mean, SD and Percentile table"))
+        cat("\n")
+
+      }
+      
+      if(ColsFormat[form_iteration]=="date"){
+        cat("\n")
+        cat(paste0("## **", as.character(i), "**"))
+        cat("\n")
+        
+        if(DateFormat_ymd){
+          Dataset[,eval(i)]<-ymd(Dataset[,get(i)])
+        }
+        date_table = c(min(Dataset[,get(i)]), max(Dataset[,get(i)]))
+        names(date_table) = c("Min", "Max" )
+        
+        cat("\n")
+        print(knitr::kable(date_table, col.names = c( "Date"),  caption = "Minumum and Maximum Date"))
+        cat("\n")
+      }
+      
+      if(ColsFormat[form_iteration]=="boolean"){
+        cat("\n")
+        cat(paste0("## **", as.character(i), "**"))
+        cat("\n")
+        
+        data_subset <- Dataset[ , get(i)] 
+        compDataset<-Dataset[complete.cases(data_subset), ]
+        
+        first_value = unique(compDataset[,get(i)])[1]
+        second_value = unique(compDataset[,get(i)])[2]
+        
+        n_firs_value = dim(compDataset[get(i)==first_value,])[1]
+        n_second_value = dim(compDataset[get(i)==second_value,])[1]
+        
+        prop_firs_value = n_firs_value/n_of_observations*100
+        prop_second_value = n_second_value/n_of_observations*100
+        
+        DF_binary=data.frame(c(first_value, second_value, NA),
+                             c(n_firs_value, n_second_value, df_output[1,i]),
+                             c(prop_firs_value, prop_second_value, df_output[2,i] ))
+        cat("\n")
+        print(knitr::kable(DF_binary, col.names = c("Values", "Count", "percentage")))
+        cat("\n")
+      }
+      form_iteration=form_iteration+1
+      cat('\n')
+      cat('<br><br><br>') 
+      cat('\n')
+    }
+}
+```
