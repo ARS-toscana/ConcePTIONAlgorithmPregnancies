@@ -24,13 +24,13 @@ dirsmallcountsremoved <- paste0(thisdir,"/g_export_SMALL_COUNTS_REMOVED/")
 dirdescribe <- paste0(thisdir, "/g_describe_HTML/")
 
 dirdescribesteps <- paste0(thisdir, "/g_describe_HTML/steps_description/")
-dirdescribe01 <- paste0(thisdir, "/g_describe_HTML/steps_description/01/")
-dirdescribe3_01_04 <- paste0(thisdir, "/g_describe_HTML/steps_description/3_01_04/")
-dirdescribe3_05 <- paste0(thisdir, "/g_describe_HTML/steps_description/3_05/")
-dirdescribe3_06 <- paste0(thisdir, "/g_describe_HTML/steps_description/3_06/")
-dirdescribe3_07 <- paste0(thisdir, "/g_describe_HTML/steps_description/3_07/")
-dirdescribe3_08 <- paste0(thisdir, "/g_describe_HTML/steps_description/3_08/")
-
+dirdescribe01_concepts <- paste0(thisdir, "/g_describe_HTML/steps_description/01_concepts/")
+dirdescribe01_items <- paste0(thisdir, "/g_describe_HTML/steps_description/01_items/")
+dirdescribe01_prompts <- paste0(thisdir, "/g_describe_HTML/steps_description/01_prompts/")
+dirdescribe03_create_pregnancies <- paste0(thisdir, "/g_describe_HTML/steps_description/03_create_pregnancies/")
+dirdescribe03_internal_consistency <- paste0(thisdir, "/g_describe_HTML/steps_description/03_internal_consistency/")
+dirdescribe03_06_excluded_pregnancies <- paste0(thisdir, "/g_describe_HTML/steps_description/03_06_excluded_pregnancies/")
+dirdescribe03_06_groups_of_pregnancies <- paste0(thisdir, "/g_describe_HTML/steps_description/03_06_groups_of_pregnancies/")
 dirvalidation <- paste0(thisdir, "/g_validation/")
 
 # load packages
@@ -79,6 +79,7 @@ source(paste0(dirmacro,"CountPersonTimeV10.2.R"))
 source(paste0(dirmacro,"ApplyComponentStrategy_v13_2.R"))
 source(paste0(dirmacro,"CreateFigureComponentStrategy_v4.R"))
 source(paste0(dirmacro,"DRECountThresholdV3.R"))
+source(paste0(dirmacro,"DescribeThisDataset.R"))
 
 # datasources
 datasources<-c("ARS", "UOSL", "GePaRD", "BIFAP", "FISABIO", "SIDIAP", "CNR-IFC", "CHUT", "UNIME", "CPRD", "THL")
@@ -176,7 +177,7 @@ study_start_coprimary_d = study_start_coprimary_c
 #study_years_datasource
 
 study_years_datasource <- vector(mode="list")
-
+  
 study_years_datasource[['AARHUS']] <-  c("2010","2011","2012","2013")
 study_years_datasource[['ARS']] <-  c("2017","2018","2019","2020")
 study_years_datasource[['BIFAP']] <-  c("2017","2018","2019")
@@ -236,6 +237,18 @@ this_datasource_has_visit_occurrence_prompt <- ifelse(thisdatasource %in% dataso
 # CREATE FOLDERS
 ###################################################################
 
+
+dirdescribesteps <- paste0(thisdir, "/g_describe_HTML/steps_description/")
+dirdescribe01_concepts <- paste0(thisdir, "/g_describe_HTML/steps_description/01_concepts/")
+dirdescribe01_items <- paste0(thisdir, "/g_describe_HTML/steps_description/01_items/")
+dirdescribe01_prompts <- paste0(thisdir, "/g_describe_HTML/steps_description/01_prompts/")
+dirdescribe03_create_pregnancies <- paste0(thisdir, "/g_describe_HTML/steps_description/03_create_pregnancies/")
+dirdescribe03_internal_consistency <- paste0(thisdir, "/g_describe_HTML/steps_description/03_internal_consistency/")
+dirdescribe03_06_excluded_pregnancies <- paste0(thisdir, "/g_describe_HTML/steps_description/03_06_excluded_pregnancies/")
+dirdescribe03_06_groups_of_pregnancies <- paste0(thisdir, "/g_describe_HTML/steps_description/03_06_groups_of_pregnancies/")
+
+
+
 suppressWarnings(if (!file.exists(diroutput)) dir.create(file.path( diroutput)))
 suppressWarnings(if (!file.exists(dirtemp)) dir.create(file.path( dirtemp)))
 suppressWarnings(if (!file.exists(direxp)) dir.create(file.path( direxp)))
@@ -243,19 +256,18 @@ suppressWarnings(if (!file.exists(dirfigure)) dir.create(file.path( dirfigure)))
 suppressWarnings(if (!file.exists(dirpargen)) dir.create(file.path( dirpargen)))
 suppressWarnings(if (!file.exists(dirsmallcountsremoved)) dir.create(file.path(dirsmallcountsremoved)))
 suppressWarnings(if (!file.exists(dirdescribe)) dir.create(file.path(dirdescribe)))
-
 suppressWarnings(if (!file.exists(dirdescribesteps)) dir.create(file.path(dirdescribesteps)))
-suppressWarnings(if (!file.exists(dirdescribe01)) dir.create(file.path(dirdescribe01)))
-suppressWarnings(if (!file.exists(dirdescribe3_01_04)) dir.create(file.path(dirdescribe3_01_04)))
-suppressWarnings(if (!file.exists(dirdescribe3_05)) dir.create(file.path(dirdescribe3_05)))
-suppressWarnings(if (!file.exists(dirdescribe3_06)) dir.create(file.path(dirdescribe3_06)))
-suppressWarnings(if (!file.exists(dirdescribe3_07)) dir.create(file.path(dirdescribe3_07)))
-suppressWarnings(if (!file.exists(dirdescribe3_08)) dir.create(file.path(dirdescribe3_08)))
-
+suppressWarnings(if (!file.exists(dirdescribe01_concepts)) dir.create(file.path(dirdescribe01_concepts)))
+suppressWarnings(if (!file.exists(dirdescribe01_items)) dir.create(file.path(dirdescribe01_items)))
+suppressWarnings(if (!file.exists(dirdescribe01_prompts)) dir.create(file.path(dirdescribe01_prompts)))
+suppressWarnings(if (!file.exists(dirdescribe03_create_pregnancies)) dir.create(file.path(dirdescribe03_create_pregnancies)))
+suppressWarnings(if (!file.exists(dirdescribe03_internal_consistency)) dir.create(file.path(dirdescribe03_internal_consistency)))
+suppressWarnings(if (!file.exists(dirdescribe03_06_excluded_pregnancies)) dir.create(file.path(dirdescribe03_06_excluded_pregnancies)))
+suppressWarnings(if (!file.exists(dirdescribe03_06_groups_of_pregnancies)) dir.create(file.path(dirdescribe03_06_groups_of_pregnancies)))
 suppressWarnings(if (!file.exists(dirvalidation)) dir.create(file.path(dirvalidation)))
 
 
-
+  
 #############################################
 #SAVE METADATA TO direxp
 #############################################

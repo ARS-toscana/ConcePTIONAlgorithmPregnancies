@@ -72,11 +72,11 @@ Pregnancies are retrieved from four different streams:
   <body>
     <div class="boxed">
     
-- **PROMPTS**: records from birth records, pregnancy termination records, and abortion records in <em>SURVEY_ID</em>: the existence of one of these records easily implies that a pregnancy is terminated 
+- **PROMPTS**: records from birth records, pregnancy termination records, and abortion records in <em>SURVEY_ID</em>: the existence of one of these records easily implies that a pregnancy is completed 
 
 - **EUROCAT**: records from <em>EUROCAT</em> table
 
-- **CONCEPTSETS**: diagnostic codes from <em>EVENTS</em> or procedure codes from <em>PROCEDURES</em> or codes from the <em>MEDICAL_RECORDS</em> file that refer to a terminated or ongoing pregnancy 
+- **CONCEPTSETS**: diagnostic codes from <em>EVENTS</em> or procedure codes from <em>PROCEDURES</em> or codes from the <em>MEDICAL_RECORDS</em> file that refer to a completed or ongoing pregnancy 
 
 - **ITEMSETS**: routine health variables that are populated only when a woman is pregnant
 
