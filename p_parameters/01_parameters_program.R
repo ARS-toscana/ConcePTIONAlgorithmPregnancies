@@ -177,7 +177,7 @@ study_start_coprimary_d = study_start_coprimary_c
 #study_years_datasource
 
 study_years_datasource <- vector(mode="list")
-  
+
 study_years_datasource[['AARHUS']] <-  c("2010","2011","2012","2013")
 study_years_datasource[['ARS']] <-  c("2017","2018","2019","2020")
 study_years_datasource[['BIFAP']] <-  c("2017","2018","2019")
@@ -227,6 +227,10 @@ this_datasource_has_itemsets_stream_from_medical_obs <- ifelse(thisdatasource %i
 datasource_with_visit_occurrence_prompt <- c("ARS") 
 this_datasource_has_visit_occurrence_prompt <- ifelse(thisdatasource %in% datasources_with_itemsets_stream,TRUE,FALSE) 
 
+#datasource with no_procedures
+datasource_with_no_procedures <- c("CPRD", "UOSL", "BIFAP") 
+this_datasource_has_no_procedures <- ifelse(thisdatasource %in% datasource_with_no_procedures,TRUE,FALSE) 
+
 
 # # datasources with itemset linked to conceptset
 # datasources_with_itemset_linked_to_conceptset <- c("TEST",) # MED_OBS
@@ -267,7 +271,7 @@ suppressWarnings(if (!file.exists(dirdescribe03_06_groups_of_pregnancies)) dir.c
 suppressWarnings(if (!file.exists(dirvalidation)) dir.create(file.path(dirvalidation)))
 
 
-  
+
 #############################################
 #SAVE METADATA TO direxp
 #############################################
