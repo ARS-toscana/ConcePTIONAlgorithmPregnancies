@@ -1,7 +1,7 @@
 ## third draft of concept sets - 210614
 
 
-concept_sets_of_our_study_eve <- c("Gestation_less24","Gestation_24","Gestation_25_26","Gestation_27_28","Gestation_29_30","Gestation_31_32","Gestation_33_34","Gestation_36_35","Gestation_more37","Ongoingpregnancy","Birth","Preterm","Atterm","Postterm","Livebirth","Stillbirth","Interruption", "Spontaneousabortion", "Ectopicpregnancy")
+concept_sets_of_our_study_eve <- c("Gestation_less24","Gestation_24","Gestation_25_26","Gestation_27_28","Gestation_29_30","Gestation_31_32","Gestation_33_34","Gestation_35_36","Gestation_more37","Ongoingpregnancy","Birth","Preterm","Atterm","Postterm","Livebirth","Stillbirth","Interruption", "Spontaneousabortion", "Ectopicpregnancy")
 
 
 concept_set_domains<- vector(mode="list")
@@ -12,6 +12,30 @@ for (conceptset in concept_sets_of_our_study_eve){
 concept_set_codes_our_study<-vector(mode="list")
 #concept_set_codes_our_study_excl<-vector(mode="list")
 
+
+################# Old R version fix
+
+concept_set_codes_our_study[["Gestation_less24"]] <- list()
+concept_set_codes_our_study[["Gestation_24"]] <- list()
+concept_set_codes_our_study[["Gestation_25_26"]] <- list()
+concept_set_codes_our_study[["Gestation_27_28"]] <- list()
+concept_set_codes_our_study[["Gestation_29_30"]] <- list()
+concept_set_codes_our_study[["Gestation_31_32"]] <- list()
+concept_set_codes_our_study[["Gestation_33_34"]] <- list()
+concept_set_codes_our_study[["Gestation_35_36"]] <- list() 
+concept_set_codes_our_study[["Gestation_more37"]] <- list()
+concept_set_codes_our_study[["Ongoingpregnancy"]] <- list()
+concept_set_codes_our_study[["Birth"]] <- list()
+concept_set_codes_our_study[["Preterm"]] <- list()
+concept_set_codes_our_study[["Atterm"]] <- list()
+concept_set_codes_our_study[["Postterm"]] <- list()
+concept_set_codes_our_study[["Livebirth"]] <- list()
+concept_set_codes_our_study[["Stillbirth"]] <- list()
+concept_set_codes_our_study[["Interruption"]] <- list()
+concept_set_codes_our_study[["Spontaneousabortion"]] <- list()
+concept_set_codes_our_study[["Ectopicpregnancy"]] <- list()
+
+####
 
 #--------------------------
 
@@ -168,7 +192,7 @@ concept_set_codes_our_study[["Ectopicpregnancy"]][["SNOMED"]] <- c("111425004","
 # -itemset_AVpair_our_study- is a nested list, with 3 levels: foreach study variable, for each coding system of its data domain, the list of AVpair is recorded
 # fetal_nuchal_translucency
 
-if( thisdatasource=="CPRD") {
+if( this_datasource_has_no_procedures) {
   concept_sets_of_our_study_procedure<-c()
   
 } else {
