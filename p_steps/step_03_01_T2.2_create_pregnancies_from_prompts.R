@@ -203,6 +203,8 @@ if (this_datasource_has_visit_occurrence_prompt) {
   print("Prompt from visit occurrence processed")
 }else{
   D3_Stream_PROMPTS_visit_occurrence <- data.table()
+  D3_Stream_PROMPTS_visit_occurrence <- D3_Stream_PROMPTS_visit_occurrence[, `:=`(meaning_ongoing_date = NA, 
+                                                                                  imputed_end_of_pregnancy = NA)]
 }
 
 D3_Stream_PROMPTS <- rbind(D3_Stream_PROMPTS_survey_id, D3_Stream_PROMPTS_visit_occurrence, fill = TRUE)

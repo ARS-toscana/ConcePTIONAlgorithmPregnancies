@@ -1,13 +1,13 @@
 #-----------------------------------------------
 # merge together all the concept sets to define start_of_pregnancy and end_of_pregnancy
-concept_sets_of_our_study <- c("Gestation_less24","Gestation_24","Gestation_25_26","Gestation_27_28","Gestation_29_30","Gestation_31_32","Gestation_33_34","Gestation_36_35","Gestation_more37","Ongoingpregnancy","Birth","Preterm","Atterm","Postterm","Livebirth","Stillbirth","Interruption", "Spontaneousabortion", "Ectopicpregnancy")
-if( thisdatasource=="CPRD"){
+concept_sets_of_our_study <- c("Gestation_less24","Gestation_24","Gestation_25_26","Gestation_27_28","Gestation_29_30","Gestation_31_32","Gestation_33_34","Gestation_35_36","Gestation_more37","Ongoingpregnancy","Birth","Preterm","Atterm","Postterm","Livebirth","Stillbirth","Interruption", "Spontaneousabortion", "Ectopicpregnancy")
+if(this_datasource_has_no_procedures){
   concept_sets_of_our_study_procedure<-c()
 } else {
   concept_sets_of_our_study_procedure<-c("gestational_diabetes","fetal_nuchal_translucency", "amniocentesis","Chorionic_Villus_Sampling","others")
 }
 
-concept_sets_of_start_of_pregnancy <- c("Gestation_less24","Gestation_24","Gestation_25_26","Gestation_27_28","Gestation_29_30","Gestation_31_32","Gestation_33_34","Gestation_36_35","Gestation_more37") 
+concept_sets_of_start_of_pregnancy <- c("Gestation_less24","Gestation_24","Gestation_25_26","Gestation_27_28","Gestation_29_30","Gestation_31_32","Gestation_33_34","Gestation_35_36","Gestation_more37") 
 concept_sets_of_ongoing_of_pregnancy <- c("Ongoingpregnancy") 
 concept_sets_of_end_of_pregnancy <- c("Birth","Preterm","Atterm","Postterm","Livebirth","Stillbirth","Interruption", "Spontaneousabortion", "Ectopicpregnancy")
 concept_sets_of_end_of_pregnancy_LB <- c("Birth","Preterm","Atterm","Postterm","Livebirth")
@@ -45,7 +45,7 @@ for (conceptvar in c(concept_sets_of_ongoing_of_pregnancy,concept_sets_of_our_st
   }
 }
 
-if( thisdatasource=="CPRD"){
+if(this_datasource_has_no_procedures){
   
 } else {
   dataset_ongoing_concept_sets<-dataset_ongoing_concept_sets[!is.na(origin_of_procedure),origin_of_event:=origin_of_procedure][,-"origin_of_procedure"]
@@ -163,6 +163,6 @@ DescribeThisDataset(Dataset = D3_Stream_CONCEPTSETS,
 ##### End Description #####
 
 rm(dataset_concept_sets, dataset_end_concept_sets, dataset_ongoing_concept_sets, dataset_start_concept_sets,D3_Stream_CONCEPTSETS)
-rm(Gestation_less24,Gestation_24,Gestation_25_26, Gestation_27_28, Gestation_29_30, Gestation_31_32, Gestation_33_34,Gestation_36_35,Gestation_more37,Ongoingpregnancy,Birth,Interruption,Spontaneousabortion, Ectopicpregnancy, Stillbirth, Livebirth, Preterm, Atterm,Postterm)
+rm(Gestation_less24,Gestation_24,Gestation_25_26, Gestation_27_28, Gestation_29_30, Gestation_31_32, Gestation_33_34,Gestation_35_36,Gestation_more37,Ongoingpregnancy,Birth,Interruption,Spontaneousabortion, Ectopicpregnancy, Stillbirth, Livebirth, Preterm, Atterm,Postterm)
 rm(gestational_diabetes,fetal_nuchal_translucency, amniocentesis,Chorionic_Villus_Sampling,others)
 ##################################################################################################################################
