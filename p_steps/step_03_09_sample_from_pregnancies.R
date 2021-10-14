@@ -201,7 +201,7 @@ for (studyvar in study_itemset_of_our_study){
 
 
 concept_set_list_1 <- c("Gestation_less24", "Gestation_24", "Gestation_25_26", "Gestation_27_28", "Gestation_29_30",          
-                        "Gestation_31_32", "Gestation_33_34", "Gestation_36_35", "Gestation_more37", "Ongoingpregnancy",         
+                        "Gestation_31_32", "Gestation_33_34", "Gestation_35_36", "Gestation_more37", "Ongoingpregnancy",         
                         "Birth", "Preterm", "Atterm", "Postterm", "Livebirth",                
                         "Stillbirth", "Interruption", "Spontaneousabortion", "Ectopicpregnancy",                 
                         "FGR_narrow", "FGR_possible", "GESTDIAB_narrow", "GESTDIAB_possible", "MAJORCA_narrow",           
