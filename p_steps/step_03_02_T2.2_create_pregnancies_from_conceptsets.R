@@ -1,17 +1,11 @@
 #-----------------------------------------------
 # merge together all the concept sets to define start_of_pregnancy and end_of_pregnancy
-concept_sets_of_our_study <- c("Gestation_less24","Gestation_24","Gestation_25_26","Gestation_27_28","Gestation_29_30","Gestation_31_32","Gestation_33_34","Gestation_35_36","Gestation_more37","Ongoingpregnancy","Birth","Preterm","Atterm","Postterm","Livebirth","Stillbirth","Interruption", "Spontaneousabortion", "Ectopicpregnancy")
+#concept_sets_of_our_study <- c("Gestation_less24","Gestation_24","Gestation_25_26","Gestation_27_28","Gestation_29_30","Gestation_31_32","Gestation_33_34","Gestation_35_36","Gestation_more37","Ongoingpregnancy","Birth","Preterm","Atterm","Postterm","Livebirth","Stillbirth","Interruption", "Spontaneousabortion", "Ectopicpregnancy")
 if(this_datasource_has_no_procedures){
   concept_sets_of_our_study_procedure<-c()
 } else {
   concept_sets_of_our_study_procedure<-c("gestational_diabetes","fetal_nuchal_translucency", "amniocentesis","Chorionic_Villus_Sampling","others")
 }
-
-concept_sets_of_start_of_pregnancy <- c("Gestation_less24","Gestation_24","Gestation_25_26","Gestation_27_28","Gestation_29_30","Gestation_31_32","Gestation_33_34","Gestation_35_36","Gestation_more37") 
-concept_sets_of_ongoing_of_pregnancy <- c("Ongoingpregnancy") 
-concept_sets_of_end_of_pregnancy <- c("Birth","Preterm","Atterm","Postterm","Livebirth","Stillbirth","Interruption", "Spontaneousabortion", "Ectopicpregnancy")
-concept_sets_of_end_of_pregnancy_LB <- c("Birth","Preterm","Atterm","Postterm","Livebirth")
-
 
 for (conceptvar in c(concept_sets_of_start_of_pregnancy,concept_sets_of_ongoing_of_pregnancy,concept_sets_of_end_of_pregnancy,concept_sets_of_our_study_procedure)){
   load(paste0(dirtemp,conceptvar,".RData"))
@@ -79,7 +73,17 @@ setnames(dataset_concept_sets, "meaning_of_event","meaning")
 setorderv(dataset_concept_sets,c("person_id","date"), na.last = T)
 
 # start creating pregnancy_end_date, pregnancy_start_date, pregnancy_ongoing_date
-dataset_concept_sets<-dataset_concept_sets[concept_set%chin%concept_sets_of_start_of_pregnancy, pregnancy_start_date:=date]
+
+dataset_concept_sets<-dataset_concept_sets[concept_set == "Gestation_less24", pregnancy_start_date := date - (154)]
+dataset_concept_sets<-dataset_concept_sets[concept_set == "Gestation_24", pregnancy_start_date := date - (168)]
+dataset_concept_sets<-dataset_concept_sets[concept_set == "Gestation_25_26", pregnancy_start_date := date - (178)]
+dataset_concept_sets<-dataset_concept_sets[concept_set == "Gestation_27_28", pregnancy_start_date := date - (192)]
+dataset_concept_sets<-dataset_concept_sets[concept_set == "Gestation_29_30", pregnancy_start_date := date - (206)]
+dataset_concept_sets<-dataset_concept_sets[concept_set == "Gestation_31_32", pregnancy_start_date := date - (220)]
+dataset_concept_sets<-dataset_concept_sets[concept_set == "Gestation_33_34", pregnancy_start_date := date - (234)]
+dataset_concept_sets<-dataset_concept_sets[concept_set == "Gestation_35_36", pregnancy_start_date := date - (248)]
+dataset_concept_sets<-dataset_concept_sets[concept_set == "Gestation_more37", pregnancy_start_date := date - (266)]
+
 dataset_concept_sets<-dataset_concept_sets[concept_set%chin%c(concept_sets_of_ongoing_of_pregnancy,concept_sets_of_our_study_procedure), pregnancy_ongoing_date:=date]
 dataset_concept_sets<-dataset_concept_sets[concept_set%chin%concept_sets_of_end_of_pregnancy, pregnancy_end_date:=date]
 

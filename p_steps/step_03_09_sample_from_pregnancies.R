@@ -341,43 +341,43 @@ for (concept in concept_set_list_3){
 
 files_temp<-sub('\\.RData$', '', list.files(dirtemp))
 for (i in 1:length(files_temp)) {
-  if (str_detect(files_temp[i],"^SPC_pregnancies")) {
-    print("SPC")
-    assign("SPC", get(load(paste0(dirtemp,"SPC_pregnancies.RData"))))
-    if(nrow(SPC)>0){
-      SPC <- SPC[visit_occurrence_id %in% record_sample[, survey_visit_id] &
-                   person_id %in% record_sample[, person_id],
-                 .(pregnancy_id = NA,
-                   person_id,
-                   survey_id = NA,
-                   visit_occurrence_id,
-                   n = as.integer(2),
-                   pregnancy_start_date = NA,
-                   pregnancy_end_date = NA,
-                   type_of_pregnancy_end = NA,
-                   #####################################
-                   pregnancy_start_date_correct = NA, 
-                   pregnancy_start_date_difference = NA,
-                   pregnancy_end_date_correct = NA,
-                   pregnancy_end_date_difference = NA,
-                   type_of_pregnancy_end_correct = NA,
-                   records_belong_to_multiple_pregnancy = NA,
-                   comments = NA,
-                   #####################################
-                   record_date = as.character(visit_start_date),
-                   origin = "SPC",
-                   meaning= meaning_of_visit,
-                   codvar = NA,
-                   coding_system = NA,
-                   conceptset = NA,
-                   source_column  = NA,
-                   source_value  = NA,
-                   itemsets = "SPC",
-                   from_algorithm = 0,
-                   link = NA,
-                   sample = NA)]
+  if (str_detect(files_temp[i],"^VISIT_OCCURRENCE_PREG")) {
+    print("VISIT_OCCURRENCE_PREG")
+    assign("VISIT_OCCURRENCE_PREG", get(load(paste0(dirtemp,"VISIT_OCCURRENCE_PREG.RData"))))
+    if(nrow(VISIT_OCCURRENCE_PREG)>0){
+      VISIT_OCCURRENCE_PREG <- VISIT_OCCURRENCE_PREG[visit_occurrence_id %in% record_sample[, survey_visit_id] &
+                                                       person_id %in% record_sample[, person_id],
+                                                     .(pregnancy_id = NA,
+                                                       person_id,
+                                                       survey_id = NA,
+                                                       visit_occurrence_id,
+                                                       n = as.integer(2),
+                                                       pregnancy_start_date = NA,
+                                                       pregnancy_end_date = NA,
+                                                       type_of_pregnancy_end = NA,
+                                                       #####################################
+                                                       pregnancy_start_date_correct = NA, 
+                                                       pregnancy_start_date_difference = NA,
+                                                       pregnancy_end_date_correct = NA,
+                                                       pregnancy_end_date_difference = NA,
+                                                       type_of_pregnancy_end_correct = NA,
+                                                       records_belong_to_multiple_pregnancy = NA,
+                                                       comments = NA,
+                                                       #####################################
+                                                       record_date = as.character(ymd(visit_start_date)),
+                                                       origin = origin_of_visit,
+                                                       meaning= meaning_of_visit,
+                                                       codvar = NA,
+                                                       coding_system = NA,
+                                                       conceptset = NA,
+                                                       source_column  = NA,
+                                                       source_value  = NA,
+                                                       itemsets = NA,
+                                                       from_algorithm = 0,
+                                                       link = NA,
+                                                       sample = NA)]
 
-     list_of_records[["SPC"]] <- SPC
+     list_of_records[["VISIT_OCCURRENCE_PREG"]] <- VISIT_OCCURRENCE_PREG
     }
   }
 }

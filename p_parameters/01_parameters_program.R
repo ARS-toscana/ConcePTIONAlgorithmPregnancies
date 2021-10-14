@@ -1,15 +1,15 @@
 # set directory with input data
-# setwd("..")
-# setwd("..")
-# setwd("..")
-# dirbase<-getwd()
-# dirinput <- paste0(dirbase,"/CDMInstances/DataCharacterisation_v2/")
-
-#setwd("..")
-#setwd("..")
+setwd("..")
+setwd("..")
+setwd("..")
 dirbase<-getwd()
-dirinput <- paste0(dirbase,"/i_input/")
-#dirinput <- paste0(dirbase,"/i_input_test/")
+dirinput <- paste0(dirbase,"/CDMInstances/DataCharacterisation_v2/")
+
+# #setwd("..")
+# #setwd("..")
+# dirbase<-getwd()
+# dirinput <- paste0(dirbase,"/i_input/")
+# #dirinput <- paste0(dirbase,"/i_input_test/")
 
 # set other directories
 diroutput <- paste0(thisdir,"/g_output/")
@@ -177,7 +177,7 @@ study_start_coprimary_d = study_start_coprimary_c
 #study_years_datasource
 
 study_years_datasource <- vector(mode="list")
-
+  
 study_years_datasource[['AARHUS']] <-  c("2010","2011","2012","2013")
 study_years_datasource[['ARS']] <-  c("2017","2018","2019","2020")
 study_years_datasource[['BIFAP']] <-  c("2017","2018","2019")
@@ -271,7 +271,7 @@ suppressWarnings(if (!file.exists(dirdescribe03_06_groups_of_pregnancies)) dir.c
 suppressWarnings(if (!file.exists(dirvalidation)) dir.create(file.path(dirvalidation)))
 
 
-
+  
 #############################################
 #SAVE METADATA TO direxp
 #############################################
