@@ -1,0 +1,7 @@
+person_id,survey_id,survey_date,survey_meaning,survey_origin
+ConCDM_SIM_200421_00234,RMR_1,20050803,death_registry,RMR
+ConCDM_SIM_200421_00234,RMR_2,20120915,death_registry,RMR
+ConCDM_SIM_200421_00314,RMR_3,20050429,death_registry,RMR
+ConCDM_SIM_200421_00771,RMR_4,20150521,death_registry,RMR
+ConCDM_SIM_200421_00833,RMR_5,20080217,death_registry,RMR
+ConCDM_SIM_200421_00980,RMR_6,20061023,death_registry,RMR
