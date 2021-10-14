@@ -10,7 +10,7 @@ for (conceptset in concept_sets_of_our_study_eve){
 }
 
 concept_set_codes_our_study<-vector(mode="list")
-#concept_set_codes_our_study_excl<-vector(mode="list")
+concept_set_codes_our_study_excl<-vector(mode="list")
 
 
 ################# Old R version fix
@@ -592,7 +592,7 @@ for (t in  names(concept_set_codes_our_study)) {
 }
 
 
-concept_sets_of_start_of_pregnancy <- c("Gestation_less24","Gestation_24","Gestation_25_26","Gestation_27_28","Gestation_29_30","Gestation_31_32","Gestation_33_34","Gestation_36_35","Gestation_more37") 
+concept_sets_of_start_of_pregnancy <- c("Gestation_less24","Gestation_24","Gestation_25_26","Gestation_27_28","Gestation_29_30","Gestation_31_32","Gestation_33_34","Gestation_35_36","Gestation_more37") 
 concept_sets_of_ongoing_of_pregnancy <- c("Ongoingpregnancy") 
 concept_sets_of_end_of_pregnancy <- c("Birth","Preterm","Atterm","Postterm","Livebirth","Stillbirth","Interruption", "Spontaneousabortion", "Ectopicpregnancy")
 concept_sets_of_end_of_pregnancy_LB <- c("Birth","Preterm","Atterm","Postterm","Livebirth")
