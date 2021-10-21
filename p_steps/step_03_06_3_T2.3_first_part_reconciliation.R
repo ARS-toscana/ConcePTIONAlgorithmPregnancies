@@ -1,6 +1,7 @@
 # import groups_of_pregnancies from previous step
 load(paste0(dirtemp,"groups_of_pregnancies.RData"))
 
+
 print("Start recoinciliation in group - GREEN")
 ################################################### 
 # divided group in color (green and no green):
@@ -335,6 +336,45 @@ D3_groups_of_pregnancies<-rbind(gop_gybr1,gop_gybr2, gop_gybr3, gop_gybr4, fill=
 D3_groups_of_pregnancies<-D3_groups_of_pregnancies[,-c("group_start_date_28","group_end_date_28")]
 D3_groups_of_pregnancies<-D3_groups_of_pregnancies[, group_identifier_colored:=paste0(highest_quality,"_", group_identifier)]
 save(D3_groups_of_pregnancies, file=paste0(dirtemp,"D3_groups_of_pregnancies.RData"))
+
+print("Describing D3_groups_of_pregnancies")
+DescribeThisDataset(Dataset = D3_groups_of_pregnancies,
+                    Individual=T,
+                    ColumnN=NULL,
+                    HeadOfDataset=FALSE,
+                    StructureOfDataset=FALSE,
+                    NameOutputFile="D3_groups_of_pregnancies",
+                    Cols=list("type_of_pregnancy_end",
+                              "meaning_start_date",
+                              "meaning_ongoing_date",
+                              "meaning_end_date",
+                              "imputed_start_of_pregnancy",
+                              "imputed_end_of_pregnancy",
+                              "meaning",
+                              "PROMPT",
+                              "EUROCAT",
+                              "CONCEPTSETS",
+                              "CONCEPTSET",
+                              "ITEMSETS",
+                              "coloured_order",
+                              "order_quality"),
+                    ColsFormat=list("categorical",
+                                    "categorical",
+                                    "categorical",
+                                    "categorical",
+                                    "categorical",
+                                    "categorical",
+                                    "categorical",
+                                    "categorical",
+                                    "categorical",
+                                    "categorical",
+                                    "categorical",
+                                    "categorical",
+                                    "categorical",
+                                    "categorical"),
+                    DateFormat_ymd=FALSE,
+                    DetailInformation=TRUE,
+                    PathOutputFolder= dirdescribe03_06_groups_of_pregnancies)
 
 rm(gop_blue_NOT2, gop_br_Inyellow, gop_br_NOT1, gop_br_NOT2, gop_green, gop_gybr1, gop_gybr2, gop_gybr3, gop_gybr4, gop_red_Inblue, gop_red_NOT2, gop_red_NOT3, gop_ybr, gop_ybr_Ingreen, gop_ybr_NOT1, gop_yellow_NOT1)
 rm(groups_of_pregnancies, D3_groups_of_pregnancies)
