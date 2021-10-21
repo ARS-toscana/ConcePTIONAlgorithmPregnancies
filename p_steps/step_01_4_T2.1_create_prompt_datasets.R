@@ -18,17 +18,19 @@ for (i in 1:length(files)) {
 
 
 ##### Description #####
-DescribeThisDataset(Dataset = SURVEY_ID_BR,
-                    Individual=T,
-                    ColumnN=NULL,
-                    HeadOfDataset=FALSE,
-                    StructureOfDataset=FALSE,
-                    NameOutputFile="SURVEY_ID_BR",
-                    Cols=list("survey_origin", "survey_meaning"),
-                    ColsFormat=list("categorical", "categorical"),
-                    DateFormat_ymd=FALSE,
-                    DetailInformation=TRUE,
-                    PathOutputFolder= dirdescribe01_prompts)
+if(nrow(SURVEY_ID_BR)!=0){
+  DescribeThisDataset(Dataset = SURVEY_ID_BR,
+                      Individual=T,
+                      ColumnN=NULL,
+                      HeadOfDataset=FALSE,
+                      StructureOfDataset=FALSE,
+                      NameOutputFile="SURVEY_ID_BR",
+                      Cols=list("survey_origin", "survey_meaning"),
+                      ColsFormat=list("categorical", "categorical"),
+                      DateFormat_ymd=FALSE,
+                      DetailInformation=TRUE,
+                      PathOutputFolder= dirdescribe01_prompts)
+}
 ##### End Description #####
 
 

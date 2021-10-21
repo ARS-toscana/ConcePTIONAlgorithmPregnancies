@@ -184,7 +184,7 @@ while (D3_gop[,.N]!=0) {
                      `:=`( pregnancy_start_date = pregnancy_start_date_next_record,
                            algorithm_for_reconciliation = paste0(algorithm_for_reconciliation, "YB:StartUpdated_"),
                            imputed_start_of_pregnancy = 0,
-                           meaning_start_date = "from_blue_record")]
+                           meaning_start_date = "updated_from_blue_record")]
     
     #### Yellow - Red
     D3_gop <- D3_gop[n == 1 & new_group_next_record != 1 &  recon == 0 & coloured_order == "2_yellow" & coloured_order_next_record == "4_red" &
@@ -324,6 +324,8 @@ D3_groups_of_pregnancies_reconciled <- D3_gop[, .(person_id,
                                                   algorithm_for_reconciliation,  
                                                   survey_id,
                                                   visit_occurrence_id)]
+
+setnames(D3_groups_of_pregnancies_reconciled, "pers_group_id", "pregnancy_id")
 
 D3_groups_of_pregnancies_reconciled <- D3_groups_of_pregnancies_reconciled[highest_quality == "4_red", 
                                                                            record_selected := as.integer(number_red/2) + 1] 

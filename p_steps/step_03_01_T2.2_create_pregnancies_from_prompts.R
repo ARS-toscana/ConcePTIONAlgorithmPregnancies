@@ -59,8 +59,8 @@ if (dim(SURVEY_ID_BR)[1]!=0){
     dataset_pregnancies0<-dataset_pregnancies0[GESTAGE_FROM_USOUNDS_WEEKS==99,GESTAGE_FROM_USOUNDS_WEEKS:=NA]
     dataset_pregnancies0<-dataset_pregnancies0[GESTAGE_FROM_USOUNDS_WEEKS==0,GESTAGE_FROM_USOUNDS_WEEKS:=NA]
     
-    dataset_pregnancies0<-dataset_pregnancies0[survey_meaning == "induced_termination_registry" & GESTAGE_FROM_LMP_WEEKS==1,GESTAGE_FROM_LMP_WEEKS:= 45]
-    dataset_pregnancies0<-dataset_pregnancies0[survey_meaning == "induced_termination_registry" & GESTAGE_FROM_LMP_WEEKS==2,GESTAGE_FROM_LMP_WEEKS:= 135]
+    dataset_pregnancies0<-dataset_pregnancies0[survey_meaning == "induced_termination_registry" & GESTAGE_FROM_LMP_WEEKS==1,GESTAGE_FROM_LMP_WEEKS:= 6]
+    dataset_pregnancies0<-dataset_pregnancies0[survey_meaning == "induced_termination_registry" & GESTAGE_FROM_LMP_WEEKS==2,GESTAGE_FROM_LMP_WEEKS:= 19]
     dataset_pregnancies0<-dataset_pregnancies0[survey_meaning == "induced_termination_registry" & GESTAGE_FROM_LMP_WEEKS==9,GESTAGE_FROM_LMP_WEEKS:=NA]
     
     dataset_pregnancies0<-dataset_pregnancies0[survey_meaning==unlist(meaning_of_survey_our_study_this_datasource[["livebirth_or_stillbirth"]]) & (GESTAGE_FROM_USOUNDS_WEEKS<22 | GESTAGE_FROM_USOUNDS_WEEKS>46),GESTAGE_FROM_USOUNDS_WEEKS:=NA]

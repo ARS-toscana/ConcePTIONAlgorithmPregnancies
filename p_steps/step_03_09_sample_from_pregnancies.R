@@ -4,56 +4,56 @@ load(paste0(dirtemp,"D3_groups_of_pregnancies_reconciled.RData"))
 list_of_sample <- vector(mode = "list")
 
 ### 1: sample from all 
-sample_id_all <- sample(x = D3_pregnancy_reconciled[, pers_group_id], size = 10, replace = FALSE)
-list_of_sample[["sample_record_all"]] <- D3_pregnancy_reconciled[pers_group_id %in% sample_id_all][,sample:="All"]
+sample_id_all <- sample(x = D3_pregnancy_reconciled[, pregnancy_id], size = 10, replace = FALSE)
+list_of_sample[["sample_record_all"]] <- D3_pregnancy_reconciled[pregnancy_id %in% sample_id_all][,sample:="All"]
 
 ### 2: sample from Inconsistencies 
 l <- D3_pregnancy_reconciled[like(algorithm_for_reconciliation, ":Inconsistency"), .N]
 if (l > 0){
-  sample_id_inc <- sample(x = D3_pregnancy_reconciled[like(algorithm_for_reconciliation, ":Inconsistency"), pers_group_id], size = min(l, 5), replace = FALSE)
-  list_of_sample[["sample_record_Inconsistencies"]] <- D3_pregnancy_reconciled[pers_group_id %in% sample_id_inc][,sample:="Inconsistency"]
+  sample_id_inc <- sample(x = D3_pregnancy_reconciled[like(algorithm_for_reconciliation, ":Inconsistency"), pregnancy_id], size = min(l, 5), replace = FALSE)
+  list_of_sample[["sample_record_Inconsistencies"]] <- D3_pregnancy_reconciled[pregnancy_id %in% sample_id_inc][,sample:="Inconsistency"]
 }
 
 ### 3: sample from Discordant 
 l <- D3_pregnancy_reconciled[like(algorithm_for_reconciliation, ":Discordant"), .N]
 if (l > 0){
-  sample_id_disc <- sample(x = D3_pregnancy_reconciled[like(algorithm_for_reconciliation, ":Discordant"), pers_group_id], size =  min(l, 5), replace = FALSE)
-  list_of_sample[["sample_record_Discordant"]] <- D3_pregnancy_reconciled[pers_group_id %in% sample_id_disc][,sample:="Discordant"]
+  sample_id_disc <- sample(x = D3_pregnancy_reconciled[like(algorithm_for_reconciliation, ":Discordant"), pregnancy_id], size =  min(l, 5), replace = FALSE)
+  list_of_sample[["sample_record_Discordant"]] <- D3_pregnancy_reconciled[pregnancy_id %in% sample_id_disc][,sample:="Discordant"]
 }
 
 ### 4: sample from SlightyDiscordant
 l <- D3_pregnancy_reconciled[like(algorithm_for_reconciliation,":SlightlyDiscordant"), .N]
 if (l > 0){
-  sample_id_sdisc <- sample(x = D3_pregnancy_reconciled[like(algorithm_for_reconciliation, ":SlightlyDiscordant"), pers_group_id], size =  min(l, 5), replace = FALSE)
-  list_of_sample[["sample_record_SlightyDiscordant"]] <- D3_pregnancy_reconciled[pers_group_id %in% sample_id_sdisc][,sample:="SlightlyDiscordant"]
+  sample_id_sdisc <- sample(x = D3_pregnancy_reconciled[like(algorithm_for_reconciliation, ":SlightlyDiscordant"), pregnancy_id], size =  min(l, 5), replace = FALSE)
+  list_of_sample[["sample_record_SlightyDiscordant"]] <- D3_pregnancy_reconciled[pregnancy_id %in% sample_id_sdisc][,sample:="SlightlyDiscordant"]
 }
 
 ### 5: sample from excluded --> GG:DiscordantEnd
 l <- D3_pregnancy_reconciled[GGDE == 1, .N]
 if (l > 0){
-  sample_id_ggde <- sample(x = D3_pregnancy_reconciled[GGDE == 1, pers_group_id], size =  min(l, 5), replace = FALSE)
-  list_of_sample[["sample_record_DiscordantEnd"]] <- D3_pregnancy_reconciled[pers_group_id %in% sample_id_ggde][,sample:="GG:DiscordantEnd"]
+  sample_id_ggde <- sample(x = D3_pregnancy_reconciled[GGDE == 1, pregnancy_id], size =  min(l, 5), replace = FALSE)
+  list_of_sample[["sample_record_DiscordantEnd"]] <- D3_pregnancy_reconciled[pregnancy_id %in% sample_id_ggde][,sample:="GG:DiscordantEnd"]
 }
 
 ### 6: sample from excluded --> GG:DiscordantStart
 l <- D3_pregnancy_reconciled[GGDS == 1, .N]
 if (l > 0){
-  sample_id_ex <- sample(x = D3_pregnancy_reconciled[GGDS == 1, pers_group_id], size =  min(l, 5), replace = FALSE)
-  list_of_sample[["sample_record_DiscordantStart"]] <- D3_pregnancy_reconciled[pers_group_id %in% sample_id_ex][,sample:="GG:DiscordantStart"]
+  sample_id_ex <- sample(x = D3_pregnancy_reconciled[GGDS == 1, pregnancy_id], size =  min(l, 5), replace = FALSE)
+  list_of_sample[["sample_record_DiscordantStart"]] <- D3_pregnancy_reconciled[pregnancy_id %in% sample_id_ex][,sample:="GG:DiscordantStart"]
 }
 
 ### 7: sample from excluded --> insufficient_quality
 l <- D3_pregnancy_reconciled[INSUF_QUALITY == 1, .N]
 if (l > 0){
-  sample_id_iq <- sample(x = D3_pregnancy_reconciled[INSUF_QUALITY == 1, pers_group_id], size =  min(l, 5), replace = FALSE)
-  list_of_sample[["sample_record_insufficient_quality"]] <- D3_pregnancy_reconciled[pers_group_id %in% sample_id_iq][,sample:="insufficient_quality"]
+  sample_id_iq <- sample(x = D3_pregnancy_reconciled[INSUF_QUALITY == 1, pregnancy_id], size =  min(l, 5), replace = FALSE)
+  list_of_sample[["sample_record_insufficient_quality"]] <- D3_pregnancy_reconciled[pregnancy_id %in% sample_id_iq][,sample:="insufficient_quality"]
 }
 
 ### 8: sample from blue --> updated_start
 l <- D3_pregnancy_reconciled[like(algorithm_for_reconciliation,":StartUpdated"), .N]
 if (l > 0){
-  sample_id_blue <- sample(x = D3_pregnancy_reconciled[like(algorithm_for_reconciliation,":StartUpdated"), pers_group_id], size =  min(l, 5), replace = FALSE)
-  list_of_sample[["sample_record_blue"]] <- D3_pregnancy_reconciled[pers_group_id %in% sample_id_blue][,sample:="StartUpdated"]
+  sample_id_blue <- sample(x = D3_pregnancy_reconciled[like(algorithm_for_reconciliation,":StartUpdated"), pregnancy_id], size =  min(l, 5), replace = FALSE)
+  list_of_sample[["sample_record_blue"]] <- D3_pregnancy_reconciled[pregnancy_id %in% sample_id_blue][,sample:="StartUpdated"]
 }
 
 ### date and time 
@@ -62,15 +62,15 @@ now <- paste0(year(Sys.time()), month(Sys.time()), day(Sys.time()), "_", hour(Sy
 original_sample <- rbindlist(list_of_sample)
 original_sample <- original_sample[, link := seq_along(.I) ]
 
-sample_id <- original_sample[, pers_group_id]
+sample_id <- original_sample[, pregnancy_id]
 
-record_sample <- D3_groups_of_pregnancies_reconciled[pers_group_id %in% sample_id, .(person_id, pers_group_id, survey_id, visit_occurrence_id)]
+record_sample <- D3_groups_of_pregnancies_reconciled[pregnancy_id %in% sample_id, .(person_id, pregnancy_id, survey_id, visit_occurrence_id)]
 record_sample <- record_sample[, survey_visit_id := survey_id]
 record_sample <- record_sample[is.na(survey_id), survey_visit_id := visit_occurrence_id]
 #record_sample <- record_sample[, -c("survey_id", "visit_occurrence_id")]
 
 save(original_sample, file = paste0(dirvalidation, "/original_sample", now, ".RData"))
-validation_sample <- original_sample[, .(pregnancy_id = pers_group_id,
+validation_sample <- original_sample[, .(preg_id = pregnancy_id,
                                          person_id = as.character(person_id),
                                          survey_id = as.character(survey_id),
                                          visit_occurrence_id = as.character(survey_id),
@@ -117,7 +117,7 @@ for (studyvar in study_variables_of_our_study){
     if(!(nrow(study_var_temp) == 1 & is.na(study_var_temp[1, person_id])) | nrow(study_var_temp) !=0 ){
       print(studyvar)
       study_var_temp <- study_var_temp[survey_id %in% record_sample[!is.na(survey_visit_id), survey_visit_id], 
-                                       .(pregnancy_id = NA,
+                                       .(preg_id = NA,
                                          person_id = NA,
                                          survey_id,
                                          visit_occurrence_id = NA,
@@ -164,7 +164,7 @@ for (studyvar in study_itemset_of_our_study){
       print(studyvar)
       study_var_temp <- study_var_temp[visit_occurrence_id %in% record_sample[, survey_visit_id] & 
                                          person_id %in% record_sample[, person_id],
-                                       .(pregnancy_id = NA,
+                                       .(preg_id = NA,
                                          person_id,
                                          survey_id = NA,
                                          visit_occurrence_id = NA,
@@ -200,18 +200,12 @@ for (studyvar in study_itemset_of_our_study){
 }
 
 
-concept_set_list_1 <- c("Gestation_less24", "Gestation_24", "Gestation_25_26", "Gestation_27_28", "Gestation_29_30",          
-                        "Gestation_31_32", "Gestation_33_34", "Gestation_35_36", "Gestation_more37", "Ongoingpregnancy",         
-                        "Birth", "Preterm", "Atterm", "Postterm", "Livebirth",                
-                        "Stillbirth", "Interruption", "Spontaneousabortion", "Ectopicpregnancy",                 
-                        "FGR_narrow", "FGR_possible", "GESTDIAB_narrow", "GESTDIAB_possible", "MAJORCA_narrow",           
-                        "MAJORCA_possible", "MATERNALDEATH_narrow", "MATERNALDEATH_possible", "MICROCEPHALY_narrow", "MICROCEPHALY_possible",    
-                        "PREECLAMP_narrow", "PREECLAMP_possible", "PRETERMBIRTH_narrow", "PRETERMBIRTH_possible","SPONTABO_narrow",          
-                        "SPONTABO_possible", "STILLBIRTH_narrow", "STILLBIRTH_possible", "TOPFA_narrow", "TOPFA_possible")
+concept_set_list_1 <- c(concept_set_our_study_pre, concept_sets_of_our_study_eve)
 
-concept_set_list_2 <- c("gestational_diabetes", "fetal_nuchal_translucency", "amniocentesis", "Chorionic_Villus_Sampling", "others")
 
-concept_set_list_3 <- c("INSULIN")
+concept_set_list_2 <- concept_sets_of_our_study_procedure
+
+concept_set_list_3 <- concept_set_our_study_atc
 
 for (concept in concept_set_list_1){
   if (concept %in% files_temp) {
@@ -220,7 +214,7 @@ for (concept in concept_set_list_1){
       print(concept)
       concept_temp <- concept_temp[visit_occurrence_id %in% record_sample[, survey_visit_id] & 
                                      person_id %in% record_sample[, person_id], 
-                                   .(pregnancy_id = NA,
+                                   .(preg_id = NA,
                                      person_id,
                                      survey_id = NA,
                                      visit_occurrence_id,
@@ -262,7 +256,7 @@ for (concept in concept_set_list_2){
       print(concept)
       concept_temp <- concept_temp[visit_occurrence_id %in% record_sample[, survey_visit_id] & 
                                      person_id %in% record_sample[, person_id],  
-                                   .(pregnancy_id = NA,
+                                   .(preg_id = NA,
                                      person_id,
                                      survey_id = NA,
                                      visit_occurrence_id,
@@ -304,7 +298,7 @@ for (concept in concept_set_list_3){
       print(concept)
       concept_temp <- concept_temp[visit_occurrence_id %in% record_sample[, survey_visit_id] & 
                                      person_id %in% record_sample[, person_id], 
-                                   .(pregnancy_id = NA,
+                                   .(preg_id = NA,
                                      person_id,
                                      survey_id = NA,
                                      visit_occurrence_id,
@@ -347,7 +341,7 @@ for (i in 1:length(files_temp)) {
     if(nrow(VISIT_OCCURRENCE_PREG)>0){
       VISIT_OCCURRENCE_PREG <- VISIT_OCCURRENCE_PREG[visit_occurrence_id %in% record_sample[, survey_visit_id] &
                                                        person_id %in% record_sample[, person_id],
-                                                     .(pregnancy_id = NA,
+                                                     .(preg_id = NA,
                                                        person_id,
                                                        survey_id = NA,
                                                        visit_occurrence_id,
@@ -392,26 +386,26 @@ sample_from_pregnancies <- sample_from_pregnancies[order(person_id, n, survey_id
 save(sample_from_pregnancies, file=paste0(dirvalidation,"sample_from_pregnancies", now, ".RData"))
 
 ### delete id and sort 
-sample_from_pregnancies_anon <- sample_from_pregnancies[, pers_group_id := pregnancy_id ]
-sample_from_pregnancies_anon <- sample_from_pregnancies_anon[n==1, pregnancy_id := seq_along(.I)][is.na(pregnancy_id), pregnancy_id := 0]
-sample_from_pregnancies_anon <- sample_from_pregnancies_anon[, pregnancy_id := max(pregnancy_id), person_id]
+sample_from_pregnancies_anon <- sample_from_pregnancies[, pregnancy_id := preg_id ]
+sample_from_pregnancies_anon <- sample_from_pregnancies_anon[n==1, preg_id := seq_along(.I)][is.na(preg_id), preg_id := 0]
+sample_from_pregnancies_anon <- sample_from_pregnancies_anon[, preg_id := max(preg_id), person_id]
 
 sample_from_pregnancies_anon <- sample_from_pregnancies_anon[is.na(record_date), record_date := "9999-12-31"]
 sample_from_pregnancies_anon <- sample_from_pregnancies_anon[, record_date := as.Date(record_date)]
 
-sample_from_pregnancies_anon <- sample_from_pregnancies_anon[order(as.integer(pregnancy_id), n, -record_date)]
-sample_from_pregnancies_anon <- sample_from_pregnancies_anon[, n:=seq_along(.I), pregnancy_id]
+sample_from_pregnancies_anon <- sample_from_pregnancies_anon[order(as.integer(preg_id), n, -record_date)]
+sample_from_pregnancies_anon <- sample_from_pregnancies_anon[, n:=seq_along(.I), preg_id]
 
 sample_from_pregnancies_anon <- sample_from_pregnancies_anon[record_date == "9999-12-31", record_date := NA]
 
-sample_from_pregnancies_anon <- sample_from_pregnancies_anon[, -c("person_id", "survey_id", "visit_occurrence_id", "from_algorithm", "pers_group_id", "sample")]
+sample_from_pregnancies_anon <- sample_from_pregnancies_anon[, -c("person_id", "survey_id", "visit_occurrence_id", "from_algorithm", "pregnancy_id", "sample")]
 
 ### set end to (0)
 sample_from_pregnancies_anon <- sample_from_pregnancies_anon[!is.na(pregnancy_start_date) & !is.na(pregnancy_start_date), pregnancy_length_days := as.Date(pregnancy_end_date) - as.Date(pregnancy_start_date)]
 sample_from_pregnancies_anon <- sample_from_pregnancies_anon[!is.na(pregnancy_start_date) & !is.na(pregnancy_start_date), pregnancy_length_weeks := as.integer(pregnancy_length_days/7)]
 
 sample_from_pregnancies_anon <- sample_from_pregnancies_anon[is.na(pregnancy_end_date), pregnancy_end_date:= "0000-01-01"]
-sample_from_pregnancies_anon <- sample_from_pregnancies_anon[, pregnancy_end_date := as.character(max(as.Date(pregnancy_end_date))),  pregnancy_id]
+sample_from_pregnancies_anon <- sample_from_pregnancies_anon[, pregnancy_end_date := as.character(max(as.Date(pregnancy_end_date))),  preg_id]
 
 sample_from_pregnancies_anon <- sample_from_pregnancies_anon[!is.na(record_date), distance_from_preg_end :=  as.Date(record_date) - as.Date(pregnancy_end_date)]
 sample_from_pregnancies_anon <- sample_from_pregnancies_anon[n!=1, pregnancy_end_date := NA ]
