@@ -90,10 +90,10 @@ Pregnancies are retrieved from four different streams:
 A pregnancy may have records in different streams. The subsequent figure shows the number of absolute pregnancies, divided by the highest quality stream in with the pregnancy is retrieved, and anchored to the pregnancy start year.
 
 ```{r year_start_of_pregnancy}
-D3_pregnancy_reconciled <- D3_pregnancy_reconciled[EUROCAT== "yes", Stream := "EUROCAT"]
-D3_pregnancy_reconciled <- D3_pregnancy_reconciled[PROMPT== "yes", Stream := "PROMPT"]
 D3_pregnancy_reconciled <- D3_pregnancy_reconciled[CONCEPTSETS== "yes", Stream := "CONCEPTSETS"]
 D3_pregnancy_reconciled <- D3_pregnancy_reconciled[ITEMSETS== "yes", Stream := "ITEMSETS"]
+D3_pregnancy_reconciled <- D3_pregnancy_reconciled[EUROCAT== "yes", Stream := "EUROCAT"]
+D3_pregnancy_reconciled <- D3_pregnancy_reconciled[PROMPT== "yes", Stream := "PROMPT"]
 
 ```
 

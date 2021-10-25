@@ -10,10 +10,12 @@ D3_gop<-D3_gop[,pers_group_id:=paste0(person_id,"_", group_identifier_colored)]
 #View(D3_gop[,.(pers_group_id,type_of_pregnancy_end, record_date, n, pregnancy_start_date, pregnancy_end_date, group_identifier_colored, order_quality, coloured_order, CONCEPTSET)])
 #interesting: ASL000101199700000005043
 
+D3_gop <- D3_gop[, record_description := CONCEPTSET][is.na(record_description), record_description := meaning]
+D3_gop <- D3_gop[, description := paste0("1:", record_description, "/")]
 ################################################################################
 ########################         Reconciliation         ########################
 ################################################################################
-#D3_gop <- D3_gop[100000:150000]
+#D3_gop <- D3_gop[100000:101000]
 list_of_D3_gop <- vector( mode = "list")
 #D3_gop_only_red <- D3_gop[highest_quality == "D_Red"]
 #D3_gop <- D3_gop[highest_quality != "D_Red"]
@@ -27,7 +29,8 @@ while (D3_gop[,.N]!=0) {
   n_of_iteration <- max(D3_gop[, n])
   D3_gop <- D3_gop[, new_pregnancy_group := 0]
   D3_gop <- D3_gop[, new_group := 0]
-
+  D3_gop <- D3_gop[, n_max:= max(n), pers_group_id]
+  
   for (i in seq(1, n_of_iteration)) {
     print(paste0("reconciling record ", i, " of ", n_of_iteration))
     
@@ -42,11 +45,20 @@ while (D3_gop[,.N]!=0) {
     D3_gop <- D3_gop[recon == 0, record_date_next_record := shift(record_date, n = i, fill = NA, type=c("lead")), by = "pers_group_id"]
     D3_gop <- D3_gop[recon == 0, start_diff := abs(as.integer(pregnancy_start_date - pregnancy_start_date_next_record))]
     D3_gop <- D3_gop[recon == 0, end_diff := abs(as.integer(pregnancy_end_date - pregnancy_end_date_next_record))]
+    # Streams
+    D3_gop <- D3_gop[recon == 0, PROMPT_next_record := shift(PROMPT, n = i, fill = NA, type=c("lead")), by = "pers_group_id"]
+    D3_gop <- D3_gop[recon == 0, ITEMSETS_next_record := shift(ITEMSETS, n = i, fill = NA, type=c("lead")), by = "pers_group_id"]
+    D3_gop <- D3_gop[recon == 0, EUROCAT_next_record:= shift(EUROCAT, n = i, fill = NA, type=c("lead")), by = "pers_group_id"]
+    D3_gop <- D3_gop[recon == 0, CONCEPTSETS_next_record:= shift(CONCEPTSETS, n = i, fill = NA, type=c("lead")), by = "pers_group_id"]
+    #imputation 
+    #D3_gop <- D3_gop[recon == 0, imputed_start_of_pregnancy_next:= shift(imputed_start_of_pregnancy, n = i, fill = NA, type=c("lead")), by = "pers_group_id"]
+    #D3_gop <- D3_gop[recon == 0, imputed_end_of_pregnancy_next:= shift(imputed_end_of_pregnancy, n = i, fill = NA, type=c("lead")), by = "pers_group_id"]
+    #Description record_description_next_record
+    D3_gop <- D3_gop[recon == 0, record_description_next_record:= shift(record_description, n = i, fill = NA, type=c("lead")), by = "pers_group_id"]
     
-
     #### pers_group_id
     
-    #dividing distante record
+    #dividing distant record
     D3_gop <- D3_gop[n == 1 & recon == 0 &  !is.na(record_date_next_record) & abs(as.integer(record_date - record_date_next_record)) > 270, 
                      `:=`(new_pregnancy_group = 1)]
     
@@ -81,15 +93,50 @@ while (D3_gop[,.N]!=0) {
                        abs(as.integer(record_date - record_date_next_record)) > 154,
                      `:=`(new_pregnancy_group = 1)]
     
+    # split 
     D3_gop <- D3_gop[is.na(new_pregnancy_group), new_pregnancy_group:=0]
     D3_gop <- D3_gop[, new_pregnancy_group := max(new_pregnancy_group), by = "pers_group_id"]
 
     D3_gop <- D3_gop[n == (1+i) & new_pregnancy_group == 1, 
                      `:=`(new_group = 1) ][is.na(new_group), new_group := 0]
     
+    D3_gop <- D3_gop[, pregnancy_splitted := new_pregnancy_group]
+    
     D3_gop <- D3_gop[, new_pregnancy_group := 0]
     
     D3_gop <- D3_gop[, new_group_next_record := shift(new_group, n = i, fill = 0, type=c("lead")), by = "pers_group_id"]
+    
+    
+    #### Streams
+    D3_gop <- D3_gop[ n == 1 & new_group_next_record != 1 & PROMPT_next_record == "yes",
+                      `:=`(PROMPT = "yes")]
+    
+    D3_gop <- D3_gop[ n == 1 & new_group_next_record != 1 & ITEMSETS_next_record == "yes",
+                      `:=`(ITEMSETS = "yes")]
+    
+    D3_gop <- D3_gop[ n == 1 & new_group_next_record != 1 & EUROCAT_next_record == "yes",
+                      `:=`(EUROCAT  = "yes")]
+    
+    D3_gop <- D3_gop[ n == 1 & new_group_next_record != 1 & CONCEPTSETS_next_record == "yes",
+                      `:=`(CONCEPTSETS = "yes")]
+    
+    #### Imputation 
+    
+    # if(!this_datasource_does_not_modify_PROMPT){
+    #   D3_gop <- D3_gop[ n == 1 & new_group_next_record != 1 & imputed_start_of_pregnancy_next == 0,
+    #                     `:=`(imputed_start_of_pregnancy = 0)]
+    #   
+    #   #D3_gop <- D3_gop[ n == 1 & new_group_next_record != 1 & imputed_end_of_pregnancy_next == 0,
+    #   #                  `:=`(imputed_end_of_pregnancy = 0)] 
+    # }else{
+    #   D3_gop <- D3_gop[ n == 1 & new_group_next_record != 1 & imputed_start_of_pregnancy_next == 0 &
+    #                       PROMPT != "yes",
+    #                     `:=`(imputed_start_of_pregnancy = 0)]
+    # }
+    
+    #### Description 
+    D3_gop <- D3_gop[ n == 1 & new_group_next_record != 1 & recon == 0 & i<n_max, 
+                      description := paste0(description, i+1, ":", record_description_next_record, "/")]
     
     #### Type of end of pregnancy
     D3_gop <- D3_gop[ n == 1 & new_group_next_record != 1 & !is.na(type_of_pregnancy_end_next_record)  & !is.na(type_of_pregnancy_end) & 
@@ -141,12 +188,19 @@ while (D3_gop[,.N]!=0) {
                      `:=`( algorithm_for_reconciliation = paste0(algorithm_for_reconciliation, "GB:concordant_"),
                            recon = 1)]
     
-    D3_gop <- D3_gop[n == 1 & new_group_next_record != 1 &  recon == 0 & coloured_order == "1_green" & coloured_order_next_record == "3_blue" &
-                       start_diff != 0,
-                     `:=`( pregnancy_start_date = pregnancy_start_date_next_record,
-                           algorithm_for_reconciliation = paste0(algorithm_for_reconciliation, "GB:StartUpdated_"),
-                           imputed_start_of_pregnancy = 0,
-                           meaning_start_date = shift(meaning_start_date, n = i,  fill = "updated_from_blue_record", type=c("lead")))]
+    if(this_datasource_does_not_modify_PROMPT){
+      D3_gop <- D3_gop[n == 1 & new_group_next_record != 1 &  recon == 0 & coloured_order == "1_green" & coloured_order_next_record == "3_blue" &
+                         start_diff != 0,
+                       `:=`( algorithm_for_reconciliation = paste0(algorithm_for_reconciliation, "GB:StartNotUpdated_"))]
+    }else{
+      D3_gop <- D3_gop[n == 1 & new_group_next_record != 1 &  recon == 0 & coloured_order == "1_green" & coloured_order_next_record == "3_blue" &
+                         start_diff != 0,
+                       `:=`( pregnancy_start_date = pregnancy_start_date_next_record,
+                             algorithm_for_reconciliation = paste0(algorithm_for_reconciliation, "GB:StartUpdated_"),
+                             imputed_start_of_pregnancy = 0,
+                             meaning_start_date = shift(meaning_start_date, n = i,  fill = "updated_from_blue_record", type=c("lead")))]
+    }
+
     
     #### Green - Red
     D3_gop <- D3_gop[n == 1 & new_group_next_record != 1 &  recon == 0 & coloured_order == "1_green" & coloured_order_next_record == "4_red" &
@@ -321,7 +375,9 @@ D3_groups_of_pregnancies_reconciled <- D3_gop[, .(person_id,
                                                   order_quality,
                                                   date_of_principal_record,         
                                                   date_of_oldest_record, 
-                                                  algorithm_for_reconciliation,  
+                                                  algorithm_for_reconciliation,
+                                                  description,
+                                                  pregnancy_splitted,
                                                   survey_id,
                                                   visit_occurrence_id)]
 

@@ -1,4 +1,4 @@
-# set directory with input data
+# # set directory with input data
 # setwd("..")
 # setwd("..")
 # setwd("..")
@@ -230,6 +230,10 @@ this_datasource_has_visit_occurrence_prompt <- ifelse(thisdatasource %in% dataso
 #datasource with no_procedures
 datasource_with_no_procedures <- c("CPRD", "UOSL", "BIFAP") 
 this_datasource_has_no_procedures <- ifelse(thisdatasource %in% datasource_with_no_procedures,TRUE,FALSE) 
+
+#datasource that do not modify record from PROMT
+datasource_that_does_not_modify_PROMPT <- c("UOSL") 
+this_datasource_does_not_modify_PROMPT <- ifelse(thisdatasource %in% datasource_that_does_not_modify_PROMPT,TRUE,FALSE) 
 
 
 # # datasources with itemset linked to conceptset

@@ -34,7 +34,7 @@ for (conceptvar in c(concept_sets_of_ongoing_of_pregnancy,concept_sets_of_our_st
   } else {
     studyvardataset <- get(conceptvar)[!is.na(date),][,concept_set:=conceptvar]
     studyvardataset <- unique(studyvardataset,by=c("person_id","codvar","date"))
-    dataset_ongoing_concept_sets <- rbind(dataset_ongoing_concept_sets,studyvardataset[,.(person_id,date, codvar,concept_set,visit_occurrence_id, origin_of_procedure, procedure_code_vocabulary)], fill=TRUE)
+    dataset_ongoing_concept_sets <- rbind(dataset_ongoing_concept_sets,studyvardataset[,.(person_id,date, codvar,concept_set,visit_occurrence_id, origin_of_procedure, procedure_code_vocabulary, meaning_of_procedure)], fill=TRUE)
     
   }
 }
@@ -44,6 +44,7 @@ if(this_datasource_has_no_procedures){
 } else {
   dataset_ongoing_concept_sets<-dataset_ongoing_concept_sets[!is.na(origin_of_procedure),origin_of_event:=origin_of_procedure][,-"origin_of_procedure"]
   dataset_ongoing_concept_sets<-dataset_ongoing_concept_sets[!is.na(procedure_code_vocabulary),event_record_vocabulary:=procedure_code_vocabulary][,-"procedure_code_vocabulary"]
+  dataset_ongoing_concept_sets<-dataset_ongoing_concept_sets[!is.na(meaning_of_procedure),meaning_of_event:=meaning_of_procedure][,-"meaning_of_procedure"]
 }
 
 # check if dataset is unique for person_id, survey_id and survey_date
@@ -102,7 +103,8 @@ dataset_concept_sets<-dataset_concept_sets[!is.na(pregnancy_end_date) & concept_
 # impute pregnancy_start_date when pregnancy_end_date is not missing
 dataset_concept_sets<-dataset_concept_sets[!is.na(pregnancy_end_date) & is.na(pregnancy_start_date) & type_of_pregnancy_end=="LB" & concept_set=="Preterm",`:=`(pregnancy_start_date= pregnancy_end_date-245, imputed_start_of_pregnancy=1)]
 dataset_concept_sets<-dataset_concept_sets[!is.na(pregnancy_end_date) & is.na(pregnancy_start_date) & type_of_pregnancy_end=="LB" & concept_set=="Livebirth",`:=`(pregnancy_start_date= pregnancy_end_date-280, imputed_start_of_pregnancy=1)]
-dataset_concept_sets<-dataset_concept_sets[!is.na(pregnancy_end_date) & is.na(pregnancy_start_date) & type_of_pregnancy_end=="LB" & concept_set=="Birth",`:=`(pregnancy_start_date= pregnancy_end_date-280, imputed_start_of_pregnancy=1)]
+dataset_concept_sets<-dataset_concept_sets[!is.na(pregnancy_end_date) & is.na(pregnancy_start_date) & type_of_pregnancy_end=="LB" & concept_set=="Birth_narrow",`:=`(pregnancy_start_date= pregnancy_end_date-280, imputed_start_of_pregnancy=1)]
+dataset_concept_sets<-dataset_concept_sets[!is.na(pregnancy_end_date) & is.na(pregnancy_start_date) & type_of_pregnancy_end=="LB" & concept_set=="Birth_possible",`:=`(pregnancy_start_date= pregnancy_end_date-280, imputed_start_of_pregnancy=1, imputed_end_of_pregnancy=1)]
 dataset_concept_sets<-dataset_concept_sets[!is.na(pregnancy_end_date) & is.na(pregnancy_start_date) & type_of_pregnancy_end=="SA",`:=`(pregnancy_start_date= pregnancy_end_date-70, imputed_start_of_pregnancy=1)]
 dataset_concept_sets<-dataset_concept_sets[!is.na(pregnancy_end_date) & is.na(pregnancy_start_date) & type_of_pregnancy_end=="SB",`:=`(pregnancy_start_date= pregnancy_end_date-196, imputed_start_of_pregnancy=1)]
 dataset_concept_sets<-dataset_concept_sets[!is.na(pregnancy_end_date) & is.na(pregnancy_start_date) & type_of_pregnancy_end=="ECT",`:=`(pregnancy_start_date= pregnancy_end_date-56, imputed_start_of_pregnancy=1)]
@@ -167,6 +169,6 @@ DescribeThisDataset(Dataset = D3_Stream_CONCEPTSETS,
 ##### End Description #####
 
 rm(dataset_concept_sets, dataset_end_concept_sets, dataset_ongoing_concept_sets, dataset_start_concept_sets,D3_Stream_CONCEPTSETS)
-rm(Gestation_less24,Gestation_24,Gestation_25_26, Gestation_27_28, Gestation_29_30, Gestation_31_32, Gestation_33_34,Gestation_35_36,Gestation_more37,Ongoingpregnancy,Birth,Interruption,Spontaneousabortion, Ectopicpregnancy, Stillbirth, Livebirth, Preterm, Atterm,Postterm)
+rm(Gestation_less24,Gestation_24,Gestation_25_26, Gestation_27_28, Gestation_29_30, Gestation_31_32, Gestation_33_34,Gestation_35_36,Gestation_more37,Ongoingpregnancy,Birth_narrow, Birth_possible ,Interruption,Spontaneousabortion, Ectopicpregnancy, Stillbirth, Livebirth, Preterm, Atterm,Postterm)
 rm(gestational_diabetes,fetal_nuchal_translucency, amniocentesis,Chorionic_Villus_Sampling,others)
 ##################################################################################################################################

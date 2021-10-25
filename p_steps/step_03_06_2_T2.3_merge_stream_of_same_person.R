@@ -92,7 +92,7 @@ groups_of_pregnancies<-groups_of_pregnancies[PROMPT=="yes" & coloured_order=="2_
 groups_of_pregnancies<-groups_of_pregnancies[ITEMSETS=="yes" & coloured_order=="2_yellow",order_quality:=6] 
 
 groups_of_pregnancies<-groups_of_pregnancies[CONCEPTSETS=="yes" & CONCEPTSET=="Livebirth" & coloured_order=="2_yellow" & !eval(parse(text = condmeaning$PC)), order_quality:=7] #
-groups_of_pregnancies<-groups_of_pregnancies[CONCEPTSETS=="yes" & CONCEPTSET=="Birth" & coloured_order=="2_yellow" & !eval(parse(text = condmeaning$PC)),order_quality:=7] #
+groups_of_pregnancies<-groups_of_pregnancies[CONCEPTSETS=="yes" & CONCEPTSET=="Birth_narrow" & coloured_order=="2_yellow" & !eval(parse(text = condmeaning$PC)),order_quality:=7] #
 groups_of_pregnancies<-groups_of_pregnancies[CONCEPTSETS=="yes" & CONCEPTSET=="Preterm" & coloured_order=="2_yellow" & !eval(parse(text = condmeaning$PC)),order_quality:=8]
 groups_of_pregnancies<-groups_of_pregnancies[CONCEPTSETS=="yes" & CONCEPTSET=="Stillbirth" & coloured_order=="2_yellow" & !eval(parse(text = condmeaning$PC)),order_quality:=9]
 groups_of_pregnancies<-groups_of_pregnancies[CONCEPTSETS=="yes" & CONCEPTSET=="Interruption" & coloured_order=="2_yellow" & !eval(parse(text = condmeaning$PC)),order_quality:=10]
