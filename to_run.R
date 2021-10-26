@@ -43,7 +43,7 @@ for (i in 1:nrow(Description)) {
 #render the macro 
 render(paste0(dirmacro,"DataModelMacro.Rmd"),           
        output_dir = thisdir,
-       output_file = "index",
+       output_file = "DataModel",
        params = list(list_of_datamodel = list_of_datamodel,
                      list_of_group = list_of_group,
                      Description = Description))
