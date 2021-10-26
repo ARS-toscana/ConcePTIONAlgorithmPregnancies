@@ -1,0 +1,37 @@
+table {
+  width: 100%;
+}
+
+table, td {
+  border-collapse: collapse;
+  border: 1px solid #000;
+}
+
+thead {
+  display: table; /* to take the same width as tr */
+  width: calc(100% - 17px); /* - 17px because of the scrollbar width */
+}
+
+tbody {
+  display: block; /* to enable vertical scrolling */
+  max-height: 200px; /* e.g. */
+  overflow-y: scroll; /* keeps the scrollbar even if it doesn't need it; display purpose */
+}
+
+th, td {
+  width: 33.33%; /* to enable "word-break: break-all" */
+  padding: 5px;
+  word-break: break-all; /* 4. */
+}
+
+tr {
+  display: table; /* display purpose; th's border */
+  width: 100%;
+  box-sizing: border-box; /* because of the border (Chrome needs this line, but not FF) */
+}
+
+td {
+  text-align: center;
+  border-bottom: none;
+  border-left: none;
+}

@@ -1,0 +1,51 @@
+---
+title: "ECVM: Data Model "
+output: 
+  rmdformats::robobook:
+     css: styles.css
+params:
+  list_of_datamodel: NULL
+  Description: NULL
+  list_of_group: NULL
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = F)
+```
+
+
+```{r results='asis'}
+
+for(group in list_of_group){
+   cat('  \n')
+   cat("# ", group, " \n")
+   cat('  \n')
+   cat('___') 
+   #cat('  \n')
+   
+   for (name_DM in list_of_datamodel[[group]]){
+      DM <- read_excel(paste0(dirinput, "Data_Model.xlsx"), sheet = name_DM)
+      cat('  \n')  
+      cat("##", name_DM, "\n") 
+      cat('  \n')  
+      cat(as.character(Description[Description$A == name_DM, 2]), "\n")
+      cat('\n') 
+      
+      tab = DM %>%
+              kbl() %>%
+              add_header_above()
+       
+      cat(tab)
+      
+      cat('\n')
+      cat('<br><br><br>') 
+      cat('\n')
+   }
+   cat('<br><br><br><br><br>') 
+   cat('\n')
+}
+
+```
+
+
