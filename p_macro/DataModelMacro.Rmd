@@ -1,5 +1,5 @@
 ---
-title: "ECVM: Data Model "
+title: "Pregnancy Script: Data Model"
 output: 
   rmdformats::robobook:
      css: styles.css
@@ -9,7 +9,11 @@ params:
   list_of_group: NULL
 ---
 
+<br><br><br>
 
+The Pregnancy Algorithm is composed of multiple steps. In each step, one or more datasets are required as input and one or more new datasets are produced as output. This page described the data models of such datasets.
+
+<br><br><br>
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = F)
 ```
