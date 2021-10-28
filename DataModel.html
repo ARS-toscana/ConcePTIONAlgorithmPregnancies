@@ -1689,7 +1689,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
     
     
-        <style type="text/css">table tbody, table thead {display: block;}table tbody{ overflow: auto; height: 300px;}th {width: 100%; width: 33.33%; }td {width: 100%; width: 33.33%; }h1 {color: #000000}h2 {color: #0579fc}h3 {color: #2387fa}.list-group-item.active, .list-group-item.active:focus, .list-group-item.active:hover {background-color: #2387fa; border-color: #2387fa}</style>
+        <style type="text/css">table {width: 100%;}table, td {border-collapse: collapse;border: 1px solid #000;}thead {display: table; width: calc(100% - 17px); }tbody {display: block; max-height: 200px; overflow-y: scroll; }th, td {width: 33.33%; padding: 5px;word-break: break-all; }tr {display: table; width: 100%;box-sizing: border-box; }td {text-align: center;border-bottom: none;border-left: none;}</style>
     
     <!-- tabsets -->
     <script>
@@ -1808,7 +1808,7 @@ document.addEventListener('DOMContentLoaded', function() {
       
    
 <!-- Don't indent these lines or it will mess pre blocks indentation --> 
-<p><br><br><br></p>
+<p><br></p>
 <p>The Pregnancy Algorithm is composed of multiple steps. In each step, one or more datasets are required as input and one or more new datasets are produced as output. This page described the data models of such datasets.</p>
 <p><br><br><br></p>
 <div id="datamodel-of-the-output" class="section level1">

@@ -1,3 +1,4 @@
+/*
 table tbody, table thead {display: block;}
 
 table tbody{ overflow: auto; height: 300px;}
@@ -7,6 +8,55 @@ th {width: 100%; width: 33.33%; }
 td {width: 100%; width: 33.33%; }
 
 
+
+h1 {color: #000000}
+h2 {color: #0579fc}
+h3 {color: #2387fa}
+
+.list-group-item.active, .list-group-item.active:focus, .list-group-item.active:hover {background-color: #2387fa; border-color: #2387fa}
+
+th {width: 100%; width: 33.33%; }
+
+td {width: 100%; width: 33.33%; }
+
+table {
+    display: inline-block;
+    overflow-x: auto;
+    overflow-y: auto;
+    white-space: nowrap;
+}
+
+
+
+table  { margin-top:  20px; display: block; overflow: auto; }
+th div { margin-top: -20px; position: absolute; }
+
+
+table { border-collapse: collapse; }
+tr:nth-child(even) { background: #EEE; }
+
+
+
+*/
+
+
+
+.fixed_header tbody{
+  display:block;
+  overflow:auto;
+  height:200px;
+  width:100%;
+}
+.fixed_header thead tr{
+  display:block;
+}
+
+/*
+tr > td:first-of-type {
+Position: absolute;
+width: 100px
+}
+*/
 
 h1 {color: #000000}
 h2 {color: #0579fc}
