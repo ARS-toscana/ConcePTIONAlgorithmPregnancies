@@ -6,6 +6,7 @@ setwd("..")
 dirbase<-getwd() # Lot4
 dirinput <- paste0(dirbase,"/CDMInstances/")
 
+# set other directories
 diroutput <- paste0(thisdir,"/g_output/")
 dirtemp <- paste0(thisdir,"/g_intermediate/")
 direxp <- paste0(thisdir,"/g_export/")
@@ -30,7 +31,6 @@ dirvalidation <- paste0(thisdir, "/g_validation/")
 ###################################################################
 # CREATE FOLDERS
 ###################################################################
-
 suppressWarnings(if (!file.exists(diroutput)) dir.create(file.path( diroutput)))
 suppressWarnings(if (!file.exists(dirtemp)) dir.create(file.path( dirtemp)))
 suppressWarnings(if (!file.exists(direxp)) dir.create(file.path( direxp)))
@@ -49,7 +49,10 @@ suppressWarnings(if (!file.exists(dirdescribe03_06_groups_of_pregnancies)) dir.c
 suppressWarnings(if (!file.exists(dirvalidation)) dir.create(file.path(dirvalidation)))
 
 
-# load packages needed
+
+###################################################################
+# LOAD PACKEGES NEEDED
+###################################################################
 if (!require("haven")) install.packages("haven")
 library(haven)
 if (!require("tidyverse")) install.packages("tidyverse")
@@ -81,7 +84,9 @@ library(DT)
 
 
 
-# load macros
+###################################################################
+# LOAD MACRO and FUNCTIONS
+###################################################################
 source(paste0(dirmacro,"CreateConceptSetDatasets_v18.R"))
 source(paste0(dirmacro,"CreateItemsetDatasets.R"))
 source(paste0(dirmacro,"MergeFilterAndCollapse_v5.R"))
@@ -98,11 +103,15 @@ source(paste0(dirmacro,"DescribeThisDataset.R"))
 #other parameters
 date_format <- "%Y%m%d"
 
+# gap allowed for CreateSpells
+gap_allowed_thisdatasource = ifelse(thisdatasource == "ARS",21,1)
+
+
+###################################################################
+# CDM PARAMETERS SPECIFIC
+###################################################################
 
 # understand which datasource the script is querying
-#-------------------------------------------------------
-
-# named the datasource
 CDM_SOURCE<- fread(paste0(dirinput,"CDM_SOURCE.csv"))
 thisdatasource <- as.character(CDM_SOURCE[1,3])
 
@@ -111,12 +120,10 @@ INSTANCE<- fread(paste0(dirinput,"INSTANCE.csv"), fill=T)
 list_tables<-unique(INSTANCE[,source_table_name])
 date_range <- vector(mode="list")
 
+# keep dates range for each table in INSTANCE table
 for (t in list_tables){
-  date_range[['ARS']][[t]][["since_when_data_complete"]] <- INSTANCE[source_table_name==t, list(since_when_data_complete=min(since_when_data_complete, na.rm = T))]
-  date_range[['ARS']][[t]][["up_to_when_data_complete"]] <- INSTANCE[source_table_name==t, list(up_to_when_data_complete=max(up_to_when_data_complete, na.rm = T))]
-  
-  date_range[['TEST']][[t]][["since_when_data_complete"]] <- INSTANCE[source_table_name==t, list(since_when_data_complete=min(since_when_data_complete, na.rm = T))]
-  date_range[['TEST']][[t]][["up_to_when_data_complete"]] <- INSTANCE[source_table_name==t, list(up_to_when_data_complete=max(up_to_when_data_complete, na.rm = T))]
+  date_range[[thisdatasource]][[t]][["since_when_data_complete"]] <- INSTANCE[source_table_name==t, list(since_when_data_complete=min(since_when_data_complete, na.rm = T))]
+  date_range[[thisdatasource]][[t]][["up_to_when_data_complete"]] <- INSTANCE[source_table_name==t, list(up_to_when_data_complete=max(up_to_when_data_complete, na.rm = T))]
 } 
 
 
@@ -128,13 +135,6 @@ for (t in list_tables){
 datasources_prescriptions <- c('CPRD')
 thisdatasource_has_prescriptions <- ifelse(thisdatasource %in% datasources_prescriptions,TRUE,FALSE)
 
-
-
-
-
-
-# gap allowed for CreateSpells
-gap_allowed_thisdatasource = ifelse(thisdatasource == "ARS",21,1)
 
 #datasource with itemsets stream
 datasources_with_itemsets_stream <- c("TEST","GePaRD","BIFAP","ARS") 
@@ -160,9 +160,6 @@ this_datasource_does_not_modify_PROMPT <- ifelse(thisdatasource %in% datasource_
 
 
 
-
-
-  
 #############################################
 #SAVE METADATA TO direxp
 #############################################
@@ -178,10 +175,6 @@ file.copy(paste0(dirmacro,'/post_validation_script.R'), dirvalidation)
 #############################################
 #FUNCTION TO COMPUTE AGE
 #############################################
-Agebands =c(-1, 19, 29, 39, 49, 59, 69, 80, Inf)
-Agebands_children=c(-1,4,9,14,19)
-Agebands_obj3 =c(12, 19, 29, 39, 55)
-
 age_fast = function(from, to) {
   from_lt = as.POSIXlt(from)
   to_lt = as.POSIXlt(to)
