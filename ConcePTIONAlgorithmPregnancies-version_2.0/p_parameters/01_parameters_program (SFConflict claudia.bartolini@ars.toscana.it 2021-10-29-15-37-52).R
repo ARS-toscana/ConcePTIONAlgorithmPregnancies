@@ -1,8 +1,11 @@
 # set directory with input data
+setwd(..)
 dirbase<-getwd()
 dirinput <- paste0(dirbase,"/i_input/")
 
-# set other directories
+###################################################################
+# SET DIRECTORIES
+###################################################################
 diroutput <- paste0(thisdir,"/g_output/")
 dirtemp <- paste0(thisdir,"/g_intermediate/")
 direxp <- paste0(thisdir,"/g_export/")
@@ -23,6 +26,28 @@ dirdescribe03_internal_consistency <- paste0(thisdir, "/g_describe_HTML/steps_de
 dirdescribe03_06_excluded_pregnancies <- paste0(thisdir, "/g_describe_HTML/steps_description/03_06_excluded_pregnancies/")
 dirdescribe03_06_groups_of_pregnancies <- paste0(thisdir, "/g_describe_HTML/steps_description/03_06_groups_of_pregnancies/")
 dirvalidation <- paste0(thisdir, "/g_validation/")
+
+###################################################################
+# CREATE FOLDERS
+###################################################################
+
+suppressWarnings(if (!file.exists(diroutput)) dir.create(file.path( diroutput)))
+suppressWarnings(if (!file.exists(dirtemp)) dir.create(file.path( dirtemp)))
+suppressWarnings(if (!file.exists(direxp)) dir.create(file.path( direxp)))
+suppressWarnings(if (!file.exists(dirfigure)) dir.create(file.path( dirfigure)))
+suppressWarnings(if (!file.exists(dirpargen)) dir.create(file.path( dirpargen)))
+suppressWarnings(if (!file.exists(dirsmallcountsremoved)) dir.create(file.path(dirsmallcountsremoved)))
+suppressWarnings(if (!file.exists(dirdescribe)) dir.create(file.path(dirdescribe)))
+suppressWarnings(if (!file.exists(dirdescribesteps)) dir.create(file.path(dirdescribesteps)))
+suppressWarnings(if (!file.exists(dirdescribe01_concepts)) dir.create(file.path(dirdescribe01_concepts)))
+suppressWarnings(if (!file.exists(dirdescribe01_items)) dir.create(file.path(dirdescribe01_items)))
+suppressWarnings(if (!file.exists(dirdescribe01_prompts)) dir.create(file.path(dirdescribe01_prompts)))
+suppressWarnings(if (!file.exists(dirdescribe03_create_pregnancies)) dir.create(file.path(dirdescribe03_create_pregnancies)))
+suppressWarnings(if (!file.exists(dirdescribe03_internal_consistency)) dir.create(file.path(dirdescribe03_internal_consistency)))
+suppressWarnings(if (!file.exists(dirdescribe03_06_excluded_pregnancies)) dir.create(file.path(dirdescribe03_06_excluded_pregnancies)))
+suppressWarnings(if (!file.exists(dirdescribe03_06_groups_of_pregnancies)) dir.create(file.path(dirdescribe03_06_groups_of_pregnancies)))
+suppressWarnings(if (!file.exists(dirvalidation)) dir.create(file.path(dirvalidation)))
+
 
 # load packages needed
 if (!require("haven")) install.packages("haven")
@@ -132,43 +157,9 @@ datasource_that_does_not_modify_PROMPT <- c("UOSL")
 this_datasource_does_not_modify_PROMPT <- ifelse(thisdatasource %in% datasource_that_does_not_modify_PROMPT,TRUE,FALSE) 
 
 
-# # datasources with itemset linked to conceptset
-# datasources_with_itemset_linked_to_conceptset <- c("TEST",) # MED_OBS
-# #datasources_with_itemset_linked_to_conceptset <- c()
-# this_datasource_has_itemset_linked_to_conceptset <- ifelse(thisdatasource %in% datasources_with_itemset_linked_to_conceptset,TRUE,FALSE) 
-
-###################################################################
-# CREATE FOLDERS
-###################################################################
-
-
-dirdescribesteps <- paste0(thisdir, "/g_describe_HTML/steps_description/")
-dirdescribe01_concepts <- paste0(thisdir, "/g_describe_HTML/steps_description/01_concepts/")
-dirdescribe01_items <- paste0(thisdir, "/g_describe_HTML/steps_description/01_items/")
-dirdescribe01_prompts <- paste0(thisdir, "/g_describe_HTML/steps_description/01_prompts/")
-dirdescribe03_create_pregnancies <- paste0(thisdir, "/g_describe_HTML/steps_description/03_create_pregnancies/")
-dirdescribe03_internal_consistency <- paste0(thisdir, "/g_describe_HTML/steps_description/03_internal_consistency/")
-dirdescribe03_06_excluded_pregnancies <- paste0(thisdir, "/g_describe_HTML/steps_description/03_06_excluded_pregnancies/")
-dirdescribe03_06_groups_of_pregnancies <- paste0(thisdir, "/g_describe_HTML/steps_description/03_06_groups_of_pregnancies/")
 
 
 
-suppressWarnings(if (!file.exists(diroutput)) dir.create(file.path( diroutput)))
-suppressWarnings(if (!file.exists(dirtemp)) dir.create(file.path( dirtemp)))
-suppressWarnings(if (!file.exists(direxp)) dir.create(file.path( direxp)))
-suppressWarnings(if (!file.exists(dirfigure)) dir.create(file.path( dirfigure)))
-suppressWarnings(if (!file.exists(dirpargen)) dir.create(file.path( dirpargen)))
-suppressWarnings(if (!file.exists(dirsmallcountsremoved)) dir.create(file.path(dirsmallcountsremoved)))
-suppressWarnings(if (!file.exists(dirdescribe)) dir.create(file.path(dirdescribe)))
-suppressWarnings(if (!file.exists(dirdescribesteps)) dir.create(file.path(dirdescribesteps)))
-suppressWarnings(if (!file.exists(dirdescribe01_concepts)) dir.create(file.path(dirdescribe01_concepts)))
-suppressWarnings(if (!file.exists(dirdescribe01_items)) dir.create(file.path(dirdescribe01_items)))
-suppressWarnings(if (!file.exists(dirdescribe01_prompts)) dir.create(file.path(dirdescribe01_prompts)))
-suppressWarnings(if (!file.exists(dirdescribe03_create_pregnancies)) dir.create(file.path(dirdescribe03_create_pregnancies)))
-suppressWarnings(if (!file.exists(dirdescribe03_internal_consistency)) dir.create(file.path(dirdescribe03_internal_consistency)))
-suppressWarnings(if (!file.exists(dirdescribe03_06_excluded_pregnancies)) dir.create(file.path(dirdescribe03_06_excluded_pregnancies)))
-suppressWarnings(if (!file.exists(dirdescribe03_06_groups_of_pregnancies)) dir.create(file.path(dirdescribe03_06_groups_of_pregnancies)))
-suppressWarnings(if (!file.exists(dirvalidation)) dir.create(file.path(dirvalidation)))
 
 
   

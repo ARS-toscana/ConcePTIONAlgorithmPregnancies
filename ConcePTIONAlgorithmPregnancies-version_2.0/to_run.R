@@ -1,6 +1,6 @@
 #-------------------------------
 # ConcePTION - Pregnancy script
-# v2.0 - 11 October 2021
+# v2.0 - 29 October 2021
 # authors: Claudia Bartolini, Rosa Gini, Giorgio Limoncella, Olga Paoletti, Davide Messina
 # -----------------------------
 
@@ -11,13 +11,12 @@ rm(list=ls(all.names=TRUE))
 if (!require("rstudioapi")) install.packages("rstudioapi")
 thisdir<-setwd(dirname(rstudioapi::getSourceEditorContext()$path))
 thisdir<-setwd(dirname(rstudioapi::getSourceEditorContext()$path))
-
+setwd(thisdir)
 
 #load parameters
 source(paste0(thisdir,"/p_parameters/01_parameters_program.R"))
 source(paste0(thisdir,"/p_parameters/02_parameters_CDM.R"))
 source(paste0(thisdir,"/p_parameters/03_concept_sets.R"))
-#source(paste0(thisdir,"/p_parameters/03_concept_sets_outcomes.R"))
 source(paste0(thisdir,"/p_parameters/04_prompts.R"))
 source(paste0(thisdir,"/p_parameters/05_subpopulations_restricting_meanings.R"))
 source(paste0(thisdir,"/p_parameters/06_algorithms.R"))
@@ -32,12 +31,10 @@ source(paste0(thisdir,"/p_parameters/08_check_coding_system.R"))
 # 01 RETRIEVE RECORDS FRM CDM
 
 system.time(source(paste0(thisdir,"/p_steps/step_01_1_T2.1_create_conceptset_datasets.R")))
-# # in case you choose to optimise memory use, instead of execution time, please comment the previous line, and un-comment the next one
-# #system.time(source(paste0(thisdir,"/p_steps/step_01_1_T2.1_create_conceptset_datasets_memory_optimizer.R")))
 system.time(source(paste0(thisdir,"/p_steps/step_01_2_T2.1_create_spells.R")))
 system.time(source(paste0(thisdir,"/p_steps/step_01_3_T2.1_create_dates_in_PERSONS.R"))) 
 system.time(source(paste0(thisdir,"/p_steps/step_01_4_T2.1_create_prompt_datasets.R")))
-system.time(source(paste0(thisdir,"/p_steps/step_01_5_T2.1_create_itemsets_datasets.R"))) # -->fare prove con TEST!!
+system.time(source(paste0(thisdir,"/p_steps/step_01_5_T2.1_create_itemsets_datasets.R"))) 
 
 # 02 COUNT CODES 
 #system.time(source(paste0(thisdir,"/p_steps/step_02_T2.2_count_codes.R")))
