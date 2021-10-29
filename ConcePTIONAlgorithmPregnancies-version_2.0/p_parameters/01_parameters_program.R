@@ -152,7 +152,7 @@ thisdatasource_has_prescriptions <- ifelse(thisdatasource %in% datasources_presc
 #datasource with itemsets stream
 datasources_with_itemsets_stream <- c("TO_ADD","GePaRD","BIFAP","ARS") #@ use "TO_ADD" as example
 this_datasource_has_itemsets_stream <- ifelse(thisdatasource %in% datasources_with_itemsets_stream,TRUE,FALSE) 
-
+#datasource with itemsets stream from medical observation
 datasource_with_itemsets_stream_from_medical_obs <- c("TO_ADD","GePaRD","BIFAP") #@ use "TO_ADD" as example
 this_datasource_has_itemsets_stream_from_medical_obs <- ifelse(thisdatasource %in% datasource_with_itemsets_stream_from_medical_obs,TRUE,FALSE) 
 
@@ -165,7 +165,7 @@ this_datasource_has_visit_occurrence_prompt <- ifelse(thisdatasource %in% dataso
 datasource_with_no_procedures <- c("TO_ADD","CPRD","UOSL","BIFAP") #@ use "TO_ADD" as example
 this_datasource_has_no_procedures <- ifelse(thisdatasource %in% datasource_with_no_procedures,TRUE,FALSE) 
 
-#datasource that do not modify record from PROMT
+#datasource that do not modify record from PROMPT
 datasource_that_does_not_modify_PROMPT <- c("TO_ADD","UOSL") #@ use "TO_ADD" as example
 this_datasource_does_not_modify_PROMPT <- ifelse(thisdatasource %in% datasource_that_does_not_modify_PROMPT,TRUE,FALSE) 
 
