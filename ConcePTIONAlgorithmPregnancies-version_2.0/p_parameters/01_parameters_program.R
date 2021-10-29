@@ -87,6 +87,7 @@ library(DT)
 ###################################################################
 # LOAD MACRO and FUNCTIONS
 ###################################################################
+
 source(paste0(dirmacro,"CreateConceptSetDatasets_v18.R"))
 source(paste0(dirmacro,"CreateItemsetDatasets.R"))
 source(paste0(dirmacro,"MergeFilterAndCollapse_v5.R"))
@@ -115,9 +116,6 @@ age_fast = function(from, to) {
 #other parameters
 date_format <- "%Y%m%d"
 
-# gap allowed for CreateSpells
-gap_allowed_thisdatasource = ifelse(thisdatasource == "ARS",21,1)
-
 
 ###################################################################
 # CDM PARAMETERS SPECIFIC
@@ -139,32 +137,36 @@ for (t in list_tables){
   date_range[[thisdatasource]][[t]][["up_to_when_data_complete"]] <- INSTANCE[source_table_name==t, list(up_to_when_data_complete=max(up_to_when_data_complete, na.rm = T))]
 } 
 
-
 # assess datasource-specific parameters
 
+# gap allowed for CreateSpells
+gap_allowed_thisdatasource = ifelse(thisdatasource == "TO_ADD",21,1) #@ use this as example
+gap_allowed_thisdatasource = ifelse(thisdatasource == "ARS",21,1)
+
+
 # datasources with prescriptions instead of dispensations
-datasources_prescriptions <- c("TO_ADD","CPRD")
+datasources_prescriptions <- c("TO_ADD","CPRD") #@ use "TO_ADD" as example
 thisdatasource_has_prescriptions <- ifelse(thisdatasource %in% datasources_prescriptions,TRUE,FALSE)
 
 
 #datasource with itemsets stream
-datasources_with_itemsets_stream <- c("TO_ADD","GePaRD","BIFAP","ARS") 
+datasources_with_itemsets_stream <- c("TO_ADD","GePaRD","BIFAP","ARS") #@ use "TO_ADD" as example
 this_datasource_has_itemsets_stream <- ifelse(thisdatasource %in% datasources_with_itemsets_stream,TRUE,FALSE) 
 
-datasource_with_itemsets_stream_from_medical_obs <- c("TO_ADD","GePaRD","BIFAP") 
+datasource_with_itemsets_stream_from_medical_obs <- c("TO_ADD","GePaRD","BIFAP") #@ use "TO_ADD" as example
 this_datasource_has_itemsets_stream_from_medical_obs <- ifelse(thisdatasource %in% datasource_with_itemsets_stream_from_medical_obs,TRUE,FALSE) 
 
 
 #datasource with VISIT_OCCURRENCE prompt
-datasource_with_visit_occurrence_prompt <- c("TO_ADD","ARS") 
+datasource_with_visit_occurrence_prompt <- c("TO_ADD","ARS") #@ use "TO_ADD" as example
 this_datasource_has_visit_occurrence_prompt <- ifelse(thisdatasource %in% datasources_with_itemsets_stream,TRUE,FALSE) 
 
 #datasource with no_procedures
-datasource_with_no_procedures <- c("TO_ADD","CPRD","UOSL","BIFAP") 
+datasource_with_no_procedures <- c("TO_ADD","CPRD","UOSL","BIFAP") #@ use "TO_ADD" as example
 this_datasource_has_no_procedures <- ifelse(thisdatasource %in% datasource_with_no_procedures,TRUE,FALSE) 
 
 #datasource that do not modify record from PROMT
-datasource_that_does_not_modify_PROMPT <- c("TO_ADD","UOSL") 
+datasource_that_does_not_modify_PROMPT <- c("TO_ADD","UOSL") #@ use "TO_ADD" as example
 this_datasource_does_not_modify_PROMPT <- ifelse(thisdatasource %in% datasource_that_does_not_modify_PROMPT,TRUE,FALSE) 
 
 
