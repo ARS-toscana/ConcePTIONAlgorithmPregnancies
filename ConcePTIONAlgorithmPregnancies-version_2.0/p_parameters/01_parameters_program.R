@@ -100,6 +100,18 @@ source(paste0(dirmacro,"DescribeThisDataset.R"))
 
 `%notin%` <- Negate(`%in%`)
 
+#function to compute age
+age_fast = function(from, to) {
+  from_lt = as.POSIXlt(from)
+  to_lt = as.POSIXlt(to)
+  
+  age = to_lt$year - from_lt$year
+  
+  ifelse(to_lt$mon < from_lt$mon |
+           (to_lt$mon == from_lt$mon & to_lt$mday < from_lt$mday),
+         age - 1, age)
+}
+
 #other parameters
 date_format <- "%Y%m%d"
 
@@ -114,6 +126,7 @@ gap_allowed_thisdatasource = ifelse(thisdatasource == "ARS",21,1)
 # understand which datasource the script is querying
 CDM_SOURCE<- fread(paste0(dirinput,"CDM_SOURCE.csv"))
 thisdatasource <- as.character(CDM_SOURCE[1,3])
+print(paste("This datasource is", thisdatasource))
 
 # use information from INSTANCE table
 INSTANCE<- fread(paste0(dirinput,"INSTANCE.csv"), fill=T)
@@ -151,11 +164,8 @@ datasource_with_no_procedures <- c("TO_ADD","CPRD","UOSL","BIFAP")
 this_datasource_has_no_procedures <- ifelse(thisdatasource %in% datasource_with_no_procedures,TRUE,FALSE) 
 
 #datasource that do not modify record from PROMT
-datasource_that_does_not_modify_PROMPT <- c("UOSL") 
+datasource_that_does_not_modify_PROMPT <- c("TO_ADD","UOSL") 
 this_datasource_does_not_modify_PROMPT <- ifelse(thisdatasource %in% datasource_that_does_not_modify_PROMPT,TRUE,FALSE) 
-
-
-
 
 
 #############################################
@@ -169,18 +179,4 @@ file.copy(paste0(dirinput,'/METADATA.csv'), dirsmallcountsremoved)
 file.copy(paste0(dirinput,'/CDM_SOURCE.csv'), dirsmallcountsremoved)
 file.copy(paste0(dirinput,'/INSTANCE.csv'), dirsmallcountsremoved)
 file.copy(paste0(dirmacro,'/post_validation_script.R'), dirvalidation)
-
-#############################################
-#FUNCTION TO COMPUTE AGE
-#############################################
-age_fast = function(from, to) {
-  from_lt = as.POSIXlt(from)
-  to_lt = as.POSIXlt(to)
-  
-  age = to_lt$year - from_lt$year
-  
-  ifelse(to_lt$mon < from_lt$mon |
-           (to_lt$mon == from_lt$mon & to_lt$mday < from_lt$mday),
-         age - 1, age)
-}
 
