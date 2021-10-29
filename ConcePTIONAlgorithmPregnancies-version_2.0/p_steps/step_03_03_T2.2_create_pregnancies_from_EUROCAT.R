@@ -47,6 +47,27 @@ if (dim(D3_EUROCAT)[1]!=0){
   
   D3_Stream_EUROCAT<-D3_EUROCAT_intermediate[,.(pregnancy_id,person_id,record_date,pregnancy_start_date,pregnancy_end_date,meaning_start_date,meaning_end_date,type_of_pregnancy_end,survey_id,EUROCAT, meaning)]
   
+  
+  ##### Description #####
+  DescribeThisDataset(Dataset = D3_Stream_EUROCAT,
+                      Individual=T,
+                      ColumnN=NULL,
+                      HeadOfDataset=FALSE,
+                      StructureOfDataset=FALSE,
+                      NameOutputFile="D3_Stream_EUROCAT",
+                      Cols=list("meaning_start_date",
+                                "meaning_end_date",
+                                "type_of_pregnancy_end",
+                                "meaning",),
+                      ColsFormat=list("categorical", 
+                                      "categorical",
+                                      "categorical",
+                                      "categorical"),
+                      DateFormat_ymd=FALSE,
+                      DetailInformation=TRUE,
+                      PathOutputFolder= dirdescribe03_create_pregnancies)
+  ##### End Description #####
+  
   save(D3_Stream_EUROCAT, file=paste0(dirtemp,"D3_Stream_EUROCAT.RData"))
   
   

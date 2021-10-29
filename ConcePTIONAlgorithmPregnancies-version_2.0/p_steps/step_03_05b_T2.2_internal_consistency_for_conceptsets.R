@@ -96,6 +96,36 @@ save(D3_study_population_pregnancy_from_CONCEPTSETS, file=paste0(dirtemp,"D3_stu
 D3_Stream_CONCEPTSETS_check<-D3_study_population_pregnancy_from_CONCEPTSETS[,.(pregnancy_id,person_id,record_date,pregnancy_start_date,pregnancy_ongoing_date,pregnancy_end_date,meaning_start_date,meaning_end_date,meaning_ongoing_date,type_of_pregnancy_end,codvar, coding_system,meaning,origin,imputed_start_of_pregnancy,imputed_end_of_pregnancy,visit_occurrence_id,CONCEPTSETS,CONCEPTSET)] 
 save(D3_Stream_CONCEPTSETS_check, file=paste0(dirtemp,"D3_Stream_CONCEPTSETS_check.RData"))
 
+##### Description #####
+DescribeThisDataset(Dataset = D3_Stream_CONCEPTSETS_check,
+                    Individual=T,
+                    ColumnN=NULL,
+                    HeadOfDataset=FALSE,
+                    StructureOfDataset=FALSE,
+                    NameOutputFile="D3_Stream_CONCEPTSETS_check",
+                    Cols=list("meaning_start_date", 
+                              "meaning_ongoing_date",
+                              "meaning_end_date",
+                              "type_of_pregnancy_end",
+                              "origin",
+                              "meaning",
+                              "imputed_start_of_pregnancy",
+                              "imputed_end_of_pregnancy",
+                              "CONCEPTSET"),
+                    ColsFormat=list("categorical", 
+                                    "categorical",
+                                    "categorical",
+                                    "categorical",
+                                    "categorical",
+                                    "categorical",
+                                    "categorical",
+                                    "categorical",
+                                    "categorical"),
+                    DateFormat_ymd=FALSE,
+                    DetailInformation=TRUE,
+                    PathOutputFolder= dirdescribe03_internal_consistency)
+##### End Description #####
+
 rm(D3_Stream_CONCEPTSETS,D3_study_population_pregnancy1,D3_study_population_pregnancy2, D3_study_population_pregnancy3,D3_Stream_CONCEPTSETS_check, D3_excluded_pregnancies_from_CONCEPTSETS)
 rm(D3_excluded_pregnancies_from_CONCEPTSETS_1, D3_excluded_pregnancies_from_CONCEPTSETS_2,D3_PERSONS,D3_study_population_pregnancy_from_CONCEPTSETS, output_spells_category)
 

@@ -1,5 +1,5 @@
 
-if (this_datasource_has_itemsets_stream){
+if (this_datasource_has_itemsets_stream_from_medical_obs){
 
   ## import D3_Stream_ITEMSETS
   load(paste0(dirtemp,"D3_Stream_ITEMSETS.RData"))
@@ -91,9 +91,38 @@ if (this_datasource_has_itemsets_stream){
   
 
   D3_Stream_ITEMSETS_check<-D3_study_population_pregnancy_from_ITEMSETS[,.(pregnancy_id,person_id,record_date,pregnancy_start_date,pregnancy_ongoing_date,pregnancy_end_date,meaning_start_date,meaning_ongoing_date,meaning_end_date,type_of_pregnancy_end,imputed_end_of_pregnancy,imputed_start_of_pregnancy,meaning,visit_occurrence_id,ITEMSETS)]#
-  save(D3_Stream_ITEMSETS_check, file=paste0(dirtemp,"D3_Stream_ITEMSETS_check.RData"))
   
+  ##### Description #####
+  DescribeThisDataset(Dataset = D3_Stream_ITEMSETS_check,
+                      Individual=T,
+                      ColumnN=NULL,
+                      HeadOfDataset=FALSE,
+                      StructureOfDataset=FALSE,
+                      NameOutputFile="D3_Stream_ITEMSETS_check",
+                      Cols=list("meaning_start_date", 
+                                "meaning_ongoing_date",
+                                "meaning_end_date",
+                                "type_of_pregnancy_end",
+                                "imputed_end_of_pregnancy",
+                                "imputed_start_of_pregnancy",
+                                "meaning"),
+                      ColsFormat=list("categorical", 
+                                      "categorical",
+                                      "categorical",
+                                      "categorical",
+                                      "categorical",
+                                      "categorical",
+                                      "categorical"),
+                      DateFormat_ymd=FALSE,
+                      DetailInformation=TRUE,
+                      PathOutputFolder= dirdescribe03_internal_consistency)
+  ##### End Description #####
   
-  rm(D3_Stream_ITEMSETS_check,D3_Stream_ITEMSETS, D3_PERSONS, output_spells_category, D3_study_population_pregnancy_from_ITEMSETS,D3_study_population_pregnancy1,D3_study_population_pregnancy2, D3_excluded_pregnancies_from_ITEMSETS,D3_excluded_pregnancies_from_ITEMSETS_1,D3_excluded_pregnancies_from_ITEMSETS_2,D3_study_population_pregnancy3)
+  rm(D3_Stream_ITEMSETS, D3_PERSONS, output_spells_category, D3_study_population_pregnancy_from_ITEMSETS,D3_study_population_pregnancy1,D3_study_population_pregnancy2, D3_excluded_pregnancies_from_ITEMSETS,D3_excluded_pregnancies_from_ITEMSETS_1,D3_excluded_pregnancies_from_ITEMSETS_2,D3_study_population_pregnancy3)
   
+}else{
+  D3_Stream_ITEMSETS_check <- data.table()
 } 
+
+save(D3_Stream_ITEMSETS_check, file=paste0(dirtemp,"D3_Stream_ITEMSETS_check.RData"))
+rm(D3_Stream_ITEMSETS_check)
