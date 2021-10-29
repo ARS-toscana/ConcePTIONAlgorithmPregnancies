@@ -127,29 +127,27 @@ for (t in list_tables){
 } 
 
 
-#---------------------------------------
 # assess datasource-specific parameters
 
 # datasources with prescriptions instead of dispensations
-
-datasources_prescriptions <- c('CPRD')
+datasources_prescriptions <- c("TO_ADD","CPRD")
 thisdatasource_has_prescriptions <- ifelse(thisdatasource %in% datasources_prescriptions,TRUE,FALSE)
 
 
 #datasource with itemsets stream
-datasources_with_itemsets_stream <- c("TEST","GePaRD","BIFAP","ARS") 
+datasources_with_itemsets_stream <- c("TO_ADD","GePaRD","BIFAP","ARS") 
 this_datasource_has_itemsets_stream <- ifelse(thisdatasource %in% datasources_with_itemsets_stream,TRUE,FALSE) 
 
-datasource_with_itemsets_stream_from_medical_obs <- c("TEST","GePaRD","BIFAP") # MED_OBS
+datasource_with_itemsets_stream_from_medical_obs <- c("TO_ADD","GePaRD","BIFAP") 
 this_datasource_has_itemsets_stream_from_medical_obs <- ifelse(thisdatasource %in% datasource_with_itemsets_stream_from_medical_obs,TRUE,FALSE) 
 
 
 #datasource with VISIT_OCCURRENCE prompt
-datasource_with_visit_occurrence_prompt <- c("ARS") 
+datasource_with_visit_occurrence_prompt <- c("TO_ADD","ARS") 
 this_datasource_has_visit_occurrence_prompt <- ifelse(thisdatasource %in% datasources_with_itemsets_stream,TRUE,FALSE) 
 
 #datasource with no_procedures
-datasource_with_no_procedures <- c("CPRD", "UOSL", "BIFAP") 
+datasource_with_no_procedures <- c("TO_ADD","CPRD","UOSL","BIFAP") 
 this_datasource_has_no_procedures <- ifelse(thisdatasource %in% datasource_with_no_procedures,TRUE,FALSE) 
 
 #datasource that do not modify record from PROMT
