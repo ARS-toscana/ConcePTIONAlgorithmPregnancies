@@ -1,11 +1,11 @@
-# set directory with input data
-setwd(..)
-dirbase<-getwd()
-dirinput <- paste0(dirbase,"/i_input/")
-
 ###################################################################
 # SET DIRECTORIES
 ###################################################################
+# set directory with input data
+setwd("..")
+dirbase<-getwd() # Lot4
+dirinput <- paste0(dirbase,"/CDMInstances/")
+
 diroutput <- paste0(thisdir,"/g_output/")
 dirtemp <- paste0(thisdir,"/g_intermediate/")
 direxp <- paste0(thisdir,"/g_export/")
