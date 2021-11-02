@@ -1,5 +1,8 @@
 ## fourth draft of concept sets - 210614, updated by Anna e Giulia on 20211027
 
+#######################################################################################
+################################# PREGNANCY CODES #####################################
+#######################################################################################
 concept_sets_of_our_study_eve <- c("Gestation_less24","Gestation_24","Gestation_25_26","Gestation_27_28","Gestation_29_30","Gestation_31_32","Gestation_33_34","Gestation_35_36","Gestation_more37","Ongoingpregnancy","Birth_narrow", "Birth_possible","Preterm","Atterm","Postterm","Livebirth","Stillbirth","Interruption", "Spontaneousabortion", "Ectopicpregnancy")
 
 concept_set_domains<- vector(mode="list")
@@ -66,9 +69,9 @@ concept_set_codes_our_study_excl[["SPONTABO_possible"]] <- list()
 concept_set_codes_our_study_excl[["STILLBIRTH_possible"]] <- list()
 ####
 
-#--------------------------
 
-# ####### Start of pregnancy ###############
+
+####### Start of pregnancy ###############
 # concept_set_codes_our_study[["Startofpregnancy"]][["ICD9"]] <-c("626","631","69.92","765.2","765.2","V22.0","V72.40","V72.42")
 # concept_set_codes_our_study[["Startofpregnancy"]][["ICD10"]] <-c("N91.2","O02.81","Z34.0","Z3A")
 # concept_set_codes_our_study[["Startofpregnancy"]][["READ"]] <-c("K590.","K590z","X76Qv","X76xx","XE0hz","ZV220","ZV724","6211","62X..","8C81.","K590.","K590z","ZV220","ZV724")
@@ -241,7 +244,10 @@ concept_set_codes_our_study[["Ectopicpregnancy"]][["ICPC2P"]] <- c("W80001","W80
 concept_set_codes_our_study[["Ectopicpregnancy"]][["SNOMED"]] <- c("111425004","156080003","156083001","156081004","156082006","198622006","198623001","198629002","200481006","200345007","200346008","200349001","200542009","206040001","206041002","206045006","69693005","34801009","699240001","79586000","9899009")
 
 #########################################################################################
-## from https://docs.google.com/spreadsheets/d/1oh3N2PBCjKw-uj6UhKdvzLzCE-yEi4keEnJy0Jb7dbg/edit#gid=1973613615
+
+#######################################################################################
+################################# PROCEDURE CODES #####################################
+#######################################################################################
 
 # -itemset_AVpair_our_study- is a nested list, with 3 levels: foreach study variable, for each coding system of its data domain, the list of AVpair is recorded
 # fetal_nuchal_translucency
@@ -255,44 +261,34 @@ if( this_datasource_has_no_procedures) {
   concept_sets_of_our_study_procedure <- c("fetal_nuchal_translucency", "amniocentesis","Chorionic_Villus_Sampling","others")
   coding_system_of_our_study_procedure <- c("ITA_procedures_coding_system", "ICD9", "ICD10")
   concept_sets_of_our_study_procedure_not_in_pregnancy <- c("gestational_diabetes")
-  # datasources<-c("ARS", "UOSL", "GePaRD", "BIFAP", "FISABIO", "SIDIAP", "CNR-IFC", "CHUT", "UNIME", "CPRD", "THL", "PEDIANET", "TEST")
   
-  #concept_set_domains<- vector(mode="list")
+  
   for (concept_pro in c(concept_sets_of_our_study_procedure, concept_sets_of_our_study_procedure_not_in_pregnancy)){
     concept_set_domains[[concept_pro]] = "Procedures"  
   } 
   
-  #concept_set_codes_our_study<-vector(mode="list")
-  #item_set_codes_our_study_excl<-vector(mode="list")
-  
+
   
   #--------------------------
   ####### Codes for tests for gestational diabetes ###############
-  concept_set_codes_our_study_datasource[["gestational_diabetes"]][["ARS"]][["ITA_procedures_coding_system"]] <- c("90.26.7") #glucose tolerance test 60-120 minutes
-  #concept_set_codes_our_study_datasource[["gestational_diabetes"]][["FISABIO"]][["ICD9"]] <- c("648.8") #ICD-9-MC
-  #concept_set_codes_our_study_datasource[["gestational_diabetes"]][["FISABIO"]][["ICD10"]] <- c("O24.4") #ICD-10 Spanish version
-  
+  concept_set_codes_our_study_datasource[["gestational_diabetes"]][["ARS"]][["ITA_procedures_coding_system"]] <- c("90.26.7") 
+  concept_set_codes_our_study_datasource[["gestational_diabetes"]][["TO_ADD"]][["TO_ADD_coding_system"]] <- c("90.26.7") 
   
   ####### Codes for fetal nuchal translucency ###############
-  #concept_set_codes_our_study_datasource[["fetal_nuchal_translucency"]][["THL"]][[""]] <- c("MA2JE") # maybe also MA1AE 
-  
+  concept_set_codes_our_study_datasource[["fetal_nuchal_translucency"]][["TO_ADD"]][["TO_ADD_coding_system"]] <- c("") 
   
   ####### Codes for amniocentesis ###############
   concept_set_codes_our_study_datasource[["amniocentesis"]][["ARS"]][["ITA_procedures_coding_system"]] <- c("75.10.2", "75.10.3")
-  #concept_set_codes_our_study_datasource[["amniocentesis"]][["THL"]][[""]] <- c("MAA00")
-  
-  
+  concept_set_codes_our_study_datasource[["amniocentesis"]][["TO_ADD"]][["TO_ADD_coding_system"]] <- c("")
   
   ####### Codes for Chorionic Villus Sampling ###############
   concept_set_codes_our_study_datasource[["Chorionic_Villus_Sampling"]][["ARS"]][["ITA_procedures_coding_system"]] <- c("75.10.1")
-  # concept_set_codes_our_study_datasource[["Chorionic_Villus_Sampling"]][["THL"]][[""]] <- c("MAA10")
-  
+  concept_set_codes_our_study_datasource[["Chorionic_Villus_Sampling"]][["TO_ADD"]][["TO_ADD_coding_system"]] <- c("")
   
   # ####### Codes for tests for others ###############
   concept_set_codes_our_study_datasource[["others"]][["ARS"]][["ITA_procedures_coding_system"]] <- c("75.34.1")
-  #concept_set_codes_our_study_datasource[["others"]][["UNIME"]][["ICD9"]] <- c("645.1", "644.2", "650", "72.", "73.", "74.", "75.", "640.", "642.", "648.", "651.", "652.", "653.", "654.", "655.", "656.", "657.", "658.", "659.") 
-  #concept_set_codes_our_study_datasource[["others"]][["FISABIO"]][["ICD9"]] <- c("72.", "73.", "74.", "75.")
-  #concept_set_codes_our_study_datasource[["others"]][["FISABIO"]][["ICD10"]] <- c("102", "109", "10A", "10D", "10E", "10H", "10J", "10P", "10Q", "10S", "10T", "10Y") #ICD-10-Spanish version, Chapter 1 Obstetricia
+  concept_set_codes_our_study_datasource[["others"]][["TO_ADD"]][["TO_ADD_coding_system"]] <- c("")
+  
   
   
   for (procedure in concept_sets_of_our_study_procedure){
@@ -303,33 +299,27 @@ if( this_datasource_has_no_procedures) {
 }
 
 
-# conceptset_our_study_this_datasource_procedure<-vector(mode="list")
-#
-# for (t in  names(concept_set_codes_our_study)) {
-#   # for (f in names(concept_set_codes_our_study[[t]])) {
-#   #   for (s in names(concept_set_codes_our_study[[t]][[f]])) {
-#   if (t==thisdatasource ){
-#     conceptset_our_study_this_datasource_procedure<-concept_set_codes_our_study[[t]]
-#   }
-#   #   }
-#   # }
-# }
 
-####################################
-#######################################
+
+#######################################################################################
+################################# MEDICINES CODES #####################################
+#######################################################################################
 
 concept_set_our_study_atc <- c("INSULIN")
-concept_set_our_study_pre <- c("FGR_narrow","FGR_possible","GESTDIAB_narrow","GESTDIAB_possible","MAJORCA_narrow","MAJORCA_possible","MATERNALDEATH_narrow","MATERNALDEATH_possible","MICROCEPHALY_narrow","MICROCEPHALY_possible","PREECLAMP_narrow","PREECLAMP_possible","PRETERMBIRTH_narrow","PRETERMBIRTH_possible","SPONTABO_narrow","SPONTABO_possible","STILLBIRTH_narrow", "STILLBIRTH_possible", "TOPFA_narrow","TOPFA_possible")
 
-#concept_set_codes_our_study<-vector(mode="list")
-#concept_set_codes_our_study_excl <- vector(mode="list")
 
-#--------------------------
 # INSULIN
 concept_set_domains[["INSULIN"]] = "Medicines"
 concept_set_codes_our_study[["INSULIN"]][["ATC"]] <- c("A10A")
 
-#--------------------------
+
+#######################################################################################
+################################# OUTCOMES CODES #####################################
+#######################################################################################
+
+concept_set_our_study_pre <- c("FGR_narrow","FGR_possible","GESTDIAB_narrow","GESTDIAB_possible","MAJORCA_narrow","MAJORCA_possible","MATERNALDEATH_narrow","MATERNALDEATH_possible","MICROCEPHALY_narrow","MICROCEPHALY_possible","PREECLAMP_narrow","PREECLAMP_possible","PRETERMBIRTH_narrow","PRETERMBIRTH_possible","SPONTABO_narrow","SPONTABO_possible","STILLBIRTH_narrow", "STILLBIRTH_possible", "TOPFA_narrow","TOPFA_possible")
+
+
 # FGR_narrow
 concept_set_domains[["FGR_narrow"]] = "Diagnosis"
 concept_set_codes_our_study[["FGR_narrow"]][["ICD9"]] <- c("764.9","764.90","764.91","764.92","764.94","764.95","764.97","764.99")
@@ -340,7 +330,6 @@ concept_set_codes_our_study[["FGR_narrow"]][["ICPC2P"]] <- c()
 concept_set_codes_our_study[["FGR_narrow"]][["SNOMED"]] <- c("156185006","206166000","22033007","267337006","268815007")
 
 
-#--------------------------
 # FGR_possible
 concept_set_domains[["FGR_possible"]] = "Diagnosis"
 concept_set_codes_our_study[["FGR_possible"]][["ICD9"]] <- c("656.5","656.50","658.0","764")
@@ -356,7 +345,6 @@ concept_set_codes_our_study[["FGR_possible"]][["SNOMED"]] <- c("156190009","1570
 concept_set_codes_our_study_excl[["FGR_possible"]][["SNOMED"]] <- c("156185006","206166000","22033007","267337006","268815007")
 
 
-#--------------------------
 # GESTDIAB_narrow
 concept_set_domains[["GESTDIAB_narrow"]] = "Diagnosis"
 concept_set_codes_our_study[["GESTDIAB_narrow"]][["ICD9"]] <- c()
@@ -367,7 +355,6 @@ concept_set_codes_our_study[["GESTDIAB_narrow"]][["ICPC2P"]] <- c()
 concept_set_codes_our_study[["GESTDIAB_narrow"]][["SNOMED"]] <- c("11687002","199232003","237629002","359964007","393568003")
 
 
-#--------------------------
 # GESTDIAB_possible
 concept_set_domains[["GESTDIAB_possible"]] = "Diagnosis"
 concept_set_codes_our_study[["GESTDIAB_possible"]][["ICD9"]] <- c("648.0","648.00","648.8","648.80","648.82","648.83")
@@ -382,7 +369,6 @@ concept_set_codes_our_study[["GESTDIAB_possible"]][["SNOMED"]] <- c("156138000",
 concept_set_codes_our_study_excl[["GESTDIAB_possible"]][["SNOMED"]] <- c("11687002","199232003","237629002","359964007","393568003")
 
 
-#--------------------------
 # MAJORCA_narrow
 concept_set_domains[["MAJORCA_narrow"]] = "Diagnosis"
 concept_set_codes_our_study[["MAJORCA_narrow"]][["ICD9"]] <- c("740","741","742","743","745","746","747","748","749","750","751","752","753","754","755","756","757","758","759")
@@ -393,7 +379,6 @@ concept_set_codes_our_study[["MAJORCA_narrow"]][["ICPC2P"]] <- c()
 concept_set_codes_our_study[["MAJORCA_narrow"]][["SNOMED"]] <- c("D-5500","D-X250","M-20000","M-21510","NOCODE","U000276","U000277","U000295","U000360","107656002","112635002","118642009","156884008","156888006","156897005","156902006","156903001","156906009","156933008","156939007","156942001","156963004","156971000","156980000","156994004","156998001","157008000","157009008","157017000","157018005","157023005","157028001","157033002","157034008","17021009","19416009","203922009","203930005","204017003","204018008","204066001","204075004","204076003","204077007","204082000","204093003","204096006","204097002","204156006","204163006","204165004","204180005","204182002","204183007","204185000","204199001","204204007","204220002","204222005","204230006","204232003","204249005","204254001","204259006","204261002","204262009","204270004","204273002","204274008","204275009","204282008","204286006","204287002","204335004","204338002","204349008","204353005","204365009","204367001","204389002","204404009","204414000","204420004","204439009","204441005","204462006","204468005","204469002","204471002","204489001","204494001","204496004","204507004","204515001","204527003","204532002","204555004","204565005","204566006","204581000","204583002","204585009","204588006","204591006","204592004","204610002","204611003","204621006","204622004","204624003","204625002","204632006","204684000","204770000","204800009","204801008","204812008","204819004","204820005","204821009","204822002","204833004","204836007","204873005","204874004","204932008","204935005","204937002","204989007","204995008","205028008","205033007","205040008","205048001","205054000","205084008","205086005","205088006","205116003","205117007","205118002","205407005","205459004","205462001","205464000","205520006","205521005","205535007","205559002","205589009","205608008","205609000","205610005","205645002","205724000","205729005","205730000","205747004","205793001","205832003","205839007","205842001","205843006","205845004","205847007","205849005","205851009","205852002","205854001","205855000","205856004","205857008","205858003","205859006","205860001","205861002","205862009","205863004","205864005","205867003","205868008","205869000","205870004","205871000","205872007","205873002","205874008","205875009","205876005","205878006","205879003","205880000","205882008","205883003","205884009","205885005","205886006","205888007","205889004","205891007","205893005","205894004","205895003","205896002","205897006","205899009","205900004","205902007","205904008","205905009","205906005","205908006","205913005","205914004","205915003","205916002","205917006","205918001","205920003","205921004","205922006","205923001","205925008","205926009","205927000","205928005","205929002","205930007","205931006","205933009","205935002","205936001","205937005","205938000","205939008","205941009","205942002","205943007","205944001","205945000","205946004","205947008","205948003","205949006","205950006","205951005","205952003","205953008","205954002","205955001","205956000","205957009","205958004","205959007","205960002","205961003","205962005","205963000","205964006","205965007","205966008","205967004","205968009","205969001","205971001","205972008","205973003","205974009","205975005","205976006","205977002","205978007","205979004","205980001","205982009","205983004","205985006","205999005","21390004","231789000","253210009","253819001","253821006","253859003","253983005","268155007","268161005","268162003","268171007","268183009","268188000","268191000","268192007","268215004","268224008","268238001","268249007","268272009","268281003","268291009","268304007","268310007","268311006","268312004","268314003","268321003","268329001","268336000","268352002","268353007","268354001","268355000","268359006","275259005","275260000","276654001","276655000","302950004","304086001","33543001","38164009","385297003","40674007","409709004","41859001","443341004","47028006","6557001","66091009","66948001","67531005","69518005","73262007","73573004","74345006","77868001","8380000","87868007","88425004")
 
 
-#--------------------------
 # MAJORCA_possible
 concept_set_domains[["MAJORCA_possible"]] = "Diagnosis"
 concept_set_codes_our_study[["MAJORCA_possible"]][["ICD9"]] <- c()
@@ -404,7 +389,6 @@ concept_set_codes_our_study[["MAJORCA_possible"]][["ICPC2P"]] <- c()
 concept_set_codes_our_study[["MAJORCA_possible"]][["SNOMED"]] <- c()
 
 
-#--------------------------
 # MATERNALDEATH_narrow
 concept_set_domains[["MATERNALDEATH_narrow"]] = "Diagnosis"
 concept_set_codes_our_study[["MATERNALDEATH_narrow"]][["ICD9"]] <- c("761.6")
@@ -415,7 +399,6 @@ concept_set_codes_our_study[["MATERNALDEATH_narrow"]][["ICPC2P"]] <- c()
 concept_set_codes_our_study[["MATERNALDEATH_narrow"]][["SNOMED"]] <- c("206051001","268799007","53035006")
 
 
-#--------------------------
 # MATERNALDEATH_possible
 concept_set_domains[["MATERNALDEATH_possible"]] = "Diagnosis"
 concept_set_codes_our_study[["MATERNALDEATH_possible"]][["ICD9"]] <- c()
@@ -430,7 +413,7 @@ concept_set_codes_our_study[["MATERNALDEATH_possible"]][["SNOMED"]] <- c("138279
 concept_set_codes_our_study_excl[["MATERNALDEATH_possible"]][["SNOMED"]] <- c("206051001","268799007","53035006")
 
 
-#--------------------------
+
 # MICROCEPHALY_narrow
 concept_set_domains[["MICROCEPHALY_narrow"]] = "Diagnosis"
 concept_set_codes_our_study[["MICROCEPHALY_narrow"]][["ICD9"]] <- c("742.1")
@@ -441,7 +424,6 @@ concept_set_codes_our_study[["MICROCEPHALY_narrow"]][["ICPC2P"]] <- c()
 concept_set_codes_our_study[["MICROCEPHALY_narrow"]][["SNOMED"]] <- c("156893009","1829003","204030002","204031003","271572004")
 
 
-#--------------------------
 # MICROCEPHALY_possible
 concept_set_domains[["MICROCEPHALY_possible"]] = "Diagnosis"
 concept_set_codes_our_study[["MICROCEPHALY_possible"]][["ICD9"]] <- c()
@@ -457,7 +439,6 @@ concept_set_codes_our_study[["MICROCEPHALY_possible"]][["SNOMED"]] <- c("1464370
 concept_set_codes_our_study_excl[["MICROCEPHALY_possible"]][["SNOMED"]] <- c("156893009","1829003","204030002","204031003","271572004")
 
 
-#--------------------------
 # NEONATALDEATH_narrow
 concept_set_domains[["NEONATALDEATH_narrow"]] = "Diagnosis"
 concept_set_codes_our_study[["NEONATALDEATH_narrow"]][["ICD9"]] <- c()
@@ -468,7 +449,6 @@ concept_set_codes_our_study[["NEONATALDEATH_narrow"]][["ICPC2P"]] <- c()
 concept_set_codes_our_study[["NEONATALDEATH_narrow"]][["SNOMED"]] <- c("276506001","6254007")
 
 
-#--------------------------
 # NEONATALDEATH_possible
 concept_set_domains[["NEONATALDEATH_possible"]] = "Diagnosis"
 concept_set_codes_our_study[["NEONATALDEATH_possible"]][["ICD9"]] <- c("798","798.0")
@@ -482,7 +462,6 @@ concept_set_codes_our_study[["NEONATALDEATH_possible"]][["SNOMED"]] <- c("F-Y180
 concept_set_codes_our_study_excl[["NEONATALDEATH_possible"]][["SNOMED"]] <- c("276506001","6254007")
 
 
-#--------------------------
 # PREECLAMP_narrow
 concept_set_domains[["PREECLAMP_narrow"]] = "Diagnosis"
 concept_set_codes_our_study[["PREECLAMP_narrow"]][["ICD9"]] <- c("642.4","642.5","642.6")
@@ -493,7 +472,6 @@ concept_set_codes_our_study[["PREECLAMP_narrow"]][["ICPC2P"]] <- c()
 concept_set_codes_our_study[["PREECLAMP_narrow"]][["SNOMED"]] <- c("1216605016","1216651015","1217316013","1217317016","1218141012","1218803015","1229720018","156106005","156108006","156109003","156110008","158365013","1777802017","1783633011","1783634017","1784021012","1784022017","1784023010","1786187012","1786188019","198972006","198973001","198978005","198979002","198980004","198981000","198982007","198987001","199009006","199010001","199011002","237281009","26109017","267200002","267306006","288201007","2921085014","305774018","305775017","305776016","305777013","305789010","305801019","305802014","305803016","305804010","355621014","355625017","398254007","41114007","46764007","477346015","492886015","494613015","495018019","495022012","495025014","495026010","6758009","68583017","68584011","77942011","77945013","80299016","887821000006113","95605009","991571000006114","991731000006118")
 
 
-#--------------------------
 # PREECLAMP_possible
 concept_set_domains[["PREECLAMP_possible"]] = "Diagnosis"
 concept_set_codes_our_study[["PREECLAMP_possible"]][["ICD9"]] <- c()
@@ -504,7 +482,6 @@ concept_set_codes_our_study[["PREECLAMP_possible"]][["ICPC2P"]] <- c()
 concept_set_codes_our_study[["PREECLAMP_possible"]][["SNOMED"]] <- c()
 
 
-#--------------------------
 # PRETERMBIRTH_narrow
 concept_set_domains[["PRETERMBIRTH_narrow"]] = "Diagnosis"
 concept_set_codes_our_study[["PRETERMBIRTH_narrow"]][["ICD9"]] <- c("644.2","765.1","765.10","765.11")
@@ -515,7 +492,6 @@ concept_set_codes_our_study[["PRETERMBIRTH_narrow"]][["ICPC2P"]] <- c()
 concept_set_codes_our_study[["PRETERMBIRTH_narrow"]][["SNOMED"]] <- c("F-31570","F-35060","10761191000119104","147079004","147081002","147082009","147085006","147086007","147090009","157080005","169848003","169850006","169851005","169853008","169854002","169858004","199056009","199059002","206167009","206168004","206169007","206177006","206621008","268817004","270496001","276658003","282020008","310523002","310530008","310548004","310661005","313179009","367494004","384321000000100","395507008","49550006","710068006","771299009")
 
 
-#--------------------------
 # PRETERMBIRTH_possible
 concept_set_domains[["PRETERMBIRTH_possible"]] = "Diagnosis"
 concept_set_codes_our_study[["PRETERMBIRTH_possible"]][["ICD9"]] <- c("644.20","765.21","765.22","765.23","765.24","765.25","765.26","765.27","765.28","765.29")
@@ -531,7 +507,6 @@ concept_set_codes_our_study[["PRETERMBIRTH_possible"]][["SNOMED"]] <- c("F-31400
 concept_set_codes_our_study_excl[["PRETERMBIRTH_possible"]][["SNOMED"]] <- c("F-31570","F-35060","10761191000119104","147079004","147081002","147082009","147085006","147086007","147090009","157080005","169848003","169850006","169851005","169853008","169854002","169858004","199056009","199059002","206167009","206168004","206169007","206177006","206621008","268817004","270496001","276658003","282020008","310523002","310530008","310548004","310661005","313179009","367494004","384321000000100","395507008","49550006","710068006","771299009")
 
 
-#--------------------------
 # SPONTABO_narrow
 concept_set_domains[["SPONTABO_narrow"]] = "Diagnosis"
 concept_set_codes_our_study[["SPONTABO_narrow"]][["ICD9"]] <- c("634","634.0","634.00","634.01","634.7","634.70","634.9","634.90","634.91","761.8")
@@ -542,7 +517,6 @@ concept_set_codes_our_study[["SPONTABO_narrow"]][["ICPC2P"]] <- c()
 concept_set_codes_our_study[["SPONTABO_narrow"]][["SNOMED"]] <- c("F-31600","F-31680","156071003","156074006","17369002","198631006","198640005","198642002","198643007","198653008","198689000","267294003")
 
 
-#--------------------------
 # SPONTABO_possible
 concept_set_domains[["SPONTABO_possible"]] = "Diagnosis"
 concept_set_codes_our_study[["SPONTABO_possible"]][["ICD9"]] <- c("631.8","632","634.1","634.2","634.20","634.3","634.4","634.40","634.5","634.6","634.8","634.80")
@@ -558,7 +532,6 @@ concept_set_codes_our_study[["SPONTABO_possible"]][["SNOMED"]] <- c("F-31660","F
 concept_set_codes_our_study_excl[["SPONTABO_possible"]][["SNOMED"]] <- c("F-31600","F-31680","156071003","156074006","17369002","198631006","198640005","198642002","198643007","198653008","198689000","267294003")
 
 
-#--------------------------
 # STILLBIRTH_narrow
 concept_set_domains[["STILLBIRTH_narrow"]] = "Diagnosis"
 concept_set_codes_our_study[["STILLBIRTH_narrow"]][["ICD9"]] <- c("V27.1","V27.3","V27.4","V27.7")
@@ -569,7 +542,6 @@ concept_set_codes_our_study[["STILLBIRTH_narrow"]][["ICPC2P"]] <- c()
 concept_set_codes_our_study[["STILLBIRTH_narrow"]][["SNOMED"]] <- c("147061003","206581002","237364002","315959000","315961009","315962002","315965000","316757001")
 
 
-#--------------------------
 # STILLBIRTH_possible
 concept_set_domains[["STILLBIRTH_possible"]] = "Diagnosis"
 concept_set_codes_our_study[["STILLBIRTH_possible"]][["ICD9"]] <- c("656.4")
@@ -584,7 +556,6 @@ concept_set_codes_our_study[["STILLBIRTH_possible"]][["SNOMED"]] <- c("F-35250",
 concept_set_codes_our_study_excl[["STILLBIRTH_possible"]][["SNOMED"]] <- c("147061003","206581002","237364002","315959000","315961009","315962002","315965000","316757001")
 
 
-#--------------------------
 # TOPFA_narrow
 concept_set_domains[["TOPFA_narrow"]] = "Diagnosis"
 concept_set_codes_our_study[["TOPFA_narrow"]][["ICD9"]] <- c()
@@ -595,7 +566,6 @@ concept_set_codes_our_study[["TOPFA_narrow"]][["ICPC2P"]] <- c()
 concept_set_codes_our_study[["TOPFA_narrow"]][["SNOMED"]] <- c()
 
 
-#--------------------------
 # TOPFA_possible
 concept_set_domains[["TOPFA_possible"]] = "Diagnosis"
 concept_set_codes_our_study[["TOPFA_possible"]][["ICD9"]] <- c("637","779.6")
@@ -609,20 +579,16 @@ concept_set_codes_our_study[["TOPFA_possible"]][["SNOMED"]] <- c("1321008","1499
 
 
 
+#######################################################################################
 
 
 concept_set_our_study <- c(concept_sets_of_our_study_eve, concept_set_our_study_pre, concept_set_our_study_atc, concept_sets_of_our_study_procedure, concept_sets_of_our_study_procedure_not_in_pregnancy)
 
 conceptset_our_study_this_datasource<-vector(mode="list")
-
 for (t in  names(concept_set_codes_our_study)) {
-  # for (f in names(concept_set_codes_our_study_procedure[[t]])) {
-  #   for (s in names(concept_set_codes_our_study_procedure[[t]][[f]])) {
   if (t==thisdatasource ){
     conceptset_our_study_this_datasource<-concept_set_codes_our_study[[t]]
   }
-  #   }
-  # }
 }
 
 
