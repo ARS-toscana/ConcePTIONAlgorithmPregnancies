@@ -88,7 +88,7 @@ library(DT)
 # LOAD MACRO and FUNCTIONS
 ###################################################################
 
-source(paste0(dirmacro,"CreateConceptSetDatasets_v18.R"))
+source(paste0(dirmacro,"CreateConceptSetDatasets.R"))
 source(paste0(dirmacro,"CreateItemsetDatasets.R"))
 source(paste0(dirmacro,"MergeFilterAndCollapse_v5.R"))
 source(paste0(dirmacro,"CreateSpells_v14.R"))
@@ -149,9 +149,6 @@ datasources_prescriptions <- c("TO_ADD","CPRD") #@ use "TO_ADD" as example
 thisdatasource_has_prescriptions <- ifelse(thisdatasource %in% datasources_prescriptions,TRUE,FALSE)
 
 
-#datasource with itemsets stream
-datasources_with_itemsets_stream <- c("TO_ADD","GePaRD","BIFAP","ARS") #@ use "TO_ADD" as example
-this_datasource_has_itemsets_stream <- ifelse(thisdatasource %in% datasources_with_itemsets_stream,TRUE,FALSE) 
 #datasource with itemsets stream from medical observation
 datasource_with_itemsets_stream_from_medical_obs <- c("TO_ADD","GePaRD","BIFAP") #@ use "TO_ADD" as example
 this_datasource_has_itemsets_stream_from_medical_obs <- ifelse(thisdatasource %in% datasource_with_itemsets_stream_from_medical_obs,TRUE,FALSE) 
@@ -161,9 +158,11 @@ this_datasource_has_itemsets_stream_from_medical_obs <- ifelse(thisdatasource %i
 datasource_with_visit_occurrence_prompt <- c("TO_ADD","ARS") #@ use "TO_ADD" as example
 this_datasource_has_visit_occurrence_prompt <- ifelse(thisdatasource %in% datasources_with_itemsets_stream,TRUE,FALSE) 
 
+
 #datasource with no_procedures
 datasource_with_no_procedures <- c("TO_ADD","CPRD","UOSL","BIFAP") #@ use "TO_ADD" as example
 this_datasource_has_no_procedures <- ifelse(thisdatasource %in% datasource_with_no_procedures,TRUE,FALSE) 
+
 
 #datasource that do not modify record from PROMPT
 datasource_that_does_not_modify_PROMPT <- c("TO_ADD","UOSL") #@ use "TO_ADD" as example
