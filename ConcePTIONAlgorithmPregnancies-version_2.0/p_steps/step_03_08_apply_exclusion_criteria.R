@@ -37,6 +37,45 @@ D3_groups_of_pregnancies_reconciled <- D3_groups_of_pregnancies_reconciled[INSUF
 
 D3_groups_of_pregnancies_reconciled <- D3_groups_of_pregnancies_reconciled[, excluded := max(excluded), pregnancy_id]
 
+D3_groups_of_pregnancies_reconciled <- D3_groups_of_pregnancies_reconciled[is.na(GGDS), GGDS:=0]
+D3_groups_of_pregnancies_reconciled <- D3_groups_of_pregnancies_reconciled[is.na(GGDE), GGDE:=0]
+D3_groups_of_pregnancies_reconciled <- D3_groups_of_pregnancies_reconciled[is.na(INSUF_QUALITY), INSUF_QUALITY:=0]
+
+D3_pregnancy_reconciled <- D3_pregnancy_reconciled[is.na(GGDS), GGDS:=0]
+D3_pregnancy_reconciled <- D3_pregnancy_reconciled[is.na(GGDE), GGDE:=0]
+D3_pregnancy_reconciled <- D3_pregnancy_reconciled[is.na(INSUF_QUALITY), INSUF_QUALITY:=0]
+
+D3_pregnancy_reconciled <- D3_pregnancy_reconciled[, .(pregnancy_id,
+                                                       person_id,
+                                                       age_at_start_of_pregnancy,
+                                                       pregnancy_start_date,
+                                                       meaning_start_date,
+                                                       pregnancy_end_date,
+                                                       meaning_end_date,
+                                                       type_of_pregnancy_end,
+                                                       imputed_start_of_pregnancy,
+                                                       imputed_end_of_pregnancy,
+                                                       meaning,
+                                                       PROMPT,
+                                                       EUROCAT,
+                                                       CONCEPTSETS,
+                                                       ITEMSETS,
+                                                       highest_quality,
+                                                       number_of_records_in_the_group,
+                                                       number_green,
+                                                       number_yellow,
+                                                       number_blue,
+                                                       number_red,
+                                                       date_of_principal_record,
+                                                       date_of_oldest_record,
+                                                       algorithm_for_reconciliation,
+                                                       description,           
+                                                       GGDE,
+                                                       GGDS,
+                                                       INSUF_QUALITY)]
+
+setnames(D3_pregnancy_reconciled, "meaning", "meaning_of_principal_record")
+
 ## saving 
 save(D3_groups_of_pregnancies_reconciled, file=paste0(dirtemp,"D3_groups_of_pregnancies_reconciled.RData"))
 save(D3_pregnancy_reconciled, file=paste0(dirtemp,"D3_pregnancy_reconciled.RData"))

@@ -93,6 +93,10 @@ dataset_concept_sets<-dataset_concept_sets[!is.na(pregnancy_ongoing_date) & conc
 dataset_concept_sets<-dataset_concept_sets[!is.na(pregnancy_ongoing_date) & concept_set%in%concept_sets_of_our_study_procedure, meaning_ongoing_date:=paste0("from_conceptset_procedures_",concept_set)]
 dataset_concept_sets<-dataset_concept_sets[!is.na(pregnancy_end_date), meaning_end_date:=paste0("from_conceptset_",concept_set)]
 
+dataset_concept_sets<-dataset_concept_sets[is.na(pregnancy_end_date), meaning_end_date:=paste0("imputed_from_conceptset_",concept_set)]
+dataset_concept_sets<-dataset_concept_sets[is.na(pregnancy_start_date), meaning_start_date:=paste0("imputed_from_conceptset_",concept_set)]
+
+
 dataset_concept_sets<-dataset_concept_sets[!is.na(pregnancy_end_date) & concept_set%chin%concept_sets_of_end_of_pregnancy_LB,type_of_pregnancy_end:="LB"]
 dataset_concept_sets<-dataset_concept_sets[!is.na(pregnancy_end_date) & concept_set=="Stillbirth",type_of_pregnancy_end:="SB"]
 dataset_concept_sets<-dataset_concept_sets[!is.na(pregnancy_end_date) & concept_set=="Interruption",type_of_pregnancy_end:="T"]

@@ -100,7 +100,7 @@ while (D3_gop[,.N]!=0) {
     D3_gop <- D3_gop[n == (1+i) & new_pregnancy_group == 1, 
                      `:=`(new_group = 1) ][is.na(new_group), new_group := 0]
     
-    D3_gop <- D3_gop[, pregnancy_splitted := new_pregnancy_group]
+    D3_gop <- D3_gop[new_pregnancy_group != 0, pregnancy_splitted := new_pregnancy_group]
     
     D3_gop <- D3_gop[, new_pregnancy_group := 0]
     
@@ -388,7 +388,9 @@ D3_groups_of_pregnancies_reconciled <- D3_groups_of_pregnancies_reconciled[highe
 
 D3_groups_of_pregnancies_reconciled_before_excl <- D3_groups_of_pregnancies_reconciled[is.na(record_selected), record_selected:=1] 
 
-D3_pregnancy_reconciled_before_excl <- D3_groups_of_pregnancies_reconciled[n==record_selected, -c("n")]
+D3_groups_of_pregnancies_reconciled_before_excl <- D3_groups_of_pregnancies_reconciled_before_excl[is.na(type_of_pregnancy_end), type_of_pregnancy_end := "UNK"]
+
+D3_pregnancy_reconciled_before_excl <- D3_groups_of_pregnancies_reconciled_before_excl[n==record_selected, -c("n")]
 
 save(D3_groups_of_pregnancies_reconciled_before_excl, file=paste0(dirtemp,"D3_groups_of_pregnancies_reconciled_before_excl.RData"))
 save(D3_pregnancy_reconciled_before_excl, file=paste0(dirtemp,"D3_pregnancy_reconciled_before_excl.RData"))

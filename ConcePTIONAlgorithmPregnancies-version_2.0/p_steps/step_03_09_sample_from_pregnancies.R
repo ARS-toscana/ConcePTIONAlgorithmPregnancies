@@ -56,6 +56,14 @@ if (l > 0){
   list_of_sample[["sample_record_blue"]] <- D3_pregnancy_reconciled[pregnancy_id %in% sample_id_blue][,sample:="StartUpdated"]
 }
 
+### 9: sample from splitted
+l <- D3_pregnancy_reconciled[pregnancy_splitted ==1, .N]
+if (l > 0){
+  sample_id_splitted <- sample(x = D3_pregnancy_reconciled[pregnancy_splitted ==1, person_id], size =  min(l, 5), replace = FALSE)
+  list_of_sample[["sample_splitted"]] <- D3_pregnancy_reconciled[person_id %in% sample_id_splitted][,sample:="pregnancy_splitted"]
+}
+
+
 ### date and time 
 now <- paste0(year(Sys.time()), month(Sys.time()), day(Sys.time()), "_", hour(Sys.time()), minute(Sys.time()))
 ### retriving from the algorithm
