@@ -18,26 +18,6 @@ for (level1 in c("HOSP","PC")) {
 
 rm(meaning)
 
-#-------------------------------------
-# set concept sets
-
-# concept_set_codes_our_study <- c(concept_sets_of_our_study_eve, concept_set_our_study_pre, concept_sets_of_our_study_eve_procedure)
-concept_set_codes_our_study_excl <- concept_set_codes_our_study_excl
-
-# augment ICPC codes
-# for (outcome in OUTCOME_events){
-#   outnarrow <- paste0(outcome,'_narrow')
-#   outpossible <- paste0(outcome,'_possible')
-#   if (length(concept_set_codes_our_study_pre[[outnarrow]][["ICPC"]]) == 0 & length(concept_set_codes_our_study_pre[[outnarrow]][["ICPC2P"]]) >0 ){
-#     concept_set_codes_our_study[[outpossible]][["ICPC"]] <- unique(c(concept_set_codes_our_study_pre[[outpossible]][["ICPC"]],substr(concept_set_codes_our_study_pre[[outnarrow]][["ICPC2P"]],1,3)))
-#   }
-# }
-
-# for (conceptset in c(COV_conceptssets,SEVERCOVID_conceptsets)){
-#   if (length(concept_set_codes_our_study_pre[[conceptset]][["ICPC2P"]]) >0 ){
-#     concept_set_codes_our_study[[conceptset]][["ICPC"]] <- unique(c(concept_set_codes_our_study_pre[[conceptset]][["ICPC"]],substr(concept_set_codes_our_study_pre[[conceptset]][["ICPC2P"]],1,3)))
-#   }
-# }
 
 #-------------------------------------
 # fix for ICPC2P
