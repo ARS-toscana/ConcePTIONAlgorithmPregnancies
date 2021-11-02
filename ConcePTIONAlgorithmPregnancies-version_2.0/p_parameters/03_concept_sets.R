@@ -268,8 +268,6 @@ if( this_datasource_has_no_procedures) {
   } 
   
 
-  
-  #--------------------------
   ####### Codes for tests for gestational diabetes ###############
   concept_set_codes_our_study_datasource[["gestational_diabetes"]][["ARS"]][["ITA_procedures_coding_system"]] <- c("90.26.7") 
   concept_set_codes_our_study_datasource[["gestational_diabetes"]][["TO_ADD"]][["TO_ADD_coding_system"]] <- c("90.26.7") 
