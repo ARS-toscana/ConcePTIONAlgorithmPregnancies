@@ -6,7 +6,7 @@
 if (datasource_with_visit_occurrence_prompt){
   
   print(paste0("Load PROMPT for MEANING_OF_SURVEY and MEANING_OF_VISIT for ",thisdatasource))
-  source(paste0(dirparpregn,"04_prompts/04_prompts_",thisdatasource,".R"))
+  source(paste0(dirparpregn,"01_prompts/01_prompts_",thisdatasource,".R"))
   
   
   meaning_of_survey_our_study_this_datasource<-vector(mode="list")
@@ -25,7 +25,7 @@ if (datasource_with_visit_occurrence_prompt){
 } else {
   
   print(paste0("Load PROMPT for MEANING_OF_SURVEY for ",thisdatasource))
-  source(paste0(dirparpregn,"04_prompts/04_prompts_",thisdatasource,".R"))
+  source(paste0(dirparpregn,"01_prompts/01_prompts_",thisdatasource,".R"))
   
   
   meaning_of_survey_our_study_this_datasource<-vector(mode="list")

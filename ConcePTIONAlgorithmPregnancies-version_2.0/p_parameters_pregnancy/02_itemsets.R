@@ -15,7 +15,7 @@ if (this_datasource_has_br_prompt) {
     if (str_detect(files[i],"^SURVEY_OB")) {
       
       print(paste0("Load ITEMSETS in SURVEY_OBSERVATIONS for ",thisdatasource))
-      source(paste0(dirparpregn,"05_itemsets/05_itemsets_",thisdatasource,".R"))
+      source(paste0(dirparpregn,"02_itemsets/02_itemsets_",thisdatasource,".R"))
       
     }
   }
@@ -58,7 +58,7 @@ if (this_datasource_has_itemsets_stream_from_medical_obs) {
     if (str_detect(files[i],"^MEDICAL_OB")) {
       
       print(paste0("Load ITEMSETS in MEDICAL_OBSERVATIONS for ",thisdatasource))
-      source(paste0(dirparpregn,"05_itemsets/05_itemsets_",thisdatasource,".R"))
+      source(paste0(dirparpregn,"02_itemsets/02_itemsets_",thisdatasource,".R"))
       
  
     }
