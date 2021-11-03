@@ -55,7 +55,7 @@ itemset_AVpair_pregnancy[["TYPE"]][[files[i]]][["ARS"]] <- list(list("CAP2", "VI
 
 
 ################################ DICTINARY OF TYPE ##################################
-dictonary_of_itemset_pregnancy_pregnancy <- vector(mode="list") 
+dictonary_of_itemset_pregnancy <- vector(mode="list") 
 
 dictonary_of_itemset_pregnancy[["TYPE"]][["ARS"]][["LB"]]<-list(list("CAP2", "1"))
 dictonary_of_itemset_pregnancy[["TYPE"]][["ARS"]][["SB"]]<-list(list("CAP2", "2"))
