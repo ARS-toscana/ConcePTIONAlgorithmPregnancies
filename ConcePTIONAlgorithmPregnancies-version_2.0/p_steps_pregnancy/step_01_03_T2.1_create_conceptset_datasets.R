@@ -8,7 +8,7 @@
 print('RETRIEVE FROM CDM RECORDS CORRESPONDING TO CONCEPT SETS')
 
 
-CreateConceptSetDatasets(concept_set_names = c(concept_set_our_study),
+CreateConceptSetDatasets(concept_set_names = c(concept_set_pregnancy),
                          dataset = ConcePTION_CDM_tables,
                          codvar = ConcePTION_CDM_codvar,
                          datevar= ConcePTION_CDM_datevar,
@@ -18,8 +18,8 @@ CreateConceptSetDatasets(concept_set_names = c(concept_set_our_study),
                          vocabulary = ConcePTION_CDM_coding_system_cols,
                          rename_col = list(person_id=person_id,date=date),
                          concept_set_domains = concept_set_domains,
-                         concept_set_codes =	concept_set_codes_our_study,
-                         concept_set_codes_excl = concept_set_codes_our_study_excl,
+                         concept_set_codes =	concept_set_codes_pregnancy,
+                         concept_set_codes_excl = concept_set_codes_pregnancy_excl,
                          discard_from_environment = F,
                          dirinput = dirinput,
                          diroutput = dirtemp,
@@ -28,7 +28,7 @@ CreateConceptSetDatasets(concept_set_names = c(concept_set_our_study),
                          )
 
 ### Creating visit occurrence id if missing
-for (concept in concept_sets_of_our_study_procedure) {
+for (concept in concept_sets_of_pregnancy_procedure) {
   if( nrow(get(concept)) > 0){
     assign("concept_temp", get(concept))
     
@@ -51,11 +51,8 @@ for (concept in concept_sets_of_our_study_procedure) {
 ################################################################################
 ###########################       Description        ###########################
 ################################################################################
-# for (concept in concept_set_our_study) {
-#   load(paste0(dirtemp, concept, ".RData"))
-# }
 
-for (concept in concept_set_our_study) {
+for (concept in concept_set_pregnancy) {
   
   if( nrow(get(concept)) > 0){
     
@@ -107,4 +104,4 @@ for (concept in concept_set_our_study) {
 }
 
 
-rm(list = concept_set_our_study)
+rm(list = concept_set_pregnancy)

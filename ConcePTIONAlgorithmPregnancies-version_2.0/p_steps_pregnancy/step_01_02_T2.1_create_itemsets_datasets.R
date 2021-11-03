@@ -15,8 +15,8 @@ if (this_datasource_has_br_prompt) {
                         datevar= ConcePTION_CDM_datevar_retrieve,
                         dateformat= "YYYYmmdd",
                         rename_col = list(person_id=person_id,date=date),
-                        study_variable_names = study_variables_of_our_study,
-                        itemset = itemset_AVpair_our_study_this_datasource, 
+                        study_variable_names = study_variables_pregnancy,
+                        itemset = itemset_AVpair_pregnancy_this_datasource, 
                         dirinput = dirinput,
                         diroutput = dirtemp,
                         discard_from_environment = FALSE,
@@ -41,8 +41,8 @@ if (this_datasource_has_itemsets_stream){
                         datevar= ConcePTION_CDM_datevar_retrieve,
                         dateformat= "YYYYmmdd",
                         rename_col = list(person_id=person_id,date=date),
-                        study_variable_names = study_itemset_of_our_study,
-                        itemset = itemsetMED_AVpair_our_study_this_datasource, 
+                        study_variable_names = study_itemset_pregnancy,
+                        itemset = itemsetMED_AVpair_pregnancy_this_datasource, 
                         dirinput = dirinput,
                         diroutput = dirtemp,
                         discard_from_environment = FALSE,
@@ -66,24 +66,6 @@ if (this_datasource_has_itemsets_stream){
 }
 
 
-# ## add itemset that liked with concept_set -> BIFAP from medical_observation
-# if (this_datasource_has_itemset_linked_to_conceptset){
-#   print("this datasource HAS itemsets linked to conceptset")
-#   
-#   CreateItemsetDatasets(EAVtables = ConcePTION_CDM_EAV_tables_retrieve_mo,
-#                         datevar= ConcePTION_CDM_datevar_retrieve,
-#                         dateformat= "YYYYmmdd",
-#                         rename_col = list(person_id=person_id,date=date),
-#                         study_variable_names = study_variables_of_our_study,
-#                         itemset = itemset_AVpair_our_study_this_datasource, 
-#                         dirinput = dirinput,
-#                         diroutput = dirtemp,
-#                         extension = c("csv"))
-#   
-# } else {
-#   print("this datasource has NO itemsets linked to conceptset")
-# }
-#   
 
 ################################################################################
 ###########################       Description        ###########################
@@ -97,7 +79,7 @@ if (this_datasource_has_itemsets_stream){
 
 files_it<-sub('\\.RData$', '', list.files(dirtemp))
 
-for (item in study_variables_of_our_study) {
+for (item in study_variables_pregnancy) {
   if( item %in% files_it ){
     if( !(nrow(get(item)) == 1 & is.na(get(item)[1, person_id])) ){
       print(paste0("Describing ", item))
@@ -116,7 +98,7 @@ for (item in study_variables_of_our_study) {
   } 
 }
 
-for (item in study_itemset_of_our_study) {
+for (item in study_itemset_pregnancy) {
   if( item %in% files_it ){
     if( !(nrow(get(item)) == 1 & is.na(get(item)[1, person_id])) ){
       print(paste0("Describing ", item))
@@ -135,7 +117,7 @@ for (item in study_itemset_of_our_study) {
   } 
 }
   
-suppressWarnings(rm(list = study_variables_of_our_study))
-suppressWarnings(rm(list = study_itemset_of_our_study))
+suppressWarnings(rm(list = study_variables_pregnancy))
+suppressWarnings(rm(list = study_itemset_pregnancy))
 
 

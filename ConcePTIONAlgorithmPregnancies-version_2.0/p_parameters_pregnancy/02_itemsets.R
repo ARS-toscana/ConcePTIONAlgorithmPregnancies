@@ -4,11 +4,11 @@
 
 if (this_datasource_has_br_prompt) {
   
-  # -itemset_AVpair_our_study- is a nested list, with 3 levels: foreach study variable, for each coding system of its data domain, the list of AVpair is recorded
+  # -itemset_AVpair_pregnancy- is a nested list, with 3 levels: foreach study variable, for each coding system of its data domain, the list of AVpair is recorded
   
-  study_variables_of_our_study <- c("DATESTARTPREGNANCY","GESTAGE_FROM_DAPS_CRITERIA_DAYS","GESTAGE_FROM_DAPS_CRITERIA_WEEKS","GESTAGE_FROM_USOUNDS_DAYS","GESTAGE_FROM_USOUNDS_WEEKS","GESTAGE_FROM_LMP_WEEKS","GESTAGE_FROM_LMP_DAYS", "DATEENDPREGNANCY","END_LIVEBIRTH","END_STILLBIRTH","END_TERMINATION","END_ABORTION", "TYPE")
+  study_variables_pregnancy <- c("DATESTARTPREGNANCY","GESTAGE_FROM_DAPS_CRITERIA_DAYS","GESTAGE_FROM_DAPS_CRITERIA_WEEKS","GESTAGE_FROM_USOUNDS_DAYS","GESTAGE_FROM_USOUNDS_WEEKS","GESTAGE_FROM_LMP_WEEKS","GESTAGE_FROM_LMP_DAYS", "DATEENDPREGNANCY","END_LIVEBIRTH","END_STILLBIRTH","END_TERMINATION","END_ABORTION", "TYPE")
   
-  itemset_AVpair_our_study <- vector(mode="list")
+  itemset_AVpair_pregnancy <- vector(mode="list")
   print(paste0("Load ITEMSETS in SURVEY_OBSERVATIONS for ",thisdatasource))
   
   files<-sub('\\.csv$', '', list.files(dirinput))
@@ -20,23 +20,23 @@ if (this_datasource_has_br_prompt) {
     }
   }
   
-  itemset_AVpair_our_study_this_datasource<-vector(mode="list")
+  itemset_AVpair_pregnancy_this_datasource<-vector(mode="list")
   
-  for (t in  names(itemset_AVpair_our_study)) {
-    for (f in names(itemset_AVpair_our_study[[t]])) {
-      for (s in names(itemset_AVpair_our_study[[t]][[f]])) {
+  for (t in  names(itemset_AVpair_pregnancy)) {
+    for (f in names(itemset_AVpair_pregnancy[[t]])) {
+      for (s in names(itemset_AVpair_pregnancy[[t]][[f]])) {
         if (s==thisdatasource ){
-          itemset_AVpair_our_study_this_datasource[[t]][[f]]<-itemset_AVpair_our_study[[t]][[f]][[s]]
+          itemset_AVpair_pregnancy_this_datasource[[t]][[f]]<-itemset_AVpair_pregnancy[[t]][[f]][[s]]
         }
       }
     }
   }
   
   
-  dictonary_of_itemset_this_datasource<-vector(mode="list")
+  dictonary_of_itemset_pregnancy_this_datasource<-vector(mode="list")
   
-  for (i in 1:length(dictonary_of_itemset$TYPE)) {
-    if(names(dictonary_of_itemset$TYPE)[[i]]==thisdatasource) dictonary_of_itemset_this_datasource<-dictonary_of_itemset$TYPE[[i]]
+  for (i in 1:length(dictonary_of_itemset_pregnancy$TYPE)) {
+    if(names(dictonary_of_itemset_pregnancy$TYPE)[[i]]==thisdatasource) dictonary_of_itemset_pregnancy_this_datasource<-dictonary_of_itemset_pregnancy$TYPE[[i]]
   }
 
 }
@@ -49,9 +49,9 @@ if (this_datasource_has_br_prompt) {
 
 if (this_datasource_has_itemsets_stream_from_medical_obs) {
   
-  # -itemset_AVpair_our_study- is a nested list, with 3 levels: foreach study variable, for each coding system of its data domain, the list of AVpair is recorded
+  # -itemset_AVpair_pregnancy- is a nested list, with 3 levels: foreach study variable, for each coding system of its data domain, the list of AVpair is recorded
   
-  study_itemset_of_our_study <- c("LastMestrualPeriod","GestationalAge")
+  study_itemset_pregnancy <- c("LastMestrualPeriod","GestationalAge")
   print(paste0("Load ITEMSETS in MEDICAL_OBSERVATIONS for ",thisdatasource))
   
     files<-sub('\\.csv$', '', list.files(dirinput))
@@ -63,13 +63,13 @@ if (this_datasource_has_itemsets_stream_from_medical_obs) {
     }
   }  
   
-  itemsetMED_AVpair_our_study_this_datasource<-vector(mode="list")
+  itemsetMED_AVpair_pregnancy_this_datasource<-vector(mode="list")
   
-  for (t in  names(itemsetMED_AVpair_our_study)) {
-    for (f in names(itemsetMED_AVpair_our_study[[t]])) {
-      for (s in names(itemsetMED_AVpair_our_study[[t]][[f]])) {
+  for (t in  names(itemsetMED_AVpair_pregnancy)) {
+    for (f in names(itemsetMED_AVpair_pregnancy[[t]])) {
+      for (s in names(itemsetMED_AVpair_pregnancy[[t]][[f]])) {
         if (s==thisdatasource ){
-          itemsetMED_AVpair_our_study_this_datasource[[t]][[f]]<-itemsetMED_AVpair_our_study[[t]][[f]][[s]]
+          itemsetMED_AVpair_pregnancy_this_datasource[[t]][[f]]<-itemsetMED_AVpair_pregnancy[[t]][[f]][[s]]
         }
       }
     }
