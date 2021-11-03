@@ -14,14 +14,14 @@ thisdir<-setwd(dirname(rstudioapi::getSourceEditorContext()$path))
 setwd(thisdir)
 
 #load parameters
-source(paste0(thisdir,"/p_parameters/01_parameters_program.R"))
-source(paste0(thisdir,"/p_parameters/02_parameters_CDM.R"))
-source(paste0(thisdir,"/p_parameters/03_concept_sets.R"))
-source(paste0(thisdir,"/p_parameters/04_prompts.R"))
-source(paste0(thisdir,"/p_parameters/05_itemsets.R"))
-source(paste0(thisdir,"/p_parameters/06_subpopulations_restricting_meanings.R"))
-source(paste0(thisdir,"/p_parameters/07_algorithms.R"))
-source(paste0(thisdir,"/p_parameters/08_check_coding_system.R"))
+source(paste0(thisdir,"/p_parameters_pregnancy/01_parameters_program.R"))
+source(paste0(thisdir,"/p_parameters_pregnancy/02_parameters_CDM.R"))
+source(paste0(thisdir,"/p_parameters_pregnancy/03_concept_sets.R"))
+source(paste0(thisdir,"/p_parameters_pregnancy/04_prompts.R"))
+source(paste0(thisdir,"/p_parameters_pregnancy/05_itemsets.R"))
+source(paste0(thisdir,"/p_parameters_pregnancy/06_subpopulations_restricting_meanings.R"))
+source(paste0(thisdir,"/p_parameters_pregnancy/07_algorithms.R"))
+source(paste0(thisdir,"/p_parameters_pregnancy/08_check_coding_system.R"))
 
 
 
