@@ -59,8 +59,8 @@ if (l > 0){
 ### 9: sample from splitted
 l <- D3_pregnancy_reconciled[pregnancy_splitted ==1, .N]
 if (l > 0){
-  sample_id_splitted <- sample(x = D3_pregnancy_reconciled[pregnancy_splitted ==1, person_id], size =  min(l, 5), replace = FALSE)
-  list_of_sample[["sample_splitted"]] <- D3_pregnancy_reconciled[person_id %in% sample_id_splitted][,sample:="pregnancy_splitted"]
+  sample_id_splitted <- sample(x = D3_pregnancy_reconciled[pregnancy_splitted ==1, pregnancy_id], size =  min(l, 5), replace = FALSE)
+  list_of_sample[["sample_splitted"]] <- D3_pregnancy_reconciled[pregnancy_id %in% sample_id_splitted][,sample:="pregnancy_splitted"]
 }
 
 

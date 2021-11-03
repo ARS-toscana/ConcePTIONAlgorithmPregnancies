@@ -388,7 +388,7 @@ D3_groups_of_pregnancies_reconciled <- D3_groups_of_pregnancies_reconciled[highe
 
 D3_groups_of_pregnancies_reconciled_before_excl <- D3_groups_of_pregnancies_reconciled[is.na(record_selected), record_selected:=1] 
 
-D3_groups_of_pregnancies_reconciled_before_excl <- D3_groups_of_pregnancies_reconciled_before_excl[is.na(type_of_pregnancy_end), type_of_pregnancy_end := "UNK"]
+D3_groups_of_pregnancies_reconciled_before_excl <- D3_groups_of_pregnancies_reconciled_before_excl[is.na(type_of_pregnancy_end), type_of_pregnancy_end := "UKN"]
 
 D3_pregnancy_reconciled_before_excl <- D3_groups_of_pregnancies_reconciled_before_excl[n==record_selected, -c("n")]
 
