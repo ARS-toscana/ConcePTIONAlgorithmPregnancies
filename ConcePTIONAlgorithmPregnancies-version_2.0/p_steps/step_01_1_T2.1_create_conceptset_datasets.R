@@ -28,7 +28,7 @@ CreateConceptSetDatasets(concept_set_names = c(concept_set_our_study),
                          )
 
 ### Creating visit occurrence id if missing
-for (concept in concept_set_our_study) {
+for (concept in concept_sets_of_our_study_procedure) {
   if( nrow(get(concept)) > 0){
     assign("concept_temp", get(concept))
     
@@ -43,8 +43,8 @@ for (concept in concept_set_our_study) {
     if(concept_set_domains[[concept]]=="Procedures"){
       concept_temp <- concept_temp[is.na(visit_occurrence_id), visit_occurrence_id := paste0(origin_of_procedure, "_dummy_visit_occ_id_", seq_along(.I))]
     }
-    
     assign(concept, concept_temp)
+    save(list=concept, file=paste0(dirtemp, concept,".RData"))
   }
 }
 

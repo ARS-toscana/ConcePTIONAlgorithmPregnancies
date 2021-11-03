@@ -56,6 +56,7 @@ if (this_datasource_has_itemsets_stream){
         assign("item_temp", get(item))
         item_temp <- item_temp[is.na(visit_occurrence_id), visit_occurrence_id := paste0(mo_origin, "_dummy_visit_occ_id_", seq_along(.I))]
         assign(item, item_temp)
+        save(list=item, file=paste0(dirtemp, item,".RData"))
       }
     }
   }
