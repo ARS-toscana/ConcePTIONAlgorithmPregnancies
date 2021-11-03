@@ -27,7 +27,26 @@ CreateConceptSetDatasets(concept_set_names = c(concept_set_our_study),
                          #vocabularies_with_dot_wildcard=c("READ")
                          )
 
-
+### Creating visit occurrence id if missing
+for (concept in concept_sets_of_our_study_procedure) {
+  if( nrow(get(concept)) > 0){
+    assign("concept_temp", get(concept))
+    
+    if(concept_set_domains[[concept]]=="Diagnosis"){
+      concept_temp <- concept_temp[is.na(visit_occurrence_id), visit_occurrence_id := paste0(origin_of_event, "_dummy_visit_occ_id_", seq_along(.I))]
+    }
+    
+    if(concept_set_domains[[concept]]=="Medicines"){
+      concept_temp <- concept_temp[is.na(visit_occurrence_id), visit_occurrence_id := paste0(origin_of_drug_record, "_dummy_visit_occ_id_", seq_along(.I))]
+    }
+    
+    if(concept_set_domains[[concept]]=="Procedures"){
+      concept_temp <- concept_temp[is.na(visit_occurrence_id), visit_occurrence_id := paste0(origin_of_procedure, "_dummy_visit_occ_id_", seq_along(.I))]
+    }
+    assign(concept, concept_temp)
+    save(list=concept, file=paste0(dirtemp, concept,".RData"))
+  }
+}
 
 ################################################################################
 ###########################       Description        ###########################
