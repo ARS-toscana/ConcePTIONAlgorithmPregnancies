@@ -257,7 +257,7 @@ if( this_datasource_has_no_procedures) {
   
 } else {
   
-  print(paste0("Load conceptsets from PROCEDURES for ",thisdatasource))
+  print(paste0("Load CONCEPTSETS from PROCEDURES for ",thisdatasource))
   source(paste0(dirparpregn,"03_conceptsets/03_conceptsets_",thisdatasource,".R"))
   
 }

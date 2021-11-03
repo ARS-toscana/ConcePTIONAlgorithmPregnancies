@@ -1,4 +1,5 @@
 ## check coding system
+METADATA<- fread(paste0(dirinput,"METADATA.csv"))
 
 allcodes_inMETADATA<- unique(unlist(str_split(unique(METADATA[type_of_metadata=="list_of_values" & (columnname=="event_record_vocabulary" | columnname=="	
 procedure_code_vocabulary" | columnname=="mo_record_vocabulary" | columnname=="so_unit"),values])," ")))

@@ -9,13 +9,13 @@ if (this_datasource_has_br_prompt) {
   study_variables_of_our_study <- c("DATESTARTPREGNANCY","GESTAGE_FROM_DAPS_CRITERIA_DAYS","GESTAGE_FROM_DAPS_CRITERIA_WEEKS","GESTAGE_FROM_USOUNDS_DAYS","GESTAGE_FROM_USOUNDS_WEEKS","GESTAGE_FROM_LMP_WEEKS","GESTAGE_FROM_LMP_DAYS", "DATEENDPREGNANCY","END_LIVEBIRTH","END_STILLBIRTH","END_TERMINATION","END_ABORTION", "TYPE")
   
   itemset_AVpair_our_study <- vector(mode="list")
+  print(paste0("Load ITEMSETS in SURVEY_OBSERVATIONS for ",thisdatasource))
   
   files<-sub('\\.csv$', '', list.files(dirinput))
   for (i in 1:length(files)) {
     if (str_detect(files[i],"^SURVEY_OB")) {
       
-      print(paste0("Load ITEMSETS in SURVEY_OBSERVATIONS for ",thisdatasource))
-      source(paste0(dirparpregn,"02_itemsets/02_itemsets_",thisdatasource,".R"))
+            source(paste0(dirparpregn,"02_itemsets/02_itemsets_",thisdatasource,".R"))
       
     }
   }
@@ -52,14 +52,13 @@ if (this_datasource_has_itemsets_stream_from_medical_obs) {
   # -itemset_AVpair_our_study- is a nested list, with 3 levels: foreach study variable, for each coding system of its data domain, the list of AVpair is recorded
   
   study_itemset_of_our_study <- c("LastMestrualPeriod","GestationalAge")
+  print(paste0("Load ITEMSETS in MEDICAL_OBSERVATIONS for ",thisdatasource))
   
-  files<-sub('\\.csv$', '', list.files(dirinput))
+    files<-sub('\\.csv$', '', list.files(dirinput))
   for (i in 1:length(files)) {
     if (str_detect(files[i],"^MEDICAL_OB")) {
       
-      print(paste0("Load ITEMSETS in MEDICAL_OBSERVATIONS for ",thisdatasource))
       source(paste0(dirparpregn,"02_itemsets/02_itemsets_",thisdatasource,".R"))
-      
  
     }
   }  
