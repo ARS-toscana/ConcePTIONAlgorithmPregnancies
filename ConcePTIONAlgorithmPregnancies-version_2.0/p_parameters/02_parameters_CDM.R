@@ -163,14 +163,17 @@ if (length(ConcePTION_CDM_EAV_tables)!=0 ){
 files_par<-sub('\\.RData$', '', list.files(dirpargen))
 
 if(length(files_par)>0){
-  for (i in 1:length(files_par)) {
-    if (str_detect(files_par[i],"^ConcePTION_CDM_EAV_attributes")) { 
+  if(sum(str_detect(files_par,"^ConcePTION_CDM_EAV_attributes"))>0) {
+    for (i in 1:length(files_par)) {
       load(paste0(dirpargen,files_par[i],".RData")) 
       load(paste0(dirpargen,"ConcePTION_CDM_coding_system_list.RData")) 
-      print("upload existing EAV_attributes")
-    } else {
-      print("create EAV_attributes")
+      }
+    print("upload existing EAV_attributes")
+  } else {
+    print("create EAV_attributes")
       
+    for (i in 1:length(files_par)) {
+        
       ConcePTION_CDM_coding_system_list<-vector(mode="list")
       METADATA<-fread(paste0(dirinput,"METADATA.csv"))
       #METADATA<-fread(paste0(dirinput,"METADATA_CPRD.csv"))
@@ -195,7 +198,7 @@ if(length(files_par)>0){
           }
         }
       }
-      
+        
       ConcePTION_CDM_EAV_attributes_this_datasource<-vector(mode="list")
       
       if (length(ConcePTION_CDM_EAV_attributes)!=0 ){
@@ -212,9 +215,9 @@ if(length(files_par)>0){
       
       save(ConcePTION_CDM_EAV_attributes_this_datasource, file = paste0(dirpargen,"ConcePTION_CDM_EAV_attributes.RData"))
       save(ConcePTION_CDM_coding_system_list, file = paste0(dirpargen,"ConcePTION_CDM_coding_system_list.RData"))
-      
+      rm(temp, temp1)
     }
-  }
+  }  
 } else {
   
   print("create EAV_attributes")
@@ -260,101 +263,10 @@ if(length(files_par)>0){
   
   save(ConcePTION_CDM_EAV_attributes_this_datasource, file = paste0(dirpargen,"ConcePTION_CDM_EAV_attributes.RData"))
   save(ConcePTION_CDM_coding_system_list, file = paste0(dirpargen,"ConcePTION_CDM_coding_system_list.RData"))
-  
+  rm(temp, temp1)
 }
 
 
-
-# ConcePTION_CDM_coding_system_list<-vector(mode="list")
-# METADATA<-fread(paste0(dirinput,"METADATA.csv"))
-# ConcePTION_CDM_coding_system_list<-unique(unlist(str_split(unique(METADATA[type_of_metadata=="list_of_values" & (columnname=="so_unit" | columnname=="mo_record_vocabulary"),values])," ")))
-# 
-# ConcePTION_CDM_EAV_attributes<-vector(mode="list")
-# 
-# if (length(ConcePTION_CDM_EAV_tables)!=0 ){
-#   for (i in 1:(length(ConcePTION_CDM_EAV_tables[["Diagnosis"]]))){
-#     for (ds in ConcePTION_CDM_EAV_tables[["Diagnosis"]][[i]][[1]][[1]]) {
-#       temp <- fread(paste0(dirinput,ds,".csv"))
-#       for( cod_syst in ConcePTION_CDM_coding_system_list) {
-#         if ("mo_source_table" %in% names(temp) ) {
-#           temp1<-unique(temp[mo_record_vocabulary %in% cod_syst,.(mo_source_table,mo_source_column)])
-#           if (nrow(temp1)!=0) ConcePTION_CDM_EAV_attributes[["Diagnosis"]][[ds]][[thisdatasource]][[cod_syst]]<-as.list(as.data.table(t(temp1)))
-#         } else{
-#           temp1<-unique(temp[so_unit %in% cod_syst,.(so_source_table,so_source_column)])
-#           if (nrow(temp1)!=0) ConcePTION_CDM_EAV_attributes[["Diagnosis"]][[ds]][[thisdatasource]][[cod_syst]]<-as.list(as.data.table(t(temp1)))
-#         }
-# 
-#       }
-#     }
-#   }
-# }
-
-
-# ConcePTION_CDM_coding_system_list<-vector(mode="list")
-# ConcePTION_CDM_coding_system_list<-c("ICD9","ICD10","SNOMED","SNOMED3","READ","ICD10CM","ICD10GM","kg")
-# 
-# 
-# ConcePTION_CDM_EAV_attributes<-vector(mode="list")
-# 
-# if (length(ConcePTION_CDM_EAV_tables)!=0 ){
-#     for (i in 1:(length(ConcePTION_CDM_EAV_tables[["Diagnosis"]]))){
-#       for (ds in ConcePTION_CDM_EAV_tables[["Diagnosis"]][[i]][[1]][[1]]) {
-#         temp <- fread(paste0(dirinput,ds,".csv"))
-#           for( cod_syst in ConcePTION_CDM_coding_system_list) {
-#            if ("mo_source_table" %in% names(temp) ) {
-#              temp1<-unique(temp[mo_record_vocabulary %in% cod_syst,.(mo_source_table,mo_source_column)])
-#            if (nrow(temp1)!=0) ConcePTION_CDM_EAV_attributes[["Diagnosis"]][[ds]][[thisdatasource]][[cod_syst]]<-as.list(as.data.table(t(temp1)))
-#            } else{
-#              temp1<-unique(temp[so_unit %in% cod_syst,.(so_source_table,so_source_column)])
-#              if (nrow(temp1)!=0) ConcePTION_CDM_EAV_attributes[["Diagnosis"]][[ds]][[thisdatasource]][[cod_syst]]<-as.list(as.data.table(t(temp1)))
-#            }
-# 
-#           }
-#       }
-#     }
-# }
-
-
-
-
-
-
-
-# #DA CMD_SOURCE
-# ConcePTION_CDM_EAV_attributes<-vector(mode="list")
-# datasources<-c("ARS")
-# 
-# if (length(ConcePTION_CDM_EAV_tables)!=0 ){
-#   for (dom in alldomain) {
-#     for (i in 1:(length(ConcePTION_CDM_EAV_tables[[dom]]))){
-#       for (ds in ConcePTION_CDM_EAV_tables[[dom]][[i]][[1]][[1]]) {
-#         for (dat in datasources) {
-#           if (dom=="Diagnosis") ConcePTION_CDM_EAV_attributes[[dom]][[ds]][[dat]][["ICD9"]] <-  list(list("RMR","CAUSAMORTE"))
-#           ConcePTION_CDM_EAV_attributes[[dom]][[ds]][[dat]][["ICD10"]] <-  list(list("RMR","CAUSAMORTE_ICDX"))
-#           ConcePTION_CDM_EAV_attributes[[dom]][[ds]][[dat]][["SNOMED"]] <-  list(list("AP","COD_MORF_1"),list("AP","COD_MORF_2"),list("AP","COD_MORF_3"),list("AP","COD_TOPOG"))
-#           #        if (dom=="Medicines") ConcePTION_CDM_EAV_attributes[[dom]][[ds]][[dat]][["ICD9"]] <-  list(list("CAP1","SETTAMEN_ARSNEW"),list("CAP1","GEST_ECO"),list("AP","COD_MORF_1"),list("AP","COD_MORF_2"),list("AP","COD_MORF_3"),list("AP","COD_TOPOG"))
-#         }
-#       }
-#     }
-#   }
-# }
-
-
-# ConcePTION_CDM_EAV_attributes_this_datasource<-vector(mode="list")
-# 
-# if (length(ConcePTION_CDM_EAV_attributes)!=0 ){
-#   for (t in  names(ConcePTION_CDM_EAV_attributes)) {
-#     for (f in names(ConcePTION_CDM_EAV_attributes[[t]])) {
-#       for (s in names(ConcePTION_CDM_EAV_attributes[[t]][[f]])) {
-#         if (s==thisdatasource ){
-#           ConcePTION_CDM_EAV_attributes_this_datasource[[t]][[f]]<-ConcePTION_CDM_EAV_attributes[[t]][[f]][[s]]
-#         }
-#       }
-#     }
-#   }
-# }
-# 
-# save(ConcePTION_CDM_EAV_attributes_this_datasource, file = paste0(dirpargen,"ConcePTION_CDM_EAV_attributes.RData"))
 
 
 ConcePTION_CDM_datevar<-vector(mode="list")
@@ -396,4 +308,4 @@ if (length(ConcePTION_CDM_EAV_tables)!=0 ){
 }
 
 #ConcePTION_CDM_datevar_retrieve<-ConcePTION_CDM_datevar_retrieveA
-rm(temp, temp1)
+
