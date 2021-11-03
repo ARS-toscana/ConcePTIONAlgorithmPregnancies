@@ -7,12 +7,12 @@
 
 ####### LOAD MEANING_OF_SURVEY for CPRD
 
-meaning_of_survey_our_study <- vector(mode="list")
+meaning_of_survey_pregnancy <- vector(mode="list")
 
-meaning_of_survey_our_study[["CPRD"]][["livebirth_or_stillbirth"]]<-list("pregnancy_register")
-meaning_of_survey_our_study[["CPRD"]][["ongoing_pregnancy"]]<-list()
-meaning_of_survey_our_study[["CPRD"]][["spontaneous_abortion"]]<-list("pregnancy_register")
-meaning_of_survey_our_study[["CPRD"]][["induced_termination"]]<-list("pregnancy_register")
-meaning_of_survey_our_study[["CPRD"]][["other"]]<-list()
+meaning_of_survey_pregnancy[["CPRD"]][["livebirth_or_stillbirth"]]<-list("pregnancy_register")
+meaning_of_survey_pregnancy[["CPRD"]][["ongoing_pregnancy"]]<-list()
+meaning_of_survey_pregnancy[["CPRD"]][["spontaneous_abortion"]]<-list("pregnancy_register")
+meaning_of_survey_pregnancy[["CPRD"]][["induced_termination"]]<-list("pregnancy_register")
+meaning_of_survey_pregnancy[["CPRD"]][["other"]]<-list()
 
 

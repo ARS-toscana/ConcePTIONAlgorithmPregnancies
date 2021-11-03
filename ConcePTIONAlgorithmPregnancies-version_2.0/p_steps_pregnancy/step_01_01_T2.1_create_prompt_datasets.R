@@ -11,7 +11,7 @@ if (this_datasource_has_br_prompt) {
   for (i in 1:length(files)) {
     if (str_detect(files[i],"^SURVEY_ID")) {
       
-      SURVEY_ID_BR <-rbind(SURVEY_ID_BR,fread(paste0(dirinput,files[i],".csv"), colClasses = list(character="person_id"))[survey_meaning %in% unlist(meaning_of_survey_our_study_this_datasource),])
+      SURVEY_ID_BR <-rbind(SURVEY_ID_BR,fread(paste0(dirinput,files[i],".csv"), colClasses = list(character="person_id"))[survey_meaning %in% unlist(meaning_of_survey_pregnancy_this_datasource),])
   
     }
   }
@@ -49,7 +49,7 @@ if (this_datasource_has_visit_occurrence_prompt) {
   for (i in 1:length(files)) {
     if (str_detect(files[i],"^VISIT_OCCURRENCE_SPC")) {
       
-      VISIT_OCCURRENCE_PREG <-rbind(VISIT_OCCURRENCE_PREG,fread(paste0(dirinput,files[i],".csv"))[(meaning_of_visit %chin% unlist(meaning_of_visit_our_study_this_datasource)),])
+      VISIT_OCCURRENCE_PREG <-rbind(VISIT_OCCURRENCE_PREG,fread(paste0(dirinput,files[i],".csv"))[(meaning_of_visit %chin% unlist(meaning_of_visit_pregnancy_this_datasource)),])
       
     }
   }

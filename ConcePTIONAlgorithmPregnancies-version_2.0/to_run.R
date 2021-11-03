@@ -19,13 +19,14 @@ source(paste0(thisdir,"/p_parameters/02_parameters_CDM.R"))
 source(paste0(thisdir,"/p_parameters/03_subpopulations_restricting_meanings.R"))
 source(paste0(thisdir,"/p_parameters/04_algorithms.R"))
 
-
 #load parameters pregnancy
 source(paste0(thisdir,"/p_parameters_pregnancy/01_prompts.R"))
 source(paste0(thisdir,"/p_parameters_pregnancy/02_itemsets.R"))
 source(paste0(thisdir,"/p_parameters_pregnancy/03_concept_sets.R"))
 source(paste0(thisdir,"/p_parameters_pregnancy/04_algorithms_pregnancy.R"))
 source(paste0(thisdir,"/p_parameters_pregnancy/05_check_coding_system.R"))
+
+
 
 #run scripts
 
@@ -56,7 +57,7 @@ source(paste0(thisdir,"/p_steps_pregnancy/step_04_01_T2.2_process_pregnancies_ex
 source(paste0(thisdir,"/p_steps_pregnancy/step_04_02_T2.3_merge_stream_of_same_person.R"))
 source(paste0(thisdir,"/p_steps_pregnancy/step_04_03_T2.3_first_part_reconciliation.R"))
 
-# 05 MAIN RECOINCILIATION
+# 05 MAIN RECONCILIATION
 source(paste0(thisdir,"/p_steps_pregnancy/step_05_01_T2.2_reconciliation.R"))
 source(paste0(thisdir,"/p_steps_pregnancy/step_05_02_apply_exclusion_criteria.R"))
 

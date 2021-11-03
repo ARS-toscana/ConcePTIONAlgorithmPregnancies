@@ -7,12 +7,12 @@
 
 ####### LOAD MEANING_OF_SURVEY for FISABIO
 
-meaning_of_survey_our_study <- vector(mode="list")
+meaning_of_survey_pregnancy <- vector(mode="list")
 
-meaning_of_survey_our_study[["FISABIO"]][["livebirth_or_stillbirth"]]<-list("META-B_mother", "RMPCV_mother")
-meaning_of_survey_our_study[["FISABIO"]][["ongoing_pregnancy"]]<-list()
-meaning_of_survey_our_study[["FISABIO"]][["spontaneous_abortion"]]<-list()
-meaning_of_survey_our_study[["FISABIO"]][["induced_termination"]]<-list()
-meaning_of_survey_our_study[["FISABIO"]][["other"]]<-list()
+meaning_of_survey_pregnancy[["FISABIO"]][["livebirth_or_stillbirth"]]<-list("META-B_mother", "RMPCV_mother")
+meaning_of_survey_pregnancy[["FISABIO"]][["ongoing_pregnancy"]]<-list()
+meaning_of_survey_pregnancy[["FISABIO"]][["spontaneous_abortion"]]<-list()
+meaning_of_survey_pregnancy[["FISABIO"]][["induced_termination"]]<-list()
+meaning_of_survey_pregnancy[["FISABIO"]][["other"]]<-list()
 
 
