@@ -38,10 +38,6 @@ for(tab in list_tables){
 table(D3_study_population_pregnancy1$pregnancy_with_dates_out_of_range) # 527503 deleted
 
 
-# D3_study_population_pregnancy1<- D3_study_population_pregnancy1[is.na(pregnancy_end_date), no_end_of_pregnancy:=1][is.na(no_end_of_pregnancy),no_end_of_pregnancy:=0]
-# table(D3_study_population_pregnancy1$no_end_of_pregnancy) #49812 deleted
-
-
 D3_excluded_pregnancies_from_CONCEPTSETS_1 <-D3_study_population_pregnancy1[pregnancy_with_dates_out_of_range==1,] # | no_end_of_pregnancy==1
 D3_study_population_pregnancy2 <-D3_study_population_pregnancy1[pregnancy_with_dates_out_of_range==0 ,][,-c("pregnancy_with_dates_out_of_range")]#& no_end_of_pregnancy==0
 
