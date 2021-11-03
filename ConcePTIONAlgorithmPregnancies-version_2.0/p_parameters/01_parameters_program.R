@@ -5,6 +5,8 @@
 setwd("..")
 dirbase<-getwd() # Lot4
 dirinput <- paste0(dirbase,"/CDMInstances/")
+#@ use this below if you want to set different INPUT DIRECTORY
+#dirinput <- c("C:/Users/clabar/Seafile/Mia Libreria/ConcePTIONAlgorithmPregnancies/CDMInstances/") # remember to use / instead of /
 
 # set other directories
 diroutput <- paste0(thisdir,"/g_output/")
