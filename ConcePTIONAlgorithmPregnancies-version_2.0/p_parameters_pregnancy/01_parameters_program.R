@@ -158,7 +158,7 @@ this_datasource_has_itemsets_stream_from_medical_obs <- ifelse(thisdatasource %i
 
 
 #datasource with birth registry prompt
-datasource_with_br_prompt <- c("TO_ADD","ARS") #@ use "TO_ADD" as example
+datasource_with_br_prompt <- c("TO_ADD","ARS","PHARMO","UOSL") #@ use "TO_ADD" as example
 this_datasource_has_br_prompt <- ifelse(thisdatasource %in% datasource_with_br_prompt,TRUE,FALSE) 
 
 
