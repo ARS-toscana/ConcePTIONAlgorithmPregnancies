@@ -65,8 +65,8 @@ if (this_datasource_has_br_prompt) {
       dataset_pregnancies0<-dataset_pregnancies0[survey_meaning == "induced_termination_registry" & GESTAGE_FROM_LMP_WEEKS==2,GESTAGE_FROM_LMP_WEEKS:= 19]
       dataset_pregnancies0<-dataset_pregnancies0[survey_meaning == "induced_termination_registry" & GESTAGE_FROM_LMP_WEEKS==9,GESTAGE_FROM_LMP_WEEKS:=NA]
       
-      dataset_pregnancies0<-dataset_pregnancies0[survey_meaning==unlist(meaning_of_survey_our_study_this_datasource[["livebirth_or_stillbirth"]]) & (GESTAGE_FROM_USOUNDS_WEEKS<22 | GESTAGE_FROM_USOUNDS_WEEKS>46),GESTAGE_FROM_USOUNDS_WEEKS:=NA]
-      dataset_pregnancies0<-dataset_pregnancies0[survey_meaning==unlist(meaning_of_survey_our_study_this_datasource[["livebirth_or_stillbirth"]]) & (GESTAGE_FROM_LMP_WEEKS<22 | GESTAGE_FROM_LMP_WEEKS>46), GESTAGE_FROM_LMP_WEEKS:=NA]
+      dataset_pregnancies0<-dataset_pregnancies0[survey_meaning==unlist(meaning_of_survey_pregnancy_this_datasource[["livebirth_or_stillbirth"]]) & (GESTAGE_FROM_USOUNDS_WEEKS<22 | GESTAGE_FROM_USOUNDS_WEEKS>46),GESTAGE_FROM_USOUNDS_WEEKS:=NA]
+      dataset_pregnancies0<-dataset_pregnancies0[survey_meaning==unlist(meaning_of_survey_pregnancy_this_datasource[["livebirth_or_stillbirth"]]) & (GESTAGE_FROM_LMP_WEEKS<22 | GESTAGE_FROM_LMP_WEEKS>46), GESTAGE_FROM_LMP_WEEKS:=NA]
       
     }
     
@@ -84,17 +84,17 @@ if (this_datasource_has_br_prompt) {
     dataset_pregnancies2[is.na(pregnancy_end_date),pregnancy_end_date:=END_ABORTION][!is.na(pregnancy_end_date)& is.na(meaning_end_date),`:=`(meaning_end_date=meaning_END_ABORTION, origin=table_END_ABORTION, column=column_END_ABORTION, so_source_value=END_ABORTION)]
     
     # impute type for unclassified dates 
-    dataset_pregnancies2[meaning_end_date%in%unlist(meaning_of_survey_our_study_this_datasource[["spontaneous_abortion"]]),type_of_pregnancy_end:="SA"] #is.na(type_of_pregnancy_end) & 
-    dataset_pregnancies2[meaning_end_date%in%unlist(meaning_of_survey_our_study_this_datasource[["induced_termination"]]),type_of_pregnancy_end:="T"] #is.na(type_of_pregnancy_end) & 
-    dataset_pregnancies2[meaning_end_date%in%unlist(meaning_of_survey_our_study_this_datasource[["livebirth_or_stillbirth"]]),type_of_pregnancy_end:="LB/SB"] #is.na(type_of_pregnancy_end) &
+    dataset_pregnancies2[meaning_end_date%in%unlist(meaning_of_survey_pregnancy_this_datasource[["spontaneous_abortion"]]),type_of_pregnancy_end:="SA"] #is.na(type_of_pregnancy_end) & 
+    dataset_pregnancies2[meaning_end_date%in%unlist(meaning_of_survey_pregnancy_this_datasource[["induced_termination"]]),type_of_pregnancy_end:="T"] #is.na(type_of_pregnancy_end) & 
+    dataset_pregnancies2[meaning_end_date%in%unlist(meaning_of_survey_pregnancy_this_datasource[["livebirth_or_stillbirth"]]),type_of_pregnancy_end:="LB/SB"] #is.na(type_of_pregnancy_end) &
     
     # classified DATEENDPREGNANCY with TYPE
-    dataset_pregnancies2[pregnancy_end_date==DATEENDPREGNANCY & TYPE%in%unlist(dictonary_of_itemset_this_datasource[["LB"]]),type_of_pregnancy_end:="LB"]
-    dataset_pregnancies2[pregnancy_end_date==DATEENDPREGNANCY & TYPE%in%unlist(dictonary_of_itemset_this_datasource[["SB"]]),type_of_pregnancy_end:="SB"]
-    dataset_pregnancies2[pregnancy_end_date==DATEENDPREGNANCY & TYPE%in%unlist(dictonary_of_itemset_this_datasource[["SA"]]),type_of_pregnancy_end:="SA"]
-    dataset_pregnancies2[pregnancy_end_date==DATEENDPREGNANCY & TYPE%in%unlist(dictonary_of_itemset_this_datasource[["T"]]) ,type_of_pregnancy_end:="T"]
-    dataset_pregnancies2[pregnancy_end_date==DATEENDPREGNANCY & TYPE%in%unlist(dictonary_of_itemset_this_datasource[["MD"]]),type_of_pregnancy_end:="MD"]
-    dataset_pregnancies2[pregnancy_end_date==DATEENDPREGNANCY & TYPE%in%unlist(dictonary_of_itemset_this_datasource[["UNK"]]),type_of_pregnancy_end:="UNK"]
+    dataset_pregnancies2[pregnancy_end_date==DATEENDPREGNANCY & TYPE%in%unlist(dictonary_of_itemset_pregnancy_this_datasource[["LB"]]),type_of_pregnancy_end:="LB"]
+    dataset_pregnancies2[pregnancy_end_date==DATEENDPREGNANCY & TYPE%in%unlist(dictonary_of_itemset_pregnancy_this_datasource[["SB"]]),type_of_pregnancy_end:="SB"]
+    dataset_pregnancies2[pregnancy_end_date==DATEENDPREGNANCY & TYPE%in%unlist(dictonary_of_itemset_pregnancy_this_datasource[["SA"]]),type_of_pregnancy_end:="SA"]
+    dataset_pregnancies2[pregnancy_end_date==DATEENDPREGNANCY & TYPE%in%unlist(dictonary_of_itemset_pregnancy_this_datasource[["T"]]) ,type_of_pregnancy_end:="T"]
+    dataset_pregnancies2[pregnancy_end_date==DATEENDPREGNANCY & TYPE%in%unlist(dictonary_of_itemset_pregnancy_this_datasource[["MD"]]),type_of_pregnancy_end:="MD"]
+    dataset_pregnancies2[pregnancy_end_date==DATEENDPREGNANCY & TYPE%in%unlist(dictonary_of_itemset_pregnancy_this_datasource[["UNK"]]),type_of_pregnancy_end:="UNK"]
     
     
     

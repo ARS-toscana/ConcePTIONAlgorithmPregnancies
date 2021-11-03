@@ -151,6 +151,9 @@ gap_allowed_thisdatasource = ifelse(thisdatasource == "ARS",21,1)
 datasources_prescriptions <- c("TO_ADD","CPRD") #@ use "TO_ADD" as example
 thisdatasource_has_prescriptions <- ifelse(thisdatasource %in% datasources_prescriptions,TRUE,FALSE)
 
+# datasources ha EUROCAT
+datasources_EUROCAT <- c("TO_ADD") #@ use "TO_ADD" as example
+thisdatasource_has_EUROCAT <- ifelse(thisdatasource %in% datasources_EUROCAT,TRUE,FALSE)
 
 #datasource with itemsets stream from medical observation
 datasource_with_itemsets_stream_from_medical_obs <- c("TO_ADD","GePaRD","BIFAP") #@ use "TO_ADD" as example

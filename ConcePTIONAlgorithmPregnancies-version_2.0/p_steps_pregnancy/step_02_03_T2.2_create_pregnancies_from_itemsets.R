@@ -3,15 +3,15 @@
 if (this_datasource_has_itemsets_stream_from_medical_obs){
     
   # merge together all the item sets to define start_of_pregnancy and end_of_pregnancy
-  study_itemset_of_our_study <- c("LastMestrualPeriod","GestationalAge")
+  study_itemset_of_pregnancy <- c("LastMestrualPeriod","GestationalAge")
   
-  for (itemvar in study_itemset_of_our_study){
+  for (itemvar in study_itemset_of_pregnancy){
     load(paste0(dirtemp,itemvar,".RData"))
   }
   
   # put together concept_set for each category: start, ongoing, end
   dataset_item_sets <- c()
-  for (itemvar in study_itemset_of_our_study){
+  for (itemvar in study_itemset_of_pregnancy){
     print(itemvar)
     studyvardataset <- get(itemvar)[,item_set:=itemvar]
     studyvardataset <- unique(studyvardataset,by=c("person_id","mo_code","date"))

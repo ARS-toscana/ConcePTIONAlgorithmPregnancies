@@ -1,12 +1,12 @@
 # merge together all the concept sets to define start_of_pregnancy and end_of_pregnancy
 
 if(this_datasource_has_no_procedures){
-  concept_sets_of_our_study_procedure<-c()
+  concept_sets_of_pregnancy_procedure<-c()
 } else {
-  concept_sets_of_our_study_procedure<-concept_sets_of_our_study_procedure
+  concept_sets_of_pregnancy_procedure<-concept_sets_of_pregnancy_procedure
 }
 
-for (conceptvar in c(concept_sets_of_start_of_pregnancy,concept_sets_of_ongoing_of_pregnancy,concept_sets_of_end_of_pregnancy,concept_sets_of_our_study_procedure)){
+for (conceptvar in c(concept_sets_of_start_of_pregnancy,concept_sets_of_ongoing_of_pregnancy,concept_sets_of_end_of_pregnancy,concept_sets_of_pregnancy_procedure)){
   load(paste0(dirtemp,conceptvar,".RData"))
 }
 
@@ -24,7 +24,7 @@ dataset_start_concept_sets<-unique(dataset_start_concept_sets, by=c("person_id",
 #dataset_start_concept_sets[,pregnancy_id:=paste0(visit_occurrence_id,"_",person_id,"_",date)] 
 
 dataset_ongoing_concept_sets <- c()
-for (conceptvar in c(concept_sets_of_ongoing_of_pregnancy,concept_sets_of_our_study_procedure)){ ## added codes from procedures
+for (conceptvar in c(concept_sets_of_ongoing_of_pregnancy,concept_sets_of_pregnancy_procedure)){ ## added codes from procedures
   print(conceptvar)
   if (conceptvar %chin% concept_sets_of_ongoing_of_pregnancy){
     studyvardataset <- get(conceptvar)[!is.na(date),][,concept_set:=conceptvar]
@@ -84,12 +84,12 @@ dataset_concept_sets<-dataset_concept_sets[concept_set == "Gestation_33_34", pre
 dataset_concept_sets<-dataset_concept_sets[concept_set == "Gestation_35_36", pregnancy_start_date := date - (248)]
 dataset_concept_sets<-dataset_concept_sets[concept_set == "Gestation_more37", pregnancy_start_date := date - (266)]
 
-dataset_concept_sets<-dataset_concept_sets[concept_set%chin%c(concept_sets_of_ongoing_of_pregnancy,concept_sets_of_our_study_procedure), pregnancy_ongoing_date:=date]
+dataset_concept_sets<-dataset_concept_sets[concept_set%chin%c(concept_sets_of_ongoing_of_pregnancy,concept_sets_of_pregnancy_procedure), pregnancy_ongoing_date:=date]
 dataset_concept_sets<-dataset_concept_sets[concept_set%chin%concept_sets_of_end_of_pregnancy, pregnancy_end_date:=date]
 
 dataset_concept_sets<-dataset_concept_sets[!is.na(pregnancy_start_date), meaning_start_date:=paste0("from_conceptset_",concept_set)]
 dataset_concept_sets<-dataset_concept_sets[!is.na(pregnancy_ongoing_date) & concept_set %chin%concept_sets_of_ongoing_of_pregnancy, meaning_ongoing_date:=paste0("from_conceptset_",concept_set)]
-dataset_concept_sets<-dataset_concept_sets[!is.na(pregnancy_ongoing_date) & concept_set%in%concept_sets_of_our_study_procedure, meaning_ongoing_date:=paste0("from_conceptset_procedures_",concept_set)]
+dataset_concept_sets<-dataset_concept_sets[!is.na(pregnancy_ongoing_date) & concept_set%in%concept_sets_of_pregnancy_procedure, meaning_ongoing_date:=paste0("from_conceptset_procedures_",concept_set)]
 dataset_concept_sets<-dataset_concept_sets[!is.na(pregnancy_end_date), meaning_end_date:=paste0("from_conceptset_",concept_set)]
 
 dataset_concept_sets<-dataset_concept_sets[is.na(pregnancy_end_date), meaning_end_date:=paste0("imputed_from_conceptset_",concept_set)]
@@ -141,6 +141,7 @@ dataset_concept_sets[,pregnancy_id:=paste0(person_id,"_",visit_occurrence_id,"_"
 # keep only vars neeed
 D3_Stream_CONCEPTSETS <- dataset_concept_sets[,.(pregnancy_id,person_id,record_date,pregnancy_start_date,pregnancy_ongoing_date,pregnancy_end_date,meaning_start_date,meaning_ongoing_date,meaning_end_date,type_of_pregnancy_end,meaning,imputed_start_of_pregnancy,imputed_end_of_pregnancy,visit_occurrence_id,origin,codvar,coding_system,CONCEPTSETS,CONCEPTSET )] # 
 save(D3_Stream_CONCEPTSETS, file=paste0(dirtemp,"D3_Stream_CONCEPTSETS.RData"))
+
 ##### Description #####
 DescribeThisDataset(Dataset = D3_Stream_CONCEPTSETS,
                     Individual=T,
@@ -173,5 +174,5 @@ DescribeThisDataset(Dataset = D3_Stream_CONCEPTSETS,
 
 rm(dataset_concept_sets, dataset_end_concept_sets, dataset_ongoing_concept_sets, dataset_start_concept_sets,D3_Stream_CONCEPTSETS)
 rm(Gestation_less24,Gestation_24,Gestation_25_26, Gestation_27_28, Gestation_29_30, Gestation_31_32, Gestation_33_34,Gestation_35_36,Gestation_more37,Ongoingpregnancy,Birth_narrow, Birth_possible ,Interruption,Spontaneousabortion, Ectopicpregnancy, Stillbirth, Livebirth, Preterm, Atterm,Postterm)
-rm(gestational_diabetes,fetal_nuchal_translucency, amniocentesis,Chorionic_Villus_Sampling,others)
+rm(fetal_nuchal_translucency,amniocentesis,Chorionic_Villus_Sampling,others)
 ##################################################################################################################################
