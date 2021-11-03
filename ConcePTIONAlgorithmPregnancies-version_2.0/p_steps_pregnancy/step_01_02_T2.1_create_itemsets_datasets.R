@@ -34,7 +34,7 @@ rm(SURVEY_ID_BR)
 
 
 ## add itemset for Stream 4 -> BIPS, GePaRD
-if (this_datasource_has_itemsets_stream){
+if (this_datasource_has_itemsets_stream_from_medical_obs){
   print("this datasource HAS itemsets stream")
   
   CreateItemsetDatasets(EAVtables = ConcePTION_CDM_EAV_tables_retrieve_mo,
@@ -71,11 +71,6 @@ if (this_datasource_has_itemsets_stream){
 ###########################       Description        ###########################
 ################################################################################
 
-# for (item in c(study_variables_of_our_study, study_itemset_of_our_study)) {
-#   if(item %in% files_it){
-#     load(paste0(dirtemp, item, ".RData"))
-#   }
-# }
 
 files_it<-sub('\\.RData$', '', list.files(dirtemp))
 
