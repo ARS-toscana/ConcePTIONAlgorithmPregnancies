@@ -172,10 +172,6 @@ datasource_with_no_procedures <- c("TO_ADD","CPRD","UOSL","BIFAP") #@ use "TO_AD
 this_datasource_has_no_procedures <- ifelse(thisdatasource %in% datasource_with_no_procedures,TRUE,FALSE) 
 
 
-#datasource that do not modify record from PROMPT
-datasource_that_does_not_modify_PROMPT <- c("TO_ADD","UOSL") #@ use "TO_ADD" as example
-this_datasource_does_not_modify_PROMPT <- ifelse(thisdatasource %in% datasource_that_does_not_modify_PROMPT,TRUE,FALSE) 
-
 
 #############################################
 #SAVE METADATA TO direxp
