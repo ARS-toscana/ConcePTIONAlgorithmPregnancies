@@ -67,6 +67,10 @@ while (D3_gop[,.N]!=0) {
                        pregnancy_start_date > pregnancy_end_date_next_record, 
                      `:=`(new_pregnancy_group = 1)]
     
+    D3_gop <- D3_gop[n == 1 & recon == 0 & !is.na(record_date_next_record) & 
+                       pregnancy_end_date < pregnancy_start_date_next_record, 
+                     `:=`(new_pregnancy_group = 1)]
+    
     # dividing SA e T
     D3_gop <- D3_gop[n == 1 & recon == 0 & !is.na(record_date_next_record) & 
                        (type_of_pregnancy_end == "SA" | type_of_pregnancy_end == "T" | type_of_pregnancy_end == "ECT") &
