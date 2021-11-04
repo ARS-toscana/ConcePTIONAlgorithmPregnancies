@@ -203,7 +203,7 @@ if (this_datasource_has_br_prompt) {
     D3_Stream_PROMPTS_visit_occurrence <- VISIT_OCCURRENCE_PREG[,.(pregnancy_id,person_id,record_date,pregnancy_start_date,pregnancy_ongoing_date,pregnancy_end_date,meaning_start_date,meaning_end_date,meaning_ongoing_date,type_of_pregnancy_end,imputed_start_of_pregnancy,imputed_end_of_pregnancy,visit_occurrence_id,PROMPT,origin, meaning)]
     # 
     save(D3_Stream_PROMPTS_visit_occurrence, file=paste0(dirtemp,"D3_Stream_PROMPTS_visit_occurrence.RData"))
-    print("Prompt from visit occurrence processed")
+    print("Prompts from VISIT_OCCURRENCE processed")
   }else{
     D3_Stream_PROMPTS_visit_occurrence <- data.table()
     D3_Stream_PROMPTS_visit_occurrence <- D3_Stream_PROMPTS_visit_occurrence[, `:=`(meaning_ongoing_date = NA, 
