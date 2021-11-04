@@ -260,6 +260,11 @@ if( this_datasource_has_no_procedures) {
   print(paste0("Load CONCEPTSETS from PROCEDURES for ",thisdatasource))
   source(paste0(dirparpregn,"03_conceptsets/03_conceptsets_",thisdatasource,".R"))
   
+  for (procedure in concept_sets_of_pregnancy_procedure){
+    for (code in coding_system_of_pregnancy_procedure) {
+      concept_set_codes_pregnancy[[procedure]][[code]] <- concept_set_codes_pregnancy_datasource[[procedure]][[thisdatasource]][[code]]
+    }
+  }
 }
 
 

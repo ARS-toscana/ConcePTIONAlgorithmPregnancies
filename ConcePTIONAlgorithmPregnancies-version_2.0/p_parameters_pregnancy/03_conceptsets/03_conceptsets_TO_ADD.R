@@ -35,9 +35,3 @@ concept_set_codes_pregnancy_datasource[["Chorionic_Villus_Sampling"]][["TO_ADD"]
 concept_set_codes_pregnancy_datasource[["others"]][["TO_ADD"]][["TO_ADD_coding_system"]] <- c("")
 
 
-
-for (procedure in concept_sets_of_pregnancy_procedure){
-  for (code in coding_system_of_pregnancy_procedure) {
-    concept_set_codes_pregnancy[[procedure]][[code]] <- concept_set_codes_pregnancy_datasource[[procedure]][[thisdatasource]][[code]]
-  }
-}

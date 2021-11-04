@@ -35,8 +35,3 @@ concept_set_codes_pregnancy_datasource[["others"]][["PHARMO"]][["TO_ADD_coding_s
 
 
 
-for (procedure in concept_sets_of_pregnancy_procedure){
-  for (code in coding_system_of_pregnancy_procedure) {
-    concept_set_codes_pregnancy[[procedure]][[code]] <- concept_set_codes_pregnancy_datasource[[procedure]][[thisdatasource]][[code]]
-  }
-}

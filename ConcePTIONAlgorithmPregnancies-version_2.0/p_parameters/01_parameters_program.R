@@ -143,12 +143,11 @@ for (t in list_tables){
 gap_allowed_thisdatasource = ifelse(thisdatasource == "TO_ADD",21,1) #@ use this as example
 gap_allowed_thisdatasource = ifelse(thisdatasource == "ARS",21,1)
 
-
 # datasources with prescriptions instead of dispensations
 datasources_prescriptions <- c("TO_ADD","CPRD") #@ use "TO_ADD" as example
 thisdatasource_has_prescriptions <- ifelse(thisdatasource %in% datasources_prescriptions,TRUE,FALSE)
 
-# datasources ha EUROCAT
+# datasources has EUROCAT
 datasources_EUROCAT <- c("TO_ADD") #@ use "TO_ADD" as example
 thisdatasource_has_EUROCAT <- ifelse(thisdatasource %in% datasources_EUROCAT,TRUE,FALSE)
 
@@ -156,16 +155,13 @@ thisdatasource_has_EUROCAT <- ifelse(thisdatasource %in% datasources_EUROCAT,TRU
 datasource_with_itemsets_stream_from_medical_obs <- c("TO_ADD","GePaRD","BIFAP") #@ use "TO_ADD" as example
 this_datasource_has_itemsets_stream_from_medical_obs <- ifelse(thisdatasource %in% datasource_with_itemsets_stream_from_medical_obs,TRUE,FALSE) 
 
-
 #datasource with birth registry prompt
 datasource_with_br_prompt <- c("TO_ADD","ARS","PHARMO","UOSL") #@ use "TO_ADD" as example
 this_datasource_has_br_prompt <- ifelse(thisdatasource %in% datasource_with_br_prompt,TRUE,FALSE) 
 
-
 #datasource with VISIT_OCCURRENCE prompt
 datasource_with_visit_occurrence_prompt <- c("TO_ADD","ARS") #@ use "TO_ADD" as example
 this_datasource_has_visit_occurrence_prompt <- ifelse(thisdatasource %in% datasource_with_visit_occurrence_prompt,TRUE,FALSE) 
-
 
 #datasource with no_procedures
 datasource_with_no_procedures <- c("TO_ADD","CPRD","UOSL","BIFAP") #@ use "TO_ADD" as example
