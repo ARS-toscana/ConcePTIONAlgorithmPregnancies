@@ -20,6 +20,7 @@ source(paste0(thisdir,"/p_parameters/03_subpopulations_restricting_meanings.R"))
 source(paste0(thisdir,"/p_parameters/04_algorithms.R"))
 
 #load parameters pregnancy
+source(paste0(thisdir,"/p_parameters_pregnancy/00_parameters_pregnancy.R"))
 source(paste0(thisdir,"/p_parameters_pregnancy/01_prompts.R"))
 source(paste0(thisdir,"/p_parameters_pregnancy/02_itemsets.R"))
 source(paste0(thisdir,"/p_parameters_pregnancy/03_concept_sets.R"))
