@@ -64,3 +64,20 @@ dictonary_of_itemset_pregnancy[["TYPE"]][["BIFAP"]][["T"]]<-list(list("EMB_BIFAP
 dictonary_of_itemset_pregnancy[["TYPE"]][["BIFAP"]][["MD"]]<-list()
 dictonary_of_itemset_pregnancy[["TYPE"]][["BIFAP"]][["ECT"]]<-list()
 dictonary_of_itemset_pregnancy[["TYPE"]][["BIFAP"]][["UNK"]]<-list()
+
+
+
+
+
+
+
+##### FROM MEDICAL_OBSERVATION
+itemsetMED_AVpair_pregnancy <- vector(mode="list")
+
+### specification LastMestrualPeriod
+itemsetMED_AVpair_pregnancy[["LastMestrualPeriod"]][[files[i]]][["BIFAP"]] <- list(list("datos_generales_paciente","LMP"))
+
+
+### specification GestationalAge
+itemsetMED_AVpair_pregnancy[["GestationalAge"]][[files[i]]][["BIFAP"]] <- list(list("datos_generales_paciente","GA"))
+
