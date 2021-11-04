@@ -7,17 +7,6 @@
 
 ####### LOAD PROCEDURES for FISABIO
 
-concept_set_codes_pregnancy_datasource <- vector(mode="list")
-
-concept_sets_of_pregnancy_procedure <- c("gestational_diabetes","fetal_nuchal_translucency", "amniocentesis","Chorionic_Villus_Sampling","others")
-coding_system_of_pregnancy_procedure <- c("ICD9", "ICD10")
-
-
-for (concept_pro in c(concept_sets_of_pregnancy_procedure, concept_sets_of_pregnancy_procedure_not_in_pregnancy)){
-  concept_set_domains[[concept_pro]] = "Procedures"  
-} 
-
-
 ####### Codes for tests for gestational diabetes ###############
 concept_set_codes_our_study_datasource[["gestational_diabetes"]][["FISABIO"]][["ICD9"]] <- c("648.8") #ICD-9-MC
 concept_set_codes_our_study_datasource[["gestational_diabetes"]][["FISABIO"]][["ICD10"]] <- c("O24.4") #ICD-10 Spanish version

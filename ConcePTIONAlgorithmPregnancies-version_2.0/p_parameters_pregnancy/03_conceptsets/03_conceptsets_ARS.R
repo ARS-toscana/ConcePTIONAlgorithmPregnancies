@@ -7,18 +7,6 @@
 
 ####### LOAD PROCEDURES for ARS
 
-concept_set_codes_pregnancy_datasource <- vector(mode="list")
-
-concept_sets_of_pregnancy_procedure <- c("fetal_nuchal_translucency", "amniocentesis","Chorionic_Villus_Sampling","others")
-coding_system_of_pregnancy_procedure <- c("ITA_procedures_coding_system", "ICD9", "ICD10")
-concept_sets_of_pregnancy_procedure_not_in_pregnancy <- c("gestational_diabetes")
-
-
-for (concept_pro in c(concept_sets_of_pregnancy_procedure, concept_sets_of_pregnancy_procedure_not_in_pregnancy)){
-  concept_set_domains[[concept_pro]] = "Procedures"  
-} 
-
-
 ####### Codes for tests for gestational diabetes ###############
 concept_set_codes_pregnancy_datasource[["gestational_diabetes"]][["ARS"]][["ITA_procedures_coding_system"]] <- c("90.26.7") 
 

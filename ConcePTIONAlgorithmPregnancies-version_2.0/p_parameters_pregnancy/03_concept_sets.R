@@ -257,6 +257,17 @@ if( this_datasource_has_no_procedures) {
   
 } else {
   
+  concept_set_codes_pregnancy_datasource <- vector(mode="list")
+  
+  concept_sets_of_pregnancy_procedure <- c("fetal_nuchal_translucency", "amniocentesis","Chorionic_Villus_Sampling","others")
+  coding_system_of_pregnancy_procedure <- c("ITA_procedures_coding_system", "ICD9", "ICD10")
+  concept_sets_of_pregnancy_procedure_not_in_pregnancy <- c("gestational_diabetes")
+  
+  
+  for (concept_pro in c(concept_sets_of_pregnancy_procedure, concept_sets_of_pregnancy_procedure_not_in_pregnancy)){
+    concept_set_domains[[concept_pro]] = "Procedures"  
+  } 
+  
   print(paste0("Load CONCEPTSETS from PROCEDURES for ",thisdatasource))
   source(paste0(dirparpregn,"03_conceptsets/03_conceptsets_",thisdatasource,".R"))
   
