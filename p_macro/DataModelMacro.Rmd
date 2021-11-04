@@ -2,7 +2,7 @@
 title: "Pregnancy Script: Data Model"
 output: 
   rmdformats::robobook:
-     css: styles_2.css
+     css: styles.css
 params:
   list_of_datamodel: NULL
   Description: NULL
