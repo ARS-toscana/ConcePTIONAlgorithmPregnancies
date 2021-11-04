@@ -61,7 +61,7 @@ source(paste0(thisdir,"/p_steps_pregnancy/step_04_03_T2.3_first_part_reconciliat
 source(paste0(thisdir,"/p_steps_pregnancy/step_05_01_T2.2_reconciliation.R"))
 source(paste0(thisdir,"/p_steps_pregnancy/step_05_02_create_exclusion_criteria.R"))
 
-# 06 SAMPLE FROMM PREGNANCY COHORT 
+# 06 SAMPLE FROM PREGNANCY COHORT 
 source(paste0(thisdir,"/p_steps_pregnancy/step_06_01_sample_from_pregnancies.R")) 
 
 # 07 PREGNANCIES DESCRIPTION
