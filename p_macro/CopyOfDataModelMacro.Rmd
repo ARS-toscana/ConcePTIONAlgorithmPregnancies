@@ -2,12 +2,13 @@
 title: "Pregnancy Script: Data Model"
 output: 
   rmdformats::robobook:
-     css: styles.css
+    css: styles.css
 params:
   list_of_datamodel: NULL
   Description: NULL
   list_of_group: NULL
 ---
+
 
 <br>
 
@@ -18,8 +19,13 @@ The Pregnancy Algorithm is composed of multiple steps. In each step, one or more
 knitr::opts_chunk$set(echo = F)
 ```
 
+```{r, include=FALSE}
+# Init Step to make sure that the dependencies are loaded
+htmltools::tagList(datatable(cars))
+#htmltools::tagList(ggplotly(ggplot()))
+```
 
-```{r results='asis'}
+```{r, results='asis'}
 
 for(group in list_of_group){
    cat('  \n')
@@ -36,11 +42,12 @@ for(group in list_of_group){
       cat(as.character(Description[Description$A == name_DM, 2]), "\n")
       cat('\n') 
       
-      tab = DM %>%
-              kbl() %>%
-              add_header_above()
+      print(htmltools::tagList(datatable(DM)))
+      #tab = DM %>%
+      #        kbl() %>%
+      #        add_header_above()
        
-      cat(tab)
+      #cat(tab)
       
       cat('\n')
       cat('<br><br><br>') 
