@@ -145,7 +145,7 @@ if(Vars_nForm){
 }
 ```
 
-```{r Vars specified and Format specified and Detailed, results = "asis", include=TRUE}
+```{r spec_and_Det, results = "asis", include=TRUE}
 if(Vars_Form_Det){
     form_iteration=1
     for(i in Cols){
