@@ -344,49 +344,49 @@ D3_gop <- D3_gop[, age_at_start_of_pregnancy := as.integer((pregnancy_start_date
 # mean(red_record_from_green[coloured_order == "4_red",as.integer(distance)])
 
 ## cleaning the dataset
-D3_groups_of_pregnancies_reconciled <- D3_gop[, .(person_id,
-                                                  age_at_start_of_pregnancy,
-                                                  n,
-                                                  record_date,
-                                                  pregnancy_start_date,
-                                                  meaning_start_date, 
-                                                  pregnancy_ongoing_date, 
-                                                  meaning_ongoing_date,               
-                                                  pregnancy_end_date, 
-                                                  meaning_end_date, 
-                                                  type_of_pregnancy_end, 
-                                                  codvar, 
-                                                  coding_system,
-                                                  imputed_start_of_pregnancy, 
-                                                  imputed_end_of_pregnancy, 
-                                                  meaning, 
-                                                  PROMPT, 
-                                                  EUROCAT, 
-                                                  CONCEPTSETS, 
-                                                  ITEMSETS,
-                                                  coloured_order,
-                                                  highest_quality,
-                                                  pers_group_id, 
-                                                  number_of_records_in_the_group,
-                                                  number_green,                      
-                                                  number_yellow,
-                                                  number_blue,
-                                                  number_red,
-                                                  order_quality,
-                                                  date_of_principal_record,         
-                                                  date_of_oldest_record, 
-                                                  algorithm_for_reconciliation,
-                                                  description,
-                                                  pregnancy_splitted,
-                                                  survey_id,
-                                                  visit_occurrence_id)]
+D3_groups_of_pregnancies_reconciled_before_excl <- D3_gop[, .(person_id,
+                                                              age_at_start_of_pregnancy,
+                                                              n,
+                                                              record_date,
+                                                              pregnancy_start_date,
+                                                              meaning_start_date, 
+                                                              pregnancy_ongoing_date, 
+                                                              meaning_ongoing_date,               
+                                                              pregnancy_end_date, 
+                                                              meaning_end_date, 
+                                                              type_of_pregnancy_end, 
+                                                              codvar, 
+                                                              coding_system,
+                                                              imputed_start_of_pregnancy, 
+                                                              imputed_end_of_pregnancy, 
+                                                              meaning, 
+                                                              PROMPT, 
+                                                              EUROCAT, 
+                                                              CONCEPTSETS, 
+                                                              ITEMSETS,
+                                                              coloured_order,
+                                                              highest_quality,
+                                                              pers_group_id, 
+                                                              number_of_records_in_the_group,
+                                                              number_green,                      
+                                                              number_yellow,
+                                                              number_blue,
+                                                              number_red,
+                                                              order_quality,
+                                                              date_of_principal_record,         
+                                                              date_of_oldest_record, 
+                                                              algorithm_for_reconciliation,
+                                                              description,
+                                                              pregnancy_splitted,
+                                                              survey_id,
+                                                              visit_occurrence_id)]
 
-setnames(D3_groups_of_pregnancies_reconciled, "pers_group_id", "pregnancy_id")
+setnames(D3_groups_of_pregnancies_reconciled_before_excl, "pers_group_id", "pregnancy_id")
 
-D3_groups_of_pregnancies_reconciled <- D3_groups_of_pregnancies_reconciled[highest_quality == "4_red", 
+D3_groups_of_pregnancies_reconciled_before_excl <- D3_groups_of_pregnancies_reconciled_before_excl[highest_quality == "4_red", 
                                                                            record_selected := as.integer(number_red/2) + 1] 
 
-D3_groups_of_pregnancies_reconciled_before_excl <- D3_groups_of_pregnancies_reconciled[is.na(record_selected), record_selected:=1] 
+D3_groups_of_pregnancies_reconciled_before_excl <- D3_groups_of_pregnancies_reconciled_before_excl[is.na(record_selected), record_selected:=1] 
 
 D3_groups_of_pregnancies_reconciled_before_excl <- D3_groups_of_pregnancies_reconciled_before_excl[is.na(type_of_pregnancy_end), type_of_pregnancy_end := "UKN"]
 
@@ -395,4 +395,4 @@ D3_pregnancy_reconciled_before_excl <- D3_groups_of_pregnancies_reconciled_befor
 save(D3_groups_of_pregnancies_reconciled_before_excl, file=paste0(dirtemp,"D3_groups_of_pregnancies_reconciled_before_excl.RData"))
 save(D3_pregnancy_reconciled_before_excl, file=paste0(dirtemp,"D3_pregnancy_reconciled_before_excl.RData"))
 
-rm(D3_groups_of_pregnancies_reconciled, D3_gop, D3_groups_of_pregnancies_reconciled_before_excl, D3_pregnancy_reconciled_before_excl)
+rm(D3_gop, D3_groups_of_pregnancies_reconciled_before_excl, D3_pregnancy_reconciled_before_excl)

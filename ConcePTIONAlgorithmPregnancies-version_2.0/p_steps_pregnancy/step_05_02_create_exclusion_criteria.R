@@ -72,7 +72,8 @@ D3_pregnancy_reconciled <- D3_pregnancy_reconciled[, .(pregnancy_id,
                                                        description,           
                                                        GGDE,
                                                        GGDS,
-                                                       INSUF_QUALITY)]
+                                                       INSUF_QUALITY,
+                                                       pregnancy_splitted)]
 
 setnames(D3_pregnancy_reconciled, "meaning", "meaning_of_principal_record")
 
@@ -81,16 +82,15 @@ save(D3_groups_of_pregnancies_reconciled, file=paste0(dirtemp,"D3_groups_of_preg
 save(D3_pregnancy_reconciled, file=paste0(dirtemp,"D3_pregnancy_reconciled.RData"))
 
 #### create D3_included_pregnancies and D3_excluded_pregnancies
-D3_included_pregnancies <- D3_pregnancy_reconciled[excluded == 0][, -c("excluded", "INSUF_QUALITY", "GGDE", "GGDS")]
-D3_excluded_pregnancies <- D3_pregnancy_reconciled[excluded == 1][, -c("excluded", "INSUF_QUALITY", "GGDE", "GGDS")]
+#D3_included_pregnancies <- D3_pregnancy_reconciled[excluded == 0][, -c("excluded", "INSUF_QUALITY", "GGDE", "GGDS")]
+#D3_excluded_pregnancies <- D3_pregnancy_reconciled[excluded == 1][, -c("excluded", "INSUF_QUALITY", "GGDE", "GGDS")]
 
 ## saving
-save(D3_included_pregnancies, file=paste0(dirtemp,"D3_included_pregnancies.RData"))
-save(D3_excluded_pregnancies, file=paste0(dirtemp,"D3_excluded_pregnancies.RData"))
+#save(D3_included_pregnancies, file=paste0(dirtemp,"D3_included_pregnancies.RData"))
+#save(D3_excluded_pregnancies, file=paste0(dirtemp,"D3_excluded_pregnancies.RData"))
 
 if (thisdatasource == "BIFAP"){
   fwrite(D3_pregnancy_reconciled, paste0(dirvalidation, "/D3_pregnancy_reconciled.csv"))
 }
 
-rm(D3_groups_of_pregnancies_reconciled, D3_pregnancy_reconciled,
-   D3_included_pregnancies, D3_excluded_pregnancies)
+rm(D3_groups_of_pregnancies_reconciled, D3_pregnancy_reconciled)
