@@ -118,50 +118,52 @@ sample_identifier <- validation_sample[, .(person_id, survey_id)]
 
 print("RETRIEVING ORIGINAL RECORDS: ")
 
-files_temp<-sub('\\.RData$', '', list.files(dirtemp))
-for (studyvar in study_variables_pregnancy){
-  if (studyvar %in% files_temp) {
-    load(paste0(dirtemp, studyvar, ".RData"))
-    assign("study_var_temp", get(studyvar))
-    if(!(nrow(study_var_temp) == 1 & is.na(study_var_temp[1, person_id])) | nrow(study_var_temp) !=0 ){
-      print(studyvar)
-      study_var_temp <- study_var_temp[survey_id %in% record_sample[!is.na(survey_visit_id), survey_visit_id], 
-                                       .(preg_id = NA,
-                                         person_id = NA,
-                                         survey_id,
-                                         visit_occurrence_id = NA,
-                                         n = as.integer(2),
-                                         pregnancy_start_date = NA,
-                                         pregnancy_end_date = NA,
-                                         type_of_pregnancy_end = NA,
-                                         #####################################
-                                         pregnancy_start_date_correct = NA, 
-                                         pregnancy_start_date_difference = NA,
-                                         pregnancy_end_date_correct = NA,
-                                         pregnancy_end_date_difference = NA,
-                                         type_of_pregnancy_end_correct = NA,
-                                         records_belong_to_multiple_pregnancy = NA,
-                                         comments = NA,
-                                         #####################################
-                                         record_date = as.character(date),
-                                         origin = so_origin,
-                                         meaning= so_meaning,
-                                         codvar = NA,
-                                         coding_system = NA,
-                                         conceptset = NA,
-                                         source_column  = as.character(so_source_column),
-                                         source_value  = as.character(so_source_value),
-                                         itemsets = studyvar,
-                                         from_algorithm = 0,
-                                         link = NA,
-                                         sample = NA)]
+if (this_datasource_has_prompt) {
+  files_temp<-sub('\\.RData$', '', list.files(dirtemp))
+  for (studyvar in study_variables_pregnancy){
+    if (studyvar %in% files_temp) {
+      load(paste0(dirtemp, studyvar, ".RData"))
+      assign("study_var_temp", get(studyvar))
+      if(!(nrow(study_var_temp) == 1 & is.na(study_var_temp[1, person_id])) | nrow(study_var_temp) !=0 ){
+        print(studyvar)
+        study_var_temp <- study_var_temp[survey_id %in% record_sample[!is.na(survey_visit_id), survey_visit_id], 
+                                         .(preg_id = NA,
+                                           person_id = NA,
+                                           survey_id,
+                                           visit_occurrence_id = NA,
+                                           n = as.integer(2),
+                                           pregnancy_start_date = NA,
+                                           pregnancy_end_date = NA,
+                                           type_of_pregnancy_end = NA,
+                                           #####################################
+                                           pregnancy_start_date_correct = NA, 
+                                           pregnancy_start_date_difference = NA,
+                                           pregnancy_end_date_correct = NA,
+                                           pregnancy_end_date_difference = NA,
+                                           type_of_pregnancy_end_correct = NA,
+                                           records_belong_to_multiple_pregnancy = NA,
+                                           comments = NA,
+                                           #####################################
+                                           record_date = as.character(date),
+                                           origin = so_origin,
+                                           meaning= so_meaning,
+                                           codvar = NA,
+                                           coding_system = NA,
+                                           conceptset = NA,
+                                           source_column  = as.character(so_source_column),
+                                           source_value  = as.character(so_source_value),
+                                           itemsets = studyvar,
+                                           from_algorithm = 0,
+                                           link = NA,
+                                           sample = NA)]
+        
+        study_var_temp <-  merge(study_var_temp[, -c("person_id")], 
+                                 record_sample[!is.na(survey_id), .(survey_id, person_id)], 
+                                 by="survey_id", all.x = TRUE)
+      }
       
-      study_var_temp <-  merge(study_var_temp[, -c("person_id")], 
-                               record_sample[!is.na(survey_id), .(survey_id, person_id)], 
-                               by="survey_id", all.x = TRUE)
+      list_of_records[[studyvar]] <- study_var_temp
     }
-    
-    list_of_records[[studyvar]] <- study_var_temp
   }
 }
 

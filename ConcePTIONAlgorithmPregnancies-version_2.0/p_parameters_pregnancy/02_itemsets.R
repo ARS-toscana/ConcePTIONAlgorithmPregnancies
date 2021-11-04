@@ -2,7 +2,7 @@
 # DESCRIBE THE ATTRIBUTE-VALUE PAIRS in BIRTH REGISTRY
 ###################################################################
 
-if (this_datasource_has_br_prompt) {
+if (this_datasource_has_prompt) {
   
   # -itemset_AVpair_pregnancy- is a nested list, with 3 levels: foreach study variable, for each coding system of its data domain, the list of AVpair is recorded
   
