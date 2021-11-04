@@ -1,6 +1,6 @@
 ## if present, import D3_Stream_PROMPTS
 files<-sub('\\.RData$', '', list.files(dirtemp))
-if (this_datasource_has_br_prompt) {
+if (this_datasource_has_prompt) {
   
   D3_Stream_PROMPTS<-data.table()
   for (i in 1:length(files)) {

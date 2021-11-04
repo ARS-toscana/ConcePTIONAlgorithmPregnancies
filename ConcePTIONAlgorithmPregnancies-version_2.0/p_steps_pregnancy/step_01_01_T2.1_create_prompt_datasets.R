@@ -4,7 +4,7 @@
 # RETRIEVE FROM SURVEY_ID ALL RECORDS WHOSE meaning IS "birth_registry_mother" AND SAVE
 
 # TO DO: collect and rbind from all files whose name starts with 'SURVEY_ID'
-if (this_datasource_has_br_prompt) {
+if (this_datasource_has_prompt) {
   
   SURVEY_ID_BR <- data.table()
   files<-sub('\\.csv$', '', list.files(dirinput))

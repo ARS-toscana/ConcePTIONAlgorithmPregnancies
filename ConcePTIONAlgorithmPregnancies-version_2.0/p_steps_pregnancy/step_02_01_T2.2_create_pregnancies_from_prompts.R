@@ -1,5 +1,5 @@
 #load SURVEY_ID_BR
-if (this_datasource_has_br_prompt) {
+if (this_datasource_has_prompt) {
   
   load(paste0(dirtemp,"SURVEY_ID_BR.RData"))
   
