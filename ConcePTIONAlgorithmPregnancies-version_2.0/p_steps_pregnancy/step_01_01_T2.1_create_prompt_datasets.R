@@ -12,10 +12,15 @@ if (this_datasource_has_prompt) {
     if (str_detect(files[i],"^SURVEY_ID")) {
       
       SURVEY_ID_BR <-rbind(SURVEY_ID_BR,fread(paste0(dirinput,files[i],".csv"), colClasses = list(character="person_id"))[survey_meaning %in% unlist(meaning_of_survey_pregnancy_this_datasource),])
-  
-    }
-  }
+      
 
+
+    }
+
+  }
+  
+  SURVEY_ID_BR<-SURVEY_ID_BR[,survey_date:=ymd(survey_date)]
+  SURVEY_ID_BR<-unique(SURVEY_ID_BR, by=c("person_id","survey_id","survey_date"))
 
 
   ##### Description #####

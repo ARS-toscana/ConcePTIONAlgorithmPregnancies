@@ -1,14 +1,6 @@
-load (paste0(dirtemp,"SURVEY_ID_BR.RData"))
 
 if (this_datasource_has_prompt) {
-  
-  SURVEY_ID_BR<-SURVEY_ID_BR[,survey_date:=ymd(survey_date)]
-  SURVEY_ID_BR<-unique(SURVEY_ID_BR, by=c("person_id","survey_id","survey_date"))
-  
-  save(SURVEY_ID_BR,file=paste0(dirtemp,"SURVEY_ID_BR.RData"))
-  #rm(SURVEY_ID_BR)
-  
-  
+
   # APPLY RetrieveRecordsFromEAVDatasets TO SURVEY_OBSERVATIONS TO RETRIEVE ALL itemsets IS ASSOCIATED WITH THE STUDY VARIABLES ('LMP', 'USOUNDS',...)
   
   CreateItemsetDatasets(EAVtables = ConcePTION_CDM_EAV_tables_retrieve_so,
@@ -23,14 +15,10 @@ if (this_datasource_has_prompt) {
                         extension = c("csv"))
   
   
+  rm(SURVEY_ID_BR)
+} 
 
-} else {
-  SURVEY_ID_BR<-data.table()
-  save(SURVEY_ID_BR,file=paste0(dirtemp,"SURVEY_ID_BR.RData"))
-  
-}
 
-rm(SURVEY_ID_BR)
 
 
 ## add itemset for Stream 4 -> BIPS, GePaRD
