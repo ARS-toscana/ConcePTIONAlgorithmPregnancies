@@ -1,6 +1,6 @@
 # merge together all the concept sets to define start_of_pregnancy and end_of_pregnancy
 
-if(this_datasource_has_no_procedures){
+if(this_datasource_has_procedures){
   concept_sets_of_pregnancy_procedure<-c()
 } else {
   concept_sets_of_pregnancy_procedure<-concept_sets_of_pregnancy_procedure
@@ -38,7 +38,7 @@ for (conceptvar in c(concept_sets_of_ongoing_of_pregnancy,concept_sets_of_pregna
   }
 }
 
-if(this_datasource_has_no_procedures){
+if(this_datasource_has_procedures){
   
 } else {
   dataset_ongoing_concept_sets<-dataset_ongoing_concept_sets[!is.na(origin_of_procedure),origin_of_event:=origin_of_procedure][,-"origin_of_procedure"]
