@@ -27,6 +27,6 @@ Subjects are first selected as experiencing the end of a pregnancy or an ongoing
 The resulting sets of pregnancies of a same person are then compared with each other, to identify which pregnancies are in fact the same, recorded oin multiple occasions. 
 
 
-Finally, all records belonging to the same person will be reconciled. The dataset D3_pregnancy_reconciled will be generated, where the unit of observation is no longer the record but the pregnancy. 
+Finally, all records belonging to the same pregnancy will be reconciled. The dataset D3_pregnancy_reconciled will be generated, where the unit of observation is no longer the record but the pregnancy. 
 
  The datamodel of the final output can be found at the following [link](https://docs.google.com/spreadsheets/d/1MIXsyoahWilwsWFELRz0ZOscJCBSha5qySMu9unxObI/edit#gid=0)
