@@ -252,8 +252,9 @@ concept_set_codes_pregnancy[["Ectopicpregnancy"]][["SNOMED"]] <- c("111425004","
 # -itemset_AVpair_pregnancy- is a nested list, with 3 levels: foreach study variable, for each coding system of its data domain, the list of AVpair is recorded
 # fetal_nuchal_translucency
 
-if(this_datasource_has_procedures) {
+if(!this_datasource_has_procedures) {
   concept_sets_of_pregnancy_procedure<-c()
+  concept_sets_of_pregnancy_procedure_not_in_pregnancy <- c()
   
 } else {
   

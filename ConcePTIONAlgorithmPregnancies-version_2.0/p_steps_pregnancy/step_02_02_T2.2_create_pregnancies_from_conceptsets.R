@@ -1,10 +1,10 @@
 # merge together all the concept sets to define start_of_pregnancy and end_of_pregnancy
 
-if(this_datasource_has_procedures){
-  concept_sets_of_pregnancy_procedure<-c()
-} else {
-  concept_sets_of_pregnancy_procedure<-concept_sets_of_pregnancy_procedure
-}
+# if(!this_datasource_has_procedures){
+#   concept_sets_of_pregnancy_procedure<-c()
+# } else {
+#   concept_sets_of_pregnancy_procedure<-concept_sets_of_pregnancy_procedure
+# }
 
 for (conceptvar in c(concept_sets_of_start_of_pregnancy,concept_sets_of_ongoing_of_pregnancy,concept_sets_of_end_of_pregnancy,concept_sets_of_pregnancy_procedure)){
   load(paste0(dirtemp,conceptvar,".RData"))
@@ -39,8 +39,6 @@ for (conceptvar in c(concept_sets_of_ongoing_of_pregnancy,concept_sets_of_pregna
 }
 
 if(this_datasource_has_procedures){
-  
-} else {
   dataset_ongoing_concept_sets<-dataset_ongoing_concept_sets[!is.na(origin_of_procedure),origin_of_event:=origin_of_procedure][,-"origin_of_procedure"]
   dataset_ongoing_concept_sets<-dataset_ongoing_concept_sets[!is.na(procedure_code_vocabulary),event_record_vocabulary:=procedure_code_vocabulary][,-"procedure_code_vocabulary"]
   dataset_ongoing_concept_sets<-dataset_ongoing_concept_sets[!is.na(meaning_of_procedure),meaning_of_event:=meaning_of_procedure][,-"meaning_of_procedure"]

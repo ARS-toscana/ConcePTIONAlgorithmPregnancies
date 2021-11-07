@@ -262,45 +262,47 @@ for (concept in concept_set_list_1){
   }
 }
 
-for (concept in concept_set_list_2){
-  if (concept %in% files_temp) {
-    load(paste0(dirtemp, concept, ".RData"))
-    assign("concept_temp", get(concept))
-    if(nrow(concept_temp)>0){
-      print(concept)
-      concept_temp <- concept_temp[visit_occurrence_id %in% record_sample[, survey_visit_id] & 
-                                     person_id %in% record_sample[, person_id],  
-                                   .(preg_id = NA,
-                                     person_id,
-                                     survey_id = NA,
-                                     visit_occurrence_id,
-                                     n = as.integer(2),
-                                     pregnancy_start_date = NA,
-                                     pregnancy_end_date = NA,
-                                     type_of_pregnancy_end = NA,
-                                     #####################################
-                                     pregnancy_start_date_correct = NA, 
-                                     pregnancy_start_date_difference = NA,
-                                     pregnancy_end_date_correct = NA,
-                                     pregnancy_end_date_difference = NA,
-                                     type_of_pregnancy_end_correct = NA,
-                                     records_belong_to_multiple_pregnancy = NA,
-                                     comments = NA,
-                                     #####################################
-                                     record_date = as.character(date),
-                                     origin = origin_of_procedure,
-                                     meaning= meaning_of_procedure,
-                                     codvar,
-                                     coding_system = NA,
-                                     conceptset = concept,
-                                     source_column  = NA,
-                                     source_value  = NA,
-                                     itemsets = NA,
-                                     from_algorithm = 0,
-                                     link = NA,
-                                     sample = NA)]
-      
-     list_of_records[[concept]] <- concept_temp
+if(this_datasource_has_procedures){
+  for (concept in concept_set_list_2){
+    if (concept %in% files_temp) {
+      load(paste0(dirtemp, concept, ".RData"))
+      assign("concept_temp", get(concept))
+      if(nrow(concept_temp)>0){
+        print(concept)
+        concept_temp <- concept_temp[visit_occurrence_id %in% record_sample[, survey_visit_id] & 
+                                       person_id %in% record_sample[, person_id],  
+                                     .(preg_id = NA,
+                                       person_id,
+                                       survey_id = NA,
+                                       visit_occurrence_id,
+                                       n = as.integer(2),
+                                       pregnancy_start_date = NA,
+                                       pregnancy_end_date = NA,
+                                       type_of_pregnancy_end = NA,
+                                       #####################################
+                                       pregnancy_start_date_correct = NA, 
+                                       pregnancy_start_date_difference = NA,
+                                       pregnancy_end_date_correct = NA,
+                                       pregnancy_end_date_difference = NA,
+                                       type_of_pregnancy_end_correct = NA,
+                                       records_belong_to_multiple_pregnancy = NA,
+                                       comments = NA,
+                                       #####################################
+                                       record_date = as.character(date),
+                                       origin = origin_of_procedure,
+                                       meaning= meaning_of_procedure,
+                                       codvar,
+                                       coding_system = NA,
+                                       conceptset = concept,
+                                       source_column  = NA,
+                                       source_value  = NA,
+                                       itemsets = NA,
+                                       from_algorithm = 0,
+                                       link = NA,
+                                       sample = NA)]
+        
+       list_of_records[[concept]] <- concept_temp
+      }
     }
   }
 }
