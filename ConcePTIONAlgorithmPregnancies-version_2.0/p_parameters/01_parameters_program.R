@@ -140,7 +140,6 @@ for (t in list_tables){
 # assess datasource-specific parameters
 
 # gap allowed for CreateSpells
-gap_allowed_thisdatasource = ifelse(thisdatasource == "TO_ADD",21,1) #@ use this as example
 gap_allowed_thisdatasource = ifelse(thisdatasource == "ARS",21,1)
 
 # datasources with prescriptions instead of dispensations

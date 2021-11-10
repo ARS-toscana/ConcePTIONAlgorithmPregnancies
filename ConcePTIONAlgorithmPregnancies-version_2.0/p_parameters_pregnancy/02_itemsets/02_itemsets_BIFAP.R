@@ -30,12 +30,12 @@ itemset_AVpair_pregnancy[["GESTAGE_FROM_USOUNDS_DAYS"]][[files[i]]][["BIFAP"]] <
 itemset_AVpair_pregnancy[["GESTAGE_FROM_USOUNDS_WEEKS"]][[files[i]]][["BIFAP"]]  <- list()
 
 # specification DATESTARTPREGNANCY
-itemset_AVpair_pregnancy[["DATESTARTPREGNANCY"]][[files[i]]][["BIFAP"]] <- list(list("EMB_BIFAP", "EMB_FUR_ORI"), list("EMB_BIFAP", "EMB_FUR_IMP"))
+itemset_AVpair_pregnancy[["DATESTARTPREGNANCY"]][[files[i]]][["BIFAP"]] <- list()
 
 
 ########################################## END ###################################################### 
 
-itemset_AVpair_pregnancy[["DATEENDPREGNANCY"]][[files[i]]][["BIFAP"]] <- list(list("EMB_BIFAP", "EMB_F_FIN"))
+itemset_AVpair_pregnancy[["DATEENDPREGNANCY"]][[files[i]]][["BIFAP"]] <- list()
 
 ### specification END_LIVEBIRTH
 itemset_AVpair_pregnancy[["END_LIVEBIRTH"]][[files[i]]][["BIFAP"]] <- list()
@@ -52,16 +52,16 @@ itemset_AVpair_pregnancy[["END_ABORTION"]][[files[i]]][["BIFAP"]] <- list()
 
 ########################################### TYPE #######################################
 
-itemset_AVpair_pregnancy[["TYPE"]][[files[i]]][["BIFAP"]] <- list(list("EMB_BIFAP", "EMB_GRUPO_FIN"))
+itemset_AVpair_pregnancy[["TYPE"]][[files[i]]][["BIFAP"]] <- list()
 
 
 ################################ DICTINARY OF TYPE ##################################
 dictonary_of_itemset_pregnancy <- vector(mode="list") 
 
-dictonary_of_itemset_pregnancy[["TYPE"]][["BIFAP"]][["LB"]]<-list(list("EMB_BIFAP", "1"))
-dictonary_of_itemset_pregnancy[["TYPE"]][["BIFAP"]][["SB"]]<-list(list("EMB_BIFAP", "2"))
+dictonary_of_itemset_pregnancy[["TYPE"]][["BIFAP"]][["LB"]]<-list()
+dictonary_of_itemset_pregnancy[["TYPE"]][["BIFAP"]][["SB"]]<-list()
 dictonary_of_itemset_pregnancy[["TYPE"]][["BIFAP"]][["SA"]]<-list()
-dictonary_of_itemset_pregnancy[["TYPE"]][["BIFAP"]][["T"]]<-list(list("EMB_BIFAP", "3"))
+dictonary_of_itemset_pregnancy[["TYPE"]][["BIFAP"]][["T"]]<-list()
 dictonary_of_itemset_pregnancy[["TYPE"]][["BIFAP"]][["MD"]]<-list()
 dictonary_of_itemset_pregnancy[["TYPE"]][["BIFAP"]][["ECT"]]<-list()
 dictonary_of_itemset_pregnancy[["TYPE"]][["BIFAP"]][["UNK"]]<-list()
