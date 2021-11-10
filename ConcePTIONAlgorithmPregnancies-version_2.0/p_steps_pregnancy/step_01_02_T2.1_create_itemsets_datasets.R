@@ -38,7 +38,7 @@ if (this_datasource_has_itemsets_stream_from_medical_obs){
   
   
   files_temp<-sub('\\.RData$', '', list.files(dirtemp))
-  for (item in study_itemset_of_our_study) {
+  for (item in study_itemset_pregnancy) {
     if (item %in% files_temp) {
       if( nrow(get(item)) > 0){
         assign("item_temp", get(item))
