@@ -7,6 +7,7 @@
 
 ####### LOAD itemsets for CASERTA
 
+itemset_AVpair_pregnancy <- vector(mode="list")
 
 ########################################## START ######################################################   
 

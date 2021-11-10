@@ -6,6 +6,7 @@
 # changelog: 
 
 ####### LOAD itemsets for PHARMO
+itemset_AVpair_pregnancy <- vector(mode="list")
 
 
 ########################################## START ######################################################   

@@ -6,6 +6,7 @@
 # changelog: 
 
 ####### LOAD itemsets for CPRD
+itemset_AVpair_pregnancy <- vector(mode="list")
 
 
 ########################################## START ######################################################   

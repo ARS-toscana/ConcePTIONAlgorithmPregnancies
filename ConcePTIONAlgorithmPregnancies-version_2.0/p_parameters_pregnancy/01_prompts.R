@@ -28,10 +28,10 @@ if (this_datasource_has_visit_occurrence_prompt){
   source(paste0(dirparpregn,"01_prompts/01_prompts_",thisdatasource,".R"))
   
   
-  meaning_of_survey_our_study_this_datasource<-vector(mode="list")
+  meaning_of_survey_pregnancy_this_datasource<-vector(mode="list")
   
-  for (i in 1:length(meaning_of_survey_our_study)) {
-    if(names(meaning_of_survey_our_study)[[i]]==thisdatasource) meaning_of_survey_our_study_this_datasource<-meaning_of_survey_our_study[[i]]
+  for (i in 1:length(meaning_of_survey_pregnancy)) {
+    if(names(meaning_of_survey_pregnancy)[[i]]==thisdatasource) meaning_of_survey_pregnancy_this_datasource<-meaning_of_survey_pregnancy[[i]]
   }
   
   

@@ -6,6 +6,7 @@
 # changelog: 
 
 ####### LOAD itemsets for VID
+itemset_AVpair_pregnancy <- vector(mode="list")
 
 
 ########################################## START ######################################################   

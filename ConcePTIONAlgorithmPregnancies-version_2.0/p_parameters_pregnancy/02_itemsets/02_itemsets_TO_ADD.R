@@ -6,6 +6,7 @@
 # changelog: 
 
 ####### LOAD itemsets for TO_ADD
+itemset_AVpair_pregnancy <- vector(mode="list")
 
 
 ########################################## START ######################################################   

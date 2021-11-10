@@ -8,7 +8,6 @@ if (this_datasource_has_prompt) {
   
   study_variables_pregnancy <- c("DATESTARTPREGNANCY","GESTAGE_FROM_DAPS_CRITERIA_DAYS","GESTAGE_FROM_DAPS_CRITERIA_WEEKS","GESTAGE_FROM_USOUNDS_DAYS","GESTAGE_FROM_USOUNDS_WEEKS","GESTAGE_FROM_LMP_WEEKS","GESTAGE_FROM_LMP_DAYS", "DATEENDPREGNANCY","END_LIVEBIRTH","END_STILLBIRTH","END_TERMINATION","END_ABORTION", "TYPE")
   
-  itemset_AVpair_pregnancy <- vector(mode="list")
   print(paste0("Load ITEMSETS in SURVEY_OBSERVATIONS for ",thisdatasource))
   
   files<-sub('\\.csv$', '', list.files(dirinput))
