@@ -100,9 +100,8 @@ if (this_datasource_has_itemsets_stream_from_medical_obs){
                             PathOutputFolder= dirdescribe01_items)
       }
     } 
-    suppressWarnings(rm(list = study_itemset_pregnancy))
   }
-  
+  suppressWarnings(rm(list = study_itemset_pregnancy))
 } else {
   print("this datasource has NO itemsets stream")
 }
