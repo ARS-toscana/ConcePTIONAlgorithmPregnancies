@@ -1,4 +1,3 @@
-
 if (this_datasource_has_prompt) {
   
   # APPLY RetrieveRecordsFromEAVDatasets TO SURVEY_OBSERVATIONS TO RETRIEVE ALL itemsets IS ASSOCIATED WITH THE STUDY VARIABLES ('LMP', 'USOUNDS',...)
@@ -100,12 +99,8 @@ if (this_datasource_has_itemsets_stream_from_medical_obs){
                             PathOutputFolder= dirdescribe01_items)
       }
     } 
-    suppressWarnings(rm(list = study_itemset_pregnancy))
   }
-  
+  suppressWarnings(rm(list = study_itemset_pregnancy))
 } else {
   print("this datasource has NO itemsets stream")
 }
-
-
-
