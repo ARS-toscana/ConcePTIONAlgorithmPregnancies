@@ -16,6 +16,31 @@ if (this_datasource_has_prompt) {
   
   
   rm(SURVEY_ID_BR)
+  ################################################################################
+  ###########################       Description        ###########################
+  ################################################################################
+  files_it<-sub('\\.RData$', '', list.files(dirtemp))
+  
+  for (item in study_variables_pregnancy) {
+    if( item %in% files_it ){
+      if( !(nrow(get(item)) == 1 & is.na(get(item)[1, person_id])) ){
+        print(paste0("Describing ", item))
+        DescribeThisDataset(Dataset = get(item),
+                            Individual=T,
+                            ColumnN=NULL,
+                            HeadOfDataset=FALSE,
+                            StructureOfDataset=FALSE,
+                            NameOutputFile=item,
+                            Cols=list("so_source_column", "so_origin", "so_meaning", "Table_cdm"),
+                            ColsFormat=list("categorical", "categorical", "categorical", "categorical"),
+                            DateFormat_ymd=FALSE,
+                            DetailInformation=TRUE,
+                            PathOutputFolder= dirdescribe01_items)
+      }
+    } 
+  }
+  suppressWarnings(rm(list = study_variables_pregnancy))
+  
 } 
 
 
@@ -57,26 +82,7 @@ if (this_datasource_has_itemsets_stream_from_medical_obs){
   
   
   files_it<-sub('\\.RData$', '', list.files(dirtemp))
-  
-  for (item in study_variables_pregnancy) {
-    if( item %in% files_it ){
-      if( !(nrow(get(item)) == 1 & is.na(get(item)[1, person_id])) ){
-        print(paste0("Describing ", item))
-        DescribeThisDataset(Dataset = get(item),
-                            Individual=T,
-                            ColumnN=NULL,
-                            HeadOfDataset=FALSE,
-                            StructureOfDataset=FALSE,
-                            NameOutputFile=item,
-                            Cols=list("so_source_column", "so_origin", "so_meaning", "Table_cdm"),
-                            ColsFormat=list("categorical", "categorical", "categorical", "categorical"),
-                            DateFormat_ymd=FALSE,
-                            DetailInformation=TRUE,
-                            PathOutputFolder= dirdescribe01_items)
-      }
-    } 
-  }
-  
+
   for (item in study_itemset_pregnancy) {
     if( item %in% files_it ){
       if( !(nrow(get(item)) == 1 & is.na(get(item)[1, person_id])) ){
@@ -94,7 +100,6 @@ if (this_datasource_has_itemsets_stream_from_medical_obs){
                             PathOutputFolder= dirdescribe01_items)
       }
     } 
-    suppressWarnings(rm(list = study_variables_pregnancy))
     suppressWarnings(rm(list = study_itemset_pregnancy))
   }
   
