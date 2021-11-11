@@ -37,7 +37,7 @@ if (this_datasource_has_itemsets_stream_from_medical_obs){
     dataset_item_sets<-dataset_item_sets[item_set=="LastMestrualPeriod", `:=`(pregnancy_start_date=ymd(mo_source_value), meaning_start_date=paste0("from_itemset_",item_set)) ]
       
      #the pregnancy is ongoing and has a start date but has no end, then at term end of the pregnancy is assumed for the imputation
-     dataset_item_sets<-dataset_item_sets[, `:=`(pregnancy_end_date = pregnancy_start_date + 280, imputed_end_of_pregnancy=1, meaning_end_date=paste0("imputed_itemset_from_",item_set) )]
+     dataset_item_sets<-dataset_item_sets[, `:=`(pregnancy_end_date = pregnancy_start_date + 280, imputed_end_of_pregnancy=1,  imputed_start_of_pregnancy=0, meaning_end_date=paste0("imputed_itemset_from_",item_set))]
       
      dataset_item_sets<-dataset_item_sets[,type_of_pregnancy_end:="UNK"]
       
@@ -55,7 +55,7 @@ if (this_datasource_has_itemsets_stream_from_medical_obs){
   dataset_item_sets[,pregnancy_id:=paste0(visit_occurrence_id,"_",person_id,"_",record_date)] 
   
   # keep only vars neeed
-  D3_Stream_ITEMSETS <- dataset_item_sets[,.(pregnancy_id,person_id,record_date,pregnancy_start_date,pregnancy_ongoing_date,pregnancy_end_date,meaning_start_date,meaning_end_date,meaning_ongoing_date,type_of_pregnancy_end,visit_occurrence_id,mo_meaning,mo_source_column,mo_source_value,mo_unit,ITEMSETS,origin)] # 
+  D3_Stream_ITEMSETS <- dataset_item_sets[,.(pregnancy_id,person_id,record_date,pregnancy_start_date,pregnancy_ongoing_date,pregnancy_end_date,meaning_start_date,meaning_end_date,meaning_ongoing_date,type_of_pregnancy_end,imputed_end_of_pregnancy,imputed_start_of_pregnancy,visit_occurrence_id,mo_meaning,mo_source_column,mo_source_value,mo_unit,ITEMSETS,origin)] # 
  
     
     
