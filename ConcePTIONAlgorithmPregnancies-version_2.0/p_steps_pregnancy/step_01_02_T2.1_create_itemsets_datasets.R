@@ -1,6 +1,5 @@
-
 if (this_datasource_has_prompt) {
-
+  
   # APPLY RetrieveRecordsFromEAVDatasets TO SURVEY_OBSERVATIONS TO RETRIEVE ALL itemsets IS ASSOCIATED WITH THE STUDY VARIABLES ('LMP', 'USOUNDS',...)
   
   CreateItemsetDatasets(EAVtables = ConcePTION_CDM_EAV_tables_retrieve_so,
@@ -74,8 +73,8 @@ if (this_datasource_has_itemsets_stream_from_medical_obs){
     }
   }
   
-
-
+  
+  
   ################################################################################
   ###########################       Description        ###########################
   ################################################################################
@@ -105,6 +104,3 @@ if (this_datasource_has_itemsets_stream_from_medical_obs){
 } else {
   print("this datasource has NO itemsets stream")
 }
-
-
-
