@@ -81,7 +81,7 @@ if (this_datasource_has_itemsets_stream_from_medical_obs){
   
   
   files_it<-sub('\\.RData$', '', list.files(dirtemp))
-  
+
   for (item in study_itemset_pregnancy) {
     if( item %in% files_it ){
       if( !(nrow(get(item)) == 1 & is.na(get(item)[1, person_id])) ){
