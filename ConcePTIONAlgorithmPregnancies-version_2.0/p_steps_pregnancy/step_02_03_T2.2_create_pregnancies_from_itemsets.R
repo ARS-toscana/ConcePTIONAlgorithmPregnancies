@@ -3,7 +3,7 @@
 if (this_datasource_has_itemsets_stream_from_medical_obs){
     
   # merge together all the item sets to define start_of_pregnancy and end_of_pregnancy
-  study_itemset_of_pregnancy <- c("LastMestrualPeriod","GestationalAge")
+  study_itemset_of_pregnancy <- c("LastMestrualPeriod","GestationalAge", "PregnancyTest")
   
   for (itemvar in study_itemset_of_pregnancy){
     load(paste0(dirtemp,itemvar,".RData"))
@@ -41,7 +41,25 @@ if (this_datasource_has_itemsets_stream_from_medical_obs){
       
      dataset_item_sets<-dataset_item_sets[,type_of_pregnancy_end:="UNK"]
       
-    }
+  }
+  
+  if (thisdatasource=="PHARMO"){
+    
+    # select only POSITIVE records
+    dataset_item_sets<-dataset_item_sets[item_set=="PregnancyTest" & mo_source_value==unlist(dictonary_of_itemset_PregnancyTest$PregnancyTest),]
+                                         
+    # start creating pregnancy_ongoing_date
+    dataset_item_sets<-dataset_item_sets[,`:=`(pregnancy_ongoing_date=date, meaning_ongoing_date=paste0("from_itemset_",item_set,"_positive"))]
+    
+    # then pregnancy_start_date
+    dataset_item_sets<-dataset_item_sets[item_set=="PregnancyTest", `:=`(pregnancy_start_date=pregnancy_ongoing_date - days_from_start_PregnancyTest, meaning_start_date=paste0("from_itemset_",item_set,"_positive")) ]
+
+    #the pregnancy is ongoing and has a start date but has no end, then at term end of the pregnancy is assumed for the imputation
+    dataset_item_sets<-dataset_item_sets[item_set=="PregnancyTest", `:=`(pregnancy_end_date = pregnancy_start_date + days_to_end_PregnancyTest, imputed_end_of_pregnancy=1,  imputed_start_of_pregnancy=0, meaning_end_date=paste0("imputed_itemset_from_",item_set,"_positive"))]
+    
+    dataset_item_sets<-dataset_item_sets[,type_of_pregnancy_end:="UNK"]
+    
+  }
     
 
   #dataset_concept_sets<-dataset_concept_sets[,TOPFA:=""]
@@ -60,7 +78,7 @@ if (this_datasource_has_itemsets_stream_from_medical_obs){
 
     
   rm( dataset_item_sets)
-  rm(LastMestrualPeriod, GestationalAge)
+  rm(LastMestrualPeriod, GestationalAge, PregnancyTest)
   
   ##### Description #####
   DescribeThisDataset(Dataset = D3_Stream_ITEMSETS,

@@ -82,3 +82,20 @@ itemsetMED_AVpair_pregnancy[["LastMestrualPeriod"]][[files[i]]][["BIFAP"]] <- li
 ### specification GestationalAge
 itemsetMED_AVpair_pregnancy[["GestationalAge"]][[files[i]]][["BIFAP"]] <- list(list("datos_generales_paciente","GA"))
 
+
+### specification PregnancyTest
+itemsetMED_AVpair_pregnancy[["PregnancyTest"]][[files[i]]][["BIFAP"]] <- list()
+
+
+
+################################ DICTINARY OF PregnancyTest ##################################
+dictonary_of_itemset_PregnancyTest <- vector(mode="list") 
+
+dictonary_of_itemset_PregnancyTest[["PregnancyTest"]][["positive"]]<-list(list("positive")) 
+
+
+
+################################ PARAMETERS for PregnancyTest ##################################
+days_from_start_PregnancyTest <- 30
+days_to_end_PregnancyTest <- 280
+
