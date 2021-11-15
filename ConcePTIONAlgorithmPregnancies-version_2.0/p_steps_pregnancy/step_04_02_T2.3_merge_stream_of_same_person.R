@@ -43,11 +43,11 @@ load(paste0(dirtemp,"D3_Stream_CONCEPTSETS_check.RData"))
 # put together all the D3_Stream..
 groups_of_pregnancies<-rbind(D3_Stream_CONCEPTSETS_check,D3_Stream_PROMPTS_check,D3_Stream_EUROCAT_check,D3_Stream_ITEMSETS_check, fill=T)
 ## added check for missing variables
-if(str_detect(names(groups_of_pregnancies),"survey_id")) groups_of_pregnancies<-groups_of_pregnancies[,survey_id:=""]
-if(str_detect(names(groups_of_pregnancies),"visit_occurrence_id")) groups_of_pregnancies<-groups_of_pregnancies[,visit_occurrence_id:=""]
-if(str_detect(names(groups_of_pregnancies),"so_source_value")) groups_of_pregnancies<-groups_of_pregnancies[,so_source_value:=""]
-if(str_detect(names(groups_of_pregnancies),"coding_system")) groups_of_pregnancies<-groups_of_pregnancies[,coding_system:=""]
-if(str_detect(names(groups_of_pregnancies),"codvar")) groups_of_pregnancies<-groups_of_pregnancies[,codvar:=""]
+if(!str_detect(names(groups_of_pregnancies),"survey_id")) groups_of_pregnancies<-groups_of_pregnancies[,survey_id:=""]
+if(!str_detect(names(groups_of_pregnancies),"visit_occurrence_id")) groups_of_pregnancies<-groups_of_pregnancies[,visit_occurrence_id:=""]
+if(!str_detect(names(groups_of_pregnancies),"so_source_value")) groups_of_pregnancies<-groups_of_pregnancies[,so_source_value:=""]
+if(!str_detect(names(groups_of_pregnancies),"coding_system")) groups_of_pregnancies<-groups_of_pregnancies[,coding_system:=""]
+if(!str_detect(names(groups_of_pregnancies),"codvar")) groups_of_pregnancies<-groups_of_pregnancies[,codvar:=""]
 
 groups_of_pregnancies<-groups_of_pregnancies[,.(pregnancy_id,person_id,record_date,pregnancy_start_date,meaning_start_date,pregnancy_ongoing_date,meaning_ongoing_date,pregnancy_end_date,meaning_end_date,type_of_pregnancy_end,codvar, coding_system, imputed_start_of_pregnancy,imputed_end_of_pregnancy,origin,meaning,so_source_value,survey_id,visit_occurrence_id,PROMPT,EUROCAT,CONCEPTSETS,CONCEPTSET,ITEMSETS)]
 
