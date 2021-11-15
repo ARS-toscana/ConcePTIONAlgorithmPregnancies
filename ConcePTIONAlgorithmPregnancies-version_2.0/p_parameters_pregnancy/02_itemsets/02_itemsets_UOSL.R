@@ -59,9 +59,9 @@ itemset_AVpair_pregnancy[["TYPE"]][[files[i]]][["UOSL"]] <- list(list("MBRN","do
 dictonary_of_itemset_pregnancy <- vector(mode="list") 
 
 dictonary_of_itemset_pregnancy[["TYPE"]][["UOSL"]][["LB"]]<-list(list("MBRN", "0"), list("MBRN", "1"), list("MBRN", "2"), list("MBRN", "3"), list("MBRN", "4"), list("MBRN", "5"), list("MBRN", "6"), list("MBRN", "11"), list("MBRN", "12"), list("MBRN", "13"))
-dictonary_of_itemset_pregnancy[["TYPE"]][["UOSL"]][["SB"]]<-list(list("MBRN", "7"), list("MBRN", "8"), list("MBRN", "9"))
+dictonary_of_itemset_pregnancy[["TYPE"]][["UOSL"]][["SB"]]<-list()
 dictonary_of_itemset_pregnancy[["TYPE"]][["UOSL"]][["SA"]]<-list()
 dictonary_of_itemset_pregnancy[["TYPE"]][["UOSL"]][["T"]]<-list(list("MBRN", "10")) 
 dictonary_of_itemset_pregnancy[["TYPE"]][["UOSL"]][["MD"]]<-list()
 dictonary_of_itemset_pregnancy[["TYPE"]][["UOSL"]][["ECT"]]<-list()
-dictonary_of_itemset_pregnancy[["TYPE"]][["UOSL"]][["UNK"]]<-list()
+dictonary_of_itemset_pregnancy[["TYPE"]][["UOSL"]][["UNK"]]<-list(list("MBRN", "7"), list("MBRN", "8"), list("MBRN", "9"))
