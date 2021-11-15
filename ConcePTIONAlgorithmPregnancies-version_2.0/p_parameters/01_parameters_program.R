@@ -141,9 +141,10 @@ for (t in list_tables){
 
 # gap allowed for CreateSpells
 gap_allowed_thisdatasource = ifelse(thisdatasource == "ARS",21,1)
+#gap_allowed_thisdatasource = ifelse(thisdatasource == "TO_ADD",21,1) #@ use this as example
 
 # datasources with prescriptions instead of dispensations
-datasources_prescriptions <- c("TO_ADD","CPRD") #@ use "TO_ADD" as example
+datasources_prescriptions <- c("TO_ADD","CPRD","PHARMO") #@ use "TO_ADD" as example
 thisdatasource_has_prescriptions <- ifelse(thisdatasource %in% datasources_prescriptions,TRUE,FALSE)
 
 

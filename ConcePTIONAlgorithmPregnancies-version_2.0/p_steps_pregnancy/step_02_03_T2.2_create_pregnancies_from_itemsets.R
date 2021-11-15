@@ -25,7 +25,7 @@ if (this_datasource_has_itemsets_stream_from_medical_obs){
   setorderv(dataset_item_sets,c("person_id","date"), na.last = T)
   
   
-  if (thisdatasource=="TEST" | thisdatasource=="BIFAP"){
+  if (thisdatasource=="BIFAP"){
     
     # start creating pregnancy_ongoing_date
     dataset_item_sets<-dataset_item_sets[,`:=`(pregnancy_ongoing_date=date, meaning_ongoing_date=paste0("from_itemset_",item_set))]
