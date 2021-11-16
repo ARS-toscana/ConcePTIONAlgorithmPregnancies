@@ -43,11 +43,12 @@ load(paste0(dirtemp,"D3_excluded_pregnancies_from_CONCEPTSETS.RData"))
 groups_of_excluded_pregnancies<-rbind(D3_excluded_pregnancies_from_CONCEPTSETS,D3_excluded_pregnancies_from_EUROCAT,D3_excluded_pregnancies_from_PROMPT,D3_excluded_pregnancies_from_ITEMSETS, fill=T)[is.na(pregnancy_with_dates_out_of_range),pregnancy_with_dates_out_of_range:=0][is.na(no_linked_to_person),no_linked_to_person:=0][is.na(person_not_female),person_not_female:=0][is.na(person_not_in_fertile_age),person_not_in_fertile_age:=0][is.na(pregnancy_start_in_spells),pregnancy_start_in_spells:=0][is.na(pregnancy_end_in_spells),pregnancy_end_in_spells:=0]
 
 ## added check for missing variables
-if(!str_detect(names(groups_of_pregnancies),"survey_id")) groups_of_pregnancies<-groups_of_pregnancies[,survey_id:=""]
-if(!str_detect(names(groups_of_pregnancies),"visit_occurrence_id")) groups_of_pregnancies<-groups_of_pregnancies[,visit_occurrence_id:=""]
-if(!str_detect(names(groups_of_pregnancies),"so_source_value")) groups_of_pregnancies<-groups_of_pregnancies[,so_source_value:=""]
-if(!str_detect(names(groups_of_pregnancies),"coding_system")) groups_of_pregnancies<-groups_of_pregnancies[,coding_system:=""]
-if(!str_detect(names(groups_of_pregnancies),"codvar")) groups_of_pregnancies<-groups_of_pregnancies[,codvar:=""]
+if(sum(!str_detect(names(groups_of_excluded_pregnancies),"survey_id")) == length(names(groups_of_excluded_pregnancies))) {
+  groups_of_excluded_pregnancies<-groups_of_excluded_pregnancies[,survey_id:=""] }
+if(sum(!str_detect(names(groups_of_excluded_pregnancies),"visit_occurrence_id")) == length(names(groups_of_excluded_pregnancies))) {
+  groups_of_excluded_pregnancies<-groups_of_excluded_pregnancies[,visit_occurrence_id:=""]}
+
+
 groups_of_excluded_pregnancies<-groups_of_excluded_pregnancies[,.(pregnancy_id,person_id,survey_id,visit_occurrence_id,PROMPT,EUROCAT,CONCEPTSETS,CONCEPTSET,ITEMSETS, pregnancy_with_dates_out_of_range,no_linked_to_person,person_not_female,person_not_in_fertile_age,pregnancy_start_in_spells,pregnancy_end_in_spells)]# 
 
 groups_of_excluded_pregnancies<-groups_of_excluded_pregnancies[is.na(PROMPT),PROMPT:="no"]
