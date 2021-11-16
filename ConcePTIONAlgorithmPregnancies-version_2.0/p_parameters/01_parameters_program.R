@@ -126,6 +126,9 @@ CDM_SOURCE<- fread(paste0(dirinput,"CDM_SOURCE.csv"))
 thisdatasource <- as.character(CDM_SOURCE[1,3])
 print(paste("This datasource is", thisdatasource))
 
+study_end <- min(as.Date(as.character(CDM_SOURCE[1,"date_creation"]), date_format),
+                 as.Date(as.character(CDM_SOURCE[1,"recommended_end_date"]), date_format), na.rm = T)
+
 # use information from INSTANCE table
 INSTANCE<- fread(paste0(dirinput,"INSTANCE.csv"), fill=T)
 list_tables<-unique(INSTANCE[,source_table_name])
