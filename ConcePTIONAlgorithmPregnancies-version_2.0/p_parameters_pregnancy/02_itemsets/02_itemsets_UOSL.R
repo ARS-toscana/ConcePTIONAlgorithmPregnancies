@@ -67,16 +67,13 @@ dictonary_of_itemset_pregnancy[["TYPE"]][["UOSL"]][["UNK"]]<-list(list("MBRN", "
 
 
 
-
 ##### FROM MEDICAL_OBSERVATION
 
 ### specification LastMestrualPeriod
 itemsetMED_AVpair_pregnancy[["LastMestrualPeriod"]][[files[i]]][["UOSL"]] <- list(list("MBRN","smensd_dato"))
 
-
 ### specification GestationalAge
 itemsetMED_AVpair_pregnancy[["GestationalAge"]][[files[i]]][["UOSL"]] <- list()
-
 
 ### specification PregnancyTest
 itemsetMED_AVpair_pregnancy[["PregnancyTest"]][[files[i]]][["UOSL"]] <- list()
@@ -84,9 +81,7 @@ itemsetMED_AVpair_pregnancy[["PregnancyTest"]][[files[i]]][["UOSL"]] <- list()
 
 
 ################################ DICTINARY OF PregnancyTest ##################################
-
 dictonary_of_itemset_PregnancyTest[["PregnancyTest"]][["positive"]]<-list(list("positive")) 
-
 
 
 ################################ PARAMETERS for PregnancyTest ##################################
