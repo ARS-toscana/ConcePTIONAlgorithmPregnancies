@@ -7,7 +7,6 @@
 
 ####### LOAD itemsets for THL
 
-itemset_AVpair_pregnancy <- vector(mode="list")
 
 ########################################## START ######################################################   
 
@@ -56,7 +55,6 @@ itemset_AVpair_pregnancy[["TYPE"]][[files[i]]][["THL"]] <- list(list("SR_BASIC",
 
 
 ################################ DICTINARY OF TYPE ##################################
-dictonary_of_itemset_pregnancy <- vector(mode="list") 
 
 dictonary_of_itemset_pregnancy[["TYPE"]][["THL"]][["LB"]]<-list(list("SR_BASIC", "1"), list("SR_BASIC", "3"), list("ER_BASIC", "1"))
 dictonary_of_itemset_pregnancy[["TYPE"]][["THL"]][["SB"]]<-list(list("SR_BASIC", "2"), list("SR_BASIC", "4"), list("ER_BASIC", "2"))

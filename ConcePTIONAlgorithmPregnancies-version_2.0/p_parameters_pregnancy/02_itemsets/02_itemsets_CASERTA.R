@@ -7,7 +7,6 @@
 
 ####### LOAD itemsets for CASERTA
 
-itemset_AVpair_pregnancy <- vector(mode="list")
 
 ########################################## START ######################################################   
 
@@ -56,7 +55,6 @@ itemset_AVpair_pregnancy[["TYPE"]][[files[i]]][["CASERTA"]] <- list(list("SCHEDA
 
 
 ################################ DICTINARY OF TYPE ##################################
-dictonary_of_itemset_pregnancy <- vector(mode="list") 
 
 dictonary_of_itemset_pregnancy[["TYPE"]][["CASERTA"]][["LB"]]<-list()
 dictonary_of_itemset_pregnancy[["TYPE"]][["CASERTA"]][["SB"]]<-list()

@@ -6,7 +6,6 @@
 # changelog: 
 
 ####### LOAD itemsets for TO_ADD
-itemset_AVpair_pregnancy <- vector(mode="list")
 
 
 ########################################## START ######################################################   
@@ -56,7 +55,6 @@ itemset_AVpair_pregnancy[["TYPE"]][[files[i]]][["TO_ADD"]] <- list(list("CAP2", 
 
 
 ################################ DICTINARY OF TYPE ##################################
-dictonary_of_itemset_pregnancy <- vector(mode="list") 
 
 dictonary_of_itemset_pregnancy[["TYPE"]][["TO_ADD"]][["LB"]]<-list(list("CAP2", "1"))
 dictonary_of_itemset_pregnancy[["TYPE"]][["TO_ADD"]][["SB"]]<-list(list("CAP2", "2"))
@@ -70,7 +68,6 @@ dictonary_of_itemset_pregnancy[["TYPE"]][["TO_ADD"]][["UNK"]]<-list()
 
 
 ##### FROM MEDICAL_OBSERVATION
-itemsetMED_AVpair_pregnancy <- vector(mode="list")
 
 ### specification LastMestrualPeriod
 itemsetMED_AVpair_pregnancy[["LastMestrualPeriod"]][[files[i]]][["TO_ADD"]] <- list()
@@ -86,7 +83,6 @@ itemsetMED_AVpair_pregnancy[["PregnancyTest"]][[files[i]]][["TO_ADD"]] <- list()
 
 
 ################################ DICTINARY OF PregnancyTest ##################################
-dictonary_of_itemset_PregnancyTest <- vector(mode="list") 
 
 dictonary_of_itemset_PregnancyTest[["PregnancyTest"]][["positive"]]<-list(list("positive")) 
 

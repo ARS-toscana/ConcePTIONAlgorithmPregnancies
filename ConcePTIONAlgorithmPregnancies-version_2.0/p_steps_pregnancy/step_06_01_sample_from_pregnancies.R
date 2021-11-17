@@ -117,9 +117,8 @@ sample_survey_id <- validation_sample[!is.na(survey_id), survey_id]
 sample_identifier <- validation_sample[, .(person_id, survey_id)]
 
 print("RETRIEVING ORIGINAL RECORDS: ")
-
+files_temp<-sub('\\.RData$', '', list.files(dirtemp))
 if (this_datasource_has_prompt) {
-  files_temp<-sub('\\.RData$', '', list.files(dirtemp))
   for (studyvar in study_variables_pregnancy){
     if (studyvar %in% files_temp) {
       load(paste0(dirtemp, studyvar, ".RData"))
