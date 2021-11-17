@@ -22,7 +22,7 @@ if (this_datasource_has_prompt) {
   
   for (item in study_variables_pregnancy) {
     if( item %in% files_it ){
-      if( !(nrow(get(item)) == 1 & is.na(get(item)[1, person_id])) ){
+      if(nrow(get(item)) != 0){
         print(paste0("Describing ", item))
         DescribeThisDataset(Dataset = get(item),
                             Individual=T,
@@ -66,6 +66,7 @@ if (this_datasource_has_itemsets_stream_from_medical_obs){
     if (item %in% files_temp) {
       if( nrow(get(item)) > 0){
         assign("item_temp", get(item))
+        item_temp <- item_temp[, visit_occurrence_id := as.character(visit_occurrence_id)]
         item_temp <- item_temp[is.na(visit_occurrence_id), visit_occurrence_id := paste0(mo_origin, "_dummy_visit_occ_id_", seq_along(.I))]
         assign(item, item_temp)
         save(list=item, file=paste0(dirtemp, item,".RData"))
@@ -84,7 +85,7 @@ if (this_datasource_has_itemsets_stream_from_medical_obs){
 
   for (item in study_itemset_pregnancy) {
     if( item %in% files_it ){
-      if( !(nrow(get(item)) == 1 & is.na(get(item)[1, person_id])) ){
+      if(nrow(get(item)) != 0){
         print(paste0("Describing ", item))
         DescribeThisDataset(Dataset = get(item),
                             Individual=T,
