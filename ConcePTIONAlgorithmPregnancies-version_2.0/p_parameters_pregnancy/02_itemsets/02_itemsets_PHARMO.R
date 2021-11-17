@@ -6,7 +6,6 @@
 # changelog: 
 
 ####### LOAD itemsets for PHARMO
-itemset_AVpair_pregnancy <- vector(mode="list")
 
 
 ########################################## START ######################################################   
@@ -55,7 +54,6 @@ itemset_AVpair_pregnancy[["END_ABORTION"]][[files[i]]][["PHARMO"]] <- list()
 itemset_AVpair_pregnancy[["TYPE"]][[files[i]]][["PHARMO"]] <- list(list("perined", "birth_status"))
 
 ################################ DICTINARY OF TYPE ##################################
-dictonary_of_itemset_pregnancy <- vector(mode="list") 
 
 dictonary_of_itemset_pregnancy[["TYPE"]][["PHARMO"]][["LB"]]<-list(list("perined", "2")) 
 dictonary_of_itemset_pregnancy[["TYPE"]][["PHARMO"]][["SB"]]<-list(list("perined", "3"))
@@ -70,7 +68,6 @@ dictonary_of_itemset_pregnancy[["TYPE"]][["PHARMO"]][["UNK"]]<-list(list("perine
 
 
 ##### FROM MEDICAL_OBSERVATION
-itemsetMED_AVpair_pregnancy <- vector(mode="list")
 
 ### specification LastMestrualPeriod
 itemsetMED_AVpair_pregnancy[["LastMestrualPeriod"]][[files[i]]][["PHARMO"]] <- list()
@@ -84,7 +81,6 @@ itemsetMED_AVpair_pregnancy[["PregnancyTest"]][[files[i]]][["PHARMO"]] <- list(l
 
 
 ################################ DICTINARY OF PregnancyTest ##################################
-dictonary_of_itemset_PregnancyTest <- vector(mode="list") 
 
 dictonary_of_itemset_PregnancyTest[["PregnancyTest"]][["positive"]]<-list(list("positive")) 
 

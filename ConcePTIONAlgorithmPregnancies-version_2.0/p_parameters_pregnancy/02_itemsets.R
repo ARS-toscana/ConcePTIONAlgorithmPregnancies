@@ -1,6 +1,10 @@
 ###################################################################
 # DESCRIBE THE ATTRIBUTE-VALUE PAIRS in BIRTH REGISTRY
 ###################################################################
+itemset_AVpair_pregnancy <- vector(mode="list")
+dictonary_of_itemset_pregnancy <- vector(mode="list") 
+itemsetMED_AVpair_pregnancy <- vector(mode="list")
+dictonary_of_itemset_PregnancyTest <- vector(mode="list") 
 
 if (this_datasource_has_prompt) {
   

@@ -6,7 +6,6 @@
 # changelog: 
 
 ####### LOAD itemsets for GePaRD
-itemset_AVpair_pregnancy <- vector(mode="list")
 
 
 ########################################## START ######################################################   
@@ -56,7 +55,6 @@ itemset_AVpair_pregnancy[["TYPE"]][[files[i]]][["GePaRD"]] <- list(list("T_PREG"
 
 
 ################################ DICTINARY OF TYPE ##################################
-dictonary_of_itemset_pregnancy <- vector(mode="list") 
 
 dictonary_of_itemset_pregnancy[["TYPE"]][["GePaRD"]][["LB"]]<-list(list("T_PREG", "1"), list("T_PREG", "2"), list("T_PREG", "3"))
 dictonary_of_itemset_pregnancy[["TYPE"]][["GePaRD"]][["SB"]]<-list(list("T_PREG", "4"))

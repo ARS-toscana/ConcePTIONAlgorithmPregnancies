@@ -6,7 +6,6 @@
 # changelog: 
 
 ####### LOAD itemsets for UOSL
-itemset_AVpair_pregnancy <- vector(mode="list")
 
 
 ########################################## START ######################################################   
@@ -56,7 +55,6 @@ itemset_AVpair_pregnancy[["TYPE"]][[files[i]]][["UOSL"]] <- list(list("MBRN","do
 
 
 ################################ DICTINARY OF TYPE ##################################
-dictonary_of_itemset_pregnancy <- vector(mode="list") 
 
 dictonary_of_itemset_pregnancy[["TYPE"]][["UOSL"]][["LB"]]<-list(list("MBRN", "0"), list("MBRN", "1"), list("MBRN", "2"), list("MBRN", "3"), list("MBRN", "4"), list("MBRN", "5"), list("MBRN", "6"), list("MBRN", "11"), list("MBRN", "12"), list("MBRN", "13"))
 dictonary_of_itemset_pregnancy[["TYPE"]][["UOSL"]][["SB"]]<-list()

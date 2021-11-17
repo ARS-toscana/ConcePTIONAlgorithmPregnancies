@@ -6,7 +6,6 @@
 # changelog: 
 
 ####### LOAD itemsets for VID
-itemset_AVpair_pregnancy <- vector(mode="list")
 
 
 ########################################## START ######################################################   
@@ -55,7 +54,6 @@ itemset_AVpair_pregnancy[["END_ABORTION"]][[files[i]]][["VID"]] <- list(list("RM
 itemset_AVpair_pregnancy[["TYPE"]][[files[i]]][["VID"]] <- list()
 
 ################################ DICTINARY OF TYPE ##################################
-dictonary_of_itemset_pregnancy <- vector(mode="list") 
 
 dictonary_of_itemset_pregnancy[["TYPE"]][["VID"]][["LB"]]<-list() 
 dictonary_of_itemset_pregnancy[["TYPE"]][["VID"]][["SB"]]<-list()

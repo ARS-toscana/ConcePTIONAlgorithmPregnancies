@@ -7,7 +7,6 @@
 
 ####### LOAD itemsets for BIFAP
 
-itemset_AVpair_pregnancy <- vector(mode="list")
 
 ########################################## START ######################################################   
 
@@ -56,7 +55,6 @@ itemset_AVpair_pregnancy[["TYPE"]][[files[i]]][["BIFAP"]] <- list()
 
 
 ################################ DICTINARY OF TYPE ##################################
-dictonary_of_itemset_pregnancy <- vector(mode="list") 
 
 dictonary_of_itemset_pregnancy[["TYPE"]][["BIFAP"]][["LB"]]<-list()
 dictonary_of_itemset_pregnancy[["TYPE"]][["BIFAP"]][["SB"]]<-list()
@@ -73,7 +71,6 @@ dictonary_of_itemset_pregnancy[["TYPE"]][["BIFAP"]][["UNK"]]<-list()
 
 
 ##### FROM MEDICAL_OBSERVATION
-itemsetMED_AVpair_pregnancy <- vector(mode="list")
 
 ### specification LastMestrualPeriod
 itemsetMED_AVpair_pregnancy[["LastMestrualPeriod"]][[files[i]]][["BIFAP"]] <- list(list("datos_generales_paciente","LMP"))
@@ -89,7 +86,6 @@ itemsetMED_AVpair_pregnancy[["PregnancyTest"]][[files[i]]][["BIFAP"]] <- list()
 
 
 ################################ DICTINARY OF PregnancyTest ##################################
-dictonary_of_itemset_PregnancyTest <- vector(mode="list") 
 
 dictonary_of_itemset_PregnancyTest[["PregnancyTest"]][["positive"]]<-list(list("positive")) 
 

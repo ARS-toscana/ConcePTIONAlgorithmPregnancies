@@ -6,7 +6,6 @@
 # changelog: 
 
 ####### LOAD itemsets for CPRD
-itemset_AVpair_pregnancy <- vector(mode="list")
 
 
 ########################################## START ######################################################   
@@ -56,7 +55,6 @@ itemset_AVpair_pregnancy[["TYPE"]][[files[i]]][["CPRD"]] <- list(list("Pregnancy
 
 
 ################################ DICTINARY OF TYPE ##################################
-dictonary_of_itemset_pregnancy <- vector(mode="list") 
 
 dictonary_of_itemset_pregnancy[["TYPE"]][["CPRD"]][["LB"]]<-list(list("pregnancy_register", "1"))
 dictonary_of_itemset_pregnancy[["TYPE"]][["CPRD"]][["SB"]]<-list(list("pregnancy_register", "2"))
