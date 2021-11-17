@@ -24,9 +24,9 @@
 #' 
 #'
 CreateItemsetDatasets <- function(EAVtables,datevar,dateformat, rename_col,numericvar,
-                                           study_variable_names,itemset,
-                                           addtabcol=T, verbose=F,                                                                discard_from_environment=F,
-                                           dirinput,diroutput,extension) {
+                                  study_variable_names,itemset,
+                                  addtabcol=T, verbose=F,                                                                discard_from_environment=F,
+                                  dirinput,diroutput,extension) {
   if (!require("haven")) install.packages("haven")
   library(haven)
   if (!require("stringr")) install.packages("stringr")
@@ -55,7 +55,8 @@ CreateItemsetDatasets <- function(EAVtables,datevar,dateformat, rename_col,numer
       if (extension == "dta") {
         used_df <- as.data.table(read_dta(paste0(dirinput,"/",df2,".",extension)))
       } else if (extension == "csv") {
-        used_df <- fread(paste0(dirinput,"/",df2,".",extension), colClasses = list(character="person_id"))
+        options(readr.num_columns = 0)
+        used_df <- fread(paste0(dirinput,"/",df2,".",extension),colClasses = list( character="person_id"))
       }
       else if (extension == "RData") {
         assign('used_df', get(load(paste0(dirinput,"/",df2,".",extension))))
@@ -96,75 +97,83 @@ CreateItemsetDatasets <- function(EAVtables,datevar,dateformat, rename_col,numer
           }
         }
       }
-      used_df_empty<-copy(used_df)[1,]
+      
+      
       used_df[, General:=0]
-      used_df0<-as.data.table(data.frame(matrix(ncol = 0, nrow = 0)))
+      #used_df0<-as.data.table(data.frame(matrix(ncol = 0, nrow = 0)))
       #for each table search for pair in the specified columns
-      for (study_var in study_variable_names) {
-        if (df2 %in% names(itemset[[study_var]])) {
-          print(paste(df2, "in study variable",study_var))
-          used_dfAEV<-data.table()             
-          for (i in 1:length(itemset[[study_var]][[df2]])) {
-            if (length(itemset[[study_var]][[df2]])!=0) {
-              if (length(itemset[[study_var]][[df2]][[1]])==2){
-                used_df<-used_df[get(EAVtables[[p]][[1]][[2]])==itemset[[study_var]][[df2]][[i]][[1]] & get(EAVtables[[p]][[1]][[3]])==itemset[[study_var]][[df2]][[i]][[2]],c("Filter",paste0("Col_",study_var)):= list(1,list(c(itemset[[study_var]][[df2]][[i]][[1]],itemset[[study_var]][[df2]][[i]][[2]])))]
-              }else{ 
-                #print(length(itemset[[study_var]][[df2]][[1]]))
-                used_df<-used_df[get(EAVtables[[p]][[1]][[2]])==itemset[[study_var]][[df2]][[i]][[1]],c("Filter",paste0("Col_",study_var)):= list(1,list(c(itemset[[study_var]][[df2]][[i]][[1]])))]
-              }
-            }
-          }
-          
-          if ("Filter" %in% colnames(used_df)) {
-            used_df[Filter == 1,General:=1]
-            Newfilter1 <- paste0("Filter_",study_var)
-            setnames(used_df,old = "Filter",new = Newfilter1)
-          }
-          
-          
-          if(!missing(rename_col)){
-          ##################RENAME THE COLUMNS ID AND DATE
-            for (elem in names(rename_col)) {
-              data<-eval(parse(text=elem))
-              for (col in names(used_df)) {
-                if (col == data[[df2]]) {
-                  setnames(used_df, col, elem )
+      if (length(itemset)!=0) {
+        for (study_var in study_variable_names) {
+          if (df2 %in% names(itemset[[study_var]])) {
+            print(paste(df2, "in study variable",study_var))
+            used_dfAEV<-data.table()             
+            for (i in 1:length(itemset[[study_var]][[df2]])) {
+              if (length(itemset[[study_var]][[df2]])!=0) {
+                if (length(itemset[[study_var]][[df2]][[1]])==2){
+                  used_df<-used_df[get(EAVtables[[p]][[1]][[2]])==itemset[[study_var]][[df2]][[i]][[1]] & get(EAVtables[[p]][[1]][[3]])==itemset[[study_var]][[df2]][[i]][[2]],c("Filter",paste0("Col_",study_var)):= list(1,list(c(itemset[[study_var]][[df2]][[i]][[1]],itemset[[study_var]][[df2]][[i]][[2]])))]
+                }else{ 
+                  #print(length(itemset[[study_var]][[df2]][[1]]))
+                  used_df<-used_df[get(EAVtables[[p]][[1]][[2]])==itemset[[study_var]][[df2]][[i]][[1]],c("Filter",paste0("Col_",study_var)):= list(1,list(c(itemset[[study_var]][[df2]][[i]][[1]])))]
                 }
               }
             }
-          }
-          
-          #keep only the rows that have matched AVpair
-          filtered_df <- used_df[General == 1,] [,Table_cdm:=df2]
-          
-          if (verbose == F) {
-            if (nrow(filtered_df) != 0) {
+            
+            if ("Filter" %in% colnames(used_df)) {
+              used_df[Filter == 1,General:=1]
+              Newfilter1 <- paste0("Filter_",study_var)
+              setnames(used_df,old = "Filter",new = Newfilter1)
+            }
+            
+            
+            if(!missing(rename_col)){
+              ##################RENAME THE COLUMNS ID AND DATE
+              for (elem in names(rename_col)) {
+                data<-eval(parse(text=elem))
+                for (col in names(used_df)) {
+                  if (col == data[[df2]]) {
+                    setnames(used_df, col, elem )
+                  }
+                }
+              }
+            }
+            
+            empty_df <- used_df[0,]
+            empty_df<-empty_df[, .SD, .SDcols = !patterns("^Col_|^Filter|^General")]
+            
+            #keep only the rows that have matched AVpair
+            filtered_df <- used_df[General == 1,][,Table_cdm:=df2]
+            
+            
+            if (verbose == F) {
+              #if (nrow(filtered_df) != 0) {
               assign(paste0("FILTERED","_",df2),filtered_df)
+              #}
+            }else{
+              #if (nrow(filtered_df) != 0)
+              assign(paste0("FILTERED","_",df2),filtered_df,envir = parent.frame())
             }
-          }else{if (nrow(filtered_df) != 0)
-            assign(paste0("FILTERED","_",df2),filtered_df,envir = parent.frame())
-          }
-          
-          #split the dataset with respect to the study_var
-          for (study_var in study_variable_names) {
-            if (df2 %in% names(itemset[[study_var]])) {
-              if (paste0("Filter_",study_var) %in% colnames(filtered_df)) {
-                setnames(filtered_df,unique(names(filtered_df[,grepl(paste0("\\b","Filter_",study_var,"\\b"),colnames(filtered_df)), with = F])),"Filter")
-                filtered_df2 <- filtered_df[Filter == 1,] [,"General":=NULL]
-                filtered_df2 <- filtered_df2[,!grep("^Filter",names(filtered_df2)),with = F]
-                
-                if (paste0("Col_",study_var) %in% colnames(filtered_df2)) {
-                  setnames(filtered_df2,unique(names(filtered_df2[,grepl(paste0("\\b","Col_",study_var,"\\b"),colnames(filtered_df2)), with = F])),"AVpair")
-                  filtered_df2 <- filtered_df2[,!grep("^Col_",names(filtered_df2)),with = F]
-                }
-                Newfilter2 <- paste0("Filter_",study_var)
-                setnames(filtered_df,old = "Filter",new = Newfilter2)
-                
-                if (verbose == F) {
-                  if (nrow(filtered_df2) != 0)
+            
+            #split the dataset with respect to the study_var
+            for (study_var in study_variable_names) {
+              if (df2 %in% names(itemset[[study_var]])) {
+                if (paste0("Filter_",study_var) %in% colnames(filtered_df)) {
+                  setnames(filtered_df,unique(names(filtered_df[,grepl(paste0("\\b","Filter_",study_var,"\\b"),colnames(filtered_df)), with = F])),"Filter")
+                  filtered_df2 <- filtered_df[Filter == 1,] [,"General":=NULL]
+                  filtered_df2 <- filtered_df2[,!grep("^Filter",names(filtered_df2)),with = F]
+                  
+                  if (paste0("Col_",study_var) %in% colnames(filtered_df2)) {
+                    setnames(filtered_df2,unique(names(filtered_df2[,grepl(paste0("\\b","Col_",study_var,"\\b"),colnames(filtered_df2)), with = F])),"AVpair")
+                    filtered_df2 <- filtered_df2[,!grep("^Col_",names(filtered_df2)),with = F]
+                  }
+                  Newfilter2 <- paste0("Filter_",study_var)
+                  setnames(filtered_df,old = "Filter",new = Newfilter2)
+                  
+                  if (verbose == F) {
+                    #if (nrow(filtered_df2) != 0)
                     assign(paste0(study_var,"_",df2),filtered_df2)
-                }else{if (nrow(filtered_df2) != 0)
-                  assign(paste0(study_var,"_",df2),filtered_df2,envir = parent.frame())
+                  }else{#if (nrow(filtered_df2) != 0)
+                    assign(paste0(study_var,"_",df2),filtered_df2,envir = parent.frame())
+                  }
                 }
               }
             }
@@ -174,35 +183,36 @@ CreateItemsetDatasets <- function(EAVtables,datevar,dateformat, rename_col,numer
       
       ###########append all the datasets related to the same study_var
       for (study_var in study_variable_names) {
-        if (df2 %in% names(itemset[[study_var]])) {
-          export_df <- as.data.table(data.frame(matrix(ncol = 0, nrow = 0)))
-          for (p in 1:length(EAVtables)){
-            for (df2 in EAVtables[[p]][[1]][[1]]){
-              if (exists(paste0(study_var,"_",df2))){
-                export_df = suppressWarnings( rbind(export_df, eval(parse(text = paste0(study_var,"_",df2))),fill = T) )
+        if (TRUE) { #length(itemset)!=0
+          if (df2 %in% names(itemset[[study_var]])) {
+            export_df <- as.data.table(data.frame(matrix(ncol = 0, nrow = 0)))
+            for (p in 1:length(EAVtables)){
+              for (df2 in EAVtables[[p]][[1]][[1]]){
+                if (exists(paste0(study_var,"_",df2))){
+                  temp <- eval(parse(text = paste0(study_var,"_",df2)))
+                  if(nrow(temp)!=0){
+                    export_df = suppressWarnings(rbind(export_df, temp, fill = T))
+                  }
+                }
               }
             }
+            if(nrow(export_df)==0) {export_df <- empty_df}
+            if (addtabcol == F) {export_df<-export_df[,c("Table_cdm","AVpair"):=NULL]}
+            if (discard_from_environment==T) {
+              # if (nrow(export_df)==0) {colnames <- colnames(used_df)
+              # export_df <- setNames(as.data.table(matrix(nrow = 1, ncol = ncol(used_df))), nm = colnames)
+              # }
+              assign(study_var, export_df)
+            }else{
+              #if (nrow(export_df)==0) {colnames <- colnames(used_df)
+              # export_df <- setNames(as.data.table(matrix(nrow = 1, ncol = ncol(used_df))), nm = colnames)
+              # }
+              assign(study_var, export_df, envir = parent.frame())}
+            save(study_var, file = paste0(diroutput,"/",study_var,".RData"),list = study_var)
           }
-          if (addtabcol == F) {export_df<-export_df[,c("Table_cdm","AVpair"):=NULL]}
-          if (discard_from_environment==T) {
-            if (nrow(export_df)==0) {  
-             # colnames <- colnames(used_df)
-             # export_df <- setNames(as.data.table(matrix(nrow = 1, ncol = ncol(used_df))), nm = colnames)
-             # export_df[] <- mapply(FUN = as,export_df,sapply(used_df,class),SIMPLIFY = FALSE)
-              export_df<-used_df_empty
-              export_df[1,]<-NA
-            }
-            assign(study_var, export_df)
-          }else{  if (nrow(export_df)==0) {
-          #   colnames <- colnames(used_df)
-          # export_df <- setNames(as.data.table(matrix(nrow = 1, ncol = ncol(used_df))), nm = colnames)
-          #   export_df[] <- mapply(FUN = as,export_df,sapply(used_df,class),SIMPLIFY = FALSE)
-          #   
-            export_df<-used_df_empty[,General:=NULL]
-            export_df[1,]<-NA
-          
-          }
-            assign(study_var, export_df, envir = parent.frame())}
+        }else{
+          export_df <- used_df[,-"General"]
+          assign(study_var, export_df, envir = parent.frame())
           save(study_var, file = paste0(diroutput,"/",study_var,".RData"),list = study_var)
         }
       }
