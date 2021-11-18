@@ -168,8 +168,8 @@ if (this_datasource_has_prompt) {
     
     
     # keep only vars neeed
-    D3_Stream_PROMPTS_survey_id <- dataset_pregnancies3[,.(pregnancy_id,person_id,record_date,survey_id,pregnancy_start_date,pregnancy_end_date,meaning_start_date,meaning_end_date,imputed_start_of_pregnancy,type_of_pregnancy_end,origin,column,meaning,so_source_value, PROMPT, ITEMSETS)] 
-    save(D3_Stream_PROMPTS_survey_id, file=paste0(dirtemp,"D3_Stream_PROMPTS_survey_id.RData"))
+    D3_Stream_PROMPTS <- dataset_pregnancies3[,.(pregnancy_id,person_id,record_date,survey_id,pregnancy_start_date,pregnancy_end_date,meaning_start_date,meaning_end_date,imputed_start_of_pregnancy,type_of_pregnancy_end,origin,column,meaning,so_source_value, PROMPT, ITEMSETS)] 
+    save(D3_Stream_PROMPTS, file=paste0(dirtemp,"D3_Stream_PROMPTS.RData"))
     
     
     
@@ -215,17 +215,19 @@ if (this_datasource_has_prompt) {
     setnames(VISIT_OCCURRENCE_PREG,"meaning_of_visit","meaning")
     # keep only vars neeed
     D3_Stream_PROMPTS_visit_occurrence <- VISIT_OCCURRENCE_PREG[,.(pregnancy_id,person_id,record_date,pregnancy_start_date,pregnancy_ongoing_date,pregnancy_end_date,meaning_start_date,meaning_end_date,meaning_ongoing_date,type_of_pregnancy_end,imputed_start_of_pregnancy,imputed_end_of_pregnancy,visit_occurrence_id,PROMPT,origin, meaning)]
-    # 
-    save(D3_Stream_PROMPTS_visit_occurrence, file=paste0(dirtemp,"D3_Stream_PROMPTS_visit_occurrence.RData"))
+    
+    #save(D3_Stream_PROMPTS_visit_occurrence, file=paste0(dirtemp,"D3_Stream_PROMPTS_visit_occurrence.RData"))
     print("Prompts from VISIT_OCCURRENCE processed")
+    
   }else{
+    
     D3_Stream_PROMPTS_visit_occurrence <- data.table()
     D3_Stream_PROMPTS_visit_occurrence <- D3_Stream_PROMPTS_visit_occurrence[, `:=`(meaning_ongoing_date = NA, 
                                                                                     imputed_end_of_pregnancy = NA, 
                                                                                     ITEMSETS = NA)]
   }
   
-  D3_Stream_PROMPTS <- rbind(D3_Stream_PROMPTS_survey_id, D3_Stream_PROMPTS_visit_occurrence, fill = TRUE)
+  D3_Stream_PROMPTS <- rbind(D3_Stream_PROMPTS, D3_Stream_PROMPTS_visit_occurrence, fill = TRUE)
   save(D3_Stream_PROMPTS, file=paste0(dirtemp,"D3_Stream_PROMPTS.RData"))
   
   ##### Description #####
@@ -265,6 +267,6 @@ if (this_datasource_has_prompt) {
   
   ##### End Description #####
   
-  rm(D3_Stream_PROMPTS_visit_occurrence, D3_Stream_PROMPTS_survey_id, D3_Stream_PROMPTS)
+  rm(D3_Stream_PROMPTS_visit_occurrence, D3_Stream_PROMPTS)
   
 }

@@ -102,6 +102,11 @@ if (this_datasource_has_prompt) {
     # pregnancies to be included in next steps
     D3_study_population_pregnancy_from_prompts<-D3_study_population_pregnancy3[no_linked_to_person==0 & person_not_female==0 & person_not_in_fertile_age==0 & pregnancy_start_in_spells==0 & pregnancy_end_in_spells==0,] [,-c("no_linked_to_person","person_not_female","person_not_in_fertile_age","pregnancy_start_in_spells","pregnancy_end_in_spells")] # 554767 against 429699
     
+    ## added check for missing variables
+    if(sum(!str_detect(names(D3_study_population_pregnancy_from_prompts),"survey_id")) == length(names(D3_study_population_pregnancy_from_prompts))) {
+      D3_study_population_pregnancy_from_prompts<-D3_study_population_pregnancy_from_prompts[,survey_id:=""] }
+    if(sum(!str_detect(names(D3_study_population_pregnancy_from_prompts),"visit_occurrence_id")) == length(names(D3_study_population_pregnancy_from_prompts))) {
+      D3_study_population_pregnancy_from_prompts<-D3_study_population_pregnancy_from_prompts[,visit_occurrence_id:=""]}
     
     D3_Stream_PROMPTS_check<-D3_study_population_pregnancy_from_prompts[,.(pregnancy_id,person_id,record_date,pregnancy_start_date,pregnancy_end_date,meaning_start_date,meaning_end_date,type_of_pregnancy_end,imputed_start_of_pregnancy,imputed_end_of_pregnancy, column,meaning, origin,so_source_value,survey_id, visit_occurrence_id, PROMPT, ITEMSETS)]#
     save(D3_Stream_PROMPTS_check, file=paste0(dirtemp,"D3_Stream_PROMPTS_check.RData"))
