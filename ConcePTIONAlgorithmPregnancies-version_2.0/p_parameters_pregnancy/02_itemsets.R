@@ -50,7 +50,7 @@ if (this_datasource_has_prompt) {
 # DESCRIBE THE ATTRIBUTE-VALUE PAIRS IN MEDICAL_OBSERVATIONS
 ###################################################################
 
-if (this_datasource_has_itemsets_stream_from_medical_obs) {
+if (this_datasource_has_itemsets_stream_from_medical_obs | this_datasource_has_medical_observations_prompt) {
   
   # -itemset_AVpair_pregnancy- is a nested list, with 3 levels: foreach study variable, for each coding system of its data domain, the list of AVpair is recorded
   

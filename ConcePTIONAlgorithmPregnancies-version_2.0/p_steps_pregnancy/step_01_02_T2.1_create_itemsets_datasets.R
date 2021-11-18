@@ -46,7 +46,7 @@ if (this_datasource_has_prompt) {
 
 
 ## add itemset for Stream 4 -> BIPS, GePaRD
-if (this_datasource_has_itemsets_stream_from_medical_obs){
+if (this_datasource_has_itemsets_stream_from_medical_obs | this_datasource_has_medical_observations_prompt){
   print("this datasource HAS itemsets stream")
   
   CreateItemsetDatasets(EAVtables = ConcePTION_CDM_EAV_tables_retrieve_mo,
