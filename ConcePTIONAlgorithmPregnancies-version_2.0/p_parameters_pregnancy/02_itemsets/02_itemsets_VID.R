@@ -1,17 +1,16 @@
-# date: TO_ADD
+# date: 17-11-2021
 # datasource: VID
-# DAP: VID
-# author: TO_ADD
+# DAP: FISABIO_HSRU
+# author: Francisco Sanchez-Saez
 # version: 1.0
-# changelog: 
+# changelog:
 
 ####### LOAD itemsets for VID
 
-
-########################################## START ######################################################   
+########################################## START ######################################################
 
 ### specification GESTAGE_FROM_DAPS_CRITERIA_WEEKS
-itemset_AVpair_pregnancy[["GESTAGE_FROM_DAPS_CRITERIA_WEEKS"]][[files[i]]][["VID"]] <- list(list("META-B","SEMANAS_GESTACION"), list("RMPCV", "Edadg"))
+itemset_AVpair_pregnancy[["GESTAGE_FROM_DAPS_CRITERIA_WEEKS"]][[files[i]]][["VID"]] <- list()
 
 ### specification GESTAGE_FROM_DAPS_CRITERIA_DAYS
 itemset_AVpair_pregnancy[["GESTAGE_FROM_DAPS_CRITERIA_DAYS"]][[files[i]]][["VID"]] <- list()
@@ -26,39 +25,69 @@ itemset_AVpair_pregnancy[["GESTAGE_FROM_LMP_DAYS"]][[files[i]]][["VID"]] <- list
 itemset_AVpair_pregnancy[["GESTAGE_FROM_USOUNDS_DAYS"]][[files[i]]][["VID"]] <- list()
 
 # # specification GESTAGE_FROM_USOUNDS_WEEKS
-itemset_AVpair_pregnancy[["GESTAGE_FROM_USOUNDS_WEEKS"]][[files[i]]][["VID"]]  <- list()
+itemset_AVpair_pregnancy[["GESTAGE_FROM_USOUNDS_WEEKS"]][[files[i]]][["VID"]]  <- list(list("MDR", "semana_gest"),
+                                                                                       list("PMR", "semana_gest"),
+                                                                                       list("EOS", "semana_gest"))
 
 # specification DATESTARTPREGNANCY
 itemset_AVpair_pregnancy[["DATESTARTPREGNANCY"]][[files[i]]][["VID"]] <- list()
 
 
-########################################## END ###################################################### 
+########################################## END ######################################################
 
-itemset_AVpair_pregnancy[["DATEENDPREGNANCY"]][[files[i]]][["VID"]] <- list(list("META-B", "FECHA_NACI_NINYO"))
+itemset_AVpair_pregnancy[["DATEENDPREGNANCY"]][[files[i]]][["VID"]] <- list(list("EOS", "fecha_fin"),
+                                                                            list("PMR", "fecha_muerte_hijo"))
 
 ### specification END_LIVEBIRTH
-itemset_AVpair_pregnancy[["END_LIVEBIRTH"]][[files[i]]][["VID"]] <- list(list("RMPCV", "FechaNacNino"))
+itemset_AVpair_pregnancy[["END_LIVEBIRTH"]][[files[i]]][["VID"]] <- list(list("MDR", "fecha_nac_hijo"))
 
 ### specification END_STILLBIRTH
-itemset_AVpair_pregnancy[["END_STILLBIRTH"]][[files[i]]][["VID"]] <- list("RMPCV", "FechaNacNino")
+itemset_AVpair_pregnancy[["END_STILLBIRTH"]][[files[i]]][["VID"]] <- list()
 
 # specification END_TERMINATION
 itemset_AVpair_pregnancy[["END_TERMINATION"]][[files[i]]][["VID"]] <- list()
 
 ### specification END_ABORTION
-itemset_AVpair_pregnancy[["END_ABORTION"]][[files[i]]][["VID"]] <- list(list("RMPCV", "Fecham"))
+itemset_AVpair_pregnancy[["END_ABORTION"]][[files[i]]][["VID"]] <- list()
 
 
 ########################################### TYPE #######################################
-
-itemset_AVpair_pregnancy[["TYPE"]][[files[i]]][["VID"]] <- list()
+itemset_AVpair_pregnancy[["TYPE"]][[files[i]]][["VID"]] <- list(list("PMR", "tipo_muerte"),
+                                                                list("EOS", "tipo_fin"))
 
 ################################ DICTINARY OF TYPE ##################################
-
-dictonary_of_itemset_pregnancy[["TYPE"]][["VID"]][["LB"]]<-list() 
-dictonary_of_itemset_pregnancy[["TYPE"]][["VID"]][["SB"]]<-list()
-dictonary_of_itemset_pregnancy[["TYPE"]][["VID"]][["SA"]]<-list()
+dictonary_of_itemset_pregnancy[["TYPE"]][["VID"]][["LB"]]<-list(list("PMR", "Neonatal"),
+                                                                list("EOS", "livebirth"))
+dictonary_of_itemset_pregnancy[["TYPE"]][["VID"]][["SB"]]<-list(list("PMR", "Fetal"),
+                                                                list("EOS", "stillbirth"))
+dictonary_of_itemset_pregnancy[["TYPE"]][["VID"]][["SA"]]<-list(list("EOS", "miscarriage"))
 dictonary_of_itemset_pregnancy[["TYPE"]][["VID"]][["T"]]<-list()
 dictonary_of_itemset_pregnancy[["TYPE"]][["VID"]][["MD"]]<-list()
 dictonary_of_itemset_pregnancy[["TYPE"]][["VID"]][["ECT"]]<-list()
 dictonary_of_itemset_pregnancy[["TYPE"]][["VID"]][["UNK"]]<-list()
+
+
+##### FROM MEDICAL_OBSERVATION
+
+### specification LastMestrualPeriod
+itemsetMED_AVpair_pregnancy[["LastMestrualPeriod"]][[files[i]]][["VID"]] <- list()
+
+
+### specification GestationalAge
+itemsetMED_AVpair_pregnancy[["GestationalAge"]][[files[i]]][["VID"]] <- list(list("MBDS", "semana_gest"))
+
+
+### specification PregnancyTest
+itemsetMED_AVpair_pregnancy[["PregnancyTest"]][[files[i]]][["VID"]] <- list()
+
+
+
+################################ DICTINARY OF PregnancyTest ##################################
+
+dictonary_of_itemset_PregnancyTest[["PregnancyTest"]][["positive"]]<-list(list("positive"))
+
+
+
+################################ PARAMETERS for PregnancyTest ##################################
+days_from_start_PregnancyTest <- 30
+days_to_end_PregnancyTest <- 280
