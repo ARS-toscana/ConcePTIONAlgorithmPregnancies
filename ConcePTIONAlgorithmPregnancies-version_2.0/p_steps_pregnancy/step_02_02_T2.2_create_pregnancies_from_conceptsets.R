@@ -172,5 +172,5 @@ DescribeThisDataset(Dataset = D3_Stream_CONCEPTSETS,
 
 rm(dataset_concept_sets, dataset_end_concept_sets, dataset_ongoing_concept_sets, dataset_start_concept_sets,D3_Stream_CONCEPTSETS)
 rm(Gestation_less24,Gestation_24,Gestation_25_26, Gestation_27_28, Gestation_29_30, Gestation_31_32, Gestation_33_34,Gestation_35_36,Gestation_more37,Ongoingpregnancy,Birth_narrow, Birth_possible ,Interruption,Spontaneousabortion, Ectopicpregnancy, Stillbirth, Livebirth, Preterm, Atterm,Postterm)
-rm(fetal_nuchal_translucency,amniocentesis,Chorionic_Villus_Sampling,others)
+if(this_datasource_has_procedures) rm(fetal_nuchal_translucency,amniocentesis,Chorionic_Villus_Sampling,others)
 ##################################################################################################################################
