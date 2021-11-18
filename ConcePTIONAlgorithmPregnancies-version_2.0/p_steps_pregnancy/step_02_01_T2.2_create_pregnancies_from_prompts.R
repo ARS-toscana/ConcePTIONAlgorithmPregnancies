@@ -173,14 +173,12 @@ if (this_datasource_has_prompt) {
     
     
     
-    rm(dataset_pregnancies,dataset_pregnancies2, dataset_pregnancies3, dataset_pregnancies0)
+    rm(dataset_pregnancies,dataset_pregnancies2, dataset_pregnancies3, dataset_pregnancies0, SURVEY_ID_BR)
     rm(GESTAGE_FROM_DAPS_CRITERIA_DAYS, GESTAGE_FROM_DAPS_CRITERIA_WEEKS, GESTAGE_FROM_LMP_DAYS, GESTAGE_FROM_LMP_WEEKS, GESTAGE_FROM_USOUNDS_DAYS, GESTAGE_FROM_USOUNDS_WEEKS, DATEENDPREGNANCY, DATESTARTPREGNANCY, END_ABORTION, END_LIVEBIRTH, END_STILLBIRTH, END_TERMINATION)
     ##################################################################################################################################
   }
   
-  rm(SURVEY_ID_BR)
-  
-  
+
   
   
   ##############################################################################
