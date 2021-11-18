@@ -1,5 +1,5 @@
 
-if (this_datasource_has_itemsets_stream_from_medical_obs){
+if (this_datasource_has_itemsets_stream_from_medical_obs | this_datasource_has_medical_observations_prompt){
 
   ## import D3_Stream_ITEMSETS
   load(paste0(dirtemp,"D3_Stream_ITEMSETS.RData"))
