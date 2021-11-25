@@ -305,7 +305,7 @@ D3_gop <- rbindlist(list_of_D3_gop)
 D3_gop <- D3_gop[, number_of_records_in_the_group := max(n), by = "pers_group_id"]
 
 # ADD RULE FOR LMP:
-D3_gop <- D3_gop[str_detect(meaning_start_date,"Spontaneousabortion"), LMP_ONLY:=1][is.na(LMP_ONLY),LMP_ONLY:=0][,LMP_sum:=sum(LMP_ONLY), by="pers_group_id"]
+D3_gop <- D3_gop[str_detect(meaning_start_date,"LastMestrualPeriod"), LMP_ONLY:=1][is.na(LMP_ONLY),LMP_ONLY:=0][,LMP_sum:=sum(LMP_ONLY), by="pers_group_id"]
 D3_gop <- D3_gop[LMP_sum!=number_of_records_in_the_group ,]
 
 D3_gop <- D3_gop[coloured_order == "1_green", number_green := .N, by = "pers_group_id"][is.na(number_green), number_green:= 0]
