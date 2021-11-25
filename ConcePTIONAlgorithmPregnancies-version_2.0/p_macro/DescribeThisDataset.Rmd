@@ -55,7 +55,7 @@ h2 {text-align: center; color: #00adef}
 
 This is a description of  **`r NameOfDataset`**, this dataset is composed by `r n_of_observations` observations of  `r n_of_variables` variables.
 
-## Diagnosi
+## Diagnosis
 ```{r DF_output, include=TRUE}
 knitr::kable(df_output)
 
