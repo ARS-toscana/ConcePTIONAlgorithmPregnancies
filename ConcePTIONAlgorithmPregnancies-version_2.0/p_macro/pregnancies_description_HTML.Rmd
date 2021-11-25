@@ -499,13 +499,13 @@ if (UNK_first_record[, .N]==0){
 
 ---
 
-## Excluded Pregnancies 
+## Variables for Exclusion
 
 ---
 
 <br/>
 
-The graph shows the absolute number of excluded pregnancies for each year, divided by reason for exclusion.
+The graph shows the absolute number of pregnancies flagged by an exclusion variable.
 
 <br/>
 
@@ -533,7 +533,7 @@ ___
 sum_of_excluded <- excluded[, .N]
 ```
 
-**The total number of excluded pregnancies is `r sum_of_excluded`, the reason is shown in the following table.**
+**The total number of pregnancies flagged by an exclusion variable is  `r sum_of_excluded`, the table below shows the absolute number for each variable:**
 
 <br/><br/>
 
