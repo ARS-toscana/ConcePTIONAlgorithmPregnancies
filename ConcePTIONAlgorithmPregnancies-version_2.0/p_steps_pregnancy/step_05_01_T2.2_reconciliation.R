@@ -304,6 +304,10 @@ D3_gop <- rbindlist(list_of_D3_gop)
 
 D3_gop <- D3_gop[, number_of_records_in_the_group := max(n), by = "pers_group_id"]
 
+# ADD RULE FOR LMP:
+D3_gop <- D3_gop[str_detect(meaning_start_date,"Spontaneousabortion"), LMP_ONLY:=1][is.na(LMP_ONLY),LMP_ONLY:=0][,LMP_sum:=sum(LMP_ONLY), by="pers_group_id"]
+D3_gop <- D3_gop[LMP_sum!=number_of_records_in_the_group ,]
+
 D3_gop <- D3_gop[coloured_order == "1_green", number_green := .N, by = "pers_group_id"][is.na(number_green), number_green:= 0]
 D3_gop <- D3_gop[, number_green:= max(number_green),  by = "pers_group_id" ]
 D3_gop <- D3_gop[coloured_order == "2_yellow", number_yellow := .N, by = "pers_group_id"][is.na(number_yellow), number_yellow:= 0]
@@ -392,7 +396,7 @@ D3_groups_of_pregnancies_reconciled_before_excl <- D3_groups_of_pregnancies_reco
 
 D3_groups_of_pregnancies_reconciled_before_excl <- D3_groups_of_pregnancies_reconciled_before_excl[is.na(record_selected), record_selected:=1] 
 
-D3_groups_of_pregnancies_reconciled_before_excl <- D3_groups_of_pregnancies_reconciled_before_excl[is.na(type_of_pregnancy_end), type_of_pregnancy_end := "UKN"]
+D3_groups_of_pregnancies_reconciled_before_excl <- D3_groups_of_pregnancies_reconciled_before_excl[is.na(type_of_pregnancy_end), type_of_pregnancy_end := "UNK"]
 
 D3_pregnancy_reconciled_before_excl <- D3_groups_of_pregnancies_reconciled_before_excl[n==record_selected, -c("n")]
 
