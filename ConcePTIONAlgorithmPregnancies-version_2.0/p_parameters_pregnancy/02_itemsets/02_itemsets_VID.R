@@ -1,10 +1,11 @@
-# date: 17-11-2021
+# date: 25-11-2021
 # datasource: VID
 # DAP: FISABIO_HSRU
 # author: Francisco Sanchez-Saez
-# version: 1.0
+# version: 2.0
 # changelog:
-
+# fecha_itemset is added in pmr
+# tipo_fin is added in mdr
 ####### LOAD itemsets for VID
 
 ########################################## START ######################################################
@@ -36,10 +37,13 @@ itemset_AVpair_pregnancy[["DATESTARTPREGNANCY"]][[files[i]]][["VID"]] <- list()
 ########################################## END ######################################################
 
 itemset_AVpair_pregnancy[["DATEENDPREGNANCY"]][[files[i]]][["VID"]] <- list(list("EOS", "fecha_fin"),
-                                                                            list("PMR", "fecha_muerte_hijo"))
+                                                                            list("MDR", "fecha_nac_hijo"),
+                                                                            list("PMR", "fecha_itemset"))
 
 ### specification END_LIVEBIRTH
-itemset_AVpair_pregnancy[["END_LIVEBIRTH"]][[files[i]]][["VID"]] <- list(list("MDR", "fecha_nac_hijo"))
+itemset_AVpair_pregnancy[["END_LIVEBIRTH"]][[files[i]]][["VID"]] <- list(
+  # list("MDR", "fecha_nac_hijo")
+)
 
 ### specification END_STILLBIRTH
 itemset_AVpair_pregnancy[["END_STILLBIRTH"]][[files[i]]][["VID"]] <- list()
@@ -53,19 +57,23 @@ itemset_AVpair_pregnancy[["END_ABORTION"]][[files[i]]][["VID"]] <- list()
 
 ########################################### TYPE #######################################
 itemset_AVpair_pregnancy[["TYPE"]][[files[i]]][["VID"]] <- list(list("PMR", "tipo_muerte"),
+                                                                list("MDR", "tipo_fin"),
                                                                 list("EOS", "tipo_fin"))
 
 ################################ DICTINARY OF TYPE ##################################
 dictonary_of_itemset_pregnancy[["TYPE"]][["VID"]][["LB"]]<-list(list("PMR", "Neonatal"),
+                                                                list("MDR", "livebirth"),
                                                                 list("EOS", "livebirth"))
+
 dictonary_of_itemset_pregnancy[["TYPE"]][["VID"]][["SB"]]<-list(list("PMR", "Fetal"),
+                                                                # list("MDR", "stillbirth"),
                                                                 list("EOS", "stillbirth"))
+
 dictonary_of_itemset_pregnancy[["TYPE"]][["VID"]][["SA"]]<-list(list("EOS", "miscarriage"))
 dictonary_of_itemset_pregnancy[["TYPE"]][["VID"]][["T"]]<-list()
 dictonary_of_itemset_pregnancy[["TYPE"]][["VID"]][["MD"]]<-list()
 dictonary_of_itemset_pregnancy[["TYPE"]][["VID"]][["ECT"]]<-list()
 dictonary_of_itemset_pregnancy[["TYPE"]][["VID"]][["UNK"]]<-list()
-
 
 ##### FROM MEDICAL_OBSERVATION
 
