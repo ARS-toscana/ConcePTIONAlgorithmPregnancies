@@ -1,7 +1,17 @@
 load(paste0(dirtemp,"D3_groups_of_pregnancies.RData"))
 
-# ordering 
-D3_gop<-D3_groups_of_pregnancies[order(person_id, group_identifier, order_quality, -record_date),]
+## table hierarchy & ordering
+if(thisdatasource == "VID"){
+  D3_gop<-D3_groups_of_pregnancies[origin=="PMR", hyerarchy := 1]
+  D3_gop<-D3_gop[origin=="MDR", hyerarchy := 2]
+  D3_gop<-D3_gop[origin=="EOS", hyerarchy := 3]
+  D3_gop<-D3_gop[is.na(origin), hyerarchy := 4]
+  
+  D3_gop<-D3_gop[order(person_id, group_identifier, order_quality, hyerarchy, -record_date),]
+}else{
+  D3_gop<-D3_groups_of_pregnancies[order(person_id, group_identifier, order_quality, -record_date),]
+}
+
 # creating record number for each group of pregnancy
 D3_gop<-D3_gop[,n:=seq_along(.I), by=.(group_identifier, person_id, highest_quality)]
 #creating unique identifier for each group of pregnancy
@@ -32,7 +42,7 @@ while (D3_gop[,.N]!=0) {
   D3_gop <- D3_gop[, n_max:= max(n), pers_group_id]
   
   for (i in seq(1, n_of_iteration)) {
-    print(paste0("reconciling record ", i, " of ", n_of_iteration))
+    cat(paste0("reconciling record ", i, " of ", n_of_iteration, " \n"))
     
     D3_gop <- D3_gop[, recon := 0]
     D3_gop <- D3_gop[number_of_records_in_the_group < i, recon :=1]
@@ -50,6 +60,10 @@ while (D3_gop[,.N]!=0) {
     D3_gop <- D3_gop[recon == 0, ITEMSETS_next_record := shift(ITEMSETS, n = i, fill = NA, type=c("lead")), by = "pers_group_id"]
     D3_gop <- D3_gop[recon == 0, EUROCAT_next_record:= shift(EUROCAT, n = i, fill = NA, type=c("lead")), by = "pers_group_id"]
     D3_gop <- D3_gop[recon == 0, CONCEPTSETS_next_record:= shift(CONCEPTSETS, n = i, fill = NA, type=c("lead")), by = "pers_group_id"]
+    
+    if(thisdatasource == "VID"){
+      D3_gop <- D3_gop[recon == 0, origin_next_record:= shift(origin, n = i, fill = NA, type=c("lead")), by = "pers_group_id"]
+    }
     #imputation 
     #D3_gop <- D3_gop[recon == 0, imputed_start_of_pregnancy_next:= shift(imputed_start_of_pregnancy, n = i, fill = NA, type=c("lead")), by = "pers_group_id"]
     #D3_gop <- D3_gop[recon == 0, imputed_end_of_pregnancy_next:= shift(imputed_end_of_pregnancy, n = i, fill = NA, type=c("lead")), by = "pers_group_id"]
@@ -150,27 +164,71 @@ while (D3_gop[,.N]!=0) {
                                                                 substr(coloured_order, 3, 3), "/", 
                                                                 substr(coloured_order_next_record, 3, 3), "_" ))]
     
-    #### Green - Green    
-    D3_gop <- D3_gop[ n == 1 & new_group_next_record != 1 & recon == 0 &  coloured_order == "1_green" & coloured_order_next_record == "1_green" & 
-                       start_diff == 0 & end_diff == 0,
-                     `:=`(algorithm_for_reconciliation = paste0(algorithm_for_reconciliation, "GG:concordant_"),
-                          recon = 1)]
-    
-    D3_gop <- D3_gop[ n == 1 & new_group_next_record != 1 & recon == 0 & coloured_order == "1_green" & coloured_order_next_record == "1_green" & 
-                       start_diff <= threshold,
-                     `:=`(algorithm_for_reconciliation = paste0(algorithm_for_reconciliation, "GG:SlightlyDiscordantStart_"))]
-    
-    D3_gop <- D3_gop[ n == 1 & new_group_next_record != 1 &  recon == 0 & coloured_order == "1_green" & coloured_order_next_record == "1_green" & 
-                       start_diff > threshold,
-                     `:=`(algorithm_for_reconciliation = paste0(algorithm_for_reconciliation, "GG:DiscordantStart_"))]
-    
-    D3_gop <- D3_gop[ n == 1 & new_group_next_record != 1 &  recon == 0 & coloured_order == "1_green" & coloured_order_next_record == "1_green" & 
-                       end_diff <= threshold,
-                     `:=`(algorithm_for_reconciliation = paste0(algorithm_for_reconciliation, "GG:SlightlyDiscordantEnd_"))]
-    
-    D3_gop <- D3_gop[n == 1 & new_group_next_record != 1 &  recon == 0 & coloured_order == "1_green" & coloured_order_next_record == "1_green" & 
-                       end_diff > threshold,
-                     `:=`(algorithm_for_reconciliation = paste0(algorithm_for_reconciliation, "GG:DiscordantEnd_"))]
+    #### Green - Green
+    if(thisdatasource == "VID"){
+      D3_gop <- D3_gop[ n == 1 & new_group_next_record != 1 & recon == 0 &  coloured_order == "1_green" & coloured_order_next_record == "1_green" & 
+                          start_diff == 0 & end_diff == 0,
+                        `:=`(algorithm_for_reconciliation = paste0(algorithm_for_reconciliation, 
+                                                                   origin,
+                                                                   "/",
+                                                                   origin_next_record,
+                                                                   ":concordant_"),
+                             recon = 1)]
+      
+      D3_gop <- D3_gop[ n == 1 & new_group_next_record != 1 & recon == 0 & coloured_order == "1_green" & coloured_order_next_record == "1_green" & 
+                          start_diff <= threshold,
+                        `:=`(algorithm_for_reconciliation = paste0(algorithm_for_reconciliation, 
+                                                                   origin,
+                                                                   "/",
+                                                                   origin_next_record,
+                                                                   ":SlightlyDiscordantStart_"))]
+      
+      D3_gop <- D3_gop[ n == 1 & new_group_next_record != 1 &  recon == 0 & coloured_order == "1_green" & coloured_order_next_record == "1_green" & 
+                          start_diff > threshold,
+                        `:=`(algorithm_for_reconciliation =  paste0(algorithm_for_reconciliation, 
+                                                                    origin,
+                                                                    "/",
+                                                                    origin_next_record, 
+                                                                    ":DiscordantStart_"))]
+      
+      D3_gop <- D3_gop[ n == 1 & new_group_next_record != 1 &  recon == 0 & coloured_order == "1_green" & coloured_order_next_record == "1_green" & 
+                          end_diff <= threshold,
+                        `:=`(algorithm_for_reconciliation = paste0(algorithm_for_reconciliation, 
+                                                                   origin,
+                                                                   "/",
+                                                                   origin_next_record,
+                                                                   ":SlightlyDiscordantEnd_"))]
+      
+      D3_gop <- D3_gop[n == 1 & new_group_next_record != 1 &  recon == 0 & coloured_order == "1_green" & coloured_order_next_record == "1_green" & 
+                         end_diff > threshold,
+                       `:=`(algorithm_for_reconciliation = paste0(algorithm_for_reconciliation, 
+                                                                  origin,
+                                                                  "/",
+                                                                  origin_next_record,
+                                                                  ":DiscordantEnd_"))]
+    }else{
+      D3_gop <- D3_gop[ n == 1 & new_group_next_record != 1 & recon == 0 &  coloured_order == "1_green" & coloured_order_next_record == "1_green" & 
+                          start_diff == 0 & end_diff == 0,
+                        `:=`(algorithm_for_reconciliation = paste0(algorithm_for_reconciliation, "GG:concordant_"),
+                             recon = 1)]
+      
+      D3_gop <- D3_gop[ n == 1 & new_group_next_record != 1 & recon == 0 & coloured_order == "1_green" & coloured_order_next_record == "1_green" & 
+                          start_diff <= threshold,
+                        `:=`(algorithm_for_reconciliation = paste0(algorithm_for_reconciliation, "GG:SlightlyDiscordantStart_"))]
+      
+      D3_gop <- D3_gop[ n == 1 & new_group_next_record != 1 &  recon == 0 & coloured_order == "1_green" & coloured_order_next_record == "1_green" & 
+                          start_diff > threshold,
+                        `:=`(algorithm_for_reconciliation = paste0(algorithm_for_reconciliation, "GG:DiscordantStart_"))]
+      
+      D3_gop <- D3_gop[ n == 1 & new_group_next_record != 1 &  recon == 0 & coloured_order == "1_green" & coloured_order_next_record == "1_green" & 
+                          end_diff <= threshold,
+                        `:=`(algorithm_for_reconciliation = paste0(algorithm_for_reconciliation, "GG:SlightlyDiscordantEnd_"))]
+      
+      D3_gop <- D3_gop[n == 1 & new_group_next_record != 1 &  recon == 0 & coloured_order == "1_green" & coloured_order_next_record == "1_green" & 
+                         end_diff > threshold,
+                       `:=`(algorithm_for_reconciliation = paste0(algorithm_for_reconciliation, "GG:DiscordantEnd_"))]
+    }
+
     
     #### Green - Yellow
     D3_gop <- D3_gop[n == 1 & new_group_next_record != 1 &  recon == 0 & coloured_order == "1_green" & coloured_order_next_record == "2_yellow" &
