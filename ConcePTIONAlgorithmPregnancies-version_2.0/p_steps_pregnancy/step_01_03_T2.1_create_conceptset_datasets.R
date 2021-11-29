@@ -27,6 +27,7 @@ CreateConceptSetDatasets(concept_set_names = c(concept_set_pregnancy),
                          #vocabularies_with_dot_wildcard=c("READ")
                          )
 
+
 ### Creating visit occurrence id if missing
 for (concept in concept_sets_of_pregnancy_procedure) {
   if( nrow(get(concept)) > 0){
@@ -48,6 +49,21 @@ for (concept in concept_sets_of_pregnancy_procedure) {
   }
 }
 
+
+## Selected meaning if necessary
+if (this_datasources_with_specific_algorithms){
+  
+  for (concept in concept_set_pregnancy) {
+    if( nrow(get(concept)) > 0){
+      assign("concept_temp", get(concept))
+    }
+
+    if(concept_set_domains[[concept]]=="Diagnosis"){
+      concept_temp <- concept_temp[eval(parse(text = select)),]
+      assign( concept, concept_temp)
+    }      
+  } 
+}
 ################################################################################
 ###########################       Description        ###########################
 ################################################################################

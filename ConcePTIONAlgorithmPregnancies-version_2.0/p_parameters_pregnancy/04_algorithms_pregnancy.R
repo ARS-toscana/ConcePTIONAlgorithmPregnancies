@@ -4,6 +4,31 @@
 datasource_that_does_not_modify_PROMPT <- c("TO_ADD","UOSL", "VID") #@ use "TO_ADD" as example
 this_datasource_does_not_modify_PROMPT <- ifelse(thisdatasource %in% datasource_that_does_not_modify_PROMPT,TRUE,FALSE) 
 
+# DATASOURCE-SPECIFIC ALGORITHMS
+
+## FOR BIFAP:
+datasources_with_specific_algorithms <- c("TO_ADD","BIFAP") #@ use "TO_ADD" as example
+this_datasources_with_specific_algorithms <- ifelse(thisdatasource %in% datasources_with_specific_algorithms,TRUE,FALSE) 
+
+# create the rule that eliminates the meanings that are not appropriate for each prognancy
+
+exclude_meanings_from_PREGNANCY <- vector(mode="list")
+# "primary_care_antecedents_BIFAP", "primary_care_condicionants_BIFAP"
+for (conceptset in concept_set_pregnancy){
+  exclude_meanings_from_PREGNANCY[["BIFAP"]][[conceptset]]=c("primary_care_antecedents_BIFAP", "primary_care_condicionants_BIFAP")
+}
+selection_meanings_from_PREGNANCY <- vector(mode="list")
+if (thisdatasource %in% datasources_with_specific_algorithms){ 
+  for (conceptset in concept_set_pregnancy){
+    select <- "!is.na(person_id) "
+    for (meaningevent in exclude_meanings_from_PREGNANCY[[thisdatasource]][[conceptset]]){
+      select <- paste0(select," & meaning_of_event!= '",meaningevent,"'")
+    }
+    selection_meanings_from_PREGNANCY[[thisdatasource]][[conceptset]] <- select
+  }
+}
+
+
 
 ## FIXING FOR CODING SYSTEMS
 
