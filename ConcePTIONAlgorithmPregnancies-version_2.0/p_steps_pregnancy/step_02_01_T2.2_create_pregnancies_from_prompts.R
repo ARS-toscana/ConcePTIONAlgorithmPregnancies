@@ -195,7 +195,7 @@ if (this_datasource_has_prompt) {
     setnames(VISIT_OCCURRENCE_PREG,"origin_of_visit","origin")
     
     ##first_encounter_for_ongoing_pregnancy
-    VISIT_OCCURRENCE_PREG<-VISIT_OCCURRENCE_PREG[meaning_of_visit=="first_encounter_for_ongoing_pregnancy", `:=`( pregnancy_start_date=record_date-60,pregnancy_ongoing_date=record_date,type_of_pregnancy_end="ONGOING", imputed_end_of_pregnancy=1, imputed_start_of_pregnancy=1, meaning_start_date=paste0("imputed_from_", meaning_of_visit),meaning_ongoing_date="first_encounter_for_ongoing_pregnancy",meaning_end_date=paste0("imputed_from_", meaning_of_visit), PROMPT="yes")] 
+    VISIT_OCCURRENCE_PREG<-VISIT_OCCURRENCE_PREG[meaning_of_visit=="first_encounter_for_ongoing_pregnancy", `:=`( pregnancy_start_date=record_date-60,pregnancy_ongoing_date=record_date,type_of_pregnancy_end="UNK", imputed_end_of_pregnancy=1, imputed_start_of_pregnancy=1, meaning_start_date=paste0("imputed_from_", meaning_of_visit),meaning_ongoing_date="first_encounter_for_ongoing_pregnancy",meaning_end_date=paste0("imputed_from_", meaning_of_visit), PROMPT="yes")] 
     VISIT_OCCURRENCE_PREG<-VISIT_OCCURRENCE_PREG[meaning_of_visit=="first_encounter_for_ongoing_pregnancy", pregnancy_end_date:=pregnancy_start_date+280]
     
     ##service_before_termination
@@ -203,7 +203,7 @@ if (this_datasource_has_prompt) {
     VISIT_OCCURRENCE_PREG<-VISIT_OCCURRENCE_PREG[meaning_of_visit=="service_before_termination",pregnancy_end_date:=pregnancy_start_date+90]
     
     ##service_for_ongoing_pregnancy
-    VISIT_OCCURRENCE_PREG<-VISIT_OCCURRENCE_PREG[meaning_of_visit=="service_for_ongoing_pregnancy", `:=`(pregnancy_start_date=record_date-140,pregnancy_ongoing_date=record_date, type_of_pregnancy_end="ONGOING", imputed_end_of_pregnancy=1, imputed_start_of_pregnancy=1, meaning_start_date=paste0("imputed_from_", meaning_of_visit) ,meaning_ongoing_date="first_encounter_for_ongoing_pregnancy",meaning_end_date=paste0("imputed_from_", meaning_of_visit), PROMPT="yes")]
+    VISIT_OCCURRENCE_PREG<-VISIT_OCCURRENCE_PREG[meaning_of_visit=="service_for_ongoing_pregnancy", `:=`(pregnancy_start_date=record_date-140,pregnancy_ongoing_date=record_date, type_of_pregnancy_end="UNK", imputed_end_of_pregnancy=1, imputed_start_of_pregnancy=1, meaning_start_date=paste0("imputed_from_", meaning_of_visit) ,meaning_ongoing_date="first_encounter_for_ongoing_pregnancy",meaning_end_date=paste0("imputed_from_", meaning_of_visit), PROMPT="yes")]
     VISIT_OCCURRENCE_PREG<-VISIT_OCCURRENCE_PREG[meaning_of_visit=="service_for_ongoing_pregnancy", pregnancy_end_date:=pregnancy_start_date+280]
     
     VISIT_OCCURRENCE_PREG[is.na(imputed_end_of_pregnancy),imputed_end_of_pregnancy:=0]

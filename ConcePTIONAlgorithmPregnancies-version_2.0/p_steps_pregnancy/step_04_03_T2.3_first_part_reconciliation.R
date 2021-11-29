@@ -24,7 +24,11 @@ gop_green<-gop_green[Episode==1,`:=`(group_start_date=min(group_start_date, preg
 gop_green<-gop_green[Episode!=1,`:=`(group_start_date=min(pregnancy_start_date), group_end_date= max(pregnancy_end_date)), by=.(Episode, person_id)]
 setnames(gop_green, "Episode","group_identifier")
 # keep only needed vars for green
-gop_green<-gop_green[,.(pregnancy_id,person_id,record_date,pregnancy_start_date,meaning_start_date,pregnancy_ongoing_date, meaning_ongoing_date,pregnancy_end_date,meaning_end_date,type_of_pregnancy_end,codvar, coding_system, imputed_start_of_pregnancy,imputed_end_of_pregnancy,meaning,survey_id,visit_occurrence_id,PROMPT,EUROCAT,CONCEPTSETS, CONCEPTSET,ITEMSETS,coloured_order, order_quality,ID,group_start_date,group_end_date,group_identifier)]
+
+if(sum(!str_detect(names(gop_green),"origin")) == length(names(gop_green))){
+  gop_green<-gop_green[, origin:=""]}
+
+gop_green<-gop_green[,.(pregnancy_id,person_id,record_date,pregnancy_start_date,meaning_start_date,pregnancy_ongoing_date, meaning_ongoing_date,pregnancy_end_date,meaning_end_date,type_of_pregnancy_end,codvar, coding_system, imputed_start_of_pregnancy,imputed_end_of_pregnancy,meaning,survey_id,visit_occurrence_id,PROMPT,EUROCAT,CONCEPTSETS, CONCEPTSET,ITEMSETS,coloured_order, order_quality,ID,group_start_date,group_end_date,group_identifier, origin)]
 gop_green<-gop_green[,`:=`(group_start_date_28=group_start_date-28, group_end_date_28=group_end_date+28)]
 
 
