@@ -99,7 +99,7 @@ dataset_concept_sets<-dataset_concept_sets[!is.na(pregnancy_end_date) & concept_
 dataset_concept_sets<-dataset_concept_sets[!is.na(pregnancy_end_date) & concept_set=="Interruption",type_of_pregnancy_end:="T"]
 dataset_concept_sets<-dataset_concept_sets[!is.na(pregnancy_end_date) & concept_set=="Spontaneousabortion",type_of_pregnancy_end:="SA"]
 dataset_concept_sets<-dataset_concept_sets[!is.na(pregnancy_end_date) & concept_set=="Ectopicpregnancy",type_of_pregnancy_end:="ECT"]
-dataset_concept_sets<-dataset_concept_sets[!is.na(pregnancy_end_date) & concept_set=="Ongoingpregnancy",type_of_pregnancy_end:="ONGOING"]
+dataset_concept_sets<-dataset_concept_sets[!is.na(pregnancy_end_date) & concept_set=="Ongoingpregnancy",type_of_pregnancy_end:="UNK"]
 
 # impute pregnancy_start_date when pregnancy_end_date is not missing
 dataset_concept_sets<-dataset_concept_sets[!is.na(pregnancy_end_date) & is.na(pregnancy_start_date) & type_of_pregnancy_end=="LB" & concept_set=="Preterm",`:=`(pregnancy_start_date= pregnancy_end_date-245, imputed_start_of_pregnancy=1)]
