@@ -7,7 +7,8 @@ if(thisdatasource == "VID"){
   D3_gop<-D3_gop[origin=="EOS", hyerarchy := 3]
   D3_gop<-D3_gop[is.na(origin), hyerarchy := 4]
   
-  D3_gop<-D3_gop[order(person_id, group_identifier, order_quality, hyerarchy, -record_date),]
+  D3_gop<-D3_gop[order(person_id, group_identifier, hyerarchy, order_quality, -record_date),]
+  D3_gop<-D3_gop[, YGrecon:=0]
 }else{
   D3_gop<-D3_groups_of_pregnancies[order(person_id, group_identifier, order_quality, -record_date),]
 }
@@ -229,6 +230,22 @@ while (D3_gop[,.N]!=0) {
                        `:=`(algorithm_for_reconciliation = paste0(algorithm_for_reconciliation, "GG:DiscordantEnd_"))]
     }
 
+    
+    #### Yellow - Green
+    if(thisdatasource == "VID"){
+      D3_gop <- D3_gop[n == 1 & new_group_next_record != 1 &  recon == 0 & YGrecon == 0 &
+                         coloured_order == "2_yellow" & coloured_order_next_record == "1_green" &
+                         start_diff != 0,
+                       `:=`(pregnancy_start_date = pregnancy_start_date_next_record,
+                            algorithm_for_reconciliation = paste0(algorithm_for_reconciliation, "YG:StartUpdated_"),
+                            imputed_start_of_pregnancy = 0,
+                            meaning_start_date = shift(meaning_start_date, 
+                                                       n = i,  
+                                                       fill = paste0("updated_from_", origin_next_record),
+                                                       type=c("lead")),
+                            recon = 1,
+                            YGrecon = 1)]
+    }
     
     #### Green - Yellow
     D3_gop <- D3_gop[n == 1 & new_group_next_record != 1 &  recon == 0 & coloured_order == "1_green" & coloured_order_next_record == "2_yellow" &
