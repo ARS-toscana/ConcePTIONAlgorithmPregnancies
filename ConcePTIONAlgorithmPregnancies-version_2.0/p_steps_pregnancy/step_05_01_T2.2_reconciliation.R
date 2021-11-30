@@ -5,7 +5,7 @@ if(thisdatasource == "VID"){
   D3_gop<-D3_groups_of_pregnancies[origin=="PMR", hyerarchy := 1]
   D3_gop<-D3_gop[origin=="MDR", hyerarchy := 2]
   D3_gop<-D3_gop[origin=="EOS", hyerarchy := 3]
-  D3_gop<-D3_gop[is.na(origin), hyerarchy := 4]
+  D3_gop<-D3_gop[is.na(hyerarchy), hyerarchy := 4]
   
   D3_gop<-D3_gop[order(person_id, group_identifier, hyerarchy, order_quality, -record_date),]
   D3_gop<-D3_gop[, YGrecon:=0]
@@ -115,7 +115,7 @@ while (D3_gop[,.N]!=0) {
     # split 
     D3_gop <- D3_gop[is.na(new_pregnancy_group), new_pregnancy_group:=0]
     D3_gop <- D3_gop[, new_pregnancy_group := max(new_pregnancy_group), by = "pers_group_id"]
-
+    
     D3_gop <- D3_gop[n == (1+i) & new_pregnancy_group == 1, 
                      `:=`(new_group = 1) ][is.na(new_group), new_group := 0]
     
@@ -159,11 +159,11 @@ while (D3_gop[,.N]!=0) {
     
     #### Type of end of pregnancy
     D3_gop <- D3_gop[ n == 1 & new_group_next_record != 1 & !is.na(type_of_pregnancy_end_next_record)  & !is.na(type_of_pregnancy_end) & 
-                       type_of_pregnancy_end != "UNK" & type_of_pregnancy_end_next_record != "UNK" &
-                       type_of_pregnancy_end != type_of_pregnancy_end_next_record,
-                     `:=`(algorithm_for_reconciliation = paste0(algorithm_for_reconciliation, "TypeDiff:", 
-                                                                substr(coloured_order, 3, 3), "/", 
-                                                                substr(coloured_order_next_record, 3, 3), "_" ))]
+                        type_of_pregnancy_end != "UNK" & type_of_pregnancy_end_next_record != "UNK" &
+                        type_of_pregnancy_end != type_of_pregnancy_end_next_record,
+                      `:=`(algorithm_for_reconciliation = paste0(algorithm_for_reconciliation, "TypeDiff:", 
+                                                                 substr(coloured_order, 3, 3), "/", 
+                                                                 substr(coloured_order_next_record, 3, 3), "_" ))]
     
     #### Green - Green
     if(thisdatasource == "VID"){
@@ -229,20 +229,19 @@ while (D3_gop[,.N]!=0) {
                          end_diff > threshold,
                        `:=`(algorithm_for_reconciliation = paste0(algorithm_for_reconciliation, "GG:DiscordantEnd_"))]
     }
-
+    
     
     #### Yellow - Green
     if(thisdatasource == "VID"){
+      
+      
       D3_gop <- D3_gop[n == 1 & new_group_next_record != 1 &  recon == 0 & YGrecon == 0 &
                          coloured_order == "2_yellow" & coloured_order_next_record == "1_green" &
                          start_diff != 0,
                        `:=`(pregnancy_start_date = pregnancy_start_date_next_record,
                             algorithm_for_reconciliation = paste0(algorithm_for_reconciliation, "YG:StartUpdated_"),
                             imputed_start_of_pregnancy = 0,
-                            meaning_start_date = shift(meaning_start_date, 
-                                                       n = i,  
-                                                       fill = paste0("updated_from_", origin_next_record),
-                                                       type=c("lead")),
+                            meaning_start_date = paste0("updated_from_", origin_next_record),
                             recon = 1,
                             YGrecon = 1)]
     }
@@ -279,7 +278,7 @@ while (D3_gop[,.N]!=0) {
                              imputed_start_of_pregnancy = 0,
                              meaning_start_date = shift(meaning_start_date, n = i,  fill = "updated_from_blue_record", type=c("lead")))]
     }
-
+    
     
     #### Green - Red
     D3_gop <- D3_gop[n == 1 & new_group_next_record != 1 &  recon == 0 & coloured_order == "1_green" & coloured_order_next_record == "4_red" &
@@ -350,7 +349,7 @@ while (D3_gop[,.N]!=0) {
     D3_gop <- D3_gop[n == 1 & new_group_next_record != 1 &  recon == 0 & coloured_order == "3_blue" & coloured_order_next_record == "4_red" &
                        !(pregnancy_start_date <= record_date_next_record & record_date_next_record <= pregnancy_end_date),
                      `:=`( algorithm_for_reconciliation = paste0(algorithm_for_reconciliation, "BR:Inconsistency_"))]
-     
+    
     # #### Red - Red
     # D3_gop <- D3_gop[n == 1 & new_group_next_record != 1 &  recon == 0 & coloured_order == "4_red" & coloured_order_next_record == "4_red" & 
     #                    start_diff == 0,
@@ -467,7 +466,7 @@ D3_groups_of_pregnancies_reconciled_before_excl <- D3_gop[, .(person_id,
 setnames(D3_groups_of_pregnancies_reconciled_before_excl, "pers_group_id", "pregnancy_id")
 
 D3_groups_of_pregnancies_reconciled_before_excl <- D3_groups_of_pregnancies_reconciled_before_excl[highest_quality == "4_red", 
-                                                                           record_selected := as.integer(number_red/2) + 1] 
+                                                                                                   record_selected := as.integer(number_red/2) + 1] 
 
 D3_groups_of_pregnancies_reconciled_before_excl <- D3_groups_of_pregnancies_reconciled_before_excl[is.na(record_selected), record_selected:=1] 
 
