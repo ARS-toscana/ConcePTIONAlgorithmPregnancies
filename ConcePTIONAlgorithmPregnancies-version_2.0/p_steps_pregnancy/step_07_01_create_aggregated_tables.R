@@ -69,7 +69,7 @@ table_agebands_outcomes <- rbind(total_2, table_agebands_outcomes)
 table_agebands_outcomes <- table_agebands_outcomes[, perc := N/total *100]
 table_agebands_outcomes <- table_agebands_outcomes[, var := paste0(N, " (", round(perc, 2), "%)")][, -c("N")]
 
-table_agebands_outcomes_d <- dcast(table_agebands_outcomes,   age_band ~ type_of_pregnancy_end, value.var = "var", fill = "0 (0%)")
+table_agebands_outcomes_d <- data.table::dcast(table_agebands_outcomes,   age_band ~ type_of_pregnancy_end, value.var = "var", fill = "0 (0%)")
 
 table_ageband <- rbind(table_agebands_outcomes_d[age_band == "All"], table_agebands_outcomes_d[age_band != "All"])
 labs <- copy(table_ageband[, age_band])
@@ -128,7 +128,7 @@ table_quality <- rbind(total_2, table_quality)
 table_quality <- table_quality[, perc := N/total *100]
 table_quality <- table_quality[, var := paste0(N, " (", round(perc, 2), "%)")][, -c("N")]
 
-table_quality_d <- dcast(table_quality,   order_quality ~ type_of_pregnancy_end, value.var = "var", fill = "0 (0%)")
+table_quality_d <- data.table::dcast(table_quality,   order_quality ~ type_of_pregnancy_end, value.var = "var", fill = "0 (0%)")
 
 t <- rbind(table_quality_d[order_quality == "All"], table_quality_d[order_quality != "All"][order(as.integer(order_quality))])
 labs <- t[, order_quality]
@@ -157,7 +157,7 @@ table_meaning <- rbind(total_2, table_meaning)
 table_meaning <- table_meaning[, perc := N/total *100]
 table_meaning <- table_meaning[, var := paste0(N, " (", round(perc, 2), "%)")][, -c("N")]
 
-table_meaning_d <- dcast(table_meaning,   meaning_end_date ~ type_of_pregnancy_end, value.var = "var", fill = "0 (0%)")
+table_meaning_d <- data.table::dcast(table_meaning,   meaning_end_date ~ type_of_pregnancy_end, value.var = "var", fill = "0 (0%)")
 
 table_meaning_end <- rbind(table_meaning_d[meaning_end_date == "All"], table_meaning_d[meaning_end_date != "All"])
 
@@ -184,7 +184,7 @@ table_meaning <- rbind(total_2, table_meaning)
 table_meaning <- table_meaning[, perc := N/total *100]
 table_meaning <- table_meaning[, var := paste0(N, " (", round(perc, 2), "%)")][, -c("N")]
 
-table_meaning_d <- dcast(table_meaning,   meaning_start_date ~ type_of_pregnancy_end, value.var = "var", fill = "0 (0%)")
+table_meaning_d <- data.table::dcast(table_meaning,   meaning_start_date ~ type_of_pregnancy_end, value.var = "var", fill = "0 (0%)")
 
 table_meaning_start <- rbind(table_meaning_d[meaning_start_date == "All"], table_meaning_d[meaning_start_date != "All"])
 
