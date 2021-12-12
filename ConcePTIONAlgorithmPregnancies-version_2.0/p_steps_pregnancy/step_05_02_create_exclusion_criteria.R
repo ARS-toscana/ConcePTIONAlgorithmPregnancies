@@ -18,6 +18,11 @@ D3_pregnancy_reconciled_valid <- D3_pregnancy_reconciled_valid[INSUF_QUALITY == 
 D3_pregnancy_reconciled_valid <- D3_pregnancy_reconciled_valid[INSUF_QUALITY == 1 | GGDE ==1 | GGDS == 1, 
                                                    excluded := 1][is.na(excluded), excluded := 0]
 
+D3_pregnancy_reconciled_valid <- D3_pregnancy_reconciled_valid[, gestage := pregnancy_end_date - pregnancy_start_date]
+D3_pregnancy_reconciled_valid <- D3_pregnancy_reconciled_valid[gestage > 308, gestage_greater_44 :=1]
+D3_pregnancy_reconciled_valid <- D3_pregnancy_reconciled_valid[is.na(gestage_greater_44), gestage_greater_44 := 0]
+
+
 ## D3_groups_of_pregnancies_reconciled
 D3_groups_of_pregnancies_reconciled <- D3_groups_of_pregnancies_reconciled[like(algorithm_for_reconciliation, "GG:DiscordantEnd") , GGDE:=1]
 D3_groups_of_pregnancies_reconciled <- D3_groups_of_pregnancies_reconciled[, GGDE := max(GGDE), pregnancy_id]
@@ -69,11 +74,13 @@ D3_pregnancy_reconciled_valid <- D3_pregnancy_reconciled_valid[, .(pregnancy_id,
                                                                    number_red,
                                                                    date_of_principal_record,
                                                                    date_of_oldest_record,
+                                                                   date_of_most_recent_record,
                                                                    algorithm_for_reconciliation,
                                                                    description,           
                                                                    GGDE,
                                                                    GGDS,
                                                                    INSUF_QUALITY,
+                                                                   gestage_greater_44,
                                                                    pregnancy_splitted, 
                                                                    excluded,
                                                                    reason_for_exclusion)]

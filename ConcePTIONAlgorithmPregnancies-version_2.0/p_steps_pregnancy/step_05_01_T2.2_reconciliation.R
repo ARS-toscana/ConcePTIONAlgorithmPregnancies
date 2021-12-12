@@ -382,6 +382,7 @@ D3_gop <- D3_gop[, number_of_records_in_the_group := max(n), by = "pers_group_id
 D3_gop <- D3_gop[str_detect(meaning_start_date,"LastMestrualPeriod"), LMP_ONLY:=1][is.na(LMP_ONLY),LMP_ONLY:=0][,LMP_sum:=sum(LMP_ONLY), by="pers_group_id"]
 D3_gop <- D3_gop[LMP_sum!=number_of_records_in_the_group ,]
 
+# add vars
 D3_gop <- D3_gop[coloured_order == "1_green", number_green := .N, by = "pers_group_id"][is.na(number_green), number_green:= 0]
 D3_gop <- D3_gop[, number_green:= max(number_green),  by = "pers_group_id" ]
 D3_gop <- D3_gop[coloured_order == "2_yellow", number_yellow := .N, by = "pers_group_id"][is.na(number_yellow), number_yellow:= 0]
@@ -395,6 +396,8 @@ D3_gop <- D3_gop[n==1, date_of_principal_record := record_date,  by = "pers_grou
 D3_gop <- D3_gop[, date_of_principal_record:= max(date_of_principal_record),  by = "pers_group_id" ]
 
 D3_gop <- D3_gop[, date_of_oldest_record := min(record_date), by = "pers_group_id" ]
+D3_gop <- D3_gop[, date_of_most_recent_record := max(record_date), by = "pers_group_id" ]
+
 
 D3_gop <- D3_gop[, highest_quality := "Z"]
 D3_gop <- D3_gop[n==1, highest_quality := coloured_order]
@@ -444,7 +447,8 @@ D3_groups_of_pregnancies_reconciled_before_excl <- D3_gop[, .(person_id,
                                                               meaning, 
                                                               PROMPT, 
                                                               EUROCAT, 
-                                                              CONCEPTSETS, 
+                                                              CONCEPTSETS,
+                                                              CONCEPTSET,
                                                               ITEMSETS,
                                                               coloured_order,
                                                               highest_quality,
@@ -457,6 +461,7 @@ D3_groups_of_pregnancies_reconciled_before_excl <- D3_gop[, .(person_id,
                                                               order_quality,
                                                               date_of_principal_record,         
                                                               date_of_oldest_record, 
+                                                              date_of_most_recent_record,
                                                               algorithm_for_reconciliation,
                                                               description,
                                                               pregnancy_splitted,
