@@ -1,0 +1,75 @@
+---
+title: "Time distribution of records"
+output: 
+  html_document:
+    theme: united
+    toc: TRUE
+    toc_float: TRUE
+params:
+  D3_groups_of_pregnancies_reconciled: NULL
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+```{r parameters, include=FALSE}
+D3_groups_of_pregnancies_reconciled <- data.table(params$D3_groups_of_pregnancies_reconciled)
+```
+
+```{r ARS_colours, echo = F}
+#\definecolor{lightblueARS}{RGB}{108,207,246} --> #6ccff6
+#\definecolor{blueARS}{RGB}{0,173,239}        --> #00adef
+#\definecolor{lightroseARS}{RGB}{245,155,193} --> #f59bc1
+#\definecolor{roseARS}{RGB}{237,0,140}        --> #ed008c
+#\definecolor{lightgrayARS}{RGB}{220,220,222} --> #dcdcde
+#\definecolor{grayARS}{RGB}{188,189,193}      --> #bcbdc1
+```
+
+```{css, echo = F}
+h1 {text-align: center; color: #00adef}
+h2 {text-align: center; color: #00adef}
+.list-group-item.active, .list-group-item.active:focus, .list-group-item.active:hover {background-color: #00adef; border-color: #00adef}
+    
+```
+
+```{r vars, results = "asis", include=TRUE}
+DT <- D3_groups_of_pregnancies_reconciled[highest_quality == "1_green"]
+DT <- DT[, RECORD := CONCEPTSET]
+DT <- DT[is.na(RECORD), RECORD := meaning]
+```
+
+```{r loop, results = "asis", include=TRUE}
+list_of_records <- unique(DT[coloured_order != "1_green", RECORD])
+DT <- DT[, days_from_start:= record_date - pregnancy_start_date]
+
+for (record in list_of_records) {
+  
+
+  
+        
+  DT_rec <- DT[RECORD == record]
+  
+  if(DT_rec[, .N]>1){
+    
+  cat("\n")
+  cat(paste0("## ", record))
+  cat("\n")
+  
+    plot = p <- ggplot(DT_rec, aes(x = days_from_start))+
+                geom_histogram(fill = "salmon", col = "salmon", alpha = 0.7, na.rm = TRUE)+
+                scale_x_continuous(name="Days between pregnancy start date and record date", limits=c(0, 300))+
+                #ggtitle(paste0("Distribution of ",record, ":"))+
+                theme_hc()
+  
+  suppressMessages(print(plot))
+  cat(" \n <br>")
+  cat(" \n <br>")
+  cat( "Mean:", mean(DT_rec[, days_from_start]), "\n")
+  cat( "SD:", sqrt(var(DT_rec[, days_from_start])), "\n")
+  }
+  
+  cat("\n <br> <br> <br>")
+  cat("\n")
+}
+```
