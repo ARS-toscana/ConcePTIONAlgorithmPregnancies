@@ -90,10 +90,13 @@ D3_pregnancy_reconciled <- D3_pregnancy_reconciled_valid[, -c( "pregnancy_splitt
 setnames(D3_pregnancy_reconciled_valid, "meaning", "meaning_of_principal_record")
 setnames(D3_pregnancy_reconciled, "meaning", "meaning_of_principal_record")
 
+D3_pregnancy_final <- D3_pregnancy_reconciled
+
 ## saving 
 save(D3_groups_of_pregnancies_reconciled, file=paste0(dirtemp,"D3_groups_of_pregnancies_reconciled.RData"))
 save(D3_pregnancy_reconciled_valid, file=paste0(dirtemp,"D3_pregnancy_reconciled_valid.RData"))
 save(D3_pregnancy_reconciled, file=paste0(dirtemp,"D3_pregnancy_reconciled.RData"))
+save(D3_pregnancy_final, file=paste0(diroutput,"D3_pregnancy_final.RData"))
 
 #### create D3_included_pregnancies and D3_excluded_pregnancies
 #D3_included_pregnancies <- D3_pregnancy_reconciled[excluded == 0][, -c("excluded", "INSUF_QUALITY", "GGDE", "GGDS")]
