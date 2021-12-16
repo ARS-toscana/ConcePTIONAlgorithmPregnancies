@@ -121,6 +121,7 @@ if (this_datasource_has_prompt) {
       dataset_pregnancies2[pregnancy_end_date==DATEENDPREGNANCY & TYPE%in%unlist(dictonary_of_itemset_pregnancy_this_datasource[["SA"]]),type_of_pregnancy_end:="SA"]
       dataset_pregnancies2[pregnancy_end_date==DATEENDPREGNANCY & TYPE%in%unlist(dictonary_of_itemset_pregnancy_this_datasource[["T"]]) ,type_of_pregnancy_end:="T"]
       dataset_pregnancies2[pregnancy_end_date==DATEENDPREGNANCY & TYPE%in%unlist(dictonary_of_itemset_pregnancy_this_datasource[["MD"]]),type_of_pregnancy_end:="MD"]
+      dataset_pregnancies2[pregnancy_end_date==DATEENDPREGNANCY & TYPE%in%unlist(dictonary_of_itemset_pregnancy_this_datasource[["ECT"]]),type_of_pregnancy_end:="ECT"]
       dataset_pregnancies2[pregnancy_end_date==DATEENDPREGNANCY & TYPE%in%unlist(dictonary_of_itemset_pregnancy_this_datasource[["UNK"]]),type_of_pregnancy_end:="UNK"]
       
     } 

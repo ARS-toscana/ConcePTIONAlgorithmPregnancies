@@ -9,10 +9,10 @@
 
 meaning_of_survey_pregnancy <- vector(mode="list")
 
-meaning_of_survey_pregnancy[["CPRD"]][["livebirth_or_stillbirth"]]<-list("pregnancy_register")
-meaning_of_survey_pregnancy[["CPRD"]][["ongoing_pregnancy"]]<-list()
-meaning_of_survey_pregnancy[["CPRD"]][["spontaneous_abortion"]]<-list("pregnancy_register")
-meaning_of_survey_pregnancy[["CPRD"]][["induced_termination"]]<-list("pregnancy_register")
-meaning_of_survey_pregnancy[["CPRD"]][["other"]]<-list()
+meaning_of_survey_pregnancy[["CPRD"]][["livebirth_or_stillbirth"]]<-list("primary_care_pregnancy_register")
+meaning_of_survey_pregnancy[["CPRD"]][["ongoing_pregnancy"]]<-list("primary_care_pregnancy_register")
+meaning_of_survey_pregnancy[["CPRD"]][["spontaneous_abortion"]]<-list("primary_care_pregnancy_register")
+meaning_of_survey_pregnancy[["CPRD"]][["induced_termination"]]<-list("primary_care_pregnancy_register")
+meaning_of_survey_pregnancy[["CPRD"]][["other"]]<-list("primary_care_pregnancy_register")
 
 
