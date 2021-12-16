@@ -73,11 +73,11 @@ concept_set_codes_pregnancy_excl[["STILLBIRTH_possible"]] <- list()
 
 
 ####### Start of pregnancy ###############
-# concept_set_codes_pregnancy[["Startofpregnancy"]][["ICD9"]] <-c("631","69.92","765.2","765.2","V22.0","V72.40","V72.42")
-# concept_set_codes_pregnancy[["Startofpregnancy"]][["ICD10"]] <-c("O02.81","Z34.0","Z3A")
-# concept_set_codes_pregnancy[["Startofpregnancy"]][["READ"]] <-c("X76Qv","X76xx","XE0hz","ZV220","ZV724","6211","62X..","8C81.","ZV220","ZV724")
+# concept_set_codes_pregnancy[["Startofpregnancy"]][["ICD9"]] <-c("631","69.92","V22.0","V72.40","V72.42")
+# concept_set_codes_pregnancy[["Startofpregnancy"]][["ICD10"]] <-c("O02.81","Z34.0")
+# concept_set_codes_pregnancy[["Startofpregnancy"]][["READ"]] <-c("X76xx","XE0hz","ZV220","ZV724","6211","8C81.")
 # concept_set_codes_pregnancy[["Startofpregnancy"]][["ICPC2P"]] <-c("W59002")
-# concept_set_codes_pregnancy[["Startofpregnancy"]][["SNOMED"]] <-c("250423000","315900008","316583008","58533008","6099009")
+# concept_set_codes_pregnancy[["Startofpregnancy"]][["SNOMED"]] <-c("250423000","315900008","316583008","58533008","6099009", "83074005", "77386006")
 
 ####### Gestation less 24 ###############
 concept_set_codes_pregnancy[["Gestation_less24"]][["ICD9"]] <- c("765.21")
