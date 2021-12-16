@@ -54,14 +54,13 @@ for (concept in concept_sets_of_pregnancy_procedure) {
 if (this_datasources_with_specific_algorithms){
   
   for (concept in concept_set_pregnancy) {
-    if( nrow(get(concept)) > 0){
+    if( nrow(get(concept)) > 0 & concept_set_domains[[concept]]=="Diagnosis"){
+      
       assign("concept_temp", get(concept))
-    }
-
-    if(concept_set_domains[[concept]]=="Diagnosis"){
       concept_temp <- concept_temp[eval(parse(text = select)),]
       assign( concept, concept_temp)
-    }      
+      save(list=concept, file=paste0(dirtemp, concept,".RData"))
+    }
   } 
 }
 ################################################################################
