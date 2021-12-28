@@ -90,9 +90,13 @@ D3_pregnancy_reconciled <- D3_pregnancy_reconciled_valid[, -c( "pregnancy_splitt
 setnames(D3_pregnancy_reconciled_valid, "meaning", "meaning_of_principal_record")
 setnames(D3_pregnancy_reconciled, "meaning", "meaning_of_principal_record")
 
-D3_pregnancy_final <- D3_pregnancy_reconciled
+### ONGOING 
+D3_pregnancy_reconciled <- D3_pregnancy_reconciled[pregnancy_end_date>study_end, type_of_pregnancy_end := "ONGOING"]
+D3_pregnancy_reconciled_valid <- D3_pregnancy_reconciled_valid[pregnancy_end_date>study_end, type_of_pregnancy_end := "ONGOING"]
 
 ## saving 
+D3_pregnancy_final <- D3_pregnancy_reconciled
+
 save(D3_groups_of_pregnancies_reconciled, file=paste0(dirtemp,"D3_groups_of_pregnancies_reconciled.RData"))
 save(D3_pregnancy_reconciled_valid, file=paste0(dirtemp,"D3_pregnancy_reconciled_valid.RData"))
 save(D3_pregnancy_reconciled, file=paste0(dirtemp,"D3_pregnancy_reconciled.RData"))
