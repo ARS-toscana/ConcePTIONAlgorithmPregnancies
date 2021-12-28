@@ -249,6 +249,37 @@ concept_set_codes_pregnancy[["Ectopicpregnancy"]][["SNOMED"]] <- c("111425004","
 #######################################################################################
 ################################# PROCEDURE CODES #####################################
 #######################################################################################
+concept_sets_of_pregnancy_pro <- c("procedures_end_livebirth", "procedures_end_abortion", "procedures_ongoing", "procedures_ectopic")
+
+for (conceptset in concept_sets_of_pregnancy_pro){
+  concept_set_domains[[conceptset]] = "Procedures"
+}
+
+
+#parto ICD9 pcr
+concept_set_codes_pregnancy[["procedures_end_livebirth"]][["ICD9"]] <- c("72.0", "72.1", "72.2", "72.21", "72.29", "72.3", "72.31", "72.39", "72.4", "72.51", "72.53", "72.6", "72.7", "72.71", "72.79", "72.8", "72.9", "73.01", "73.1", "73.3", "73.4", "73.5", "73.59", "73.8", "73.9", "73.93", "73.94", "73.99", "74.0", "74.1", "74.2", "74.4", "74.9", "74.99", "75.7", "89.16", "72.5", "72.52", "72.54", "73.0", "73.09", "73.2", "73.22", "73.51", "73.91", "73.92", "74.3", "84.92", "84.93")
+
+
+#aborto inespecifico-ICD10 prc
+concept_set_codes_pregnancy[["procedures_end_abortion"]][["ICD10"]] <- c("10A00ZZ", "10A03ZZ", "10A04ZZ", "10A07Z6", "10A07ZW", "10A07ZX", "10A07ZZ", "10A08ZZ") 
+#aborto ICD9 proc
+concept_set_codes_pregnancy[["procedures_end_abortion"]][["ICD9"]] <- c("69.51", "69.52", "74.91", "75.0", "69.01") 
+
+
+#Ectopic IC9 proc
+concept_set_codes_pregnancy[["procedures_ectopic"]][["ICD9"]] <- c("66.62")
+
+
+#codigos inespecificos-ICD10 prc
+concept_set_codes_pregnancy[["procedures_ongoing"]][["ICD10"]] <- c("10900Z9", "10900ZA", "10900ZB", "10903Z9", "10903ZA", "10903ZB", "10904Z9", "10904ZA", "10904ZB", "10907Z9", "10907ZA", "10907ZB", "10908Z9", "10908ZA", "10908ZB", "BY30Y0Z", "BY30YZZ", "BY30ZZZ", "BY31Y0Z", "BY31YZZ", "BY31ZZZ", "BY32Y0Z", "BY32YZZ", "BY32ZZZ", "BY33Y0Z", "BY33YZZ", "BY33ZZZ", "BY35Y0Z", "BY35YZZ", "BY35ZZZ", "BY47ZZZ")
+#codigos inespecificos ICD9 proc
+concept_set_codes_pregnancy[["procedures_ongoing"]][["ICD9"]] <- c("75.3", "75.32", "75.33", "75.34", "75.35", "75.36", "75.38", "75.2")
+
+
+
+
+
+
 
 # -itemset_AVpair_pregnancy- is a nested list, with 3 levels: foreach study variable, for each coding system of its data domain, the list of AVpair is recorded
 # fetal_nuchal_translucency
@@ -261,7 +292,7 @@ if(!this_datasource_has_procedures) {
   
   concept_set_codes_pregnancy_datasource <- vector(mode="list")
   
-  concept_sets_of_pregnancy_procedure <- c("fetal_nuchal_translucency", "amniocentesis","Chorionic_Villus_Sampling","others")
+  concept_sets_of_pregnancy_procedure <- c("fetal_nuchal_translucency", "amniocentesis","Chorionic_Villus_Sampling","others")  
   coding_system_of_pregnancy_procedure <- c("ITA_procedures_coding_system", "ICD9", "ICD10")
   concept_sets_of_pregnancy_procedure_not_in_pregnancy <- c("gestational_diabetes")
   
@@ -565,7 +596,7 @@ concept_set_codes_pregnancy[["TOPFA_possible"]][["SNOMED"]] <- c("1321008","1499
 #######################################################################################
 
 
-concept_set_pregnancy <- c(concept_sets_of_pregnancy_eve, concept_set_pregnancy_pre, concept_set_pregnancy_atc, concept_sets_of_pregnancy_procedure, concept_sets_of_pregnancy_procedure_not_in_pregnancy)
+concept_set_pregnancy <- c(concept_sets_of_pregnancy_eve, concept_set_pregnancy_pre, concept_set_pregnancy_atc, concept_sets_of_pregnancy_procedure, concept_sets_of_pregnancy_procedure_not_in_pregnancy, concept_sets_of_pregnancy_pro)
 
 conceptset_pregnancy_this_datasource<-vector(mode="list")
 for (t in  names(concept_set_codes_pregnancy)) {
