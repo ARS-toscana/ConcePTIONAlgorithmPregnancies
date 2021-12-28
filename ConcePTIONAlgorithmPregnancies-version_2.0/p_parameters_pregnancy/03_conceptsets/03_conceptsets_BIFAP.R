@@ -5,7 +5,7 @@
 # version: 1.0
 # changelog: 
 
-####### LOAD PROCEDURES for PHARMO
+####### LOAD PROCEDURES for BIFAP
 
 ####### Codes for tests for gestational diabetes ###############
 concept_set_codes_pregnancy_datasource[["gestational_diabetes"]][["BIFAP"]][["TO_ADD_coding_system"]] <- c("90.26.7") 
