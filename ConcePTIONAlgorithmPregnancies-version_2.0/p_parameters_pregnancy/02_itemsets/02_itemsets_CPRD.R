@@ -56,11 +56,12 @@ itemset_AVpair_pregnancy[["TYPE"]][[files[i]]][["CPRD"]] <- list(list("pregnancy
 
 ################################ DICTINARY OF TYPE ##################################
 
-dictonary_of_itemset_pregnancy[["TYPE"]][["CPRD"]][["LB"]]<-list(list("pregnancy_register", "1"), list("pregnancy_register", "3"))
-dictonary_of_itemset_pregnancy[["TYPE"]][["CPRD"]][["SB"]]<-list(list("pregnancy_register", "2"), list("pregnancy_register", "3"))
+dictonary_of_itemset_pregnancy[["TYPE"]][["CPRD"]][["LB"]]<-list(list("pregnancy_register", "1"))
+dictonary_of_itemset_pregnancy[["TYPE"]][["CPRD"]][["SB"]]<-list(list("pregnancy_register", "2"))
 dictonary_of_itemset_pregnancy[["TYPE"]][["CPRD"]][["SA"]]<-list(list("pregnancy_register", "4"))
 dictonary_of_itemset_pregnancy[["TYPE"]][["CPRD"]][["T"]]<-list(list("pregnancy_register", "5"))
 dictonary_of_itemset_pregnancy[["TYPE"]][["CPRD"]][["MD"]]<-list()
 dictonary_of_itemset_pregnancy[["TYPE"]][["CPRD"]][["ECT"]]<-list(list("pregnancy_register", "7"))
-dictonary_of_itemset_pregnancy[["TYPE"]][["CPRD"]][["UNK"]]<-list(list("pregnancy_register", "13"))
-
+dictonary_of_itemset_pregnancy[["TYPE"]][["CPRD"]][["UNK"]]<-list(list("pregnancy_register", "3"), list("pregnancy_register", "6"),
+                                                                  list("pregnancy_register", "8"), list("pregnancy_register", "9"), list("pregnancy_register", "10"),
+                                                                  list("pregnancy_register", "11"), list("pregnancy_register", "12"), list("pregnancy_register", "13"))
