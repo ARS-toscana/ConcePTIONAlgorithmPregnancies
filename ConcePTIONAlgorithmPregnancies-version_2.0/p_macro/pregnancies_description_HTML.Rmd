@@ -44,72 +44,6 @@ The algorithm has retrieved `r number_of_women ` women, for a total of  `r numbe
 `r number_of_records ` records were reconciled to build the pregnancies.
 <br/><br/><br/><br/>
 
----
-
-## Streams 
-
----
-
-Pregnancies are retrieved from four different streams:
-<br/>
-
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Page Title</title>
-    <style>
-      /* The . with the boxed represents that it is a class */
-      .boxed {
-        background: #def6ff;
-        color: black;
-        border: 1px solid #00adef;
-        margin: 0px auto;
-
-      }
-    </style>
-  </head>
-  <body>
-    <div class="boxed">
-    
-- **PROMPTS**: records from birth records, pregnancy termination records, and abortion records in <em>SURVEY_ID</em>: the existence of one of these records easily implies that a pregnancy is completed 
-
-- **EUROCAT**: records from <em>EUROCAT</em> table
-
-- **CONCEPTSETS**: diagnostic codes from <em>EVENTS</em> or procedure codes from <em>PROCEDURES</em> or codes from the <em>MEDICAL_RECORDS</em> file that refer to a completed or ongoing pregnancy 
-
-- **ITEMSETS**: routine health variables that are populated only when a woman is pregnant
-
-    </div>
-  </body>
-</html>
-
-<br/>
-
-
-A pregnancy may have records in different streams. The subsequent figure shows the number of absolute pregnancies, divided by the highest quality stream in with the pregnancy is retrieved, and anchored to the pregnancy start year.
-
-```{r year_start_of_pregnancy}
-D3_pregnancy_reconciled <- D3_pregnancy_reconciled[CONCEPTSETS== "yes", Stream := "CONCEPTSETS"]
-D3_pregnancy_reconciled <- D3_pregnancy_reconciled[ITEMSETS== "yes", Stream := "ITEMSETS"]
-D3_pregnancy_reconciled <- D3_pregnancy_reconciled[EUROCAT== "yes", Stream := "EUROCAT"]
-D3_pregnancy_reconciled <- D3_pregnancy_reconciled[PROMPT== "yes", Stream := "PROMPT"]
-
-```
-
-
-```{r stream_graph}
-stream_plot <- D3_pregnancy_reconciled[, .N, by = .(year_start_of_pregnancy, Stream)]
-
-p <- ggplot(stream_plot, aes(x = year_start_of_pregnancy, y = N , fill= Stream))+
-  geom_col()+
-  theme_hc()
-plot <- ggplotly(p)
-plot
-```
-
-
-<br/><br/><br/><br/>
 
 ---
 
@@ -197,6 +131,75 @@ datatable(table_streams)
 ```
 <br/><br/><br/><br/>
 
+
+---
+
+## Streams 
+
+---
+
+Pregnancies are retrieved from four different streams:
+<br/>
+
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Page Title</title>
+    <style>
+      /* The . with the boxed represents that it is a class */
+      .boxed {
+        background: #def6ff;
+        color: black;
+        border: 1px solid #00adef;
+        margin: 0px auto;
+
+      }
+    </style>
+  </head>
+  <body>
+    <div class="boxed">
+    
+- **PROMPTS**: records from birth records, pregnancy termination records, and abortion records in <em>SURVEY_ID</em>: the existence of one of these records easily implies that a pregnancy is completed 
+
+- **EUROCAT**: records from <em>EUROCAT</em> table
+
+- **CONCEPTSETS**: diagnostic codes from <em>EVENTS</em> or procedure codes from <em>PROCEDURES</em> or codes from the <em>MEDICAL_RECORDS</em> file that refer to a completed or ongoing pregnancy 
+
+- **ITEMSETS**: routine health variables that are populated only when a woman is pregnant
+
+    </div>
+  </body>
+</html>
+
+<br/>
+
+
+A pregnancy may have records in different streams. The subsequent figure shows the number of absolute pregnancies, divided by the highest quality stream in with the pregnancy is retrieved, and anchored to the pregnancy start year.
+
+```{r year_start_of_pregnancy}
+D3_pregnancy_reconciled <- D3_pregnancy_reconciled[CONCEPTSETS== "yes", Stream := "CONCEPTSETS"]
+D3_pregnancy_reconciled <- D3_pregnancy_reconciled[ITEMSETS== "yes", Stream := "ITEMSETS"]
+D3_pregnancy_reconciled <- D3_pregnancy_reconciled[EUROCAT== "yes", Stream := "EUROCAT"]
+D3_pregnancy_reconciled <- D3_pregnancy_reconciled[PROMPT== "yes", Stream := "PROMPT"]
+
+```
+
+
+```{r stream_graph}
+stream_plot <- D3_pregnancy_reconciled[, .N, by = .(year_start_of_pregnancy, Stream)]
+
+p <- ggplot(stream_plot, aes(x = year_start_of_pregnancy, y = N , fill= Stream))+
+  geom_col()+
+  theme_hc()
+plot <- ggplotly(p)
+plot
+```
+
+
+<br/><br/><br/><br/>
+
+
 ---
 
 ## Type of pregnancies end 
@@ -225,12 +228,15 @@ ___
 
 
 ```{r lb_graph}
+
 LB <- D3_pregnancy_reconciled[type_of_pregnancy_end == "LB"]
+LB <- LB[, order_quality := as.factor(order_quality)]
+
 if (LB[, .N]==0){
   print("there is no LB among the types of end of pregnancy" )
 }else{
-LB <- LB[, .N, .(Stream, year_start_of_pregnancy)]
-p <- ggplot(LB, aes(x = year_start_of_pregnancy, y = N, fill= Stream))+
+LB <- LB[, .N, .(order_quality, year_start_of_pregnancy)]
+p <- ggplot(LB, aes(x = year_start_of_pregnancy, y = N, fill= order_quality))+
   geom_col()+
   theme_hc()
 plot <- ggplotly(p)
@@ -246,11 +252,13 @@ ___
 
 ```{r sb_graph}
 SB <- D3_pregnancy_reconciled[type_of_pregnancy_end == "SB"]
-SB <- SB[, .N, .(Stream, year_start_of_pregnancy)]
+SB <- SB[, order_quality := as.factor(order_quality)]
+
+SB <- SB[, .N, .(order_quality, year_start_of_pregnancy)]
 if (SB[, .N]==0){
   print("there is no SB among the types of end of pregnancy" )
 }else{
-p <- ggplot(SB, aes(x = year_start_of_pregnancy, y = N, fill= Stream))+
+p <- ggplot(SB, aes(x = year_start_of_pregnancy, y = N, fill= order_quality))+
   geom_col()+
   theme_hc()
 plot <- ggplotly(p)
@@ -269,11 +277,13 @@ ___
 
 ```{r t_graph}
 TE <- D3_pregnancy_reconciled[type_of_pregnancy_end == "T"]
-TE <- TE[, .N, .(Stream, year_start_of_pregnancy)]
+TE <- TE[, order_quality := as.factor(order_quality)]
+
+TE <- TE[, .N, .(order_quality, year_start_of_pregnancy)]
 if (TE[, .N]==0){
   print("there is no T among the types of end of pregnancy" )
 }else{
-p <- ggplot(TE, aes(x = year_start_of_pregnancy, y = N,  fill= Stream))+
+p <- ggplot(TE, aes(x = year_start_of_pregnancy, y = N,  fill= order_quality))+
   geom_col()+
   theme_hc()
 plot <- ggplotly(p)
@@ -290,11 +300,13 @@ ___
 
 ```{r sa_graph}
 SA <- D3_pregnancy_reconciled[type_of_pregnancy_end == "SA"]
-SA <-SA[, .N, .(Stream, year_start_of_pregnancy)]
+SA <-SA[, order_quality := as.factor(order_quality)]
+
+SA <-SA[, .N, .(order_quality, year_start_of_pregnancy)]
 if (SA[, .N]==0){
   print("there is no SA among the types of end of pregnancy" )
 }else{
-p <- ggplot(SA, aes(x = year_start_of_pregnancy, y = N, fill= Stream))+
+p <- ggplot(SA, aes(x = year_start_of_pregnancy, y = N, fill= order_quality))+
   geom_col()+
   theme_hc()
 plot <- ggplotly(p)
@@ -310,11 +322,13 @@ ___
 
 ```{r ectgraph}
 ECT <- D3_pregnancy_reconciled[type_of_pregnancy_end == "ECT"]
-ECT <-ECT[, .N, .(Stream, year_start_of_pregnancy)]
+ECT <-ECT[, order_quality := as.factor(order_quality)]
+
+ECT <-ECT[, .N, .(order_quality, year_start_of_pregnancy)]
 if (ECT[, .N]==0){
   print("there is no ECT among the types of end of pregnancy" )
 }else{
-p <- ggplot(ECT, aes(x = year_start_of_pregnancy, y = N, fill= Stream))+
+p <- ggplot(ECT, aes(x = year_start_of_pregnancy, y = N, fill= order_quality))+
   geom_col()+
   theme_hc()
 
@@ -333,11 +347,13 @@ ___
 
 ```{r unk_graph}
 UNK <- D3_pregnancy_reconciled[type_of_pregnancy_end == "UNK" | is.na(type_of_pregnancy_end)]
-UNK <-UNK[, .N, .(Stream, year_start_of_pregnancy)]
+UNK <-UNK[, order_quality := as.factor(order_quality)]
+
+UNK <-UNK[, .N, .(order_quality, year_start_of_pregnancy)]
 if (UNK[, .N]==0){
   print("there is no UNK among the types of end of pregnancy" )
 }else{
-p <- ggplot(UNK, aes(x = year_start_of_pregnancy, y = N, fill= Stream))+
+p <- ggplot(UNK, aes(x = year_start_of_pregnancy, y = N, fill= order_quality))+
   geom_col()+
   theme_hc()
 plot <- ggplotly(p)
