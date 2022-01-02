@@ -261,9 +261,13 @@ concept_set_codes_pregnancy[["procedures_end_livebirth"]][["ICD9"]] <- c("72.0",
 
 
 #aborto inespecifico-ICD10 prc
-concept_set_codes_pregnancy[["procedures_end_abortion"]][["ICD10"]] <- c("10A00ZZ", "10A03ZZ", "10A04ZZ", "10A07Z6", "10A07ZW", "10A07ZX", "10A07ZZ", "10A08ZZ") 
+concept_set_codes_pregnancy[["procedures_termination"]][["ICD10"]] <- c("10A00ZZ", "10A03ZZ", "10A04ZZ", "10A07Z6", "10A07ZW", "10A07ZX", "10A07ZZ", "10A08ZZ") 
 #aborto ICD9 proc
-concept_set_codes_pregnancy[["procedures_end_abortion"]][["ICD9"]] <- c("69.51", "69.52", "74.91", "75.0", "69.01") 
+concept_set_codes_pregnancy[["procedures_termination"]][["ICD9"]] <- c("69.51", "74.91", "75.0", "69.01") 
+
+
+#aborto ICD9 proc
+concept_set_codes_pregnancy[["procedures_spontaneous_abortion"]][["ICD9"]] <- c("69.52") 
 
 
 #Ectopic IC9 proc
