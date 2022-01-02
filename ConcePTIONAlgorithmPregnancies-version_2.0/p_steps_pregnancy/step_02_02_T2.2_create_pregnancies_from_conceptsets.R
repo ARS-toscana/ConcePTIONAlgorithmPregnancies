@@ -111,7 +111,9 @@ dataset_concept_sets<-dataset_concept_sets[concept_set%chin%concept_sets_of_end_
 
 
 dataset_concept_sets<-dataset_concept_sets[concept_set == "procedures_end_livebirth", pregnancy_end_date:=date]
-dataset_concept_sets<-dataset_concept_sets[concept_set == "procedures_end_abortion", pregnancy_end_date:=date]
+dataset_concept_sets<-dataset_concept_sets[concept_set == "procedures_spontaneous_abortion", pregnancy_end_date:=date]
+dataset_concept_sets<-dataset_concept_sets[concept_set == "procedures_termination", pregnancy_end_date:=date]
+
 dataset_concept_sets<-dataset_concept_sets[concept_set == "procedures_ectopic", pregnancy_end_date:=date]
 
 dataset_concept_sets<-dataset_concept_sets[concept_set == "procedures_ongoing", pregnancy_ongoing_date:=date]
@@ -135,7 +137,8 @@ dataset_concept_sets<-dataset_concept_sets[!is.na(pregnancy_end_date) & concept_
 dataset_concept_sets<-dataset_concept_sets[!is.na(pregnancy_end_date) & concept_set=="Ongoingpregnancy",type_of_pregnancy_end:="UNK"]
 
 dataset_concept_sets<-dataset_concept_sets[!is.na(pregnancy_end_date) & concept_set == "procedures_end_livebirth", type_of_pregnancy_end:="LB"]
-dataset_concept_sets<-dataset_concept_sets[!is.na(pregnancy_end_date) & concept_set == "procedures_end_abortion", type_of_pregnancy_end:="UNK"]
+dataset_concept_sets<-dataset_concept_sets[!is.na(pregnancy_end_date) & concept_set == "procedures_spontaneous_abortion", type_of_pregnancy_end:="SA"]
+dataset_concept_sets<-dataset_concept_sets[!is.na(pregnancy_end_date) & concept_set == "procedures_termination", type_of_pregnancy_end:="T"]
 dataset_concept_sets<-dataset_concept_sets[!is.na(pregnancy_end_date) & concept_set == "procedures_ectopic", type_of_pregnancy_end:="ECT"]
 
 dataset_concept_sets<-dataset_concept_sets[!is.na(pregnancy_end_date) & concept_set == "procedures_ongoing", type_of_pregnancy_end:="UNK"]
@@ -147,8 +150,8 @@ dataset_concept_sets<-dataset_concept_sets[!is.na(pregnancy_end_date) & is.na(pr
 dataset_concept_sets<-dataset_concept_sets[!is.na(pregnancy_end_date) & is.na(pregnancy_start_date) & type_of_pregnancy_end=="LB" & concept_set=="Birth_possible",`:=`(pregnancy_start_date= pregnancy_end_date-280, imputed_start_of_pregnancy=1, imputed_end_of_pregnancy=1)]
 
 dataset_concept_sets<-dataset_concept_sets[!is.na(pregnancy_end_date) & is.na(pregnancy_start_date) & type_of_pregnancy_end=="LB" & concept_set=="procedures_end_livebirth",`:=`(pregnancy_start_date= pregnancy_end_date-280, imputed_start_of_pregnancy=1)]
-dataset_concept_sets<-dataset_concept_sets[!is.na(pregnancy_end_date) & is.na(pregnancy_start_date) & type_of_pregnancy_end=="UNK" & concept_set=="procedures_end_abortion",`:=`(pregnancy_start_date= pregnancy_end_date-70 , imputed_start_of_pregnancy=1)]
-
+dataset_concept_sets<-dataset_concept_sets[!is.na(pregnancy_end_date) & is.na(pregnancy_start_date) & type_of_pregnancy_end=="SA" & concept_set=="procedures_spontaneous_abortion",`:=`(pregnancy_start_date= pregnancy_end_date-70 , imputed_start_of_pregnancy=1)]
+dataset_concept_sets<-dataset_concept_sets[!is.na(pregnancy_end_date) & is.na(pregnancy_start_date) & type_of_pregnancy_end=="T" & concept_set=="procedures_termination",`:=`(pregnancy_start_date= pregnancy_end_date-70 , imputed_start_of_pregnancy=1)]
 
 dataset_concept_sets<-dataset_concept_sets[!is.na(pregnancy_end_date) & is.na(pregnancy_start_date) & type_of_pregnancy_end=="SA",`:=`(pregnancy_start_date= pregnancy_end_date-70, imputed_start_of_pregnancy=1)]
 dataset_concept_sets<-dataset_concept_sets[!is.na(pregnancy_end_date) & is.na(pregnancy_start_date) & type_of_pregnancy_end=="SB",`:=`(pregnancy_start_date= pregnancy_end_date-196, imputed_start_of_pregnancy=1)]
