@@ -193,3 +193,13 @@ table_meaning_start <- table_meaning_start[,-c("meaning_start_date")]
 table_meaning_start <- cbind(meaning=labs, table_meaning_start)
 fwrite(table_meaning_start, paste0(direxp, "DTableMeaningStart.csv"))
 
+
+##  Reconciliation 
+D3_pregnancy_reconciled_valid <- D3_pregnancy_reconciled_valid[like(algorithm_for_reconciliation, ":Discordant"), Discordant := 1]
+D3_pregnancy_reconciled_valid <- D3_pregnancy_reconciled_valid[like(algorithm_for_reconciliation,":SlightlyDiscordant"), SlightlyDiscordant := 1]
+D3_pregnancy_reconciled_valid <- D3_pregnancy_reconciled_valid[like(algorithm_for_reconciliation, ":Inconsistency"), Inconsistency := 1]
+
+TableReconciliation <- D3_pregnancy_reconciled_valid[, .N, by = .(type_of_pregnancy_end, Discordant, SlightlyDiscordant, Inconsistency, year_start_of_pregnancy)]
+fwrite(TableReconciliation, paste0(direxp, "TableReconciliation.csv"))
+
+
