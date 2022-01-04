@@ -1,5 +1,5 @@
 ---
-title: "Description of the pregnancies cohort"
+title: "Pregnancy cohort description"
 output: 
   html_document:
     theme: united
@@ -24,6 +24,8 @@ h3 {color: #6ccff6}
 ```{r parameters}
 D3_pregnancy_reconciled <- data.table(params$D3_pregnancy_reconciled)
 D3_groups_of_pregnancies_reconciled <- data.table(params$D3_groups_of_pregnancies_reconciled)
+
+options(warn=-1)
 ```
 
 ```{r first_adj}
@@ -110,7 +112,7 @@ As reported in the sap, some records have both pregnancy start date and pregnanc
 
 <br/>
 
-The subsequent figure shows the number of absolute pregnancies retrieved, divided by the highest record quality in the pregnancy, and anchored to the pregnancy start year.
+The subsequent figure shows the number of absolute pregnancies retrieved, stratified by the highest record quality in the pregnancy, and anchored to the pregnancy start year.
 
 ```{r quality_graph}
 quality_DF <- D3_pregnancy_reconciled[, order_quality := as.factor(order_quality)]
@@ -175,7 +177,7 @@ Pregnancies are retrieved from four different streams:
 <br/>
 
 
-A pregnancy may have records in different streams. The subsequent figure shows the number of absolute pregnancies, divided by the highest quality stream in with the pregnancy is retrieved, and anchored to the pregnancy start year.
+A pregnancy may have records in different streams. The subsequent figure shows the number of absolute pregnancies, stratified by the highest quality stream in with the pregnancy is retrieved, and anchored to the pregnancy start year.
 
 ```{r year_start_of_pregnancy}
 D3_pregnancy_reconciled <- D3_pregnancy_reconciled[CONCEPTSETS== "yes", Stream := "CONCEPTSETS"]
@@ -389,10 +391,14 @@ D3_pregnancy_reconciled[, days_before_first_record := date_of_oldest_record - pr
 LB_first_record <- D3_pregnancy_reconciled[type_of_pregnancy_end == "LB"]
 
 if (LB_first_record[, .N]==0){
-  print("there is no SB among the types of end of pregnancy" )
+  print("there is no LB among the types of end of pregnancy" )
 }else{
-  p <- ggplot(LB_first_record, aes(x = days_before_first_record))+
-    geom_density(fill = "salmon", col = "salmon", alpha = 0.7, na.rm = TRUE)+
+  LB_first_record <- LB_first_record[, year_start_of_pregnancy := as.factor(year_start_of_pregnancy)]
+  p <- ggplot(LB_first_record, aes(x = days_before_first_record, 
+                                   group = year_start_of_pregnancy, 
+                                   fill = year_start_of_pregnancy, 
+                                   col = year_start_of_pregnancy))+
+    geom_density(alpha = 0.7, na.rm = TRUE)+
     scale_x_continuous(name="Days between pregnancy start date and first observed record ", limits=c(0, 300))+
     #facet_grid(type_of_pregnancy_end~.)+
     theme_hc()
@@ -413,8 +419,12 @@ SB_first_record <- D3_pregnancy_reconciled[type_of_pregnancy_end == "SB"]
 if (SB_first_record[, .N]==0){
   print("there is no SB among the types of end of pregnancy" )
 }else{
-  p <- ggplot(SB_first_record, aes(x = days_before_first_record))+
-    geom_density(fill = "salmon", col = "salmon", alpha = 0.7, na.rm = TRUE)+
+  SB_first_record <- SB_first_record[, year_start_of_pregnancy := as.factor(year_start_of_pregnancy)]
+  p <- ggplot(SB_first_record, aes(x = days_before_first_record, 
+                                   group = year_start_of_pregnancy, 
+                                   fill = year_start_of_pregnancy, 
+                                   col = year_start_of_pregnancy))+
+    geom_density(alpha = 0.7, na.rm = TRUE)+
     scale_x_continuous(name="Days between pregnancy start date and first observed record ", limits=c(0, 300))+
     #facet_grid(type_of_pregnancy_end~.)+
     theme_hc()
@@ -435,8 +445,12 @@ T_first_record <- D3_pregnancy_reconciled[type_of_pregnancy_end == "T"]
 if (T_first_record[, .N]==0){
   print("there is no T among the types of end of pregnancy" )
 }else{
-  p <- ggplot(T_first_record, aes(x = days_before_first_record))+
-    geom_density(fill = "salmon", col = "salmon", alpha = 0.7, na.rm = TRUE)+
+  T_first_record <- T_first_record[, year_start_of_pregnancy := as.factor(year_start_of_pregnancy)]
+  p <- ggplot(T_first_record, aes(x = days_before_first_record, 
+                                   group = year_start_of_pregnancy, 
+                                   fill = year_start_of_pregnancy, 
+                                   col = year_start_of_pregnancy))+
+    geom_density(alpha = 0.7, na.rm = TRUE)+
     scale_x_continuous(name="Days between pregnancy start date and first observed record ", limits=c(0, 300))+
     #facet_grid(type_of_pregnancy_end~.)+
     theme_hc()
@@ -457,8 +471,12 @@ SA_first_record <- D3_pregnancy_reconciled[type_of_pregnancy_end == "SA"]
 if (SA_first_record[, .N]==0){
   print("there is no SA among the types of end of pregnancy" )
 }else{
-  p <- ggplot(SA_first_record, aes(x = days_before_first_record))+
-    geom_density(fill = "salmon", col = "salmon", alpha = 0.7, na.rm = TRUE)+
+  SA_first_record <- SA_first_record[, year_start_of_pregnancy := as.factor(year_start_of_pregnancy)]
+  p <- ggplot(SA_first_record, aes(x = days_before_first_record, 
+                                   group = year_start_of_pregnancy, 
+                                   fill = year_start_of_pregnancy, 
+                                   col = year_start_of_pregnancy))+
+    geom_density(alpha = 0.7, na.rm = TRUE)+
     scale_x_continuous(name="Days between pregnancy start date and first observed record ", limits=c(0, 300))+
     #facet_grid(type_of_pregnancy_end~.)+
     theme_hc()
@@ -478,8 +496,12 @@ ECT_first_record <- D3_pregnancy_reconciled[type_of_pregnancy_end == "ECT"]
 if (ECT_first_record[, .N]==0){
   print("there is no ECT among the types of end of pregnancy" )
 }else{
-  p <- ggplot(ECT_first_record, aes(x = days_before_first_record))+
-    geom_density(fill = "salmon", col = "salmon", alpha = 0.7, na.rm = TRUE)+
+  ECT_first_record <- ECT_first_record[, year_start_of_pregnancy := as.factor(year_start_of_pregnancy)]
+  p <- ggplot(ECT_first_record, aes(x = days_before_first_record, 
+                                   group = year_start_of_pregnancy, 
+                                   fill = year_start_of_pregnancy, 
+                                   col = year_start_of_pregnancy))+
+    geom_density(alpha = 0.7, na.rm = TRUE)+
     scale_x_continuous(name="Days between pregnancy start date and first observed record ", limits=c(0, 300))+
     #facet_grid(type_of_pregnancy_end~.)+
     theme_hc()
@@ -499,11 +521,16 @@ UNK_first_record <- D3_pregnancy_reconciled[type_of_pregnancy_end == "UNK"]
 if (UNK_first_record[, .N]==0){
   print("there is no UNK among the types of end of pregnancy" )
 }else{
-  p <- ggplot(UNK_first_record, aes(x = days_before_first_record))+
-    geom_density(fill = "salmon", col = "salmon", alpha = 0.7, na.rm = TRUE)+
+  UNK_first_record <- UNK_first_record[, year_start_of_pregnancy := as.factor(year_start_of_pregnancy)]
+  p <- ggplot(UNK_first_record, aes(x = days_before_first_record, 
+                                   group = year_start_of_pregnancy, 
+                                   fill = year_start_of_pregnancy, 
+                                   col = year_start_of_pregnancy))+
+    geom_density(alpha = 0.7, na.rm = TRUE)+
     scale_x_continuous(name="Days between pregnancy start date and first observed record ", limits=c(0, 300))+
     #facet_grid(type_of_pregnancy_end~.)+
     theme_hc()
+  
   
   plot <- ggplotly(p)
   plot
@@ -749,7 +776,7 @@ ___
 
 <br/>
 
-The following table describes the distribution of the age of start of pregnancy, divided by type of end of pregnancy. 
+The following table describes the distribution of the age of start of pregnancy, stratified by type of end of pregnancy. 
 
 <br/>
 
@@ -776,7 +803,7 @@ paged_table(t_table_age_outcomes)
 ```
 
 <br/>
-The next table describes the absolute number of pregnancies (and the percentage in parentheses) divided by age bands and type of pregnancy end.
+The next table describes the absolute number of pregnancies (and the percentage in parentheses) stratified by age bands and type of pregnancy end.
 <br/>
 
 **Pregnancies N (%)**
@@ -972,7 +999,7 @@ rownames(table_meaning_start) <- labs
 paged_table(table_meaning_start)
 
 
-
+options(warn=0)
 ```
 
 
