@@ -16,15 +16,29 @@ D3_pregnancy_reconciled_valid <- D3_pregnancy_reconciled_valid[, year_start_of_p
 
 cat("1. Table stream \n ")
 TableStream <- D3_pregnancy_reconciled_valid[, .N, by = .(year_start_of_pregnancy, stream)][order(year_start_of_pregnancy, stream)]
+TableStream <- TableStream[N<5, N := 0]
+TableStream <- TableStream[, N := as.character(N)]
+TableStream <- TableStream[N=="0", N := "<5"]
+
 fwrite(TableStream, paste0(direxp, "TableStream.csv"))
 
 cat("2. Table quality \n ")
 TableQuality <- D3_pregnancy_reconciled_valid[, order_quality := as.factor(order_quality)]
 TableQuality <- TableQuality[, .N, by = .(year_start_of_pregnancy, order_quality)][order(year_start_of_pregnancy, order_quality)]
+
+TableQuality <- TableQuality[N<5, N := 0]
+TableQuality <- TableQuality[, N := as.character(N)]
+TableQuality <- TableQuality[N=="0", N := "<5"]
+
 fwrite(TableQuality, paste0(direxp, "TableQuality.csv"))
 
 cat("3. Table type/quality \n ")
 TableType <- D3_pregnancy_reconciled_valid[, .N, .(year_start_of_pregnancy, order_quality, type_of_pregnancy_end)][order(year_start_of_pregnancy, order_quality, type_of_pregnancy_end)]
+
+TableType <- TableType[N<5, N := 0]
+TableType <- TableType[, N := as.character(N)]
+TableType <- TableType[N=="0", N := "<5"]
+
 fwrite(TableType, paste0(direxp, "TableType.csv"))
 
 
@@ -65,11 +79,14 @@ table_agebands_outcomes <- merge(table_agebands_outcomes, total, by = "type_of_p
 total_2 <- total[, age_band:= "All"]
 total_2 <- total[, N:= total]
 table_agebands_outcomes <- rbind(total_2, table_agebands_outcomes) 
-
+table_agebands_outcomes <- table_agebands_outcomes[N<5, N:=0]
 table_agebands_outcomes <- table_agebands_outcomes[, perc := N/total *100]
 table_agebands_outcomes <- table_agebands_outcomes[, var := paste0(N, " (", round(perc, 2), "%)")][, -c("N")]
 
-table_agebands_outcomes_d <- data.table::dcast(table_agebands_outcomes,   age_band ~ type_of_pregnancy_end, value.var = "var", fill = "0 (0%)")
+table_agebands_outcomes <- table_agebands_outcomes[var == "0 (0%)", var := "<5"]
+
+
+table_agebands_outcomes_d <- data.table::dcast(table_agebands_outcomes,   age_band ~ type_of_pregnancy_end, value.var = "var", fill = "<5")
 
 table_ageband <- rbind(table_agebands_outcomes_d[age_band == "All"], table_agebands_outcomes_d[age_band != "All"])
 labs <- copy(table_ageband[, age_band])
@@ -86,16 +103,16 @@ D3_pregnancy_reconciled_valid[is.na(type_of_pregnancy_end), type_of_pregnancy_en
 D3_groups_of_pregnancies_reconciled[is.na(type_of_pregnancy_end), type_of_pregnancy_end := "UNK"]
 
 table_records_outcomes <- D3_pregnancy_reconciled_valid[, .(mean_of_records = mean(number_of_records_in_the_group),
-                                                      sd_record = sqrt(var(number_of_records_in_the_group)),
-                                                      mean_green= mean(number_green),
-                                                      mean_yellow= mean(number_yellow),
-                                                      mean_blue = mean(number_blue), 
-                                                      mean_red = mean(number_red),
-                                                      sd_green= sqrt(var(number_green)),
-                                                      sd_yellow= sqrt(var(number_yellow)),
-                                                      sd_blue = sqrt(var(number_blue)), 
-                                                      sd_red = sqrt(var(number_red))), 
-                                                  by = type_of_pregnancy_end]
+                                                            sd_record = sqrt(var(number_of_records_in_the_group)),
+                                                            mean_green= mean(number_green),
+                                                            mean_yellow= mean(number_yellow),
+                                                            mean_blue = mean(number_blue), 
+                                                            mean_red = mean(number_red),
+                                                            sd_green= sqrt(var(number_green)),
+                                                            sd_yellow= sqrt(var(number_yellow)),
+                                                            sd_blue = sqrt(var(number_blue)), 
+                                                            sd_red = sqrt(var(number_red))), 
+                                                        by = type_of_pregnancy_end]
 
 
 
@@ -125,10 +142,13 @@ total_2 <- total[, order_quality:= "All"]
 total_2 <- total[, N:= total]
 table_quality <- rbind(total_2, table_quality) 
 
+table_quality <- table_quality[N<5, N:=0]
+
 table_quality <- table_quality[, perc := N/total *100]
 table_quality <- table_quality[, var := paste0(N, " (", round(perc, 2), "%)")][, -c("N")]
+table_quality <- table_quality[var == "0 (0%)", var := "<5"]
 
-table_quality_d <- data.table::dcast(table_quality,   order_quality ~ type_of_pregnancy_end, value.var = "var", fill = "0 (0%)")
+table_quality_d <- data.table::dcast(table_quality,   order_quality ~ type_of_pregnancy_end, value.var = "var", fill = "<5")
 
 t <- rbind(table_quality_d[order_quality == "All"], table_quality_d[order_quality != "All"][order(as.integer(order_quality))])
 labs <- t[, order_quality]
@@ -138,9 +158,9 @@ t <- cbind(quality=labs, t)
 fwrite(t, paste0(direxp, "DTableQuality.csv"))
 
 
-  
-  
-  
+
+
+
 cat("8. Dummy tables meanings \n ")
 
 D3_pregnancy_reconciled_valid <- D3_pregnancy_reconciled_valid[is.na(meaning_end_date), meaning_end_date := "without meaning"]
@@ -154,10 +174,14 @@ total_2 <- total[, meaning_end_date:= "All"]
 total_2 <- total[, N:= total]
 table_meaning <- rbind(total_2, table_meaning) 
 
+table_meaning <- table_meaning[N<5, N := 0]
 table_meaning <- table_meaning[, perc := N/total *100]
 table_meaning <- table_meaning[, var := paste0(N, " (", round(perc, 2), "%)")][, -c("N")]
+table_meaning <- table_meaning[var == "0 (0%)", var := "<5"]
 
-table_meaning_d <- data.table::dcast(table_meaning,   meaning_end_date ~ type_of_pregnancy_end, value.var = "var", fill = "0 (0%)")
+
+
+table_meaning_d <- data.table::dcast(table_meaning,   meaning_end_date ~ type_of_pregnancy_end, value.var = "var", fill = "<5")
 
 table_meaning_end <- rbind(table_meaning_d[meaning_end_date == "All"], table_meaning_d[meaning_end_date != "All"])
 
@@ -181,10 +205,12 @@ total_2 <- total[, meaning_start_date:= "All"]
 total_2 <- total[, N:= total]
 table_meaning <- rbind(total_2, table_meaning) 
 
+table_meaning <- table_meaning[N<5, N := 0]
 table_meaning <- table_meaning[, perc := N/total *100]
 table_meaning <- table_meaning[, var := paste0(N, " (", round(perc, 2), "%)")][, -c("N")]
+table_meaning <- table_meaning[var == "0 (0%)", var := "<5"]
 
-table_meaning_d <- data.table::dcast(table_meaning,   meaning_start_date ~ type_of_pregnancy_end, value.var = "var", fill = "0 (0%)")
+table_meaning_d <- data.table::dcast(table_meaning,   meaning_start_date ~ type_of_pregnancy_end, value.var = "var", fill = "<5")
 
 table_meaning_start <- rbind(table_meaning_d[meaning_start_date == "All"], table_meaning_d[meaning_start_date != "All"])
 
@@ -195,11 +221,15 @@ fwrite(table_meaning_start, paste0(direxp, "DTableMeaningStart.csv"))
 
 
 ##  Reconciliation 
-D3_pregnancy_reconciled_valid <- D3_pregnancy_reconciled_valid[like(algorithm_for_reconciliation, ":Discordant"), Discordant := 1]
-D3_pregnancy_reconciled_valid <- D3_pregnancy_reconciled_valid[like(algorithm_for_reconciliation,":SlightlyDiscordant"), SlightlyDiscordant := 1]
-D3_pregnancy_reconciled_valid <- D3_pregnancy_reconciled_valid[like(algorithm_for_reconciliation, ":Inconsistency"), Inconsistency := 1]
+D3_pregnancy_reconciled_valid <- D3_pregnancy_reconciled_valid[like(algorithm_for_reconciliation, ":Discordant"), Discordant := 1][is.na(Discordant), Discordant:=0]
+D3_pregnancy_reconciled_valid <- D3_pregnancy_reconciled_valid[like(algorithm_for_reconciliation,":SlightlyDiscordant"), SlightlyDiscordant := 1][is.na(SlightlyDiscordant), SlightlyDiscordant:=0]
+D3_pregnancy_reconciled_valid <- D3_pregnancy_reconciled_valid[like(algorithm_for_reconciliation, ":Inconsistency"), Inconsistency := 1][is.na(Inconsistency), Inconsistency:=0]
+D3_pregnancy_reconciled_valid <- D3_pregnancy_reconciled_valid[like(algorithm_for_reconciliation, ":StartUpdated"), StartUpdated := 1][is.na(StartUpdated), StartUpdated:=0]
+D3_pregnancy_reconciled_valid <- D3_pregnancy_reconciled_valid[is.na(pregnancy_splitted), pregnancy_splitted:=0]
 
-TableReconciliation <- D3_pregnancy_reconciled_valid[, .N, by = .(type_of_pregnancy_end, Discordant, SlightlyDiscordant, Inconsistency, year_start_of_pregnancy)]
+TableReconciliation <- D3_pregnancy_reconciled_valid[, .N, by = .(type_of_pregnancy_end, Discordant, SlightlyDiscordant, Inconsistency, GGDE, GGDS, pregnancy_splitted, StartUpdated, INSUF_QUALITY  )]
+TableReconciliation <- TableReconciliation[N<5, N:= 0]
+TableReconciliation <- TableReconciliation[, N:= as.character(N)]
+TableReconciliation <- TableReconciliation[N=="0", N:= "<5"]
+
 fwrite(TableReconciliation, paste0(direxp, "TableReconciliation.csv"))
-
-
