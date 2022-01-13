@@ -208,7 +208,7 @@ plot
 
 ---
 
-The same analysis is done for each of the five different types of end of pregnancy, which are:
+The same analysis is done for each different types of end of pregnancy, which are:
 
 - LB : live birth 
 
@@ -219,6 +219,8 @@ The same analysis is done for each of the five different types of end of pregnan
 - SA : spontaneous abortion
 
 - ECT : ectopic pregnancy
+
+- ONGOING: ongoing pregnancy
 
 - UNK : unknown 
 
@@ -340,6 +342,31 @@ plot}
 
 
 <br/><br/>
+
+### Ongoing
+
+___
+
+
+```{r ongoinggraph}
+ONGOING <- D3_pregnancy_reconciled[type_of_pregnancy_end == "ONGOING"]
+ONGOING <-ONGOING[, order_quality := as.factor(order_quality)]
+
+ONGOING <-ONGOING[, .N, .(order_quality, year_start_of_pregnancy)]
+if (ONGOING[, .N]==0){
+  print("there is no ONGOING among the types of end of pregnancy" )
+}else{
+p <- ggplot(ONGOING, aes(x = year_start_of_pregnancy, y = N, fill= order_quality))+
+  geom_col()+
+  theme_hc()
+
+plot <- ggplotly(p)
+plot}
+```
+
+
+<br/><br/>
+
 
 ### Unknown
 
@@ -1001,6 +1028,9 @@ paged_table(table_meaning_start)
 
 options(warn=0)
 ```
+
+
+
 
 
 
