@@ -91,8 +91,8 @@ setnames(D3_pregnancy_reconciled_valid, "meaning", "meaning_of_principal_record"
 setnames(D3_pregnancy_reconciled, "meaning", "meaning_of_principal_record")
 
 ### ONGOING 
-D3_pregnancy_reconciled <- D3_pregnancy_reconciled[pregnancy_end_date>study_end, type_of_pregnancy_end := "ONGOING"]
-D3_pregnancy_reconciled_valid <- D3_pregnancy_reconciled_valid[pregnancy_end_date>study_end, type_of_pregnancy_end := "ONGOING"]
+D3_pregnancy_reconciled <- D3_pregnancy_reconciled[pregnancy_end_date>study_end & imputed_end_of_pregnancy == 1, type_of_pregnancy_end := "ONGOING"]
+D3_pregnancy_reconciled_valid <- D3_pregnancy_reconciled_valid[pregnancy_end_date>study_end & imputed_end_of_pregnancy == 1, type_of_pregnancy_end := "ONGOING"]
 
 ## saving 
 D3_pregnancy_final <- D3_pregnancy_reconciled
