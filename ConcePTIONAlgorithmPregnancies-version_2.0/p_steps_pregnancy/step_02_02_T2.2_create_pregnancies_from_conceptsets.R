@@ -19,7 +19,7 @@ for (conceptvar in concept_sets_of_start_of_pregnancy){
   dataset_start_concept_sets <- rbind(dataset_start_concept_sets,studyvardataset[,.(person_id,date, codvar, concept_set,visit_occurrence_id, meaning_of_event, origin_of_event, event_record_vocabulary)], fill=TRUE) 
 }
 # check if dataset is unique for person_id, survey_id and survey_date
-dataset_start_concept_sets<-unique(dataset_start_concept_sets, by=c("person_id","visit_occurrence_id","date")) 
+dataset_start_concept_sets<-unique(dataset_start_concept_sets, by=c("person_id","visit_occurrence_id","date","codvar")) 
 # create variable pregnancy_id as survey_date
 #dataset_start_concept_sets[,pregnancy_id:=paste0(visit_occurrence_id,"_",person_id,"_",date)] 
 
@@ -45,7 +45,7 @@ if(this_datasource_has_procedures){
 }
 
 # check if dataset is unique for person_id, survey_id and survey_date
-dataset_ongoing_concept_sets<-unique(dataset_ongoing_concept_sets, by=c("person_id","visit_occurrence_id","date")) 
+dataset_ongoing_concept_sets<-unique(dataset_ongoing_concept_sets, by=c("person_id","visit_occurrence_id","date","codvar")) 
 # create variable pregnancy_id as survey_date
 #dataset_ongoing_concept_sets[,pregnancy_id:=paste0(visit_occurrence_id,"_",person_id,"_",date)] 
 
@@ -57,7 +57,7 @@ for (conceptvar in concept_sets_of_end_of_pregnancy){
   dataset_end_concept_sets <- rbind(dataset_end_concept_sets,studyvardataset[,.(person_id,date, codvar,concept_set,visit_occurrence_id,meaning_of_event,origin_of_event, event_record_vocabulary)], fill=TRUE) 
 }
 # check if dataset is unique for person_id, survey_id and survey_date
-dataset_end_concept_sets<-unique(dataset_end_concept_sets, by=c("person_id","visit_occurrence_id","date")) 
+dataset_end_concept_sets<-unique(dataset_end_concept_sets, by=c("person_id","visit_occurrence_id","date","codvar")) 
 # create variable pregnancy_id as survey_date
 #dataset_end_concept_sets[,pregnancy_id:=paste0(visit_occurrence_id,"_",person_id,"_",date)] 
 
@@ -80,7 +80,7 @@ for (conceptvar in concept_sets_of_pregnancy_pro){
 
 
 # check if dataset is unique for person_id, survey_id and survey_date
-dataset_procedures<-unique(dataset_procedures, by=c("person_id","visit_occurrence_id","date")) 
+dataset_procedures<-unique(dataset_procedures, by=c("person_id","visit_occurrence_id","date","codvar")) 
 # create variable pregnancy_id as survey_date
 #dataset_end_concept_sets[,pregnancy_id:=paste0(visit_occurrence_id,"_",person_id,"_",date)] 
 
