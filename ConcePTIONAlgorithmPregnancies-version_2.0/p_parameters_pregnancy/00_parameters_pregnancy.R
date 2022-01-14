@@ -17,7 +17,7 @@ this_datasource_has_prompt <- ifelse(thisdatasource %in% datasource_with_prompt,
 datasource_with_visit_occurrence_prompt <- c("TO_ADD","ARS") #@ use "TO_ADD" as example
 this_datasource_has_visit_occurrence_prompt <- ifelse(thisdatasource %in% datasource_with_visit_occurrence_prompt,TRUE,FALSE) 
 
-#datasource with no_procedures
+#datasource with procedures
 datasource_with_procedures <- c("TO_ADD","ARS","VID", "BIFAP", "CASERTA") #@ use "TO_ADD" as example
 this_datasource_has_procedures <- ifelse(thisdatasource %in% datasource_with_procedures,TRUE,FALSE) 
 
