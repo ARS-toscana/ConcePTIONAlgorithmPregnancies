@@ -249,7 +249,7 @@ concept_set_codes_pregnancy[["Ectopicpregnancy"]][["SNOMED"]] <- c("111425004","
 #######################################################################################
 ################################# PROCEDURE CODES #####################################
 #######################################################################################
-concept_sets_of_pregnancy_pro <- c("procedures_end_livebirth", "procedures_end_abortion", "procedures_ongoing", "procedures_ectopic")
+concept_sets_of_pregnancy_pro <- c("procedures_end_livebirth", "procedures_termination", "procedures_spontaneous_abortion", "procedures_ongoing", "procedures_ectopic")
 
 for (conceptset in concept_sets_of_pregnancy_pro){
   concept_set_domains[[conceptset]] = "Procedures"
