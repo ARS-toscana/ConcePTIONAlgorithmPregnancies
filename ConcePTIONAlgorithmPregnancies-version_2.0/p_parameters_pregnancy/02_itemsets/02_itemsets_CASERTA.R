@@ -56,10 +56,40 @@ itemset_AVpair_pregnancy[["TYPE"]][[files[i]]][["CASERTA"]] <- list(list("SCHEDA
 
 ################################ DICTINARY OF TYPE ##################################
 
-dictonary_of_itemset_pregnancy[["TYPE"]][["CASERTA"]][["LB"]]<-list()
-dictonary_of_itemset_pregnancy[["TYPE"]][["CASERTA"]][["SB"]]<-list()
+dictonary_of_itemset_pregnancy[["TYPE"]][["CASERTA"]][["LB"]]<-list(list("SCHEDA_NEONATO", "1"),list("SCHEDA_NEONATO", "2"),list("SCHEDA_NEONATO", "3")) 
+dictonary_of_itemset_pregnancy[["TYPE"]][["CASERTA"]][["SB"]]<-list(list("SCHEDA_NEONATO", "4"))
 dictonary_of_itemset_pregnancy[["TYPE"]][["CASERTA"]][["SA"]]<-list()
 dictonary_of_itemset_pregnancy[["TYPE"]][["CASERTA"]][["T"]]<-list()
 dictonary_of_itemset_pregnancy[["TYPE"]][["CASERTA"]][["MD"]]<-list()
 dictonary_of_itemset_pregnancy[["TYPE"]][["CASERTA"]][["ECT"]]<-list()
 dictonary_of_itemset_pregnancy[["TYPE"]][["CASERTA"]][["UNK"]]<-list()
+
+
+
+
+
+##### FROM MEDICAL_OBSERVATION
+
+### specification LastMestrualPeriod
+itemsetMED_AVpair_pregnancy[["LastMestrualPeriod"]][[files[i]]][["CASERTA"]] <- list()
+
+### specification GestationalAge
+itemsetMED_AVpair_pregnancy[["GestationalAge"]][[files[i]]][["CASERTA"]] <- list()
+
+### specification PregnancyTest
+itemsetMED_AVpair_pregnancy[["PregnancyTest"]][[files[i]]][["CASERTA"]] <- list(list("ESAMI","BHCG")) #inserire tabella e variabile
+
+
+
+################################ DICTINARY OF PregnancyTest ##################################
+
+dictonary_of_itemset_PregnancyTest[["PregnancyTest"]][["positive"]]<-list(list("POSITIVO")) #inserire valore per esito positivo
+
+
+
+################################ PARAMETERS for PregnancyTest ##################################
+days_from_start_PregnancyTest <- 30
+days_to_end_PregnancyTest <- 280
+
+
+
