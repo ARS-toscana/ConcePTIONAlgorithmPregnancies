@@ -70,6 +70,11 @@ concept_set_codes_pregnancy_excl[["SPONTABO_possible"]] <- list()
 concept_set_codes_pregnancy_excl[["STILLBIRTH_possible"]] <- list()
 
 
+concept_set_codes_pregnancy[["procedures_end_livebirth"]] <- list()
+concept_set_codes_pregnancy[["procedures_termination"]] <- list()
+concept_set_codes_pregnancy[["procedures_spontaneous_abortion"]] <- list()
+concept_set_codes_pregnancy[["procedures_ectopic"]] <- list()
+concept_set_codes_pregnancy[["procedures_ongoing"]] <- list()
 
 
 ####### Start of pregnancy ###############
