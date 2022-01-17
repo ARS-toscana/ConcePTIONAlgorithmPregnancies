@@ -37,7 +37,7 @@ concept_set_codes_pregnancy[["Interruption"]] <- list()
 concept_set_codes_pregnancy[["Spontaneousabortion"]] <- list()
 concept_set_codes_pregnancy[["Ectopicpregnancy"]] <- list()
 
-concept_set_codes_pregnancy[["INSULIN"]] <- list()
+#concept_set_codes_pregnancy[["INSULIN"]] <- list()
 concept_set_codes_pregnancy[["FGR_narrow"]] <- list()
 concept_set_codes_pregnancy[["FGR_possible"]] <- list()
 concept_set_codes_pregnancy[["GESTDIAB_narrow"]] <- list()
@@ -339,12 +339,13 @@ if(!this_datasource_has_procedures) {
 ################################# MEDICINES CODES #####################################
 #######################################################################################
 
-concept_set_pregnancy_atc <- c("INSULIN")
+#concept_set_pregnancy_atc <- c("INSULIN")
+concept_set_pregnancy_atc <- c()
 
 
 # INSULIN
-concept_set_domains[["INSULIN"]] = "Medicines"
-concept_set_codes_pregnancy[["INSULIN"]][["ATC"]] <- c("A10A")
+#concept_set_domains[["INSULIN"]] = "Medicines"
+#concept_set_codes_pregnancy[["INSULIN"]][["ATC"]] <- c("A10A")
 
 
 #######################################################################################
