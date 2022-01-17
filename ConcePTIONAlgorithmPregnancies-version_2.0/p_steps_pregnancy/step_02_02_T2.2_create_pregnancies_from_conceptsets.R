@@ -65,19 +65,37 @@ dataset_end_concept_sets<-unique(dataset_end_concept_sets, by=c("person_id","vis
 
 ### Procedures ICD9/ICD10
 
-dataset_procedures <- c()
-for (conceptvar in concept_sets_of_pregnancy_pro){ 
-  print(conceptvar)
+dataset_procedures <- data.table(person_id=character(0),
+                                 date = as.Date(x = integer(0), origin = "2000-01-01"),
+                                 codvar=character(0),
+                                 concept_set=character(0),
+                                 visit_occurrence_id=character(0), 
+                                 origin_of_procedure=character(0), 
+                                 procedure_code_vocabulary=character(0), 
+                                 meaning_of_procedure=character(0))
+non_empty <- 0 
 
-  studyvardataset <- get(conceptvar)[!is.na(date),][,concept_set:=conceptvar]
-  studyvardataset <- unique(studyvardataset,by=c("person_id","codvar","date"))
-  dataset_procedures <- rbind(dataset_procedures,studyvardataset[,.(person_id,date, codvar,concept_set,visit_occurrence_id, origin_of_procedure, procedure_code_vocabulary, meaning_of_procedure)], fill=TRUE)
-   
-  dataset_procedures<-dataset_procedures[!is.na(origin_of_procedure),origin_of_event:=origin_of_procedure][,-"origin_of_procedure"]
-  dataset_procedures<-dataset_procedures[!is.na(procedure_code_vocabulary),event_record_vocabulary:=procedure_code_vocabulary][,-"procedure_code_vocabulary"]
-  dataset_procedures<-dataset_procedures[!is.na(meaning_of_procedure),meaning_of_event:=meaning_of_procedure][,-"meaning_of_procedure"] 
+for (conceptvar in concept_sets_of_pregnancy_pro){ 
+  if(get(conceptvar)[, .N]>0){
+    print(conceptvar)
+    
+    studyvardataset <- get(conceptvar)[!is.na(date),][,concept_set:=conceptvar]
+    studyvardataset <- unique(studyvardataset,by=c("person_id","codvar","date"))
+    dataset_procedures <- rbind(dataset_procedures,studyvardataset[,.(person_id,date, codvar,concept_set,visit_occurrence_id, origin_of_procedure, procedure_code_vocabulary, meaning_of_procedure)], fill=TRUE)
+    
+    dataset_procedures<-dataset_procedures[!is.na(origin_of_procedure),origin_of_event:=origin_of_procedure][,-"origin_of_procedure"]
+    dataset_procedures<-dataset_procedures[!is.na(procedure_code_vocabulary),event_record_vocabulary:=procedure_code_vocabulary][,-"procedure_code_vocabulary"]
+    dataset_procedures<-dataset_procedures[!is.na(meaning_of_procedure),meaning_of_event:=meaning_of_procedure][,-"meaning_of_procedure"]
+    
+    non_empty <- non_empty +1
+  }
 }
 
+if(non_empty==0){
+  setnames(dataset_procedures, "origin_of_procedure", "origin_of_event")
+  setnames(dataset_procedures, "procedure_code_vocabulary", "event_record_vocabulary")
+  setnames(dataset_procedures, "meaning_of_procedure", "meaning_of_event")
+}
 
 # check if dataset is unique for person_id, survey_id and survey_date
 dataset_procedures<-unique(dataset_procedures, by=c("person_id","visit_occurrence_id","date","codvar")) 
@@ -224,3 +242,4 @@ rm(dataset_concept_sets, dataset_end_concept_sets, dataset_ongoing_concept_sets,
 rm(Gestation_less24,Gestation_24,Gestation_25_26, Gestation_27_28, Gestation_29_30, Gestation_31_32, Gestation_33_34,Gestation_35_36,Gestation_more37,Ongoingpregnancy,Birth_narrow, Birth_possible ,Interruption,Spontaneousabortion, Ectopicpregnancy, Stillbirth, Livebirth, Preterm, Atterm,Postterm)
 if(this_datasource_has_procedures) rm(fetal_nuchal_translucency,amniocentesis,Chorionic_Villus_Sampling,others)
 ##################################################################################################################################
+
