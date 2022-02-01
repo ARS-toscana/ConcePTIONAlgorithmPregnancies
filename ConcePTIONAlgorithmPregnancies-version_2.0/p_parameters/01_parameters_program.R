@@ -98,6 +98,7 @@ source(paste0(dirmacro,"ApplyComponentStrategy_v13_2.R"))
 source(paste0(dirmacro,"CreateFigureComponentStrategy_v4.R"))
 source(paste0(dirmacro,"DRECountThresholdV3.R"))
 source(paste0(dirmacro,"DescribeThisDataset.R"))
+source(paste0(dirmacro,"RecoverAllRecordsOfAPregnanciesList.R"))
 
 `%notin%` <- Negate(`%in%`)
 
