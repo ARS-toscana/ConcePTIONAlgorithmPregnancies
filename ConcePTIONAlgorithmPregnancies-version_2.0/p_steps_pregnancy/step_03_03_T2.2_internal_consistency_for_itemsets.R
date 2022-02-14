@@ -71,23 +71,30 @@ if (this_datasource_has_itemsets_stream_from_medical_obs | this_datasource_has_m
   
   ## create label for pregnancies to be excluded or classified
   # not in OBS_PER at the beginning of pregnancy
-  D3_study_population_pregnancy3 <-D3_study_population_pregnancy3[(pregnancy_start_date>=entry_spell_category & pregnancy_start_date<=exit_spell_category) | is.na(pregnancy_start_date),pregnancy_start_in_spells:=0, by="person_id"][is.na(pregnancy_start_in_spells),pregnancy_start_in_spells:=1]
-  table(D3_study_population_pregnancy3$pregnancy_start_in_spells) #1061703 rows deleted
+  #D3_study_population_pregnancy3 <-D3_study_population_pregnancy3[(pregnancy_start_date>=entry_spell_category & pregnancy_start_date<=exit_spell_category) | is.na(pregnancy_start_date),pregnancy_start_in_spells:=0, by="person_id"][is.na(pregnancy_start_in_spells),pregnancy_start_in_spells:=1]
+ # table(D3_study_population_pregnancy3$pregnancy_start_in_spells) #1061703 rows deleted
   
   #not in OBS_PER at some point during of pregnancy
-  D3_study_population_pregnancy3 <-D3_study_population_pregnancy3[(pregnancy_ongoing_date>=entry_spell_category & pregnancy_start_in_spells<=exit_spell_category) | is.na(pregnancy_ongoing_date),pregnancy_ongoing_in_spells:=0, by="person_id"][is.na(pregnancy_ongoing_in_spells),pregnancy_ongoing_in_spells:=1]
-  table(D3_study_population_pregnancy3$pregnancy_ongoing_in_spells) #750892 rows deleted
+  #D3_study_population_pregnancy3 <-D3_study_population_pregnancy3[(pregnancy_ongoing_date>=entry_spell_category & pregnancy_start_in_spells<=exit_spell_category) | is.na(pregnancy_ongoing_date),pregnancy_ongoing_in_spells:=0, by="person_id"][is.na(pregnancy_ongoing_in_spells),pregnancy_ongoing_in_spells:=1]
+  #table(D3_study_population_pregnancy3$pregnancy_ongoing_in_spells) #750892 rows deleted
 
+  # record_date not in OBS_PER
+  D3_study_population_pregnancy3 <-D3_study_population_pregnancy3[record_date>=entry_spell_category & record_date<=exit_spell_category,
+                                                                  record_date_not_in_spells:=0] #, by="person_id"]
+  
+  D3_study_population_pregnancy3 <-D3_study_population_pregnancy3[is.na(record_date_not_in_spells),record_date_not_in_spells:=1]
+  table(D3_study_population_pregnancy3$record_date_not_in_spells)
+  
   if("visit_occurrence_id" %notin%names(D3_study_population_pregnancy3)) D3_study_population_pregnancy3[,visit_occurrence_id:=""]
   
   # pregancies to be excluded:
-  D3_excluded_pregnancies_from_ITEMSETS_2 <- D3_study_population_pregnancy3[no_linked_to_person==1 | person_not_female==1 | person_not_in_fertile_age==1 | pregnancy_start_in_spells==1 |pregnancy_ongoing_in_spells==1 ,] #| pregnancy_end_in_spells==1 # to further explore exclusion
+  D3_excluded_pregnancies_from_ITEMSETS_2 <- D3_study_population_pregnancy3[no_linked_to_person==1 | person_not_female==1 | person_not_in_fertile_age==1 | record_date_not_in_spells == 1,] #| pregnancy_end_in_spells==1 # to further explore exclusion
   
   D3_excluded_pregnancies_from_ITEMSETS<-rbind(D3_excluded_pregnancies_from_ITEMSETS_1,D3_excluded_pregnancies_from_ITEMSETS_2,fill=TRUE)[,-c( "sex_at_instance_creation","date_of_birth","date_death", "age_at_pregnancy_start","op_meaning","num_spell","entry_spell_category","exit_spell_category")] #
   save(D3_excluded_pregnancies_from_ITEMSETS, file=paste0(dirtemp,"D3_excluded_pregnancies_from_ITEMSETS.RData")) # 663830
   
   # pregnancies to be included in next steps
-  D3_study_population_pregnancy_from_ITEMSETS<-D3_study_population_pregnancy3[no_linked_to_person==0 & person_not_female==0 & person_not_in_fertile_age==0 & pregnancy_start_in_spells==0 & pregnancy_ongoing_in_spells==0, ] [,-c("no_linked_to_person","person_not_female","person_not_in_fertile_age","pregnancy_start_in_spells","pregnancy_ongoing_in_spells")] # & pregnancy_end_in_spells==0# 554767 against 429699
+  D3_study_population_pregnancy_from_ITEMSETS<-D3_study_population_pregnancy3[no_linked_to_person==0 & person_not_female==0 & person_not_in_fertile_age==0 & record_date_not_in_spells==0, ] [,-c("no_linked_to_person","person_not_female","person_not_in_fertile_age","record_date_not_in_spells")] # & pregnancy_end_in_spells==0# 554767 against 429699
   
 
   D3_Stream_ITEMSETS_check<-D3_study_population_pregnancy_from_ITEMSETS[,.(pregnancy_id,person_id,record_date,pregnancy_start_date,pregnancy_ongoing_date,pregnancy_end_date,meaning_start_date,meaning_ongoing_date,meaning_end_date,type_of_pregnancy_end,imputed_end_of_pregnancy,imputed_start_of_pregnancy,meaning,visit_occurrence_id,ITEMSETS)]#
@@ -120,9 +127,12 @@ if (this_datasource_has_itemsets_stream_from_medical_obs | this_datasource_has_m
   
   rm(D3_Stream_ITEMSETS, D3_PERSONS, output_spells_category, D3_study_population_pregnancy_from_ITEMSETS,D3_study_population_pregnancy1,D3_study_population_pregnancy2, D3_excluded_pregnancies_from_ITEMSETS,D3_excluded_pregnancies_from_ITEMSETS_1,D3_excluded_pregnancies_from_ITEMSETS_2,D3_study_population_pregnancy3)
   
+  print("Internal consistency for ITEMSETS checked")
+  
 }else{
   D3_Stream_ITEMSETS_check <- data.table()
 } 
 
 save(D3_Stream_ITEMSETS_check, file=paste0(dirtemp,"D3_Stream_ITEMSETS_check.RData"))
 rm(D3_Stream_ITEMSETS_check)
+

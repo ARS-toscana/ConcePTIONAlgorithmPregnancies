@@ -76,21 +76,27 @@ if (dim(D3_Stream_EUROCAT)[1]!=0){
   
   ## create label for pregnancies to be excluded or classified
   # not in OBS_PER at the beginning of pregancy
-  D3_study_population_pregnancy3 <-D3_study_population_pregnancy3[pregnancy_start_date>=entry_spell_category & pregnancy_start_date<=exit_spell_category,pregnancy_start_in_spells:=0, by="person_id"][is.na(pregnancy_start_in_spells),pregnancy_start_in_spells:=1]
-  table(D3_study_population_pregnancy3$pregnancy_start_in_spells) #1061703 rows deleted
+  # D3_study_population_pregnancy3 <-D3_study_population_pregnancy3[pregnancy_start_date>=entry_spell_category & pregnancy_start_date<=exit_spell_category,pregnancy_start_in_spells:=0, by="person_id"][is.na(pregnancy_start_in_spells),pregnancy_start_in_spells:=1]
+  #table(D3_study_population_pregnancy3$pregnancy_start_in_spells) #1061703 rows deleted
   # not in OBS_PER at some point during of pregnancy
-  D3_study_population_pregnancy3 <-D3_study_population_pregnancy3[pregnancy_end_date>=entry_spell_category & pregnancy_end_date<=exit_spell_category,pregnancy_end_in_spells:=0, by="person_id"][is.na(pregnancy_end_in_spells),pregnancy_end_in_spells:=1]
-  table(D3_study_population_pregnancy3$pregnancy_end_in_spells) #750892 rows deleted
+  #D3_study_population_pregnancy3 <-D3_study_population_pregnancy3[pregnancy_end_date>=entry_spell_category & pregnancy_end_date<=exit_spell_category,pregnancy_end_in_spells:=0, by="person_id"][is.na(pregnancy_end_in_spells),pregnancy_end_in_spells:=1]
+  #table(D3_study_population_pregnancy3$pregnancy_end_in_spells) #750892 rows deleted
   
+  # record_date not in OBS_PER
+  D3_study_population_pregnancy3 <-D3_study_population_pregnancy3[record_date>=entry_spell_category & record_date<=exit_spell_category,
+                                                                  record_date_not_in_spells:=0] #, by="person_id"]
+  
+  D3_study_population_pregnancy3 <-D3_study_population_pregnancy3[is.na(record_date_not_in_spells),record_date_not_in_spells:=1]
+  table(D3_study_population_pregnancy3$record_date_not_in_spells)
   
   # pregancies to be excluded:
-  D3_excluded_pregnancies_from_EUROCAT_2 <- D3_study_population_pregnancy3[no_linked_to_person==1 | person_not_female==1 | person_not_in_fertile_age==1 | pregnancy_start_in_spells==1 | pregnancy_end_in_spells==1,]  # to further explore exclusion
+  D3_excluded_pregnancies_from_EUROCAT_2 <- D3_study_population_pregnancy3[no_linked_to_person==1 | person_not_female==1 | person_not_in_fertile_age==1 | record_date_not_in_spells==1,]  # to further explore exclusion
   
   D3_excluded_pregnancies_from_EUROCAT<-rbind(D3_excluded_pregnancies_from_EUROCAT_1,D3_excluded_pregnancies_from_EUROCAT_2,fill=TRUE)[,-c( "sex_at_instance_creation","date_of_birth","date_death", "age_at_pregnancy_start","op_meaning","num_spell","entry_spell_category","exit_spell_category")]
   save(D3_excluded_pregnancies_from_EUROCAT, file=paste0(dirtemp,"D3_excluded_pregnancies_from_EUROCAT.RData")) # 663830
   
   # pregnancies to be included in next steps
-  D3_study_population_pregnancy_from_EUROCAT<-D3_study_population_pregnancy3[no_linked_to_person==0 & person_not_female==0 & person_not_in_fertile_age==0 & pregnancy_start_in_spells==0 & pregnancy_end_in_spells==0,] [,-c("no_linked_to_person","person_not_female","person_not_in_fertile_age","pregnancy_start_in_spells","pregnancy_end_in_spells")] # 554767 against 429699
+  D3_study_population_pregnancy_from_EUROCAT<-D3_study_population_pregnancy3[no_linked_to_person==0 & person_not_female==0 & person_not_in_fertile_age==0 & record_date_not_in_spells==0,] [,-c("no_linked_to_person","person_not_female","person_not_in_fertile_age","record_date_not_in_spells")] # 554767 against 429699
   
   
   
