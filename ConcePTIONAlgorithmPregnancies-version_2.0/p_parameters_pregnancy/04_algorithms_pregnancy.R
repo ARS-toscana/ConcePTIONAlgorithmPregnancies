@@ -4,6 +4,10 @@
 datasource_that_does_not_modify_PROMPT <- c("TO_ADD","UOSL", "VID") #@ use "TO_ADD" as example
 this_datasource_does_not_modify_PROMPT <- ifelse(thisdatasource %in% datasource_that_does_not_modify_PROMPT,TRUE,FALSE) 
 
+## meaning not implying pregnancy
+
+meaning_not_implying_pregnancy <- c("LastMestrualPeriod")
+
 # DATASOURCE-SPECIFIC ALGORITHMS
 
 ## FOR BIFAP:

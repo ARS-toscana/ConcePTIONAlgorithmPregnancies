@@ -362,12 +362,17 @@ while (D3_gop[,.N]!=0) {
 D3_gop <- rbindlist(list_of_D3_gop)
 
 # create variable for D3_included
-
 D3_gop <- D3_gop[, number_of_records_in_the_group := max(n), by = "pers_group_id"]
 
-# ADD RULE FOR LMP:
-D3_gop <- D3_gop[str_detect(meaning_start_date,"LastMestrualPeriod"), LMP_ONLY:=1][is.na(LMP_ONLY),LMP_ONLY:=0][,LMP_sum:=sum(LMP_ONLY), by="pers_group_id"]
-D3_gop <- D3_gop[LMP_sum!=number_of_records_in_the_group ,]
+# meaning not implying pregnancy
+D3_gop <- D3_gop[meaning_start_date %in% meaning_not_implying_pregnancy, MNIP:=1]
+D3_gop <- D3_gop[is.na(MNIP), MNIP:=0]
+D3_gop <- D3_gop[,MNIP_sum:=sum(MNIP), by="pers_group_id"]
+
+D3_groups_of_pregnancies_MNIP <- D3_gop[MNIP_sum == number_of_records_in_the_group,]
+save(D3_groups_of_pregnancies_MNIP, file=paste0(dirtemp,"D3_groups_of_pregnancies_MNIP.RData"))
+
+D3_gop <- D3_gop[MNIP_sum!=number_of_records_in_the_group,]
 
 # add vars
 D3_gop <- D3_gop[coloured_order == "1_green", number_green := .N, by = "pers_group_id"][is.na(number_green), number_green:= 0]
@@ -500,4 +505,7 @@ D3_pregnancy_reconciled_before_excl <- D3_groups_of_pregnancies_reconciled_befor
 save(D3_groups_of_pregnancies_reconciled_before_excl, file=paste0(dirtemp,"D3_groups_of_pregnancies_reconciled_before_excl.RData"))
 save(D3_pregnancy_reconciled_before_excl, file=paste0(dirtemp,"D3_pregnancy_reconciled_before_excl.RData"))
 
-rm(D3_gop, D3_groups_of_pregnancies_reconciled_before_excl, D3_pregnancy_reconciled_before_excl)
+rm(D3_gop, 
+   D3_groups_of_pregnancies_MNIP,
+   D3_groups_of_pregnancies_reconciled_before_excl, 
+   D3_pregnancy_reconciled_before_excl)
