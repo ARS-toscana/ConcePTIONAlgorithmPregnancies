@@ -7,33 +7,39 @@ if(thisdatasource == "VID"){
   D3_gop<-D3_gop[origin=="EOS", hyerarchy := 3]
   D3_gop<-D3_gop[is.na(hyerarchy), hyerarchy := 4]
   
-  D3_gop<-D3_gop[order(person_id, group_identifier, hyerarchy, order_quality, -record_date),]
+  D3_gop<-D3_gop[order(person_id, 
+                       group_identifier, 
+                       hyerarchy, 
+                       order_quality, 
+                       -record_date),]
   D3_gop<-D3_gop[, YGrecon:=0]
 }else{
-  D3_gop<-D3_groups_of_pregnancies[order(person_id, group_identifier, order_quality, -record_date),]
+  D3_gop<-D3_groups_of_pregnancies[order(person_id, 
+                                         group_identifier, 
+                                         order_quality, 
+                                         -record_date),]
 }
 
 # creating record number for each group of pregnancy
 D3_gop<-D3_gop[,n:=seq_along(.I), by=.(group_identifier, person_id, highest_quality)]
+
 #creating unique identifier for each group of pregnancy
 D3_gop<-D3_gop[,pers_group_id:=paste0(person_id,"_", group_identifier_colored)]
 
-#View(D3_gop[,.(pers_group_id,type_of_pregnancy_end, record_date, n, pregnancy_start_date, pregnancy_end_date, group_identifier_colored, order_quality, coloured_order, CONCEPTSET)])
-#interesting: ASL000101199700000005043
+D3_gop <- D3_gop[, record_description := CONCEPTSET][is.na(record_description), 
+                                                     record_description := meaning]
 
-D3_gop <- D3_gop[, record_description := CONCEPTSET][is.na(record_description), record_description := meaning]
 D3_gop <- D3_gop[, description := paste0("1:", record_description, "/")]
+
+
 ################################################################################
 ########################         Reconciliation         ########################
 ################################################################################
-#D3_gop <- D3_gop[100000:101000]
+
 list_of_D3_gop <- vector( mode = "list")
-#D3_gop_only_red <- D3_gop[highest_quality == "D_Red"]
-#D3_gop <- D3_gop[highest_quality != "D_Red"]
 D3_gop <- D3_gop[, algorithm_for_reconciliation := ""]
 
 D3_gop <- D3_gop[, number_of_records_in_the_group := max(n), by = "pers_group_id"]
-#D3_gop <- D3_gop[1:50, ]
 threshold = 7 
 counter = 1
 while (D3_gop[,.N]!=0) {
@@ -65,13 +71,8 @@ while (D3_gop[,.N]!=0) {
     if(thisdatasource == "VID"){
       D3_gop <- D3_gop[recon == 0, origin_next_record:= shift(origin, n = i, fill = NA, type=c("lead")), by = "pers_group_id"]
     }
-    #imputation 
-    #D3_gop <- D3_gop[recon == 0, imputed_start_of_pregnancy_next:= shift(imputed_start_of_pregnancy, n = i, fill = NA, type=c("lead")), by = "pers_group_id"]
-    #D3_gop <- D3_gop[recon == 0, imputed_end_of_pregnancy_next:= shift(imputed_end_of_pregnancy, n = i, fill = NA, type=c("lead")), by = "pers_group_id"]
-    #Description record_description_next_record
+
     D3_gop <- D3_gop[recon == 0, record_description_next_record:= shift(record_description, n = i, fill = NA, type=c("lead")), by = "pers_group_id"]
-    
-    #### pers_group_id
     
     #dividing distant record
     D3_gop <- D3_gop[n == 1 & recon == 0 &  !is.na(record_date_next_record) & abs(as.integer(record_date - record_date_next_record)) > 270, 
@@ -138,20 +139,6 @@ while (D3_gop[,.N]!=0) {
     
     D3_gop <- D3_gop[ n == 1 & new_group_next_record != 1 & CONCEPTSETS_next_record == "yes",
                       `:=`(CONCEPTSETS = "yes")]
-    
-    #### Imputation 
-    
-    # if(!this_datasource_does_not_modify_PROMPT){
-    #   D3_gop <- D3_gop[ n == 1 & new_group_next_record != 1 & imputed_start_of_pregnancy_next == 0,
-    #                     `:=`(imputed_start_of_pregnancy = 0)]
-    #   
-    #   #D3_gop <- D3_gop[ n == 1 & new_group_next_record != 1 & imputed_end_of_pregnancy_next == 0,
-    #   #                  `:=`(imputed_end_of_pregnancy = 0)] 
-    # }else{
-    #   D3_gop <- D3_gop[ n == 1 & new_group_next_record != 1 & imputed_start_of_pregnancy_next == 0 &
-    #                       PROMPT != "yes",
-    #                     `:=`(imputed_start_of_pregnancy = 0)]
-    # }
     
     #### Description 
     D3_gop <- D3_gop[ n == 1 & new_group_next_record != 1 & recon == 0 & i<n_max, 
@@ -470,15 +457,46 @@ D3_groups_of_pregnancies_reconciled_before_excl <- D3_gop[, .(person_id,
 
 setnames(D3_groups_of_pregnancies_reconciled_before_excl, "pers_group_id", "pregnancy_id")
 
+
+################################################################################
+########################       Red Record Managing      ########################
+################################################################################
+
 D3_groups_of_pregnancies_reconciled_before_excl <- D3_groups_of_pregnancies_reconciled_before_excl[highest_quality == "4_red", 
                                                                                                    record_selected := as.integer(number_red/2) + 1] 
 
+D3_groups_of_pregnancies_reconciled_before_excl <- D3_groups_of_pregnancies_reconciled_before_excl[highest_quality == "4_red", 
+                                                                                                   description:= shift(description, 
+                                                                                                                       n = (record_selected - 1)), 
+                                                                                                   by = "pregnancy_id"]
+
+D3_groups_of_pregnancies_reconciled_before_excl <- D3_groups_of_pregnancies_reconciled_before_excl[highest_quality == "4_red", 
+                                                                                                   meaning_start_date:= shift(meaning_start_date, 
+                                                                                                                       n = (record_selected - 1)), 
+                                                                                                   by = "pregnancy_id"]
+
+D3_groups_of_pregnancies_reconciled_before_excl <- D3_groups_of_pregnancies_reconciled_before_excl[highest_quality == "4_red", 
+                                                                                                   meaning_end_date:= shift(meaning_end_date, 
+                                                                                                                       n = (record_selected - 1)), 
+                                                                                                   by = "pregnancy_id"]
+
+D3_groups_of_pregnancies_reconciled_before_excl <- D3_groups_of_pregnancies_reconciled_before_excl[highest_quality == "4_red", 
+                                                                                                   meaning_ongoing_date:= shift(meaning_ongoing_date, 
+                                                                                                                       n = (record_selected - 1)), 
+                                                                                                   by = "pregnancy_id"]
+
+################################################################################
+########################     D3_pregnancy_reconciled     #######################
+################################################################################
 D3_groups_of_pregnancies_reconciled_before_excl <- D3_groups_of_pregnancies_reconciled_before_excl[is.na(record_selected), record_selected:=1] 
 
-D3_groups_of_pregnancies_reconciled_before_excl <- D3_groups_of_pregnancies_reconciled_before_excl[is.na(type_of_pregnancy_end), type_of_pregnancy_end := "UNK"]
+D3_groups_of_pregnancies_reconciled_before_excl <- D3_groups_of_pregnancies_reconciled_before_excl[is.na(type_of_pregnancy_end), 
+                                                                                                   type_of_pregnancy_end := "UNK"]
 
 D3_pregnancy_reconciled_before_excl <- D3_groups_of_pregnancies_reconciled_before_excl[n==record_selected, -c("n")]
 
+
+## saving and rm
 save(D3_groups_of_pregnancies_reconciled_before_excl, file=paste0(dirtemp,"D3_groups_of_pregnancies_reconciled_before_excl.RData"))
 save(D3_pregnancy_reconciled_before_excl, file=paste0(dirtemp,"D3_pregnancy_reconciled_before_excl.RData"))
 
