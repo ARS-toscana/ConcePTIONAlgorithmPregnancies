@@ -258,39 +258,44 @@ if (this_datasource_has_prompt) {
   save(D3_Stream_PROMPTS, file=paste0(dirtemp,"D3_Stream_PROMPTS.RData"))
   
   ##### Description #####
-  if(nrow(D3_Stream_PROMPTS)>1){
-    DescribeThisDataset(Dataset = D3_Stream_PROMPTS,
-                        Individual=T,
-                        ColumnN=NULL,
-                        HeadOfDataset=FALSE,
-                        StructureOfDataset=FALSE,
-                        NameOutputFile="D3_Stream_PROMPTS",
-                        Cols=list("meaning_start_date", 
-                                  "meaning_ongoing_date",
-                                  "meaning_end_date",
-                                  "type_of_pregnancy_end",
-                                  "origin",
-                                  "column",
-                                  "meaning",
-                                  "PROMPT",
-                                  "ITEMSETS", 
-                                  "imputed_start_of_pregnancy",
-                                  "imputed_end_of_pregnancy"),
-                        ColsFormat=list("categorical", 
-                                        "categorical",
-                                        "categorical",
-                                        "categorical",
-                                        "categorical",
-                                        "categorical",
-                                        "categorical",
-                                        "categorical",
-                                        "categorical",
-                                        "categorical",
-                                        "categorical"),
-                        DateFormat_ymd=FALSE,
-                        DetailInformation=TRUE,
-                        PathOutputFolder= dirdescribe03_create_pregnancies)
+  if(HTML_files_creation){
+    if(nrow(D3_Stream_PROMPTS)>1){
+      cat("Describing D3_Stream_PROMPTS  \n")
+      DescribeThisDataset(Dataset = D3_Stream_PROMPTS,
+                          Individual=T,
+                          ColumnN=NULL,
+                          HeadOfDataset=FALSE,
+                          StructureOfDataset=FALSE,
+                          NameOutputFile="D3_Stream_PROMPTS",
+                          Cols=list("meaning_start_date", 
+                                    "meaning_ongoing_date",
+                                    "meaning_end_date",
+                                    "type_of_pregnancy_end",
+                                    "origin",
+                                    "column",
+                                    "meaning",
+                                    "PROMPT",
+                                    "ITEMSETS", 
+                                    "imputed_start_of_pregnancy",
+                                    "imputed_end_of_pregnancy"),
+                          ColsFormat=list("categorical", 
+                                          "categorical",
+                                          "categorical",
+                                          "categorical",
+                                          "categorical",
+                                          "categorical",
+                                          "categorical",
+                                          "categorical",
+                                          "categorical",
+                                          "categorical",
+                                          "categorical"),
+                          DateFormat_ymd=FALSE,
+                          DetailInformation=TRUE,
+                          PathOutputFolder= dirdescribe03_create_pregnancies)
+    }
   }
+  
+  
   
   ##### End Description #####
   

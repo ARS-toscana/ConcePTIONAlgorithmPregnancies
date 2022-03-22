@@ -6,7 +6,7 @@ this_datasource_does_not_modify_PROMPT <- ifelse(thisdatasource %in% datasource_
 
 ## meaning not implying pregnancy
 
-meaning_not_implying_pregnancy <- c("LastMestrualPeriod")
+meaning_start_not_implying_pregnancy <- c("LastMestrualPeriod")
 
 # DATASOURCE-SPECIFIC ALGORITHMS
 

@@ -132,51 +132,59 @@ groups_of_pregnancies<-groups_of_pregnancies[coloured_order=="3_blue",order_qual
 
 groups_of_pregnancies<-groups_of_pregnancies[coloured_order=="4_red",order_quality:=15]
 
+groups_of_pregnancies<-groups_of_pregnancies[meaning_start_date %in% meaning_start_not_implying_pregnancy, order_quality:=99]
+
 # table(groups_of_pregnancies[,order_quality], useNA = "ifany")
 # table(groups_of_pregnancies[,.(order_quality, coloured_order)], useNA = "ifany")
 groups_of_pregnancies<-groups_of_pregnancies[,ID:=paste0(pregnancy_id,"_",seq_along(.I)),by="pregnancy_id"]
 
 
-print("Describing groups_of_pregnancies")
-DescribeThisDataset(Dataset = groups_of_pregnancies,
-                    Individual=T,
-                    ColumnN=NULL,
-                    HeadOfDataset=FALSE,
-                    StructureOfDataset=FALSE,
-                    NameOutputFile="groups_of_pregnancies",
-                    Cols=list("type_of_pregnancy_end",
-                              "meaning_start_date",
-                              "meaning_ongoing_date",
-                              "meaning_end_date",
-                              "imputed_start_of_pregnancy",
-                              "imputed_end_of_pregnancy",
-                              "origin",
-                              "meaning",
-                              "PROMPT",
-                              "EUROCAT",
-                              "CONCEPTSETS",
-                              "CONCEPTSET",
-                              "ITEMSETS",
-                              "coloured_order",
-                              "order_quality"),
-                    ColsFormat=list("categorical",
-                                    "categorical",
-                                    "categorical",
-                                    "categorical",
-                                    "categorical",
-                                    "categorical",
-                                    "categorical",
-                                    "categorical",
-                                    "categorical",
-                                    "categorical",
-                                    "categorical",
-                                    "categorical",
-                                    "categorical",
-                                    "categorical",
-                                    "categorical"),
-                    DateFormat_ymd=FALSE,
-                    DetailInformation=TRUE,
-                    PathOutputFolder= dirdescribe03_06_groups_of_pregnancies)
+### start description
+if(HTML_files_creation){
+  cat("Describing groups_of_pregnancies \n")
+  DescribeThisDataset(Dataset = groups_of_pregnancies,
+                      Individual=T,
+                      ColumnN=NULL,
+                      HeadOfDataset=FALSE,
+                      StructureOfDataset=FALSE,
+                      NameOutputFile="groups_of_pregnancies",
+                      Cols=list("type_of_pregnancy_end",
+                                "meaning_start_date",
+                                "meaning_ongoing_date",
+                                "meaning_end_date",
+                                "imputed_start_of_pregnancy",
+                                "imputed_end_of_pregnancy",
+                                "origin",
+                                "meaning",
+                                "PROMPT",
+                                "EUROCAT",
+                                "CONCEPTSETS",
+                                "CONCEPTSET",
+                                "ITEMSETS",
+                                "coloured_order",
+                                "order_quality"),
+                      ColsFormat=list("categorical",
+                                      "categorical",
+                                      "categorical",
+                                      "categorical",
+                                      "categorical",
+                                      "categorical",
+                                      "categorical",
+                                      "categorical",
+                                      "categorical",
+                                      "categorical",
+                                      "categorical",
+                                      "categorical",
+                                      "categorical",
+                                      "categorical",
+                                      "categorical"),
+                      DateFormat_ymd=FALSE,
+                      DetailInformation=TRUE,
+                      PathOutputFolder= dirdescribe03_06_groups_of_pregnancies)
+  
+}
+### end description
+
 
 
 save(groups_of_pregnancies, file=paste0(dirtemp,"groups_of_pregnancies.RData"))

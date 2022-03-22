@@ -51,23 +51,28 @@ if(thisdatasource_has_EUROCAT){
     
     
     ##### Description #####
-    DescribeThisDataset(Dataset = D3_Stream_EUROCAT,
-                        Individual=T,
-                        ColumnN=NULL,
-                        HeadOfDataset=FALSE,
-                        StructureOfDataset=FALSE,
-                        NameOutputFile="D3_Stream_EUROCAT",
-                        Cols=list("meaning_start_date",
-                                  "meaning_end_date",
-                                  "type_of_pregnancy_end",
-                                  "meaning",),
-                        ColsFormat=list("categorical", 
-                                        "categorical",
-                                        "categorical",
-                                        "categorical"),
-                        DateFormat_ymd=FALSE,
-                        DetailInformation=TRUE,
-                        PathOutputFolder= dirdescribe03_create_pregnancies)
+    if(HTML_files_creation){
+      cat("Describing D3_Stream_EUROCAT  \n")
+      DescribeThisDataset(Dataset = D3_Stream_EUROCAT,
+                          Individual=T,
+                          ColumnN=NULL,
+                          HeadOfDataset=FALSE,
+                          StructureOfDataset=FALSE,
+                          NameOutputFile="D3_Stream_EUROCAT",
+                          Cols=list("meaning_start_date",
+                                    "meaning_end_date",
+                                    "type_of_pregnancy_end",
+                                    "meaning",),
+                          ColsFormat=list("categorical", 
+                                          "categorical",
+                                          "categorical",
+                                          "categorical"),
+                          DateFormat_ymd=FALSE,
+                          DetailInformation=TRUE,
+                          PathOutputFolder= dirdescribe03_create_pregnancies)
+    }
+    
+
     ##### End Description #####
     
     save(D3_Stream_EUROCAT, file=paste0(dirtemp,"D3_Stream_EUROCAT.RData"))

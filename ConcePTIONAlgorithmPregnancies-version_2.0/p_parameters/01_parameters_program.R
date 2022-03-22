@@ -165,3 +165,10 @@ file.copy(paste0(dirinput,'/CDM_SOURCE.csv'), dirsmallcountsremoved)
 file.copy(paste0(dirinput,'/INSTANCE.csv'), dirsmallcountsremoved)
 file.copy(paste0(dirmacro,'/post_validation_script.R'), dirvalidation)
 
+#############################################
+#HTML files: creation 
+#############################################
+
+HTML_files_creation <- TRUE
+
+

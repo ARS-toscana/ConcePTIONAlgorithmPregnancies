@@ -113,28 +113,32 @@ if (this_datasource_has_itemsets_stream_from_medical_obs | this_datasource_has_m
   rm(LastMestrualPeriod, GestationalAge, PregnancyTest)
   
   ##### Description #####
-  cat("Describing D3_Stream_ITEMSETS")
-  DescribeThisDataset(Dataset = D3_Stream_ITEMSETS,
-                      Individual=T,
-                      ColumnN=NULL,
-                      HeadOfDataset=FALSE,
-                      StructureOfDataset=FALSE,
-                      NameOutputFile="D3_Stream_ITEMSETS",
-                      Cols=list("meaning_start_date", 
-                                "meaning_ongoing_date",
-                                "meaning_end_date",
-                                "type_of_pregnancy_end",
-                                "origin",
-                                "meaning"),
-                      ColsFormat=list("categorical", 
-                                      "categorical",
-                                      "categorical",
-                                      "categorical",
-                                      "categorical",
-                                      "categorical"),
-                      DateFormat_ymd=FALSE,
-                      DetailInformation=TRUE,
-                      PathOutputFolder= dirdescribe03_create_pregnancies)
+  if(HTML_files_creation){
+    cat("Describing D3_Stream_ITEMSETS  \n")
+    DescribeThisDataset(Dataset = D3_Stream_ITEMSETS,
+                        Individual=T,
+                        ColumnN=NULL,
+                        HeadOfDataset=FALSE,
+                        StructureOfDataset=FALSE,
+                        NameOutputFile="D3_Stream_ITEMSETS",
+                        Cols=list("meaning_start_date", 
+                                  "meaning_ongoing_date",
+                                  "meaning_end_date",
+                                  "type_of_pregnancy_end",
+                                  "origin",
+                                  "meaning"),
+                        ColsFormat=list("categorical", 
+                                        "categorical",
+                                        "categorical",
+                                        "categorical",
+                                        "categorical",
+                                        "categorical"),
+                        DateFormat_ymd=FALSE,
+                        DetailInformation=TRUE,
+                        PathOutputFolder= dirdescribe03_create_pregnancies)
+  }
+  
+
   ##### End Description #####
   
 }else{

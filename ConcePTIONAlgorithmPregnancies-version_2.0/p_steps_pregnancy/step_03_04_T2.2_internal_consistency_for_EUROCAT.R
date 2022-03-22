@@ -104,23 +104,28 @@ if (dim(D3_Stream_EUROCAT)[1]!=0){
   save(D3_Stream_EUROCAT_check, file=paste0(dirtemp,"D3_Stream_EUROCAT_check.RData"))
   
   ##### Description #####
-  DescribeThisDataset(Dataset = D3_Stream_EUROCAT_check,
-                      Individual=T,
-                      ColumnN=NULL,
-                      HeadOfDataset=FALSE,
-                      StructureOfDataset=FALSE,
-                      NameOutputFile="D3_Stream_EUROCAT_check",
-                      Cols=list("meaning_start_date",
-                                "meaning_end_date",
-                                "type_of_pregnancy_end",
-                                "meaning",),
-                      ColsFormat=list("categorical", 
-                                      "categorical",
-                                      "categorical",
-                                      "categorical"),
-                      DateFormat_ymd=FALSE,
-                      DetailInformation=TRUE,
-                      PathOutputFolder= dirdescribe03_internal_consistency)
+  if(HTML_files_creation){
+    cat("Describing D3_Stream_EUROCAT_check \n")
+    DescribeThisDataset(Dataset = D3_Stream_EUROCAT_check,
+                        Individual=T,
+                        ColumnN=NULL,
+                        HeadOfDataset=FALSE,
+                        StructureOfDataset=FALSE,
+                        NameOutputFile="D3_Stream_EUROCAT_check",
+                        Cols=list("meaning_start_date",
+                                  "meaning_end_date",
+                                  "type_of_pregnancy_end",
+                                  "meaning",),
+                        ColsFormat=list("categorical", 
+                                        "categorical",
+                                        "categorical",
+                                        "categorical"),
+                        DateFormat_ymd=FALSE,
+                        DetailInformation=TRUE,
+                        PathOutputFolder= dirdescribe03_internal_consistency)
+  }
+  
+  
   ##### End Description #####
   
   rm(D3_Stream_EUROCAT_check,D3_PERSONS, output_spells_category, D3_study_population_pregnancy_from_EUROCAT,D3_study_population_pregnancy1,D3_study_population_pregnancy2, D3_excluded_pregnancies_from_EUROCAT,D3_excluded_pregnancies_from_EUROCAT_1,D3_excluded_pregnancies_from_EUROCAT_2,D3_study_population_pregnancy3)

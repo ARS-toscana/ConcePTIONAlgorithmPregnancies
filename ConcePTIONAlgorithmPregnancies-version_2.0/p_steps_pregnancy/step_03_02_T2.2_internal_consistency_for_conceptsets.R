@@ -99,33 +99,38 @@ D3_Stream_CONCEPTSETS_check<-D3_study_population_pregnancy_from_CONCEPTSETS[,.(p
 save(D3_Stream_CONCEPTSETS_check, file=paste0(dirtemp,"D3_Stream_CONCEPTSETS_check.RData"))
 
 ##### Description #####
-DescribeThisDataset(Dataset = D3_Stream_CONCEPTSETS_check,
-                    Individual=T,
-                    ColumnN=NULL,
-                    HeadOfDataset=FALSE,
-                    StructureOfDataset=FALSE,
-                    NameOutputFile="D3_Stream_CONCEPTSETS_check",
-                    Cols=list("meaning_start_date", 
-                              "meaning_ongoing_date",
-                              "meaning_end_date",
-                              "type_of_pregnancy_end",
-                              "origin",
-                              "meaning",
-                              "imputed_start_of_pregnancy",
-                              "imputed_end_of_pregnancy",
-                              "CONCEPTSET"),
-                    ColsFormat=list("categorical", 
-                                    "categorical",
-                                    "categorical",
-                                    "categorical",
-                                    "categorical",
-                                    "categorical",
-                                    "categorical",
-                                    "categorical",
-                                    "categorical"),
-                    DateFormat_ymd=FALSE,
-                    DetailInformation=TRUE,
-                    PathOutputFolder= dirdescribe03_internal_consistency)
+if(HTML_files_creation){
+  cat("Describing D3_Stream_CONCEPTSETS_check \n")
+  DescribeThisDataset(Dataset = D3_Stream_CONCEPTSETS_check,
+                      Individual=T,
+                      ColumnN=NULL,
+                      HeadOfDataset=FALSE,
+                      StructureOfDataset=FALSE,
+                      NameOutputFile="D3_Stream_CONCEPTSETS_check",
+                      Cols=list("meaning_start_date", 
+                                "meaning_ongoing_date",
+                                "meaning_end_date",
+                                "type_of_pregnancy_end",
+                                "origin",
+                                "meaning",
+                                "imputed_start_of_pregnancy",
+                                "imputed_end_of_pregnancy",
+                                "CONCEPTSET"),
+                      ColsFormat=list("categorical", 
+                                      "categorical",
+                                      "categorical",
+                                      "categorical",
+                                      "categorical",
+                                      "categorical",
+                                      "categorical",
+                                      "categorical",
+                                      "categorical"),
+                      DateFormat_ymd=FALSE,
+                      DetailInformation=TRUE,
+                      PathOutputFolder= dirdescribe03_internal_consistency)
+}
+
+
 ##### End Description #####
 
 rm(D3_Stream_CONCEPTSETS,D3_study_population_pregnancy1,D3_study_population_pregnancy2, D3_study_population_pregnancy3,D3_Stream_CONCEPTSETS_check, D3_excluded_pregnancies_from_CONCEPTSETS)

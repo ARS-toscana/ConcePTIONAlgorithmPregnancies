@@ -66,57 +66,60 @@ if (this_datasources_with_specific_algorithms){
 ################################################################################
 ###########################       Description        ###########################
 ################################################################################
-
-for (concept in concept_set_pregnancy) {
-  
-  if( nrow(get(concept)) > 0){
+if(HTML_files_creation){
+  for (concept in concept_set_pregnancy) {
     
-    if(concept_set_domains[[concept]]=="Diagnosis"){
-      print(paste0("Describing ", concept))
-      DescribeThisDataset(Dataset = get(concept),
-                          Individual=T,
-                          ColumnN=NULL,
-                          HeadOfDataset=FALSE,
-                          StructureOfDataset=FALSE,
-                          NameOutputFile=concept,
-                          Cols=list("codvar", "event_record_vocabulary", "meaning_of_event", "origin_of_event"),
-                          ColsFormat=list("categorical", "categorical", "categorical", "categorical"),
-                          DateFormat_ymd=FALSE,
-                          DetailInformation=TRUE,
-                          PathOutputFolder= dirdescribe01_concepts)
-    }
-
-    if(concept_set_domains[[concept]]=="Medicines"){
-      print(paste0("Describing ", concept))
-      DescribeThisDataset(Dataset = get(concept),
-                Individual=T,
-                ColumnN=NULL,
-                HeadOfDataset=FALSE,
-                StructureOfDataset=FALSE,
-                NameOutputFile=concept,
-                Cols=list("codvar", "meaning_of_drug_record", "origin_of_drug_record"),
-                ColsFormat=list("categorical", "categorical", "categorical"),
-                DateFormat_ymd=FALSE,
-                DetailInformation=TRUE,
-                PathOutputFolder= dirdescribe01_concepts)
-    }
-    
-    if(concept_set_domains[[concept]]=="Procedures"){    
-      print(paste0("Describing ", concept))
-      DescribeThisDataset(Dataset = get(concept),
-                          Individual=T,
-                          ColumnN=NULL,
-                          HeadOfDataset=FALSE,
-                          StructureOfDataset=FALSE,
-                          NameOutputFile=concept,
-                          Cols=list("codvar", "meaning_of_procedure", "origin_of_procedure", "procedure_code_vocabulary"),
-                          ColsFormat=list("categorical", "categorical", "categorical", "categorical"),
-                          DateFormat_ymd=FALSE,
-                          DetailInformation=TRUE,
-                          PathOutputFolder= dirdescribe01_concepts)
+    if( nrow(get(concept)) > 0){
+      
+      if(concept_set_domains[[concept]]=="Diagnosis"){
+        cat(paste0("Describing ", concept,  " \n"))
+        DescribeThisDataset(Dataset = get(concept),
+                            Individual=T,
+                            ColumnN=NULL,
+                            HeadOfDataset=FALSE,
+                            StructureOfDataset=FALSE,
+                            NameOutputFile=concept,
+                            Cols=list("codvar", "event_record_vocabulary", "meaning_of_event", "origin_of_event"),
+                            ColsFormat=list("categorical", "categorical", "categorical", "categorical"),
+                            DateFormat_ymd=FALSE,
+                            DetailInformation=TRUE,
+                            PathOutputFolder= dirdescribe01_concepts)
+      }
+      
+      if(concept_set_domains[[concept]]=="Medicines"){
+        cat(paste0("Describing ", concept,  " \n"))
+        DescribeThisDataset(Dataset = get(concept),
+                            Individual=T,
+                            ColumnN=NULL,
+                            HeadOfDataset=FALSE,
+                            StructureOfDataset=FALSE,
+                            NameOutputFile=concept,
+                            Cols=list("codvar", "meaning_of_drug_record", "origin_of_drug_record"),
+                            ColsFormat=list("categorical", "categorical", "categorical"),
+                            DateFormat_ymd=FALSE,
+                            DetailInformation=TRUE,
+                            PathOutputFolder= dirdescribe01_concepts)
+      }
+      
+      if(concept_set_domains[[concept]]=="Procedures"){    
+        cat(paste0("Describing ", concept,  " \n"))
+        DescribeThisDataset(Dataset = get(concept),
+                            Individual=T,
+                            ColumnN=NULL,
+                            HeadOfDataset=FALSE,
+                            StructureOfDataset=FALSE,
+                            NameOutputFile=concept,
+                            Cols=list("codvar", "meaning_of_procedure", "origin_of_procedure", "procedure_code_vocabulary"),
+                            ColsFormat=list("categorical", "categorical", "categorical", "categorical"),
+                            DateFormat_ymd=FALSE,
+                            DetailInformation=TRUE,
+                            PathOutputFolder= dirdescribe01_concepts)
+      }
     }
   }
 }
+
+
 
 
 rm(list = concept_set_pregnancy)

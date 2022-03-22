@@ -13,31 +13,34 @@ if (this_datasource_has_prompt) {
                         discard_from_environment = FALSE,
                         extension = c("csv"))
   
-  
-  rm(SURVEY_ID_BR)
+
   ################################################################################
   ###########################       Description        ###########################
   ################################################################################
   files_it<-sub('\\.RData$', '', list.files(dirtemp))
   
-  for (item in study_variables_pregnancy) {
-    if( item %in% files_it ){
-      if(nrow(get(item)) != 0){
-        print(paste0("Describing ", item))
-        DescribeThisDataset(Dataset = get(item),
-                            Individual=T,
-                            ColumnN=NULL,
-                            HeadOfDataset=FALSE,
-                            StructureOfDataset=FALSE,
-                            NameOutputFile=item,
-                            Cols=list("so_source_column", "so_origin", "so_meaning", "Table_cdm"),
-                            ColsFormat=list("categorical", "categorical", "categorical", "categorical"),
-                            DateFormat_ymd=FALSE,
-                            DetailInformation=TRUE,
-                            PathOutputFolder= dirdescribe01_items)
-      }
-    } 
+  if(HTML_files_creation){
+    for (item in study_variables_pregnancy) {
+      if( item %in% files_it ){
+        if(nrow(get(item)) != 0){
+          cat(paste0("Describing ", item,  " \n"))
+          DescribeThisDataset(Dataset = get(item),
+                              Individual=T,
+                              ColumnN=NULL,
+                              HeadOfDataset=FALSE,
+                              StructureOfDataset=FALSE,
+                              NameOutputFile=item,
+                              Cols=list("so_source_column", "so_origin", "so_meaning", "Table_cdm"),
+                              ColsFormat=list("categorical", "categorical", "categorical", "categorical"),
+                              DateFormat_ymd=FALSE,
+                              DetailInformation=TRUE,
+                              PathOutputFolder= dirdescribe01_items)
+        }
+      } 
+    }
   }
+  
+
   suppressWarnings(rm(list = study_variables_pregnancy))
   
 } 
@@ -82,25 +85,29 @@ if (this_datasource_has_itemsets_stream_from_medical_obs | this_datasource_has_m
   
   
   files_it<-sub('\\.RData$', '', list.files(dirtemp))
-
-  for (item in study_itemset_pregnancy) {
-    if( item %in% files_it ){
-      if(nrow(get(item)) != 0){
-        print(paste0("Describing ", item))
-        DescribeThisDataset(Dataset = get(item),
-                            Individual=T,
-                            ColumnN=NULL,
-                            HeadOfDataset=FALSE,
-                            StructureOfDataset=FALSE,
-                            NameOutputFile=item,
-                            Cols=list("mo_source_column", "mo_origin", "mo_meaning"),
-                            ColsFormat=list("categorical", "categorical", "categorical"),
-                            DateFormat_ymd=FALSE,
-                            DetailInformation=TRUE,
-                            PathOutputFolder= dirdescribe01_items)
-      }
-    } 
+  
+  if(HTML_files_creation){
+    for (item in study_itemset_pregnancy) {
+      if( item %in% files_it ){
+        if(nrow(get(item)) != 0){
+          cat(paste0("Describing ", item,  " \n"))
+          DescribeThisDataset(Dataset = get(item),
+                              Individual=T,
+                              ColumnN=NULL,
+                              HeadOfDataset=FALSE,
+                              StructureOfDataset=FALSE,
+                              NameOutputFile=item,
+                              Cols=list("mo_source_column", "mo_origin", "mo_meaning"),
+                              ColsFormat=list("categorical", "categorical", "categorical"),
+                              DateFormat_ymd=FALSE,
+                              DetailInformation=TRUE,
+                              PathOutputFolder= dirdescribe01_items)
+        }
+      } 
+    }
   }
+  
+
   suppressWarnings(rm(list = study_itemset_pregnancy))
 } else {
   print("this datasource has NO itemsets stream")
