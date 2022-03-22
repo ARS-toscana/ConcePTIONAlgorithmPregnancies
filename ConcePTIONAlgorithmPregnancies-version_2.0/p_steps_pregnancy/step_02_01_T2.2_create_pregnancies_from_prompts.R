@@ -19,10 +19,21 @@ if (this_datasource_has_prompt) {
     
     dataset_pregnancies <- SURVEY_ID_BR
     
-    for (studyvar in c(study_variables_end_of_pregnancy,study_variables_type_of_pregnancy,study_variables_start_of_pregnancy)){
+    for (studyvar in c(study_variables_end_of_pregnancy,
+                       study_variables_type_of_pregnancy,
+                       study_variables_start_of_pregnancy)){
+
       print(studyvar)
       studyvardataset <- get(studyvar)
-      dataset_pregnancies <- merge(dataset_pregnancies,studyvardataset[,.(survey_id,so_source_value,so_source_table,so_meaning, so_source_column)],by=c("survey_id"),all.x=T) #,"person_id"
+      dataset_pregnancies <- merge(dataset_pregnancies,
+                                   studyvardataset[,.(survey_id,
+                                                      so_source_value,
+                                                      so_source_table,
+                                                      so_meaning, 
+                                                      so_source_column)],
+                                   by=c("survey_id"),
+                                   all.x=T) #,"person_id"
+      
       setnames(dataset_pregnancies,"so_source_value",studyvar)
       setnames(dataset_pregnancies,"so_source_table",paste0("table_",studyvar))
       setnames(dataset_pregnancies,"so_meaning",paste0("meaning_",studyvar))
