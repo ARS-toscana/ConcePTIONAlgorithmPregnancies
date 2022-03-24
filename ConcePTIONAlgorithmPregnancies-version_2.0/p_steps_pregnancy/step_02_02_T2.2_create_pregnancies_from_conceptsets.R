@@ -148,6 +148,8 @@ dataset_concept_sets<-dataset_concept_sets[is.na(pregnancy_start_date), meaning_
 
 
 dataset_concept_sets<-dataset_concept_sets[!is.na(pregnancy_end_date) & concept_set%chin%concept_sets_of_end_of_pregnancy_LB,type_of_pregnancy_end:="LB"]
+dataset_concept_sets<-dataset_concept_sets[!is.na(pregnancy_end_date) & concept_set=="Birth_possible",type_of_pregnancy_end:="UNK"]
+
 dataset_concept_sets<-dataset_concept_sets[!is.na(pregnancy_end_date) & concept_set=="Stillbirth",type_of_pregnancy_end:="SB"]
 dataset_concept_sets<-dataset_concept_sets[!is.na(pregnancy_end_date) & concept_set=="Interruption",type_of_pregnancy_end:="T"]
 dataset_concept_sets<-dataset_concept_sets[!is.na(pregnancy_end_date) & concept_set=="Spontaneousabortion",type_of_pregnancy_end:="SA"]

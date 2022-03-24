@@ -630,5 +630,5 @@ for (t in  names(concept_set_codes_pregnancy)) {
 concept_sets_of_start_of_pregnancy <- c("Gestation_less24","Gestation_24","Gestation_25_26","Gestation_27_28","Gestation_29_30","Gestation_31_32","Gestation_33_34","Gestation_35_36","Gestation_more37") 
 concept_sets_of_ongoing_of_pregnancy <- c("Ongoingpregnancy") 
 concept_sets_of_end_of_pregnancy <- c("Birth_narrow", "Birth_possible","Preterm","Atterm","Postterm","Livebirth","Stillbirth","Interruption", "Spontaneousabortion", "Ectopicpregnancy")
-concept_sets_of_end_of_pregnancy_LB <- c("Birth_narrow", "Birth_possible","Preterm","Atterm","Postterm","Livebirth")
-
+concept_sets_of_end_of_pregnancy_LB <- c("Birth_narrow","Preterm","Atterm","Postterm","Livebirth") #, "Birth_possible"
+concept_sets_of_end_of_pregnancy_UNK <- c("Birth_possible")
