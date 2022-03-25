@@ -85,7 +85,7 @@ itemsetMED_AVpair_pregnancy[["PregnancyTest"]][[files[i]]][["BIFAP"]] <- list()
 
 
 
-################################ DICTINARY OF PregnancyTest ##################################
+################################ DICTIONARY OF PregnancyTest ##################################
 
 dictonary_of_itemset_PregnancyTest[["PregnancyTest"]][["positive"]]<-list(list("positive")) 
 
