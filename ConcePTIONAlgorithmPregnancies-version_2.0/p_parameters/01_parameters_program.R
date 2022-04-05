@@ -144,9 +144,12 @@ for (t in list_tables){
 # assess datasource-specific parameters
 
 # gap allowed for CreateSpells
-gap_allowed_thisdatasource = ifelse(thisdatasource == "ARS", 365,
-                                    ifelse(thisdatasource == "TO_ADD", 19, 
-                                           1))
+gap_allowed <- vector(mode="list")
+gap_allowed[["ARS"]] <- 365
+gap_allowed[["TO_ADD"]] <- 180
+
+gap_allowed_thisdatasource = ifelse(is.na(gap_allowed[[thisdatasource]]), 19,gap_allowed[[thisdatasource]])
+
 # datasources with prescriptions instead of dispensations
 datasources_prescriptions <- c("TO_ADD","CPRD","PHARMO") #@ use "TO_ADD" as example
 thisdatasource_has_prescriptions <- ifelse(thisdatasource %in% datasources_prescriptions,TRUE,FALSE)
