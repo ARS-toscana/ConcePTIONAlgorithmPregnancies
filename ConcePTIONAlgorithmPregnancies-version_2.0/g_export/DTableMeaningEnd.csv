@@ -1,0 +1,14 @@
+meaning,ECT,LB,SA,T,UNK
+All,<5,142 (100%),16 (100%),33 (100%),37 (100%)
+birth_registry_child,<5,37 (26.06%),<5,<5,<5
+from_conceptset_Birth_narrow,<5,61 (42.96%),<5,<5,<5
+from_conceptset_Ectopicpregnancy,<5,<5,<5,<5,<5
+from_conceptset_Interruption,<5,<5,<5,26 (78.79%),<5
+from_conceptset_Livebirth,<5,44 (30.99%),<5,<5,<5
+from_conceptset_Spontaneousabortion,<5,<5,11 (68.75%),<5,<5
+imputed_from_conceptset_Ongoingpregnancy,<5,<5,<5,<5,6 (16.22%)
+imputed_from_conceptset_amniocentesis,<5,<5,<5,<5,<5
+imputed_from_conceptset_others,<5,<5,<5,<5,28 (75.68%)
+imputed_from_service_for_ongoing_pregnancy,<5,<5,<5,<5,<5
+induced_termination_registry,<5,<5,<5,7 (21.21%),<5
+spontaneous_abortion_registry,<5,<5,5 (31.25%),<5,<5

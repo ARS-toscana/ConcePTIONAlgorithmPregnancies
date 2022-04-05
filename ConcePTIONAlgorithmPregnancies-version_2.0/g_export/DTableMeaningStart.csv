@@ -1,0 +1,13 @@
+meaning,ECT,LB,SA,T,UNK
+All,<5,142 (100%),16 (100%),33 (100%),37 (100%)
+from_itemset_GESTAGE_FROM_LMP_WEEKS,<5,5 (3.52%),5 (31.25%),7 (21.21%),<5
+from_itemset_GESTAGE_FROM_USOUNDS_WEEKS,<5,32 (22.54%),<5,<5,<5
+imputed_from_conceptset_Birth_narrow,<5,61 (42.96%),<5,<5,<5
+imputed_from_conceptset_Ectopicpregnancy,<5,<5,<5,<5,<5
+imputed_from_conceptset_Interruption,<5,<5,<5,26 (78.79%),<5
+imputed_from_conceptset_Livebirth,<5,44 (30.99%),<5,<5,<5
+imputed_from_conceptset_Ongoingpregnancy,<5,<5,<5,<5,6 (16.22%)
+imputed_from_conceptset_Spontaneousabortion,<5,<5,11 (68.75%),<5,<5
+imputed_from_conceptset_amniocentesis,<5,<5,<5,<5,<5
+imputed_from_conceptset_others,<5,<5,<5,<5,28 (75.68%)
+imputed_from_service_for_ongoing_pregnancy,<5,<5,<5,<5,<5
