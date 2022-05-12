@@ -8,7 +8,7 @@
 ####### LOAD PROCEDURES for ARS
 
 ####### Codes for tests for gestational diabetes ###############
-concept_set_codes_pregnancy_datasource[["gestational_diabetes"]][["ARS"]][["ITA_procedures_coding_system"]] <- c("90.26.7") 
+concept_set_codes_pregnancy_datasource[["gestational_diabetes"]][["ARS"]][["ITA_procedures_coding_system"]] <- c()  #"90.26.7"
 
 ####### Codes for fetal nuchal translucency ###############
 
