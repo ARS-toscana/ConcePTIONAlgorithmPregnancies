@@ -29,12 +29,14 @@ itemset_AVpair_pregnancy[["GESTAGE_FROM_USOUNDS_DAYS"]][[files[i]]][["SNDS"]] <-
 itemset_AVpair_pregnancy[["GESTAGE_FROM_USOUNDS_WEEKS"]][[files[i]]][["SNDS"]]  <- list()
 
 # specification DATESTARTPREGNANCY
-itemset_AVpair_pregnancy[["DATESTARTPREGNANCY"]][[files[i]]][["SNDS"]] <- list(list("DIAGNOSTIC","DATE_DIAG_DEB")) #check
+#itemset_AVpair_pregnancy[["DATESTARTPREGNANCY"]][[files[i]]][["SNDS"]] <- list(list("DIAGNOSTIC","DATE_DIAG_DEB")) 
+itemset_AVpair_pregnancy[["DATESTARTPREGNANCY"]][[files[i]]][["SNDS"]] <- list()
 
 
 ########################################## END ###################################################### 
 
-itemset_AVpair_pregnancy[["DATEENDPREGNANCY"]][[files[i]]][["SNDS"]] <- list(list("DIAGNOSTIC","DATE_DIAG_FIN")) 
+#itemset_AVpair_pregnancy[["DATEENDPREGNANCY"]][[files[i]]][["SNDS"]] <- list(list("DIAGNOSTIC","DATE_DIAG_FIN")) 
+itemset_AVpair_pregnancy[["DATEENDPREGNANCY"]][[files[i]]][["SNDS"]] <- list()
 
 ### specification END_LIVEBIRTH
 itemset_AVpair_pregnancy[["END_LIVEBIRTH"]][[files[i]]][["SNDS"]] <- list()
@@ -51,19 +53,26 @@ itemset_AVpair_pregnancy[["END_ABORTION"]][[files[i]]][["SNDS"]] <- list()
 
 ########################################### TYPE #######################################
 
-itemset_AVpair_pregnancy[["TYPE"]][[files[i]]][["SNDS"]] <- list(list("DIAGNOSTIC","DIAG"))
+#itemset_AVpair_pregnancy[["TYPE"]][[files[i]]][["SNDS"]] <- list(list("DIAGNOSTIC","DIAG"))
+itemset_AVpair_pregnancy[["TYPE"]][[files[i]]][["SNDS"]] <- list()
 
 
 ################################ DICTINARY OF TYPE ##################################
 
-dictonary_of_itemset_pregnancy[["TYPE"]][["SNDS"]][["LB"]]<-list(list("DIAGNOSTIC","PRE11"))
-dictonary_of_itemset_pregnancy[["TYPE"]][["SNDS"]][["SB"]]<-list(list("DIAGNOSTIC","PRE10"))
-dictonary_of_itemset_pregnancy[["TYPE"]][["SNDS"]][["SA"]]<-list(list("DIAGNOSTIC","PRE5"))
-dictonary_of_itemset_pregnancy[["TYPE"]][["SNDS"]][["T"]]<-list(list("DIAGNOSTIC","PRE1"),list("DIAGNOSTIC","PRE2"),list("DIAGNOSTIC","PRE3"),list("DIAGNOSTIC","PRE8"),list("DIAGNOSTIC","PRE9"))
+# dictonary_of_itemset_pregnancy[["TYPE"]][["SNDS"]][["LB"]]<-list(list("DIAGNOSTIC","PRE11"))
+# dictonary_of_itemset_pregnancy[["TYPE"]][["SNDS"]][["SB"]]<-list(list("DIAGNOSTIC","PRE10"))
+# dictonary_of_itemset_pregnancy[["TYPE"]][["SNDS"]][["SA"]]<-list(list("DIAGNOSTIC","PRE5"))
+# dictonary_of_itemset_pregnancy[["TYPE"]][["SNDS"]][["T"]]<-list(list("DIAGNOSTIC","PRE1"),list("DIAGNOSTIC","PRE2"),list("DIAGNOSTIC","PRE3"),list("DIAGNOSTIC","PRE8"),list("DIAGNOSTIC","PRE9"))
+# dictonary_of_itemset_pregnancy[["TYPE"]][["SNDS"]][["MD"]]<-list()
+# dictonary_of_itemset_pregnancy[["TYPE"]][["SNDS"]][["ECT"]]<-list(list("DIAGNOSTIC","PRE4"))
+# dictonary_of_itemset_pregnancy[["TYPE"]][["SNDS"]][["UNK"]]<-list(list("DIAGNOSTIC","PRE7"),list("DIAGNOSTIC","PRE6")) 
+dictonary_of_itemset_pregnancy[["TYPE"]][["SNDS"]][["LB"]]<-list()
+dictonary_of_itemset_pregnancy[["TYPE"]][["SNDS"]][["SB"]]<-list()
+dictonary_of_itemset_pregnancy[["TYPE"]][["SNDS"]][["SA"]]<-list()
+dictonary_of_itemset_pregnancy[["TYPE"]][["SNDS"]][["T"]]<-list()
 dictonary_of_itemset_pregnancy[["TYPE"]][["SNDS"]][["MD"]]<-list()
-dictonary_of_itemset_pregnancy[["TYPE"]][["SNDS"]][["ECT"]]<-list(list("DIAGNOSTIC","PRE4"))
-dictonary_of_itemset_pregnancy[["TYPE"]][["SNDS"]][["UNK"]]<-list(list("DIAGNOSTIC","PRE7"),list("DIAGNOSTIC","PRE6")) #check these two types
-
+dictonary_of_itemset_pregnancy[["TYPE"]][["SNDS"]][["ECT"]]<-list()
+dictonary_of_itemset_pregnancy[["TYPE"]][["SNDS"]][["UNK"]]<-list() 
 
 
 
