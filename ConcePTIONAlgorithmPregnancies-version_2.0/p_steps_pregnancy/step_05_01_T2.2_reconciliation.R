@@ -390,7 +390,6 @@ D3_gop <- D3_gop[, date_of_principal_record:= max(date_of_principal_record),  by
 D3_gop <- D3_gop[, date_of_oldest_record := min(record_date), by = "pers_group_id" ]
 D3_gop <- D3_gop[, date_of_most_recent_record := max(record_date), by = "pers_group_id" ]
 
-
 D3_gop <- D3_gop[, highest_quality := "Z"]
 D3_gop <- D3_gop[n==1, highest_quality := coloured_order]
 D3_gop <- D3_gop[, highest_quality := min(highest_quality), pers_group_id]
@@ -499,7 +498,7 @@ D3_groups_of_pregnancies_reconciled_before_excl <- D3_groups_of_pregnancies_reco
                                                                                                    type_of_pregnancy_end := "UNK"]
 
 D3_pregnancy_reconciled_before_excl <- D3_groups_of_pregnancies_reconciled_before_excl[n==record_selected, -c("n")]
-
+D3_pregnancy_reconciled_before_excl <- D3_pregnancy_reconciled_before_excl[, gestage_at_first_record := date_of_oldest_record - pregnancy_start_date, by = "pregnancy_id" ]
 
 ## saving and rm
 save(D3_groups_of_pregnancies_reconciled_before_excl, file=paste0(dirtemp,"D3_groups_of_pregnancies_reconciled_before_excl.RData"))
