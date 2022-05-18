@@ -31,7 +31,7 @@ itemset_AVpair_pregnancy[["GESTAGE_FROM_USOUNDS_WEEKS"]][[files[i]]][["GePaRD"]]
 # specification DATESTARTPREGNANCY
 itemset_AVpair_pregnancy[["DATESTARTPREGNANCY"]][[files[i]]][["GePaRD"]] <- list()
 
-# specification DATESTARTPREGNANCY
+# specification EDD
 itemset_AVpair_pregnancy[["EDD"]][[files[i]]][["GePaRD"]] <- list(list("T_AMBULANT","CHILD_DAT/D/M/Y")) # to be used -280 
 
 ########################################## END ###################################################### 
@@ -56,7 +56,7 @@ itemset_AVpair_pregnancy[["END_ABORTION"]][[files[i]]][["GePaRD"]] <- list()
 itemset_AVpair_pregnancy[["TYPE"]][[files[i]]][["GePaRD"]] <- list() 
 
 
-################################ DICTINARY OF TYPE ##################################
+################################ DICTIONARY OF TYPE ##################################
 
 dictonary_of_itemset_pregnancy[["TYPE"]][["GePaRD"]][["LB"]]<-list()
 dictonary_of_itemset_pregnancy[["TYPE"]][["GePaRD"]][["SB"]]<-list()

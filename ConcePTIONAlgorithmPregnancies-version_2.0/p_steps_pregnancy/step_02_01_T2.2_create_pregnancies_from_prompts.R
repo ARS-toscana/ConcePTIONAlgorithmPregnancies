@@ -7,6 +7,10 @@ if (this_datasource_has_prompt) {
   study_variables_end_of_pregnancy <- c("DATEENDPREGNANCY","END_LIVEBIRTH","END_STILLBIRTH","END_TERMINATION","END_ABORTION")
   study_variables_type_of_pregnancy <- c("TYPE")
   
+  if (thisdatasource=="GePaRD"){
+    study_variables_start_of_pregnancy <- c(study_variables_start_of_pregnancy,"EDD") 
+  }
+  
   # check if it exists in DAP
   if (dim(SURVEY_ID_BR)[1]!=0){
     
@@ -64,6 +68,10 @@ if (this_datasource_has_prompt) {
     dataset_pregnancies0[,GESTAGE_FROM_USOUNDS_WEEKS:=as.numeric(unclass(GESTAGE_FROM_USOUNDS_WEEKS))]
     dataset_pregnancies0[,GESTAGE_FROM_LMP_DAYS:=as.numeric(unclass(GESTAGE_FROM_LMP_DAYS))]
     dataset_pregnancies0[,GESTAGE_FROM_LMP_WEEKS:=as.numeric(unclass(GESTAGE_FROM_LMP_WEEKS))]
+    
+    if (thisdatasource=="GePaRD"){
+      dataset_pregnancies0[,EDD:=ymd(EDD)]
+    }
     
     ## HANDLE EXCEPTION FOR DAPs
     # transform to NA incorrect values'
@@ -150,6 +158,11 @@ if (this_datasource_has_prompt) {
     dataset_pregnancies3<-dataset_pregnancies2[!is.na(DATESTARTPREGNANCY),pregnancy_start_date:=as.Date(DATESTARTPREGNANCY)]
     dataset_pregnancies3[!is.na(pregnancy_start_date),`:=`(meaning_start_date=paste0("from_itemset_DATESTARTPREGNANCY"),origin=table_DATESTARTPREGNANCY, column=column_DATESTARTPREGNANCY, so_source_value=DATESTARTPREGNANCY)]
     
+    if (thisdatasource=="GePaRD"){
+      dataset_pregnancies3<-dataset_pregnancies2[!is.na(EDD),pregnancy_start_date:=as.Date(EDD)-280]
+      dataset_pregnancies3[!is.na(pregnancy_start_date),`:=`(meaning_start_date=paste0("from_itemset_EDD"),origin=table_EDD, column=column_EDD, so_source_value=EDD)]
+    }
+    
     dataset_pregnancies3[is.na(pregnancy_start_date) & !is.na(GESTAGE_FROM_DAPS_CRITERIA_DAYS),pregnancy_start_date:=pregnancy_end_date-as.numeric(GESTAGE_FROM_DAPS_CRITERIA_DAYS)]
     dataset_pregnancies3[!is.na(pregnancy_start_date) & !is.na(GESTAGE_FROM_DAPS_CRITERIA_DAYS) & is.na(meaning_start_date),`:=`(meaning_start_date=paste0("from_itemset_","GESTAGE_FROM_DAPS_CRITERIA_DAYS"),origin=table_GESTAGE_FROM_DAPS_CRITERIA_DAYS, column=column_GESTAGE_FROM_DAPS_CRITERIA_DAYS)]
     
@@ -202,6 +215,9 @@ if (this_datasource_has_prompt) {
     
     rm(dataset_pregnancies,dataset_pregnancies2, dataset_pregnancies3, dataset_pregnancies0, SURVEY_ID_BR)
     rm(GESTAGE_FROM_DAPS_CRITERIA_DAYS, GESTAGE_FROM_DAPS_CRITERIA_WEEKS, GESTAGE_FROM_LMP_DAYS, GESTAGE_FROM_LMP_WEEKS, GESTAGE_FROM_USOUNDS_DAYS, GESTAGE_FROM_USOUNDS_WEEKS, DATEENDPREGNANCY, DATESTARTPREGNANCY, END_ABORTION, END_LIVEBIRTH, END_STILLBIRTH, END_TERMINATION)
+    if (thisdatasource=="GePaRD"){
+      rm(EDD)
+    }
     ##################################################################################################################################
   }
   
