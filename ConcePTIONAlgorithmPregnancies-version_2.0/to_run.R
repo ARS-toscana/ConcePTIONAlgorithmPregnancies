@@ -34,6 +34,7 @@ source(paste0(thisdir,"/p_parameters_pregnancy/05_check_coding_system.R"))
 # 01 RETRIEVE RECORDS FRM CDM
 system.time(source(paste0(thisdir,"/p_steps/step_01_1_T2.1_create_spells.R")))
 system.time(source(paste0(thisdir,"/p_steps/step_01_2_T2.1_create_dates_in_PERSONS.R")))
+system.time(source(paste0(thisdir,"/p_steps/step_01_3_T2.2_population_description.R")))  
 
 # 01 RETRIEVE RECORDS FRM CDM FOR PREGNANCY
 system.time(source(paste0(thisdir,"/p_steps_pregnancy/step_01_01_T2.1_create_prompt_datasets.R")))
