@@ -64,10 +64,10 @@ if (this_datasource_has_prompt) {
     table(D3_study_population_pregnancy2$no_linked_to_person) # 39095 deleted
     #D3_study_population_pregnancy20<-D3_study_population_pregnancy2[no_linked_to_person==0,]
     
-    # no_female
-    D3_study_population_pregnancy2 <-D3_study_population_pregnancy2[sex_at_instance_creation=="M",person_not_female:=1][is.na(person_not_female),person_not_female:=0]
-    table(D3_study_population_pregnancy2$person_not_female) # 25802  deleted
-    #D3_study_population_pregnancy200<-D3_study_population_pregnancy20[person_not_female==0,]
+    # # no_female - DELETED
+    # D3_study_population_pregnancy2 <-D3_study_population_pregnancy2[sex_at_instance_creation=="M",person_not_female:=1][is.na(person_not_female),person_not_female:=0]
+    # table(D3_study_population_pregnancy2$person_not_female) # 25802  deleted
+    # #D3_study_population_pregnancy200<-D3_study_population_pregnancy20[person_not_female==0,]
     
     # person not in fertile age (between 12 and 55) at start of pregnancy
     D3_study_population_pregnancy2 <-D3_study_population_pregnancy2[,age_at_pregnancy_start:=age_fast(date_of_birth,pregnancy_start_date)][age_at_pregnancy_start>55 | age_at_pregnancy_start<12, person_not_in_fertile_age:=1][is.na(person_not_in_fertile_age),person_not_in_fertile_age:=0]
@@ -97,14 +97,14 @@ if (this_datasource_has_prompt) {
     table(D3_study_population_pregnancy3$record_date_not_in_spells)
     
     # pregancies to be excluded:
-    D3_excluded_pregnancies_from_prompts_2 <- D3_study_population_pregnancy3[no_linked_to_person==1 | person_not_female==1 | person_not_in_fertile_age==1 | record_date_not_in_spells==1,]  # to further explore exclusion
+    D3_excluded_pregnancies_from_prompts_2 <- D3_study_population_pregnancy3[no_linked_to_person==1 | person_not_in_fertile_age==1 | record_date_not_in_spells==1,]  # to further explore exclusion
     
-    D3_excluded_pregnancies_from_PROMPT<-rbind(D3_excluded_pregnancies_from_prompts_1,D3_excluded_pregnancies_from_prompts_2,fill=TRUE)[,-c( "sex_at_instance_creation","date_of_birth","date_death", "age_at_pregnancy_start","op_meaning","num_spell","entry_spell_category","exit_spell_category")]
+    D3_excluded_pregnancies_from_PROMPT<-rbind(D3_excluded_pregnancies_from_prompts_1,D3_excluded_pregnancies_from_prompts_2, fill = TRUE)[,-c( "sex_at_instance_creation","date_of_birth","date_death", "age_at_pregnancy_start","op_meaning","num_spell","entry_spell_category","exit_spell_category")]
     save(D3_excluded_pregnancies_from_PROMPT, file=paste0(dirtemp,"D3_excluded_pregnancies_from_PROMPT.RData")) # 663830
     
     
     # pregnancies to be included in next steps
-    D3_study_population_pregnancy_from_prompts<-D3_study_population_pregnancy3[no_linked_to_person==0 & person_not_female==0 & person_not_in_fertile_age==0 & record_date_not_in_spells==0,] [,-c("no_linked_to_person","person_not_female","person_not_in_fertile_age","record_date_not_in_spells")] # 554767 against 429699
+    D3_study_population_pregnancy_from_prompts<-D3_study_population_pregnancy3[no_linked_to_person==0 & person_not_in_fertile_age==0 & record_date_not_in_spells==0,] [,-c("no_linked_to_person","person_not_in_fertile_age","record_date_not_in_spells")] # 554767 against 429699
     
     ## added check for missing variables
     if(sum(!str_detect(names(D3_study_population_pregnancy_from_prompts),"survey_id")) == length(names(D3_study_population_pregnancy_from_prompts))) {
