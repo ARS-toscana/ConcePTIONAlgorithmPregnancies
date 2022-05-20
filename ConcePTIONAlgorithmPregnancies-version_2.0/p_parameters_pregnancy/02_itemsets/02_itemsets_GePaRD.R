@@ -38,11 +38,14 @@ itemset_AVpair_pregnancy[["EDD"]][[files[i]]][["GePaRD"]] <- list(list("T_AMBULA
 
 itemset_AVpair_pregnancy[["DATEENDPREGNANCY"]][[files[i]]][["GePaRD"]] <- list()
 
+### specification END_LIVEBIRTH_STILLBIRTH
+itemset_AVpair_pregnancy[["END_LIVEBIRTH_STILLBIRTH"]][[files[i]]][["GePaRD"]] <- list(list("DELDAT1","DEL_DAT1D/M/Y"), list("DELDAT2","DEL_DAT2D/M/Y"))
+
 ### specification END_LIVEBIRTH
-itemset_AVpair_pregnancy[["END_LIVEBIRTH"]][[files[i]]][["GePaRD"]] <- list(list("DELDAT1","DEL_DAT1D/M/Y"), list("DELDAT2","DEL_DAT2D/M/Y"))
+itemset_AVpair_pregnancy[["END_LIVEBIRTH"]][[files[i]]][["GePaRD"]] <- list()
 
 ### specification END_STILLBIRTH
-itemset_AVpair_pregnancy[["END_STILLBIRTH"]][[files[i]]][["GePaRD"]] <- list(list("DELDAT1","DEL_DAT1D/M/Y"), list("DELDAT2","DEL_DAT2D/M/Y"))
+itemset_AVpair_pregnancy[["END_STILLBIRTH"]][[files[i]]][["GePaRD"]] <- list()
 
 # specification END_TERMINATION
 itemset_AVpair_pregnancy[["END_TERMINATION"]][[files[i]]][["GePaRD"]] <- list()
