@@ -62,7 +62,7 @@ if(sum(!str_detect(names(groups_of_excluded_pregnancies),"visit_occurrence_id"))
   groups_of_excluded_pregnancies<-groups_of_excluded_pregnancies[,visit_occurrence_id:=""]}
 
 
-groups_of_excluded_pregnancies<-groups_of_excluded_pregnancies[,.(pregnancy_id,person_id,survey_id,visit_occurrence_id,PROMPT,EUROCAT,CONCEPTSETS,CONCEPTSET,ITEMSETS, pregnancy_with_dates_out_of_range,no_linked_to_person,person_not_in_fertile_age,record_date_not_in_spells)]# 
+groups_of_excluded_pregnancies<-groups_of_excluded_pregnancies[,.(pregnancy_id,person_id,survey_id,visit_occurrence_id,PROMPT,EUROCAT,CONCEPTSETS,CONCEPTSET,ITEMSETS,no_linked_to_person,person_not_in_fertile_age,record_date_not_in_spells,pregnancy_with_dates_out_of_range)]# 
 
 groups_of_excluded_pregnancies<-groups_of_excluded_pregnancies[is.na(PROMPT),PROMPT:="no"]
 groups_of_excluded_pregnancies<-groups_of_excluded_pregnancies[is.na(EUROCAT),EUROCAT:="no"]
@@ -70,11 +70,11 @@ groups_of_excluded_pregnancies<-groups_of_excluded_pregnancies[is.na(CONCEPTSETS
 groups_of_excluded_pregnancies<-groups_of_excluded_pregnancies[is.na(ITEMSETS),ITEMSETS:="no"]
 
 #create var reason_for_exclusion
-D3_excluded_pregnancies<-groups_of_excluded_pregnancies[pregnancy_with_dates_out_of_range==1, reason_for_exclusion:="pregnancy_with_dates_out_of_range"]
-D3_excluded_pregnancies<-D3_excluded_pregnancies[no_linked_to_person==1, reason_for_exclusion:="no_linked_to_person"]
+D3_excluded_pregnancies<-groups_of_excluded_pregnancies[no_linked_to_person==1, reason_for_exclusion:="no_linked_to_person"]
 #D3_excluded_pregnancies<-D3_excluded_pregnancies[person_not_female==1, reason_for_exclusion:="person_not_female"]
 D3_excluded_pregnancies<-D3_excluded_pregnancies[person_not_in_fertile_age==1, reason_for_exclusion:="person_not_in_fertile_age"]
 D3_excluded_pregnancies<-D3_excluded_pregnancies[record_date_not_in_spells==1, reason_for_exclusion:="record_date_not_in_spells"]
+D3_excluded_pregnancies<-D3_excluded_pregnancies[pregnancy_with_dates_out_of_range==1, reason_for_exclusion:="pregnancy_with_dates_out_of_range"]
 
 
 
