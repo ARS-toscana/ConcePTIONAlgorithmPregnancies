@@ -65,17 +65,15 @@ D3_PERSONS_spells<-D3_PERSONS_spells[in_COHORT==1 & entry_spell_category>ymd("20
 
 
 
-#count number of person for each year after 2016
-N=colSums(D3_PERSONS_spells[,18:25,by="person_id"]);N
-#count number of female for each year after 2016
-colSums(D3_PERSONS_spells[sex_at_instance_creation=="F",18:25,by="person_id"]);colSums(D3_PERSONS_spells[sex_at_instance_creation=="F",18:25,by="person_id"])/N
-#count number person in fertile age for each year after 2016
-colSums(D3_PERSONS_spells[,33:40,by="person_id"], na.rm=T);colSums(D3_PERSONS_spells[,33:40,by="person_id"], na.rm=T)/N
-
+# #count number of person for each year after 2016
+# N=colSums(D3_PERSONS_spells[,18:25,by="person_id"]);N
+# #count number of female for each year after 2016
+# colSums(D3_PERSONS_spells[sex_at_instance_creation=="F",18:25,by="person_id"]);colSums(D3_PERSONS_spells[sex_at_instance_creation=="F",18:25,by="person_id"])/N
+# #count number person in fertile age for each year after 2016
+# colSums(D3_PERSONS_spells[,33:40,by="person_id"], na.rm=T);colSums(D3_PERSONS_spells[,33:40,by="person_id"], na.rm=T)/N
+# 
 
 #Person in each year
-
-
 TablePersonYearFertile <- D3_PERSONS_spells[, .N, by = c("in_2016",
                                                          "in_2017",
                                                          "in_2018",
@@ -100,6 +98,18 @@ TablePersonYearFertile <- TablePersonYearFertile[order(in_2016,
 
 fwrite(TablePersonYearFertile, paste0(direxp, "TablePersonYearFertile.csv"))
 
+# Followup
+FollowUp2016 <- D3_PERSONS_spells[, .(fup_from_2016)]
+FollowUp2016_na <-  D3_PERSONS_spells[is.na(fup_from_2016), .N]
+FollowUp2016 <- FollowUp2016[, .(mean = round(mean(fup_from_2016, na.rm = TRUE), 0), 
+                                 sd = round(sqrt(var(fup_from_2016, na.rm = TRUE)), 0),
+                                 quantile_25 = round(quantile(fup_from_2016, 0.25, na.rm = TRUE), 0),
+                                 median =median(fup_from_2016, na.rm = TRUE),
+                                 quantile_75 = round(quantile(fup_from_2016, 0.75, na.rm = TRUE), 0),
+                                 na = FollowUp2016_na)]
+
+fwrite(FollowUp2016, paste0(direxp, "FollowUp2016.csv"))
+
 # Descrittiva istanza al 1 gennaio di ogni anno (dal 2016 all'ultimo 1 gen disponibile):
 #  - conta quante persone ci sono
 #  - il genere
@@ -111,4 +121,4 @@ fwrite(TablePersonYearFertile, paste0(direxp, "TablePersonYearFertile.csv"))
 # prima di creare le variabile per le esclusioni, fai una descrittivi delle persona (da observation period e person)
 # in p_step /1_03, T2_2
 
-rm(output_spells_category, D3_PERSONS, D3_PERSONS_spells, cols, TablePersonYearFertile)
+rm(output_spells_category, D3_PERSONS, D3_PERSONS_spells, cols, TablePersonYearFertile, FollowUp2016)
