@@ -73,7 +73,32 @@ colSums(D3_PERSONS_spells[sex_at_instance_creation=="F",18:25,by="person_id"]);c
 colSums(D3_PERSONS_spells[,33:40,by="person_id"], na.rm=T);colSums(D3_PERSONS_spells[,33:40,by="person_id"], na.rm=T)/N
 
 
+#Person in each year
 
+
+TablePersonYearFertile <- D3_PERSONS_spells[, .N, by = c("in_2016",
+                                                         "in_2017",
+                                                         "in_2018",
+                                                         "in_2019",
+                                                         "in_2020",
+                                                         "in_2021",
+                                                         "fertile_in_2016",
+                                                         "fertile_in_2017",
+                                                         "fertile_in_2018",
+                                                         "fertile_in_2019",
+                                                         "fertile_in_2020",
+                                                         "fertile_in_2021",
+                                                         "fertile_after_2021", 
+                                                         "sex_at_instance_creation")]
+
+TablePersonYearFertile <- TablePersonYearFertile[order(in_2016,
+                                         in_2017,
+                                         in_2018,
+                                         in_2019,
+                                         in_2020,
+                                         in_2021)]
+
+fwrite(TablePersonYearFertile, paste0(direxp, "TablePersonYearFertile.csv"))
 
 # Descrittiva istanza al 1 gennaio di ogni anno (dal 2016 all'ultimo 1 gen disponibile):
 #  - conta quante persone ci sono
@@ -86,4 +111,4 @@ colSums(D3_PERSONS_spells[,33:40,by="person_id"], na.rm=T);colSums(D3_PERSONS_sp
 # prima di creare le variabile per le esclusioni, fai una descrittivi delle persona (da observation period e person)
 # in p_step /1_03, T2_2
 
-mr(output_spells_category, D3_PERSONS, D3_PERSONS_spells, cols)
+rm(output_spells_category, D3_PERSONS, D3_PERSONS_spells, cols, TablePersonYearFertile)
