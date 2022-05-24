@@ -238,9 +238,41 @@ fwrite(TableReconciliation, paste0(direxp, "TableReconciliation.csv"))
 ## Median Age 
 
 TableGestage <-  D3_pregnancy_reconciled_valid[, .(type_of_pregnancy_end, gestage_at_first_record, highest_quality)]
-TableGestage <- TableGestage[, .(mean = round(mean(gestage_at_first_record), 0), 
-                                 sd = round(sqrt(var(gestage_at_first_record)), 0),
+TableGestage <- TableGestage[, .(mean = round(mean(gestage_at_first_record, na.rm = TRUE), 0), 
+                                 sd = round(sqrt(var(gestage_at_first_record, na.rm = TRUE)), 0),
                                  quantile_25 = round(quantile(gestage_at_first_record, 0.25, na.rm = TRUE), 0),
-                                 median =median(gestage_at_first_record),
+                                 median =median(gestage_at_first_record, na.rm = TRUE),
                                  quantile_75 = round(quantile(gestage_at_first_record, 0.75, na.rm = TRUE), 0)), 
                              by = c("type_of_pregnancy_end", "highest_quality")]
+
+fwrite(TableGestage, paste0(direxp, "TableGestage.csv"))
+
+
+TableGestageType <-  D3_pregnancy_reconciled_valid[, .(type_of_pregnancy_end, gestage_at_first_record, highest_quality)]
+TableGestageType <- TableGestageType[, .(mean = round(mean(gestage_at_first_record, na.rm = TRUE), 0), 
+                                 sd = round(sqrt(var(gestage_at_first_record, na.rm = TRUE)), 0),
+                                 quantile_25 = round(quantile(gestage_at_first_record, 0.25, na.rm = TRUE), 0),
+                                 median =median(gestage_at_first_record, na.rm = TRUE),
+                                 quantile_75 = round(quantile(gestage_at_first_record, 0.75, na.rm = TRUE), 0)), 
+                             by = c("type_of_pregnancy_end")]
+
+fwrite(TableGestageType, paste0(direxp, "TableGestageType.csv"))
+
+TableGestageQuality <-  D3_pregnancy_reconciled_valid[, .(type_of_pregnancy_end, gestage_at_first_record, highest_quality)]
+TableGestageQuality <- TableGestageQuality[, .(mean = round(mean(gestage_at_first_record, na.rm = TRUE), 0), 
+                                 sd = round(sqrt(var(gestage_at_first_record, na.rm = TRUE)), 0),
+                                 quantile_25 = round(quantile(gestage_at_first_record, 0.25, na.rm = TRUE), 0),
+                                 median =median(gestage_at_first_record, na.rm = TRUE),
+                                 quantile_75 = round(quantile(gestage_at_first_record, 0.75, na.rm = TRUE), 0)), 
+                             by = c( "highest_quality")]
+
+fwrite(TableGestageQuality, paste0(direxp, "TableGestageQuality.csv"))
+
+TableGestageAggregated <-  D3_pregnancy_reconciled_valid[, .(type_of_pregnancy_end, gestage_at_first_record, highest_quality)]
+TableGestageAggregated <- TableGestageAggregated[, .(mean = round(mean(gestage_at_first_record, na.rm = TRUE), 0), 
+                                               sd = round(sqrt(var(gestage_at_first_record, na.rm = TRUE)), 0),
+                                               quantile_25 = round(quantile(gestage_at_first_record, 0.25, na.rm = TRUE), 0),
+                                               median =median(gestage_at_first_record, na.rm = TRUE),
+                                               quantile_75 = round(quantile(gestage_at_first_record, 0.75, na.rm = TRUE), 0))]
+
+fwrite(TableGestageAggregated, paste0(direxp, "TableGestageAggregated.csv"))
