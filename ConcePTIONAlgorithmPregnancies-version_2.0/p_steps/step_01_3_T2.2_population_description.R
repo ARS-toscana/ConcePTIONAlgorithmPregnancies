@@ -45,13 +45,13 @@ D3_PERSONS_spells<-D3_PERSONS_spells[,`:=`(age_2016=ifelse(in_2016 & date_of_bir
                                            age_2021=ifelse(in_2021 & date_of_birth<=ymd("2021-01-01"), age_fast(date_of_birth,ymd("2021-01-01")), NA),
                                            age_after2021=ifelse(after_2021 & date_of_birth<=ymd("2022-01-01"), age_fast(date_of_birth,ymd("2022-01-01")), NA) )]
 
-D3_PERSONS_spells<-D3_PERSONS_spells[,`:=`(fertile_in_2016= (age_2016<=55 | age_2016>12)*1,
-                                           fertile_in_2017= (age_2017<=55 | age_2017>12)*1,
-                                           fertile_in_2018= (age_2018<=55 | age_2018>12)*1,
-                                           fertile_in_2019= (age_2019<=55 | age_2019>12)*1,
-                                           fertile_in_2020= (age_2020<=55 | age_2020>12)*1,
-                                           fertile_in_2021= (age_2021<=55 | age_2021>12)*1,
-                                           fertile_after_2021= (age_after2021<=55 | age_after2021>12)*1)]
+D3_PERSONS_spells<-D3_PERSONS_spells[,`:=`(fertile_in_2016= (age_2016<=55 | age_2016>=12)*1,
+                                           fertile_in_2017= (age_2017<=55 | age_2017>=12)*1,
+                                           fertile_in_2018= (age_2018<=55 | age_2018>=12)*1,
+                                           fertile_in_2019= (age_2019<=55 | age_2019>=12)*1,
+                                           fertile_in_2020= (age_2020<=55 | age_2020>=12)*1,
+                                           fertile_in_2021= (age_2021<=55 | age_2021>=12)*1,
+                                           fertile_after_2021= (age_after2021<=55 | age_after2021>=12)*1)]
 cols<-c("fertile_in_2016","fertile_in_2017","fertile_in_2018","fertile_in_2019","fertile_in_2020","fertile_in_2021","fertile_after_2021")
 D3_PERSONS_spells[, (cols):=lapply(.SD, function(i){i[is.na(i)] <- 0; i}), .SDcols = cols]
 
