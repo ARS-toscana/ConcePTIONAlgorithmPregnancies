@@ -240,7 +240,7 @@ fwrite(TableReconciliation, paste0(direxp, "TableReconciliation.csv"))
 TableGestage <-  D3_pregnancy_reconciled_valid[, .(type_of_pregnancy_end, gestage_at_first_record, highest_quality)]
 TableGestage <- TableGestage[, .(mean = round(mean(gestage_at_first_record), 0), 
                                  sd = round(sqrt(var(gestage_at_first_record)), 0),
-                                 first_quantile = round(quantile(gestage_at_first_record, 0.25, na.rm = TRUE), 0),
+                                 quantile_25 = round(quantile(gestage_at_first_record, 0.25, na.rm = TRUE), 0),
                                  median =median(gestage_at_first_record),
-                                 second_quantile = round(quantile(gestage_at_first_record, 0.75, na.rm = TRUE), 0)), 
+                                 quantile_75 = round(quantile(gestage_at_first_record, 0.75, na.rm = TRUE), 0)), 
                              by = c("type_of_pregnancy_end", "highest_quality")]
