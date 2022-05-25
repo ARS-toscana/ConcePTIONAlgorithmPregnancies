@@ -181,7 +181,7 @@ INSTANCE_description <- INSTANCE_description[sex_at_instance_creation == "M", N:
 
 INSTANCE_description <- INSTANCE_description[, -c(".", "sex_at_instance_creation", "fertile")]
 setcolorder(INSTANCE_description, "N")
-fwrite(INSTANCE_description, paste0(direxp, "INSTANCE_description.csv"))
+fwrite(INSTANCE_description, paste0(direxp, "Description_of_INSTANCE.csv"))
 
 rm(output_spells_category, D3_PERSONS, D3_PERSONS_spells, cols, TablePersonYearFertile, FollowUp2015)
  
