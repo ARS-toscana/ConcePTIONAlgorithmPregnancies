@@ -7,6 +7,17 @@ cat("Creating aggregated table: \n ")
 load(paste0(dirtemp,"D3_pregnancy_reconciled_valid.RData"))
 load(paste0(dirtemp,"D3_groups_of_pregnancies_reconciled.RData"))
 
+D3_PERSONS <- data.table()
+files<-sub('\\.RData$', '', list.files(dirtemp))
+for (i in 1:length(files)) {
+  if (str_detect(files[i],"^D3_PERSONS")) { 
+    temp <- load(paste0(dirtemp,files[i],".RData")) 
+    D3_PERSONS <- rbind(D3_PERSONS, temp,fill=T)[,-"x"]
+    rm(temp)
+    D3_PERSONS <-D3_PERSONS[!(is.na(person_id) | person_id==""), ]
+  }
+}
+
 
 D3_pregnancy_reconciled_valid <- D3_pregnancy_reconciled_valid[CONCEPTSETS== "yes", stream := "CONCEPTSETS"]
 D3_pregnancy_reconciled_valid <- D3_pregnancy_reconciled_valid[ITEMSETS== "yes", stream := "ITEMSETS"]
@@ -276,3 +287,13 @@ TableGestageAggregated <- TableGestageAggregated[, .(mean = round(mean(gestage_a
                                                quantile_75 = round(quantile(gestage_at_first_record, 0.75, na.rm = TRUE), 0))]
 
 fwrite(TableGestageAggregated, paste0(direxp, "TableGestageAggregated.csv"))
+
+
+### Sex 
+TablePregSex <- merge(D3_pregnancy_reconciled_valid, D3_PERSONS[,.(person_id, sex_at_instance_creation)], by = c("person_id"), all.x = T)
+
+TablePregSex <- TablePregSex[, year := year(pregnancy_start_date)]
+TablePregSex <- TablePregSex[, .N, by = c("year", "sex_at_instance_creation")][order(year, sex_at_instance_creation)]
+
+fwrite(TablePregSex, paste0(direxp, "TablePregSex.csv"))
+
