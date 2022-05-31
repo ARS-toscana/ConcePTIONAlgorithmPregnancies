@@ -5,7 +5,7 @@ if(thisdatasource_has_EUROCAT){
   files<-sub('\\.csv$', '', list.files(dirinput))
   for (i in 1:length(files)) {
     if (str_detect(files[i],"^EUROCAT")) { 
-      temp <- fread(paste0(dirinput,files[i],".csv"),quote="", header = T) #,quote=""
+      temp <- fread(paste0(dirinput,files[i],".csv"), header = T) #,quote=""
       D3_EUROCAT <- rbind(D3_EUROCAT, temp,fill=T)#[,-"x"]
       rm(temp)
       #D3_EUROCAT <-D3_EUROCAT[!(is.na(person_id) | person_id==""), ]
