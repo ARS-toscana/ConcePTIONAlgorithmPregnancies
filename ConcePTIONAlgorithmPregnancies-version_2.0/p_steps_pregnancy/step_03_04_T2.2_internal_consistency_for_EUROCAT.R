@@ -10,7 +10,7 @@ for (i in 1:length(files)) {
 
 if (dim(D3_Stream_EUROCAT)[1]!=0){  
   
-  D3_Stream_EUROCAT<-D3_Stream_EUROCAT[,record_date:=as.Date(as.character(record_date), date_format)]
+  #D3_Stream_EUROCAT<-D3_Stream_EUROCAT[,record_date:=as.Date(as.character(record_date), date_format)]
   
   # linkare D3_study_population_pregnancy with PERSONS, verify if person_id, survey_id e survey_date are unique key.
   # create var link_to_person:=1 if it links with PERSONS, 
@@ -114,10 +114,9 @@ if (dim(D3_Stream_EUROCAT)[1]!=0){
                         NameOutputFile="D3_Stream_EUROCAT_check",
                         Cols=list("meaning_start_date",
                                   "meaning_end_date",
-                                  "type_of_pregnancy_end",
-                                  "meaning",),
+                                  "type_of_pregnancy_end"
+                                  ),
                         ColsFormat=list("categorical", 
-                                        "categorical",
                                         "categorical",
                                         "categorical"),
                         DateFormat_ymd=FALSE,

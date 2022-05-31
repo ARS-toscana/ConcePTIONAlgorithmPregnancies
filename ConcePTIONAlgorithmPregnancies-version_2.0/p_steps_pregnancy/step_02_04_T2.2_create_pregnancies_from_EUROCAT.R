@@ -14,7 +14,7 @@ if(thisdatasource_has_EUROCAT){
   
   if (dim(D3_EUROCAT)[1]!=0){
     
-    D3_EUROCAT_intermediate<-D3_EUROCAT[,.(centre,birthdate,gestlength,type,survey_id)]
+    D3_EUROCAT_intermediate<-D3_EUROCAT[,.(person_id_mother,birthdate,gestlength,type,survey_id)]
     
     # adapt format for variables used in computation:
     suppressWarnings(D3_EUROCAT_intermediate[,birthdate:=ymd(birthdate)])
@@ -37,7 +37,7 @@ if(thisdatasource_has_EUROCAT){
     D3_EUROCAT_intermediate<-D3_EUROCAT_intermediate[type==4,type:="TOPFA"]
     D3_EUROCAT_intermediate<-D3_EUROCAT_intermediate[type==9,type:="UNK"]
     
-    setnames(D3_EUROCAT_intermediate,"centre","person_id")
+    setnames(D3_EUROCAT_intermediate,"person_id_mother","person_id")
     setnames(D3_EUROCAT_intermediate,"birthdate","pregnancy_end_date")
     setnames(D3_EUROCAT_intermediate,"type","type_of_pregnancy_end")
     
@@ -45,7 +45,7 @@ if(thisdatasource_has_EUROCAT){
     D3_EUROCAT_intermediate<-D3_EUROCAT_intermediate[,pregnancy_id:=paste0("EUROCAT_",seq_along(pregnancy_end_date))]
     D3_EUROCAT_intermediate<-D3_EUROCAT_intermediate[,record_date:=pregnancy_end_date]
     D3_EUROCAT_intermediate<-D3_EUROCAT_intermediate[,origin:="EUROCAT"]
-    D3_EUROCAT_intermediate<-D3_EUROCAT_intermediate[,meaning:=""]
+    D3_EUROCAT_intermediate<-D3_EUROCAT_intermediate[,meaning:="from_EUROCAT"]
     
     D3_Stream_EUROCAT<-D3_EUROCAT_intermediate[,.(pregnancy_id,person_id,record_date,pregnancy_start_date,pregnancy_end_date,meaning_start_date,meaning_end_date,type_of_pregnancy_end,survey_id,EUROCAT, meaning)]
     
