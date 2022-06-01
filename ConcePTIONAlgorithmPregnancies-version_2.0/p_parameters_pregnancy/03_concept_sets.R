@@ -614,8 +614,11 @@ concept_set_codes_pregnancy[["TOPFA_possible"]][["ICPC2P"]] <- c()
 concept_set_codes_pregnancy[["TOPFA_possible"]][["SNOMED"]] <- c("1321008","149995009","149998006","156070002","156075007","156076008","156079001","156096000","177094005","198690009","198768001","198769009","198780009","198805006","198880003","200480007","240280006","267295002","267296001","267297005","287955003","302375005","363681007","386639001","57797005","70186003","70317007")
 
 
+#######################################################################################
+# laod additional codes added by DAPs (BPE and BIPS)
 
-
+load(paste0(thisdir,"/p_parameters_pregnancy/03_concept_sets_dia_fromBIPS_BPE.RData"))
+load(paste0(thisdir,"/p_parameters_pregnancy/03_concept_sets_pro_fromBIPS_BPE.RData"))
 
 #######################################################################################
 
