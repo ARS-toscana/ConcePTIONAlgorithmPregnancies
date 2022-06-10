@@ -619,11 +619,28 @@ concept_set_codes_pregnancy[["TOPFA_possible"]][["SNOMED"]] <- c("1321008","1499
 
 load(paste0(thisdir,"/p_parameters_pregnancy/03_concept_sets_dia_fromBIPS_BPE.RData"))
 load(paste0(thisdir,"/p_parameters_pregnancy/03_concept_sets_pro_fromBIPS_BPE.RData"))
+codelists_dia_ADDED<-as.data.table(codelists_dia_ADDED);codelists_pro_ADDED<-as.data.table(codelists_pro_ADDED)
 
+print("first excecution ONLY")
+## put together all the codes added after from BIPS and BPE
+for (cd in unique(codelists_dia_ADDED[,event_definition]) ){
+  if(is.null(concept_set_codes_pregnancy[[cd]])){
+    concept_set_codes_pregnancy[[cd]] <- list()  
+    
+    for(cs in unique(codelists_dia_ADDED[,coding_system])){
+      #print(paste("concetto",cd)); print(paste("coding system",cs))
+      concept_set_codes_pregnancy[[cd]][[cs]] <- as.vector(codelists_dia_ADDED[event_definition==cd & coding_system==cs, code])
+    } 
+  } else {
+    for(cs in unique(codelists_dia_ADDED[,coding_system])){
+      concept_set_codes_pregnancy[[cd]][[cs]]<-c(concept_set_codes_pregnancy[[cd]][[cs]],as.vector(codelists_dia_ADDED[event_definition==cd & coding_system==cs, code]) )
+    } 
+  }
+}
 #######################################################################################
 
 
-concept_set_pregnancy <- c(concept_sets_of_pregnancy_eve, concept_set_pregnancy_pre, concept_set_pregnancy_atc, concept_sets_of_pregnancy_procedure, concept_sets_of_pregnancy_procedure_not_in_pregnancy, concept_sets_of_pregnancy_pro)
+concept_set_pregnancy <- c(concept_sets_of_pregnancy_eve, concept_set_pregnancy_pre, concept_sets_of_pregnancy_procedure, concept_sets_of_pregnancy_procedure_not_in_pregnancy, concept_sets_of_pregnancy_pro) #concept_set_pregnancy_atc
 
 conceptset_pregnancy_this_datasource<-vector(mode="list")
 for (t in  names(concept_set_codes_pregnancy)) {
