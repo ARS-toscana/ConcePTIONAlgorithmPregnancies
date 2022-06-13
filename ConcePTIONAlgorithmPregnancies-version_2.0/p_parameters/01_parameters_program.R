@@ -173,6 +173,6 @@ file.copy(paste0(dirmacro,'/post_validation_script.R'), dirvalidation)
 #HTML files: creation 
 #############################################
 
-HTML_files_creation <- FALSE
+HTML_files_creation <- TRUE
 
 
