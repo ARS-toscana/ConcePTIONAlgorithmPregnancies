@@ -698,3 +698,7 @@ concept_sets_of_ongoing_of_pregnancy <- c("Ongoingpregnancy")
 concept_sets_of_end_of_pregnancy <- c("Birth_narrow", "Birth_possible","Preterm","Atterm","Postterm","Livebirth","Stillbirth","Interruption", "Spontaneousabortion", "Ectopicpregnancy")
 concept_sets_of_end_of_pregnancy_LB <- c("Birth_narrow","Preterm","Atterm","Postterm","Livebirth") #, "Birth_possible"
 concept_sets_of_end_of_pregnancy_UNK <- c("Birth_possible")
+
+
+codes_used_in_this_run <- list_of_list_to_df(concept_set_codes_pregnancy)
+fwrite(codes_used_in_this_run, file = paste0(direxp, "concept_set_codes_pregnancy.csv"))
