@@ -1,3 +1,7 @@
+##################################################################################################################
+# In this step we associate with each record retrieved from conceptsets its start date, end date and type of end #
+##################################################################################################################
+
 # merge together all the concept sets to define start_of_pregnancy and end_of_pregnancy
 
 # if(!this_datasource_has_procedures){
@@ -6,6 +10,8 @@
 #   concept_sets_of_pregnancy_procedure<-concept_sets_of_pregnancy_procedure
 # }
 
+
+# loading concepsets
 for (conceptvar in c(concept_sets_of_start_of_pregnancy,concept_sets_of_ongoing_of_pregnancy,concept_sets_of_end_of_pregnancy,concept_sets_of_pregnancy_procedure,concept_sets_of_pregnancy_pro, concept_set_pregnancy_atc)){
   load(paste0(dirtemp,conceptvar,".RData"))
 }
@@ -18,6 +24,8 @@ for (conceptvar in concept_sets_of_start_of_pregnancy){
   studyvardataset <- unique(studyvardataset,by=c("person_id","codvar","date"))
   dataset_start_concept_sets <- rbind(dataset_start_concept_sets,studyvardataset[,.(person_id,date, codvar, concept_set,visit_occurrence_id, meaning_of_event, origin_of_event, event_record_vocabulary)], fill=TRUE) 
 }
+
+
 # check if dataset is unique for person_id, survey_id and survey_date
 dataset_start_concept_sets<-unique(dataset_start_concept_sets, by=c("person_id","visit_occurrence_id","date","concept_set")) 
 # create variable pregnancy_id as survey_date
@@ -159,6 +167,10 @@ dataset_concept_sets<-dataset_concept_sets[!is.na(pregnancy_end_date), meaning_e
 dataset_concept_sets<-dataset_concept_sets[is.na(pregnancy_end_date), meaning_end_date:=paste0("imputed_from_conceptset_",concept_set)]
 dataset_concept_sets<-dataset_concept_sets[is.na(pregnancy_start_date), meaning_start_date:=paste0("imputed_from_conceptset_",concept_set)]
 
+##########################################################
+###### Type of end of pregnancy definition ###############
+##########################################################
+
 
 dataset_concept_sets<-dataset_concept_sets[!is.na(pregnancy_end_date) & concept_set%chin%concept_sets_of_end_of_pregnancy_LB,type_of_pregnancy_end:="LB"]
 dataset_concept_sets<-dataset_concept_sets[!is.na(pregnancy_end_date) & concept_set=="Birth_possible",type_of_pregnancy_end:="UNK"]
@@ -177,6 +189,11 @@ dataset_concept_sets<-dataset_concept_sets[!is.na(pregnancy_end_date) & concept_
 dataset_concept_sets<-dataset_concept_sets[!is.na(pregnancy_end_date) & concept_set == "procedures_ongoing", type_of_pregnancy_end:="UNK"]
 
 dataset_concept_sets<-dataset_concept_sets[!is.na(pregnancy_end_date) & concept_set == "ABORTION_MEDICINES", type_of_pregnancy_end:="T"]
+
+
+##########################################################
+###### Pregnancy start date and imputation ###############
+##########################################################
 
 # impute pregnancy_start_date when pregnancy_end_date is not missing
 dataset_concept_sets<-dataset_concept_sets[!is.na(pregnancy_end_date) & is.na(pregnancy_start_date) & type_of_pregnancy_end=="LB" & concept_set=="Preterm",`:=`(pregnancy_start_date= pregnancy_end_date-245, imputed_start_of_pregnancy=1)]
