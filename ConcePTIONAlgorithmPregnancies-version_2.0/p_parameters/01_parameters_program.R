@@ -99,6 +99,7 @@ source(paste0(dirmacro,"CreateFigureComponentStrategy_v4.R"))
 source(paste0(dirmacro,"DRECountThresholdV3.R"))
 source(paste0(dirmacro,"DescribeThisDataset.R"))
 source(paste0(dirmacro,"RecoverAllRecordsOfAPregnanciesList.R"))
+source(paste0(dirmacro,"list_of_list_to_df.R"))
 
 `%notin%` <- Negate(`%in%`)
 
@@ -172,6 +173,6 @@ file.copy(paste0(dirmacro,'/post_validation_script.R'), dirvalidation)
 #HTML files: creation 
 #############################################
 
-HTML_files_creation <- TRUE
+HTML_files_creation <- FALSE
 
 
