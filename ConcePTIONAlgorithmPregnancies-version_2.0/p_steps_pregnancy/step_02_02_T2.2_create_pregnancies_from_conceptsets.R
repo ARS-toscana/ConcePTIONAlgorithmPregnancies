@@ -12,7 +12,7 @@
 
 
 # loading concepsets
-for (conceptvar in c(concept_sets_of_start_of_pregnancy,concept_sets_of_ongoing_of_pregnancy,concept_sets_of_end_of_pregnancy,concept_sets_of_pregnancy_procedure,concept_sets_of_pregnancy_pro, concept_set_pregnancy_atc)){
+for (conceptvar in c(concept_sets_of_start_of_pregnancy,concept_sets_of_ongoing_of_pregnancy,concept_sets_of_end_of_pregnancy,concept_sets_of_pregnancy_procedure,concept_sets_of_pregnancy_pro)){ #, concept_set_pregnancy_atc
   load(paste0(dirtemp,conceptvar,".RData"))
 }
 
@@ -70,19 +70,19 @@ dataset_end_concept_sets<-unique(dataset_end_concept_sets, by=c("person_id","vis
 #dataset_end_concept_sets[,pregnancy_id:=paste0(visit_occurrence_id,"_",person_id,"_",date)] 
 
 ## conceptsets from MEDICINES
-dataset_atc_concept_sets <- c()
-for (conceptvar in concept_set_pregnancy_atc){
-  print(conceptvar)
-  studyvardataset <- get(conceptvar)[!is.na(date),][,concept_set:=conceptvar]
-  studyvardataset <- unique(studyvardataset,by=c("person_id","codvar","date"))
-  dataset_atc_concept_sets <- rbind(dataset_atc_concept_sets,studyvardataset[,.(person_id,date, codvar,concept_set,visit_occurrence_id,meaning_of_drug_record,origin_of_drug_record)], fill=TRUE) 
-}
-# check if dataset is unique for person_id, survey_id and survey_date
-dataset_atc_concept_sets<-unique(dataset_atc_concept_sets, by=c("person_id","visit_occurrence_id","date","concept_set")) 
-# create variable pregnancy_id as survey_date
-#dataset_end_concept_sets[,pregnancy_id:=paste0(visit_occurrence_id,"_",person_id,"_",date)] 
-setnames(dataset_atc_concept_sets, "origin_of_drug_record", "origin_of_event")
-setnames(dataset_atc_concept_sets, "meaning_of_drug_record", "meaning_of_event")
+# dataset_atc_concept_sets <- c()
+# for (conceptvar in concept_set_pregnancy_atc){
+#   print(conceptvar)
+#   studyvardataset <- get(conceptvar)[!is.na(date),][,concept_set:=conceptvar]
+#   studyvardataset <- unique(studyvardataset,by=c("person_id","codvar","date"))
+#   dataset_atc_concept_sets <- rbind(dataset_atc_concept_sets,studyvardataset[,.(person_id,date, codvar,concept_set,visit_occurrence_id,meaning_of_drug_record,origin_of_drug_record)], fill=TRUE) 
+# }
+# # check if dataset is unique for person_id, survey_id and survey_date
+# dataset_atc_concept_sets<-unique(dataset_atc_concept_sets, by=c("person_id","visit_occurrence_id","date","concept_set")) 
+# # create variable pregnancy_id as survey_date
+# #dataset_end_concept_sets[,pregnancy_id:=paste0(visit_occurrence_id,"_",person_id,"_",date)] 
+# setnames(dataset_atc_concept_sets, "origin_of_drug_record", "origin_of_event")
+# setnames(dataset_atc_concept_sets, "meaning_of_drug_record", "meaning_of_event")
 
 ### Procedures ICD9/ICD10
 
@@ -127,7 +127,7 @@ dataset_procedures<-unique(dataset_procedures, by=c("person_id","visit_occurrenc
 
 
 ## append the 5 datasets to obtain information to complete pregnancy
-dataset_concept_sets<-rbind(dataset_start_concept_sets,dataset_ongoing_concept_sets,dataset_end_concept_sets, dataset_procedures, dataset_atc_concept_sets, fill=T)
+dataset_concept_sets<-rbind(dataset_start_concept_sets,dataset_ongoing_concept_sets,dataset_end_concept_sets, dataset_procedures, fill=T) #dataset_atc_concept_sets
 setnames(dataset_concept_sets, "meaning_of_event","meaning")
 
 # order dataset for person_id, 
@@ -146,7 +146,7 @@ dataset_concept_sets<-dataset_concept_sets[concept_set == "Gestation_35_36", pre
 dataset_concept_sets<-dataset_concept_sets[concept_set == "Gestation_more37", pregnancy_start_date := date - (266)]
 
 dataset_concept_sets<-dataset_concept_sets[concept_set%chin%c(concept_sets_of_ongoing_of_pregnancy,concept_sets_of_pregnancy_procedure), pregnancy_ongoing_date:=date]
-dataset_concept_sets<-dataset_concept_sets[concept_set%chin%c(concept_sets_of_end_of_pregnancy,dataset_atc_concept_sets), pregnancy_end_date:=date]
+dataset_concept_sets<-dataset_concept_sets[concept_set%chin%c(concept_sets_of_end_of_pregnancy), pregnancy_end_date:=date] #,dataset_atc_concept_sets
 
 
 dataset_concept_sets<-dataset_concept_sets[concept_set == "procedures_end_livebirth", pregnancy_end_date:=date]
