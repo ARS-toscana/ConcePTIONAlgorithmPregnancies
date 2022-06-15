@@ -12,7 +12,7 @@
 
 
 # loading concepsets
-for (conceptvar in c(concept_sets_of_start_of_pregnancy,concept_sets_of_ongoing_of_pregnancy,concept_sets_of_end_of_pregnancy,concept_sets_of_pregnancy_procedure,concept_sets_of_pregnancy_pro)){ #, concept_set_pregnancy_atc
+for (conceptvar in c(concept_sets_of_start_of_pregnancy,concept_sets_of_ongoing_of_pregnancy,concept_sets_of_end_of_pregnancy,concept_sets_of_pregnancy_procedure,concept_sets_of_pregnancy_pro, concept_set_pregnancy_added_dia)){ #, concept_set_pregnancy_atc
   load(paste0(dirtemp,conceptvar,".RData"))
 }
 
@@ -188,7 +188,11 @@ dataset_concept_sets<-dataset_concept_sets[!is.na(pregnancy_end_date) & concept_
 
 dataset_concept_sets<-dataset_concept_sets[!is.na(pregnancy_end_date) & concept_set == "procedures_ongoing", type_of_pregnancy_end:="UNK"]
 
-dataset_concept_sets<-dataset_concept_sets[!is.na(pregnancy_end_date) & concept_set == "ABORTION_MEDICINES", type_of_pregnancy_end:="T"]
+dataset_concept_sets<-dataset_concept_sets[!is.na(pregnancy_end_date) & concept_set=="VTP",type_of_pregnancy_end:="T"]
+dataset_concept_sets<-dataset_concept_sets[!is.na(pregnancy_end_date) & concept_set=="MTP",type_of_pregnancy_end:="T"]
+
+
+#dataset_concept_sets<-dataset_concept_sets[!is.na(pregnancy_end_date) & concept_set == "ABORTION_MEDICINES", type_of_pregnancy_end:="T"]
 
 
 ##########################################################
