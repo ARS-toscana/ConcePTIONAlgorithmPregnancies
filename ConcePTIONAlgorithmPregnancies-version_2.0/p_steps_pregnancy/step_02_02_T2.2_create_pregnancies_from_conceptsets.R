@@ -203,7 +203,7 @@ dataset_concept_sets<-dataset_concept_sets[!is.na(pregnancy_end_date) & concept_
 dataset_concept_sets<-dataset_concept_sets[!is.na(pregnancy_end_date) & is.na(pregnancy_start_date) & type_of_pregnancy_end=="LB" & concept_set=="Preterm",`:=`(pregnancy_start_date= pregnancy_end_date-245, imputed_start_of_pregnancy=1)]
 dataset_concept_sets<-dataset_concept_sets[!is.na(pregnancy_end_date) & is.na(pregnancy_start_date) & type_of_pregnancy_end=="LB" & concept_set=="Livebirth",`:=`(pregnancy_start_date= pregnancy_end_date-280, imputed_start_of_pregnancy=1)]
 dataset_concept_sets<-dataset_concept_sets[!is.na(pregnancy_end_date) & is.na(pregnancy_start_date) & type_of_pregnancy_end=="LB" & concept_set=="Birth_narrow",`:=`(pregnancy_start_date= pregnancy_end_date-280, imputed_start_of_pregnancy=1)]
-dataset_concept_sets<-dataset_concept_sets[!is.na(pregnancy_end_date) & is.na(pregnancy_start_date) & type_of_pregnancy_end=="LB" & concept_set=="Birth_possible",`:=`(pregnancy_start_date= pregnancy_end_date-280, imputed_start_of_pregnancy=1, imputed_end_of_pregnancy=1)]
+dataset_concept_sets<-dataset_concept_sets[!is.na(pregnancy_end_date) & is.na(pregnancy_start_date) & type_of_pregnancy_end=="UNK" & concept_set=="Birth_possible",`:=`(pregnancy_start_date= pregnancy_end_date-280, imputed_start_of_pregnancy=1, imputed_end_of_pregnancy=1)]
 
 dataset_concept_sets<-dataset_concept_sets[!is.na(pregnancy_end_date) & is.na(pregnancy_start_date) & type_of_pregnancy_end=="LB" & concept_set=="procedures_end_livebirth",`:=`(pregnancy_start_date= pregnancy_end_date-280, imputed_start_of_pregnancy=1)]
 dataset_concept_sets<-dataset_concept_sets[!is.na(pregnancy_end_date) & is.na(pregnancy_start_date) & type_of_pregnancy_end=="SA" & concept_set=="procedures_spontaneous_abortion",`:=`(pregnancy_start_date= pregnancy_end_date-70 , imputed_start_of_pregnancy=1)]
@@ -214,7 +214,7 @@ dataset_concept_sets<-dataset_concept_sets[!is.na(pregnancy_end_date) & is.na(pr
 dataset_concept_sets<-dataset_concept_sets[!is.na(pregnancy_end_date) & is.na(pregnancy_start_date) & type_of_pregnancy_end=="ECT",`:=`(pregnancy_start_date= pregnancy_end_date-56, imputed_start_of_pregnancy=1)]
 dataset_concept_sets<-dataset_concept_sets[!is.na(pregnancy_end_date) & is.na(pregnancy_start_date) & type_of_pregnancy_end=="T",`:=`(pregnancy_start_date= pregnancy_end_date-70, imputed_start_of_pregnancy=1)]
 
-dataset_concept_sets<-dataset_concept_sets[!is.na(pregnancy_end_date) & is.na(pregnancy_start_date) & type_of_pregnancy_end=="T" & concept_set=="ABORTION_MEDICINES",`:=`(pregnancy_start_date= pregnancy_end_date-70, imputed_start_of_pregnancy=1)]
+#dataset_concept_sets<-dataset_concept_sets[!is.na(pregnancy_end_date) & is.na(pregnancy_start_date) & type_of_pregnancy_end=="T" & concept_set=="ABORTION_MEDICINES",`:=`(pregnancy_start_date= pregnancy_end_date-70, imputed_start_of_pregnancy=1)]
 
 # impute pregnancy_start_date when pregnancy_ongoing_date is not missing
 dataset_concept_sets<-dataset_concept_sets[!is.na(pregnancy_ongoing_date) & is.na(pregnancy_start_date),`:=`(pregnancy_start_date= pregnancy_ongoing_date-55, imputed_start_of_pregnancy=1)]
@@ -244,6 +244,9 @@ dataset_concept_sets[,pregnancy_id:=paste0(person_id,"_",visit_occurrence_id,"_"
 
 # keep only vars neeed
 D3_Stream_CONCEPTSETS <- dataset_concept_sets[,.(pregnancy_id,person_id,record_date,pregnancy_start_date,pregnancy_ongoing_date,pregnancy_end_date,meaning_start_date,meaning_ongoing_date,meaning_end_date,type_of_pregnancy_end,meaning,imputed_start_of_pregnancy,imputed_end_of_pregnancy,visit_occurrence_id,origin,codvar,coding_system,CONCEPTSETS,CONCEPTSET )] # 
+
+D3_Stream_CONCEPTSETS <- D3_Stream_CONCEPTSETS[is.na(type_of_pregnancy_end), type_of_pregnancy_end:= "UNK"]
+  
 save(D3_Stream_CONCEPTSETS, file=paste0(dirtemp,"D3_Stream_CONCEPTSETS.RData"))
 
 ##### Description #####
