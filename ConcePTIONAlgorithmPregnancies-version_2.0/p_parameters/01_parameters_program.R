@@ -3,8 +3,10 @@
 ###################################################################
 # set directory with input data
 setwd("..")
-dirbase<-getwd() # Lot4
-dirinput <- paste0(dirbase,"/CDMInstances/")
+setwd("..")
+setwd("..")
+dirbase<-getwd()
+dirinput <- paste0(dirbase,"/CDMInstances/DataCharacterisationUpdate210928/")
 #@ use this below if you want to set different INPUT DIRECTORY
 #dirinput <- c("C:/Users/clabar/Seafile/Mia Libreria/ConcePTIONAlgorithmPregnancies/CDMInstances/") # remember to use / instead of /
 
@@ -100,6 +102,7 @@ source(paste0(dirmacro,"DRECountThresholdV3.R"))
 source(paste0(dirmacro,"DescribeThisDataset.R"))
 source(paste0(dirmacro,"RecoverAllRecordsOfAPregnanciesList.R"))
 source(paste0(dirmacro,"list_of_list_to_df.R"))
+source(paste0(dirmacro,"df_to_list_of_list.R"))
 
 `%notin%` <- Negate(`%in%`)
 
