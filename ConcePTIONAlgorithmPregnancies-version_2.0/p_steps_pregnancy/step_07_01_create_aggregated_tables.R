@@ -233,7 +233,7 @@ table_meaning_start <- table_meaning_start[,-c("meaning_start_date")]
 table_meaning_start <- cbind(meaning=labs, table_meaning_start)
 fwrite(table_meaning_start, paste0(direxp, "DTableMeaningStart.csv"))
 
-
+cat("9. Table reconciliation \n ")
 ##  Reconciliation 
 D3_pregnancy_reconciled_valid <- D3_pregnancy_reconciled_valid[like(algorithm_for_reconciliation, ":Discordant"), Discordant := 1][is.na(Discordant), Discordant:=0]
 D3_pregnancy_reconciled_valid <- D3_pregnancy_reconciled_valid[like(algorithm_for_reconciliation,":SlightlyDiscordant"), SlightlyDiscordant := 1][is.na(SlightlyDiscordant), SlightlyDiscordant:=0]
@@ -248,7 +248,7 @@ TableReconciliation <- TableReconciliation[N=="0", N:= "<5"]
 
 fwrite(TableReconciliation, paste0(direxp, "TableReconciliation.csv"))
 
-
+cat("10. Table Gestage at first record \n ")
 ## Median Age 
 
 TableGestage <-  D3_pregnancy_reconciled_valid[, .(type_of_pregnancy_end, gestage_at_first_record, highest_quality)]
@@ -291,6 +291,7 @@ TableGestageAggregated <- TableGestageAggregated[, .(mean = round(mean(gestage_a
 
 fwrite(TableGestageAggregated, paste0(direxp, "TableGestageAggregated.csv"))
 
+cat("11. Table gender \n ")
 
 ### Sex 
 TablePregSex <- merge(D3_pregnancy_reconciled_valid, D3_PERSONS[,.(person_id, sex_at_instance_creation)], by = c("person_id"), all.x = T)
@@ -317,7 +318,7 @@ fwrite(TablePregSex, paste0(direxp, "TablePregSex.csv"))
 D3_pregnancy_reconciled_valid_15_19 <- D3_pregnancy_reconciled_valid[ year_start_of_pregnancy >= 2015 &
                                                                         year_start_of_pregnancy <= 2019]
 
-cat("1. Table stream 15-19 \n ")
+cat("12. Table stream 15-19 \n ")
 TableStream <- D3_pregnancy_reconciled_valid_15_19[, .N, by = .(year_start_of_pregnancy, stream)][order(year_start_of_pregnancy, stream)]
 TableStream <- TableStream[N<5, N := 0]
 TableStream <- TableStream[, N := as.character(N)]
@@ -325,7 +326,7 @@ TableStream <- TableStream[N=="0", N := "<5"]
 
 fwrite(TableStream, paste0(direxp, "TableStream_15_19.csv"))
 
-cat("2. Table quality 15-19 \n ")
+cat("13. Table quality 15-19 \n ")
 TableQuality <- D3_pregnancy_reconciled_valid_15_19[, order_quality := as.factor(order_quality)]
 TableQuality <- TableQuality[, .N, by = .(year_start_of_pregnancy, order_quality)][order(year_start_of_pregnancy, order_quality)]
 
@@ -335,7 +336,7 @@ TableQuality <- TableQuality[N=="0", N := "<5"]
 
 fwrite(TableQuality, paste0(direxp, "TableQuality_15_19.csv"))
 
-cat("3. Table type/quality 15-19 \n ")
+cat("14. Table type/quality 15-19 \n ")
 TableType <- D3_pregnancy_reconciled_valid_15_19[, .N, .(year_start_of_pregnancy, order_quality, type_of_pregnancy_end)][order(year_start_of_pregnancy, order_quality, type_of_pregnancy_end)]
 
 TableType <- TableType[N<5, N := 0]
@@ -346,7 +347,7 @@ fwrite(TableType, paste0(direxp, "TableType_15_19.csv"))
 
 
 
-cat("4. Dummy Table: age by outcome 15-19 \n ")
+cat("15. Dummy Table: age by outcome 15-19 \n ")
 
 table_age_outcomes <- D3_pregnancy_reconciled_valid_15_19[, .(age_mean= round(mean(age_at_start_of_pregnancy), 2),
                                                         standard_deviation = round(sqrt(var(age_at_start_of_pregnancy)), 2),
@@ -362,7 +363,7 @@ t_table_age_outcomes <- cbind(vars=c("Mean Age", "Standard Deviation", "25th qua
 fwrite(t_table_age_outcomes, paste0(direxp, "TableAgeOutcomes_15_19.csv"))
 
 
-cat("5. Dummy table ageband/outcome 15-19 \n ")
+cat("16. Dummy table ageband/outcome 15-19 \n ")
 
 D3_pregnancy_reconciled_valid_15_19 <- D3_pregnancy_reconciled_valid_15_19[age_at_start_of_pregnancy<=15, age_band := "12-15"]
 D3_pregnancy_reconciled_valid_15_19 <- D3_pregnancy_reconciled_valid_15_19[age_at_start_of_pregnancy>15 & age_at_start_of_pregnancy<=20, age_band := "16-20"]
@@ -401,7 +402,7 @@ fwrite(table_ageband, paste0(direxp, "TableAgeband_15_19.csv"))
 
 
 
-cat("6. Dummy table record number 15-19 \n ")
+cat("17. Dummy table record number 15-19 \n ")
 D3_pregnancy_reconciled_valid_15_19[is.na(type_of_pregnancy_end), type_of_pregnancy_end := "UNK"]
 D3_groups_of_pregnancies_reconciled[is.na(type_of_pregnancy_end), type_of_pregnancy_end := "UNK"]
 
@@ -435,7 +436,7 @@ t_table_records_outcomes <- cbind(quality=colnames(table_records_outcomes)[-1], 
 fwrite(t_table_records_outcomes, paste0(direxp, "DTableRecords_15_19.csv"))
 
 
-cat("7. Dummy table quality 15-19 \n ")
+cat("18. Dummy table quality 15-19 \n ")
 table_quality <- D3_pregnancy_reconciled_valid_15_19[ , .N, by = .(type_of_pregnancy_end, order_quality)]
 total <- D3_pregnancy_reconciled_valid_15_19[ , .(total = .N), by = .(type_of_pregnancy_end)]
 
@@ -464,7 +465,7 @@ fwrite(t, paste0(direxp, "DTableQuality_15_19.csv"))
 
 
 
-cat("8. Dummy tables meanings 15-19 \n ")
+cat("19. Dummy tables meanings 15-19 \n ")
 
 D3_pregnancy_reconciled_valid_15_19 <- D3_pregnancy_reconciled_valid_15_19[is.na(meaning_end_date), meaning_end_date := "without meaning"]
 
@@ -522,7 +523,7 @@ table_meaning_start <- table_meaning_start[,-c("meaning_start_date")]
 table_meaning_start <- cbind(meaning=labs, table_meaning_start)
 fwrite(table_meaning_start, paste0(direxp, "DTableMeaningStart_15_19.csv"))
 
-
+cat("20. Table reconciliation 15-19 \n ")
 ##  Reconciliation 
 D3_pregnancy_reconciled_valid_15_19 <- D3_pregnancy_reconciled_valid_15_19[like(algorithm_for_reconciliation, ":Discordant"), Discordant := 1][is.na(Discordant), Discordant:=0]
 D3_pregnancy_reconciled_valid_15_19 <- D3_pregnancy_reconciled_valid_15_19[like(algorithm_for_reconciliation,":SlightlyDiscordant"), SlightlyDiscordant := 1][is.na(SlightlyDiscordant), SlightlyDiscordant:=0]
@@ -537,7 +538,7 @@ TableReconciliation <- TableReconciliation[N=="0", N:= "<5"]
 
 fwrite(TableReconciliation, paste0(direxp, "TableReconciliation_15_19.csv"))
 
-
+cat("21. Table Gestage at first record 15-19 \n ")
 ## Median Age 
 
 TableGestage <-  D3_pregnancy_reconciled_valid_15_19[, .(type_of_pregnancy_end, gestage_at_first_record, highest_quality)]
@@ -580,6 +581,7 @@ TableGestageAggregated <- TableGestageAggregated[, .(mean = round(mean(gestage_a
 
 fwrite(TableGestageAggregated, paste0(direxp, "TableGestageAggregated_15_19.csv"))
 
+cat("22. Table Gender 15-19 \n ")
 
 ### Sex 
 TablePregSex <- merge(D3_pregnancy_reconciled_valid_15_19, D3_PERSONS[,.(person_id, sex_at_instance_creation)], by = c("person_id"), all.x = T)
@@ -593,6 +595,8 @@ fwrite(TablePregSex, paste0(direxp, "TablePregSex_15_19.csv"))
 ################################################################################
 ####################            Outline table            #######################
 ################################################################################
+cat("23. Table Outline 15-19 \n ") 
+
 N_preg <- D3_pregnancy_reconciled_valid_15_19[, .N]
 DT_outline <- data.table(var = c("Total"), subvar=c("N"), value=c(N_preg))
 
@@ -648,7 +652,7 @@ Gestage <- Gestage[, subvar:= c(tmp[1],
                                   tmp[4],
                                   tmp[5])]
 
-Gestage <- Gestage[, var := "Gestage"]
+Gestage <- Gestage[, var := "Gestage_first_record"]
 setnames(Gestage, "V1", "value")
 
 
@@ -719,7 +723,7 @@ for (type_end in list_of_type) {
                                   tmp[4],
                                   tmp[5])]
   
-  Gestage <- Gestage[, var := "Gestage"]
+  Gestage <- Gestage[, var := "Gestage_first_record"]
   setnames(Gestage, "V1", "value")
   
   
