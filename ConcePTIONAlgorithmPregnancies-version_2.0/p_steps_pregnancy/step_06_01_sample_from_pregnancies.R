@@ -216,7 +216,7 @@ concept_set_list_1 <- c(concept_set_pregnancy_pre, concept_sets_of_pregnancy_eve
 
 concept_set_list_2 <- concept_sets_of_pregnancy_procedure
 
-concept_set_list_3 <- concept_set_pregnancy_atc
+#concept_set_list_3 <- concept_set_pregnancy_atc
 
 for (concept in concept_set_list_1){
   if (concept %in% files_temp) {
@@ -306,48 +306,48 @@ if(this_datasource_has_procedures){
   }
 }
 
-for (concept in concept_set_list_3){
-  if (concept %in% files_temp) {
-    load(paste0(dirtemp, concept, ".RData"))
-    assign("concept_temp", get(concept))
-    if(nrow(concept_temp)>0){
-      print(concept)
-      concept_temp <- concept_temp[visit_occurrence_id %in% record_sample[, survey_visit_id] & 
-                                     person_id %in% record_sample[, person_id], 
-                                   .(preg_id = NA,
-                                     person_id,
-                                     survey_id = NA,
-                                     visit_occurrence_id,
-                                     n = as.integer(2),
-                                     pregnancy_start_date = NA,
-                                     pregnancy_end_date = NA,
-                                     type_of_pregnancy_end = NA,
-                                     #####################################
-                                     pregnancy_start_date_correct = NA, 
-                                     pregnancy_start_date_difference = NA,
-                                     pregnancy_end_date_correct = NA,
-                                     pregnancy_end_date_difference = NA,
-                                     type_of_pregnancy_end_correct = NA,
-                                     records_belong_to_multiple_pregnancy = NA,
-                                     comments = NA,
-                                     #####################################
-                                     record_date = as.character(date),
-                                     origin = origin_of_drug_record,
-                                     meaning= meaning_of_drug_record,
-                                     codvar,
-                                     coding_system = NA,
-                                     conceptset = concept,
-                                     source_column  = NA,
-                                     source_value  = NA,
-                                     itemsets = NA,
-                                     from_algorithm = 0,
-                                     link = NA,
-                                     sample = NA)]
-
-      list_of_records[[concept]] <- concept_temp
-    }
-  }
-}
+# for (concept in concept_set_list_3){
+#   if (concept %in% files_temp) {
+#     load(paste0(dirtemp, concept, ".RData"))
+#     assign("concept_temp", get(concept))
+#     if(nrow(concept_temp)>0){
+#       print(concept)
+#       concept_temp <- concept_temp[visit_occurrence_id %in% record_sample[, survey_visit_id] & 
+#                                      person_id %in% record_sample[, person_id], 
+#                                    .(preg_id = NA,
+#                                      person_id,
+#                                      survey_id = NA,
+#                                      visit_occurrence_id,
+#                                      n = as.integer(2),
+#                                      pregnancy_start_date = NA,
+#                                      pregnancy_end_date = NA,
+#                                      type_of_pregnancy_end = NA,
+#                                      #####################################
+#                                      pregnancy_start_date_correct = NA, 
+#                                      pregnancy_start_date_difference = NA,
+#                                      pregnancy_end_date_correct = NA,
+#                                      pregnancy_end_date_difference = NA,
+#                                      type_of_pregnancy_end_correct = NA,
+#                                      records_belong_to_multiple_pregnancy = NA,
+#                                      comments = NA,
+#                                      #####################################
+#                                      record_date = as.character(date),
+#                                      origin = origin_of_drug_record,
+#                                      meaning= meaning_of_drug_record,
+#                                      codvar,
+#                                      coding_system = NA,
+#                                      conceptset = concept,
+#                                      source_column  = NA,
+#                                      source_value  = NA,
+#                                      itemsets = NA,
+#                                      from_algorithm = 0,
+#                                      link = NA,
+#                                      sample = NA)]
+# 
+#       list_of_records[[concept]] <- concept_temp
+#     }
+#   }
+# }
 
 files_temp<-sub('\\.RData$', '', list.files(dirtemp))
 for (i in 1:length(files_temp)) {
@@ -443,4 +443,4 @@ rm(D3_pregnancy_reconciled_valid, D3_groups_of_pregnancies_reconciled,
 
 rm(list = concept_set_list_1)
 rm(list = concept_set_list_2)
-rm(list = concept_set_list_3)
+#rm(list = concept_set_list_3)
