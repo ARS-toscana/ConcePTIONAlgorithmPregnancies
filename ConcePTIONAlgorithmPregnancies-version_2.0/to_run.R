@@ -66,6 +66,7 @@ source(paste0(thisdir,"/p_steps_pregnancy/step_05_02_create_exclusion_criteria.R
 # 06 SAMPLE FROM PREGNANCY COHORT 
 source(paste0(thisdir,"/p_steps_pregnancy/step_06_01_sample_from_pregnancies.R")) 
 #source(paste0(thisdir,"/p_steps_pregnancy/step_06_02_sample_from_insuf_quality.R")) 
+source(paste0(thisdir,"/p_steps_pregnancy/step_06_03_sample_from_red.R")) 
 
 # 07 PREGNANCIES DESCRIPTION
 source(paste0(thisdir,"/p_steps_pregnancy/step_07_01_create_aggregated_tables.R")) 
