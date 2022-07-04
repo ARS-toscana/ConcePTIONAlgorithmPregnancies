@@ -318,7 +318,11 @@ if(!this_datasource_has_procedures) {
   
   
   for (concept_pro in c(concept_sets_of_pregnancy_procedure, concept_sets_of_pregnancy_procedure_not_in_pregnancy)){
-    concept_set_domains[[concept_pro]] = "Procedures"  
+    if(thisdatasource != "EPICHRON"){
+      concept_set_domains[[concept_pro]] = "Procedures"
+    }else{
+      concept_set_domains[[concept_pro]] = "Diagnosis"
+    }
   } 
   
   print(paste0("Load CONCEPTSETS from PROCEDURES for ",thisdatasource))
