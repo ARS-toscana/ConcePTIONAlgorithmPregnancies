@@ -56,7 +56,7 @@ if (this_datasource_has_visit_occurrence_prompt) {
   files<-sub('\\.csv$', '', list.files(dirinput))
   
   for (i in 1:length(files)) {
-    if (str_detect(files[i],"^VISIT_OCCURRENCE_SPC")) {
+    if (str_detect(files[i],"^VISIT_OCCURRENCE")) {
       
       VISIT_OCCURRENCE_PREG <-rbind(VISIT_OCCURRENCE_PREG,fread(paste0(dirinput,files[i],".csv"))[(meaning_of_visit %chin% unlist(meaning_of_visit_pregnancy_this_datasource)),])
       
