@@ -1,6 +1,6 @@
 
 
-if (this_datasource_has_itemsets_stream_from_medical_obs | this_datasource_has_medical_observations_prompt){
+if (this_datasource_has_itemsets_stream_from_medical_obs){
     
   # merge together all the item sets to define start_of_pregnancy and end_of_pregnancy
   study_itemset_of_pregnancy <- c("LastMestrualPeriod","GestationalAge", "PregnancyTest", "LastMestrualPeriod_implying_pregnancy")
@@ -89,7 +89,7 @@ if (this_datasource_has_itemsets_stream_from_medical_obs | this_datasource_has_m
   # }
   
   
-  if (thisdatasource=="PHARMO"){
+  if (thisdatasource=="PHARMO" | "CASERTA"){
     
     # select only POSITIVE records
     dataset_item_sets<-dataset_item_sets[item_set=="PregnancyTest" & mo_source_value==unlist(dictonary_of_itemset_PregnancyTest$PregnancyTest),]
