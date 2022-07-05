@@ -77,10 +77,23 @@ for (conceptset in concept_set_pregnancy){
   }
 }
 
+
+# Saving meaning
+save(meaning_of_survey_pregnancy, file=paste0(direxp, "meaning_of_survey_pregnancy.RData"))
+save(meaning_of_visit_pregnancy, file=paste0(direxp, "meaning_of_visit_pregnancy.RData"))
+
+# Saving concepsets code 
 save(concept_set_codes_pregnancy,file=paste0(direxp,"concept_set_codes_pregnancy.RData"))
 save(concept_set_codes_pregnancy_excl,file=paste0(direxp,"concept_set_codes_pregnancy_excl.RData"))
 save(concept_set_codes_pregnancy,file=paste0(dirsmallcountsremoved,"concept_set_codes_pregnancy.RData"))
 save(concept_set_codes_pregnancy_excl,file=paste0(dirsmallcountsremoved,"concept_set_codes_pregnancy_excl.RData"))
+
+# Saving itemsets  
+save(itemset_AVpair_pregnancy, file=paste0(direxp,"itemset_AVpair_pregnancy.RData"))
+save(dictonary_of_itemset_pregnancy, file=paste0(direxp,"dictonary_of_itemset_pregnancy.RData"))
+save(itemsetMED_AVpair_pregnancy, file=paste0(direxp,"itemsetMED_AVpair_pregnancy.RData"))
+save(dictonary_of_itemset_PregnancyTest, file=paste0(direxp,"dictonary_of_itemset_PregnancyTest.RData"))
+
 
 if (this_datasource_has_subpopulations == TRUE){
   for (subpop in subpopulations[[thisdatasource]]){
