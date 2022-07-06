@@ -1,7 +1,7 @@
 
 library(readxl)
-source(paste0(thisdir,"/p_parameters_pregnancy/metadataToItemsSet.R"))
-source(paste0(thisdir,"/p_parameters_pregnancy/metadataToConcept.R"))
+source(paste0(thisdir,"/p_macro/metadataToItemsSet.R"))
+source(paste0(thisdir,"/p_macro/metadataToConcept.R"))
 
 #Read Metadata
 
