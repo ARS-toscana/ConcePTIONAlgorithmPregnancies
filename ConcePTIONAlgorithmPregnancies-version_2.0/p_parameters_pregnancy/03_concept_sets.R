@@ -84,7 +84,7 @@ for (cd in names(codelists_pro_ADDED)){
 #######################################################################################
 
 
-concept_set_pregnancy <- c(concept_sets_of_pregnancy_eve, concept_set_pregnancy_pre, concept_sets_of_pregnancy_procedure, concept_sets_of_pregnancy_procedure_not_in_pregnancy, concept_sets_of_pregnancy_pro, concept_set_pregnancy_added_dia) #concept_set_pregnancy_atc
+concept_set_pregnancy <- c(concept_sets_of_pregnancy_eve, concept_sets_of_pregnancy_procedure, concept_sets_of_pregnancy_procedure_not_in_pregnancy, concept_sets_of_pregnancy_pro, concept_set_pregnancy_added_dia) #concept_set_pregnancy_atc, concept_set_pregnancy_pre
 
 conceptset_pregnancy_this_datasource<-vector(mode="list")
 for (t in  names(concept_set_codes_pregnancy)) {
