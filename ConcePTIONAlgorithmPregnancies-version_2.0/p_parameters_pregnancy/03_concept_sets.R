@@ -3,23 +3,19 @@
 #########################################################################################
 
 #load DIAGNOSTIC CODES script
-source(paste0(thisdir,"/p_parameters_pregnancy/03_concept_sets/03_diagnostic_codes.R"))
+source(paste0(thisdir,"/p_parameters_pregnancy/03_conceptsets/03_diagnostic_codes.R"))
 
 #load PROCEDURE CODES script
-source(paste0(thisdir,"/p_parameters_pregnancy/03_concept_sets/03_procedure_codes.R"))
+source(paste0(thisdir,"/p_parameters_pregnancy/03_conceptsets/03_procedure_codes.R"))
 
 #load MEDICINE CODES script
-#source(paste0(thisdir,"/p_parameters_pregnancy/03_concept_sets/03_medicine_codes.R"))
+#source(paste0(thisdir,"/p_parameters_pregnancy/03_conceptsets/03_medicine_codes.R"))
 
 #load OUTCOME CODES script
-#source(paste0(thisdir,"/p_parameters_pregnancy/03_concept_sets/03_outcome_codes.R"))
+#source(paste0(thisdir,"/p_parameters_pregnancy/03_conceptsets/03_outcome_codes.R"))
 
 
-
-
-
-
-#######################################################################################
+######################################################################################
 # laod additional codes added by DAPs (BPE and BIPS)
 
 load(paste0(thisdir,"/p_parameters_pregnancy/03_concept_sets_dia_fromBIPS_BPE.RData"))
@@ -53,7 +49,7 @@ concept_set_pregnancy_added_pro <- names(codelists_pro_ADDED)[names(codelists_pr
 
 ## put together all the codes added after from BIPS and BPE
 
-# diagnosi
+# diagnosis
 for (cd in names(codelists_dia_ADDED_list)){
   if(is.null(concept_set_codes_pregnancy[[cd]])){
     concept_set_codes_pregnancy[[cd]] <- list()
