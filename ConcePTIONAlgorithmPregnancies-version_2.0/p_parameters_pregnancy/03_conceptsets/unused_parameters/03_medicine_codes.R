@@ -5,6 +5,9 @@
 #concept_set_pregnancy_atc <- c("INSULIN")
 #concept_set_pregnancy_atc <- c("ABORTION_MEDICINES")
 
+#concept_set_codes_pregnancy[["INSULIN"]] <- list()
+#concept_set_codes_pregnancy[["ABORTION_MEDICINES"]] <- list()
+
 # # ABORTIVE_MEDICINES
 # concept_set_domains[["ABORTION_MEDICINES"]] = "Medicines"
 # concept_set_codes_pregnancy[["ABORTION_MEDICINES"]][["ATC"]] <- c("A02BB")

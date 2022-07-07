@@ -4,6 +4,36 @@
 
 concept_set_pregnancy_pre <- c("FGR_narrow","FGR_possible","GESTDIAB_narrow","GESTDIAB_possible","MAJORCA_narrow","MAJORCA_possible","MATERNALDEATH_narrow","MATERNALDEATH_possible","MICROCEPHALY_narrow","MICROCEPHALY_possible","PREECLAMP_narrow","PREECLAMP_possible","PRETERMBIRTH_narrow","PRETERMBIRTH_possible","SPONTABO_narrow","SPONTABO_possible","STILLBIRTH_narrow", "STILLBIRTH_possible", "TOPFA_narrow","TOPFA_possible")
 
+concept_set_codes_pregnancy[["FGR_narrow"]] <- list()
+concept_set_codes_pregnancy[["FGR_possible"]] <- list()
+concept_set_codes_pregnancy[["GESTDIAB_narrow"]] <- list()
+concept_set_codes_pregnancy[["GESTDIAB_possible"]] <- list()
+concept_set_codes_pregnancy[["MAJORCA_narrow"]] <- list()
+concept_set_codes_pregnancy[["MAJORCA_possible"]] <- list()
+concept_set_codes_pregnancy[["MATERNALDEATH_narrow"]] <- list()
+concept_set_codes_pregnancy[["MATERNALDEATH_possible"]] <- list()
+concept_set_codes_pregnancy[["MICROCEPHALY_narrow"]] <- list()
+concept_set_codes_pregnancy[["MICROCEPHALY_possible"]] <- list()
+concept_set_codes_pregnancy[["PREECLAMP_narrow"]] <- list()
+concept_set_codes_pregnancy[["PREECLAMP_possible"]] <- list()
+concept_set_codes_pregnancy[["PRETERMBIRTH_narrow"]] <- list()
+concept_set_codes_pregnancy[["PRETERMBIRTH_possible"]] <- list()
+concept_set_codes_pregnancy[["SPONTABO_narrow"]] <- list()
+concept_set_codes_pregnancy[["SPONTABO_possible"]] <- list()
+concept_set_codes_pregnancy[["STILLBIRTH_narrow"]] <- list()
+concept_set_codes_pregnancy[["STILLBIRTH_possible"]] <- list()
+concept_set_codes_pregnancy[["TOPFA_narrow"]] <- list()
+concept_set_codes_pregnancy[["TOPFA_possible"]] <- list()
+
+
+concept_set_codes_pregnancy_excl[["GESTDIAB_possible"]] <- list()
+concept_set_codes_pregnancy_excl[["MATERNALDEATH_possible"]] <- list()
+concept_set_codes_pregnancy_excl[["MICROCEPHALY_possible"]] <- list()
+concept_set_codes_pregnancy_excl[["PREECLAMP_narrow"]] <- list()
+concept_set_codes_pregnancy_excl[["NEONATALDEATH_possible"]] <- list()
+concept_set_codes_pregnancy_excl[["PRETERMBIRTH_possible"]] <- list()
+concept_set_codes_pregnancy_excl[["SPONTABO_possible"]] <- list()
+concept_set_codes_pregnancy_excl[["STILLBIRTH_possible"]] <- list()
 
 # FGR_narrow
 concept_set_domains[["FGR_narrow"]] = "Diagnosis"

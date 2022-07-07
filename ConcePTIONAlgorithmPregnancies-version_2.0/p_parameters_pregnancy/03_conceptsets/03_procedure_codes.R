@@ -7,6 +7,14 @@ for (conceptset in concept_sets_of_pregnancy_pro){
   concept_set_domains[[conceptset]] = "Procedures"
 }
 
+
+concept_set_codes_pregnancy[["procedures_end_livebirth"]] <- list()
+concept_set_codes_pregnancy[["procedures_termination"]] <- list()
+concept_set_codes_pregnancy[["procedures_spontaneous_abortion"]] <- list()
+concept_set_codes_pregnancy[["procedures_ectopic"]] <- list()
+concept_set_codes_pregnancy[["procedures_ongoing"]] <- list()
+
+
 #parto ICD9 pcr
 concept_set_codes_pregnancy[["procedures_end_livebirth"]][["ICD9"]] <- c("72.0", "72.1", "72.2", "72.21", "72.29", "72.3", "72.31", "72.39", "72.4", "72.51", "72.53", "72.6", "72.7", "72.71", "72.79", "72.8", "72.9", "73.01", "73.1", "73.3", "73.4", "73.5", "73.59", "73.8", "73.9", "73.93", "73.94", "73.99", "74.0", "74.1", "74.2", "74.4", "74.9", "74.99", "75.7", "89.16", "72.5", "72.52", "72.54", "73.0", "73.09", "73.2", "73.22", "73.51", "73.91", "73.92", "74.3", "84.92", "84.93")
 concept_set_codes_pregnancy[["procedures_end_livebirth"]][["ICD10"]] <- c()
