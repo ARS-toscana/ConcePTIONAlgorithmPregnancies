@@ -1,5 +1,5 @@
 df_to_list_of_list <- function(x, code_col = "code", concepts_col = "event_abbreviation", codying_system_col = T,
-                               codying_system_recode = "auto", imputed_tags = NULL, type_col = "type") {
+                               codying_system_recode = "auto", imputed_tags = NULL, type_col = "type", type = NULL) {
   
   if(!require(data.table)){install.packages("data.table")}
   suppressPackageStartupMessages(library(data.table))
@@ -18,7 +18,11 @@ df_to_list_of_list <- function(x, code_col = "code", concepts_col = "event_abbre
     } else if (tolower(imputed_tags) %in% c("possible", "p")) {
       imputed_tags <- "possible"
     } else if (!imputed_tags) {
-      x <- x[!is.na(tags) & tags != "" & get(type_col) != "COV", ]
+      if (is.null(type_col)) {
+        x <- x[!is.na(tags) & tags != "", ]
+      } else {
+        x <- x[!is.na(tags) & tags != "" & get(type_col) != "COV", ]
+      }
     } else {
       stop("imputed_tags accepts only values narrow or possible")
     }
@@ -30,10 +34,14 @@ df_to_list_of_list <- function(x, code_col = "code", concepts_col = "event_abbre
   }
   
   if ("tags" %in% colnames(x)) {
-    x <- x[!is.na(tags) & tags != "", (concepts_col) := paste(get(concepts_col), get(type_col), tags, sep = "_")]
-    y <- y[, (concepts_col) := paste(get(concepts_col), get(type_col), sep = "_")]
+    if (is.null(type_col)) {
+      x <- x[!is.na(tags) & tags != "", (concepts_col) := paste(get(concepts_col), tags, sep = "_")]
+      y <- y[, (concepts_col) := get(concepts_col)]
+    } else {
+      x <- x[!is.na(tags) & tags != "", (concepts_col) := paste(get(concepts_col), get(type_col), tags, sep = "_")]
+      y <- y[, (concepts_col) := paste(get(concepts_col), get(type_col), sep = "_")]
+    }
   }
-  
   
   x <- x[, .SD, .SDcols = c(code_col, "coding_system", concepts_col)]
   y <- y[, .SD, .SDcols = c(code_col, "coding_system", concepts_col)]
@@ -51,12 +59,7 @@ df_to_list_of_list <- function(x, code_col = "code", concepts_col = "event_abbre
       coding_system %in% c("ICPC"), "ICPC",
       coding_system %in% c("ICPC2P", "ICPC2EENG"), "ICPC2P",
       coding_system %in% c("RCD2", "RCD"), "READ",
-      coding_system %in% c("MEDCODEID", "SCTSPA", "SNOMEDCT_US", "SPA_EXT", "SNM"), "SNOMED",
-      coding_system %in% c("OPS"), "OPS",
-      coding_system %in% c("EBM"), "EBM",
-      coding_system %in% c("CCAM"), "CCAM",
-      coding_system %in% c("CNAM"), "CNAM",
-      coding_system %in% c("NABM"), "NABM"
+      coding_system %in% c("MEDCODEID", "SCTSPA", "SNOMEDCT_US", "SPA_EXT", "SNM"), "SNOMED"
     )]
   } else {
     x[codying_system_recode, on = c("coding_system" = colnames(codying_system_recode)[[1]]),
@@ -70,4 +73,3 @@ df_to_list_of_list <- function(x, code_col = "code", concepts_col = "event_abbre
   
   return(x)
 }
-
