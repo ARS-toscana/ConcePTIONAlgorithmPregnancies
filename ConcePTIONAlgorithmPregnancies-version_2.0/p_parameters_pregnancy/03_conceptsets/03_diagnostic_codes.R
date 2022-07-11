@@ -42,6 +42,9 @@ concept_set_codes_pregnancy_data_table <- fread(paste0(thisdir, "/p_parameters_p
 
 concept_set_codes_pregnancy_from_csv <- df_to_list_of_list(concept_set_codes_pregnancy_data_table, codying_system_recode = "auto", concepts_col = "event_abbreviation")
 
+
+# assign each concept set of concept_set_codes_pregnancy_from_csv to concept_set_codes_pregnancy
+
 concept_set_codes_pregnancy[["Gestation_less24"]] <- concept_set_codes_pregnancy_from_csv[["Gestation_less24"]] 
 concept_set_codes_pregnancy[["Gestation_24"]] <- concept_set_codes_pregnancy_from_csv[["Gestation_24"]] 
 concept_set_codes_pregnancy[["Gestation_25_26"]] <- concept_set_codes_pregnancy_from_csv[["Gestation_25_26"]] 
