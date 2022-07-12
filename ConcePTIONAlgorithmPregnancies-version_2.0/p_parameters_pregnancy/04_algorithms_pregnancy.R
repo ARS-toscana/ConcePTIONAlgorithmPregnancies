@@ -53,7 +53,7 @@ for (conceptset in concept_set_pregnancy){
 for (conceptset in concept_set_pregnancy){
   #print(conceptset)
   if (concept_set_domains[[conceptset]] == "Diagnosis"){
-    concept_set_codes_pregnancy[[conceptset]][["ICD10GM"]] <- concept_set_codes_pregnancy[[conceptset]][["ICD10"]]
+    concept_set_codes_pregnancy[[conceptset]][["ICD10GM"]] <- unique(c(concept_set_codes_pregnancy[[conceptset]][["ICD10"]],concept_set_codes_pregnancy[[conceptset]][["ICD10GM"]]))
   }
 }
 
