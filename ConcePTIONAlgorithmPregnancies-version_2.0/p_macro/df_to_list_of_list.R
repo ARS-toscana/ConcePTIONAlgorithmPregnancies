@@ -1,5 +1,5 @@
 df_to_list_of_list <- function(x, code_col = "code", concepts_col = "event_abbreviation", codying_system_col = T,
-                               codying_system_recode = "auto", imputed_tags = NULL, type_col = "type", type = NULL) {
+                               codying_system_recode = "auto", imputed_tags = NULL, type_col = NULL) {
   
   if(!require(data.table)){install.packages("data.table")}
   suppressPackageStartupMessages(library(data.table))
