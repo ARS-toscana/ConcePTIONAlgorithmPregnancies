@@ -151,7 +151,7 @@ YearSex <- merge(YearSex, YearTotal, by = c("year"), all.x = T)
 YearSex <- YearSex[, percentage := round(total_sex/total*100, 1)]
 YearSex <- YearSex[, total_sex := paste0(total_sex, " (", percentage, "%)")]
 
-YearSex <- dcast(YearSex,  sex_at_instance_creation  ~ year , value.var = "total_sex")
+YearSex <- data.table::dcast(YearSex,  sex_at_instance_creation  ~ year , value.var = "total_sex")
 
 year_2015_fertile <- TablePersonYearFertile[in_2015 == 1, .( total_fertile = sum(N), year = "2015"), fertile_in_2015][, fertile:=fertile_in_2015][,-c("fertile_in_2015")]
 year_2016_fertile <- TablePersonYearFertile[in_2016 == 1, .( total_fertile = sum(N), year = "2016"), fertile_in_2016][, fertile:=fertile_in_2016][,-c("fertile_in_2016")]
@@ -168,8 +168,8 @@ YearFertile <- merge(YearFertile, YearTotal, by = c("year"), all.x = T)
 YearFertile <- YearFertile[, percentage := round(total_fertile/total*100, 1)]
 YearFertile <- YearFertile[, total_fertile := paste0(total_fertile, " (", percentage, "%)")]
 
-YearFertile <- dcast(YearFertile,  fertile  ~ year , value.var = "total_fertile")
-YearTotal <- dcast(YearTotal, . ~ year , value.var = "total")
+YearFertile <- data.table::dcast(YearFertile,  fertile  ~ year , value.var = "total_fertile")
+YearTotal <- data.table::dcast(YearTotal, . ~ year , value.var = "total")
 
 INSTANCE_description <- rbind(YearTotal,YearSex, fill=TRUE)
 INSTANCE_description <- rbind(INSTANCE_description,YearFertile, fill=TRUE)
