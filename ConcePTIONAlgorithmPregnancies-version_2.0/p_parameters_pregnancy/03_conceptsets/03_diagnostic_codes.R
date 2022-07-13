@@ -38,33 +38,91 @@ concept_set_codes_pregnancy[["Ectopicpregnancy"]] <- list()
 
 # loading concepsets from csv 
 
-concept_set_codes_pregnancy_data_table <- fread(paste0(thisdir, "/p_parameters_pregnancy/03_conceptsets/concept_set_codes_pregnancy_220601_format_VAC4EU.csv"))
+#concept_set_codes_pregnancy_data_table <- fread(paste0(thisdir, "/p_parameters_pregnancy/03_conceptsets/concept_set_codes_pregnancy_220601_format_VAC4EU.csv"))
+concept_set_codes_pregnancy_data_table <- fread(paste0(thisdir, "/p_parameters_pregnancy/03_conceptsets/ALL_full_codelist_pregnancy.csv"))
 
 concept_set_codes_pregnancy_from_csv <- df_to_list_of_list(concept_set_codes_pregnancy_data_table, codying_system_recode = "auto", concepts_col = "event_abbreviation")
 
 
 # assign each concept set of concept_set_codes_pregnancy_from_csv to concept_set_codes_pregnancy
 
-concept_set_codes_pregnancy[["Gestation_less24"]] <- concept_set_codes_pregnancy_from_csv[["Gestation_less24"]] 
-concept_set_codes_pregnancy[["Gestation_24"]] <- concept_set_codes_pregnancy_from_csv[["Gestation_24"]] 
-concept_set_codes_pregnancy[["Gestation_25_26"]] <- concept_set_codes_pregnancy_from_csv[["Gestation_25_26"]] 
-concept_set_codes_pregnancy[["Gestation_27_28"]] <- concept_set_codes_pregnancy_from_csv[["Gestation_27_28"]]
-concept_set_codes_pregnancy[["Gestation_29_30"]] <- concept_set_codes_pregnancy_from_csv[["Gestation_29_30"]] 
-concept_set_codes_pregnancy[["Gestation_31_32"]] <- concept_set_codes_pregnancy_from_csv[["Gestation_31_32"]] 
-concept_set_codes_pregnancy[["Gestation_33_34"]] <- concept_set_codes_pregnancy_from_csv[["Gestation_33_34"]] 
-concept_set_codes_pregnancy[["Gestation_35_36"]] <-  concept_set_codes_pregnancy_from_csv[["Gestation_35_36"]] 
-concept_set_codes_pregnancy[["Gestation_more37"]] <- concept_set_codes_pregnancy_from_csv[["Gestation_more37"]] 
-concept_set_codes_pregnancy[["Ongoingpregnancy"]] <- concept_set_codes_pregnancy_from_csv[["Ongoingpregnancy"]]
-concept_set_codes_pregnancy[["Birth_narrow"]] <- concept_set_codes_pregnancy_from_csv[["Birth_narrow"]]
-concept_set_codes_pregnancy[["Birth_possible"]] <- concept_set_codes_pregnancy_from_csv[["Birth_possible"]] 
+concept_set_codes_pregnancy[["Gestation_less24"]] <- concept_set_codes_pregnancy_from_csv[["Gestationlessthan24weeks"]] 
+concept_set_codes_pregnancy[["Gestation_24"]] <- concept_set_codes_pregnancy_from_csv[["24weeks"]]  ## check
+concept_set_codes_pregnancy[["Gestation_25_26"]] <- concept_set_codes_pregnancy_from_csv[["Gestation2526weeks"]] 
+concept_set_codes_pregnancy[["Gestation_27_28"]] <- concept_set_codes_pregnancy_from_csv[["Gestation2728weeks"]]
+concept_set_codes_pregnancy[["Gestation_29_30"]] <- concept_set_codes_pregnancy_from_csv[["Gestation2930weeks"]] 
+concept_set_codes_pregnancy[["Gestation_31_32"]] <- concept_set_codes_pregnancy_from_csv[["Gestation3132weeks"]] 
+concept_set_codes_pregnancy[["Gestation_33_34"]] <- concept_set_codes_pregnancy_from_csv[["Gestation3334weeks"]] 
+concept_set_codes_pregnancy[["Gestation_35_36"]] <-  concept_set_codes_pregnancy_from_csv[["Gestation3536weeks"]] 
+concept_set_codes_pregnancy[["Gestation_more37"]] <- concept_set_codes_pregnancy_from_csv[["Gestation37weeks"]] 
+concept_set_codes_pregnancy[["Ongoingpregnancy"]][["ICD9"]] <- c(concept_set_codes_pregnancy_from_csv[["OngoingPregnancy1"]][["ICD9"]],
+                                                                concept_set_codes_pregnancy_from_csv[["OngoingPregnancy2"]][["ICD9"]],
+                                                                concept_set_codes_pregnancy_from_csv[["OngoingPregnancy3"]][["ICD9"]],
+                                                                concept_set_codes_pregnancy_from_csv[["OngoingPregnancy4"]][["ICD9"]],
+                                                                concept_set_codes_pregnancy_from_csv[["OngoingPregnancy5"]][["ICD9"]],
+                                                                concept_set_codes_pregnancy_from_csv[["OngoingPregnancy6"]][["ICD9"]],
+                                                                concept_set_codes_pregnancy_from_csv[["OngoingPregnancy7"]][["ICD9"]])
+concept_set_codes_pregnancy[["Ongoingpregnancy"]][["ICD10"]] <- c(concept_set_codes_pregnancy_from_csv[["OngoingPregnancy1"]][["ICD10"]],
+                                                                 concept_set_codes_pregnancy_from_csv[["OngoingPregnancy2"]][["ICD10"]],
+                                                                 concept_set_codes_pregnancy_from_csv[["OngoingPregnancy3"]][["ICD10"]],
+                                                                 concept_set_codes_pregnancy_from_csv[["OngoingPregnancy4"]][["ICD10"]],
+                                                                 concept_set_codes_pregnancy_from_csv[["OngoingPregnancy5"]][["ICD10"]],
+                                                                 concept_set_codes_pregnancy_from_csv[["OngoingPregnancy6"]][["ICD10"]],
+                                                                 concept_set_codes_pregnancy_from_csv[["OngoingPregnancy7"]][["ICD10"]])
+concept_set_codes_pregnancy[["Ongoingpregnancy"]][["SNOMED"]] <- c(concept_set_codes_pregnancy_from_csv[["OngoingPregnancy1"]][["SNOMED"]],
+                                                                  concept_set_codes_pregnancy_from_csv[["OngoingPregnancy2"]][["SNOMED"]],
+                                                                  concept_set_codes_pregnancy_from_csv[["OngoingPregnancy3"]][["SNOMED"]],
+                                                                  concept_set_codes_pregnancy_from_csv[["OngoingPregnancy4"]][["SNOMED"]],
+                                                                  concept_set_codes_pregnancy_from_csv[["OngoingPregnancy5"]][["SNOMED"]],
+                                                                  concept_set_codes_pregnancy_from_csv[["OngoingPregnancy6"]][["SNOMED"]],
+                                                                  concept_set_codes_pregnancy_from_csv[["OngoingPregnancy7"]][["SNOMED"]])
+concept_set_codes_pregnancy[["Ongoingpregnancy"]][["READ"]] <- c(concept_set_codes_pregnancy_from_csv[["OngoingPregnancy1"]][["READ"]],
+                                                                  concept_set_codes_pregnancy_from_csv[["OngoingPregnancy2"]][["READ"]],
+                                                                  concept_set_codes_pregnancy_from_csv[["OngoingPregnancy3"]][["READ"]],
+                                                                  concept_set_codes_pregnancy_from_csv[["OngoingPregnancy4"]][["READ"]],
+                                                                 concept_set_codes_pregnancy_from_csv[["OngoingPregnancy5"]][["READ"]],
+                                                                 concept_set_codes_pregnancy_from_csv[["OngoingPregnancy6"]][["READ"]],
+                                                                 concept_set_codes_pregnancy_from_csv[["OngoingPregnancy7"]][["READ"]])
+concept_set_codes_pregnancy[["Ongoingpregnancy"]][["ICPC2P"]] <- c(concept_set_codes_pregnancy_from_csv[["OngoingPregnancy1"]][["ICPC2P"]],
+                                                                 concept_set_codes_pregnancy_from_csv[["OngoingPregnancy2"]][["ICPC2P"]],
+                                                                 concept_set_codes_pregnancy_from_csv[["OngoingPregnancy3"]][["ICPC2P"]],
+                                                                 concept_set_codes_pregnancy_from_csv[["OngoingPregnancy4"]][["ICPC2P"]],
+                                                                 concept_set_codes_pregnancy_from_csv[["OngoingPregnancy5"]][["ICPC2P"]],
+                                                                 concept_set_codes_pregnancy_from_csv[["OngoingPregnancy6"]][["ICPC2P"]],
+                                                                 concept_set_codes_pregnancy_from_csv[["OngoingPregnancy7"]][["ICPC2P"]])
+concept_set_codes_pregnancy[["Birth_narrow"]] <- concept_set_codes_pregnancy_from_csv[["BirthNarrow"]]
+concept_set_codes_pregnancy[["Birth_possible"]][["ICD9"]] <- c(concept_set_codes_pregnancy_from_csv[["BirthPossible1"]][["ICD9"]],
+                                                                 concept_set_codes_pregnancy_from_csv[["BirthPossible2"]][["ICD9"]],
+                                                                 concept_set_codes_pregnancy_from_csv[["BirthPossible3"]][["ICD9"]])
+concept_set_codes_pregnancy[["Birth_possible"]][["ICD10"]] <- c(concept_set_codes_pregnancy_from_csv[["BirthPossible1"]][["ICD10"]],
+                                                                  concept_set_codes_pregnancy_from_csv[["BirthPossible1"]][["ICD10"]],
+                                                                  concept_set_codes_pregnancy_from_csv[["BirthPossible3"]][["ICD10"]])
+concept_set_codes_pregnancy[["Birth_possible"]][["SNOMED"]] <- c(concept_set_codes_pregnancy_from_csv[["BirthPossible1"]][["SNOMED"]],
+                                                                   concept_set_codes_pregnancy_from_csv[["BirthPossible2"]][["SNOMED"]],
+                                                                   concept_set_codes_pregnancy_from_csv[["BirthPossible3"]][["SNOMED"]])
+concept_set_codes_pregnancy[["Birth_possible"]][["READ"]] <- c(concept_set_codes_pregnancy_from_csv[["BirthPossible1"]][["READ"]],
+                                                                 concept_set_codes_pregnancy_from_csv[["BirthPossible2"]][["READ"]],
+                                                                 concept_set_codes_pregnancy_from_csv[["BirthPossible3"]][["READ"]])
+concept_set_codes_pregnancy[["Birth_possible"]][["ICPC2P"]] <- c(concept_set_codes_pregnancy_from_csv[["BirthPossible1"]][["ICPC2P"]],
+                                                                   concept_set_codes_pregnancy_from_csv[["BirthPossible2"]][["ICPC2P"]],
+                                                                   concept_set_codes_pregnancy_from_csv[["BirthPossible3"]][["ICPC2P"]])
 concept_set_codes_pregnancy[["Preterm"]] <- concept_set_codes_pregnancy_from_csv[["Preterm"]] 
-concept_set_codes_pregnancy[["Atterm"]] <- concept_set_codes_pregnancy_from_csv[["Atterm"]] 
-concept_set_codes_pregnancy[["Postterm"]] <- concept_set_codes_pregnancy_from_csv[["Postterm"]] 
-concept_set_codes_pregnancy[["Livebirth"]] <- concept_set_codes_pregnancy_from_csv[["Livebirth"]] 
-concept_set_codes_pregnancy[["Stillbirth"]] <- concept_set_codes_pregnancy_from_csv[["Stillbirth"]] 
+concept_set_codes_pregnancy[["Atterm"]] <- concept_set_codes_pregnancy_from_csv[["AtTerm"]] 
+concept_set_codes_pregnancy[["Postterm"]] <- concept_set_codes_pregnancy_from_csv[["PostTerm"]] 
+concept_set_codes_pregnancy[["Livebirth"]][["ICD9"]] <- c(concept_set_codes_pregnancy_from_csv[["Livebirth1"]][["ICD9"]],
+                                                               concept_set_codes_pregnancy_from_csv[["Livebirth2"]][["ICD9"]])
+concept_set_codes_pregnancy[["Livebirth"]][["ICD10"]] <- c(concept_set_codes_pregnancy_from_csv[["Livebirth1"]][["ICD10"]],
+                                                                concept_set_codes_pregnancy_from_csv[["Livebirth1"]][["ICD10"]])
+concept_set_codes_pregnancy[["Livebirth"]][["SNOMED"]] <- c(concept_set_codes_pregnancy_from_csv[["Livebirth1"]][["SNOMED"]],
+                                                                 concept_set_codes_pregnancy_from_csv[["Livebirth2"]][["SNOMED"]])
+concept_set_codes_pregnancy[["Livebirth"]][["READ"]] <- c(concept_set_codes_pregnancy_from_csv[["Livebirth1"]][["READ"]],
+                                                               concept_set_codes_pregnancy_from_csv[["Livebirth2"]][["READ"]])
+concept_set_codes_pregnancy[["Livebirth"]][["ICPC2P"]] <- c(concept_set_codes_pregnancy_from_csv[["Livebirth1"]][["ICPC2P"]],
+                                                                 concept_set_codes_pregnancy_from_csv[["Livebirth2"]][["ICPC2P"]])
+concept_set_codes_pregnancy[["Stillbirth"]] <- concept_set_codes_pregnancy_from_csv[["StillBirth"]] 
 concept_set_codes_pregnancy[["Interruption"]] <- concept_set_codes_pregnancy_from_csv[["Interruption"]] 
-concept_set_codes_pregnancy[["Spontaneousabortion"]] <- concept_set_codes_pregnancy_from_csv[["Spontaneousabortion"]]
-concept_set_codes_pregnancy[["Ectopicpregnancy"]] <- concept_set_codes_pregnancy_from_csv[["Ectopicpregnancy"]] 
+concept_set_codes_pregnancy[["Spontaneousabortion"]] <- concept_set_codes_pregnancy_from_csv[["SpontaneousAbortion"]]
+concept_set_codes_pregnancy[["Ectopicpregnancy"]] <- concept_set_codes_pregnancy_from_csv[["EctopicPregnancy"]] 
 
 
 

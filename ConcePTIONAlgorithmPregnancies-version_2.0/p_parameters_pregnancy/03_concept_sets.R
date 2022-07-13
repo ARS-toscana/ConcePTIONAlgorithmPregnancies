@@ -18,10 +18,10 @@ source(paste0(thisdir,"/p_parameters_pregnancy/03_conceptsets/03_procedure_codes
 ######################################################################################
 # laod additional codes added by DAPs (BPE and BIPS)
 
-load(paste0(thisdir,"/p_parameters_pregnancy/03_concept_sets_dia_fromBIPS_BPE.RData"))
+#load(paste0(thisdir,"/p_parameters_pregnancy/03_concept_sets_dia_fromBIPS_BPE.RData"))
 load(paste0(thisdir,"/p_parameters_pregnancy/03_concept_sets_pro_fromBIPS_BPE.RData"))
 
-concept_set_pregnancy_added_dia <- names(codelists_dia_ADDED_list)[names(codelists_dia_ADDED_list) %notin% names(concept_set_codes_pregnancy)]
+#concept_set_pregnancy_added_dia <- names(codelists_dia_ADDED_list)[names(codelists_dia_ADDED_list) %notin% names(concept_set_codes_pregnancy)]
 concept_set_pregnancy_added_pro <- names(codelists_pro_ADDED)[names(codelists_pro_ADDED) %notin% names(concept_set_codes_pregnancy)]
 
 # codelists_dia_ADDED<-as.data.table(codelists_dia_ADDED_list)
@@ -48,21 +48,21 @@ concept_set_pregnancy_added_pro <- names(codelists_pro_ADDED)[names(codelists_pr
 
 ## put together all the codes added after from BIPS and BPE
 
-# diagnosis
-for (cd in names(codelists_dia_ADDED_list)){
-  if(is.null(concept_set_codes_pregnancy[[cd]])){
-    concept_set_codes_pregnancy[[cd]] <- list()
-    concept_set_domains[[cd]] <- "Diagnosis"
-    for(cs in names(codelists_dia_ADDED_list[[cd]])){
-      concept_set_codes_pregnancy[[cd]][[cs]] <- codelists_dia_ADDED_list[[cd]][[cs]]
-    }
-  }else{
-    for(cs in names(codelists_dia_ADDED_list[[cd]])){
-      concept_set_codes_pregnancy[[cd]][[cs]] <- c(concept_set_codes_pregnancy[[cd]][[cs]],
-                                                   codelists_dia_ADDED_list[[cd]][[cs]])
-    }
-  }
-}
+# # diagnosis
+# for (cd in names(codelists_dia_ADDED_list)){
+#   if(is.null(concept_set_codes_pregnancy[[cd]])){
+#     concept_set_codes_pregnancy[[cd]] <- list()
+#     concept_set_domains[[cd]] <- "Diagnosis"
+#     for(cs in names(codelists_dia_ADDED_list[[cd]])){
+#       concept_set_codes_pregnancy[[cd]][[cs]] <- codelists_dia_ADDED_list[[cd]][[cs]]
+#     }
+#   }else{
+#     for(cs in names(codelists_dia_ADDED_list[[cd]])){
+#       concept_set_codes_pregnancy[[cd]][[cs]] <- c(concept_set_codes_pregnancy[[cd]][[cs]],
+#                                                    codelists_dia_ADDED_list[[cd]][[cs]])
+#     }
+#   }
+# }
 
 
 # procedures
