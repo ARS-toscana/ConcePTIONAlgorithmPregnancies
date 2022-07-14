@@ -211,7 +211,7 @@ if (this_datasource_has_itemsets_stream_from_medical_obs ) { # | this_datasource
   }
 }
 
-concept_set_list_1 <- c(concept_set_pregnancy_pre, concept_sets_of_pregnancy_eve)
+concept_set_list_1 <- c(concept_sets_of_pregnancy_eve) #concept_set_pregnancy_pre,
 
 
 concept_set_list_2 <- concept_sets_of_pregnancy_procedure
