@@ -12,7 +12,7 @@
 
 
 # loading concepsets
-for (conceptvar in c(concept_sets_of_start_of_pregnancy,concept_sets_of_ongoing_of_pregnancy,concept_sets_of_end_of_pregnancy,concept_sets_of_pregnancy_procedure,concept_sets_of_pregnancy_pro, concept_set_pregnancy_added_dia)){ #, concept_set_pregnancy_atc
+for (conceptvar in c(concept_sets_of_start_of_pregnancy,concept_sets_of_ongoing_of_pregnancy,concept_sets_of_end_of_pregnancy,concept_sets_of_pregnancy_procedure,concept_sets_of_pregnancy_pro )){ #, concept_set_pregnancy_added_dia,  concept_set_pregnancy_atc
   load(paste0(dirtemp,conceptvar,".RData"))
 }
 
