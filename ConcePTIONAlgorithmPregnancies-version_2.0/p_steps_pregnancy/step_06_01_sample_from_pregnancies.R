@@ -166,7 +166,7 @@ if (this_datasource_has_prompt) {
   }
 }
 
-if (this_datasource_has_itemsets_stream_from_medical_obs | this_datasource_has_medical_observations_prompt) {
+if (this_datasource_has_itemsets_stream_from_medical_obs ) { # | this_datasource_has_medical_observations_prompt
   for (studyvar in study_itemset_pregnancy){
     if (studyvar %in% files_temp) {
       load(paste0(dirtemp, studyvar, ".RData"))
