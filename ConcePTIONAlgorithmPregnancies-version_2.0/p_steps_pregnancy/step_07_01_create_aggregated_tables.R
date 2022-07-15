@@ -57,7 +57,7 @@ fwrite(TableType, paste0(direxp, "TableType.csv"))
 
 
 
-cat("4. Dummy Table: age by outcome \n ")
+cat("4. Dummy table age by outcome \n ")
 
 table_age_outcomes <- D3_pregnancy_reconciled_valid[, .(age_mean= round(mean(age_at_start_of_pregnancy), 2),
                                                         standard_deviation = round(sqrt(var(age_at_start_of_pregnancy)), 2),
@@ -313,43 +313,47 @@ fwrite(TablePregSex, paste0(direxp, "TablePregSex.csv"))
 
 
 ################################################################################
-#####################            2015 - 2019            ########################
+#####################    specific year descriptive      ########################
 ################################################################################
-D3_pregnancy_reconciled_valid_15_19 <- D3_pregnancy_reconciled_valid[ year_start_of_pregnancy >= 2015 &
-                                                                        year_start_of_pregnancy <= 2019]
+year_start_descriptive <- 2019
+year_end_descriptive <- 2021
 
-cat("12. Table stream 15-19 \n ")
-TableStream <- D3_pregnancy_reconciled_valid_15_19[, .N, by = .(year_start_of_pregnancy, stream)][order(year_start_of_pregnancy, stream)]
+
+D3_pregnancy_reconciled_valid_specific_year <- D3_pregnancy_reconciled_valid[ year_start_of_pregnancy >= year_start_descriptive &
+                                                                        year_start_of_pregnancy <= year_end_descriptive]
+
+cat("12. Table stream specific years  \n ")
+TableStream <- D3_pregnancy_reconciled_valid_specific_year[, .N, by = .(year_start_of_pregnancy, stream)][order(year_start_of_pregnancy, stream)]
 TableStream <- TableStream[N<5, N := 0]
 TableStream <- TableStream[, N := as.character(N)]
 TableStream <- TableStream[N=="0", N := "<5"]
 
-fwrite(TableStream, paste0(direxp, "TableStream_15_19.csv"))
+fwrite(TableStream, paste0(direxp, "TableStream_", year_start_descriptive, "_", year_end_descriptive, ".csv"))
 
-cat("13. Table quality 15-19 \n ")
-TableQuality <- D3_pregnancy_reconciled_valid_15_19[, order_quality := as.factor(order_quality)]
+cat("13. Table quality specific years  \n ")
+TableQuality <- D3_pregnancy_reconciled_valid_specific_year[, order_quality := as.factor(order_quality)]
 TableQuality <- TableQuality[, .N, by = .(year_start_of_pregnancy, order_quality)][order(year_start_of_pregnancy, order_quality)]
 
 TableQuality <- TableQuality[N<5, N := 0]
 TableQuality <- TableQuality[, N := as.character(N)]
 TableQuality <- TableQuality[N=="0", N := "<5"]
 
-fwrite(TableQuality, paste0(direxp, "TableQuality_15_19.csv"))
+fwrite(TableQuality, paste0(direxp, "TableQuality_", year_start_descriptive, "_", year_end_descriptive, ".csv"))
 
-cat("14. Table type/quality 15-19 \n ")
-TableType <- D3_pregnancy_reconciled_valid_15_19[, .N, .(year_start_of_pregnancy, order_quality, type_of_pregnancy_end)][order(year_start_of_pregnancy, order_quality, type_of_pregnancy_end)]
+cat("14. Table type/quality specific years  \n ")
+TableType <- D3_pregnancy_reconciled_valid_specific_year[, .N, .(year_start_of_pregnancy, order_quality, type_of_pregnancy_end)][order(year_start_of_pregnancy, order_quality, type_of_pregnancy_end)]
 
 TableType <- TableType[N<5, N := 0]
 TableType <- TableType[, N := as.character(N)]
 TableType <- TableType[N=="0", N := "<5"]
 
-fwrite(TableType, paste0(direxp, "TableType_15_19.csv"))
+fwrite(TableType, paste0(direxp, "TableType_", year_start_descriptive, "_", year_end_descriptive, ".csv"))
 
 
 
-cat("15. Dummy Table: age by outcome 15-19 \n ")
+cat("15. Dummy table age by outcome specific years  \n ")
 
-table_age_outcomes <- D3_pregnancy_reconciled_valid_15_19[, .(age_mean= round(mean(age_at_start_of_pregnancy), 2),
+table_age_outcomes <- D3_pregnancy_reconciled_valid_specific_year[, .(age_mean= round(mean(age_at_start_of_pregnancy), 2),
                                                         standard_deviation = round(sqrt(var(age_at_start_of_pregnancy)), 2),
                                                         quantile_25 = quantile(age_at_start_of_pregnancy, probs = 0.25), 
                                                         age_median = quantile(age_at_start_of_pregnancy, probs = 0.5),
@@ -360,23 +364,23 @@ t_table_age_outcomes <- as.data.table(t(table_age_outcomes[order(type_of_pregnan
 t_table_age_outcomes <- t_table_age_outcomes[-1]
 colnames(t_table_age_outcomes) <- table_age_outcomes[order(type_of_pregnancy_end), type_of_pregnancy_end]
 t_table_age_outcomes <- cbind(vars=c("Mean Age", "Standard Deviation", "25th quantile", "Median Age", "75th Quantile"), t_table_age_outcomes)
-fwrite(t_table_age_outcomes, paste0(direxp, "TableAgeOutcomes_15_19.csv"))
+fwrite(t_table_age_outcomes, paste0(direxp, "TableAgeOutcomes_", year_start_descriptive, "_", year_end_descriptive, ".csv"))
 
 
-cat("16. Dummy table ageband/outcome 15-19 \n ")
+cat("16. Dummy table ageband/outcome specific years  \n ")
 
-D3_pregnancy_reconciled_valid_15_19 <- D3_pregnancy_reconciled_valid_15_19[age_at_start_of_pregnancy<=15, age_band := "12-15"]
-D3_pregnancy_reconciled_valid_15_19 <- D3_pregnancy_reconciled_valid_15_19[age_at_start_of_pregnancy>15 & age_at_start_of_pregnancy<=20, age_band := "16-20"]
-D3_pregnancy_reconciled_valid_15_19 <- D3_pregnancy_reconciled_valid_15_19[age_at_start_of_pregnancy>20 & age_at_start_of_pregnancy<=25, age_band := "21-25"]
-D3_pregnancy_reconciled_valid_15_19 <- D3_pregnancy_reconciled_valid_15_19[age_at_start_of_pregnancy>25 & age_at_start_of_pregnancy<=30, age_band := "26-30"]
-D3_pregnancy_reconciled_valid_15_19 <- D3_pregnancy_reconciled_valid_15_19[age_at_start_of_pregnancy>30 & age_at_start_of_pregnancy<=35, age_band := "31-35"]
-D3_pregnancy_reconciled_valid_15_19 <- D3_pregnancy_reconciled_valid_15_19[age_at_start_of_pregnancy>35 & age_at_start_of_pregnancy<=40, age_band := "36-40"]
-D3_pregnancy_reconciled_valid_15_19 <- D3_pregnancy_reconciled_valid_15_19[age_at_start_of_pregnancy>40 & age_at_start_of_pregnancy<=45, age_band := "41-45"]
-D3_pregnancy_reconciled_valid_15_19 <- D3_pregnancy_reconciled_valid_15_19[age_at_start_of_pregnancy>45 & age_at_start_of_pregnancy<=50, age_band := "46-50"]
-D3_pregnancy_reconciled_valid_15_19 <- D3_pregnancy_reconciled_valid_15_19[age_at_start_of_pregnancy>50, age_band := "51-55"]
+D3_pregnancy_reconciled_valid_specific_year <- D3_pregnancy_reconciled_valid_specific_year[age_at_start_of_pregnancy<=15, age_band := "12-15"]
+D3_pregnancy_reconciled_valid_specific_year <- D3_pregnancy_reconciled_valid_specific_year[age_at_start_of_pregnancy>15 & age_at_start_of_pregnancy<=20, age_band := "16-20"]
+D3_pregnancy_reconciled_valid_specific_year <- D3_pregnancy_reconciled_valid_specific_year[age_at_start_of_pregnancy>20 & age_at_start_of_pregnancy<=25, age_band := "21-25"]
+D3_pregnancy_reconciled_valid_specific_year <- D3_pregnancy_reconciled_valid_specific_year[age_at_start_of_pregnancy>25 & age_at_start_of_pregnancy<=30, age_band := "26-30"]
+D3_pregnancy_reconciled_valid_specific_year <- D3_pregnancy_reconciled_valid_specific_year[age_at_start_of_pregnancy>30 & age_at_start_of_pregnancy<=35, age_band := "31-35"]
+D3_pregnancy_reconciled_valid_specific_year <- D3_pregnancy_reconciled_valid_specific_year[age_at_start_of_pregnancy>35 & age_at_start_of_pregnancy<=40, age_band := "36-40"]
+D3_pregnancy_reconciled_valid_specific_year <- D3_pregnancy_reconciled_valid_specific_year[age_at_start_of_pregnancy>40 & age_at_start_of_pregnancy<=45, age_band := "41-45"]
+D3_pregnancy_reconciled_valid_specific_year <- D3_pregnancy_reconciled_valid_specific_year[age_at_start_of_pregnancy>45 & age_at_start_of_pregnancy<=50, age_band := "46-50"]
+D3_pregnancy_reconciled_valid_specific_year <- D3_pregnancy_reconciled_valid_specific_year[age_at_start_of_pregnancy>50, age_band := "51-55"]
 
-table_agebands_outcomes <- D3_pregnancy_reconciled_valid_15_19[ , .N, by = .(type_of_pregnancy_end, age_band)]
-total <- D3_pregnancy_reconciled_valid_15_19[ , .(total = .N), by = .(type_of_pregnancy_end)]
+table_agebands_outcomes <- D3_pregnancy_reconciled_valid_specific_year[ , .N, by = .(type_of_pregnancy_end, age_band)]
+total <- D3_pregnancy_reconciled_valid_specific_year[ , .(total = .N), by = .(type_of_pregnancy_end)]
 
 
 table_agebands_outcomes <- merge(table_agebands_outcomes, total, by = "type_of_pregnancy_end")
@@ -398,15 +402,15 @@ labs <- copy(table_ageband[, age_band])
 table_ageband <- table_ageband[, -c("age_band")]
 rownames(table_ageband) = labs
 table_ageband <- cbind(ageband=labs, table_ageband)
-fwrite(table_ageband, paste0(direxp, "TableAgeband_15_19.csv"))
+fwrite(table_ageband, paste0(direxp, "TableAgeband_", year_start_descriptive, "_", year_end_descriptive, ".csv"))
 
 
 
-cat("17. Dummy table record number 15-19 \n ")
-D3_pregnancy_reconciled_valid_15_19[is.na(type_of_pregnancy_end), type_of_pregnancy_end := "UNK"]
+cat("17. Dummy table record number specific years  \n ")
+D3_pregnancy_reconciled_valid_specific_year[is.na(type_of_pregnancy_end), type_of_pregnancy_end := "UNK"]
 D3_groups_of_pregnancies_reconciled[is.na(type_of_pregnancy_end), type_of_pregnancy_end := "UNK"]
 
-table_records_outcomes <- D3_pregnancy_reconciled_valid_15_19[, .(mean_of_records = mean(number_of_records_in_the_group),
+table_records_outcomes <- D3_pregnancy_reconciled_valid_specific_year[, .(mean_of_records = mean(number_of_records_in_the_group),
                                                             sd_record = sqrt(var(number_of_records_in_the_group)),
                                                             mean_green= mean(number_green),
                                                             mean_yellow= mean(number_yellow),
@@ -433,12 +437,12 @@ colnames(t_table_records_outcomes) <- table_records_outcomes[order(type_of_pregn
 rownames(t_table_records_outcomes) <- colnames(table_records_outcomes)[-1]
 
 t_table_records_outcomes <- cbind(quality=colnames(table_records_outcomes)[-1], t_table_records_outcomes)
-fwrite(t_table_records_outcomes, paste0(direxp, "DTableRecords_15_19.csv"))
+fwrite(t_table_records_outcomes, paste0(direxp, "DTableRecords_", year_start_descriptive, "_", year_end_descriptive, ".csv"))
 
 
-cat("18. Dummy table quality 15-19 \n ")
-table_quality <- D3_pregnancy_reconciled_valid_15_19[ , .N, by = .(type_of_pregnancy_end, order_quality)]
-total <- D3_pregnancy_reconciled_valid_15_19[ , .(total = .N), by = .(type_of_pregnancy_end)]
+cat("18. Dummy table quality specific years  \n ")
+table_quality <- D3_pregnancy_reconciled_valid_specific_year[ , .N, by = .(type_of_pregnancy_end, order_quality)]
+total <- D3_pregnancy_reconciled_valid_specific_year[ , .(total = .N), by = .(type_of_pregnancy_end)]
 
 
 table_quality <- merge(table_quality, total, by = "type_of_pregnancy_end")
@@ -459,18 +463,18 @@ labs <- t[, order_quality]
 t <- t[,-c("order_quality")]
 rownames(t) <- labs
 t <- cbind(quality=labs, t)
-fwrite(t, paste0(direxp, "DTableQuality_15_19.csv"))
+fwrite(t, paste0(direxp, "DTableQuality_", year_start_descriptive, "_", year_end_descriptive, ".csv"))
 
 
 
 
 
-cat("19. Dummy tables meanings 15-19 \n ")
+cat("19. Dummy tables meanings specific years  \n ")
 
-D3_pregnancy_reconciled_valid_15_19 <- D3_pregnancy_reconciled_valid_15_19[is.na(meaning_end_date), meaning_end_date := "without meaning"]
+D3_pregnancy_reconciled_valid_specific_year <- D3_pregnancy_reconciled_valid_specific_year[is.na(meaning_end_date), meaning_end_date := "without meaning"]
 
-table_meaning <- D3_pregnancy_reconciled_valid_15_19[ , .N, by = .(type_of_pregnancy_end, meaning_end_date)]
-total <- D3_pregnancy_reconciled_valid_15_19[ , .(total = .N), by = .(type_of_pregnancy_end)]
+table_meaning <- D3_pregnancy_reconciled_valid_specific_year[ , .N, by = .(type_of_pregnancy_end, meaning_end_date)]
+total <- D3_pregnancy_reconciled_valid_specific_year[ , .(total = .N), by = .(type_of_pregnancy_end)]
 
 
 table_meaning <- merge(table_meaning, total, by = "type_of_pregnancy_end")
@@ -494,14 +498,14 @@ table_meaning_end <- table_meaning_end[,-c("meaning_end_date")]
 table_meaning_end <- paged_table(table_meaning_end)
 
 table_meaning_end <- cbind(meaning=labs, table_meaning_end)
-fwrite(table_meaning_end, paste0(direxp, "DTableMeaningEnd_15_19.csv"))
+fwrite(table_meaning_end, paste0(direxp, "DTableMeaningEnd_", year_start_descriptive, "_", year_end_descriptive, ".csv"))
 
 
 
-D3_pregnancy_reconciled_valid_15_19 <- D3_pregnancy_reconciled_valid_15_19[is.na(meaning_start_date), meaning_start_date := "without meaning"]
+D3_pregnancy_reconciled_valid_specific_year <- D3_pregnancy_reconciled_valid_specific_year[is.na(meaning_start_date), meaning_start_date := "without meaning"]
 
-table_meaning <- D3_pregnancy_reconciled_valid_15_19[ , .N, by = .(type_of_pregnancy_end, meaning_start_date)]
-total <- D3_pregnancy_reconciled_valid_15_19[ , .(total = .N), by = .(type_of_pregnancy_end)]
+table_meaning <- D3_pregnancy_reconciled_valid_specific_year[ , .N, by = .(type_of_pregnancy_end, meaning_start_date)]
+total <- D3_pregnancy_reconciled_valid_specific_year[ , .(total = .N), by = .(type_of_pregnancy_end)]
 
 
 table_meaning <- merge(table_meaning, total, by = "type_of_pregnancy_end")
@@ -521,27 +525,27 @@ table_meaning_start <- rbind(table_meaning_d[meaning_start_date == "All"], table
 labs <- table_meaning_start[, meaning_start_date]
 table_meaning_start <- table_meaning_start[,-c("meaning_start_date")]
 table_meaning_start <- cbind(meaning=labs, table_meaning_start)
-fwrite(table_meaning_start, paste0(direxp, "DTableMeaningStart_15_19.csv"))
+fwrite(table_meaning_start, paste0(direxp, "DTableMeaningStart_", year_start_descriptive, "_", year_end_descriptive, ".csv"))
 
-cat("20. Table reconciliation 15-19 \n ")
+cat("20. Table reconciliation specific years  \n ")
 ##  Reconciliation 
-D3_pregnancy_reconciled_valid_15_19 <- D3_pregnancy_reconciled_valid_15_19[like(algorithm_for_reconciliation, ":Discordant"), Discordant := 1][is.na(Discordant), Discordant:=0]
-D3_pregnancy_reconciled_valid_15_19 <- D3_pregnancy_reconciled_valid_15_19[like(algorithm_for_reconciliation,":SlightlyDiscordant"), SlightlyDiscordant := 1][is.na(SlightlyDiscordant), SlightlyDiscordant:=0]
-D3_pregnancy_reconciled_valid_15_19 <- D3_pregnancy_reconciled_valid_15_19[like(algorithm_for_reconciliation, ":Inconsistency"), Inconsistency := 1][is.na(Inconsistency), Inconsistency:=0]
-D3_pregnancy_reconciled_valid_15_19 <- D3_pregnancy_reconciled_valid_15_19[like(algorithm_for_reconciliation, ":StartUpdated"), StartUpdated := 1][is.na(StartUpdated), StartUpdated:=0]
-D3_pregnancy_reconciled_valid_15_19 <- D3_pregnancy_reconciled_valid_15_19[is.na(pregnancy_splitted), pregnancy_splitted:=0]
+D3_pregnancy_reconciled_valid_specific_year <- D3_pregnancy_reconciled_valid_specific_year[like(algorithm_for_reconciliation, ":Discordant"), Discordant := 1][is.na(Discordant), Discordant:=0]
+D3_pregnancy_reconciled_valid_specific_year <- D3_pregnancy_reconciled_valid_specific_year[like(algorithm_for_reconciliation,":SlightlyDiscordant"), SlightlyDiscordant := 1][is.na(SlightlyDiscordant), SlightlyDiscordant:=0]
+D3_pregnancy_reconciled_valid_specific_year <- D3_pregnancy_reconciled_valid_specific_year[like(algorithm_for_reconciliation, ":Inconsistency"), Inconsistency := 1][is.na(Inconsistency), Inconsistency:=0]
+D3_pregnancy_reconciled_valid_specific_year <- D3_pregnancy_reconciled_valid_specific_year[like(algorithm_for_reconciliation, ":StartUpdated"), StartUpdated := 1][is.na(StartUpdated), StartUpdated:=0]
+D3_pregnancy_reconciled_valid_specific_year <- D3_pregnancy_reconciled_valid_specific_year[is.na(pregnancy_splitted), pregnancy_splitted:=0]
 
-TableReconciliation <- D3_pregnancy_reconciled_valid_15_19[, .N, by = .(type_of_pregnancy_end, Discordant, SlightlyDiscordant, Inconsistency, GGDE, GGDS, pregnancy_splitted, StartUpdated, INSUF_QUALITY  )]
+TableReconciliation <- D3_pregnancy_reconciled_valid_specific_year[, .N, by = .(type_of_pregnancy_end, Discordant, SlightlyDiscordant, Inconsistency, GGDE, GGDS, pregnancy_splitted, StartUpdated, INSUF_QUALITY  )]
 TableReconciliation <- TableReconciliation[N<5, N:= 0]
 TableReconciliation <- TableReconciliation[, N:= as.character(N)]
 TableReconciliation <- TableReconciliation[N=="0", N:= "<5"]
 
-fwrite(TableReconciliation, paste0(direxp, "TableReconciliation_15_19.csv"))
+fwrite(TableReconciliation, paste0(direxp, "TableReconciliation_", year_start_descriptive, "_", year_end_descriptive, ".csv"))
 
-cat("21. Table Gestage at first record 15-19 \n ")
+cat("21. Table Gestage at first record specific years  \n ")
 ## Median Age 
 
-TableGestage <-  D3_pregnancy_reconciled_valid_15_19[, .(type_of_pregnancy_end, gestage_at_first_record, highest_quality)]
+TableGestage <-  D3_pregnancy_reconciled_valid_specific_year[, .(type_of_pregnancy_end, gestage_at_first_record, highest_quality)]
 TableGestage <- TableGestage[, .(mean = round(mean(gestage_at_first_record, na.rm = TRUE), 0), 
                                  sd = round(sqrt(var(gestage_at_first_record, na.rm = TRUE)), 0),
                                  quantile_25 = round(quantile(gestage_at_first_record, 0.25, na.rm = TRUE), 0),
@@ -549,10 +553,10 @@ TableGestage <- TableGestage[, .(mean = round(mean(gestage_at_first_record, na.r
                                  quantile_75 = round(quantile(gestage_at_first_record, 0.75, na.rm = TRUE), 0)), 
                              by = c("type_of_pregnancy_end", "highest_quality")]
 
-fwrite(TableGestage, paste0(direxp, "TableGestage_15_19.csv"))
+fwrite(TableGestage, paste0(direxp, "TableGestage_", year_start_descriptive, "_", year_end_descriptive, ".csv"))
 
 
-TableGestageType <-  D3_pregnancy_reconciled_valid_15_19[, .(type_of_pregnancy_end, gestage_at_first_record, highest_quality)]
+TableGestageType <-  D3_pregnancy_reconciled_valid_specific_year[, .(type_of_pregnancy_end, gestage_at_first_record, highest_quality)]
 TableGestageType <- TableGestageType[, .(mean = round(mean(gestage_at_first_record, na.rm = TRUE), 0), 
                                          sd = round(sqrt(var(gestage_at_first_record, na.rm = TRUE)), 0),
                                          quantile_25 = round(quantile(gestage_at_first_record, 0.25, na.rm = TRUE), 0),
@@ -560,9 +564,9 @@ TableGestageType <- TableGestageType[, .(mean = round(mean(gestage_at_first_reco
                                          quantile_75 = round(quantile(gestage_at_first_record, 0.75, na.rm = TRUE), 0)), 
                                      by = c("type_of_pregnancy_end")]
 
-fwrite(TableGestageType, paste0(direxp, "TableGestageType_15_19.csv"))
+fwrite(TableGestageType, paste0(direxp, "TableGestageType_", year_start_descriptive, "_", year_end_descriptive, ".csv"))
 
-TableGestageQuality <-  D3_pregnancy_reconciled_valid_15_19[, .(type_of_pregnancy_end, gestage_at_first_record, highest_quality)]
+TableGestageQuality <-  D3_pregnancy_reconciled_valid_specific_year[, .(type_of_pregnancy_end, gestage_at_first_record, highest_quality)]
 TableGestageQuality <- TableGestageQuality[, .(mean = round(mean(gestage_at_first_record, na.rm = TRUE), 0), 
                                                sd = round(sqrt(var(gestage_at_first_record, na.rm = TRUE)), 0),
                                                quantile_25 = round(quantile(gestage_at_first_record, 0.25, na.rm = TRUE), 0),
@@ -570,38 +574,38 @@ TableGestageQuality <- TableGestageQuality[, .(mean = round(mean(gestage_at_firs
                                                quantile_75 = round(quantile(gestage_at_first_record, 0.75, na.rm = TRUE), 0)), 
                                            by = c( "highest_quality")]
 
-fwrite(TableGestageQuality, paste0(direxp, "TableGestageQuality_15_19.csv"))
+fwrite(TableGestageQuality, paste0(direxp, "TableGestageQuality_", year_start_descriptive, "_", year_end_descriptive, ".csv"))
 
-TableGestageAggregated <-  D3_pregnancy_reconciled_valid_15_19[, .(type_of_pregnancy_end, gestage_at_first_record, highest_quality)]
+TableGestageAggregated <-  D3_pregnancy_reconciled_valid_specific_year[, .(type_of_pregnancy_end, gestage_at_first_record, highest_quality)]
 TableGestageAggregated <- TableGestageAggregated[, .(mean = round(mean(gestage_at_first_record, na.rm = TRUE), 0), 
                                                      sd = round(sqrt(var(gestage_at_first_record, na.rm = TRUE)), 0),
                                                      quantile_25 = round(quantile(gestage_at_first_record, 0.25, na.rm = TRUE), 0),
                                                      median =median(gestage_at_first_record, na.rm = TRUE),
                                                      quantile_75 = round(quantile(gestage_at_first_record, 0.75, na.rm = TRUE), 0))]
 
-fwrite(TableGestageAggregated, paste0(direxp, "TableGestageAggregated_15_19.csv"))
+fwrite(TableGestageAggregated, paste0(direxp, "TableGestageAggregated_", year_start_descriptive, "_", year_end_descriptive, ".csv"))
 
-cat("22. Table Gender 15-19 \n ")
+cat("22. Table Gender specific years  \n ")
 
 ### Sex 
-TablePregSex <- merge(D3_pregnancy_reconciled_valid_15_19, D3_PERSONS[,.(person_id, sex_at_instance_creation)], by = c("person_id"), all.x = T)
+TablePregSex <- merge(D3_pregnancy_reconciled_valid_specific_year, D3_PERSONS[,.(person_id, sex_at_instance_creation)], by = c("person_id"), all.x = T)
 
 TablePregSex <- TablePregSex[, year := year(pregnancy_start_date)]
 TablePregSex <- TablePregSex[, .N, by = c("year", "sex_at_instance_creation")][order(year, sex_at_instance_creation)]
 
-fwrite(TablePregSex, paste0(direxp, "TablePregSex_15_19.csv"))
+fwrite(TablePregSex, paste0(direxp, "TablePregSex_", year_start_descriptive, "_", year_end_descriptive, ".csv"))
 
 
 ################################################################################
-####################            Outline table            #######################
+##################          Descriptive_pregnancies        #####################
 ################################################################################
-cat("23. Table Outline 15-19 \n ") 
+cat("23. Table Outline specific years  \n ") 
 
-N_preg <- D3_pregnancy_reconciled_valid_15_19[, .N]
-DT_outline <- data.table(var = c("Total"), subvar=c("N"), value=c(N_preg))
+N_preg <- D3_pregnancy_reconciled_valid_specific_year[, .N]
+Descriptive_pregnancies <- data.table(var = c("Total"), subvar=c("N"), value=c(N_preg))
 
 
-N_record <-  D3_pregnancy_reconciled_valid_15_19[,.(number_of_records_in_the_group)]
+N_record <-  D3_pregnancy_reconciled_valid_specific_year[,.(number_of_records_in_the_group)]
 N_record <- N_record[,.(mean = round(mean(number_of_records_in_the_group, na.rm = TRUE), 2), 
                        sd = round(sqrt(var(number_of_records_in_the_group, na.rm = TRUE)), 2),
                        quantile_25 = round(quantile(number_of_records_in_the_group, 0.25, na.rm = TRUE), 2),
@@ -619,25 +623,25 @@ N_record <- N_record[, var := "N_record"]
 setnames(N_record, "V1", "value")
 
 
-N_colour <- D3_pregnancy_reconciled_valid_15_19[, .N, highest_quality ][order(highest_quality)]
+N_colour <- D3_pregnancy_reconciled_valid_specific_year[, .N, highest_quality ][order(highest_quality)]
 N_colour <- N_colour[, value := paste0(N, " (", round(N/N_preg, 2) * 100, "%)")][, -c("N")]
 N_colour <- N_colour[, var:= "highest_quality"]
 setnames(N_colour, "highest_quality", "subvar")
 
 
-N_quality <- D3_pregnancy_reconciled_valid_15_19[, .N, order_quality  ][order(order_quality )]
+N_quality <- D3_pregnancy_reconciled_valid_specific_year[, .N, order_quality  ][order(order_quality )]
 N_quality <- N_quality[, value := paste0(N, " (", round(N/N_preg, 2) * 100, "%)")][, -c("N")]
 N_quality <- N_quality[, var:= "order_quality"]
 setnames(N_quality, "order_quality", "subvar")
 
 
-N_type_of_end <- D3_pregnancy_reconciled_valid_15_19[, .N, type_of_pregnancy_end  ][order(-N)]
+N_type_of_end <- D3_pregnancy_reconciled_valid_specific_year[, .N, type_of_pregnancy_end  ][order(-N)]
 N_type_of_end <- N_type_of_end[, value := paste0(N, " (", round(N/N_preg, 2) * 100, "%)")][, -c("N")]
 N_type_of_end <- N_type_of_end[, var:= "type_of_pregnancy_end"]
 setnames(N_type_of_end, "type_of_pregnancy_end", "subvar")
 
 
-Gestage <- D3_pregnancy_reconciled_valid_15_19[,.(gestage_at_first_record)]
+Gestage <- D3_pregnancy_reconciled_valid_specific_year[,.(gestage_at_first_record)]
 Gestage <- Gestage[,.(mean = round(mean(gestage_at_first_record, na.rm = TRUE), 2), 
                         sd = round(sqrt(var(gestage_at_first_record, na.rm = TRUE)), 2),
                         quantile_25 = round(quantile(gestage_at_first_record, 0.25, na.rm = TRUE), 2),
@@ -656,20 +660,20 @@ Gestage <- Gestage[, var := "Gestage_first_record"]
 setnames(Gestage, "V1", "value")
 
 
-DT_outline <- rbind(DT_outline, N_record, N_colour, N_quality, N_type_of_end, Gestage)
-setcolorder(DT_outline, c("var", "subvar", "value"))
+Descriptive_pregnancies <- rbind(Descriptive_pregnancies, N_record, N_colour, N_quality, N_type_of_end, Gestage)
+setcolorder(Descriptive_pregnancies, c("var", "subvar", "value"))
 
-fwrite(DT_outline, paste0(direxp, "DT_outline_15_19.csv"))
+fwrite(Descriptive_pregnancies, paste0(direxp, "Descriptive_pregnancies_", year_start_descriptive, "_", year_end_descriptive, ".csv"))
 
 
-### Outline for each type of end of pregnancy
+### Descriptive_pregnancies for each type of end of pregnancy
 
-list_of_type <- unique(D3_pregnancy_reconciled_valid_15_19[, type_of_pregnancy_end])
+list_of_type <- unique(D3_pregnancy_reconciled_valid_specific_year[, type_of_pregnancy_end])
 
 for (type_end in list_of_type) {
-  DT_tmp <- D3_pregnancy_reconciled_valid_15_19[type_of_pregnancy_end == type_end]
+  DT_tmp <- D3_pregnancy_reconciled_valid_specific_year[type_of_pregnancy_end == type_end]
   N_preg <- DT_tmp[, .N]
-  DT_outline <- data.table(var = c("Total"), subvar=c("N"), value=c(N_preg))
+  Descriptive_pregnancies <- data.table(var = c("Total"), subvar=c("N"), value=c(N_preg))
   
   
   N_record <-  DT_tmp[,.(number_of_records_in_the_group)]
@@ -727,9 +731,9 @@ for (type_end in list_of_type) {
   setnames(Gestage, "V1", "value")
   
   
-  DT_outline <- rbind(DT_outline, N_record, N_colour, N_quality, N_type_of_end, Gestage)
-  setcolorder(DT_outline, c("var", "subvar", "value"))
+  Descriptive_pregnancies <- rbind(Descriptive_pregnancies, N_record, N_colour, N_quality, N_type_of_end, Gestage)
+  setcolorder(Descriptive_pregnancies, c("var", "subvar", "value"))
   
-  fwrite(DT_outline, paste0(direxp, "DT_outline_15_19_", type_end, ".csv"))
+  fwrite(Descriptive_pregnancies, paste0(direxp, "Descriptive_pregnancies_",  year_start_descriptive, "_", year_end_descriptive, "_", type_end, ".csv"))
   
 }
