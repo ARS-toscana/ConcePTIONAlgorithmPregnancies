@@ -315,8 +315,6 @@ fwrite(TablePregSex, paste0(direxp, "TablePregSex.csv"))
 ################################################################################
 #####################    specific year descriptive      ########################
 ################################################################################
-year_start_descriptive <- 2019
-year_end_descriptive <- 2021
 
 
 D3_pregnancy_reconciled_valid_specific_year <- D3_pregnancy_reconciled_valid[ year_start_of_pregnancy >= year_start_descriptive &

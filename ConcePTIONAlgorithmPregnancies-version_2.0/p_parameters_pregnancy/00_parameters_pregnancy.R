@@ -35,3 +35,7 @@ this_datasource_has_itemset_fromCSV <- ifelse(thisdatasource %in% datasource_wit
 
 
 
+################################################################################
+# Define paramters for DummyTables
+year_start_descriptive <- 2019
+year_end_descriptive <- 2021
