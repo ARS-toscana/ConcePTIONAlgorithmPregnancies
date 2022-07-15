@@ -516,7 +516,7 @@ D3_groups_of_pregnancies_reconciled_before_excl <- D3_groups_of_pregnancies_reco
                                                                                                    type_of_pregnancy_end := "UNK"]
 
 D3_pregnancy_reconciled_before_excl <- D3_groups_of_pregnancies_reconciled_before_excl[n==1]
-D3_pregnancy_reconciled_before_excl <- D3_groups_of_pregnancies_reconciled_before_excl[, -c("n")]
+D3_pregnancy_reconciled_before_excl <- D3_pregnancy_reconciled_before_excl[, -c("n")]
 D3_pregnancy_reconciled_before_excl <- D3_pregnancy_reconciled_before_excl[, gestage_at_first_record := date_of_oldest_record - pregnancy_start_date, 
                                                                            by = "pregnancy_id" ]
 
