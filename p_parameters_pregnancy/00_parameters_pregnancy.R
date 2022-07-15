@@ -1,7 +1,7 @@
 # assess datasource-specific parameters for PREGNANCIES
 
 
-# datasources has EUROCAT
+# datasources with EUROCAT
 datasources_EUROCAT <- c("TO_ADD") #@ use "TO_ADD" as example
 thisdatasource_has_EUROCAT <- ifelse(thisdatasource %in% datasources_EUROCAT,TRUE,FALSE)
 
