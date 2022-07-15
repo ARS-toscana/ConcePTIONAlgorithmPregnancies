@@ -4,7 +4,7 @@
 # set directory with input data
 setwd("..")
 dirbase<-getwd() # Lot4
-dirinput <- paste0(dirbase,"/CDMInstances/")
+#dirinput <- paste0(dirbase,"/CDMInstances/")
 #@ use this below if you want to set different INPUT DIRECTORY
 #dirinput <- c("C:/Users/clabar/Seafile/Mia Libreria/ConcePTIONAlgorithmPregnancies/CDMInstances/") # remember to use / instead of /
 
@@ -162,7 +162,7 @@ thisdatasource_has_prescriptions <- ifelse(thisdatasource %in% datasources_presc
 #############################################
 #SAVE METADATA TO direxp
 #############################################
-
+file.copy(paste0(thisdir,'/to_run.R'), direxp)
 file.copy(paste0(dirinput,'/METADATA.csv'), direxp)
 file.copy(paste0(dirinput,'/CDM_SOURCE.csv'), direxp)
 file.copy(paste0(dirinput,'/INSTANCE.csv'), direxp)

@@ -1,7 +1,10 @@
 #-------------------------------
-# ConcePTION - Pregnancy script
-# v2.0 - 26 November 2021
+# ConcePTION_Algorithm_Pregnancies script
+#
+# v2.1 - 15 July 2022
 # authors: Claudia Bartolini, Rosa Gini, Giorgio Limoncella, Olga Paoletti, Davide Messina
+# 
+# link: https://github.com/ARS-toscana/ConcePTIONAlgorithmPregnancies
 # -----------------------------
 
 
@@ -12,6 +15,15 @@ if (!require("rstudioapi")) install.packages("rstudioapi")
 thisdir<-setwd(dirname(rstudioapi::getSourceEditorContext()$path))
 thisdir<-setwd(dirname(rstudioapi::getSourceEditorContext()$path))
 setwd(thisdir)
+
+###################################################################
+##############        SET INPUT DIRECTORY     #####################
+###################################################################
+
+#@ use this below if you want to set different INPUT DIRECTORY
+dirinput <- c("C:/Users/clabar/Seafile/Mia Libreria/ConcePTIONAlgorithmPregnancies/CDMInstances/") # remember to use / instead of \
+
+
 
 #load parameters
 source(paste0(thisdir,"/p_parameters/01_parameters_program.R"))
@@ -27,15 +39,6 @@ source(paste0(thisdir,"/p_parameters_pregnancy/03_concept_sets.R"))
 source(paste0(thisdir,"/p_parameters_pregnancy/04_algorithms_pregnancy.R"))
 source(paste0(thisdir,"/p_parameters_pregnancy/05_check_coding_system.R"))
 
-# DAP <- 'SIDIAP' #thisdatasource
-# projectName <- "azd_main"
-# info_from_codelist <- TRUE
-# if (info_from_codelist){
-#   source(paste0(thisdir,"/p_parameters_pregnancy/00b_PregnancyParametersFromCodelist.R"))
-# }else{
-#   source(paste0(thisdir,"/p_parameters_pregnancy/01_prompts.R"))
-#   source(paste0(thisdir,"/p_parameters_pregnancy/02_itemsets.R"))
-# }
 
 
 
