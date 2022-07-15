@@ -8,6 +8,7 @@ output:
 params:
   D3_pregnancy_reconciled: NULL
   D3_groups_of_pregnancies_reconciled: NULL
+  thisdatasource: NULL
 ---
 
 ```{r setup, include=FALSE}
@@ -24,6 +25,7 @@ h3 {color: #6ccff6}
 ```{r parameters}
 D3_pregnancy_reconciled <- data.table(params$D3_pregnancy_reconciled)
 D3_groups_of_pregnancies_reconciled <- data.table(params$D3_groups_of_pregnancies_reconciled)
+thisdatasource <- params$thisdatasource
 
 options(warn=-1)
 ```
@@ -41,7 +43,11 @@ year_end_stydy <- max(D3_pregnancy_reconciled[, year_start_of_pregnancy])
 
 <br/><br/>
 
-The algorithm has retrieved `r number_of_women ` women, for a total of  `r number_of_pregnancies ` pregnancies, from `r year_start_study ` to `r year_end_stydy `.
+#### Datasource: `r thisdatasource`
+
+<br/><br/>
+
+The algorithm has retrieved `r number_of_pregnancies ` pregnancies, for a total of `r number_of_women ` women, from `r year_start_study ` to `r year_end_stydy `.
 <br/>
 `r number_of_records ` records were reconciled to build the pregnancies.
 <br/><br/><br/><br/>
@@ -682,135 +688,142 @@ plot
 
 <br/><br/>
 
-### Exclusion
+
+```{r dummy_table_exclusion_commented}
+
+# ### Exclusion
+# 
+# ___
+# 
+# 
+# <br/>
+# 
+# In the next table the absolute number of pregnancies included and excluded is reported.
+# 
+# <br/>
+# 
+# **Pregnancies N (%)**
+# ```{r dummy_table_exclusion}
+# ################################################################################
+# #######################       Exclusion by OUTCOME         #####################
+# ################################################################################
+# 
+# Total <- D3_pregnancy_reconciled[, .(Total = .N), type_of_pregnancy_end]
+# Excluded <- D3_pregnancy_reconciled[excluded == 1, .(Excluded = .N), type_of_pregnancy_end]
+# Included <- D3_pregnancy_reconciled[excluded != 1, .(Included = .N), type_of_pregnancy_end]
+# 
+# Excluded <- Excluded[Excluded<5, Excluded := 0]
+# Included <- Included[Included<5, Included := 0]
+# 
+# table_inclusion <- merge(Total, Included, by = "type_of_pregnancy_end", all.x = TRUE)[is.na(Included), Included := 0 ]
+# table_inclusion <- merge(table_inclusion, Excluded, by = "type_of_pregnancy_end", all.x = TRUE)[is.na(Excluded), Excluded := 0 ]
+# 
+# table_inclusion <- table_inclusion[, `:=` (perc_inc = Included / Total * 100,
+#                                            perc_exc = Excluded / Total * 100)]
+# 
+# table_inclusion <- table_inclusion[, .(type_of_pregnancy_end,
+#                                        Total = paste0(Total, " (100%)"), 
+#                                        Included =  paste0(round(Included, 2 ), " (", round(perc_inc, 2 ), "%)"),
+#                                        Excluded =  paste0(round(Excluded, 2 ), " (", round(perc_exc, 2 ), "%)"))]
+# 
+# 
+# table_inclusion <- table_inclusion[Included == "0 (0%)", Included := "<5"]
+# table_inclusion <- table_inclusion[Excluded == "0 (0%)", Excluded := "<5"]
+# 
+# 
+# t_table_inclusion <- as.data.table(t(table_inclusion[order(type_of_pregnancy_end)]))[-1]
+# 
+# colnames(t_table_inclusion) <- table_inclusion[order(type_of_pregnancy_end), type_of_pregnancy_end]
+# rownames(t_table_inclusion) <- colnames(table_inclusion)[-1]
+# 
+# paged_table(t_table_inclusion)
+# 
+# 
+# ```
+# 
+# 
+# 
+# <br/>
+# 
+# The following table shows the reason for exclusion:
+# 
+# - GG_discordant_end : two green records are discrepant on the date of end of pregnancy 
+# 
+# - GG_discordant_start : two green records are discrepant on the date of start of pregnancy 
+# 
+# - Insuff_quality: there are no records of sufficient quality in the pregnancy 
+# 
+# <br/>
+# 
+# **Pregnancies N**
+# 
+# ```{r dummy_table_excluded}
+# ################################################################################
+# #######################       Exclusion by OUTCOME         #####################
+# ################################################################################
+# excluded <- excluded[is.na(type_of_pregnancy_end), type_of_pregnancy_end := "UNK"]
+# Total <- excluded[, .(Total = .N), type_of_pregnancy_end][Total<5, Total:=0]
+# GGDS <- excluded[GGDS == 1, .(GG_discordant_start = .N), type_of_pregnancy_end][GG_discordant_start<5, GG_discordant_start:=0]
+# GGDE <- excluded[GGDE == 1, .(GG_discordant_end = .N), type_of_pregnancy_end][GG_discordant_end<5, GG_discordant_end:=0]
+# INSUFF_Q <- excluded[INSUF_QUALITY == 1, .(Insuff_quality = .N), type_of_pregnancy_end][Insuff_quality<5, Insuff_quality:=0]
+# 
+# table_excluded <- merge(Total, GGDS, by = "type_of_pregnancy_end", all.x = TRUE)[is.na(GG_discordant_start), GG_discordant_start := 0 ]
+# table_excluded <- merge(table_excluded, GGDE, by = "type_of_pregnancy_end", all.x = TRUE)[is.na(GG_discordant_end), GG_discordant_end := 0 ]
+# table_excluded <- merge(table_excluded, INSUFF_Q, by = "type_of_pregnancy_end", all.x = TRUE)[is.na(Insuff_quality), Insuff_quality := 0 ]
+# 
+# table_excluded <- table_excluded[, `:=` (perc_GGDE = GG_discordant_end / Total * 100,
+#                                            perc_GGDS = GG_discordant_start / Total * 100,
+#                                          perc_insuff_q = Insuff_quality / Total * 100)]
+# 
+# 
+# # table_excluded <- table_excluded[, .(type_of_pregnancy_end,
+# #                                      Total = paste0(Total, " (100%)"), 
+# #                                      GG_discordant_end =  paste0(round(GG_discordant_end, 2 ), " (", round(perc_GGDE, 2 ), "%)"),
+# #                                      GG_discordant_start =  paste0(round(GG_discordant_start, 2 ), " (", round(perc_GGDS, 2 ), "%)"),
+# #                                      Insuff_quality =  paste0(round(Insuff_quality, 2 ), " (", round(perc_insuff_q, 2 ), "%)"))]
+# 
+# 
+# table_excluded <- table_excluded[, .(type_of_pregnancy_end,
+#                                      Total = Total, 
+#                                      GG_discordant_end =  GG_discordant_end,
+#                                      GG_discordant_start =  GG_discordant_start,
+#                                      Insuff_quality =  Insuff_quality)]
+# 
+# 
+# t_table_inclusion <- as.data.table(t(table_excluded[order(type_of_pregnancy_end)]))[-1]
+# 
+# colnames(t_table_inclusion) <- table_excluded[order(type_of_pregnancy_end), type_of_pregnancy_end]
+# rownames(t_table_inclusion) <- colnames(table_excluded)[-1]
+# 
+# 
+# for(i in names(t_table_inclusion)){
+#   setnames(t_table_inclusion, i, "var")
+#   t_table_inclusion <- t_table_inclusion[, var:= as.character(var)]
+#   t_table_inclusion <- t_table_inclusion[, var:= str_trim(var)]
+#   t_table_inclusion <- t_table_inclusion[var == "0", var := "<5"]
+#   setnames(t_table_inclusion, "var", i)
+# }
+# 
+# paged_table(t_table_inclusion)
+# 
+# ```
+# 
+# 
+# 
+# 
+# <br/>
+# 
+# **The next analysis will take into account only those pregnancies that have not been excluded**
+# 
+# <br/><br/>
+# 
+# ```{r exc_pregnancies}
+# D3_pregnancy_reconciled <- D3_pregnancy_reconciled[excluded != 1]
+# ```
+
+```
 
 ___
-
-
-<br/>
-
-In the next table the absolute number of pregnancies included and excluded is reported.
-
-<br/>
-
-**Pregnancies N (%)**
-```{r dummy_table_exclusion}
-################################################################################
-#######################       Exclusion by OUTCOME         #####################
-################################################################################
-
-Total <- D3_pregnancy_reconciled[, .(Total = .N), type_of_pregnancy_end]
-Excluded <- D3_pregnancy_reconciled[excluded == 1, .(Excluded = .N), type_of_pregnancy_end]
-Included <- D3_pregnancy_reconciled[excluded != 1, .(Included = .N), type_of_pregnancy_end]
-
-Excluded <- Excluded[Excluded<5, Excluded := 0]
-Included <- Included[Included<5, Included := 0]
-
-table_inclusion <- merge(Total, Included, by = "type_of_pregnancy_end", all.x = TRUE)[is.na(Included), Included := 0 ]
-table_inclusion <- merge(table_inclusion, Excluded, by = "type_of_pregnancy_end", all.x = TRUE)[is.na(Excluded), Excluded := 0 ]
-
-table_inclusion <- table_inclusion[, `:=` (perc_inc = Included / Total * 100,
-                                           perc_exc = Excluded / Total * 100)]
-
-table_inclusion <- table_inclusion[, .(type_of_pregnancy_end,
-                                       Total = paste0(Total, " (100%)"), 
-                                       Included =  paste0(round(Included, 2 ), " (", round(perc_inc, 2 ), "%)"),
-                                       Excluded =  paste0(round(Excluded, 2 ), " (", round(perc_exc, 2 ), "%)"))]
-
-
-table_inclusion <- table_inclusion[Included == "0 (0%)", Included := "<5"]
-table_inclusion <- table_inclusion[Excluded == "0 (0%)", Excluded := "<5"]
-
-
-t_table_inclusion <- as.data.table(t(table_inclusion[order(type_of_pregnancy_end)]))[-1]
-
-colnames(t_table_inclusion) <- table_inclusion[order(type_of_pregnancy_end), type_of_pregnancy_end]
-rownames(t_table_inclusion) <- colnames(table_inclusion)[-1]
-
-paged_table(t_table_inclusion)
-
-
-```
-
-
-
-<br/>
-
-The following table shows the reason for exclusion:
-
-- GG_discordant_end : two green records are discrepant on the date of end of pregnancy 
-
-- GG_discordant_start : two green records are discrepant on the date of start of pregnancy 
-
-- Insuff_quality: there are no records of sufficient quality in the pregnancy 
-
-<br/>
-
-**Pregnancies N**
-
-```{r dummy_table_excluded}
-################################################################################
-#######################       Exclusion by OUTCOME         #####################
-################################################################################
-excluded <- excluded[is.na(type_of_pregnancy_end), type_of_pregnancy_end := "UNK"]
-Total <- excluded[, .(Total = .N), type_of_pregnancy_end][Total<5, Total:=0]
-GGDS <- excluded[GGDS == 1, .(GG_discordant_start = .N), type_of_pregnancy_end][GG_discordant_start<5, GG_discordant_start:=0]
-GGDE <- excluded[GGDE == 1, .(GG_discordant_end = .N), type_of_pregnancy_end][GG_discordant_end<5, GG_discordant_end:=0]
-INSUFF_Q <- excluded[INSUF_QUALITY == 1, .(Insuff_quality = .N), type_of_pregnancy_end][Insuff_quality<5, Insuff_quality:=0]
-
-table_excluded <- merge(Total, GGDS, by = "type_of_pregnancy_end", all.x = TRUE)[is.na(GG_discordant_start), GG_discordant_start := 0 ]
-table_excluded <- merge(table_excluded, GGDE, by = "type_of_pregnancy_end", all.x = TRUE)[is.na(GG_discordant_end), GG_discordant_end := 0 ]
-table_excluded <- merge(table_excluded, INSUFF_Q, by = "type_of_pregnancy_end", all.x = TRUE)[is.na(Insuff_quality), Insuff_quality := 0 ]
-
-table_excluded <- table_excluded[, `:=` (perc_GGDE = GG_discordant_end / Total * 100,
-                                           perc_GGDS = GG_discordant_start / Total * 100,
-                                         perc_insuff_q = Insuff_quality / Total * 100)]
-
-
-# table_excluded <- table_excluded[, .(type_of_pregnancy_end,
-#                                      Total = paste0(Total, " (100%)"), 
-#                                      GG_discordant_end =  paste0(round(GG_discordant_end, 2 ), " (", round(perc_GGDE, 2 ), "%)"),
-#                                      GG_discordant_start =  paste0(round(GG_discordant_start, 2 ), " (", round(perc_GGDS, 2 ), "%)"),
-#                                      Insuff_quality =  paste0(round(Insuff_quality, 2 ), " (", round(perc_insuff_q, 2 ), "%)"))]
-
-
-table_excluded <- table_excluded[, .(type_of_pregnancy_end,
-                                     Total = Total, 
-                                     GG_discordant_end =  GG_discordant_end,
-                                     GG_discordant_start =  GG_discordant_start,
-                                     Insuff_quality =  Insuff_quality)]
-
-
-t_table_inclusion <- as.data.table(t(table_excluded[order(type_of_pregnancy_end)]))[-1]
-
-colnames(t_table_inclusion) <- table_excluded[order(type_of_pregnancy_end), type_of_pregnancy_end]
-rownames(t_table_inclusion) <- colnames(table_excluded)[-1]
-
-
-for(i in names(t_table_inclusion)){
-  setnames(t_table_inclusion, i, "var")
-  t_table_inclusion <- t_table_inclusion[, var:= as.character(var)]
-  t_table_inclusion <- t_table_inclusion[, var:= str_trim(var)]
-  t_table_inclusion <- t_table_inclusion[var == "0", var := "<5"]
-  setnames(t_table_inclusion, "var", i)
-}
-
-paged_table(t_table_inclusion)
-
-```
-
-
-
-
-<br/>
-
-**The next analysis will take into account only those pregnancies that have not been excluded**
-
-<br/><br/>
-
-```{r exc_pregnancies}
-D3_pregnancy_reconciled <- D3_pregnancy_reconciled[excluded != 1]
-```
 
 ### Age
 
