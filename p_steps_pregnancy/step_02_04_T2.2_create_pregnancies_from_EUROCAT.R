@@ -14,16 +14,16 @@ if(thisdatasource_has_EUROCAT){
   
   if (dim(D3_EUROCAT)[1]!=0){
     
-    D3_EUROCAT_intermediate<-D3_EUROCAT[,.(person_id_mother,birthdate,gestlength,type,survey_id)]
+    D3_EUROCAT_intermediate<-D3_EUROCAT[,.(person_id_mother,birth_date,gestlength,type,survey_id)]
     
     # adapt format for variables used in computation:
-    suppressWarnings(D3_EUROCAT_intermediate[,birthdate:=ymd(birthdate)])
+    suppressWarnings(D3_EUROCAT_intermediate[,birth_date:=ymd(birth_date)])
     
-    # create pregnancy_start_date from birthdate and gestlength
-    D3_EUROCAT_intermediate<-D3_EUROCAT_intermediate[,pregnancy_start_date:=birthdate-(gestlength*7)]
+    # create pregnancy_start_date from birth_date and gestlength
+    D3_EUROCAT_intermediate<-D3_EUROCAT_intermediate[,pregnancy_start_date:=birth_date-(gestlength*7)]
     
     D3_EUROCAT_intermediate<-D3_EUROCAT_intermediate[!is.na(pregnancy_start_date),meaning_start_date:="from_EUROCAT_gestlength"]
-    D3_EUROCAT_intermediate<-D3_EUROCAT_intermediate[!is.na(birthdate),meaning_end_date:="from_EUROCAT_birthdate"]
+    D3_EUROCAT_intermediate<-D3_EUROCAT_intermediate[!is.na(birth_date),meaning_end_date:="from_EUROCAT_birth_date"]
     # adjust type 
     # 1 = Live birth 
     # 2 = Stillbirth 
@@ -38,7 +38,7 @@ if(thisdatasource_has_EUROCAT){
     D3_EUROCAT_intermediate<-D3_EUROCAT_intermediate[type==9,type:="UNK"]
     
     setnames(D3_EUROCAT_intermediate,"person_id_mother","person_id")
-    setnames(D3_EUROCAT_intermediate,"birthdate","pregnancy_end_date")
+    setnames(D3_EUROCAT_intermediate,"birth_date","pregnancy_end_date")
     setnames(D3_EUROCAT_intermediate,"type","type_of_pregnancy_end")
     
     D3_EUROCAT_intermediate<-D3_EUROCAT_intermediate[,EUROCAT:="yes"]
@@ -62,7 +62,7 @@ if(thisdatasource_has_EUROCAT){
                           Cols=list("meaning_start_date",
                                     "meaning_end_date",
                                     "type_of_pregnancy_end",
-                                    "meaning",),
+                                    "meaning"),
                           ColsFormat=list("categorical", 
                                           "categorical",
                                           "categorical",
