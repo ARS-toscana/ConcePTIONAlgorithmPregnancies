@@ -8,6 +8,11 @@ for (i in 1:length(files)) {
   }
 } 
 
+if(!rlang::is_empty(D3_Stream_EUROCAT)){
+  D3_Stream_EUROCAT <- D3_Stream_EUROCAT[, person_id := as.character(person_id)]
+}
+
+
 if (dim(D3_Stream_EUROCAT)[1]!=0){  
   
   #D3_Stream_EUROCAT<-D3_Stream_EUROCAT[,record_date:=as.Date(as.character(record_date), date_format)]
