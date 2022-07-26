@@ -105,7 +105,7 @@ if (this_datasource_has_prompt) {
     # impute type for unclassified dates 
     dataset_pregnancies2[meaning_end_date%in%unlist(meaning_of_survey_pregnancy_this_datasource[["spontaneous_abortion"]]),type_of_pregnancy_end:="SA"] #is.na(type_of_pregnancy_end) & 
     dataset_pregnancies2[meaning_end_date%in%unlist(meaning_of_survey_pregnancy_this_datasource[["induced_termination"]]),type_of_pregnancy_end:="T"] #is.na(type_of_pregnancy_end) & 
-    dataset_pregnancies2[meaning_end_date%in%unlist(meaning_of_survey_pregnancy_this_datasource[["livebirth_or_stillbirth"]]),type_of_pregnancy_end:="LB/SB"] #is.na(type_of_pregnancy_end) &
+    dataset_pregnancies2[meaning_end_date%in%unlist(meaning_of_survey_pregnancy_this_datasource[["livebirth_or_stillbirth"]]),type_of_pregnancy_end:="LB_or_SB"] #is.na(type_of_pregnancy_end) &
     
     # classified DATEENDPREGNANCY with TYPE
     
