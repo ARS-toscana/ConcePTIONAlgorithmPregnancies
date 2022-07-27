@@ -3,7 +3,7 @@
 if (this_datasource_has_itemsets_stream_from_medical_obs){
     
   # merge together all the item sets to define start_of_pregnancy and end_of_pregnancy
-  study_itemset_of_pregnancy <- c("LastMestrualPeriod","GestationalAge", "PregnancyTest", "LastMestrualPeriod_implying_pregnancy")
+  study_itemset_of_pregnancy <- c("LastMestrualPeriod","GestationalAge", "PregnancyTest", "LastMestrualPeriodImplyingPregnancy")
   
   for (itemvar in study_itemset_of_pregnancy){
     load(paste0(dirtemp,itemvar,".RData"))
@@ -59,13 +59,13 @@ if (this_datasource_has_itemsets_stream_from_medical_obs){
       
   }
   
-  if (thisdatasource=="EPICHRON"){
+  if (thisdatasource=="EpiChron"){
     
     # start creating pregnancy_ongoing_date
     dataset_item_sets<-dataset_item_sets[,`:=`(pregnancy_ongoing_date=date, meaning_ongoing_date=paste0("from_itemset_",item_set))]
     
     # then pregnancy_start_date
-    dataset_item_sets<-dataset_item_sets[item_set=="LastMestrualPeriod_implying_pregnancy", `:=`(pregnancy_start_date=ymd(mo_source_value), meaning_start_date=paste0("from_itemset_",item_set)) ]
+    dataset_item_sets<-dataset_item_sets[item_set=="LastMestrualPeriodImplyingPregnancy", `:=`(pregnancy_start_date=ymd(mo_source_value), meaning_start_date=paste0("from_itemset_",item_set)) ]
     
     #the pregnancy is ongoing and has a start date but has no end, then at term end of the pregnancy is assumed for the imputation
     dataset_item_sets<-dataset_item_sets[, `:=`(pregnancy_end_date = pregnancy_start_date + 280, imputed_end_of_pregnancy=1,  imputed_start_of_pregnancy=0, meaning_end_date=paste0("imputed_itemset_from_",item_set))]
