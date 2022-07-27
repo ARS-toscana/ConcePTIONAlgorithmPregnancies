@@ -54,7 +54,7 @@ if (this_datasource_has_itemsets_stream_from_medical_obs) {
   
   # -itemset_AVpair_pregnancy- is a nested list, with 3 levels: foreach study variable, for each coding system of its data domain, the list of AVpair is recorded
   
-  study_itemset_pregnancy <- c("LastMestrualPeriod","GestationalAge","PregnancyTest")
+  study_itemset_pregnancy <- c("LastMestrualPeriod","GestationalAge","PregnancyTest", "LastMestrualPeriodImplyingPregnancy")
   print(paste0("Load ITEMSETS in MEDICAL_OBSERVATIONS for ",thisdatasource))
   
     files<-sub('\\.csv$', '', list.files(dirinput))
