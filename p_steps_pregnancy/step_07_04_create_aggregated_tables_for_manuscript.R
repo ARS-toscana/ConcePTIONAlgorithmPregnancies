@@ -6,6 +6,7 @@ cat("Creating aggregated table: \n ")
 #loading the datasets
 load(paste0(dirtemp,"D3_pregnancy_reconciled_valid.RData"))
 load(paste0(dirtemp,"D3_groups_of_pregnancies_reconciled.RData"))
+load(paste0(diroutput,"D3_excluded_pregnancies.RData"))
 
 D3_PERSONS <- data.table()
 files<-sub('\\.RData$', '', list.files(dirtemp))
@@ -452,3 +453,33 @@ for (type_end in list_of_type) {
   fwrite(Descriptive_pregnancies, paste0(direxpmanuscript, "Descriptive_pregnancies_",  year_start_descriptive_manuscript, "_", year_end_descriptive_manuscript, "_", type_end, ".csv"))
   
 }
+
+
+#### Create Flowchart per records for specific years #####
+excluded_population <- CreateFlowChart(
+  dataset = D3_excluded_pregnancies[year(pregnancy_start_date)>=year_start_descriptive_manuscript & year(pregnancy_start_date)<=year_end_descriptive_manuscript],
+  listcriteria = c("no_linked_to_person",
+                   #"person_not_female",
+                   "person_not_in_fertile_age",
+                   "record_date_not_in_spells",
+                   "pregnancy_with_dates_out_of_range"),
+  flowchartname = paste0("Flowchart_exclusion_criteria_records_manuscript"))
+
+# #### Create Flowchart per person #####
+# D3_excluded_pregnancies_unique<-unique(D3_excluded_pregnancies, by="person_id")
+
+excluded_population <- CreateFlowChart(
+  dataset = D3_excluded_pregnancies_unique[year(pregnancy_start_date)>=year_start_descriptive_manuscript & year(pregnancy_start_date)<=year_end_descriptive_manuscript],
+  listcriteria = c("no_linked_to_person",
+                   #"person_not_female",
+                   "person_not_in_fertile_age",
+                   "record_date_not_in_spells",
+                   "pregnancy_with_dates_out_of_range"),
+  flowchartname = paste0("Flowchart_exclusion_criteria_person_manuscript"))
+
+## saving and rm
+
+#save(Flowchart_exclusion_criteria_person, file=paste0(direxp,"Flowchart_exclusion_criteria_person.RData"))
+#save(Flowchart_exclusion_criteria_records, file=paste0(direxp,"Flowchart_exclusion_criteria_records.RData"))
+fwrite(Flowchart_exclusion_criteria_person_manuscript, paste0(direxpmanuscript, "/Flowchart_exclusion_criteria_person_",year_start_descriptive_manuscript,"_",year_end_descriptive_manuscript,".csv"))
+fwrite(Flowchart_exclusion_criteria_records_manuscript, paste0(direxpmanuscript, "/Flowchart_exclusion_criteria_records_",year_start_descriptive_manuscript,"_",year_end_descriptive_manuscript,".csv"))

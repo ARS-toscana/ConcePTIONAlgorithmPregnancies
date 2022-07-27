@@ -61,8 +61,8 @@ if(sum(!str_detect(names(groups_of_excluded_pregnancies),"survey_id")) == length
 if(sum(!str_detect(names(groups_of_excluded_pregnancies),"visit_occurrence_id")) == length(names(groups_of_excluded_pregnancies))) {
   groups_of_excluded_pregnancies<-groups_of_excluded_pregnancies[,visit_occurrence_id:=""]}
 
-
-groups_of_excluded_pregnancies<-groups_of_excluded_pregnancies[,.(pregnancy_id,person_id,survey_id,visit_occurrence_id,PROMPT,EUROCAT,CONCEPTSETS,CONCEPTSET,ITEMSETS,no_linked_to_person,person_not_in_fertile_age,record_date_not_in_spells,pregnancy_with_dates_out_of_range)]# 
+# ADDED: pregnancy_start_date
+groups_of_excluded_pregnancies<-groups_of_excluded_pregnancies[,.(pregnancy_id,person_id,survey_id,visit_occurrence_id,pregnancy_start_date,PROMPT,EUROCAT,CONCEPTSETS,CONCEPTSET,ITEMSETS,no_linked_to_person,person_not_in_fertile_age,record_date_not_in_spells,pregnancy_with_dates_out_of_range)]# 
 
 groups_of_excluded_pregnancies<-groups_of_excluded_pregnancies[is.na(PROMPT),PROMPT:="no"]
 groups_of_excluded_pregnancies<-groups_of_excluded_pregnancies[is.na(EUROCAT),EUROCAT:="no"]
@@ -78,7 +78,7 @@ D3_excluded_pregnancies<-D3_excluded_pregnancies[pregnancy_with_dates_out_of_ran
 
 
 
-D3_excluded_pregnancies[,.(pregnancy_id,person_id,reason_for_exclusion,survey_id,visit_occurrence_id)]#,age_at_start_of_pregnancy
+D3_excluded_pregnancies[,.(pregnancy_id,person_id,pregnancy_start_date,reason_for_exclusion,survey_id,visit_occurrence_id)]#,age_at_start_of_pregnancy
 save(D3_excluded_pregnancies, file=paste0(diroutput,"D3_excluded_pregnancies.RData"))
 
 ##### Description #####
@@ -155,7 +155,6 @@ if(HTML_files_creation){
 }
 ##### End Description #####
 
-
 #### Create Flowchart per records #####
 excluded_population <- CreateFlowChart(
   dataset = D3_excluded_pregnancies,
@@ -178,6 +177,30 @@ excluded_population <- CreateFlowChart(
                    "pregnancy_with_dates_out_of_range"),
   flowchartname = paste0("Flowchart_exclusion_criteria_person"))
 
+
+
+#### Create Flowchart per records for specific years #####
+excluded_population <- CreateFlowChart(
+  dataset = D3_excluded_pregnancies[year(pregnancy_start_date)>=year_start_descriptive & year(pregnancy_start_date)<=year_end_descriptive],
+  listcriteria = c("no_linked_to_person",
+                   #"person_not_female",
+                   "person_not_in_fertile_age",
+                   "record_date_not_in_spells",
+                   "pregnancy_with_dates_out_of_range"),
+  flowchartname = paste0("Flowchart_exclusion_criteria_records_specific_years"))
+
+# #### Create Flowchart per person #####
+D3_excluded_pregnancies_unique<-unique(D3_excluded_pregnancies, by="person_id")
+
+excluded_population <- CreateFlowChart(
+  dataset = D3_excluded_pregnancies_unique[year(pregnancy_start_date)>=year_start_descriptive & year(pregnancy_start_date)<=year_end_descriptive],
+  listcriteria = c("no_linked_to_person",
+                   #"person_not_female",
+                   "person_not_in_fertile_age",
+                   "record_date_not_in_spells",
+                   "pregnancy_with_dates_out_of_range"),
+  flowchartname = paste0("Flowchart_exclusion_criteria_person_specific_years"))
+
 ## saving and rm
 
 #save(Flowchart_exclusion_criteria_person, file=paste0(direxp,"Flowchart_exclusion_criteria_person.RData"))
@@ -185,7 +208,13 @@ excluded_population <- CreateFlowChart(
 fwrite(Flowchart_exclusion_criteria_person, paste0(direxp, "/Flowchart_exclusion_criteria_person.csv"))
 fwrite(Flowchart_exclusion_criteria_records, paste0(direxp, "/Flowchart_exclusion_criteria_records.csv"))
 
+#save(Flowchart_exclusion_criteria_person, file=paste0(direxp,"Flowchart_exclusion_criteria_person.RData"))
+#save(Flowchart_exclusion_criteria_records, file=paste0(direxp,"Flowchart_exclusion_criteria_records.RData"))
+fwrite(Flowchart_exclusion_criteria_person_specific_years, paste0(direxp, "/Flowchart_exclusion_criteria_person_",year_start_descriptive,"_",year_end_descriptive,".csv"))
+fwrite(Flowchart_exclusion_criteria_records_specific_years, paste0(direxp, "/Flowchart_exclusion_criteria_records_",year_start_descriptive,"_",year_end_descriptive,".csv"))
+
 ###########################
 rm(D3_excluded_pregnancies_from_CONCEPTSETS, D3_excluded_pregnancies_from_EUROCAT, D3_excluded_pregnancies_from_PROMPT, D3_excluded_pregnancies_from_ITEMSETS, files, groups_of_excluded_pregnancies, D3_excluded_pregnancies,
-   Flowchart_exclusion_criteria_person,Flowchart_exclusion_criteria_records,D3_excluded_pregnancies_unique)
+   Flowchart_exclusion_criteria_person,Flowchart_exclusion_criteria_records,D3_excluded_pregnancies_unique,
+   Flowchart_exclusion_criteria_records_specific_years, Flowchart_exclusion_criteria_person_specific_years)
 

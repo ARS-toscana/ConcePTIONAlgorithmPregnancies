@@ -6,11 +6,12 @@
 # 
 # link: https://github.com/ARS-toscana/ConcePTIONAlgorithmPregnancies
 # 
-# changelog v2.1.1:  
+# changelog v2.1.2:  
 #   - fixed last mestrual period implying pregancy
 #   - fix in EUROCAT
 #   - turned LB/SB in LB_or_SB
 #   - fixed meaning_of_visit_pregnancy
+#   - added FC for manuscript and specific years
 # -----------------------------
 
 
