@@ -466,7 +466,7 @@ excluded_population <- CreateFlowChart(
   flowchartname = paste0("Flowchart_exclusion_criteria_records_manuscript"))
 
 # #### Create Flowchart per person #####
-# D3_excluded_pregnancies_unique<-unique(D3_excluded_pregnancies, by="person_id")
+D3_excluded_pregnancies_unique<-unique(D3_excluded_pregnancies, by="person_id")
 
 excluded_population <- CreateFlowChart(
   dataset = D3_excluded_pregnancies_unique[year(pregnancy_start_date)>=year_start_descriptive_manuscript & year(pregnancy_start_date)<=year_end_descriptive_manuscript],
