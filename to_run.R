@@ -1,10 +1,16 @@
 #-------------------------------
 # ConcePTION_Algorithm_Pregnancies script
 #
-# v2.1 - 15 July 2022
+# v2.1 - 27 July 2022
 # authors: Claudia Bartolini, Rosa Gini, Giorgio Limoncella, Olga Paoletti, Davide Messina
 # 
 # link: https://github.com/ARS-toscana/ConcePTIONAlgorithmPregnancies
+# 
+# changelog v2.1.1:  
+#   - fixed last mestrual period implying pregancy
+#   - fix in EUROCAT
+#   - turned LB/SB in LB_or_SB
+#   - fixed meaning_of_visit_pregnancy
 # -----------------------------
 
 
