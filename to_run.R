@@ -14,6 +14,7 @@
 #   - fix in EUROCAT
 #   - turned LB/SB in LB_or_SB
 #   - fixed meaning_of_visit_pregnancy
+#   - added FC for manuscript and specific years
 # -----------------------------
 
 
