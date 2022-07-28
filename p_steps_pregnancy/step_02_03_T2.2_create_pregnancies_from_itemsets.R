@@ -89,7 +89,7 @@ if (this_datasource_has_itemsets_stream_from_medical_obs){
   # }
   
   
-  if (thisdatasource=="PHARMO" | "CASERTA"){
+  if (thisdatasource=="PHARMO" |thisdatasource== "CASERTA"){
     
     # select only POSITIVE records
     dataset_item_sets<-dataset_item_sets[item_set=="PregnancyTest" & mo_source_value==unlist(dictonary_of_itemset_PregnancyTest$PregnancyTest),]
