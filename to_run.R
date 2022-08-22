@@ -6,6 +6,9 @@
 # 
 # link: https://github.com/ARS-toscana/ConcePTIONAlgorithmPregnancies
 # 
+# changelog v2.1.3, 22 August 2022: 
+#  - changed stop in warning in step 05_check_coding_system 
+#
 # changelog v2.1.2, 28 July 2022: 
 #  - fixed step 02_03_T2.2 
 #
