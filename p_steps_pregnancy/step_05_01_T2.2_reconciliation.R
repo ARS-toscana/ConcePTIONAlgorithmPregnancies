@@ -116,7 +116,7 @@ while (D3_gop[,.N]!=0) {
     D3_gop <- D3_gop[n == 1 & recon == 0 & !is.na(record_date_next_record) & 
                        coloured_order == "4_red" & coloured_order_next_record == "4_red" &
                        pregnancy_end_date < ymd(CDM_SOURCE$recommended_end_date) &
-                       abs(as.integer(record_date - record_date_next_record)) > 154,
+                       abs(as.integer(record_date - record_date_next_record)) > gap_allowed_red_record_thisdatasource,
                      `:=`(new_pregnancy_group = 1)]
     
     # split 
