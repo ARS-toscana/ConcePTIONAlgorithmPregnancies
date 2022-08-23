@@ -79,6 +79,15 @@ for (conceptset in concept_set_pregnancy){
 }
 
 
+# fix for ICD9CM
+for (conceptset in concept_set_pregnancy){
+  if (concept_set_domains[[conceptset]] == "Diagnosis"){
+    concept_set_codes_pregnancy[[conceptset]][["ICD9CM"]] <- concept_set_codes_pregnancy[[conceptset]][["ICD9"]]
+  }
+}
+
+
+
 ## EXPORTING INFO
 
 # Saving meaning
