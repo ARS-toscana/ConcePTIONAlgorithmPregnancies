@@ -6,6 +6,10 @@
 # 
 # link: https://github.com/ARS-toscana/ConcePTIONAlgorithmPregnancies
 # 
+# changelog v2.1.4, 23 August 2022: 
+#  - added fix for ICD9CM
+#  - added param: gap_allowed_red_record
+#
 # changelog v2.1.3, 22 August 2022: 
 #  - changed stop in warning in step 05_check_coding_system 
 #
