@@ -84,6 +84,9 @@ itemsetMED_AVpair_pregnancy[["GestationalAge"]][[files[i]]][["BIFAP"]] <- list(l
 itemsetMED_AVpair_pregnancy[["PregnancyTest"]][[files[i]]][["BIFAP"]] <- list()
 
 
+### specification LastMestrualPeriodImplyingPregnancy
+itemsetMED_AVpair_pregnancy[["LastMestrualPeriodImplyingPregnancy"]][[files[i]]][["BIFAP"]] <- list()
+
 
 ################################ DICTIONARY OF PregnancyTest ##################################
 
