@@ -6,6 +6,10 @@
 # 
 # link: https://github.com/ARS-toscana/ConcePTIONAlgorithmPregnancies
 # 
+# changelog v2.1.5, 1 September 2022: 
+#  - new flowchart added
+#  - generated visit_occurrence_id fixed
+#
 # changelog v2.1.4, 23 August 2022: 
 #  - added fix for ICD9CM
 #  - added param: gap_allowed_red_record
@@ -86,6 +90,7 @@ source(paste0(thisdir,"/p_steps_pregnancy/step_03_04_T2.2_internal_consistency_f
 
 #04 PROCESS PREGNANCY
 source(paste0(thisdir,"/p_steps_pregnancy/step_04_01_T2.2_process_pregnancies_excluded.R")) 
+source(paste0(thisdir,"/p_steps_pregnancy/step_04_01_1_T2.2_create_flowchart.")) 
 source(paste0(thisdir,"/p_steps_pregnancy/step_04_02_T2.3_merge_stream_of_same_person.R"))
 source(paste0(thisdir,"/p_steps_pregnancy/step_04_03_T2.3_first_part_reconciliation.R"))
 
