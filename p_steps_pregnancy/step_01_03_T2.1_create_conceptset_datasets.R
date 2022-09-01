@@ -34,15 +34,15 @@ for (concept in concept_sets_of_pregnancy_procedure) {
     assign("concept_temp", get(concept))
     
     if(concept_set_domains[[concept]]=="Diagnosis"){
-      concept_temp <- concept_temp[is.na(visit_occurrence_id), visit_occurrence_id := paste0(origin_of_event, "_dummy_visit_occ_id_", seq_along(.I))]
+      concept_temp <- concept_temp[is.na(visit_occurrence_id), visit_occurrence_id := paste0(origin_of_event, concept, "_dummy_visit_occ_id_", seq_along(.I))]
     }
     
     if(concept_set_domains[[concept]]=="Medicines"){
-      concept_temp <- concept_temp[is.na(visit_occurrence_id), visit_occurrence_id := paste0(origin_of_drug_record, "_dummy_visit_occ_id_", seq_along(.I))]
+      concept_temp <- concept_temp[is.na(visit_occurrence_id), visit_occurrence_id := paste0(origin_of_drug_record, concept,"_dummy_visit_occ_id_", seq_along(.I))]
     }
     
     if(concept_set_domains[[concept]]=="Procedures"){
-      concept_temp <- concept_temp[is.na(visit_occurrence_id), visit_occurrence_id := paste0(origin_of_procedure, "_dummy_visit_occ_id_", seq_along(.I))]
+      concept_temp <- concept_temp[is.na(visit_occurrence_id), visit_occurrence_id := paste0(origin_of_procedure, concept, "_dummy_visit_occ_id_", seq_along(.I))]
     }
     assign(concept, concept_temp)
     save(list=concept, file=paste0(dirtemp, concept,".RData"))
