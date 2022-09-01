@@ -205,13 +205,13 @@ excluded_population <- CreateFlowChart(
 
 #save(Flowchart_exclusion_criteria_person, file=paste0(direxp,"Flowchart_exclusion_criteria_person.RData"))
 #save(Flowchart_exclusion_criteria_records, file=paste0(direxp,"Flowchart_exclusion_criteria_records.RData"))
-fwrite(Flowchart_exclusion_criteria_person, paste0(direxp, "/Flowchart_exclusion_criteria_person.csv"))
-fwrite(Flowchart_exclusion_criteria_records, paste0(direxp, "/Flowchart_exclusion_criteria_records.csv"))
+# fwrite(Flowchart_exclusion_criteria_person, paste0(direxp, "/Flowchart_exclusion_criteria_person.csv"))
+# fwrite(Flowchart_exclusion_criteria_records, paste0(direxp, "/Flowchart_exclusion_criteria_records.csv"))
 
 #save(Flowchart_exclusion_criteria_person, file=paste0(direxp,"Flowchart_exclusion_criteria_person.RData"))
 #save(Flowchart_exclusion_criteria_records, file=paste0(direxp,"Flowchart_exclusion_criteria_records.RData"))
-fwrite(Flowchart_exclusion_criteria_person_specific_years, paste0(direxp, "/Flowchart_exclusion_criteria_person_",year_start_descriptive,"_",year_end_descriptive,".csv"))
-fwrite(Flowchart_exclusion_criteria_records_specific_years, paste0(direxp, "/Flowchart_exclusion_criteria_records_",year_start_descriptive,"_",year_end_descriptive,".csv"))
+# fwrite(Flowchart_exclusion_criteria_person_specific_years, paste0(direxp, "/Flowchart_exclusion_criteria_person_",year_start_descriptive,"_",year_end_descriptive,".csv"))
+# fwrite(Flowchart_exclusion_criteria_records_specific_years, paste0(direxp, "/Flowchart_exclusion_criteria_records_",year_start_descriptive,"_",year_end_descriptive,".csv"))
 
 ###########################
 rm(D3_excluded_pregnancies_from_CONCEPTSETS, D3_excluded_pregnancies_from_EUROCAT, D3_excluded_pregnancies_from_PROMPT, D3_excluded_pregnancies_from_ITEMSETS, files, groups_of_excluded_pregnancies, D3_excluded_pregnancies,
