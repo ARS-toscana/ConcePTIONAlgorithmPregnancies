@@ -6,6 +6,9 @@
 # 
 # link: https://github.com/ARS-toscana/ConcePTIONAlgorithmPregnancies
 # 
+# changelog v2.1.6, 5 September 2022: 
+#  - excluded procedures codes "others" for HSD
+#
 # changelog v2.1.5, 1 September 2022: 
 #  - new flowchart added
 #  - generated visit_occurrence_id fixed

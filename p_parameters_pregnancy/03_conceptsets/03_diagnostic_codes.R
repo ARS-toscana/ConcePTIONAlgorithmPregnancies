@@ -11,6 +11,7 @@ for (conceptset in concept_sets_of_pregnancy_eve){
 concept_set_codes_pregnancy<-vector(mode="list")
 concept_set_codes_pregnancy_excl<-vector(mode="list")
 
+concept_set_codes_pregnancy_excl[["others"]][["ITA_procedures_coding_system"]] = c("88782", "88781","8878A") #c("88682 ???", senza punti )
 
 ################# Old R version fix
 concept_set_codes_pregnancy[["Gestation_less24"]] <- list()
