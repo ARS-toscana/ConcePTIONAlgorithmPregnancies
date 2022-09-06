@@ -17,7 +17,7 @@ itemset_AVpair_pregnancy[["GESTAGE_FROM_DAPS_CRITERIA_WEEKS"]][[files[i]]][["SID
 itemset_AVpair_pregnancy[["GESTAGE_FROM_DAPS_CRITERIA_DAYS"]][[files[i]]][["SIDIAP"]] <- list()
 
 ### specification GESTAGE_FROM_LMP_WEEK
-itemset_AVpair_pregnancy[["GESTAGE_FROM_LMP_WEEKS"]][[files[i]]][["SIDIAP"]] <- list(list("Pregnancies","dur")) 
+itemset_AVpair_pregnancy[["GESTAGE_FROM_LMP_WEEKS"]][[files[i]]][["SIDIAP"]] <- list() 
 
 # specification GESTAGE_FROM_LMP_DAYS
 itemset_AVpair_pregnancy[["GESTAGE_FROM_LMP_DAYS"]][[files[i]]][["SIDIAP"]] <- list()
@@ -29,7 +29,7 @@ itemset_AVpair_pregnancy[["GESTAGE_FROM_USOUNDS_DAYS"]][[files[i]]][["SIDIAP"]] 
 itemset_AVpair_pregnancy[["GESTAGE_FROM_USOUNDS_WEEKS"]][[files[i]]][["SIDIAP"]]  <- list()
 
 # specification DATESTARTPREGNANCY
-itemset_AVpair_pregnancy[["DATESTARTPREGNANCY"]][[files[i]]][["SIDIAP"]] <- list()
+itemset_AVpair_pregnancy[["DATESTARTPREGNANCY"]][[files[i]]][["SIDIAP"]] <- list(list("Pregnancies","dur")) 
 
 
 ########################################## END ###################################################### 

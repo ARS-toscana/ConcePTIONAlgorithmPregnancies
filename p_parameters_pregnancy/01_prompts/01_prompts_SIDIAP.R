@@ -9,10 +9,10 @@
 
 meaning_of_survey_pregnancy <- vector(mode="list")
 
-meaning_of_survey_pregnancy[["SIDIAP"]][["livebirth_or_stillbirth"]]<-list("EE","PP","P","Al","C","MF")
+meaning_of_survey_pregnancy[["SIDIAP"]][["livebirth_or_stillbirth"]]<-list("primary_care_pregnancies_livebirth_or_stillbirth")
 meaning_of_survey_pregnancy[["SIDIAP"]][["ongoing_pregnancy"]]<-list()
-meaning_of_survey_pregnancy[["SIDIAP"]][["spontaneous_abortion"]]<-list("A")
-meaning_of_survey_pregnancy[["SIDIAP"]][["induced_termination"]]<-list("IV")
-meaning_of_survey_pregnancy[["SIDIAP"]][["other"]]<-list("MH")
+meaning_of_survey_pregnancy[["SIDIAP"]][["spontaneous_abortion"]]<-list("primary_care_pregnancies_abortion")
+meaning_of_survey_pregnancy[["SIDIAP"]][["induced_termination"]]<-list("primary_care_pregnancies_termination")
+meaning_of_survey_pregnancy[["SIDIAP"]][["other"]]<-list("primary_care_pregnancies_other")
 
 
