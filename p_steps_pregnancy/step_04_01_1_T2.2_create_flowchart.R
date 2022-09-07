@@ -158,6 +158,7 @@ for (years_flowChart in list_flowChart_years) {
   # x   0 0 0 0  -->  0
   # x   0 0 1 0       2
   # y   1 0 0 1       4
+  # y   0 1 0 0       3
   
   #-------------------
   # creating FlowChart 
@@ -181,9 +182,9 @@ for (years_flowChart in list_flowChart_years) {
   
   FlowChart <- data.table::dcast(D3_all_stream_person_id, person_id  ~ criteria, value.var = "excluded", fill = 0) 
   
-  #    pregnancy_with_dates_out_of_range
-  # x                  0
-  # y                  1
+  #    no_linked_to_person  person_not_in_fertile_age   record_date_not_in_spells   pregnancy_with_dates_out_of_range
+  # x                  0                  0                        0                                0
+  # y                  1                  0                        0                                0
   
   FlowChart <- FlowChart[, .N, by = c("no_linked_to_person",
                                       "person_not_in_fertile_age",
