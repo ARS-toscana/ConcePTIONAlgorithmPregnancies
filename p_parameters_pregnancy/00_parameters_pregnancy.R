@@ -47,4 +47,5 @@ this_datasource_has_itemset_fromCSV <- ifelse(thisdatasource %in% datasource_wit
 year_start_descriptive <- 2019
 year_end_descriptive <- 2021
 
-
+year_start_manuscript <- 2015
+year_end_manuscript <- 2019
