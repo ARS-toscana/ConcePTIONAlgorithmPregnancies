@@ -6,6 +6,9 @@
 # 
 # link: https://github.com/ARS-toscana/ConcePTIONAlgorithmPregnancies
 # 
+# changelog v2.1.8, 9 September 2022: 
+#  - fix procedures codes added upload
+#
 # changelog v2.1.7, 6 September 2022: 
 #  - Updated SIDIAP parameters
 #

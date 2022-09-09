@@ -22,7 +22,7 @@ source(paste0(thisdir,"/p_parameters_pregnancy/03_conceptsets/03_procedure_codes
 load(paste0(thisdir,"/p_parameters_pregnancy/03_concept_sets_pro_fromBIPS_BPE.RData"))
 
 #concept_set_pregnancy_added_dia <- names(codelists_dia_ADDED_list)[names(codelists_dia_ADDED_list) %notin% names(concept_set_codes_pregnancy)]
-concept_set_pregnancy_added_pro <- names(codelists_pro_ADDED)[names(codelists_pro_ADDED) %notin% names(concept_set_codes_pregnancy)]
+#concept_set_pregnancy_added_pro <- names(codelists_pro_ADDED)[names(codelists_pro_ADDED) %notin% names(concept_set_codes_pregnancy)]
 
 # codelists_dia_ADDED<-as.data.table(codelists_dia_ADDED_list)
 # codelists_pro_ADDED<-as.data.table(codelists_pro_ADDED)
@@ -66,22 +66,45 @@ concept_set_pregnancy_added_pro <- names(codelists_pro_ADDED)[names(codelists_pr
 
 
 # procedures
-for (cd in names(codelists_pro_ADDED)){
-  if(is.null(concept_set_codes_pregnancy[[cd]])){
-    concept_set_codes_pregnancy[[cd]] <- list()
-    concept_set_domains[[cd]] <- "Procedures"
-    for(cs in names(codelists_pro_ADDED[[cd]])){
-      concept_set_codes_pregnancy[[cd]][[cs]] <- codelists_pro_ADDED[[cd]][[cs]]
+# for (cd in names(codelists_pro_ADDED)){
+#   if(is.null(concept_set_codes_pregnancy[[cd]])){
+#     concept_set_codes_pregnancy[[cd]] <- list()
+#     concept_set_domains[[cd]] <- "Procedures"
+#     for(cs in names(codelists_pro_ADDED[[cd]])){
+#       concept_set_codes_pregnancy[[cd]][[cs]] <- codelists_pro_ADDED[[cd]][[cs]]
+#     }
+#   }else{
+#     for(cs in names(codelists_pro_ADDED[[cd]])){
+#       concept_set_codes_pregnancy[[cd]][[cs]] <- c(concept_set_codes_pregnancy[[cd]][[cs]],
+#                                                    codelists_pro_ADDED[[cd]][[cs]])
+#     }
+#   }
+# }
+
+codelists_pro_ADDED <- as.data.table(codelists_pro_ADDED)
+
+for (concepts_pro in unique(codelists_pro_ADDED$event_abbreviation)) {
+  if(is.null(concept_set_codes_pregnancy[[concepts_pro]])){
+    concept_set_codes_pregnancy[[concepts_pro]] <- list()
+    concept_set_domains[[concepts_pro]] <- "Procedures"
+    for(coding_sys in unique(codelists_pro_ADDED[event_abbreviation == concepts_pro, coding_system])){
+      concept_set_codes_pregnancy[[concepts_pro]][[coding_sys]] <- codelists_pro_ADDED[event_abbreviation == concepts_pro &
+                                                                                         coding_system == coding_sys, 
+                                                                                       code]
     }
   }else{
-    for(cs in names(codelists_pro_ADDED[[cd]])){
-      concept_set_codes_pregnancy[[cd]][[cs]] <- c(concept_set_codes_pregnancy[[cd]][[cs]],
-                                                   codelists_pro_ADDED[[cd]][[cs]])
+    for(coding_sys in unique(codelists_pro_ADDED[event_abbreviation == concepts_pro, coding_system])){
+      concept_set_codes_pregnancy[[concepts_pro]][[coding_sys]] <- unique(c(concept_set_codes_pregnancy[[concepts_pro]][[coding_sys]],
+                                                                     codelists_pro_ADDED[event_abbreviation == concepts_pro &
+                                                                                         coding_system == coding_sys, 
+                                                                                       code]))
     }
   }
 }
-#######################################################################################
 
+
+
+#######################################################################################
 
 concept_set_pregnancy <- c(concept_sets_of_pregnancy_eve, concept_sets_of_pregnancy_procedure, concept_sets_of_pregnancy_procedure_not_in_pregnancy, concept_sets_of_pregnancy_pro) #, concept_set_pregnancy_added_dia #concept_set_pregnancy_atc, concept_set_pregnancy_pre
 
