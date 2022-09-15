@@ -1,7 +1,16 @@
 load(paste0(dirtemp,"D3_pregnancy_reconciled_before_excl.RData"))
 load(paste0(dirtemp,"D3_groups_of_pregnancies_reconciled_before_excl.RData"))
 
-#### Apply exclusion criteria 
+D3_PERSONS <- data.table()
+files<-sub('\\.RData$', '', list.files(dirtemp))
+for (i in 1:length(files)) {
+  if (str_detect(files[i],"^D3_PERSONS")) { 
+    temp <- load(paste0(dirtemp,files[i],".RData")) 
+    D3_PERSONS <- rbind(D3_PERSONS, temp,fill=T)[,-"x"]
+    rm(temp)
+    D3_PERSONS <-D3_PERSONS[!(is.na(person_id) | person_id==""), ]
+  }
+}
 
 D3_pregnancy_reconciled_valid <- D3_pregnancy_reconciled_before_excl
 D3_groups_of_pregnancies_reconciled <- D3_groups_of_pregnancies_reconciled_before_excl 
@@ -94,6 +103,9 @@ setnames(D3_pregnancy_reconciled, "meaning", "meaning_of_principal_record")
 ### ONGOING 
 D3_pregnancy_reconciled <- D3_pregnancy_reconciled[pregnancy_end_date>study_end & imputed_end_of_pregnancy == 1, type_of_pregnancy_end := "ONGOING"]
 D3_pregnancy_reconciled_valid <- D3_pregnancy_reconciled_valid[pregnancy_end_date>study_end & imputed_end_of_pregnancy == 1, type_of_pregnancy_end := "ONGOING"]
+
+### Sex
+D3_pregnancy_reconciled <- merge(D3_pregnancy_reconciled, D3_PERSONS[,.(person_id, sex_at_instance_creation)], by = c("person_id"), all.x = T)
 
 ## saving 
 D3_pregnancy_final <- D3_pregnancy_reconciled
