@@ -11,7 +11,9 @@ datasource_that_does_not_modify_PROMPT <- c("TO_ADD","UOSL","VID","SNDS") #@ use
 this_datasource_does_not_modify_PROMPT <- ifelse(thisdatasource %in% datasource_that_does_not_modify_PROMPT,TRUE,FALSE) 
 
 # list of meaning that are not implying pregnancy, but have info about it
-meaning_start_not_implying_pregnancy <- c("from_itemset_LastMestrualPeriod", "imputed_from_service_for_ongoing_pregnancy")
+meaning_start_not_implying_pregnancy <- c("from_itemset_LastMestrualPeriod", 
+                                          "imputed_from_service_for_ongoing_pregnancy", 
+                                          "imputed_from_service_before_termination")
 
 # list of datasources with own specific algorithm 
 datasources_with_specific_algorithms <- c("TO_ADD","BIFAP") #@ use "TO_ADD" as example
