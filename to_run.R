@@ -6,6 +6,10 @@
 # 
 # link: https://github.com/ARS-toscana/ConcePTIONAlgorithmPregnancies
 # 
+# changelog v2.1.9, 15 September 2022: 
+#  - service before termination --> quality 99
+#  - gender included in output
+#
 # changelog v2.1.8, 9 September 2022: 
 #  - fix procedures codes added upload
 #
