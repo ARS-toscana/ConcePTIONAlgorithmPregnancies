@@ -474,13 +474,13 @@ D3_groups_of_pregnancies_reconciled_before_excl <- D3_groups_of_pregnancies_reco
                                                                                                    record_selected := as.integer(number_red/2) + 1] 
 
 for (column in names(D3_groups_of_pregnancies_reconciled_before_excl)) {
-  if (column == "pregnancy_start_date" & 
-      column == "meaning_start_date" & 
-      column == "pregnancy_ongoing_date" & 
-      column == "meaning_ongoing_date"&
-      column == "pregnancy_end_date" &
-      column == "pregnancy_end_date" &
-      column == "meaning_end_date" &
+  if (column == "pregnancy_start_date" | 
+      column == "meaning_start_date" | 
+      column == "pregnancy_ongoing_date" | 
+      column == "meaning_ongoing_date"|
+      column == "pregnancy_end_date" |
+      column == "pregnancy_end_date" |
+      column == "meaning_end_date" |
       column == "meaning") {
 
     setnames(D3_groups_of_pregnancies_reconciled_before_excl, column, "tmp_column")
