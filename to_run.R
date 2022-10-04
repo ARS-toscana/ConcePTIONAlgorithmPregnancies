@@ -5,7 +5,15 @@
 # authors: Claudia Bartolini, Rosa Gini, Giorgio Limoncella, Olga Paoletti, Davide Messina
 # 
 # link: https://github.com/ARS-toscana/ConcePTIONAlgorithmPregnancies
-# 
+#
+# changelog v2.1.10, 4 October 2022: 
+#  - New codelist implemented
+#  - New "create pregnancies from conceptset" step
+#  - Implemented ogoing PROMPT
+#  - alligned "procedure_livebirth"
+#  - New param for legally included pregnancy
+#  - TO BE FIXED: concept set used in this run
+#
 # changelog v2.1.9, 15 September 2022: 
 #  - service before termination --> quality 99
 #  - gender included in output
@@ -72,8 +80,6 @@ source(paste0(thisdir,"/p_parameters_pregnancy/02_itemsets.R"))
 source(paste0(thisdir,"/p_parameters_pregnancy/03_concept_sets.R"))
 source(paste0(thisdir,"/p_parameters_pregnancy/04_algorithms_pregnancy.R"))
 source(paste0(thisdir,"/p_parameters_pregnancy/05_check_coding_system.R"))
-
-
 
 
 #run scripts
