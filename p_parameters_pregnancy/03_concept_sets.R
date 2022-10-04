@@ -82,8 +82,9 @@ load(paste0(thisdir,"/p_parameters_pregnancy/03_concept_sets_pro_fromBIPS_BPE.RD
 # }
 
 codelists_pro_ADDED <- as.data.table(codelists_pro_ADDED)
+concept_sets_of_pregnancy_ADDED <- unique(codelists_pro_ADDED$event_abbreviation)
 
-for (concepts_pro in unique(codelists_pro_ADDED$event_abbreviation)) {
+for (concepts_pro in concept_sets_of_pregnancy_ADDED) {
   if(is.null(concept_set_codes_pregnancy[[concepts_pro]])){
     concept_set_codes_pregnancy[[concepts_pro]] <- list()
     concept_set_domains[[concepts_pro]] <- "Procedures"
@@ -106,7 +107,7 @@ for (concepts_pro in unique(codelists_pro_ADDED$event_abbreviation)) {
 
 #######################################################################################
 
-concept_set_pregnancy <- c(concept_sets_of_pregnancy_eve, concept_sets_of_pregnancy_procedure, concept_sets_of_pregnancy_procedure_not_in_pregnancy, concept_sets_of_pregnancy_pro) #, concept_set_pregnancy_added_dia #concept_set_pregnancy_atc, concept_set_pregnancy_pre
+#concept_set_pregnancy <- unique(c(concept_sets_of_pregnancy_eve, concept_sets_of_pregnancy_procedure, concept_sets_of_pregnancy_procedure_not_in_pregnancy, concept_sets_of_pregnancy_pro, concept_sets_of_pregnancy_ADDED)) #, concept_set_pregnancy_added_dia #concept_set_pregnancy_atc, concept_set_pregnancy_pre
 
 conceptset_pregnancy_this_datasource<-vector(mode="list")
 for (t in  names(concept_set_codes_pregnancy)) {
@@ -116,12 +117,68 @@ for (t in  names(concept_set_codes_pregnancy)) {
 }
 
 
-concept_sets_of_start_of_pregnancy <- c("Gestation_less24","Gestation_24","Gestation_25_26","Gestation_27_28","Gestation_29_30","Gestation_31_32","Gestation_33_34","Gestation_35_36","Gestation_more37") 
-concept_sets_of_ongoing_of_pregnancy <- c("Ongoingpregnancy") 
-concept_sets_of_end_of_pregnancy <- c("Birth_narrow", "Birth_possible","Preterm","Atterm","Postterm","Livebirth","Stillbirth","Interruption", "Spontaneousabortion", "Ectopicpregnancy") #, "MTP", "VTP"
-concept_sets_of_end_of_pregnancy_LB <- c("Birth_narrow","Preterm","Atterm","Postterm","Livebirth") #, "Birth_possible"
+# concept_sets_of_start_of_pregnancy <- c("Gestation_less24","Gestation_24","Gestation_25_26","Gestation_27_28","Gestation_29_30","Gestation_31_32","Gestation_33_34","Gestation_35_36","Gestation_more37") 
+# concept_sets_of_ongoing_of_pregnancy <- c("Ongoingpregnancy") 
+# concept_sets_of_end_of_pregnancy <- c("Birth_narrow", "Birth_possible","Preterm","Atterm","Postterm","Livebirth","Stillbirth","Interruption", "Spontaneousabortion", "Ectopicpregnancy") #, "MTP", "VTP"
+# concept_sets_of_end_of_pregnancy_LB <- c("Birth_narrow","Preterm","Atterm","Postterm","Livebirth") #, "Birth_possible"
+# concept_sets_of_end_of_pregnancy_UNK <- c("Birth_possible")
+
+concept_sets_of_start_of_pregnancy <- c("Gestation_less24",
+                                        "Gestation_24",
+                                        "Gestation_25_26",
+                                        "Gestation_27_28",
+                                        "Gestation_29_30",
+                                        "Gestation_31_32",
+                                        "Gestation_33_34",
+                                        "Gestation_35_36",
+                                        "Gestation_more37") 
+
+concept_sets_of_ongoing_of_pregnancy <- c("Ongoingpregnancy", 
+                                          "FGR",
+                                          "GESTDIAB",
+                                          "PREECLAMP",
+                                          "PREG_BLEEDING",
+                                          ### Procedures
+                                          "procedures_ongoing",
+                                          "fetal_nuchal_translucency",
+                                          "amniocentesis",
+                                          "Chorionic_Villus_Sampling",
+                                          "others") 
+
+
+concept_sets_of_end_of_pregnancy_LB <- c("Birth_narrow",
+                                         "Preterm",
+                                         "Atterm",
+                                         "Postterm", 
+                                         "Livebirth",
+                                         ### Procedures
+                                         "procedures_livebirth", 
+                                         "procedures_delivery") 
+
 concept_sets_of_end_of_pregnancy_UNK <- c("Birth_possible")
 
+concept_sets_of_end_of_pregnancy_UNF <- c("Interruption_possible",
+                                          "Stillbirth_possible",
+                                          "Spontaneousabortion_possible")
 
-codes_used_in_this_run <- list_of_list_to_df(concept_set_codes_pregnancy)
-fwrite(codes_used_in_this_run, file = paste0(direxp, "concept_set_codes_pregnancy.csv"))
+concept_sets_of_end_of_pregnancy_T_SA_SB_ECT <- c("Stillbirth_narrow",
+                                                  "Interruption_narrow",
+                                                  "Spontaneousabortion_narrow", 
+                                                  "Ectopicpregnancy",
+                                                  ### Procedures
+                                                  "procedures_termination",
+                                                  "Medicated_VTP",
+                                                  "procedures_spontaneous_abortion",
+                                                  "procedures_ectopic")
+
+
+
+concept_set_pregnancy <- c(concept_sets_of_start_of_pregnancy,
+                           concept_sets_of_ongoing_of_pregnancy,
+                           concept_sets_of_end_of_pregnancy_LB,
+                           concept_sets_of_end_of_pregnancy_UNK,
+                           concept_sets_of_end_of_pregnancy_UNF,
+                           concept_sets_of_end_of_pregnancy_T_SA_SB_ECT)
+
+#codes_used_in_this_run <- list_of_list_to_df(concept_set_codes_pregnancy)
+#fwrite(codes_used_in_this_run, file = paste0(direxp, "concept_set_codes_pregnancy.csv"))
