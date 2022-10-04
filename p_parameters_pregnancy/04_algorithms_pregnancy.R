@@ -89,6 +89,20 @@ for (conceptset in concept_set_pregnancy){
 }
 
 
+# 
+
+legally_included_pregnancies_dap_list <- vector(mode="list")
+legally_included_pregnancies_dap_list[["SAIL"]] <- "EUROCAT == 'yes' | !((pregnancy_end_date - pregnancy_start_date < 24*7) & (type_of_pregnancy_end != 'LB'))"
+#UNK of 25 week of gestational age is included
+
+
+
+
+legally_included_pregnancies = ifelse(is.null(legally_included_pregnancies_dap_list[[thisdatasource]]), 
+                                             "!(is.na(person_id))",
+                                             legally_included_pregnancies_dap_list[[thisdatasource]])
+
+
 
 ## EXPORTING INFO
 

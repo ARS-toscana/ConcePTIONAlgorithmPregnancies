@@ -107,6 +107,11 @@ D3_pregnancy_reconciled_valid <- D3_pregnancy_reconciled_valid[pregnancy_end_dat
 ### Sex
 D3_pregnancy_reconciled <- merge(D3_pregnancy_reconciled, D3_PERSONS[,.(person_id, sex_at_instance_creation)], by = c("person_id"), all.x = T)
 
+
+# Filter pregnancies that can not be legally included
+D3_pregnancy_reconciled <- D3_pregnancy_reconciled[eval(parse(text = legally_included_pregnancies))]
+D3_pregnancy_reconciled_valid <- D3_pregnancy_reconciled_valid[eval(parse(text = legally_included_pregnancies))]
+
 ## saving 
 D3_pregnancy_final <- D3_pregnancy_reconciled
 
