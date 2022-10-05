@@ -8632,3 +8632,47 @@ Stillbirth,SNOMEDCT_US,10588007,Perinatal death,C0701826,Perinatal death,"",P,St
 Stillbirth,SNOMEDCT_US,206602000,Perinatal death,C0701826,Perinatal death,"",P,StillBirth,PrA,206602000
 Stillbirth,SNOMEDCT_US,315959000,[V]Single stillbirth,C1313896,Encounter due to single stillbirth,"",P,StillBirth,PrA,315959000
 Stillbirth,SNOMEDCT_US,445548006,Dead fetus in utero,C2919450,Dead fetus in utero,"",P,StillBirth,PrA,445548006
+post term delivery,ICD10,O48,Prolonged pregnancy,C0032993,Pregnancy- Prolonged,"",P,PostTerm,PrA,O48
+post term delivery,ICD10,P08,Disorders related to long gestation and high birth weight,C0158914,Disorder relating to long gestation AND-OR high birthweight,"",P,PostTerm,PrA,P08
+post term delivery,ICD10,P08.2,Post-term infant- not heavy for gestational age,C0158917,Post-term infant- not heavy-for-dates,"",P,PostTerm,PrA,P08.2
+post term delivery,ICD10CM,O48.0,Post-term pregnancy,C0032993,Pregnancy- Prolonged,"",P,PostTerm,PrA,O48.0
+post term delivery,ICD10CM,O48.1,Prolonged pregnancy,C0032993,Pregnancy- Prolonged,"",P,PostTerm,PrA,O48.1
+post term delivery,ICD10CM,P08.22,Postmaturity NOS,C0221007,Postmaturity,"",P,PostTerm,PrA,P08.22
+post term delivery,ICD10CM,O48,Late pregnancy,C0878751,late pregnancy,"",P,PostTerm,PrA,O48
+post term delivery,ICD9CM,766.21,Post-term infant,C0021293,Infant- Postmature,"",P,PostTerm,PrA,766.21
+post term delivery,ICD9CM,645.1,Post term pregnancy,C0032993,Pregnancy- Prolonged,"",P,PostTerm,PrA,645.1
+post term delivery,ICD9CM,645.2,Prolonged pregnancy,C0032993,Pregnancy- Prolonged,"",P,PostTerm,PrA,645.2
+post term delivery,ICD9CM,766,Disorders relating to long gestation and high birthweight,C0158914,Disorder relating to long gestation AND-OR high birthweight,"",P,PostTerm,PrA,766
+post term delivery,ICD9CM,766.2,Late infant- not heavy-for-dates,C0158917,Post-term infant- not heavy-for-dates,"",P,PostTerm,PrA,766.2
+post term delivery,ICD9CM,645,Late pregnancy,C0878751,late pregnancy,"",P,PostTerm,PrA,645
+post term delivery,ICD9CM,645.11,Post term pregnancy- delivered- with or without mention of antepartum condition,C1176344,Post term pregnancy- delivered- with or without mention of antepartum condition,"",P,PostTerm,PrA,645.11
+post term delivery,ICD9CM,645.13,Post term pregnancy- antepartum condition or complication,C1176345,Post term pregnancy- antepartum condition or complication,"",P,PostTerm,PrA,645.13
+post term delivery,ICD9CM,645.20,Prolonged pregnancy- unspecified as to episode of care or not applicable,C1176346,Prolonged pregnancy- unspecified as to episode of care or not applicable,"",P,PostTerm,PrA,645.20
+post term delivery,ICD9CM,645.21,Prolonged pregnancy- delivered- with or without mention of antepartum condition,C1176347,Prolonged pregnancy- delivered- with or without mention of antepartum condition,"",P,PostTerm,PrA,645.21
+post term delivery,ICD9CM,645.23,Prolonged pregnancy- antepartum condition or complication,C1176348,Prolonged pregnancy- antepartum condition or complication,"",P,PostTerm,PrA,645.23
+post term delivery,ICD9CM,766.0,Exceptionally large baby,C2242834,Exceptionally large baby relating to long gestation,"",P,PostTerm,PrA,766.0
+post term delivery,ICD9CM,766.22,Prolonged gestation of infant,C2909960,prolonged gestation of newborn,"",P,PostTerm,PrA,766.22
+post term delivery,ICPC2P,A94018,Postmaturity-infant,C0021293,Infant- Postmature,"",P,PostTerm,PrA,A94018
+post term delivery,ICPC2P,W84003,Pregnancy-post term,C0032993,Pregnancy- Prolonged,"",P,PostTerm,PrA,W84003
+post term delivery,MTHICD9,766.22,Postmaturity NOS,C0221007,Postmaturity,"",P,PostTerm,PrA,766.22
+post term delivery,MTHICD9,766.0,Exceptionally large baby relating to long gestation,C2242834,Exceptionally large baby relating to long gestation,"",P,PostTerm,PrA,766.0
+post term delivery,RCD2,L1500,Post-term pregnancy-unspecif.,C0032993,Pregnancy- Prolonged,"",P,PostTerm,PrA,L1500
+post term delivery,RCD2,L15z.,Prolonged pregnancy NOS,C0032993,Pregnancy- Prolonged,"",P,PostTerm,PrA,L15z.
+post term delivery,RCD2,L150z,Post-term pregnancy NOS,C0032993,Pregnancy- Prolonged,"",P,PostTerm,PrA,L150z
+post term delivery,RCD2,L15..,Prolonged-post-term pregnancy,C0032993,Pregnancy- Prolonged,"",P,PostTerm,PrA,L15..
+post term delivery,SCTSPA,16207008,lactancia posmadura,C0021293,Infant- Postmature,"",P,PostTerm,PrA,16207008
+post term delivery,SCTSPA,19963000,trastorno relacionado con gestación prolongada Y-O alto peso al nacer,C0158914,Disorder relating to long gestation AND-OR high birthweight,"",P,PostTerm,PrA,19963000
+post term delivery,SCTSPA,268818009,trastorno relacionado con gestación prolongada y-o peso de nacimiento elevado,C0158914,Disorder relating to long gestation AND-OR high birthweight,"",P,PostTerm,PrA,268818009
+post term delivery,SCTSPA,79995002,niño posmaduro- sin peso alto para edad gestacional,C0158917,Post-term infant- not heavy-for-dates,"",P,PostTerm,PrA,79995002
+post term delivery,SCTSPA,59634004,posmadurez,C0221007,Postmaturity,"",P,PostTerm,PrA,59634004
+post term delivery,SNOMEDCT_US,147079004,Postmature baby,C0021293,Infant- Postmature,"",P,PostTerm,PrA,147079004
+post term delivery,SNOMEDCT_US,147084005,Post-term infant,C0021293,Infant- Postmature,"",P,PostTerm,PrA,147084005
+post term delivery,SNOMEDCT_US,16207008,Postmature infancy,C0021293,Infant- Postmature,"",P,PostTerm,PrA,16207008
+post term delivery,SNOMEDCT_US,169848003,Postmature baby,C0021293,Infant- Postmature,"",P,PostTerm,PrA,169848003
+post term delivery,SNOMEDCT_US,169852003,Post-term infant,C0021293,Infant- Postmature,"",P,PostTerm,PrA,169852003
+post term delivery,SNOMEDCT_US,277174002,Post-term infant,C0021293,Infant- Postmature,"",P,PostTerm,PrA,277174002
+post term delivery,SNOMEDCT_US,19963000,Disorder relating to long gestation AND-OR high birthweight,C0158914,Disorder relating to long gestation AND-OR high birthweight,"",P,PostTerm,PrA,19963000
+post term delivery,SNOMEDCT_US,206179009,Disorders relating to long gestation and high birthweight,C0158914,Disorder relating to long gestation AND-OR high birthweight,"",P,PostTerm,PrA,206179009
+post term delivery,SNOMEDCT_US,268818009,Disorder relating to long gestation and-or high birth weight,C0158914,Disorder relating to long gestation AND-OR high birthweight,"",P,PostTerm,PrA,268818009
+post term delivery,SNOMEDCT_US,79995002,Post-term infant- not heavy-for-dates,C0158917,Post-term infant- not heavy-for-dates,"",P,PostTerm,PrA,79995002
+post term delivery,SNOMEDCT_US,59634004,Postmaturity,C0221007,Postmaturity,"",P,PostTerm,PrA,59634004
