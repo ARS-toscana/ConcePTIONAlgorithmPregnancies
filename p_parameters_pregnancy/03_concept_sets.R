@@ -180,5 +180,5 @@ concept_set_pregnancy <- c(concept_sets_of_start_of_pregnancy,
                            concept_sets_of_end_of_pregnancy_UNF,
                            concept_sets_of_end_of_pregnancy_T_SA_SB_ECT)
 
-#codes_used_in_this_run <- list_of_list_to_df(concept_set_codes_pregnancy)
-#fwrite(codes_used_in_this_run, file = paste0(direxp, "concept_set_codes_pregnancy.csv"))
+codes_used_in_this_run <- list_of_list_to_df(concept_set_codes_pregnancy)
+fwrite(codes_used_in_this_run, file = paste0(direxp, "concept_set_codes_pregnancy.csv"))
