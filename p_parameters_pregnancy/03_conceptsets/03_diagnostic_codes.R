@@ -11,6 +11,16 @@ concept_sets_of_pregnancy_eve <- c("Gestation_less24",
                                    "Gestation_35_36",
                                    "Gestation_more37",
                                    
+                                   # "Gestation_less24_birth",
+                                   # "Gestation_24_birth",
+                                   # "Gestation_25_26_birth",
+                                   # "Gestation_27_28_birth",
+                                   # "Gestation_29_30_birth",
+                                   # "Gestation_31_32_birth",
+                                   # "Gestation_33_34_birth",
+                                   # "Gestation_35_36_birth",
+                                   # "Gestation_more37_birth",
+                                   
                                    "FGR",
                                    "GESTDIAB",
                                    "PREECLAMP",
@@ -55,6 +65,17 @@ concept_set_codes_pregnancy[["Gestation_31_32"]] <- list()
 concept_set_codes_pregnancy[["Gestation_33_34"]] <- list()
 concept_set_codes_pregnancy[["Gestation_35_36"]] <- list()
 concept_set_codes_pregnancy[["Gestation_more37"]] <- list()
+
+# concept_set_codes_pregnancy[["Gestation_less24_birth"]] <- list()
+# concept_set_codes_pregnancy[["Gestation_24_birth"]] <- list()
+# concept_set_codes_pregnancy[["Gestation_25_26_birth"]] <- list()
+# concept_set_codes_pregnancy[["Gestation_27_28_birth"]] <- list()
+# concept_set_codes_pregnancy[["Gestation_29_30_birth"]] <- list()
+# concept_set_codes_pregnancy[["Gestation_31_32_birth"]] <- list()
+# concept_set_codes_pregnancy[["Gestation_33_34_birth"]] <- list()
+# concept_set_codes_pregnancy[["Gestation_35_36_birth"]] <- list()
+# concept_set_codes_pregnancy[["Gestation_more37_birth"]] <- list()
+
 
 concept_set_codes_pregnancy[["FGR"]] <- list()
 concept_set_codes_pregnancy[["GESTDIAB"]] <- list()
@@ -160,7 +181,7 @@ concept_set_codes_pregnancy_not_modified <- df_to_list_of_list(concept_set_codes
 
 concept_set_codes_pregnancy[["Gestation_less24"]] <- concept_set_codes_pregnancy_not_modified[["Gestationlessthan24weeks"]] 
 
-concept_set_codes_pregnancy[["Gestation_24"]] <- concept_set_codes_pregnancy_not_modified[["24weeks"]]  ## check
+concept_set_codes_pregnancy[["Gestation_24"]] <- concept_set_codes_pregnancy_not_modified[["24weeks"]] 
 
 concept_set_codes_pregnancy[["Gestation_25_26"]] <- concept_set_codes_pregnancy_not_modified[["Gestation2526weeks"]] 
 
@@ -175,6 +196,29 @@ concept_set_codes_pregnancy[["Gestation_33_34"]] <- concept_set_codes_pregnancy_
 concept_set_codes_pregnancy[["Gestation_35_36"]] <-  concept_set_codes_pregnancy_not_modified[["Gestation3536weeks"]]
 
 concept_set_codes_pregnancy[["Gestation_more37"]] <- concept_set_codes_pregnancy_not_modified[["Gestation37weeks"]] 
+
+
+
+# concept_set_codes_pregnancy[["Gestation_less24_birth"]] <- concept_set_codes_pregnancy_not_modified[["Gestationlessthan24weeks_LB"]] 
+# 
+# concept_set_codes_pregnancy[["Gestation_24_birth"]] <- concept_set_codes_pregnancy_not_modified[["24weeks_LB"]]  
+# 
+# concept_set_codes_pregnancy[["Gestation_25_26_birth"]] <- concept_set_codes_pregnancy_not_modified[["Gestation2526weeks_LB"]] 
+# 
+# concept_set_codes_pregnancy[["Gestation_27_28_birth"]] <- concept_set_codes_pregnancy_not_modified[["Gestation2728weeks_LB"]]
+# 
+# concept_set_codes_pregnancy[["Gestation_29_30_birth"]] <- concept_set_codes_pregnancy_not_modified[["Gestation2930weeks_LB"]] 
+# 
+# concept_set_codes_pregnancy[["Gestation_31_32_birth"]] <- concept_set_codes_pregnancy_not_modified[["Gestation3132weeks_LB"]] 
+# 
+# concept_set_codes_pregnancy[["Gestation_33_34_birth"]] <- concept_set_codes_pregnancy_not_modified[["Gestation3334weeks_LB"]] 
+# 
+# concept_set_codes_pregnancy[["Gestation_35_36_birth"]] <-  concept_set_codes_pregnancy_not_modified[["Gestation3536weeks_LB"]]
+# 
+# concept_set_codes_pregnancy[["Gestation_more37_birth"]] <- concept_set_codes_pregnancy_not_modified[["Gestation37weeks_LB"]] 
+
+
+
 
 concept_set_codes_pregnancy[["GESTDIAB"]] <- concept_set_codes_pregnancy_not_modified[["GESTDIAB"]] 
 

@@ -125,6 +125,7 @@ groups_of_pregnancies<-groups_of_pregnancies[!is.na(pregnancy_ongoing_date) |
 table(groups_of_pregnancies[,coloured_order], useNA = "ifany")
 
 #order_quality: the default order is:
+
 # 1)	EUROCAT
 # 2)	PROMPT
 # 3)	ITEMSETS
@@ -132,17 +133,23 @@ table(groups_of_pregnancies[,coloured_order], useNA = "ifany")
 
 # 5)	PROMPT, pregnancy completed and pregnancy_start_date not available and imputed
 # 6)	ITEMSETS, pregnancy completed and pregnancy_start_date not available and imputed
+
 # 7)	CONCEPSETS: live birth, meaning non primary care, pregnancy_start_date not available and imputed 
 # 8)	CONCEPSETS: pre-term birth, meaning non primary care,  pregnancy_start_date not available and imputed
 # 9)	CONCEPSETS: still birth, meaning non primary care,  pregnancy_start_date not available and imputed
 # 10)	CONCEPSETS: interruption, meaning non primary care,  pregnancy_start_date not available and imputed
 # 11)	CONCEPTSETS: spontaneous abortion, meaning non primary care, pregnancy_start_date not available and imputed
 # 12)	CONCEPTSETS: ectopic pregnancy, meaning non primary care, pregnancy_start_date not available and imputed
+
 # 13)	CONCEPTSETS: meaning implying primary care, pregnancy_start_date not available and imputed, end date estimated with record date 
 
-# 14)	all Streams: ongoing pregnancy and pregnancy_start_date recorded
+# 14) CONCEPSETS: still birth possible, meaning non primary care,  pregnancy_start_date not available and imputed
+# 15) CONCEPSETS: interruption possible, meaning non primary care,  pregnancy_start_date not available and imputed
+# 16) CONCEPSETS: spontaneous abortion possible, meaning non primary care,  pregnancy_start_date not available and imputed
 
-# 15)	all Streams: ongoing pregnancy having pregnancy_start_date not available and imputed 
+# 17)	all Streams: ongoing pregnancy and pregnancy_start_date recorded
+
+# 18)	all Streams: ongoing pregnancy having pregnancy_start_date not available and imputed 
 
 groups_of_pregnancies<-groups_of_pregnancies[EUROCAT=="yes" & coloured_order=="1_green",order_quality:=1]
 groups_of_pregnancies<-groups_of_pregnancies[PROMPT=="yes" & coloured_order=="1_green",order_quality:=2]

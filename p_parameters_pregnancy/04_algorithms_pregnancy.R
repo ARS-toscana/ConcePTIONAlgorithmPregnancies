@@ -89,7 +89,7 @@ for (conceptset in concept_set_pregnancy){
 }
 
 
-# 
+# Legally included 
 
 legally_included_pregnancies_dap_list <- vector(mode="list")
 legally_included_pregnancies_dap_list[["SAIL"]] <- "EUROCAT == 'yes' | !((pregnancy_end_date - pregnancy_start_date < 24*7) & (type_of_pregnancy_end != 'LB'))"

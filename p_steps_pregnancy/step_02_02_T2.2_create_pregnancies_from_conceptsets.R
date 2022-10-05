@@ -4,6 +4,7 @@
 
 # loading concepsets
 for (conceptvar in c(concept_sets_of_start_of_pregnancy,
+                    # concept_sets_of_start_of_pregnancy_birth,
                      concept_sets_of_ongoing_of_pregnancy,
                      concept_sets_of_end_of_pregnancy_LB,
                      concept_sets_of_end_of_pregnancy_UNK,
@@ -64,6 +65,57 @@ dataset_start_concept_sets <- dataset_start_concept_sets[,`:=`(pregnancy_ongoing
                                                                imputed_end_of_pregnancy = 1,
                                                                CONCEPTSETS = "yes")]
 
+
+
+#-----------------------------------
+#   Start of Pregnancy birth
+#-----------------------------------
+
+# # put together concept_set of start
+# dataset_start_birth_concept_sets <- c()
+# for (conceptvar in dataset_start_birth_concept_sets){
+#   print(conceptvar)
+#   studyvardataset <- get(conceptvar)[!is.na(date),][,concept_set:=conceptvar]
+#   studyvardataset <- unique(studyvardataset,by=c("person_id","codvar","date"))
+#   dataset_start_birth_concept_sets <- rbind(dataset_start_birth_concept_sets,
+#                                       studyvardataset[,.(person_id,
+#                                                          date, 
+#                                                          codvar, 
+#                                                          concept_set,
+#                                                          visit_occurrence_id, 
+#                                                          meaning_of_event, 
+#                                                          origin_of_event, 
+#                                                          event_record_vocabulary)], fill=TRUE) 
+# }
+# 
+# # check if dataset is unique for person_id, survey_id and survey_date
+# dataset_start_birth_concept_sets<-unique(dataset_start_birth_concept_sets, by=c("person_id","visit_occurrence_id","date","concept_set")) 
+# 
+# # Defining concept specific start dates
+# dataset_start_birth_concept_sets <- dataset_start_birth_concept_sets[concept_set == "Gestation_less24_birth", pregnancy_start_date := date - (154)]
+# dataset_start_birth_concept_sets <- dataset_start_birth_concept_sets[concept_set == "Gestation_24_birth",     pregnancy_start_date := date - (168)]
+# dataset_start_birth_concept_sets <- dataset_start_birth_concept_sets[concept_set == "Gestation_25_26_birth",  pregnancy_start_date := date - (178)]
+# dataset_start_birth_concept_sets <- dataset_start_birth_concept_sets[concept_set == "Gestation_27_28_birth",  pregnancy_start_date := date - (192)]
+# dataset_start_birth_concept_sets <- dataset_start_birth_concept_sets[concept_set == "Gestation_29_30_birth",  pregnancy_start_date := date - (206)]
+# dataset_start_birth_concept_sets <- dataset_start_birth_concept_sets[concept_set == "Gestation_31_32_birth",  pregnancy_start_date := date - (220)]
+# dataset_start_birth_concept_sets <- dataset_start_birth_concept_sets[concept_set == "Gestation_33_34_birth",  pregnancy_start_date := date - (234)]
+# dataset_start_birth_concept_sets <- dataset_start_birth_concept_sets[concept_set == "Gestation_35_36_birth",  pregnancy_start_date := date - (248)]
+# dataset_start_birth_concept_sets <- dataset_start_birth_concept_sets[concept_set == "Gestation_more37_birth", pregnancy_start_date := date - (266)]
+# 
+# # Defining end dates 
+# dataset_start_birth_concept_sets <- dataset_start_birth_concept_sets[, pregnancy_end_date := date]
+# 
+# # Defining imputation, type and meaning
+# dataset_start_birth_concept_sets <- dataset_start_birth_concept_sets[,`:=`(pregnancy_ongoing_date = as.Date(character(0)),
+#                                                                            meaning_start_date = paste0("from_", concept_set),
+#                                                                            meaning_ongoing_date = paste0("record_date_", concept_set),
+#                                                                            meaning_end_date = paste0("from_", concept_set),
+#                                                                            type_of_pregnancy_end = "LB",
+#                                                                            origin = origin_of_event,
+#                                                                            meaning = meaning_of_event,
+#                                                                            imputed_start_of_pregnancy = 0,
+#                                                                            imputed_end_of_pregnancy = 0,
+#                                                                            CONCEPTSETS = "yes")]
 
 
 #-----------------------------------
