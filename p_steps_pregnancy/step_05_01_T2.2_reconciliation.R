@@ -487,7 +487,7 @@ for (column in names(D3_groups_of_pregnancies_reconciled_before_excl)) {
     
     D3_groups_of_pregnancies_reconciled_before_excl <- D3_groups_of_pregnancies_reconciled_before_excl[highest_quality == "4_red",
                                                                                                        tmp_column_new := shift(tmp_column, 
-                                                                                                                           n = record_selected, 
+                                                                                                                           n = record_selected -1, 
                                                                                                                            type=c("lead")), 
                                                                                                        by = "pregnancy_id"]
     

@@ -216,19 +216,21 @@ plot
 
 The same analysis is done for each different types of end of pregnancy, which are:
 
-- LB : live birth 
+- LB: live birth 
 
-- SB : still birth 
+- SB: still birth 
 
-- T : termination 
+- T: termination 
 
-- SA : spontaneous abortion
+- SA: spontaneous abortion
 
-- ECT : ectopic pregnancy
+- ECT: ectopic pregnancy
 
 - ONGOING: ongoing pregnancy
 
-- UNK : unknown 
+- UNK: unknown 
+
+- UNF: unspecified unfavourable outcome
 
 <br/><br/>
 
@@ -395,6 +397,30 @@ plot <- ggplotly(p)
 plot}
 ```
 
+<br/><br/>
+
+### Unspecified unfavourable outcome
+
+___
+
+
+```{r unfgraph}
+UNF <- D3_pregnancy_reconciled[type_of_pregnancy_end == "UNF"]
+UNF <-UNF[, order_quality := as.factor(order_quality)]
+
+UNF <-UNF[, .N, .(order_quality, year_start_of_pregnancy)]
+if (UNF[, .N]==0){
+  print("there is no UNF among the types of end of pregnancy" )
+}else{
+p <- ggplot(UNF, aes(x = year_start_of_pregnancy, y = N, fill= order_quality))+
+  geom_col()+
+  theme_hc()
+
+plot <- ggplotly(p)
+plot}
+```
+
+
 
 <br/><br/><br/><br/>
 
@@ -556,6 +582,32 @@ if (UNK_first_record[, .N]==0){
 }else{
   UNK_first_record <- UNK_first_record[, year_start_of_pregnancy := as.factor(year_start_of_pregnancy)]
   p <- ggplot(UNK_first_record, aes(x = days_before_first_record, 
+                                   group = year_start_of_pregnancy, 
+                                   fill = year_start_of_pregnancy, 
+                                   col = year_start_of_pregnancy))+
+    geom_density(alpha = 0.7, na.rm = TRUE)+
+    scale_x_continuous(name="Days between pregnancy start date and first observed record ", limits=c(0, 300))+
+    #facet_grid(type_of_pregnancy_end~.)+
+    theme_hc()
+  
+  
+  plot <- ggplotly(p)
+  plot
+}
+```
+
+<br/><br/>
+
+### Unspecified unfavourable outcome
+
+___
+```{r first_record_UNF}
+UNF_first_record <- D3_pregnancy_reconciled[type_of_pregnancy_end == "UNF"]
+if (UNF_first_record[, .N]==0){
+  print("there is no UNF among the types of end of pregnancy" )
+}else{
+  UNF_first_record <- UNF_first_record[, year_start_of_pregnancy := as.factor(year_start_of_pregnancy)]
+  p <- ggplot(UNF_first_record, aes(x = days_before_first_record, 
                                    group = year_start_of_pregnancy, 
                                    fill = year_start_of_pregnancy, 
                                    col = year_start_of_pregnancy))+

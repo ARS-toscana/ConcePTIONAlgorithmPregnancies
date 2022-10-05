@@ -391,22 +391,6 @@ dataset_SB_T_SA_ECT_concept_sets <-  dataset_SB_T_SA_ECT_concept_sets[,`:=`(preg
 dataset_SB_T_SA_ECT_concept_sets <- dataset_SB_T_SA_ECT_concept_sets[is.na(origin), origin := origin_of_procedure]
 dataset_SB_T_SA_ECT_concept_sets <- dataset_SB_T_SA_ECT_concept_sets[is.na(meaning), meaning := meaning_of_procedure]
 
-
-
-#####################################################################################################################
-#####################################################################################################################
-#####################################################################################################################
-#####################################################################################################################
-#####################################################################################################################
-#dataset_concept_sets<-dataset_concept_sets[!is.na(pregnancy_end_date) & concept_set=="VTP",type_of_pregnancy_end:="T"]
-#dataset_concept_sets<-dataset_concept_sets[!is.na(pregnancy_end_date) & concept_set=="MTP",type_of_pregnancy_end:="T"]
-#####################################################################################################################
-#####################################################################################################################
-#####################################################################################################################
-#####################################################################################################################
-#####################################################################################################################
-#####################################################################################################################
-
 ################################################################################
 ###############   All concept set: D3_stream_CONCEPTSETS    ####################
 ################################################################################
@@ -427,7 +411,7 @@ setnames(dataset_concept_sets_all,"event_record_vocabulary","coding_system")
 
 dataset_concept_sets_all[,pregnancy_id:=paste0(person_id,"_",visit_occurrence_id,"_",record_date)] 
 
-# keep only vars neeed
+# keep only vars needed
 D3_Stream_CONCEPTSETS <- dataset_concept_sets_all[,.(pregnancy_id,
                                                      person_id,
                                                      record_date,
@@ -451,7 +435,7 @@ D3_Stream_CONCEPTSETS <- dataset_concept_sets_all[,.(pregnancy_id,
 
 save(D3_Stream_CONCEPTSETS, file=paste0(dirtemp,"D3_Stream_CONCEPTSETS.RData"))
 
-##### Description #####
+### Description 
 if(HTML_files_creation){
   cat("Describing D3_Stream_CONCEPTSETS  \n")
   DescribeThisDataset(Dataset = D3_Stream_CONCEPTSETS,
@@ -483,8 +467,6 @@ if(HTML_files_creation){
                       PathOutputFolder= dirdescribe03_create_pregnancies)
 }
 
-
-##### End Description #####
 
 rm(dataset_start_concept_sets,
    dataset_ongoing_concept_sets,
