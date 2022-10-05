@@ -82,35 +82,46 @@ As reported in the sap, some records have both pregnancy start date and pregnanc
   <body>
     <div class="boxed">
 
-1. **EUROCAT**: both pregnancy_start_date and pregnancy_end_date are recorded
+- **1**  EUROCAT: both pregnancy_start_date and pregnancy_end_date are recorded
 
-2. **PROMPT**: both pregnancy_start_date and pregnancy_end_date are recorded
+- **2**  PROMPT: both pregnancy_start_date and pregnancy_end_date are recorded
+ 
+- **3**	ITEMSETS: both pregnancy_start_date and pregnancy_end_date are recorded
 
-3. **ITEMSETS**: both pregnancy_start_date and pregnancy_end_date are recorded
+- **4**	CONCEPSETS: pregnancy completed and pregnancy_start_date recorded
+ 
+- **5**	PROMPT: pregnancy completed and pregnancy_start_date not available and imputed
+ 
+- **6**	ITEMSETS: pregnancy completed and pregnancy_start_date not available and imputed
 
-4. **CONCEPSETS**: pregnancy completed and pregnancy_start_date recorded
+- **7**	CONCEPSETS: pre-term birth, meaning non primary care,  pregnancy_start_date not available and imputed
 
-5. **PROMPT**: pregnancy completed and pregnancy_start_date not available and imputed
+- **7**	CONCEPSETS: at-term birth, meaning non primary care,  pregnancy_start_date not available and imputed
 
-6. **ITEMSETS**: pregnancy completed and pregnancy_start_date not available and imputed
+- **7** CONCEPSETS: post-term birth, meaning non primary care,  pregnancy_start_date not available and imputed
 
-7. **CONCEPSETS**: live birth, meaning non primary care, pregnancy_start_date not available and imputed 
+- **8**	CONCEPSETS: live birth, meaning non primary care, pregnancy_start_date not available and imputed 
 
-8. **CONCEPSETS**: pre-term birth, meaning non primary care,  pregnancy_start_date not available and imputed
+- **9**	CONCEPSETS: still birth, meaning non primary care,  pregnancy_start_date not available and imputed
+ 
+- **10**  CONCEPSETS: interruption, meaning non primary care,  pregnancy_start_date not available and imputed
+ 
+- **11**  CONCEPTSETS: spontaneous abortion, meaning non primary care, pregnancy_start_date not available and imputed
+ 
+- **12**  CONCEPTSETS: ectopic pregnancy, meaning non primary care, pregnancy_start_date not available and imputed
+ 
+- **13**  CONCEPTSETS: meaning implying primary care, pregnancy_start_date not available and imputed, end date estimated with record date 
+ 
+- **14**  CONCEPSETS: still birth possible, meaning non primary care,  pregnancy_start_date not available and imputed
 
-9. **CONCEPSETS**: still birth, meaning non primary care,  pregnancy_start_date not available and imputed
+- **15**  CONCEPSETS: interruption possible, meaning non primary care,  pregnancy_start_date not available and imputed
 
-10. **CONCEPSETS**: interruption, meaning non primary care,  pregnancy_start_date not available and imputed
+- **16**  CONCEPSETS: spontaneous abortion possible, meaning non primary care,  pregnancy_start_date not available and imputed
+ 
+- **25**  all Streams: ongoing pregnancy and pregnancy_start_date recorded
+ 
+- **50**  all Streams: ongoing pregnancy having pregnancy_start_date not available and imputed 
 
-11. **CONCEPTSETS**: spontaneous abortion, meaning non primary care, pregnancy_start_date not available and imputed
-
-12. **CONCEPTSETS**: ectopic pregnancy, meaning non primary care, pregnancy_start_date not available and imputed
-
-13. **CONCEPTSETS**: meaning implying primary care, pregnancy_start_date not available and imputed, end date estimated with record date
-
-14. **all Streams**: ongoing pregnancy and pregnancy_start_date recorded 
-
-15. **all Streams**: ongoing pregnancy having pregnancy_start_date not available and imputed 
 
     </div>
   </body>

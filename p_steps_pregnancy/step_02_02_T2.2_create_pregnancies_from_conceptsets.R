@@ -3,8 +3,8 @@
 ##################################################################################################################
 
 # loading concepsets
-for (conceptvar in c(concept_sets_of_start_of_pregnancy,
-                    # concept_sets_of_start_of_pregnancy_birth,
+for (conceptvar in c(concept_sets_of_start_of_pregnancy_UNK,
+                     concept_sets_of_start_of_pregnancy_LB,
                      concept_sets_of_ongoing_of_pregnancy,
                      concept_sets_of_end_of_pregnancy_LB,
                      concept_sets_of_end_of_pregnancy_UNK,
@@ -21,8 +21,8 @@ for (conceptvar in c(concept_sets_of_start_of_pregnancy,
 
 # put together concept_set of start
 dataset_start_concept_sets <- c()
-for (conceptvar in concept_sets_of_start_of_pregnancy){
-  print(conceptvar)
+for (conceptvar in concept_sets_of_start_of_pregnancy_UNK){
+  cat(paste0(conceptvar, "\n"))
   studyvardataset <- get(conceptvar)[!is.na(date),][,concept_set:=conceptvar]
   studyvardataset <- unique(studyvardataset,by=c("person_id","codvar","date"))
   dataset_start_concept_sets <- rbind(dataset_start_concept_sets,
@@ -40,15 +40,15 @@ for (conceptvar in concept_sets_of_start_of_pregnancy){
 dataset_start_concept_sets<-unique(dataset_start_concept_sets, by=c("person_id","visit_occurrence_id","date","concept_set")) 
 
 # Defining concept specific start dates
-dataset_start_concept_sets <- dataset_start_concept_sets[concept_set == "Gestation_less24", pregnancy_start_date := date - (154)]
-dataset_start_concept_sets <- dataset_start_concept_sets[concept_set == "Gestation_24",     pregnancy_start_date := date - (168)]
-dataset_start_concept_sets <- dataset_start_concept_sets[concept_set == "Gestation_25_26",  pregnancy_start_date := date - (178)]
-dataset_start_concept_sets <- dataset_start_concept_sets[concept_set == "Gestation_27_28",  pregnancy_start_date := date - (192)]
-dataset_start_concept_sets <- dataset_start_concept_sets[concept_set == "Gestation_29_30",  pregnancy_start_date := date - (206)]
-dataset_start_concept_sets <- dataset_start_concept_sets[concept_set == "Gestation_31_32",  pregnancy_start_date := date - (220)]
-dataset_start_concept_sets <- dataset_start_concept_sets[concept_set == "Gestation_33_34",  pregnancy_start_date := date - (234)]
-dataset_start_concept_sets <- dataset_start_concept_sets[concept_set == "Gestation_35_36",  pregnancy_start_date := date - (248)]
-dataset_start_concept_sets <- dataset_start_concept_sets[concept_set == "Gestation_more37", pregnancy_start_date := date - (266)]
+dataset_start_concept_sets <- dataset_start_concept_sets[concept_set == "Gestation_less24_UNK", pregnancy_start_date := date - (154)]
+dataset_start_concept_sets <- dataset_start_concept_sets[concept_set == "Gestation_24_UNK",     pregnancy_start_date := date - (168)]
+dataset_start_concept_sets <- dataset_start_concept_sets[concept_set == "Gestation_25_26_UNK",  pregnancy_start_date := date - (178)]
+dataset_start_concept_sets <- dataset_start_concept_sets[concept_set == "Gestation_27_28_UNK",  pregnancy_start_date := date - (192)]
+dataset_start_concept_sets <- dataset_start_concept_sets[concept_set == "Gestation_29_30_UNK",  pregnancy_start_date := date - (206)]
+dataset_start_concept_sets <- dataset_start_concept_sets[concept_set == "Gestation_31_32_UNK",  pregnancy_start_date := date - (220)]
+dataset_start_concept_sets <- dataset_start_concept_sets[concept_set == "Gestation_33_34_UNK",  pregnancy_start_date := date - (234)]
+dataset_start_concept_sets <- dataset_start_concept_sets[concept_set == "Gestation_35_36_UNK",  pregnancy_start_date := date - (248)]
+dataset_start_concept_sets <- dataset_start_concept_sets[concept_set == "Gestation_more37_UNK", pregnancy_start_date := date - (266)]
 
 # Defining end dates 
 dataset_start_concept_sets <- dataset_start_concept_sets[, pregnancy_end_date := pregnancy_start_date + 280]
@@ -71,51 +71,51 @@ dataset_start_concept_sets <- dataset_start_concept_sets[,`:=`(pregnancy_ongoing
 #   Start of Pregnancy birth
 #-----------------------------------
 
-# # put together concept_set of start
-# dataset_start_birth_concept_sets <- c()
-# for (conceptvar in dataset_start_birth_concept_sets){
-#   print(conceptvar)
-#   studyvardataset <- get(conceptvar)[!is.na(date),][,concept_set:=conceptvar]
-#   studyvardataset <- unique(studyvardataset,by=c("person_id","codvar","date"))
-#   dataset_start_birth_concept_sets <- rbind(dataset_start_birth_concept_sets,
-#                                       studyvardataset[,.(person_id,
-#                                                          date, 
-#                                                          codvar, 
-#                                                          concept_set,
-#                                                          visit_occurrence_id, 
-#                                                          meaning_of_event, 
-#                                                          origin_of_event, 
-#                                                          event_record_vocabulary)], fill=TRUE) 
-# }
-# 
-# # check if dataset is unique for person_id, survey_id and survey_date
-# dataset_start_birth_concept_sets<-unique(dataset_start_birth_concept_sets, by=c("person_id","visit_occurrence_id","date","concept_set")) 
-# 
-# # Defining concept specific start dates
-# dataset_start_birth_concept_sets <- dataset_start_birth_concept_sets[concept_set == "Gestation_less24_birth", pregnancy_start_date := date - (154)]
-# dataset_start_birth_concept_sets <- dataset_start_birth_concept_sets[concept_set == "Gestation_24_birth",     pregnancy_start_date := date - (168)]
-# dataset_start_birth_concept_sets <- dataset_start_birth_concept_sets[concept_set == "Gestation_25_26_birth",  pregnancy_start_date := date - (178)]
-# dataset_start_birth_concept_sets <- dataset_start_birth_concept_sets[concept_set == "Gestation_27_28_birth",  pregnancy_start_date := date - (192)]
-# dataset_start_birth_concept_sets <- dataset_start_birth_concept_sets[concept_set == "Gestation_29_30_birth",  pregnancy_start_date := date - (206)]
-# dataset_start_birth_concept_sets <- dataset_start_birth_concept_sets[concept_set == "Gestation_31_32_birth",  pregnancy_start_date := date - (220)]
-# dataset_start_birth_concept_sets <- dataset_start_birth_concept_sets[concept_set == "Gestation_33_34_birth",  pregnancy_start_date := date - (234)]
-# dataset_start_birth_concept_sets <- dataset_start_birth_concept_sets[concept_set == "Gestation_35_36_birth",  pregnancy_start_date := date - (248)]
-# dataset_start_birth_concept_sets <- dataset_start_birth_concept_sets[concept_set == "Gestation_more37_birth", pregnancy_start_date := date - (266)]
-# 
-# # Defining end dates 
-# dataset_start_birth_concept_sets <- dataset_start_birth_concept_sets[, pregnancy_end_date := date]
-# 
-# # Defining imputation, type and meaning
-# dataset_start_birth_concept_sets <- dataset_start_birth_concept_sets[,`:=`(pregnancy_ongoing_date = as.Date(character(0)),
-#                                                                            meaning_start_date = paste0("from_", concept_set),
-#                                                                            meaning_ongoing_date = paste0("record_date_", concept_set),
-#                                                                            meaning_end_date = paste0("from_", concept_set),
-#                                                                            type_of_pregnancy_end = "LB",
-#                                                                            origin = origin_of_event,
-#                                                                            meaning = meaning_of_event,
-#                                                                            imputed_start_of_pregnancy = 0,
-#                                                                            imputed_end_of_pregnancy = 0,
-#                                                                            CONCEPTSETS = "yes")]
+# put together concept_set of start
+dataset_start_LB_concept_sets <- c()
+for (conceptvar in concept_sets_of_start_of_pregnancy_LB){
+  cat(paste0(conceptvar, "\n"))
+  studyvardataset <- get(conceptvar)[!is.na(date),][,concept_set:=conceptvar]
+  studyvardataset <- unique(studyvardataset,by=c("person_id","codvar","date"))
+  dataset_start_LB_concept_sets <- rbind(dataset_start_LB_concept_sets,
+                                      studyvardataset[,.(person_id,
+                                                         date,
+                                                         codvar,
+                                                         concept_set,
+                                                         visit_occurrence_id,
+                                                         meaning_of_event,
+                                                         origin_of_event,
+                                                         event_record_vocabulary)], fill=TRUE)
+}
+
+# check if dataset is unique for person_id, survey_id and survey_date
+dataset_start_LB_concept_sets<-unique(dataset_start_LB_concept_sets, by=c("person_id","visit_occurrence_id","date","concept_set"))
+
+# Defining concept specific start dates
+dataset_start_LB_concept_sets <- dataset_start_LB_concept_sets[concept_set == "Gestation_less24_LB", pregnancy_start_date := date - (154)]
+dataset_start_LB_concept_sets <- dataset_start_LB_concept_sets[concept_set == "Gestation_24_LB",     pregnancy_start_date := date - (168)]
+dataset_start_LB_concept_sets <- dataset_start_LB_concept_sets[concept_set == "Gestation_25_26_LB",  pregnancy_start_date := date - (178)]
+dataset_start_LB_concept_sets <- dataset_start_LB_concept_sets[concept_set == "Gestation_27_28_LB",  pregnancy_start_date := date - (192)]
+dataset_start_LB_concept_sets <- dataset_start_LB_concept_sets[concept_set == "Gestation_29_30_LB",  pregnancy_start_date := date - (206)]
+dataset_start_LB_concept_sets <- dataset_start_LB_concept_sets[concept_set == "Gestation_31_32_LB",  pregnancy_start_date := date - (220)]
+dataset_start_LB_concept_sets <- dataset_start_LB_concept_sets[concept_set == "Gestation_33_34_LB",  pregnancy_start_date := date - (234)]
+dataset_start_LB_concept_sets <- dataset_start_LB_concept_sets[concept_set == "Gestation_35_36_LB",  pregnancy_start_date := date - (248)]
+dataset_start_LB_concept_sets <- dataset_start_LB_concept_sets[concept_set == "Gestation_more37_LB", pregnancy_start_date := date - (266)]
+
+# Defining end dates
+dataset_start_LB_concept_sets <- dataset_start_LB_concept_sets[, pregnancy_end_date := date]
+
+# Defining imputation, type and meaning
+dataset_start_LB_concept_sets <- dataset_start_LB_concept_sets[,`:=`(pregnancy_ongoing_date = as.Date(character(0)),
+                                                                           meaning_start_date = paste0("from_", concept_set),
+                                                                           meaning_ongoing_date = paste0("record_date_", concept_set),
+                                                                           meaning_end_date = paste0("from_", concept_set),
+                                                                           type_of_pregnancy_end = "LB",
+                                                                           origin = origin_of_event,
+                                                                           meaning = meaning_of_event,
+                                                                           imputed_start_of_pregnancy = 0,
+                                                                           imputed_end_of_pregnancy = 0,
+                                                                           CONCEPTSETS = "yes")]
 
 
 #-----------------------------------
@@ -126,7 +126,7 @@ dataset_start_concept_sets <- dataset_start_concept_sets[,`:=`(pregnancy_ongoing
 dataset_ongoing_concept_sets <- c()
 
 for (conceptvar in concept_sets_of_ongoing_of_pregnancy){ 
-  print(conceptvar)
+  cat(paste0(conceptvar, "\n"))
   studyvardataset <- get(conceptvar)[!is.na(date),][,concept_set:=conceptvar]
   studyvardataset <- unique(studyvardataset,by=c("person_id","codvar","date"))
   
@@ -189,7 +189,7 @@ dataset_ongoing_concept_sets <- dataset_ongoing_concept_sets[is.na(meaning), mea
 dataset_LB_concept_sets <- c()
 
 for (conceptvar in concept_sets_of_end_of_pregnancy_LB  ){ 
-  print(conceptvar)
+  cat(paste0(conceptvar, "\n"))
   studyvardataset <- get(conceptvar)[!is.na(date),][,concept_set:=conceptvar]
   studyvardataset <- unique(studyvardataset,by=c("person_id","codvar","date"))
   
@@ -224,7 +224,14 @@ dataset_LB_concept_sets <-unique( dataset_LB_concept_sets, by=c("person_id","vis
 dataset_LB_concept_sets <- dataset_LB_concept_sets[, pregnancy_end_date := date]
 
 # defining start dates
-dataset_LB_concept_sets <- dataset_LB_concept_sets[, pregnancy_start_date := pregnancy_end_date - 280]
+dataset_LB_concept_sets <- dataset_LB_concept_sets[concept_set == "Birth_narrow", pregnancy_start_date := pregnancy_end_date - 280]
+dataset_LB_concept_sets <- dataset_LB_concept_sets[concept_set == "Preterm", pregnancy_start_date := pregnancy_end_date - 250]
+dataset_LB_concept_sets <- dataset_LB_concept_sets[concept_set == "Atterm", pregnancy_start_date := pregnancy_end_date - 280]
+dataset_LB_concept_sets <- dataset_LB_concept_sets[concept_set == "Postterm", pregnancy_start_date := pregnancy_end_date - 300]
+dataset_LB_concept_sets <- dataset_LB_concept_sets[concept_set == "Livebirth", pregnancy_start_date := pregnancy_end_date - 280]
+dataset_LB_concept_sets <- dataset_LB_concept_sets[concept_set == "procedures_livebirth", pregnancy_start_date := pregnancy_end_date - 280]
+dataset_LB_concept_sets <- dataset_LB_concept_sets[concept_set == "procedures_delivery", pregnancy_start_date := pregnancy_end_date - 280]
+
 
 # Defining imputation, type and meaning
 dataset_LB_concept_sets <-  dataset_LB_concept_sets[,`:=`(pregnancy_ongoing_date = as.Date(character(0)),
@@ -250,7 +257,7 @@ dataset_LB_concept_sets <- dataset_LB_concept_sets[is.na(meaning), meaning := me
 dataset_end_UNK_concept_sets <- c()
 
 for (conceptvar in concept_sets_of_end_of_pregnancy_UNK  ){ 
-  print(conceptvar)
+  cat(paste0(conceptvar, "\n"))
   studyvardataset <- get(conceptvar)[!is.na(date),][,concept_set:=conceptvar]
   studyvardataset <- unique(studyvardataset,by=c("person_id","codvar","date"))
   
@@ -312,7 +319,7 @@ dataset_end_UNK_concept_sets <- dataset_end_UNK_concept_sets[is.na(meaning), mea
 dataset_UNF_concept_sets <- c()
 
 for (conceptvar in concept_sets_of_end_of_pregnancy_UNF){ 
-  print(conceptvar)
+  cat(paste0(conceptvar, "\n"))
   studyvardataset <- get(conceptvar)[!is.na(date),][,concept_set:=conceptvar]
   studyvardataset <- unique(studyvardataset,by=c("person_id","codvar","date"))
   
@@ -374,7 +381,7 @@ dataset_UNF_concept_sets <- dataset_UNF_concept_sets[is.na(meaning), meaning := 
 dataset_SB_T_SA_ECT_concept_sets <- c()
 
 for (conceptvar in concept_sets_of_end_of_pregnancy_T_SA_SB_ECT){ 
-  print(conceptvar)
+  cat(paste0(conceptvar, "\n"))
   studyvardataset <- get(conceptvar)[!is.na(date),][,concept_set:=conceptvar]
   studyvardataset <- unique(studyvardataset,by=c("person_id","codvar","date"))
   
@@ -409,7 +416,21 @@ dataset_SB_T_SA_ECT_concept_sets <-unique(dataset_SB_T_SA_ECT_concept_sets, by=c
 dataset_SB_T_SA_ECT_concept_sets <- dataset_SB_T_SA_ECT_concept_sets[, pregnancy_end_date := date]
 
 # defining start dates
-dataset_SB_T_SA_ECT_concept_sets <- dataset_SB_T_SA_ECT_concept_sets[, pregnancy_start_date := pregnancy_end_date - 70]
+dataset_SB_T_SA_ECT_concept_sets <-  dataset_SB_T_SA_ECT_concept_sets[concept_set == "Stillbirth_narrow",
+                                                                      pregnancy_start_date := pregnancy_end_date - 280]
+
+dataset_SB_T_SA_ECT_concept_sets <-  dataset_SB_T_SA_ECT_concept_sets[concept_set == "Interruption_narrow" |
+                                                                        concept_set == "procedures_termination"|
+                                                                        concept_set == "Medicated_VTP", 
+                                                                      pregnancy_start_date := pregnancy_end_date - 70]
+
+dataset_SB_T_SA_ECT_concept_sets <-  dataset_SB_T_SA_ECT_concept_sets[concept_set == "Spontaneousabortion_narrow" |
+                                                                        concept_set == "procedures_spontaneous_abortion", 
+                                                                      pregnancy_start_date := pregnancy_end_date - 70]
+
+dataset_SB_T_SA_ECT_concept_sets <-  dataset_SB_T_SA_ECT_concept_sets[concept_set == "Ectopicpregnancy"|
+                                                                        concept_set =="procedures_ectopic",
+                                                                      pregnancy_start_date := pregnancy_end_date - 70]
 
 # Defining conceptset speficit type of end
 dataset_SB_T_SA_ECT_concept_sets <-  dataset_SB_T_SA_ECT_concept_sets[concept_set == "Stillbirth_narrow",
@@ -449,6 +470,7 @@ dataset_SB_T_SA_ECT_concept_sets <- dataset_SB_T_SA_ECT_concept_sets[is.na(meani
 
 
 dataset_concept_sets_all <- rbindlist(list(dataset_start_concept_sets,
+                                           dataset_start_LB_concept_sets,
                                            dataset_ongoing_concept_sets,
                                            dataset_LB_concept_sets,
                                            dataset_end_UNK_concept_sets,
@@ -529,7 +551,8 @@ rm(dataset_start_concept_sets,
    dataset_concept_sets_all,
    D3_Stream_CONCEPTSETS)
 
-rm(list = c(concept_sets_of_start_of_pregnancy,
+rm(list = c(concept_sets_of_start_of_pregnancy_UNK,
+            concept_sets_of_start_of_pregnancy_LB,
             concept_sets_of_ongoing_of_pregnancy,
             concept_sets_of_end_of_pregnancy_LB,
             concept_sets_of_end_of_pregnancy_UNK,

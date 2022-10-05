@@ -29,4 +29,4 @@ event_definition_for_filter <- c("24weeks pregnancy",
 
 concept_set_codes_preg <- concept_set_codes_all_VAC4EU[event_definition %in% event_definition_for_filter]
 
-fwrite(concept_set_codes_preg, paste0(thisdir, "/p_parameters_pregnancy/03_conceptsets/20221004_V2_ALL_full_codelist_pregnancy.csv"))
+#fwrite(concept_set_codes_preg, paste0(thisdir, "/p_parameters_pregnancy/03_conceptsets/20221004_V2_ALL_full_codelist_pregnancy.csv"))
