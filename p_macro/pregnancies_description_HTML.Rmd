@@ -110,13 +110,13 @@ As reported in the sap, some records have both pregnancy start date and pregnanc
  
 - **12**  CONCEPTSETS: ectopic pregnancy, meaning non primary care, pregnancy_start_date not available and imputed
  
-- **13**  CONCEPTSETS: meaning implying primary care, pregnancy_start_date not available and imputed, end date estimated with record date 
- 
-- **14**  CONCEPSETS: still birth possible, meaning non primary care,  pregnancy_start_date not available and imputed
+- **13**  CONCEPSETS: still birth possible, meaning non primary care,  pregnancy_start_date not available and imputed
 
-- **15**  CONCEPSETS: interruption possible, meaning non primary care,  pregnancy_start_date not available and imputed
+- **14**  CONCEPSETS: interruption possible, meaning non primary care,  pregnancy_start_date not available and imputed
 
-- **16**  CONCEPSETS: spontaneous abortion possible, meaning non primary care,  pregnancy_start_date not available and imputed
+- **15**  CONCEPSETS: spontaneous abortion possible, meaning non primary care,  pregnancy_start_date not available and imputed
+
+- **16**  CONCEPTSETS: meaning implying primary care, pregnancy_start_date not available and imputed, end date estimated with record date 
  
 - **25**  all Streams: ongoing pregnancy and pregnancy_start_date recorded
  
@@ -991,7 +991,26 @@ paged_table(table_meaning_start)
 options(warn=0)
 ```
 
+<br/><br/>
 
+### Gender
+
+___
+
+<br/>
+
+The following table describes the gender.
+
+<br/>
+
+**Pregnancies N (%)**
+```{r dummy_table_gender}
+table_meaning_end <- fread(paste0(direxp, "TablePregSex.csv"))
+
+paged_table(table_meaning_end)
+
+
+```
 
 
 

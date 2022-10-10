@@ -93,7 +93,8 @@ D3_pregnancy_reconciled_valid <- D3_pregnancy_reconciled_valid[, .(pregnancy_id,
                                                                    gestage_greater_44,
                                                                    pregnancy_splitted, 
                                                                    excluded,
-                                                                   reason_for_exclusion)]
+                                                                   reason_for_exclusion, 
+                                                                   origin)]
 
 D3_pregnancy_reconciled <- D3_pregnancy_reconciled_valid[, -c( "pregnancy_splitted", "excluded", "order_quality", "reason_for_exclusion")]
 
@@ -106,7 +107,7 @@ D3_pregnancy_reconciled_valid <- D3_pregnancy_reconciled_valid[pregnancy_end_dat
 
 ### Sex
 D3_pregnancy_reconciled <- merge(D3_pregnancy_reconciled, D3_PERSONS[,.(person_id, sex_at_instance_creation)], by = c("person_id"), all.x = T)
-
+D3_pregnancy_reconciled_valid <- merge(D3_pregnancy_reconciled_valid, D3_PERSONS[,.(person_id, sex_at_instance_creation)], by = c("person_id"), all.x = T)
 
 # Filter pregnancies that can not be legally included
 D3_pregnancy_reconciled <- D3_pregnancy_reconciled[eval(parse(text = legally_included_pregnancies))]
@@ -131,5 +132,34 @@ save(D3_pregnancy_final, file=paste0(diroutput,"D3_pregnancy_final.RData"))
 if (thisdatasource == "BIFAP"){
   fwrite(D3_pregnancy_reconciled, paste0(dirvalidation, "/D3_pregnancy_reconciled.csv"))
 }
+
+
+#-------------------------------------------------------------------------------
+#  D3_survey_and_visit_ids
+#-------------------------------------------------------------------------------
+
+D3_survey_and_visit_ids <- D3_groups_of_pregnancies_reconciled[, .(pregnancy_id,
+                                                                   person_id,
+                                                                   survey_id,
+                                                                   visit_occurrence_id,
+                                                                   meaning, 
+                                                                   origin)]
+
+D3_survey_and_visit_ids <- D3_survey_and_visit_ids[!(is.na(survey_id) & is.na(visit_occurrence_id))]
+
+D3_survey_and_visit_ids <- D3_survey_and_visit_ids[!is.na(survey_id), type_of_id := "survey_id"]
+D3_survey_and_visit_ids <- D3_survey_and_visit_ids[!is.na(visit_occurrence_id), type_of_id := "visit_occurrence_id"]
+
+setnames(D3_survey_and_visit_ids, "survey_id", "id")
+D3_survey_and_visit_ids <- D3_survey_and_visit_ids[is.na(id), id := visit_occurrence_id]
+D3_survey_and_visit_ids <- D3_survey_and_visit_ids[, .(pregnancy_id,
+                                                       person_id,
+                                                       type_of_id,
+                                                       meaning_of_id = meaning,
+                                                       id, 
+                                                       origin)]
+
+D3_survey_and_visit_ids <- D3_survey_and_visit_ids[!(id %like% "_dummy_visit_occ_id_")]
+save(D3_survey_and_visit_ids, file=paste0(dirtemp,"D3_survey_and_visit_ids.RData"))
 
 rm(D3_groups_of_pregnancies_reconciled, D3_pregnancy_reconciled)

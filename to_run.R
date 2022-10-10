@@ -6,13 +6,15 @@
 # 
 # link: https://github.com/ARS-toscana/ConcePTIONAlgorithmPregnancies
 #
+# changelog v2.1.11, 10 October 2022: 
+#  - D3_survey_and_visit_ids added
+#
 # changelog v2.1.10, 4 October 2022: 
 #  - New codelist implemented
 #  - New "create pregnancies from conceptset" step
 #  - Implemented ogoing PROMPT
 #  - alligned "procedure_livebirth"
 #  - New param for legally included pregnancy
-#  - TO BE FIXED: concept set used in this run
 #
 # changelog v2.1.9, 15 September 2022: 
 #  - service before termination --> quality 99
