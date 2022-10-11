@@ -205,7 +205,7 @@ for (conceptvar in concept_sets_of_end_of_pregnancy_LB  ){
                                                              event_record_vocabulary)], fill=TRUE) 
   }
   if(concept_set_domains[[conceptvar]] == "Procedures"){
-    ddataset_LB_concept_sets <- rbind(dataset_LB_concept_sets,
+    dataset_LB_concept_sets <- rbind(dataset_LB_concept_sets,
                                           studyvardataset[,.(person_id,
                                                              date, 
                                                              codvar,
