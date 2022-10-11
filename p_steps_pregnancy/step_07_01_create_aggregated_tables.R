@@ -294,9 +294,9 @@ fwrite(TableGestageAggregated, paste0(direxp, "TableGestageAggregated.csv"))
 cat("11. Table gender \n ")
 
 ### Sex 
-TablePregSex <- merge(D3_pregnancy_reconciled_valid, D3_PERSONS[,.(person_id, sex_at_instance_creation)], by = c("person_id"), all.x = T)
+#TablePregSex <- merge(D3_pregnancy_reconciled_valid, D3_PERSONS[,.(person_id, sex_at_instance_creation)], by = c("person_id"), all.x = T)
 
-TablePregSex <- TablePregSex[, year := year(pregnancy_start_date)]
+TablePregSex <- D3_pregnancy_reconciled_valid[, year := year(pregnancy_start_date)]
 TablePregSex <- TablePregSex[, .N, by = c("year", "sex_at_instance_creation")][order(year, sex_at_instance_creation)]
 
 fwrite(TablePregSex, paste0(direxp, "TablePregSex.csv"))
@@ -586,9 +586,9 @@ fwrite(TableGestageAggregated, paste0(direxp, "TableGestageAggregated_", year_st
 cat("22. Table Gender specific years  \n ")
 
 ### Sex 
-TablePregSex <- merge(D3_pregnancy_reconciled_valid_specific_year, D3_PERSONS[,.(person_id, sex_at_instance_creation)], by = c("person_id"), all.x = T)
+#TablePregSex <- merge(D3_pregnancy_reconciled_valid_specific_year, D3_PERSONS[,.(person_id, sex_at_instance_creation)], by = c("person_id"), all.x = T)
 
-TablePregSex <- TablePregSex[, year := year(pregnancy_start_date)]
+TablePregSex <- D3_pregnancy_reconciled_valid_specific_year[, year := year(pregnancy_start_date)]
 TablePregSex <- TablePregSex[, .N, by = c("year", "sex_at_instance_creation")][order(year, sex_at_instance_creation)]
 
 fwrite(TablePregSex, paste0(direxp, "TablePregSex_", year_start_descriptive, "_", year_end_descriptive, ".csv"))

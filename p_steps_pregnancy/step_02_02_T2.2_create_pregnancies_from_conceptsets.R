@@ -543,6 +543,7 @@ if(HTML_files_creation){
 
 
 rm(dataset_start_concept_sets,
+   dataset_start_LB_concept_sets,
    dataset_ongoing_concept_sets,
    dataset_LB_concept_sets,
    dataset_end_UNK_concept_sets,
