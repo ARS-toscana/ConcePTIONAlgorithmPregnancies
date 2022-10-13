@@ -122,13 +122,13 @@ if (this_datasource_has_prompt) {
     dataset_pregnancies2[is.na(pregnancy_end_date),pregnancy_end_date:=END_ABORTION][!is.na(pregnancy_end_date)& is.na(meaning_end_date),`:=`(meaning_end_date=meaning_END_ABORTION, origin=table_END_ABORTION, column=column_END_ABORTION, so_source_value=END_ABORTION)]
     
     # impute type for unclassified dates 
-    dataset_pregnancies2[meaning_end_date%in%unlist(meaning_of_survey_pregnancy_this_datasource[["spontaneous_abortion"]]),type_of_pregnancy_end:="SA"] #is.na(type_of_pregnancy_end) & 
-    dataset_pregnancies2[meaning_end_date%in%unlist(meaning_of_survey_pregnancy_this_datasource[["induced_termination"]]),type_of_pregnancy_end:="T"] #is.na(type_of_pregnancy_end) & 
-    dataset_pregnancies2[meaning_end_date%in%unlist(meaning_of_survey_pregnancy_this_datasource[["livebirth_or_stillbirth"]]),type_of_pregnancy_end:="LB_or_SB"] #is.na(type_of_pregnancy_end) &
+    dataset_pregnancies2[meaning_end_date%in%unlist(meaning_of_survey_pregnancy_this_datasource[["spontaneous_abortion"]]),type_of_pregnancy_end:="UNK"] #is.na(type_of_pregnancy_end) & 
+    dataset_pregnancies2[meaning_end_date%in%unlist(meaning_of_survey_pregnancy_this_datasource[["induced_termination"]]),type_of_pregnancy_end:="UNK"] #is.na(type_of_pregnancy_end) & 
+    dataset_pregnancies2[meaning_end_date%in%unlist(meaning_of_survey_pregnancy_this_datasource[["livebirth_or_stillbirth"]]),type_of_pregnancy_end:="UNK"] #is.na(type_of_pregnancy_end) &
     
 
     # added type of end for ongoing and other 
-    dataset_pregnancies2[survey_meaning %in% unlist(meaning_of_survey_pregnancy_this_datasource[["ongoing_pregnancy"]]),type_of_pregnancy_end:="ONGOING"]
+    dataset_pregnancies2[survey_meaning %in% unlist(meaning_of_survey_pregnancy_this_datasource[["ongoing_pregnancy"]]),type_of_pregnancy_end:="UNK"]
     dataset_pregnancies2[survey_meaning %in% unlist(meaning_of_survey_pregnancy_this_datasource[["other"]]),type_of_pregnancy_end:="UNK"]
     
     
