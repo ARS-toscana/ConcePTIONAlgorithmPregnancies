@@ -160,6 +160,6 @@ D3_survey_and_visit_ids <- D3_survey_and_visit_ids[, .(pregnancy_id,
                                                        origin)]
 
 D3_survey_and_visit_ids <- D3_survey_and_visit_ids[!(id %like% "_dummy_visit_occ_id_")]
-save(D3_survey_and_visit_ids, file=paste0(dirtemp,"D3_survey_and_visit_ids.RData"))
-
+save(D3_survey_and_visit_ids, file=paste0(diroutput,"D3_survey_and_visit_ids.RData"))
+#fwrite(D3_survey_and_visit_ids, paste0(diroutput,"D3_survey_and_visit_ids.csv"))
 rm(D3_groups_of_pregnancies_reconciled, D3_pregnancy_reconciled)

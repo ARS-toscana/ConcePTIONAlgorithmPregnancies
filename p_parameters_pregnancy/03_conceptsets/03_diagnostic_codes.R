@@ -103,14 +103,14 @@ concept_set_codes_pregnancy[["Spontaneousabortion_possible"]] <- list()
 
 
 # loading concepsets from csv 
-concept_set_codes_pregnancy_data_table <- fread(paste0(thisdir, "/p_parameters_pregnancy/03_conceptsets/20221013_V2_ALL_full_codelist_pregnancy.csv"))
+concept_set_codes_pregnancy_data_table <- fread(paste0(thisdir, "/p_parameters_pregnancy/03_conceptsets/20221017_V2_ALL_full_codelist_pregnancy.csv"))
 
 
 ###--------------------------------------------------------------------
 # Concept in the list ..........Concept used in the algorithm
 ###--------------------------------------------------------------------
 #-----------------------------------------------------------------------start
-# "Gestationlessthan24weeksUNK" ..Gestation_less24_UNK
+# "Gestationlessthan24weeksU" ..Gestation_less24_UNK
 # "24weeksUNK"....................Gestation_24_UNK
 # "Gestation2526weeksUNK".........Gestation_25_26_UNK
 # "Gestation2728weeksUNK".........Gestation_27_28_UNK
@@ -120,7 +120,7 @@ concept_set_codes_pregnancy_data_table <- fread(paste0(thisdir, "/p_parameters_p
 # "Gestation3536weeksUNK"   ......Gestation_35_36_UNK
 # "Gestation37weeksUNK"     ......Gestation_more37_UNK
 #
-# "Gestationlessthan24weeksLB" ...Gestation_less24_LB
+# "Gestationlessthan24weeksL" ...Gestation_less24_LB
 # "24weeksLB".....................Gestation_24_LB
 # "Gestation2526weeksLB"..........Gestation_25_26_LB
 # "Gestation2728weeksLB"..........Gestation_27_28_LB
@@ -184,49 +184,37 @@ concept_set_codes_pregnancy_not_modified <- df_to_list_of_list(concept_set_codes
                                                                concepts_col = "event_abbreviation")
 
 
-
+unique(concept_set_codes_pregnancy_data_table[, event_abbreviation])
 
 # assign each concept set of concept_set_codes_pregnancy_not_modified to concept_set_codes_pregnancy
 
-#concept_set_codes_pregnancy[["Gestation_less24_UNK"]] <- concept_set_codes_pregnancy_not_modified[["Gestationlessthan24weeks_UNK"]] 
-#-------------------------------------------------------------------------------
-concept_set_codes_pregnancy[["Gestation_less24_UNK"]][["ICD9"]] <- c("765.21")
-concept_set_codes_pregnancy[["Gestation_less24_UNK"]][["SCTSPA"]] <- c("13178001", "428567001")
-concept_set_codes_pregnancy[["Gestation_less24_UNK"]][["SNOMED"]] <- c("428567001", "147035002", "169806005", "313178001")
-#-------------------------------------------------------------------------------
+concept_set_codes_pregnancy[["Gestation_less24_UNK"]] <- concept_set_codes_pregnancy_not_modified[["Gestationlessthan24weeksU"]] 
+# #-------------------------------------------------------------------------------
+# concept_set_codes_pregnancy[["Gestation_less24_UNK"]][["ICD9"]] <- c("765.21")
+# concept_set_codes_pregnancy[["Gestation_less24_UNK"]][["SCTSPA"]] <- c("13178001", "428567001")
+# concept_set_codes_pregnancy[["Gestation_less24_UNK"]][["SNOMED"]] <- c("428567001", "147035002", "169806005", "313178001")
+# #-------------------------------------------------------------------------------
 
-
-
-#concept_set_codes_pregnancy[["Gestation_24_UNK"]] <- concept_set_codes_pregnancy_not_modified[["24weeksUNK"]] 
-#-------------------------------------------------------------------------------
-concept_set_codes_pregnancy[["Gestation_24_UNK"]][["ICD9"]] <- c("765.22")
-concept_set_codes_pregnancy[["Gestation_24_UNK"]][["SCTSPA"]] <- c("313179009", "69471007")
-concept_set_codes_pregnancy[["Gestation_24_UNK"]][["SNOMED"]] <- c("147036001", "169807001", "313179009", "69471007")
-#-------------------------------------------------------------------------------
-
-
+concept_set_codes_pregnancy[["Gestation_24_UNK"]] <- concept_set_codes_pregnancy_not_modified[["24weeksUNK"]] 
+# #-------------------------------------------------------------------------------
+# concept_set_codes_pregnancy[["Gestation_24_UNK"]][["ICD9"]] <- c("765.22")
+# concept_set_codes_pregnancy[["Gestation_24_UNK"]][["SCTSPA"]] <- c("313179009", "69471007")
+# concept_set_codes_pregnancy[["Gestation_24_UNK"]][["SNOMED"]] <- c("147036001", "169807001", "313179009", "69471007")
+# #-------------------------------------------------------------------------------
 
 concept_set_codes_pregnancy[["Gestation_25_26_UNK"]] <- concept_set_codes_pregnancy_not_modified[["Gestation2526weeksUNK"]] 
 
-
-
-#concept_set_codes_pregnancy[["Gestation_27_28_UNK"]] <- concept_set_codes_pregnancy_not_modified[["Gestation2728weeks_UNK"]]
-#-------------------------------------------------------------------------------
-concept_set_codes_pregnancy[["Gestation_27_28_UNK"]][["ICD9"]] <- c("765.24")
-#-------------------------------------------------------------------------------
-
-
+concept_set_codes_pregnancy[["Gestation_27_28_UNK"]] <- concept_set_codes_pregnancy_not_modified[["Gestation2728weeksUNK"]]
+# #-------------------------------------------------------------------------------
+# concept_set_codes_pregnancy[["Gestation_27_28_UNK"]][["ICD9"]] <- c("765.24")
+# #-------------------------------------------------------------------------------
 
 concept_set_codes_pregnancy[["Gestation_29_30_UNK"]] <- concept_set_codes_pregnancy_not_modified[["Gestation2930weeksUNK"]] 
 
-
-
-#concept_set_codes_pregnancy[["Gestation_31_32_UNK"]] <- concept_set_codes_pregnancy_not_modified[["Gestation3132weeks_UNK"]] 
-#-------------------------------------------------------------------------------
-concept_set_codes_pregnancy[["Gestation_31_32_UNK"]][["ICD9"]] <- c("765.26")
-#-------------------------------------------------------------------------------
-
-
+concept_set_codes_pregnancy[["Gestation_31_32_UNK"]] <- concept_set_codes_pregnancy_not_modified[["Gestation3132weeksUNK"]] 
+# #-------------------------------------------------------------------------------
+# concept_set_codes_pregnancy[["Gestation_31_32_UNK"]][["ICD9"]] <- c("765.26")
+# #-------------------------------------------------------------------------------
 
 concept_set_codes_pregnancy[["Gestation_33_34_UNK"]] <- concept_set_codes_pregnancy_not_modified[["Gestation3334weeksUNK"]] 
 
@@ -237,22 +225,15 @@ concept_set_codes_pregnancy[["Gestation_more37_UNK"]] <- concept_set_codes_pregn
 
 
 
+concept_set_codes_pregnancy[["Gestation_less24_LB"]] <- concept_set_codes_pregnancy_not_modified[["Gestationlessthan24weeksL"]]
+# #-------------------------------------------------------------------------------
+# concept_set_codes_pregnancy[["Gestation_less24_LB"]][["ICD10"]] <- c("P07.2", "P07.22")
+# #-------------------------------------------------------------------------------
 
-
-
-
-#concept_set_codes_pregnancy[["Gestation_less24_LB"]] <- concept_set_codes_pregnancy_not_modified[["Gestationlessthan24weeks_LB"]]
-#-------------------------------------------------------------------------------
-concept_set_codes_pregnancy[["Gestation_less24_LB"]][["ICD10"]] <- c("P07.2", "P07.22")
-#-------------------------------------------------------------------------------
-
-
-#concept_set_codes_pregnancy[["Gestation_24_LB"]] <- concept_set_codes_pregnancy_not_modified[["24weeks_LB"]] 
-#-------------------------------------------------------------------------------
-concept_set_codes_pregnancy[["Gestation_24_LB"]][["ICD10"]] <- c("P07.23")
-#-------------------------------------------------------------------------------
-
-
+concept_set_codes_pregnancy[["Gestation_24_LB"]] <- concept_set_codes_pregnancy_not_modified[["24weeksLB"]] 
+# #-------------------------------------------------------------------------------
+# concept_set_codes_pregnancy[["Gestation_24_LB"]][["ICD10"]] <- c("P07.23")
+# #-------------------------------------------------------------------------------
 
 concept_set_codes_pregnancy[["Gestation_25_26_LB"]] <- concept_set_codes_pregnancy_not_modified[["Gestation2526weeksLB"]]
 
