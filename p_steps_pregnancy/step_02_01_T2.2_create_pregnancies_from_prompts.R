@@ -141,11 +141,19 @@ if (this_datasource_has_prompt) {
       dataset_pregnancies2[pregnancy_end_date==DATEENDPREGNANCY & TYPE%in%unlist(dictonary_of_itemset_pregnancy_this_datasource[["T"]]) ,type_of_pregnancy_end:="T"]
       dataset_pregnancies2[pregnancy_end_date==DATEENDPREGNANCY & TYPE%in%unlist(dictonary_of_itemset_pregnancy_this_datasource[["MD"]]),type_of_pregnancy_end:="MD"]
       
-      dataset_pregnancies2[pregnancy_end_date==DATEENDPREGNANCY & TYPE%in%unlist(dictonary_of_itemset_pregnancy_this_datasource[["UNK"]]) & (GESTAGE_FROM_DAPS_CRITERIA_DAYS/7)>20 
+      dataset_pregnancies2[pregnancy_end_date==DATEENDPREGNANCY & 
+                             TYPE%in%unlist(dictonary_of_itemset_pregnancy_this_datasource[["UNK"]]) & 
+                             (GESTAGE_FROM_DAPS_CRITERIA_DAYS/7)>22 
                            ,type_of_pregnancy_end:="SB"]
-      dataset_pregnancies2[pregnancy_end_date==DATEENDPREGNANCY & TYPE%in%unlist(dictonary_of_itemset_pregnancy_this_datasource[["UNK"]]) & (GESTAGE_FROM_DAPS_CRITERIA_DAYS/7)<=20
+      
+      dataset_pregnancies2[pregnancy_end_date==DATEENDPREGNANCY & 
+                             TYPE%in%unlist(dictonary_of_itemset_pregnancy_this_datasource[["UNK"]]) & 
+                             (GESTAGE_FROM_DAPS_CRITERIA_DAYS/7)<=22
                            ,type_of_pregnancy_end:="SA"]
-      dataset_pregnancies2[pregnancy_end_date==DATEENDPREGNANCY & TYPE%in%unlist(dictonary_of_itemset_pregnancy_this_datasource[["UNK"]]) & is.na(GESTAGE_FROM_DAPS_CRITERIA_DAYS)
+      
+      dataset_pregnancies2[pregnancy_end_date==DATEENDPREGNANCY & 
+                             TYPE%in%unlist(dictonary_of_itemset_pregnancy_this_datasource[["UNK"]]) & 
+                             is.na(GESTAGE_FROM_DAPS_CRITERIA_DAYS)
                            ,type_of_pregnancy_end:="UNK"]
       
     } else if (thisdatasource=="CASERTA"){
