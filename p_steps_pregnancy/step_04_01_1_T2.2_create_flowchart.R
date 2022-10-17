@@ -209,6 +209,10 @@ for (years_flowChart in list_flowChart_years) {
   }
   
   fwrite(FlowChart, paste0(direxp, "FlowChart_", years_flowChart$start, "_", years_flowChart$end, ".csv"))
+  
+  if (years_flowChart$start == 2015 & years_flowChart$end == 2019) {
+    fwrite(FlowChart, paste0(direxpmanuscript, "FlowChart_", years_flowChart$start, "_", years_flowChart$end, ".csv"))
+  }
 }
 
 
