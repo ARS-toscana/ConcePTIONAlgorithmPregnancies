@@ -1,11 +1,11 @@
-# date: TO_ADD
-# datasource: TO_ADD
-# DAP: TO_ADD
-# author: TO_ADD
+# date: SAIL Databank
+# datasource: SAIL Databank
+# DAP: SAIL Databank
+# author: SAIL Databank
 # version: 1.0
 # changelog: 
 
-####### LOAD itemsets for TO_ADD
+####### LOAD itemsets for SAIL Databank
 
 
 ########################################## START ######################################################   
@@ -55,6 +55,8 @@ itemset_AVpair_pregnancy[["END_ABORTION"]][[files[i]]][["SAIL Databank"]] <- lis
 ########################################### TYPE #######################################
 #live/stillbirth
 itemset_AVpair_pregnancy[["TYPE"]][[files[i]]][["SAIL Databank"]] <- list(list("ncch_child_births_m","STILLBIRTH_FLG"),list("mids_m","BIRTH_OUTCOME_CD"))
+
+
 
 
 ################################ DICTIONARY OF TYPE ##################################
