@@ -6,13 +6,17 @@
 # 
 # link: https://github.com/ARS-toscana/ConcePTIONAlgorithmPregnancies
 #
+# changelog v2.1.12, 17 October 2022: 
+#  - Updated codelist
+#  - UOSL SB/SA week of gestation: 20 --> 22
+#
 # changelog v2.1.11, 10 October 2022: 
 #  - D3_survey_and_visit_ids added
 #
 # changelog v2.1.10, 4 October 2022: 
 #  - New codelist implemented
 #  - New "create pregnancies from conceptset" step
-#  - Implemented ogoing PROMPT
+#  - Implemented ongoing PROMPT
 #  - alligned "procedure_livebirth"
 #  - New param for legally included pregnancy
 #
