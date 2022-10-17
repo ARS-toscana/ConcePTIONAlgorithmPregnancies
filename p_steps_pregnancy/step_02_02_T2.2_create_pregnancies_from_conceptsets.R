@@ -59,11 +59,27 @@ dataset_start_concept_sets <- dataset_start_concept_sets[,`:=`(pregnancy_ongoing
                                                                meaning_ongoing_date = paste0("record_date_", concept_set),
                                                                meaning_end_date = paste0("imputed_from_", concept_set),
                                                                type_of_pregnancy_end = "UNK",
-                                                               origin = origin_of_event,
-                                                               meaning = meaning_of_event,
+                                                               origin = NA,
+                                                               meaning = NA,
                                                                imputed_start_of_pregnancy = 0,
                                                                imputed_end_of_pregnancy = 1,
                                                                CONCEPTSETS = "yes")]
+
+if ("origin_of_event" %in% names(dataset_start_concept_sets)) {
+  dataset_start_concept_sets <- dataset_start_concept_sets[, `:=`(origin = origin_of_event,
+                                                                              meaning = meaning_of_event)]
+}
+
+if ("origin_of_procedure" %in% names(dataset_start_concept_sets)) {
+  dataset_start_concept_sets <- dataset_start_concept_sets[is.na(origin), origin := origin_of_procedure]
+  dataset_start_concept_sets <- dataset_start_concept_sets[is.na(meaning), meaning := meaning_of_procedure]
+}
+
+
+if ("so_origin" %in% names(dataset_start_concept_sets)) {
+  dataset_start_concept_sets <- dataset_start_concept_sets[is.na(origin), origin := so_origin]
+  dataset_start_concept_sets <- dataset_start_concept_sets[is.na(meaning), meaning := so_meaning]
+}
 
 
 
@@ -116,6 +132,22 @@ dataset_start_LB_concept_sets <- dataset_start_LB_concept_sets[,`:=`(pregnancy_o
                                                                            imputed_start_of_pregnancy = 0,
                                                                            imputed_end_of_pregnancy = 0,
                                                                            CONCEPTSETS = "yes")]
+
+if ("origin_of_event" %in% names(dataset_start_LB_concept_sets)) {
+  dataset_start_LB_concept_sets <- dataset_start_LB_concept_sets[, `:=`(origin = origin_of_event,
+                                                                  meaning = meaning_of_event)]
+}
+
+if ("origin_of_procedure" %in% names(dataset_start_LB_concept_sets)) {
+  dataset_start_LB_concept_sets <- dataset_start_LB_concept_sets[is.na(origin), origin := origin_of_procedure]
+  dataset_start_LB_concept_sets <- dataset_start_LB_concept_sets[is.na(meaning), meaning := meaning_of_procedure]
+}
+
+
+if ("so_origin" %in% names(dataset_start_LB_concept_sets)) {
+  dataset_start_LB_concept_sets <- dataset_start_LB_concept_sets[is.na(origin), origin := so_origin]
+  dataset_start_LB_concept_sets <- dataset_start_LB_concept_sets[is.na(meaning), meaning := so_meaning]
+}
 
 
 #-----------------------------------
@@ -186,6 +218,10 @@ if ("origin_of_procedure" %in% names(dataset_ongoing_concept_sets)) {
   dataset_ongoing_concept_sets <- dataset_ongoing_concept_sets[is.na(meaning), meaning := meaning_of_procedure]
 }
 
+if ("so_origin" %in% names(dataset_ongoing_concept_sets)) {
+  dataset_ongoing_concept_sets <- dataset_ongoing_concept_sets[is.na(origin), origin := so_origin]
+  dataset_ongoing_concept_sets <- dataset_ongoing_concept_sets[is.na(meaning), meaning := so_meaning]
+}
 
 
 
@@ -264,6 +300,10 @@ if ("origin_of_procedure" %in% names(dataset_LB_concept_sets)) {
   dataset_LB_concept_sets <- dataset_LB_concept_sets[is.na(meaning), meaning := meaning_of_procedure]
 }
 
+if ("so_origin" %in% names(dataset_LB_concept_sets)) {
+  dataset_LB_concept_sets <- dataset_LB_concept_sets[is.na(origin), origin := so_origin]
+  dataset_LB_concept_sets <- dataset_LB_concept_sets[is.na(meaning), meaning := so_meaning]
+}
 
 #-----------------------------------
 #   Birth Possible Pregnancy
@@ -334,6 +374,12 @@ if ("origin_of_procedure" %in% names(dataset_end_UNK_concept_sets)) {
 }
 
 
+if ("so_origin" %in% names(dataset_end_UNK_concept_sets)) {
+  dataset_end_UNK_concept_sets <- dataset_end_UNK_concept_sets[is.na(origin), origin := so_origin]
+  dataset_end_UNK_concept_sets <- dataset_end_UNK_concept_sets[is.na(meaning), meaning := so_meaning]
+}
+
+
 
 #-------------------------------------------
 #   Unfavorable unspecified Pregnancy: UNF
@@ -400,6 +446,11 @@ if ("origin_of_event" %in% names(dataset_UNF_concept_sets)) {
 if ("origin_of_procedure" %in% names(dataset_UNF_concept_sets)) {
   dataset_UNF_concept_sets <- dataset_UNF_concept_sets[is.na(origin), origin := origin_of_procedure]
   dataset_UNF_concept_sets <- dataset_UNF_concept_sets[is.na(meaning), meaning := meaning_of_procedure]
+}
+
+if ("so_origin" %in% names(dataset_UNF_concept_sets)) {
+  dataset_UNF_concept_sets <- dataset_UNF_concept_sets[is.na(origin), origin := so_origin]
+  dataset_UNF_concept_sets <- dataset_UNF_concept_sets[is.na(meaning), meaning := so_meaning]
 }
 
 
@@ -499,6 +550,12 @@ if ("origin_of_event" %in% names(dataset_SB_T_SA_ECT_concept_sets)) {
 if ("origin_of_procedure" %in% names(dataset_SB_T_SA_ECT_concept_sets)) {
   dataset_SB_T_SA_ECT_concept_sets <- dataset_SB_T_SA_ECT_concept_sets[is.na(origin), origin := origin_of_procedure]
   dataset_SB_T_SA_ECT_concept_sets <- dataset_SB_T_SA_ECT_concept_sets[is.na(meaning), meaning := meaning_of_procedure]
+}
+
+
+if ("so_origin" %in% names(dataset_SB_T_SA_ECT_concept_sets)) {
+  dataset_SB_T_SA_ECT_concept_sets <- dataset_SB_T_SA_ECT_concept_sets[is.na(origin), origin := so_origin]
+  dataset_SB_T_SA_ECT_concept_sets <- dataset_SB_T_SA_ECT_concept_sets[is.na(meaning), meaning := so_meaning]
 }
 
 
