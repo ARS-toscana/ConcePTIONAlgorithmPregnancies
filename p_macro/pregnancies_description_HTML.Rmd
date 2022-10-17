@@ -241,7 +241,7 @@ The same analysis is done for each different types of end of pregnancy, which ar
 
 - UNK: unknown 
 
-- UNF: unspecified unfavourable outcome
+- UNF: Other Non-Live Birth
 
 <br/><br/>
 
@@ -410,7 +410,7 @@ plot}
 
 <br/><br/>
 
-### Unspecified unfavourable outcome
+### Other Non-Live Birth
 
 ___
 
@@ -609,7 +609,7 @@ if (UNK_first_record[, .N]==0){
 
 <br/><br/>
 
-### Unspecified unfavourable outcome
+### Other Non-Live Birth
 
 ___
 ```{r first_record_UNF}
