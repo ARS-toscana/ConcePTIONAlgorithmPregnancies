@@ -258,6 +258,8 @@ concept_set_codes_pregnancy[["PREECLAMP"]] <- concept_set_codes_pregnancy_not_mo
 
 concept_set_codes_pregnancy[["PREG_BLEEDING"]] <- concept_set_codes_pregnancy_not_modified[["BLEEDING"]] 
 
+concept_set_codes_pregnancy[["FGR"]] <- concept_set_codes_pregnancy_not_modified[["FGR"]] 
+
 
 concept_set_codes_pregnancy[["Ongoingpregnancy"]][["ICD9"]] <- c(concept_set_codes_pregnancy_not_modified[["OngoingPregnancy1"]][["ICD9"]],
                                                                 concept_set_codes_pregnancy_not_modified[["OngoingPregnancy2"]][["ICD9"]],
@@ -320,7 +322,7 @@ concept_set_codes_pregnancy[["Birth_possible"]][["ICD9"]] <- c(concept_set_codes
                                                                  concept_set_codes_pregnancy_not_modified[["BirthPossible3"]][["ICD9"]])
 
 concept_set_codes_pregnancy[["Birth_possible"]][["ICD10"]] <- c(concept_set_codes_pregnancy_not_modified[["BirthPossible1"]][["ICD10"]],
-                                                                  concept_set_codes_pregnancy_not_modified[["BirthPossible1"]][["ICD10"]],
+                                                                  concept_set_codes_pregnancy_not_modified[["BirthPossible2"]][["ICD10"]],
                                                                   concept_set_codes_pregnancy_not_modified[["BirthPossible3"]][["ICD10"]])
 
 concept_set_codes_pregnancy[["Birth_possible"]][["SNOMED"]] <- c(concept_set_codes_pregnancy_not_modified[["BirthPossible1"]][["SNOMED"]],
@@ -349,7 +351,7 @@ concept_set_codes_pregnancy[["Livebirth"]][["ICD9"]] <- c(concept_set_codes_preg
                                                                concept_set_codes_pregnancy_not_modified[["Livebirth2"]][["ICD9"]])
 
 concept_set_codes_pregnancy[["Livebirth"]][["ICD10"]] <- c(concept_set_codes_pregnancy_not_modified[["Livebirth1"]][["ICD10"]],
-                                                                concept_set_codes_pregnancy_not_modified[["Livebirth1"]][["ICD10"]])
+                                                                concept_set_codes_pregnancy_not_modified[["Livebirth2"]][["ICD10"]])
 
 concept_set_codes_pregnancy[["Livebirth"]][["SNOMED"]] <- c(concept_set_codes_pregnancy_not_modified[["Livebirth1"]][["SNOMED"]],
                                                                  concept_set_codes_pregnancy_not_modified[["Livebirth2"]][["SNOMED"]])
