@@ -57,12 +57,10 @@ itemset_AVpair_pregnancy[["END_ABORTION"]][[files[i]]][["SAIL Databank"]] <- lis
 itemset_AVpair_pregnancy[["TYPE"]][[files[i]]][["SAIL Databank"]] <- list(list("ncch_child_births_m","STILLBIRTH_FLG"),list("mids_m","BIRTH_OUTCOME_CD"))
 
 
-################################ DICTINARY OF TYPE ##################################
+################################ DICTIONARY OF TYPE ##################################
 
-dictonary_of_itemset_pregnancy[["TYPE"]][["SAIL Databank"]][["LB"]]<-list(list("ncch_child_births_m", "0"))
-dictonary_of_itemset_pregnancy[["TYPE"]][["SAIL Databank"]][["SB"]]<-list(list("ncch_child_births_m", "1"))
-dictonary_of_itemset_pregnancy[["TYPE"]][["SAIL Databank"]][["LB"]]<-list(list("mids_m", "1"))
-dictonary_of_itemset_pregnancy[["TYPE"]][["SAIL Databank"]][["SB"]]<-list(list("mids_m", "2"))
+dictonary_of_itemset_pregnancy[["TYPE"]][["SAIL Databank"]][["LB"]]<-list(list("ncch_child_births_m", "0"), list("mids_m", "1"))
+dictonary_of_itemset_pregnancy[["TYPE"]][["SAIL Databank"]][["SB"]]<-list(list("ncch_child_births_m", "1"), list("mids_m", "2"))
 dictonary_of_itemset_pregnancy[["TYPE"]][["SAIL Databank"]][["SA"]]<-list()
 dictonary_of_itemset_pregnancy[["TYPE"]][["SAIL Databank"]][["T"]]<-list()
 dictonary_of_itemset_pregnancy[["TYPE"]][["SAIL Databank"]][["MD"]]<-list()
