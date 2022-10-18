@@ -107,10 +107,11 @@ concept_set_codes_pregnancy_data_table <- fread(paste0(thisdir, "/p_parameters_p
 
 
 ###--------------------------------------------------------------------
-# Concept in the list ..........Concept used in the algorithm
+# Concept in the FULL codelist ..........Concept used in the algorithm
 ###--------------------------------------------------------------------
+
 #-----------------------------------------------------------------------start
-# "Gestationlessthan24weeksU" ..Gestation_less24_UNK
+# "Gestationlessthan24weeksU" ....Gestation_less24_UNK
 # "24weeksUNK"....................Gestation_24_UNK
 # "Gestation2526weeksUNK".........Gestation_25_26_UNK
 # "Gestation2728weeksUNK".........Gestation_27_28_UNK
@@ -138,15 +139,15 @@ concept_set_codes_pregnancy_data_table <- fread(paste0(thisdir, "/p_parameters_p
 # "OngoingPregnancy6"..............Ongoingpregnancy
 # "OngoingPregnancy7"..............Ongoingpregnancy
 # "StartofPregnancy"     ..........Ongoingpregnancy
-# "PREECLAMP_narrow"...............USED ONLY PREECLAMP -> PREECLAMP
-# "PREECLAMP_possible".............USED ONLY PREECLAMP -> PREECLAMP
-# "PREECLAMP"......................PREECLAMP
-# "BLEEDING_narrow"................USED ONLY BLEEDING -> PREG_BLEEDING
-# "BLEEDING_possible"..............USED ONLY BLEEDING -> PREG_BLEEDING
-# "BLEEDING".......................PREG_BLEEDING
-# "GESTDIAB_possible"..............USED ONLY GESTDIAB -> GESTDIAB
-# "GESTDIAB_narrow"................USED ONLY GESTDIAB -> GESTDIAB
-# "GESTDIAB".......................GESTDIAB
+# "PREECLAMP_narrow"...............PREECLAMP
+# "PREECLAMP_possible".............USED ONLY PREECLAMP_narrow -> PREECLAMP
+# "PREECLAMP"......................USED ONLY PREECLAMP_narrow -> PREECLAMP
+# "BLEEDING_narrow"................PREG_BLEEDING
+# "BLEEDING_possible"..............USED ONLY BLEEDING_narrow -> PREG_BLEEDING
+# "BLEEDING".......................USED ONLY BLEEDING_narrow -> PREG_BLEEDING
+# "GESTDIAB_possible"..............USED ONLY GESTDIAB -> GESTDIAB_narrow
+# "GESTDIAB_narrow"................GESTDIAB
+# "GESTDIAB".......................USED ONLY GESTDIAB -> GESTDIAB_narrow
 # "FGR_possible"...................USED ONLY FGR -> FGR
 # "FGR_narrow".....................USED ONLY FGR -> FGR
 # "FGR"............................FGR
@@ -161,7 +162,7 @@ concept_set_codes_pregnancy_data_table <- fread(paste0(thisdir, "/p_parameters_p
 # "AtTerm".........................Atterm
 # "Preterm"........................Preterm
 # "PostTerm".......................Postterm
-#-----------------------------------------------------end_T_SA_SB_ECT
+#--------------------------------------------------------------end_T_SA_SB_ECT
 # "ELECTTERM_narrow" ..............Interruption_narrow
 # "SPONTABO_narrow"     ...........Spontaneousabortion_narrow
 # "STILLBIRTH_narrow" .............Stillbirth_narrow
@@ -172,7 +173,7 @@ concept_set_codes_pregnancy_data_table <- fread(paste0(thisdir, "/p_parameters_p
 # "ELECTTERM_possible"  ...........Interruption_possible
 # "SPONTABO_possible"..............Spontaneousabortion_possible
 # "STILLBIRTH_possible" ...........Stillbirth_narrow
-#------------------------------------------------------------------other_not_USED
+#---------------------------------------------------------------other_not_USED
 # "SpontaneousAbortion"  ..........NOT USED
 # "StillBirth".....................NOT USED
 # "ELECTTERM"......................NOT USED
@@ -252,11 +253,11 @@ concept_set_codes_pregnancy[["Gestation_more37_LB"]] <- concept_set_codes_pregna
 
 
 
-concept_set_codes_pregnancy[["GESTDIAB"]] <- concept_set_codes_pregnancy_not_modified[["GESTDIAB"]] 
+concept_set_codes_pregnancy[["GESTDIAB"]] <- concept_set_codes_pregnancy_not_modified[["GESTDIAB_narrow"]] 
 
-concept_set_codes_pregnancy[["PREECLAMP"]] <- concept_set_codes_pregnancy_not_modified[["PREECLAMP"]] 
+concept_set_codes_pregnancy[["PREECLAMP"]] <- concept_set_codes_pregnancy_not_modified[["PREECLAMP_narrow"]] 
 
-concept_set_codes_pregnancy[["PREG_BLEEDING"]] <- concept_set_codes_pregnancy_not_modified[["BLEEDING"]] 
+concept_set_codes_pregnancy[["PREG_BLEEDING"]] <- concept_set_codes_pregnancy_not_modified[["BLEEDING_narrow"]] 
 
 concept_set_codes_pregnancy[["FGR"]] <- concept_set_codes_pregnancy_not_modified[["FGR"]] 
 

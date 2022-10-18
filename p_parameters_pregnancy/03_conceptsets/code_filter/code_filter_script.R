@@ -68,19 +68,19 @@ fwrite(concept_set_codes_preg, paste0(thisdir, "/p_parameters_pregnancy/03_conce
 
 
 
-# concept_set_codes_pregnancy <- fread("ConcePTIONAlgorithmPregnancies/g_export/concept_set_codes_pregnancy.csv")
-# 
-# code_missing <- c()
-# 
-# for (code_tmp in unique(concept_set_codes_preg[, code])) {
-#   if(!(code_tmp %in% unique(concept_set_codes_pregnancy[, code]))){
-#     print(code_tmp)
-#     code_missing <- rbind(code_missing, concept_set_codes_preg[code == code_tmp, .(event_abbreviation, code, coding_system)])
-#   }
-# }
-# 
-# code_missing[, code]
-# 
-# 
-# codes_to_be_checked <- concept_set_codes_preg[code %in% code_missing[, code]]
+concept_set_codes_pregnancy <- fread("ConcePTIONAlgorithmPregnancies/g_export/concept_set_codes_pregnancy.csv")
+
+code_missing <- c()
+
+for (code_tmp in unique(concept_set_codes_preg[, code])) {
+  if(!(code_tmp %in% unique(concept_set_codes_pregnancy[, code]))){
+    print(code_tmp)
+    code_missing <- rbind(code_missing, concept_set_codes_preg[code == code_tmp, .(event_abbreviation, code, coding_system)])
+  }
+}
+
+code_missing[, code]
+
+
+codes_to_be_checked <- concept_set_codes_preg[code %in% code_missing[, code]]
 # fwrite(codes_to_be_checked, paste0(thisdir, "/p_parameters_pregnancy/03_conceptsets/codes_to_be_checked.csv"))

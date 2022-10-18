@@ -6,6 +6,9 @@
 # 
 # link: https://github.com/ARS-toscana/ConcePTIONAlgorithmPregnancies
 #
+# changelog v2.1.13, 18 October 2022: 
+#  - discarded possible concepts: GESTDIAB, PREECLAMP, PREG_BLEEDING
+#
 # changelog v2.1.12, 17 October 2022: 
 #  - Updated codelist
 #  - UOSL SB/SA week of gestation: 20 --> 22
