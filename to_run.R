@@ -6,7 +6,7 @@
 # 
 # link: https://github.com/ARS-toscana/ConcePTIONAlgorithmPregnancies
 #
-# changelog V3.01
+# changelog V3.01, 19 October 2022:
 # - fixed VID parameters
 # - fix for repeated meaning of survey
 # - fix for missing procedure 
