@@ -6,6 +6,11 @@
 # 
 # link: https://github.com/ARS-toscana/ConcePTIONAlgorithmPregnancies
 #
+# changelog V3.01
+# - fixed VID parameters
+# - fix for repeated meaning of survey
+# - fix for missing procedure 
+#
 # changelog V2:
 # - New codelist and flowchart
 # - service before termination --> quality 99
