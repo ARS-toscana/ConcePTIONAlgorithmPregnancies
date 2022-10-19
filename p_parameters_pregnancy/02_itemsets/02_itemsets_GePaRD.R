@@ -73,16 +73,30 @@ dictonary_of_itemset_pregnancy[["TYPE"]][["GePaRD"]][["UNK"]]<-list()
 
 
 
-
 ##### FROM MEDICAL_OBSERVATION
-itemsetMED_AVpair_pregnancy <- vector(mode="list")
 
 ### specification LastMestrualPeriod
-itemsetMED_AVpair_pregnancy[["LastMestrualPeriod"]][[files[i]]][["GePaRD"]] <- list(list("",""))
+itemsetMED_AVpair_pregnancy[["LastMestrualPeriod"]][[files[i]]][["GePaRD"]] <- list()
 
+### specification LastMestrualPeriodImplyingPregnancy
+itemsetMED_AVpair_pregnancy[["LastMestrualPeriodImplyingPregnancy"]][[files[i]]][["GePaRD"]] <- list()
 
 ### specification GestationalAge
-itemsetMED_AVpair_pregnancy[["GestationalAge"]][[files[i]]][["GePaRD"]] <- list(list("",""))
+itemsetMED_AVpair_pregnancy[["GestationalAge"]][[files[i]]][["GePaRD"]] <- list()
 
 
+### specification PregnancyTest
+itemsetMED_AVpair_pregnancy[["PregnancyTest"]][[files[i]]][["GePaRD"]] <- list()
+
+
+
+################################ DICTINARY OF PregnancyTest ##################################
+
+dictonary_of_itemset_PregnancyTest[["PregnancyTest"]][["positive"]]<-list() 
+
+
+
+################################ PARAMETERS for PregnancyTest ##################################
+days_from_start_PregnancyTest <- 30
+days_to_end_PregnancyTest <- 280
 

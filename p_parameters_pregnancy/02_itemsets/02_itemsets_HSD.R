@@ -80,6 +80,8 @@ itemsetMED_AVpair_pregnancy[["GestationalAge"]][[files[i]]][["HSD"]] <- list()
 ### specification PregnancyTest
 itemsetMED_AVpair_pregnancy[["PregnancyTest"]][[files[i]]][["HSD"]] <- list()
 
+### specification LastMestrualPeriodImplyingPregnancy
+itemsetMED_AVpair_pregnancy[["LastMestrualPeriodImplyingPregnancy"]][[files[i]]][["HSD"]] <- list()
 
 
 ################################ DICTINARY OF PregnancyTest ##################################
