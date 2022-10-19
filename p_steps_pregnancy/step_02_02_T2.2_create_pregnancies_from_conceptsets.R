@@ -3,16 +3,9 @@
 ##################################################################################################################
 
 # loading concepsets
-for (conceptvar in c(concept_sets_of_start_of_pregnancy_UNK,
-                     concept_sets_of_start_of_pregnancy_LB,
-                     concept_sets_of_ongoing_of_pregnancy,
-                     concept_sets_of_end_of_pregnancy_LB,
-                     concept_sets_of_end_of_pregnancy_UNK,
-                     concept_sets_of_end_of_pregnancy_UNF,
-                     concept_sets_of_end_of_pregnancy_T_SA_SB_ECT)){ 
+for (conceptvar in concept_set_pregnancy){ 
   load(paste0(dirtemp,conceptvar,".RData"))
 }
-
 
 
 #-----------------------------------
@@ -154,10 +147,18 @@ if ("so_origin" %in% names(dataset_start_LB_concept_sets)) {
 #   Ongoing Pregnancy
 #-----------------------------------
 
+if (this_datasource_has_procedures) {
+  concept_sets_of_ongoing_of_pregnancy_final <- c(concept_sets_of_ongoing_of_pregnancy, 
+                                                  concept_sets_of_ongoing_of_pregnancy_procedures_DAP_specific)
+}else{
+  concept_sets_of_ongoing_of_pregnancy_final <- concept_sets_of_ongoing_of_pregnancy
+}
+ 
+
 # put together concept_set of ongoing
 dataset_ongoing_concept_sets <- c()
 
-for (conceptvar in concept_sets_of_ongoing_of_pregnancy){ 
+for (conceptvar in concept_sets_of_ongoing_of_pregnancy_final){ 
   cat(paste0(conceptvar, "\n"))
   studyvardataset <- get(conceptvar)[!is.na(date),][,concept_set:=conceptvar]
   studyvardataset <- unique(studyvardataset,by=c("person_id","codvar","date"))
@@ -655,4 +656,8 @@ rm(list = c(concept_sets_of_start_of_pregnancy_UNK,
             concept_sets_of_end_of_pregnancy_UNK,
             concept_sets_of_end_of_pregnancy_UNF,
             concept_sets_of_end_of_pregnancy_T_SA_SB_ECT))
+
+if (this_datasource_has_procedures) {
+  rm(list = concept_sets_of_ongoing_of_pregnancy_procedures_DAP_specific)
+}
 

@@ -149,12 +149,12 @@ concept_sets_of_ongoing_of_pregnancy <- c("Ongoingpregnancy",
                                           "PREECLAMP",
                                           "PREG_BLEEDING",
                                           ### Procedures
-                                          "procedures_ongoing",
-                                          "fetal_nuchal_translucency",
-                                          "amniocentesis",
-                                          "Chorionic_Villus_Sampling",
-                                          "others") 
+                                          "procedures_ongoing") 
 
+concept_sets_of_ongoing_of_pregnancy_procedures_DAP_specific <- c("fetal_nuchal_translucency",
+                                                                  "amniocentesis",
+                                                                  "Chorionic_Villus_Sampling",
+                                                                  "others")
 
 concept_sets_of_end_of_pregnancy_LB <- c("Birth_narrow",
                                          "Preterm",
@@ -190,6 +190,11 @@ concept_set_pregnancy <- c(concept_sets_of_start_of_pregnancy_UNK,
                            concept_sets_of_end_of_pregnancy_UNK,
                            concept_sets_of_end_of_pregnancy_UNF,
                            concept_sets_of_end_of_pregnancy_T_SA_SB_ECT)
+
+if (this_datasource_has_procedures) {
+  concept_set_pregnancy <- c(concept_set_pregnancy, 
+                             concept_sets_of_ongoing_of_pregnancy_procedures_DAP_specific)
+}
 
 codes_used_in_this_run <- list_of_list_to_df(concept_set_codes_pregnancy)
 fwrite(codes_used_in_this_run, file = paste0(direxp, "concept_set_codes_pregnancy.csv"))
