@@ -81,6 +81,10 @@ itemsetMED_AVpair_pregnancy[["PregnancyTest"]][[files[i]]][["CASERTA"]] <- list(
 
 
 
+### specification LastMestrualPeriodImplyingPregnancy
+itemsetMED_AVpair_pregnancy[["LastMestrualPeriodImplyingPregnancy"]][[files[i]]][["CASERTA"]] <- list()
+
+
 ################################ DICTINARY OF PregnancyTest ##################################
 
 dictonary_of_itemset_PregnancyTest[["PregnancyTest"]][["positive"]]<-list(list("POSITIVO")) #inserire valore per esito positivo
@@ -93,3 +97,7 @@ days_to_end_PregnancyTest <- 280
 
 
 
+
+
+### specification LastMestrualPeriodImplyingPregnancy
+itemsetMED_AVpair_pregnancy[["LastMestrualPeriodImplyingPregnancy"]][[files[i]]][["EpiChron"]] <- list(list('CARTILLA_EMBARAZO','fur'))

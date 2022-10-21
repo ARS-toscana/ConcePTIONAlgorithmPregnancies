@@ -88,7 +88,8 @@ itemsetMED_AVpair_pregnancy[["GestationalAge"]][[files[i]]][["VID"]] <- list(lis
 ### specification PregnancyTest
 itemsetMED_AVpair_pregnancy[["PregnancyTest"]][[files[i]]][["VID"]] <- list()
 
-
+### specification LastMestrualPeriodImplyingPregnancy
+itemsetMED_AVpair_pregnancy[["LastMestrualPeriodImplyingPregnancy"]][[files[i]]][["VID"]] <- list()
 
 ################################ DICTINARY OF PregnancyTest ##################################
 
