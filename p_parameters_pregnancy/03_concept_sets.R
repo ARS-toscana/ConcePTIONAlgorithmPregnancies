@@ -147,9 +147,9 @@ concept_sets_of_ongoing_of_pregnancy <- c("Ongoingpregnancy",
                                           "FGR",
                                           "GESTDIAB",
                                           "PREECLAMP",
-                                          "PREG_BLEEDING",
-                                          ### Procedures
-                                          "procedures_ongoing") 
+                                          "PREG_BLEEDING") 
+
+concept_sets_of_ongoing_of_pregnancy_procedures <- c("procedures_ongoing")
 
 concept_sets_of_ongoing_of_pregnancy_procedures_DAP_specific <- c("fetal_nuchal_translucency",
                                                                   "amniocentesis",
@@ -160,10 +160,10 @@ concept_sets_of_end_of_pregnancy_LB <- c("Birth_narrow",
                                          "Preterm",
                                          "Atterm",
                                          "Postterm", 
-                                         "Livebirth",
-                                         ### Procedures
-                                         "procedures_livebirth", 
-                                         "procedures_delivery") 
+                                         "Livebirth") 
+
+concept_sets_of_end_of_pregnancy_LB_procedures <- c("procedures_livebirth", 
+                                                    "procedures_delivery")
 
 concept_sets_of_end_of_pregnancy_UNK <- c("Birth_possible")
 
@@ -174,14 +174,12 @@ concept_sets_of_end_of_pregnancy_UNF <- c("Interruption_possible",
 concept_sets_of_end_of_pregnancy_T_SA_SB_ECT <- c("Stillbirth_narrow",
                                                   "Interruption_narrow",
                                                   "Spontaneousabortion_narrow", 
-                                                  "Ectopicpregnancy",
-                                                  ### Procedures
-                                                  "procedures_termination",
-                                                  "Medicated_VTP",
-                                                  "procedures_spontaneous_abortion",
-                                                  "procedures_ectopic")
+                                                  "Ectopicpregnancy")
 
-
+concept_sets_of_end_of_pregnancy_T_SA_SB_ECT_procedures <- c("procedures_termination",
+                                                             "Medicated_VTP",
+                                                             "procedures_spontaneous_abortion",
+                                                             "procedures_ectopic")
 
 concept_set_pregnancy <- c(concept_sets_of_start_of_pregnancy_UNK,
                            concept_sets_of_start_of_pregnancy_LB,
@@ -193,7 +191,10 @@ concept_set_pregnancy <- c(concept_sets_of_start_of_pregnancy_UNK,
 
 if (this_datasource_has_procedures) {
   concept_set_pregnancy <- c(concept_set_pregnancy, 
-                             concept_sets_of_ongoing_of_pregnancy_procedures_DAP_specific)
+                             concept_sets_of_ongoing_of_pregnancy_procedures_DAP_specific,
+                             concept_sets_of_ongoing_of_pregnancy_procedures,
+                             concept_sets_of_end_of_pregnancy_LB_procedures,
+                             concept_sets_of_end_of_pregnancy_T_SA_SB_ECT_procedures)
 }
 
 codes_used_in_this_run <- list_of_list_to_df(concept_set_codes_pregnancy)

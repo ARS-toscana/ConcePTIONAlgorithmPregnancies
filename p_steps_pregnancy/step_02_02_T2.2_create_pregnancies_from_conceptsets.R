@@ -149,7 +149,8 @@ if ("so_origin" %in% names(dataset_start_LB_concept_sets)) {
 
 if (this_datasource_has_procedures) {
   concept_sets_of_ongoing_of_pregnancy_final <- c(concept_sets_of_ongoing_of_pregnancy, 
-                                                  concept_sets_of_ongoing_of_pregnancy_procedures_DAP_specific)
+                                                  concept_sets_of_ongoing_of_pregnancy_procedures_DAP_specific,
+                                                  concept_sets_of_ongoing_of_pregnancy_procedures)
 }else{
   concept_sets_of_ongoing_of_pregnancy_final <- concept_sets_of_ongoing_of_pregnancy
 }
@@ -230,10 +231,19 @@ if ("so_origin" %in% names(dataset_ongoing_concept_sets)) {
 #   LB ending Pregnancy
 #-----------------------------------
 
+
+if (this_datasource_has_procedures) {
+  concept_sets_of_end_of_pregnancy_LB_final <- c(concept_sets_of_end_of_pregnancy_LB, 
+                                                 concept_sets_of_end_of_pregnancy_LB_procedures)
+}else{
+  concept_sets_of_end_of_pregnancy_LB_final <- concept_sets_of_end_of_pregnancy_LB
+}
+
+
 # put together concept_set of ongoing
 dataset_LB_concept_sets <- c()
 
-for (conceptvar in concept_sets_of_end_of_pregnancy_LB  ){ 
+for (conceptvar in concept_sets_of_end_of_pregnancy_LB_final){ 
   cat(paste0(conceptvar, "\n"))
   studyvardataset <- get(conceptvar)[!is.na(date),][,concept_set:=conceptvar]
   studyvardataset <- unique(studyvardataset,by=c("person_id","codvar","date"))
@@ -459,10 +469,18 @@ if ("so_origin" %in% names(dataset_UNF_concept_sets)) {
 #   Pregnancy ending in SB, T, SA, or ECT
 #-------------------------------------------
 
+if (this_datasource_has_procedures) {
+  concept_sets_of_end_of_pregnancy_T_SA_SB_ECT_final <- c(concept_sets_of_end_of_pregnancy_T_SA_SB_ECT, 
+                                                          concept_sets_of_end_of_pregnancy_T_SA_SB_ECT_procedures)
+}else{
+  concept_sets_of_end_of_pregnancy_T_SA_SB_ECT_final <- concept_sets_of_end_of_pregnancy_T_SA_SB_ECT
+}
+
+
 # put together concept_set of ongoing
 dataset_SB_T_SA_ECT_concept_sets <- c()
 
-for (conceptvar in concept_sets_of_end_of_pregnancy_T_SA_SB_ECT){ 
+for (conceptvar in concept_sets_of_end_of_pregnancy_T_SA_SB_ECT_final){ 
   cat(paste0(conceptvar, "\n"))
   studyvardataset <- get(conceptvar)[!is.na(date),][,concept_set:=conceptvar]
   studyvardataset <- unique(studyvardataset,by=c("person_id","codvar","date"))
@@ -658,6 +676,9 @@ rm(list = c(concept_sets_of_start_of_pregnancy_UNK,
             concept_sets_of_end_of_pregnancy_T_SA_SB_ECT))
 
 if (this_datasource_has_procedures) {
-  rm(list = concept_sets_of_ongoing_of_pregnancy_procedures_DAP_specific)
+  rm(list = c(concept_sets_of_ongoing_of_pregnancy_procedures_DAP_specific,
+              concept_sets_of_ongoing_of_pregnancy_procedures,
+              concept_sets_of_end_of_pregnancy_LB_final,
+              concept_sets_of_end_of_pregnancy_T_SA_SB_ECT_final))
 }
 
