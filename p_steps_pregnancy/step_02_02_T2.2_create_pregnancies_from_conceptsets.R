@@ -669,16 +669,10 @@ rm(dataset_start_concept_sets,
 
 rm(list = c(concept_sets_of_start_of_pregnancy_UNK,
             concept_sets_of_start_of_pregnancy_LB,
-            concept_sets_of_ongoing_of_pregnancy,
-            concept_sets_of_end_of_pregnancy_LB,
+            concept_sets_of_ongoing_of_pregnancy_final,
+            concept_sets_of_end_of_pregnancy_LB_final,
             concept_sets_of_end_of_pregnancy_UNK,
             concept_sets_of_end_of_pregnancy_UNF,
-            concept_sets_of_end_of_pregnancy_T_SA_SB_ECT))
+            concept_sets_of_end_of_pregnancy_T_SA_SB_ECT_final))
 
-if (this_datasource_has_procedures) {
-  rm(list = c(concept_sets_of_ongoing_of_pregnancy_procedures_DAP_specific,
-              concept_sets_of_ongoing_of_pregnancy_procedures,
-              concept_sets_of_end_of_pregnancy_LB_final,
-              concept_sets_of_end_of_pregnancy_T_SA_SB_ECT_final))
-}
 
