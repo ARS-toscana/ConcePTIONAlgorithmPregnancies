@@ -6,6 +6,9 @@
 # 
 # link: https://github.com/ARS-toscana/ConcePTIONAlgorithmPregnancies
 #
+# changelog V3.02, 24 October 2022:
+# - added code for SNDS
+#
 # changelog V3.01, 19 October 2022:
 # - fixed VID parameters
 # - fix for repeated meaning of survey
