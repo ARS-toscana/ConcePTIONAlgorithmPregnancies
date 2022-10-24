@@ -8,6 +8,7 @@
 #
 # changelog V3.02, 24 October 2022:
 # - added code for SNDS
+# - fixed D3_survey_and_visit_ids for empty ("") visit id
 #
 # changelog V3.01, 19 October 2022:
 # - fixed VID parameters

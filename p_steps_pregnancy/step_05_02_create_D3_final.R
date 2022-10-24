@@ -148,7 +148,9 @@ D3_survey_and_visit_ids <- D3_groups_of_pregnancies_reconciled[, .(pregnancy_id,
 D3_survey_and_visit_ids <- D3_survey_and_visit_ids[!(is.na(survey_id) & is.na(visit_occurrence_id))]
 
 D3_survey_and_visit_ids <- D3_survey_and_visit_ids[!is.na(survey_id), type_of_id := "survey_id"]
-D3_survey_and_visit_ids <- D3_survey_and_visit_ids[!is.na(visit_occurrence_id), type_of_id := "visit_occurrence_id"]
+D3_survey_and_visit_ids <- D3_survey_and_visit_ids[!is.na(visit_occurrence_id) &
+                                                     visit_occurrence_id != "" , 
+                                                   type_of_id := "visit_occurrence_id"]
 
 setnames(D3_survey_and_visit_ids, "survey_id", "id")
 D3_survey_and_visit_ids <- D3_survey_and_visit_ids[is.na(id), id := visit_occurrence_id]
