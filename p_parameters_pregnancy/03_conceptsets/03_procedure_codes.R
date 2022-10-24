@@ -68,7 +68,7 @@ if(!this_datasource_has_procedures) {
   concept_set_codes_pregnancy_datasource <- vector(mode="list")
   
   concept_sets_of_pregnancy_procedure <- c("fetal_nuchal_translucency", "amniocentesis","Chorionic_Villus_Sampling","others")  
-  coding_system_of_pregnancy_procedure <- c("ITA_procedures_coding_system", "ICD9", "ICD10")
+  coding_system_of_pregnancy_procedure <- c("ITA_procedures_coding_system", "ICD9", "ICD10", "NABM", "CCAM")
   concept_sets_of_pregnancy_procedure_not_in_pregnancy <- c("gestational_diabetes")
   
   
