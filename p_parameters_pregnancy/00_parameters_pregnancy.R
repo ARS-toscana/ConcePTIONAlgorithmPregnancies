@@ -10,7 +10,7 @@ datasource_with_itemsets_stream_from_medical_obs <- c("TO_ADD","BIFAP","VID","PH
 this_datasource_has_itemsets_stream_from_medical_obs <- ifelse(thisdatasource %in% datasource_with_itemsets_stream_from_medical_obs,TRUE,FALSE) 
 
 #datasource with  prompt
-datasource_with_prompt <- c("TO_ADD","ARS","PHARMO","UOSL","CASERTA","VID","CPRD","GePaRD","EpiChron","SIDIAP","SAIL Databank","EFEMERIS","KI") #@ use "TO_ADD" as example
+datasource_with_prompt <- c("TO_ADD","ARS","PHARMO","UOSL","CASERTA","VID","CPRD","GePaRD","EpiChron","SIDIAP","SAIL Databank","EFEMERIS", "DANREG" ,"KI") #@ use "TO_ADD" as example
 this_datasource_has_prompt <- ifelse(thisdatasource %in% datasource_with_prompt,TRUE,FALSE) 
 
 #datasource with VISIT_OCCURRENCE prompt
@@ -44,8 +44,15 @@ this_datasource_has_itemset_fromCSV <- ifelse(thisdatasource %in% datasource_wit
 
 ################################################################################
 # Define paramters for DummyTables
-year_start_descriptive <- 2019
-year_end_descriptive <- 2021
+
+if(thisdatasource == "DANREG"){
+  year_start_descriptive <- 2015
+  year_end_descriptive <- 2018
+}else{
+  year_start_descriptive <- 2019
+  year_end_descriptive <- 2021
+}
+
 
 year_start_manuscript <- 2015
 year_end_manuscript <- 2019
