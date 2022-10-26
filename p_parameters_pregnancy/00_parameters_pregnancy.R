@@ -10,7 +10,7 @@ datasource_with_itemsets_stream_from_medical_obs <- c("TO_ADD","BIFAP","VID","PH
 this_datasource_has_itemsets_stream_from_medical_obs <- ifelse(thisdatasource %in% datasource_with_itemsets_stream_from_medical_obs,TRUE,FALSE) 
 
 #datasource with  prompt
-datasource_with_prompt <- c("TO_ADD","ARS","PHARMO","UOSL","CASERTA","VID","CPRD","GePaRD","EpiChron","SIDIAP","SAIL Databank","EFEMERIS") #@ use "TO_ADD" as example
+datasource_with_prompt <- c("TO_ADD","ARS","PHARMO","UOSL","CASERTA","VID","CPRD","GePaRD","EpiChron","SIDIAP","SAIL Databank","EFEMERIS","KI") #@ use "TO_ADD" as example
 this_datasource_has_prompt <- ifelse(thisdatasource %in% datasource_with_prompt,TRUE,FALSE) 
 
 #datasource with VISIT_OCCURRENCE prompt
