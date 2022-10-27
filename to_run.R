@@ -6,6 +6,9 @@
 # 
 # link: https://github.com/ARS-toscana/ConcePTIONAlgorithmPregnancies
 #
+# changelog V3.03, 27 October 2022:
+# - added parameters for EFEMERIS
+#
 # changelog V3.02, 24 October 2022:
 # - added code for SNDS
 # - fixed D3_survey_and_visit_ids for empty ("") visit id
