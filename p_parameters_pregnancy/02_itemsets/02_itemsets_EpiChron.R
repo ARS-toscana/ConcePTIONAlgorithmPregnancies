@@ -46,7 +46,7 @@ itemset_AVpair_pregnancy[["END_STILLBIRTH"]][[files[i]]][["EpiChron"]] <- list()
 itemset_AVpair_pregnancy[["END_TERMINATION"]][[files[i]]][["EpiChron"]] <- list()
 
 ### specification END_ABORTION
-itemset_AVpair_pregnancy[["END_ABORTION"]][[files[i]]][["EpiChron"]] <- list()
+itemset_AVpair_pregnancy[["END_ABORTION"]][[files[i]]][["EpiChron"]] <- list(list('NEOSOFT','outcome'))
 
 
 ########################################### TYPE #######################################
@@ -56,8 +56,8 @@ itemset_AVpair_pregnancy[["TYPE"]][[files[i]]][["EpiChron"]] <- list()
 
 ################################ DICTINARY OF TYPE ##################################
 
-dictonary_of_itemset_pregnancy[["TYPE"]][["EpiChron"]][["LB"]]<-list()
-dictonary_of_itemset_pregnancy[["TYPE"]][["EpiChron"]][["SB"]]<-list()
+dictonary_of_itemset_pregnancy[["TYPE"]][["EpiChron"]][["LB"]]<-list(list('NEOSOFT','LB'))
+dictonary_of_itemset_pregnancy[["TYPE"]][["EpiChron"]][["SB"]]<-list(list('NEOSOFT','SB'))
 dictonary_of_itemset_pregnancy[["TYPE"]][["EpiChron"]][["SA"]]<-list()
 dictonary_of_itemset_pregnancy[["TYPE"]][["EpiChron"]][["T"]]<-list()
 dictonary_of_itemset_pregnancy[["TYPE"]][["EpiChron"]][["MD"]]<-list()

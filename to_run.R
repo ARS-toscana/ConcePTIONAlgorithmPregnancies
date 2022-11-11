@@ -6,6 +6,9 @@
 # 
 # link: https://github.com/ARS-toscana/ConcePTIONAlgorithmPregnancies
 #
+# changelog V3.04, 11 November 2022:
+# - added parameters for EpiChron: TYPE
+#
 # changelog V3.03, 27 October 2022:
 # - added parameters for EFEMERIS
 #
