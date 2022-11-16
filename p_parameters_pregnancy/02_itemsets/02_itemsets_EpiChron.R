@@ -46,12 +46,12 @@ itemset_AVpair_pregnancy[["END_STILLBIRTH"]][[files[i]]][["EpiChron"]] <- list()
 itemset_AVpair_pregnancy[["END_TERMINATION"]][[files[i]]][["EpiChron"]] <- list()
 
 ### specification END_ABORTION
-itemset_AVpair_pregnancy[["END_ABORTION"]][[files[i]]][["EpiChron"]] <- list(list('NEOSOFT','outcome'))
+itemset_AVpair_pregnancy[["END_ABORTION"]][[files[i]]][["EpiChron"]] <- list()
 
 
 ########################################### TYPE #######################################
 
-itemset_AVpair_pregnancy[["TYPE"]][[files[i]]][["EpiChron"]] <- list()
+itemset_AVpair_pregnancy[["TYPE"]][[files[i]]][["EpiChron"]] <- list(list('NEOSOFT','outcome'))
 
 
 ################################ DICTINARY OF TYPE ##################################
