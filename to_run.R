@@ -6,6 +6,12 @@
 # 
 # link: https://github.com/ARS-toscana/ConcePTIONAlgorithmPregnancies
 #
+# changelog V3.06, 16 November 2022:
+# - fixed gestage for stillbirth possible (SB duplicate)
+#
+# changelog V3.05, 16 November 2022:
+# - added new UOSL meaning in 04_algorithm
+#
 # changelog V3.04, 11 November 2022:
 # - added parameters for EpiChron: TYPE
 #
