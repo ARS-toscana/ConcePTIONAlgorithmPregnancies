@@ -435,7 +435,11 @@ dataset_UNF_concept_sets <-unique(dataset_UNF_concept_sets, by=c("person_id","vi
 dataset_UNF_concept_sets <- dataset_UNF_concept_sets[, pregnancy_end_date := date]
 
 # defining start dates
-dataset_UNF_concept_sets <- dataset_UNF_concept_sets[, pregnancy_start_date := pregnancy_end_date - 70]
+
+dataset_UNF_concept_sets <- dataset_UNF_concept_sets[concept_set == "Interruption_possible" , pregnancy_start_date := pregnancy_end_date - 70]
+dataset_UNF_concept_sets <- dataset_UNF_concept_sets[concept_set == "Spontaneousabortion_possible", pregnancy_start_date := pregnancy_end_date - 70]
+dataset_UNF_concept_sets <- dataset_UNF_concept_sets[concept_set == "Stillbirth_possible", pregnancy_start_date := pregnancy_end_date - 280]
+
 
 # Defining imputation, type and meaning
 dataset_UNF_concept_sets <-  dataset_UNF_concept_sets[,`:=`(pregnancy_ongoing_date = as.Date(character(0)),
