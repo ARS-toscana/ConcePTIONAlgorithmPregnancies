@@ -6,6 +6,9 @@
 # 
 # link: https://github.com/ARS-toscana/ConcePTIONAlgorithmPregnancies
 #
+# changelog V3.07, 18 November 2022:
+# - fix for repeated vocabulary of "TYPE" itemset
+#
 # changelog V3.06, 16 November 2022:
 # - fixed gestage for stillbirth possible (SB duplicate)
 #
