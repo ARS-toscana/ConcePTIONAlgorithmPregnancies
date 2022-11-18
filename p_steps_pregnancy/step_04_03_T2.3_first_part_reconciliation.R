@@ -206,7 +206,8 @@ gop_gybr2<-gop_gybr2[group_end_prev==group_end_date, group_end_prev:=NA]
 gop_gybr2<-gop_gybr2[,overlap:=(group_end_prev>=group_start_date)*1][is.na(overlap),overlap:=0]
 suppressWarnings(gop_gybr2<-gop_gybr2[,overlap:=max(overlap),by=.(person_id, group_identifier)])
 ## added 08/10
-suppressWarnings(gop_gybr2<-gop_gybr2[,overlapMAX:=max(overlap),by=.(person_id)])
+#suppressWarnings(gop_gybr2<-gop_gybr2[,overlapMAX:=max(overlap),by=.(person_id)])
+gop_gybr2<-gop_gybr2[,overlapMAX:=1]
 gop_gybr2<-gop_gybr2[overlapMAX==1, group_identifier:=min(group_identifier),by=.(person_id)]
 gop_gybr2<-gop_gybr2[,group_start_date:=min(group_start_date, na.rm = T), by=.(person_id,group_identifier)]
 gop_gybr2<-gop_gybr2[,group_end_date:=max(group_end_date, na.rm = T), by=.(person_id,group_identifier)]
