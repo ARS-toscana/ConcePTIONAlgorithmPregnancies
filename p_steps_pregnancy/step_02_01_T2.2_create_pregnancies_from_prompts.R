@@ -180,21 +180,17 @@ if (this_datasource_has_prompt) {
                            ,type_of_pregnancy_end:="SA"]
      
     } else {
-      
-      dataset_pregnancies2[pregnancy_end_date==DATEENDPREGNANCY & TYPE%in%unlist(dictonary_of_itemset_pregnancy_this_datasource[["LB"]]),type_of_pregnancy_end:="LB"]
-      dataset_pregnancies2[pregnancy_end_date==DATEENDPREGNANCY & TYPE%in%unlist(dictonary_of_itemset_pregnancy_this_datasource[["SB"]]),type_of_pregnancy_end:="SB"]
-      dataset_pregnancies2[pregnancy_end_date==DATEENDPREGNANCY & TYPE%in%unlist(dictonary_of_itemset_pregnancy_this_datasource[["SA"]]),type_of_pregnancy_end:="SA"]
-      dataset_pregnancies2[pregnancy_end_date==DATEENDPREGNANCY & TYPE%in%unlist(dictonary_of_itemset_pregnancy_this_datasource[["T"]]) ,type_of_pregnancy_end:="T"]
-      dataset_pregnancies2[pregnancy_end_date==DATEENDPREGNANCY & TYPE%in%unlist(dictonary_of_itemset_pregnancy_this_datasource[["MD"]]),type_of_pregnancy_end:="MD"]
-      dataset_pregnancies2[pregnancy_end_date==DATEENDPREGNANCY & TYPE%in%unlist(dictonary_of_itemset_pregnancy_this_datasource[["ECT"]]),type_of_pregnancy_end:="ECT"]
-      dataset_pregnancies2[pregnancy_end_date==DATEENDPREGNANCY & TYPE%in%unlist(dictonary_of_itemset_pregnancy_this_datasource[["UNK"]]),type_of_pregnancy_end:="UNK"]
-      
+      for (i in c("LB", "SB", "SA", "T", "MD", "ECT", "UNK")) {
+        for (t in length(unlist(unlist(dictonary_of_itemset_pregnancy_this_datasource[[i]])))/2) {
+          if (length(unlist(unlist(dictonary_of_itemset_pregnancy_this_datasource[[i]])))/2 > 0){
+            dataset_pregnancies2[pregnancy_end_date==DATEENDPREGNANCY & 
+                                   TYPE%in%unlist(dictonary_of_itemset_pregnancy_this_datasource[[i]][[t]])&
+                                   table_TYPE %in%unlist(dictonary_of_itemset_pregnancy_this_datasource[[i]][[t]]),
+                                 type_of_pregnancy_end:=i]
+          }
+        }
+      }
     } 
-    
-      
-    
-    
-    
     
     
     ## START OF PREGNANCY:
