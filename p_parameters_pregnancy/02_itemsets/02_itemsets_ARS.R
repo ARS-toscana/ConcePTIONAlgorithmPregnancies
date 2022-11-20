@@ -8,7 +8,10 @@
 ####### LOAD itemsets for ARS
 
 
-########################################## START ######################################################   
+#-------------------------------------------------------------------------------
+# To be filled if "person_id" is related to the mother
+#-------------------------------------------------------------------------------
+################################ START #########################################
 
 ### specification GESTAGE_FROM_DAPS_CRITERIA_WEEKS
 itemset_AVpair_pregnancy[["GESTAGE_FROM_DAPS_CRITERIA_WEEKS"]][[files[i]]][["ARS"]] <- list()
@@ -32,7 +35,7 @@ itemset_AVpair_pregnancy[["GESTAGE_FROM_USOUNDS_WEEKS"]][[files[i]]][["ARS"]]  <
 itemset_AVpair_pregnancy[["DATESTARTPREGNANCY"]][[files[i]]][["ARS"]] <- list()
 
 
-########################################## END ###################################################### 
+############################# END ##############################################
 
 itemset_AVpair_pregnancy[["DATEENDPREGNANCY"]][[files[i]]][["ARS"]] <- list(list("CAP2","DATPARTO")) 
 
@@ -49,12 +52,70 @@ itemset_AVpair_pregnancy[["END_TERMINATION"]][[files[i]]][["ARS"]] <- list(list(
 itemset_AVpair_pregnancy[["END_ABORTION"]][[files[i]]][["ARS"]] <- list(list("ABS","DATAINT"))
 
 
-########################################### TYPE #######################################
+############################# TYPE #############################################
 
 itemset_AVpair_pregnancy[["TYPE"]][[files[i]]][["ARS"]] <- list(list("CAP2", "VITALITA_ARSNEW"))
 
 
-################################ DICTINARY OF TYPE ##################################
+
+
+
+#-------------------------------------------------------------------------------
+# To be filled if "person_id" is related to the child
+#-------------------------------------------------------------------------------
+################################ START #########################################
+
+### specification GESTAGE_FROM_DAPS_CRITERIA_WEEKS
+itemset_AVpair_pregnancy[["GESTAGE_FROM_DAPS_CRITERIA_WEEKS_CHILD"]][[files[i]]][["ARS"]] <- list()
+
+### specification GESTAGE_FROM_DAPS_CRITERIA_DAYS
+itemset_AVpair_pregnancy[["GESTAGE_FROM_DAPS_CRITERIA_DAYS_CHILD"]][[files[i]]][["ARS"]] <- list()
+
+### specification GESTAGE_FROM_LMP_WEEK
+itemset_AVpair_pregnancy[["GESTAGE_FROM_LMP_WEEKS_CHILD"]][[files[i]]][["ARS"]] <- list() 
+
+# specification GESTAGE_FROM_LMP_DAYS
+itemset_AVpair_pregnancy[["GESTAGE_FROM_LMP_DAYS_CHILD"]][[files[i]]][["ARS"]] <- list()
+
+# # specification GESTAGE_FROM_USOUNDS_DAYS
+itemset_AVpair_pregnancy[["GESTAGE_FROM_USOUNDS_DAYS_CHILD"]][[files[i]]][["ARS"]] <- list()
+
+# # specification GESTAGE_FROM_USOUNDS_WEEKS
+itemset_AVpair_pregnancy[["GESTAGE_FROM_USOUNDS_WEEKS_CHILD"]][[files[i]]][["ARS"]]  <- list()
+
+# specification DATESTARTPREGNANCY
+itemset_AVpair_pregnancy[["DATESTARTPREGNANCY_CHILD"]][[files[i]]][["ARS"]] <- list()
+
+
+############################# END ##############################################
+
+itemset_AVpair_pregnancy[["DATEENDPREGNANCY_CHILD"]][[files[i]]][["ARS"]] <- list() 
+
+### specification END_LIVEBIRTH
+itemset_AVpair_pregnancy[["END_LIVEBIRTH_CHILD"]][[files[i]]][["ARS"]] <- list()
+
+### specification END_STILLBIRTH
+itemset_AVpair_pregnancy[["END_STILLBIRTH_CHILD"]][[files[i]]][["ARS"]] <- list()
+
+# specification END_TERMINATION
+itemset_AVpair_pregnancy[["END_TERMINATION_CHILD"]][[files[i]]][["ARS"]] <- list()
+
+### specification END_ABORTION
+itemset_AVpair_pregnancy[["END_ABORTION_CHILD"]][[files[i]]][["ARS"]] <- list()
+
+
+############################# TYPE #############################################
+
+itemset_AVpair_pregnancy[["TYPE_CHILD"]][[files[i]]][["ARS"]] <- list()
+
+
+
+
+
+#-------------------------------------------------------------------------------
+# To be filled if "person_id" is related to the mother or the child
+#-------------------------------------------------------------------------------
+########################### DICTINARY OF TYPE ##################################
 
 dictonary_of_itemset_pregnancy[["TYPE"]][["ARS"]][["LB"]]<-list(list("CAP2", "1"))
 dictonary_of_itemset_pregnancy[["TYPE"]][["ARS"]][["SB"]]<-list(list("CAP2", "2"))

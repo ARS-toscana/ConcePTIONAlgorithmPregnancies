@@ -6,6 +6,9 @@
 # 
 # link: https://github.com/ARS-toscana/ConcePTIONAlgorithmPregnancies
 #
+# changelog V3.08, 20 November 2022:
+# - added prompt with child person_id
+#
 # changelog V3.07, 18 November 2022:
 # - fix for repeated vocabulary of "TYPE" itemset
 #

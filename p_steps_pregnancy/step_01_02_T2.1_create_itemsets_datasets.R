@@ -13,6 +13,55 @@ if (this_datasource_has_prompt) {
                         discard_from_environment = FALSE,
                         extension = c("csv"))
   
+  
+  #------------------------------------
+  # Replace survey ID for child records
+  #------------------------------------
+  if(this_datasource_has_prompt_child){
+    PERSON_RELATIONSHIPS <- fread(paste0(dirinput, "PERSON_RELATIONSHIPS.csv"))
+    PERSON_RELATIONSHIPS_child <- PERSON_RELATIONSHIPS[meaning_of_relationship %in% meaning_of_relationship_child_this_datasource]
+    
+    for (variable in c("DATESTARTPREGNANCY",
+                       "GESTAGE_FROM_DAPS_CRITERIA_DAYS",
+                       "GESTAGE_FROM_DAPS_CRITERIA_WEEKS",
+                       "GESTAGE_FROM_USOUNDS_DAYS",
+                       "GESTAGE_FROM_USOUNDS_WEEKS",
+                       "GESTAGE_FROM_LMP_WEEKS",
+                       "GESTAGE_FROM_LMP_DAYS",
+                       "DATEENDPREGNANCY",
+                       "END_LIVEBIRTH",
+                       "END_STILLBIRTH",
+                       "END_TERMINATION",
+                       "END_ABORTION", 
+                       "TYPE")) {
+      
+      if(nrow(get(paste0(variable, "_CHILD"))) > 0){
+        
+        tmp <- get(paste0(variable, "_CHILD"))
+        tmp <- merge(tmp,
+                     PERSON_RELATIONSHIPS_child[, .(person_id, related_id)], 
+                     by = "person_id", 
+                     all.x = TRUE)
+        
+        tmp <- tmp[so_meaning %in% unlist(meaning_of_survey_pregnancy_this_datasource_child),
+                 person_id := related_id]
+        
+        tmp <- tmp[, -c("related_id")]
+        
+        if(nrow(get(variable)) > 0){
+          tmp_rbinded <- rbind(tmp, get(variable))
+          assign(variable, tmp_rbinded)
+        }else{
+          assign(variable, tmp)
+        }
+        
+        save(list=variable, file=paste0(dirtemp, variable,".RData"))
+      }
+    }
+  }
+  
+  
+  
 
   ################################################################################
   ###########################       Description        ###########################

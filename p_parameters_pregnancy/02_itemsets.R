@@ -10,7 +10,33 @@ if (this_datasource_has_prompt) {
   
   # -itemset_AVpair_pregnancy- is a nested list, with 3 levels: foreach study variable, for each coding system of its data domain, the list of AVpair is recorded
   
-  study_variables_pregnancy <- c("DATESTARTPREGNANCY","GESTAGE_FROM_DAPS_CRITERIA_DAYS","GESTAGE_FROM_DAPS_CRITERIA_WEEKS","GESTAGE_FROM_USOUNDS_DAYS","GESTAGE_FROM_USOUNDS_WEEKS","GESTAGE_FROM_LMP_WEEKS","GESTAGE_FROM_LMP_DAYS", "DATEENDPREGNANCY","END_LIVEBIRTH","END_STILLBIRTH","END_TERMINATION","END_ABORTION", "TYPE")
+  study_variables_pregnancy <- c("DATESTARTPREGNANCY",
+                                 "GESTAGE_FROM_DAPS_CRITERIA_DAYS",
+                                 "GESTAGE_FROM_DAPS_CRITERIA_WEEKS",
+                                 "GESTAGE_FROM_USOUNDS_DAYS",
+                                 "GESTAGE_FROM_USOUNDS_WEEKS",
+                                 "GESTAGE_FROM_LMP_WEEKS",
+                                 "GESTAGE_FROM_LMP_DAYS",
+                                 "DATEENDPREGNANCY",
+                                 "END_LIVEBIRTH",
+                                 "END_STILLBIRTH",
+                                 "END_TERMINATION",
+                                 "END_ABORTION", 
+                                 "TYPE", 
+                                 #CHILD
+                                 "DATESTARTPREGNANCY_CHILD",
+                                 "GESTAGE_FROM_DAPS_CRITERIA_DAYS_CHILD",
+                                 "GESTAGE_FROM_DAPS_CRITERIA_WEEKS_CHILD",
+                                 "GESTAGE_FROM_USOUNDS_DAYS_CHILD",
+                                 "GESTAGE_FROM_USOUNDS_WEEKS_CHILD",
+                                 "GESTAGE_FROM_LMP_WEEKS_CHILD",
+                                 "GESTAGE_FROM_LMP_DAYS_CHILD",
+                                 "DATEENDPREGNANCY_CHILD",
+                                 "END_LIVEBIRTH_CHILD",
+                                 "END_STILLBIRTH_CHILD",
+                                 "END_TERMINATION_CHILD",
+                                 "END_ABORTION_CHILD", 
+                                 "TYPE_CHILD")
   
   print(paste0("Load ITEMSETS in SURVEY_OBSERVATIONS for ",thisdatasource))
   

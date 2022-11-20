@@ -1,28 +1,47 @@
-## TO DO: retrieve from VISIT_OCCURRENCE_ID and from SURVEY_ID all the records that have the prompts listed in 04_prompts
+##Retrieve from VISIT_OCCURRENCE_ID and from SURVEY_ID all the records that have the prompts listed in 04_prompts
 
+# SURVEY_ID
 
-# RETRIEVE FROM SURVEY_ID ALL RECORDS WHOSE meaning IS "birth_registry_mother" AND SAVE
-
-# TO DO: collect and rbind from all files whose name starts with 'SURVEY_ID'
 if (this_datasource_has_prompt) {
   
   SURVEY_ID_BR <- data.table()
   files<-sub('\\.csv$', '', list.files(dirinput))
+  
   for (i in 1:length(files)) {
     if (str_detect(files[i],"^SURVEY_ID")) {
       
-      SURVEY_ID_BR <-rbind(SURVEY_ID_BR,fread(paste0(dirinput,files[i],".csv"), colClasses = list(character="person_id"))[survey_meaning %in% unlist(meaning_of_survey_pregnancy_this_datasource),])
+      tmp <- fread(paste0(dirinput,files[i],".csv"), 
+                   colClasses = list(character="person_id"))
       
-
-
+      tmp <- tmp[survey_meaning %in% unlist(meaning_of_survey_pregnancy_this_datasource),]
+      
+      SURVEY_ID_BR <-rbind(SURVEY_ID_BR, tmp)
     }
-
   }
   
   SURVEY_ID_BR<-SURVEY_ID_BR[,survey_date:=ymd(survey_date)]
   SURVEY_ID_BR<-unique(SURVEY_ID_BR, by=c("person_id","survey_id","survey_date"))
+  
+  #------------------------------------
+  # Replace survey ID for child records
+  #------------------------------------
+  if(this_datasource_has_prompt_child){
+    PERSON_RELATIONSHIPS <- fread(paste0(dirinput, "PERSON_RELATIONSHIPS.csv"))
+    PERSON_RELATIONSHIPS_child <- PERSON_RELATIONSHIPS[meaning_of_relationship %in% meaning_of_relationship_child_this_datasource]
+    
+    tmp <- merge(SURVEY_ID_BR,
+                 PERSON_RELATIONSHIPS_child[, .(person_id, related_id)], 
+                 by = "person_id", 
+                 all.x = TRUE)
+    
+    SURVEY_ID_BR<-tmp[survey_meaning %in% unlist(meaning_of_survey_pregnancy_this_datasource_child),
+                      person_id := related_id]
+    
+    SURVEY_ID_BR <- SURVEY_ID_BR[, -c("related_id")]
+  }
 
-
+  
+  
   ##### Description #####
   if(HTML_files_creation){
     if(nrow(SURVEY_ID_BR)!=0){
@@ -41,14 +60,12 @@ if (this_datasource_has_prompt) {
     }
   }
 
-  ##### End Description #####
-  
-  
   save(SURVEY_ID_BR, file=paste0(dirtemp,"SURVEY_ID_BR.RData"))
   rm(SURVEY_ID_BR)
 }
 
-# RETRIEVE FROM VISIT_OCCURRENCE_ID ALL RECORDS WHOSE meaning IS "first_encounter_for_ongoing_pregnancy", "service_before_termination" , "service_for_ongoing_pregnancy" AND SAVE
+
+# VISIT_OCCURRENCE_ID 
 
 if (this_datasource_has_visit_occurrence_prompt) {
   
@@ -58,7 +75,10 @@ if (this_datasource_has_visit_occurrence_prompt) {
   for (i in 1:length(files)) {
     if (str_detect(files[i],"^VISIT_OCCURRENCE")) {
       
-      VISIT_OCCURRENCE_PREG <-rbind(VISIT_OCCURRENCE_PREG,fread(paste0(dirinput,files[i],".csv"))[(meaning_of_visit %chin% unlist(meaning_of_visit_pregnancy_this_datasource)),])
+      tmp <- fread(paste0(dirinput,files[i],".csv"))
+      tmp <- tmp[(meaning_of_visit %chin% unlist(meaning_of_visit_pregnancy_this_datasource)),]
+      
+      VISIT_OCCURRENCE_PREG <-rbind(VISIT_OCCURRENCE_PREG, tmp)
       
     }
   }
@@ -79,9 +99,6 @@ if (this_datasource_has_visit_occurrence_prompt) {
                         PathOutputFolder= dirdescribe01_prompts)
   }
   
-
-  ##### End Description #####
-
   save(VISIT_OCCURRENCE_PREG, file=paste0(dirtemp,"VISIT_OCCURRENCE_PREG.RData"))
   rm(VISIT_OCCURRENCE_PREG)
   
