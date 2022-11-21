@@ -27,6 +27,10 @@ this_datasource_has_procedures <- ifelse(thisdatasource %in% datasource_with_pro
 datasource_with_prompt_child <- c("EFEMERIS") #@ use "TO_ADD" as example
 this_datasource_has_prompt_child <- ifelse(thisdatasource %in% datasource_with_prompt_child, TRUE, FALSE) 
 
+#datasource with related_id correspondig to child
+datasource_with_related_id_correspondig_to_child <- c()
+this_datasource_has_related_id_correspondig_to_child <- ifelse(thisdatasource %in% datasource_with_related_id_correspondig_to_child, TRUE, FALSE) 
+
 if(this_datasource_has_prompt_child){
   this_datasource_has_prompt <- TRUE
 }

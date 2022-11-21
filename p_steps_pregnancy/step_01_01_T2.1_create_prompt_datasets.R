@@ -29,6 +29,15 @@ if (this_datasource_has_prompt) {
     PERSON_RELATIONSHIPS <- fread(paste0(dirinput, "PERSON_RELATIONSHIPS.csv"))
     PERSON_RELATIONSHIPS_child <- PERSON_RELATIONSHIPS[meaning_of_relationship %in% meaning_of_relationship_child_this_datasource]
     
+    if(this_datasource_has_related_id_correspondig_to_child){
+      PERSON_RELATIONSHIPS <- PERSON_RELATIONSHIPS[, person_id_mother := person_id]
+      PERSON_RELATIONSHIPS <- PERSON_RELATIONSHIPS[, person_id_child := related_id]
+      PERSON_RELATIONSHIPS <- PERSON_RELATIONSHIPS[, -c("person_id", "related_id")]
+      
+      setnames(PERSON_RELATIONSHIPS, "person_id_mother", "related_id")
+      setnames(PERSON_RELATIONSHIPS, "person_id_child", "person_id")
+    }
+    
     tmp <- merge(SURVEY_ID_BR,
                  PERSON_RELATIONSHIPS_child[, .(person_id, related_id)], 
                  by = "person_id", 
