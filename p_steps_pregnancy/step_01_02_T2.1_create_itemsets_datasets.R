@@ -23,12 +23,12 @@ if (this_datasource_has_prompt) {
     PERSON_RELATIONSHIPS_child <- PERSON_RELATIONSHIPS[meaning_of_relationship %in% meaning_of_relationship_child_this_datasource]
     
     if(this_datasource_has_related_id_correspondig_to_child){
-      PERSON_RELATIONSHIPS <- PERSON_RELATIONSHIPS[, person_id_mother := person_id]
-      PERSON_RELATIONSHIPS <- PERSON_RELATIONSHIPS[, person_id_child := related_id]
-      PERSON_RELATIONSHIPS <- PERSON_RELATIONSHIPS[, -c("person_id", "related_id")]
+      PERSON_RELATIONSHIPS_child <- PERSON_RELATIONSHIPS_child[, person_id_mother := person_id]
+      PERSON_RELATIONSHIPS_child <- PERSON_RELATIONSHIPS_child[, person_id_child := related_id]
+      PERSON_RELATIONSHIPS_child <- PERSON_RELATIONSHIPS_child[, -c("person_id", "related_id")]
       
-      setnames(PERSON_RELATIONSHIPS, "person_id_mother", "related_id")
-      setnames(PERSON_RELATIONSHIPS, "person_id_child", "person_id")
+      setnames(PERSON_RELATIONSHIPS_child, "person_id_mother", "related_id")
+      setnames(PERSON_RELATIONSHIPS_child, "person_id_child", "person_id")
     }
     
     for (variable in c("DATESTARTPREGNANCY",
