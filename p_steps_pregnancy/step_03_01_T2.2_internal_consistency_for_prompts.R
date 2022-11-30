@@ -75,25 +75,56 @@ if (this_datasource_has_prompt) {
     
     # prova<-D3_study_population_pregnancy2[no_linked_to_person==0 & person_not_female==0 & person_not_in_fertile_age==0,]
     # prova<-D3_study_population_pregnancy2[no_linked_to_person==0 & person_not_female==0 & person_not_in_fertile_age==0,]
+    
+    
+    
     # link to output_spells_category
-    D3_study_population_pregnancy3<-merge(D3_study_population_pregnancy2,output_spells_category, by="person_id", all.x = T)
-    # keep only the most recent spell for each person
-    D3_study_population_pregnancy3<-D3_study_population_pregnancy3[,max_spell:=max(num_spell), by="person_id"][max_spell==num_spell | is.na(max_spell),]
-    D3_study_population_pregnancy3<-D3_study_population_pregnancy3[,-"max_spell"]
-    
-    ## create label for pregnancies to be excluded or classified
-    # not in OBS_PER at the beginning of pregnancy
-    #D3_study_population_pregnancy3 <-D3_study_population_pregnancy3[pregnancy_start_date>=entry_spell_category & pregnancy_start_date<=exit_spell_category,pregnancy_start_in_spells:=0, by="person_id"][is.na(pregnancy_start_in_spells),pregnancy_start_in_spells:=1]
-    #table(D3_study_population_pregnancy3$pregnancy_start_in_spells) #837258 rows deleted
-    # not in OBS_PER at some point during of pregnancy
-    #D3_study_population_pregnancy3 <-D3_study_population_pregnancy3[pregnancy_end_date>=entry_spell_category & pregnancy_end_date<=exit_spell_category,pregnancy_end_in_spells:=0, by="person_id"][is.na(pregnancy_end_in_spells),pregnancy_end_in_spells:=1]
-   # table(D3_study_population_pregnancy3$pregnancy_end_in_spells) #573228 rows deleted
-    
-    # record_date not in OBS_PER
-    D3_study_population_pregnancy3 <-D3_study_population_pregnancy3[record_date>=entry_spell_category & record_date<=exit_spell_category,
-                                                                    record_date_not_in_spells:=0] #, by="person_id"]
-    
-    D3_study_population_pregnancy3 <-D3_study_population_pregnancy3[is.na(record_date_not_in_spells),record_date_not_in_spells:=1]
+    if(this_datasource_has_multiple_obs_period){
+      
+      max_spell <- max(output_spells_category[, num_spell])
+      
+      tmp <- copy(output_spells_category)
+      tmp <- data.table::melt(tmp, 
+                              id.vars = c("person_id", "op_meaning", "num_spell"),
+                              measure.vars = c("entry_spell_category", "exit_spell_category"))
+      
+      tmp <- tmp[order(num_spell)]
+      tmp <- tmp[, col:= paste(variable, num_spell, sep = "_")]
+      tmp <- tmp[, -c("num_spell", "variable")]
+      
+      tmp <- data.table::dcast(tmp,  
+                               person_id +  op_meaning ~ col, 
+                               value.var = "value")
+      
+      
+      D3_study_population_pregnancy3 <- merge(D3_study_population_pregnancy2,
+                                              tmp, 
+                                              by="person_id", 
+                                              all.x = T)
+      
+      
+      cond <- paste0("(record_date >= entry_spell_category_", 1:max_spell,  
+                     " & record_date <= exit_spell_category_", 1:max_spell, ")",
+                     collapse = " | ")
+      
+      D3_study_population_pregnancy3[eval(parse(text = string_cond)), record_date_not_in_spells:=0]
+      
+      D3_study_population_pregnancy3 <-D3_study_population_pregnancy3[is.na(record_date_not_in_spells),
+                                                                      record_date_not_in_spells:=1]
+
+    }else{
+      D3_study_population_pregnancy3<-merge(D3_study_population_pregnancy2,output_spells_category, by="person_id", all.x = T)
+      # keep only the most recent spell for each person
+      D3_study_population_pregnancy3<-D3_study_population_pregnancy3[,max_spell:=max(num_spell), by="person_id"][max_spell==num_spell | is.na(max_spell),]
+      D3_study_population_pregnancy3<-D3_study_population_pregnancy3[,-"max_spell"]
+      
+      # record_date not in OBS_PER
+      D3_study_population_pregnancy3 <-D3_study_population_pregnancy3[record_date>=entry_spell_category & record_date<=exit_spell_category,
+                                                                      record_date_not_in_spells:=0] #, by="person_id"]
+      
+      D3_study_population_pregnancy3 <-D3_study_population_pregnancy3[is.na(record_date_not_in_spells),record_date_not_in_spells:=1]
+    }
+
     table(D3_study_population_pregnancy3$record_date_not_in_spells)
     
     # pregancies to be excluded:
