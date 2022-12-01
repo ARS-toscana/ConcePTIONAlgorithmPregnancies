@@ -159,6 +159,11 @@ gap_allowed_thisdatasource = ifelse(is.null(gap_allowed[[thisdatasource]]), 1,ga
 datasources_prescriptions <- c("TO_ADD","CPRD","PHARMO") #@ use "TO_ADD" as example
 thisdatasource_has_prescriptions <- ifelse(thisdatasource %in% datasources_prescriptions,TRUE,FALSE)
 
+# datasources with multiple observation period 
+
+datasources_with_multiple_obs_period <- c("TO_ADD","EFEMERIS") #@ use "TO_ADD" as example
+this_datasource_has_multiple_obs_period <- ifelse(thisdatasource %in% datasources_with_multiple_obs_period,TRUE,FALSE)
+
 
 
 #############################################

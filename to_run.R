@@ -6,6 +6,9 @@
 # 
 # link: https://github.com/ARS-toscana/ConcePTIONAlgorithmPregnancies
 #
+# changelog V3.09, 1 December 2022:
+# - included option for multiple obs period
+#
 # changelog V3.08, 20 November 2022:
 # - added prompt with child person_id
 #
