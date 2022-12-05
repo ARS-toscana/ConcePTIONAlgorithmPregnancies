@@ -133,8 +133,9 @@ if (this_datasource_has_prompt) {
     
     D3_excluded_pregnancies_from_PROMPT<-rbind(D3_excluded_pregnancies_from_prompts_1, D3_excluded_pregnancies_from_prompts_2, fill = TRUE)
     
-    D3_excluded_pregnancies_from_PROMPT < D3_excluded_pregnancies_from_PROMPT[,-c( "sex_at_instance_creation",
-                                                                                   "date_of_birth","date_death", 
+    D3_excluded_pregnancies_from_PROMPT <- D3_excluded_pregnancies_from_PROMPT[,-c( "sex_at_instance_creation",
+                                                                                   "date_of_birth",
+                                                                                   "date_death", 
                                                                                    "age_at_pregnancy_start",
                                                                                    "op_meaning",
                                                                                    "num_spell",
