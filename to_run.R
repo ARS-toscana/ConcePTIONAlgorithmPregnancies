@@ -6,6 +6,9 @@
 # 
 # link: https://github.com/ARS-toscana/ConcePTIONAlgorithmPregnancies
 #
+# changelog V3.10, 5 December 2022:
+# - reconciliation update 
+#
 # changelog V3.09, 1 December 2022:
 # - included option for multiple obs period
 #
@@ -105,7 +108,7 @@ source(paste0(thisdir,"/p_steps_pregnancy/step_03_04_T2.2_internal_consistency_f
 source(paste0(thisdir,"/p_steps_pregnancy/step_04_01_T2.2_process_pregnancies_excluded.R")) 
 source(paste0(thisdir,"/p_steps_pregnancy/step_04_01_1_T2.2_create_flowchart.R")) 
 source(paste0(thisdir,"/p_steps_pregnancy/step_04_02_T2.3_merge_stream_of_same_person.R"))
-source(paste0(thisdir,"/p_steps_pregnancy/step_04_03_T2.3_first_part_reconciliation.R"))
+#source(paste0(thisdir,"/p_steps_pregnancy/step_04_03_T2.3_first_part_reconciliation.R"))
 
 # 05 MAIN RECONCILIATION
 source(paste0(thisdir,"/p_steps_pregnancy/step_05_01_T2.2_reconciliation.R"))

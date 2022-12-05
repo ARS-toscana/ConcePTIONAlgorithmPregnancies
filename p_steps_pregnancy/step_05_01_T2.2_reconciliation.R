@@ -1,34 +1,31 @@
 #----------------------
 # Record Reconciliation
 #----------------------
+load(paste0(dirtemp,"groups_of_pregnancies.RData"))
 
-load(paste0(dirtemp,"D3_groups_of_pregnancies.RData"))
-
+D3_gop <- copy(groups_of_pregnancies)
+D3_gop <- D3_gop[, pers_group_id := person_id] 
+D3_gop <- D3_gop[, highest_quality := coloured_order] 
 ## defining hierarchy & ordering
 if(thisdatasource == "VID"){
-  D3_gop<-D3_groups_of_pregnancies[origin=="PMR", hyerarchy := 1]
+  D3_gop<-D3_gop[origin=="PMR", hyerarchy := 1]
   D3_gop<-D3_gop[origin=="MDR", hyerarchy := 2]
   D3_gop<-D3_gop[origin=="EOS", hyerarchy := 3]
   D3_gop<-D3_gop[is.na(hyerarchy), hyerarchy := 4]
   
-  D3_gop<-D3_gop[order(person_id, 
-                       group_identifier, 
+  D3_gop<-D3_gop[order(pers_group_id, 
                        hyerarchy, 
                        order_quality, 
                        -record_date),]
   D3_gop<-D3_gop[, YGrecon:=0]
 }else{
-  D3_gop<-D3_groups_of_pregnancies[order(person_id, 
-                                         group_identifier, 
-                                         order_quality, 
-                                         -record_date),]
+  D3_gop<-D3_gop[order(pers_group_id, 
+                       order_quality, 
+                       -record_date),]
 }
 
-# creating record number for each group of pregnancy
-D3_gop<-D3_gop[,n:=seq_along(.I), by=.(group_identifier, person_id, highest_quality)]
-
-#creating unique identifier for each group of pregnancy
-D3_gop<-D3_gop[,pers_group_id:=paste0(person_id,"_", group_identifier_colored)]
+# creating record number for each person
+D3_gop<-D3_gop[,n:=seq_along(.I), by=.(pers_group_id)]
 
 D3_gop <- D3_gop[, record_description := CONCEPTSET][is.na(record_description), 
                                                      record_description := meaning]
@@ -381,16 +378,25 @@ save(D3_groups_of_pregnancies_MNIP, file=paste0(dirtemp,"D3_groups_of_pregnancie
 D3_gop <- D3_gop[MNIP_sum!=number_of_records_in_the_group,]
 
 # add vars
-D3_gop <- D3_gop[coloured_order == "1_green", number_green := .N, by = "pers_group_id"][is.na(number_green), number_green:= 0]
+D3_gop <- D3_gop[coloured_order == "1_green", number_green := .N, by = "pers_group_id"]
+D3_gop <- D3_gop[is.na(number_green), number_green:= 0]
 D3_gop <- D3_gop[, number_green:= max(number_green),  by = "pers_group_id" ]
-D3_gop <- D3_gop[coloured_order == "2_yellow", number_yellow := .N, by = "pers_group_id"][is.na(number_yellow), number_yellow:= 0]
+
+D3_gop <- D3_gop[coloured_order == "2_yellow", number_yellow := .N, by = "pers_group_id"]
+D3_gop <- D3_gop[is.na(number_yellow), number_yellow:= 0]
 D3_gop <- D3_gop[, number_yellow:= max(number_yellow),  by = "pers_group_id" ]
-D3_gop <- D3_gop[coloured_order == "3_blue", number_blue := .N, by = "pers_group_id"][is.na(number_blue), number_blue:= 0]
+
+D3_gop <- D3_gop[coloured_order == "3_blue", number_blue := .N, by = "pers_group_id"]
+D3_gop <- D3_gop[is.na(number_blue), number_blue:= 0]
 D3_gop <- D3_gop[, number_blue:= max(number_blue),  by = "pers_group_id" ]
-D3_gop <- D3_gop[coloured_order == "4_red", number_red := .N, by = "pers_group_id"][is.na(number_red), number_red:= 0]
+
+D3_gop <- D3_gop[coloured_order == "4_red", number_red := .N, by = "pers_group_id"]
+D3_gop <- D3_gop[is.na(number_red), number_red:= 0]
 D3_gop <- D3_gop[, number_red:= max(number_red),  by = "pers_group_id" ]
 
-D3_gop <- D3_gop[n==1, date_of_principal_record := record_date,  by = "pers_group_id" ][is.na(date_of_principal_record), date_of_principal_record:=0]
+D3_gop <- D3_gop[n==1, date_of_principal_record := record_date,  by = "pers_group_id" ]
+D3_gop <- D3_gop[is.na(date_of_principal_record), date_of_principal_record:=0]
+
 D3_gop <- D3_gop[, date_of_principal_record:= max(date_of_principal_record),  by = "pers_group_id" ]
 
 D3_gop <- D3_gop[, date_of_oldest_record := min(record_date), by = "pers_group_id" ]
@@ -404,25 +410,16 @@ D3_gop <- D3_gop[, highest_quality := min(highest_quality), pers_group_id]
 # Age at start of pregnancy    
 load(paste0(dirtemp, "D3_PERSONS.RData"))
 
-D3_PERSONS <- D3_PERSONS[,  birth_date := as.Date(paste0(year_of_birth, "-", month_of_birth, "-", day_of_birth ))]
+D3_PERSONS <- D3_PERSONS[,  birth_date := as.Date(paste0(year_of_birth, "-", 
+                                                         month_of_birth, "-", 
+                                                         day_of_birth ))]
+
 D3_gop <- merge(D3_gop, D3_PERSONS[, .(person_id, birth_date)], by = "person_id")
 D3_gop <- D3_gop[, age_at_start_of_pregnancy := as.integer((pregnancy_start_date - birth_date) / 365)]
 
 # ------------------------
 # Red Record Distribution
 # ------------------------
-# #select only the pregnancy with at least one record green
-# id_green <- D3_gop[coloured_order == "1_green" & (type_of_pregnancy_end=="SA" | type_of_pregnancy_end=="T") , pers_group_id]
-# red_record_from_green <- D3_gop[pers_group_id %in% id_green]
-# 
-# red_record_from_green <- red_record_from_green[coloured_order == "1_green", date_start_green := pregnancy_start_date]
-# red_record_from_green <- red_record_from_green[is.na(date_start_green), date_start_green:= as.Date("9999-12-31")]
-# red_record_from_green <- red_record_from_green[, date_start_green:= min(date_start_green), pers_group_id]
-# 
-# red_record_from_green <- red_record_from_green[, distance := record_date - date_start_green]
-# 
-# #red_record_from_green[coloured_order == "4_red", hist(as.integer(distance))]
-# mean(red_record_from_green[coloured_order == "4_red",as.integer(distance)])
 
 ## cleaning the dataset
 D3_groups_of_pregnancies_reconciled_before_excl <- D3_gop[, .(person_id,
