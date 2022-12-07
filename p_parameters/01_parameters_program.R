@@ -151,6 +151,7 @@ for (t in list_tables){
 # gap allowed for CreateSpells
 gap_allowed <- vector(mode="list")
 gap_allowed[["ARS"]] <- 365
+gap_allowed[["TEST"]] <- 365
 #gap_allowed[["TO_ADD"]] <- 180
 
 gap_allowed_thisdatasource = ifelse(is.null(gap_allowed[[thisdatasource]]), 1,gap_allowed[[thisdatasource]])
