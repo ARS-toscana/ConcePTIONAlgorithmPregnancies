@@ -6,6 +6,9 @@
 # 
 # link: https://github.com/ARS-toscana/ConcePTIONAlgorithmPregnancies
 #
+# changelog V3.12, 15 December 2022:
+# - added visit for EpiChron
+#
 # changelog V3.11, 12 December 2022:
 # - EFEMERIS params updated
 #
