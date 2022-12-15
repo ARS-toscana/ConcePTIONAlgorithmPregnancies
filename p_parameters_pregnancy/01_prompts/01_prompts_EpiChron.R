@@ -19,4 +19,4 @@ meaning_of_survey_pregnancy[["EpiChron"]][["other"]]<-list()
 ####### LOAD MEANING_OF_VISIT for EpiChron
 
 meaning_of_visit_pregnancy <- vector(mode="list")
-meaning_of_visit_pregnancy[["EpiChron"]]<-list("first_visit_pregnancy")
+meaning_of_visit_pregnancy[["EpiChron"]]<-list("first_visit_pregnancy", "pregnancy_control_visit")
