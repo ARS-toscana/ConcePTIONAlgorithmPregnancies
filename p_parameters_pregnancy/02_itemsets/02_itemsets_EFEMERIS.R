@@ -79,7 +79,7 @@ itemset_AVpair_pregnancy[["GESTAGE_FROM_USOUNDS_DAYS_CHILD"]][[files[i]]][["EFEM
 itemset_AVpair_pregnancy[["GESTAGE_FROM_USOUNDS_WEEKS_CHILD"]][[files[i]]][["EFEMERIS"]]  <- list()
 
 # specification DATESTARTPREGNANCY
-itemset_AVpair_pregnancy[["DATESTARTPREGNANCY_CHILD"]][[files[i]]][["EFEMERIS"]] <- list(list("EFEMERIS_ISSUE","deb_grossesse"))
+itemset_AVpair_pregnancy[["DATESTARTPREGNANCY_CHILD"]][[files[i]]][["EFEMERIS"]] <- list(list("EFEMERIS_ISSUE","DEB_GROSSESSE"))
 
 
 ############################# END ##############################################
@@ -99,7 +99,7 @@ itemset_AVpair_pregnancy[["END_ABORTION_CHILD"]][[files[i]]][["EFEMERIS"]] <- li
 
 
 ############################# TYPE #############################################
-itemset_AVpair_pregnancy[["TYPE_CHILD"]][[files[i]]][["EFEMERIS"]] <- list(list("EFEMERIS_ISSUE", "ISSUE"),list("EFEMERIS_INTERRUPTION", "ISSUE"))
+itemset_AVpair_pregnancy[["TYPE_CHILD"]][[files[i]]][["EFEMERIS"]] <- list(list("EFEMERIS_ISSUE", "ISSUE"))
 
 
 
@@ -109,10 +109,12 @@ itemset_AVpair_pregnancy[["TYPE_CHILD"]][[files[i]]][["EFEMERIS"]] <- list(list(
 #-------------------------------------------------------------------------------
 ################################ DICTINARY OF TYPE ##################################
 dictonary_of_itemset_pregnancy[["TYPE"]][["EFEMERIS"]][["LB"]]<-list(list("EFEMERIS_ISSUE", "NAISSANCE"))
-dictonary_of_itemset_pregnancy[["TYPE"]][["EFEMERIS"]][["SB"]]<-list(list("EFEMERIS_INTERRUPTION", "MIU"))
-dictonary_of_itemset_pregnancy[["TYPE"]][["EFEMERIS"]][["SA"]]<-list(list("EFEMERIS_INTERRUPTION", "FCS"))
-dictonary_of_itemset_pregnancy[["TYPE"]][["EFEMERIS"]][["T"]]<-list(list("EFEMERIS_INTERRUPTION", "IMG"), list("EFEMERIS_INTERRUPTION", "IVG"))
+dictonary_of_itemset_pregnancy[["TYPE"]][["EFEMERIS"]][["SB"]]<-list(list("EFEMERIS_ISSUE", "MIU"))
+dictonary_of_itemset_pregnancy[["TYPE"]][["EFEMERIS"]][["SA"]]<-list(list("EFEMERIS_ISSUE", "FCS"))
+dictonary_of_itemset_pregnancy[["TYPE"]][["EFEMERIS"]][["T"]]<-list(list("EFEMERIS_ISSUE", "IMG"), list("EFEMERIS_ISSUE", "IVG"))
 dictonary_of_itemset_pregnancy[["TYPE"]][["EFEMERIS"]][["MD"]]<-list()
-dictonary_of_itemset_pregnancy[["TYPE"]][["EFEMERIS"]][["ECT"]]<-list(list("EFEMERIS_INTERRUPTION", "GEU"))
-dictonary_of_itemset_pregnancy[["TYPE"]][["EFEMERIS"]][["UNK"]]<-list(list("EFEMERIS_INTERRUPTION", "UNKNOWN"))
+dictonary_of_itemset_pregnancy[["TYPE"]][["EFEMERIS"]][["ECT"]]<-list(list("EFEMERIS_ISSUE", "GEU"))
+dictonary_of_itemset_pregnancy[["TYPE"]][["EFEMERIS"]][["UNK"]]<-list(list("EFEMERIS_ISSUE", "UNKNOWN"))
+
+
 

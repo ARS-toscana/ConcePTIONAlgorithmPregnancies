@@ -10,15 +10,15 @@ datasource_with_itemsets_stream_from_medical_obs <- c("TO_ADD","BIFAP","VID","PH
 this_datasource_has_itemsets_stream_from_medical_obs <- ifelse(thisdatasource %in% datasource_with_itemsets_stream_from_medical_obs,TRUE,FALSE) 
 
 #datasource with  prompt
-datasource_with_prompt <- c("TO_ADD","ARS","PHARMO","UOSL","CASERTA","VID","CPRD","GePaRD","EpiChron","SIDIAP","SAIL Databank","EFEMERIS", "DANREG" ,"KI") #@ use "TO_ADD" as example
+datasource_with_prompt <- c("TO_ADD","TEST","ARS","PHARMO","UOSL","CASERTA","VID","CPRD","GePaRD","EpiChron","SIDIAP","SAIL Databank","EFEMERIS", "DANREG" ,"KI") #@ use "TO_ADD" as example
 this_datasource_has_prompt <- ifelse(thisdatasource %in% datasource_with_prompt,TRUE,FALSE) 
 
 #datasource with VISIT_OCCURRENCE prompt
-datasource_with_visit_occurrence_prompt <- c("TO_ADD","ARS","EpiChron") #@ use "TO_ADD" as example
+datasource_with_visit_occurrence_prompt <- c("TO_ADD","TEST","ARS","EpiChron") #@ use "TO_ADD" as example
 this_datasource_has_visit_occurrence_prompt <- ifelse(thisdatasource %in% datasource_with_visit_occurrence_prompt,TRUE,FALSE) 
 
 #datasource with procedures
-datasource_with_procedures <- c("TO_ADD","ARS","VID", "BIFAP", "CASERTA","SNDS","GePaRD","EpiChron","HSD") #@ use "TO_ADD" as example # check new concepeset
+datasource_with_procedures <- c("TO_ADD","TEST","ARS","VID", "BIFAP", "CASERTA","SNDS","GePaRD","EpiChron","HSD") #@ use "TO_ADD" as example # check new concepeset
 this_datasource_has_procedures <- ifelse(thisdatasource %in% datasource_with_procedures,TRUE,FALSE) 
 
 
