@@ -153,7 +153,21 @@ save(D3_study_population_pregnancy_from_CONCEPTSETS, file=paste0(dirtemp,"D3_stu
 
 
 
+if("pregnancy_ongoing_date" %notin% names(D3_study_population_pregnancy_from_CONCEPTSETS)){
+  D3_study_population_pregnancy_from_CONCEPTSETS[, pregnancy_ongoing_date:=NA]
+}
 
+if("meaning_ongoing_date" %notin% names(D3_study_population_pregnancy_from_CONCEPTSETS)){
+  D3_study_population_pregnancy_from_CONCEPTSETS[, meaning_ongoing_date:=NA]
+}
+
+if("codvar" %notin% names(D3_study_population_pregnancy_from_CONCEPTSETS)){
+  D3_study_population_pregnancy_from_CONCEPTSETS[, codvar:=NA]
+}
+
+if("coding_system" %notin% names(D3_study_population_pregnancy_from_CONCEPTSETS)){
+  D3_study_population_pregnancy_from_CONCEPTSETS[, coding_system:=NA]
+}
 
 D3_Stream_CONCEPTSETS_check<-D3_study_population_pregnancy_from_CONCEPTSETS[,.(pregnancy_id,
                                                                                person_id,
@@ -174,6 +188,7 @@ D3_Stream_CONCEPTSETS_check<-D3_study_population_pregnancy_from_CONCEPTSETS[,.(p
                                                                                visit_occurrence_id,
                                                                                CONCEPTSETS,
                                                                                CONCEPTSET)] 
+
 
 save(D3_Stream_CONCEPTSETS_check, file=paste0(dirtemp,"D3_Stream_CONCEPTSETS_check.RData"))
 
