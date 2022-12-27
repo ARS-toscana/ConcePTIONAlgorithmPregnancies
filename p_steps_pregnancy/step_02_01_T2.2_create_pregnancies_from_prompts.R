@@ -395,6 +395,11 @@ if (this_datasource_has_prompt) {
                                                     imputed_start_of_pregnancy=1, 
                                                     meaning_start_date=paste0("imputed_itemset_from_",type_of_pregnancy_end))]
     
+    dataset_pregnancies3<-dataset_pregnancies3[!is.na(pregnancy_end_date) & is.na(pregnancy_start_date) & type_of_pregnancy_end=="SA",
+                                               `:=`(pregnancy_start_date= pregnancy_end_date-70, 
+                                                    imputed_start_of_pregnancy=1, 
+                                                    meaning_start_date=paste0("imputed_itemset_from_",type_of_pregnancy_end))]
+    
     dataset_pregnancies3<-dataset_pregnancies3[is.na(imputed_start_of_pregnancy), imputed_start_of_pregnancy:=0]
     
     

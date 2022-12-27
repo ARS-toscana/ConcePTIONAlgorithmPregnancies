@@ -6,6 +6,9 @@
 # 
 # link: https://github.com/ARS-toscana/ConcePTIONAlgorithmPregnancies
 #
+# changelog V3.13, 27 December 2022:
+# - added imputation for SA gestage
+#
 # changelog V3.12, 15 December 2022:
 # - added visit for EpiChron
 #
