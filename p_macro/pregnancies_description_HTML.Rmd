@@ -116,7 +116,7 @@ As reported in the sap, some records have both pregnancy start date and pregnanc
 
 - **15**  CONCEPSETS: spontaneous abortion possible, meaning non primary care,  pregnancy_start_date not available and imputed
 
-- **16**  CONCEPTSETS: meaning implying primary care, pregnancy_start_date not available and imputed, end date estimated with record date 
+- **20**  CONCEPTSETS: meaning implying primary care, pregnancy_start_date not available and imputed, end date estimated with record date 
  
 - **25**  all Streams: ongoing pregnancy and pregnancy_start_date recorded
  

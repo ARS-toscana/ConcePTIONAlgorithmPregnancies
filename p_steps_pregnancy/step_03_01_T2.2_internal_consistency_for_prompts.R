@@ -133,34 +133,17 @@ if (this_datasource_has_prompt) {
     
     D3_excluded_pregnancies_from_PROMPT<-rbind(D3_excluded_pregnancies_from_prompts_1, D3_excluded_pregnancies_from_prompts_2, fill = TRUE)
     
-    D3_excluded_pregnancies_from_PROMPT <- D3_excluded_pregnancies_from_PROMPT[, .(pregnancy_id,                      
-                                                                                   person_id,                         
-                                                                                   record_date,                       
-                                                                                   survey_id,                         
-                                                                                   pregnancy_start_date,              
-                                                                                   pregnancy_end_date,               
-                                                                                   meaning_start_date,                
-                                                                                   meaning_end_date,                  
-                                                                                   imputed_start_of_pregnancy,        
-                                                                                   imputed_end_of_pregnancy,          
-                                                                                   type_of_pregnancy_end,             
-                                                                                   origin,                           
-                                                                                   column,                            
-                                                                                   meaning,                           
-                                                                                   so_source_value,                   
-                                                                                   PROMPT,                            
-                                                                                   ITEMSETS,                          
-                                                                                   pregnancy_ongoing_date,           
-                                                                                   meaning_ongoing_date,              
-                                                                                   visit_occurrence_id,               
-                                                                                   pregnancy_with_dates_out_of_range, 
-                                                                                   no_linked_to_person,               
-                                                                                   person_not_in_fertile_age,         
-                                                                                   record_date_not_in_spells)]
-    
+    suppressWarnings(D3_excluded_pregnancies_from_PROMPT <- D3_excluded_pregnancies_from_PROMPT[,-c("sex_at_instance_creation",
+                                                                                                    "date_of_birth",
+                                                                                                    "date_death", 
+                                                                                                    "age_at_pregnancy_start",
+                                                                                                    "op_meaning",
+                                                                                                    "num_spell",
+                                                                                                    "entry_spell_category",
+                                                                                                    "exit_spell_category")])
+
     save(D3_excluded_pregnancies_from_PROMPT, file=paste0(dirtemp,"D3_excluded_pregnancies_from_PROMPT.RData"))
-    
-    
+
     # pregnancies to be included in next steps
     D3_study_population_pregnancy_from_prompts<-D3_study_population_pregnancy3[no_linked_to_person==0 & 
                                                                                  person_not_in_fertile_age==0 & 
