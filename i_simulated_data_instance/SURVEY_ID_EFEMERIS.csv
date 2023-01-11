@@ -1,0 +1,7 @@
+person_id,survey_id,survey_date,survey_meaning,survey_origin
+E100,3,20170610,8days_CHUT_questionnaire,EFEMERIS_NAISSANCE
+E100,221655,20190609,24months_CHUT_questionnaire,EFEMERIS_NAISSANCE
+E100,284075,20170609,pregnancy_characteristics,EFEMERIS_ISSUE
+E101755,286026,20141021,pregnancy_characteristics,EFEMERIS_ISSUE
+E101755,440233,20141021,termination_of_pregnancy,EFEMERIS_INTERRUPTION
+E101755,441403,20141021,anomalies_baby_registry,EFEMERIS_MALFORMATION
