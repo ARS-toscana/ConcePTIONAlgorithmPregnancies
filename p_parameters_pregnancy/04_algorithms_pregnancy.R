@@ -45,11 +45,11 @@ if (thisdatasource %in% datasources_with_specific_algorithms){
 ## FIXING FOR CODING SYSTEMS
 
 # fix for ICPC2P
-for (conceptset in concept_set_pregnancy){
-  if (length(concept_set_codes_pregnancy[[conceptset]][["ICPC2P"]]) >0 ){
-    concept_set_codes_pregnancy[[conceptset]][["ICPC"]] <- unique(c(concept_set_codes_pregnancy[[conceptset]][["ICPC"]],substr(concept_set_codes_pregnancy[[conceptset]][["ICPC2P"]],1,3)))
-  }
-}
+# for (conceptset in concept_set_pregnancy){
+#   if (length(concept_set_codes_pregnancy[[conceptset]][["ICPC2P"]]) >0 ){
+#     concept_set_codes_pregnancy[[conceptset]][["ICPC"]] <- unique(c(concept_set_codes_pregnancy[[conceptset]][["ICPC"]],substr(concept_set_codes_pregnancy[[conceptset]][["ICPC2P"]],1,3)))
+#   }
+# }
 
 # fix for ICD10GM
 for (conceptset in concept_set_pregnancy){

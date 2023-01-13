@@ -55,6 +55,8 @@ concept_set_codes_pregnancy_excl<-vector(mode="list")
 
 concept_set_codes_pregnancy_excl[["others"]][["ITA_procedures_coding_system"]] = c("88782", "88781","8878A") #c("88682 ???", senza punti )
 
+
+
 ################# Old R version fix
 concept_set_codes_pregnancy[["Gestation_less24_UNK"]] <- list()
 concept_set_codes_pregnancy[["Gestation_24_UNK"]] <- list()
@@ -385,7 +387,9 @@ concept_set_codes_pregnancy[["Ectopicpregnancy"]] <- concept_set_codes_pregnancy
 
 
 
-
+concept_set_codes_pregnancy_excl[["Stillbirth_possible"]] <- concept_set_codes_pregnancy[["Stillbirth_narrow"]] 
+concept_set_codes_pregnancy_excl[["Interruption_possible"]] <- concept_set_codes_pregnancy[["Interruption_narrow"]]
+concept_set_codes_pregnancy_excl[["Spontaneousabortion_possible"]] <- concept_set_codes_pregnancy[["Spontaneousabortion_narrow"]]
 
 
 

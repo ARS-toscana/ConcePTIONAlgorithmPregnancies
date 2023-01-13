@@ -6,6 +6,9 @@
 # 
 # link: https://github.com/ARS-toscana/ConcePTIONAlgorithmPregnancies
 #
+# changelog V3.15, 13 January 2022:
+# - fixed error with ICPC codes
+#
 # changelog V3.14, 3 January 2022:
 # - added imputation for UNK gestage
 #
