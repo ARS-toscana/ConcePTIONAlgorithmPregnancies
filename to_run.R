@@ -6,6 +6,9 @@
 # 
 # link: https://github.com/ARS-toscana/ConcePTIONAlgorithmPregnancies
 #
+# changelog V3.16, 20 January 2022:
+# - added param for not include conceptsets
+#
 # changelog V3.15, 13 January 2022:
 # - fixed error with ICPC codes
 #
@@ -129,7 +132,7 @@ source(paste0(thisdir,"/p_steps_pregnancy/step_05_02_T2.2_reconciliation.R"))
 source(paste0(thisdir,"/p_steps_pregnancy/step_05_03_create_D3_final.R"))
 
 # 06 SAMPLE FROM PREGNANCY COHORT 
-source(paste0(thisdir,"/p_steps_pregnancy/step_06_01_sample_from_pregnancies.R")) 
+#source(paste0(thisdir,"/p_steps_pregnancy/step_06_01_sample_from_pregnancies.R")) 
 #source(paste0(thisdir,"/p_steps_pregnancy/step_06_02_sample_from_insuf_quality.R")) 
 #source(paste0(thisdir,"/p_steps_pregnancy/step_06_03_sample_from_red.R")) 
 

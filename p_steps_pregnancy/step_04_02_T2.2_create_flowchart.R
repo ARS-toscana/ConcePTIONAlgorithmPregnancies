@@ -35,7 +35,17 @@ if(dim(D3_excluded_pregnancies_from_ITEMSETS)[1]==0) {
   D3_excluded_pregnancies_from_ITEMSETS<-data.table(ITEMSETS=character(0))
 }
 
-load(paste0(dirtemp,"D3_excluded_pregnancies_from_CONCEPTSETS.RData"))
+
+D3_excluded_pregnancies_from_CONCEPTSETS<-data.table()
+for (i in 1:length(files)) {
+  if (str_detect(files[i],"^D3_excluded_pregnancies_from_CONCEPTSETS")) { 
+    load(paste0(dirtemp,files[i],".RData")) 
+  }
+} 
+if(dim(D3_excluded_pregnancies_from_CONCEPTSETS)[1]==0) {
+  D3_excluded_pregnancies_from_CONCEPTSETS<-data.table(CONCEPTSETS=character(0))
+}
+
 
 excluded_pregnancies<-rbind(D3_excluded_pregnancies_from_CONCEPTSETS,
                             D3_excluded_pregnancies_from_EUROCAT,
@@ -57,8 +67,6 @@ for (i in 1:length(files)) {
 if(dim(D3_Stream_PROMPTS_check)[1]==0) {
   D3_Stream_PROMPTS_check<-data.table(PROMPT=character(0))
 }
-
-
 
 D3_Stream_ITEMSETS_check <- data.table()
 for (i in 1:length(files)) {
@@ -84,7 +92,16 @@ if(dim(D3_Stream_EUROCAT_check)[1]==0) {
 }
 
 
-load(paste0(dirtemp,"D3_Stream_CONCEPTSETS_check.RData"))
+D3_Stream_CONCEPTSETS_check<-data.table()
+for (i in 1:length(files)) {
+  if (str_detect(files[i],"^D3_Stream_CONCEPTSETS_check")) { 
+    load(paste0(dirtemp,files[i],".RData")) 
+  }
+} 
+if(dim(D3_Stream_CONCEPTSETS_check)[1]==0) {
+  D3_Stream_CONCEPTSETS_check<-data.table(CONCEPTSETS=character(0))
+}
+
 
 included_pregnancies<-rbind(D3_Stream_PROMPTS_check,
                             D3_Stream_ITEMSETS_check,

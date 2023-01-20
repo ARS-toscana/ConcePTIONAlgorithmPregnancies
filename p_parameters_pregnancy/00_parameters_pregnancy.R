@@ -21,6 +21,9 @@ this_datasource_has_visit_occurrence_prompt <- ifelse(thisdatasource %in% dataso
 datasource_with_procedures <- c("TO_ADD","TEST","ARS","VID", "BIFAP", "CASERTA","SNDS","GePaRD","EpiChron","HSD") #@ use "TO_ADD" as example # check new concepeset
 this_datasource_has_procedures <- ifelse(thisdatasource %in% datasource_with_procedures,TRUE,FALSE) 
 
+#datasource with CONCEPTSETS
+datasource_with_conceptsets <- c("TO_ADD","TEST","VID", "BIFAP", "CASERTA","SNDS","GePaRD","EpiChron","HSD", "SAIL Databank", "PHARMO", "UOSL","CPRD","SIDIAP", "DANREG" ,"KI") #,"ARS"
+this_datasource_has_conceptsets <- ifelse(thisdatasource %in% datasource_with_conceptsets,TRUE,FALSE) 
 
 
 #datasource with prompt with child person_id

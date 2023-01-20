@@ -35,9 +35,15 @@ if(dim(D3_Stream_ITEMSETS_check)[1]==0) {
 }
 
 
-load(paste0(dirtemp,"D3_Stream_CONCEPTSETS_check.RData"))
-
-
+D3_Stream_CONCEPTSETS_check<-data.table()
+for (i in 1:length(files)) {
+  if (str_detect(files[i],"^D3_Stream_CONCEPTSETS_check")) {
+    load(paste0(dirtemp,files[i],".RData"))
+  }
+}
+if(dim(D3_Stream_CONCEPTSETS_check)[1]==0) {
+  D3_Stream_CONCEPTSETS_check<-data.table(CONCEPTSETS=character(0))
+}
 
 
 # put together all the D3_Stream..
@@ -55,6 +61,13 @@ if(sum(!str_detect(names(groups_of_pregnancies),"coding_system")) == length(name
 if(sum(!str_detect(names(groups_of_pregnancies),"codvar")) == length(names(groups_of_pregnancies))) {
   groups_of_pregnancies<-groups_of_pregnancies[,codvar:=""]}
 
+if("pregnancy_ongoing_date" %notin% names(groups_of_pregnancies)){
+  groups_of_pregnancies[, `:=`(pregnancy_ongoing_date = NA, meaning_ongoing_date = NA)]
+}
+
+if("CONCEPTSET" %notin% names(groups_of_pregnancies)){
+  groups_of_pregnancies[, `:=`(CONCEPTSET = NA)]
+}
 
 groups_of_pregnancies<-groups_of_pregnancies[,.(pregnancy_id,
                                                 person_id,
@@ -250,3 +263,4 @@ if(HTML_files_creation){
 save(groups_of_pregnancies, file=paste0(dirtemp,"groups_of_pregnancies.RData"))
 
 rm(groups_of_pregnancies,D3_Stream_ITEMSETS_check,D3_Stream_PROMPTS_check, D3_Stream_CONCEPTSETS_check,D3_Stream_EUROCAT_check)
+

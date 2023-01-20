@@ -3,7 +3,7 @@
 #--------------------------------------------------------
 
 # list of datasources for which pregnancies consisting only of red records end on the date of the most recent record
-datasources_that_end_red_pregnancies <- c("TO_ADD") #@ use "TO_ADD" as example
+datasources_that_end_red_pregnancies <- c("TO_ADD", "ARS") #@ use "TO_ADD" as example
 this_datasource_ends_red_pregnancies  <- ifelse(thisdatasource %in% datasources_that_end_red_pregnancies,TRUE,FALSE) 
 
 # list of datasources that do not modify information from PROMPT
@@ -24,24 +24,24 @@ this_datasources_with_specific_algorithms <- ifelse(thisdatasource %in% datasour
 #-------------------------------
 # ALGORITMH FOR PREGNANCY SCRIPT
 #-------------------------------
-
-# create the rule that eliminates the meanings that are not appropriate for each prognancy
-exclude_meanings_from_PREGNANCY <- vector(mode="list")
-# "primary_care_antecedents_BIFAP", "primary_care_condicionants_BIFAP"
-for (conceptset in concept_set_pregnancy){
-  exclude_meanings_from_PREGNANCY[["BIFAP"]][[conceptset]]=c("primary_care_antecedents_BIFAP", "primary_care_condicionants_BIFAP")
-}
-selection_meanings_from_PREGNANCY <- vector(mode="list")
-if (thisdatasource %in% datasources_with_specific_algorithms){ 
+if(this_datasource_has_conceptsets){
+  # create the rule that eliminates the meanings that are not appropriate for each prognancy
+  exclude_meanings_from_PREGNANCY <- vector(mode="list")
+  # "primary_care_antecedents_BIFAP", "primary_care_condicionants_BIFAP"
   for (conceptset in concept_set_pregnancy){
-    select <- "!is.na(person_id) "
-    for (meaningevent in exclude_meanings_from_PREGNANCY[[thisdatasource]][[conceptset]]){
-      select <- paste0(select," & meaning_of_event!= '",meaningevent,"'")
+    exclude_meanings_from_PREGNANCY[["BIFAP"]][[conceptset]]=c("primary_care_antecedents_BIFAP", "primary_care_condicionants_BIFAP")
+  }
+  selection_meanings_from_PREGNANCY <- vector(mode="list")
+  if (thisdatasource %in% datasources_with_specific_algorithms){ 
+    for (conceptset in concept_set_pregnancy){
+      select <- "!is.na(person_id) "
+      for (meaningevent in exclude_meanings_from_PREGNANCY[[thisdatasource]][[conceptset]]){
+        select <- paste0(select," & meaning_of_event!= '",meaningevent,"'")
+      }
+      selection_meanings_from_PREGNANCY[[thisdatasource]][[conceptset]] <- select
     }
-    selection_meanings_from_PREGNANCY[[thisdatasource]][[conceptset]] <- select
   }
 }
-
 ## FIXING FOR CODING SYSTEMS
 
 # fix for ICPC2P
@@ -52,42 +52,43 @@ if (thisdatasource %in% datasources_with_specific_algorithms){
 # }
 
 # fix for ICD10GM
-for (conceptset in concept_set_pregnancy){
-  #print(conceptset)
-  if (concept_set_domains[[conceptset]] == "Diagnosis"){
-    concept_set_codes_pregnancy[[conceptset]][["ICD10GM"]] <- unique(c(concept_set_codes_pregnancy[[conceptset]][["ICD10"]],concept_set_codes_pregnancy[[conceptset]][["ICD10GM"]]))
+if(this_datasource_has_conceptsets){
+  for (conceptset in concept_set_pregnancy){
+    #print(conceptset)
+    if (concept_set_domains[[conceptset]] == "Diagnosis"){
+      concept_set_codes_pregnancy[[conceptset]][["ICD10GM"]] <- unique(c(concept_set_codes_pregnancy[[conceptset]][["ICD10"]]  ,concept_set_codes_pregnancy[[conceptset]][["ICD10GM"]]))
+    }
+  }
+  
+  # fix for ICD10CM
+  for (conceptset in concept_set_pregnancy){
+    if (concept_set_domains[[conceptset]] == "Diagnosis"){
+      concept_set_codes_pregnancy[[conceptset]][["ICD10CM"]] <- concept_set_codes_pregnancy[[conceptset]][["ICD10"]]
+    }
+  }
+  
+  # fix for CIM10
+  for (conceptset in concept_set_pregnancy){
+    if (concept_set_domains[[conceptset]] == "Diagnosis"){
+      concept_set_codes_pregnancy[[conceptset]][["CIM10"]] <- concept_set_codes_pregnancy[[conceptset]][["ICD10"]]
+    }
+  }
+  
+  # fix for SNOMED3
+  for (conceptset in concept_set_pregnancy){
+    if (concept_set_domains[[conceptset]] == "Diagnosis"){
+      concept_set_codes_pregnancy[[conceptset]][["SNOMED3"]] <- concept_set_codes_pregnancy[[conceptset]][["SNOMED"]]
+    }
+  }
+  
+  
+  # fix for ICD9CM
+  for (conceptset in concept_set_pregnancy){
+    if (concept_set_domains[[conceptset]] == "Diagnosis"){
+      concept_set_codes_pregnancy[[conceptset]][["ICD9CM"]] <- concept_set_codes_pregnancy[[conceptset]][["ICD9"]]
+    }
   }
 }
-
-# fix for ICD10CM
-for (conceptset in concept_set_pregnancy){
-  if (concept_set_domains[[conceptset]] == "Diagnosis"){
-    concept_set_codes_pregnancy[[conceptset]][["ICD10CM"]] <- concept_set_codes_pregnancy[[conceptset]][["ICD10"]]
-  }
-}
-
-# fix for CIM10
-for (conceptset in concept_set_pregnancy){
-  if (concept_set_domains[[conceptset]] == "Diagnosis"){
-    concept_set_codes_pregnancy[[conceptset]][["CIM10"]] <- concept_set_codes_pregnancy[[conceptset]][["ICD10"]]
-  }
-}
-
-# fix for SNOMED3
-for (conceptset in concept_set_pregnancy){
-  if (concept_set_domains[[conceptset]] == "Diagnosis"){
-    concept_set_codes_pregnancy[[conceptset]][["SNOMED3"]] <- concept_set_codes_pregnancy[[conceptset]][["SNOMED"]]
-  }
-}
-
-
-# fix for ICD9CM
-for (conceptset in concept_set_pregnancy){
-  if (concept_set_domains[[conceptset]] == "Diagnosis"){
-    concept_set_codes_pregnancy[[conceptset]][["ICD9CM"]] <- concept_set_codes_pregnancy[[conceptset]][["ICD9"]]
-  }
-}
-
 
 # Legally included 
 
@@ -111,11 +112,13 @@ legally_included_pregnancies = ifelse(is.null(legally_included_pregnancies_dap_l
 save(meaning_of_survey_pregnancy, file=paste0(direxp, "meaning_of_survey_pregnancy.RData"))
 if (this_datasource_has_visit_occurrence_prompt)save(meaning_of_visit_pregnancy, file=paste0(direxp, "meaning_of_visit_pregnancy.RData"))
 
-# Saving concepsets code 
-save(concept_set_codes_pregnancy,file=paste0(direxp,"concept_set_codes_pregnancy.RData"))
-save(concept_set_codes_pregnancy_excl,file=paste0(direxp,"concept_set_codes_pregnancy_excl.RData"))
-save(concept_set_codes_pregnancy,file=paste0(dirsmallcountsremoved,"concept_set_codes_pregnancy.RData"))
-save(concept_set_codes_pregnancy_excl,file=paste0(dirsmallcountsremoved,"concept_set_codes_pregnancy_excl.RData"))
+if(this_datasource_has_conceptsets){
+  # Saving concepsets code 
+  save(concept_set_codes_pregnancy,file=paste0(direxp,"concept_set_codes_pregnancy.RData"))
+  save(concept_set_codes_pregnancy_excl,file=paste0(direxp,"concept_set_codes_pregnancy_excl.RData"))
+  save(concept_set_codes_pregnancy,file=paste0(dirsmallcountsremoved,"concept_set_codes_pregnancy.RData"))
+  save(concept_set_codes_pregnancy_excl,file=paste0(dirsmallcountsremoved,"concept_set_codes_pregnancy_excl.RData"))
+}
 
 # Saving itemsets  
 save(itemset_AVpair_pregnancy, file=paste0(direxp,"itemset_AVpair_pregnancy.RData"))

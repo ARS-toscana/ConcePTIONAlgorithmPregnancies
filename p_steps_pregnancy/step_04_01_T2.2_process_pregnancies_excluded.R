@@ -32,8 +32,19 @@ if(dim(D3_excluded_pregnancies_from_ITEMSETS)[1]==0) {
   D3_excluded_pregnancies_from_ITEMSETS<-data.table(ITEMSETS=character(0))
 }
 
+
+D3_excluded_pregnancies_from_CONCEPTSETS<-data.table()
+for (i in 1:length(files)) {
+  if (str_detect(files[i],"^D3_excluded_pregnancies_from_CONCEPTSETS")) { 
+    load(paste0(dirtemp,files[i],".RData")) 
+  }
+} 
+if(dim(D3_excluded_pregnancies_from_CONCEPTSETS)[1]==0) {
+  D3_excluded_pregnancies_from_CONCEPTSETS<-data.table(CONCEPTSETS=character(0))
+}
+
 #load(paste0(dirtemp,"D3_excluded_pregnancies_from_PROMPT.RData"))
-load(paste0(dirtemp,"D3_excluded_pregnancies_from_CONCEPTSETS.RData"))
+#load(paste0(dirtemp,"D3_excluded_pregnancies_from_CONCEPTSETS.RData"))
 #load(paste0(dirtemp,"D3_excluded_pregnancies_from_EUROCAT.RData"))
 #load(paste0(dirtemp,"D3_excluded_pregnancies_from_ITEMSETS.RData"))
 
@@ -62,7 +73,7 @@ if(sum(!str_detect(names(groups_of_excluded_pregnancies),"visit_occurrence_id"))
   groups_of_excluded_pregnancies<-groups_of_excluded_pregnancies[,visit_occurrence_id:=""]}
 
 # ADDED: pregnancy_start_date
-groups_of_excluded_pregnancies<-groups_of_excluded_pregnancies[,.(pregnancy_id,person_id,survey_id,visit_occurrence_id,pregnancy_start_date,PROMPT,EUROCAT,CONCEPTSETS,CONCEPTSET,ITEMSETS,no_linked_to_person,person_not_in_fertile_age,record_date_not_in_spells,pregnancy_with_dates_out_of_range)]# 
+groups_of_excluded_pregnancies<-groups_of_excluded_pregnancies[,.(pregnancy_id,person_id,survey_id,visit_occurrence_id,pregnancy_start_date,PROMPT,EUROCAT,CONCEPTSETS,ITEMSETS,no_linked_to_person,person_not_in_fertile_age,record_date_not_in_spells,pregnancy_with_dates_out_of_range)]# 
 
 groups_of_excluded_pregnancies<-groups_of_excluded_pregnancies[is.na(PROMPT),PROMPT:="no"]
 groups_of_excluded_pregnancies<-groups_of_excluded_pregnancies[is.na(EUROCAT),EUROCAT:="no"]

@@ -27,8 +27,9 @@ if(thisdatasource == "VID"){
 # creating record number for each person
 D3_gop<-D3_gop[,n:=seq_along(.I), by=.(pers_group_id)]
 
-D3_gop <- D3_gop[, record_description := CONCEPTSET][is.na(record_description), 
-                                                     record_description := meaning]
+D3_gop <- D3_gop[, record_description := CONCEPTSET]
+D3_gop <- D3_gop[, record_description := as.character(record_description)]
+D3_gop <- D3_gop[is.na(record_description), record_description := meaning]
 
 D3_gop <- D3_gop[, description := paste0("1:", record_description, "/")]
 
@@ -110,11 +111,11 @@ while (D3_gop[,.N]!=0) {
                      `:=`(new_pregnancy_group = 1)]
     
     # dividing Red
-    D3_gop <- D3_gop[n == 1 & recon == 0 & !is.na(record_date_next_record) & 
-                       coloured_order == "4_red" & coloured_order_next_record == "4_red" &
-                       pregnancy_end_date < ymd(CDM_SOURCE$recommended_end_date) &
-                       abs(as.integer(record_date - record_date_next_record)) > gap_allowed_red_record_thisdatasource,
-                     `:=`(new_pregnancy_group = 1)]
+    # D3_gop <- D3_gop[n == 1 & recon == 0 & !is.na(record_date_next_record) & 
+    #                    coloured_order == "4_red" & coloured_order_next_record == "4_red" &
+    #                    pregnancy_end_date < ymd(CDM_SOURCE$recommended_end_date) &
+    #                    abs(as.integer(record_date - record_date_next_record)) > gap_allowed_red_record_thisdatasource,
+    #                  `:=`(new_pregnancy_group = 1)]
     
     # split 
     D3_gop <- D3_gop[is.na(new_pregnancy_group), new_pregnancy_group:=0]
