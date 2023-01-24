@@ -7,6 +7,9 @@
 # link: https://github.com/ARS-toscana/ConcePTIONAlgorithmPregnancies
 #
 # changelog V3.16, 20 January 2022:
+# - set multiple obs period by default
+#
+# changelog V3.16, 20 January 2022:
 # - added param for not include conceptsets
 #
 # changelog V3.15, 13 January 2022:

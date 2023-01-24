@@ -162,8 +162,8 @@ thisdatasource_has_prescriptions <- ifelse(thisdatasource %in% datasources_presc
 
 # datasources with multiple observation period 
 
-datasources_with_multiple_obs_period <- c("TO_ADD","EFEMERIS") #@ use "TO_ADD" as example
-this_datasource_has_multiple_obs_period <- ifelse(thisdatasource %in% datasources_with_multiple_obs_period,TRUE,FALSE)
+#datasources_with_multiple_obs_period <- c("TO_ADD","EFEMERIS") #@ use "TO_ADD" as example
+#this_datasource_has_multiple_obs_period <- ifelse(thisdatasource %in% datasources_with_multiple_obs_period,TRUE,FALSE)
 
 
 
