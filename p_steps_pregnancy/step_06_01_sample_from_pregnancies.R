@@ -1,67 +1,167 @@
 load(paste0(dirtemp,"D3_pregnancy_reconciled_valid.RData"))
 load(paste0(dirtemp,"D3_groups_of_pregnancies_reconciled.RData"))
+#------------------------------
+# create dummy var for sampling
+#------------------------------
+# Green
+D3_pregnancy_reconciled_valid[GGDE == 1 | GGDS == 1, Green_Discordant := 1]
+D3_pregnancy_reconciled_valid[is.na(Green_Discordant), Green_Discordant := 0]
 
+# Yellow
+D3_pregnancy_reconciled_valid[like(algorithm_for_reconciliation, ":Discordant"), Yellow_Discordant := 1]
+D3_pregnancy_reconciled_valid[is.na(Yellow_Discordant), Yellow_Discordant := 0]
+
+D3_pregnancy_reconciled_valid[like(algorithm_for_reconciliation, ":SlightlyDiscordant"), Yellow_SlightlyDiscordant := 1]
+D3_pregnancy_reconciled_valid[is.na(Yellow_SlightlyDiscordant), Yellow_SlightlyDiscordant := 0]
+
+### new var: sample
+# Green
+D3_pregnancy_reconciled_valid[Green_Discordant == 1, sample := "Green_Discordant"]
+D3_pregnancy_reconciled_valid[sample %notin% c("Green_Discordant") & highest_quality == "1_green",  sample := "Green_Concordant"]
+
+# Yellow
+D3_pregnancy_reconciled_valid[Yellow_Discordant == 1 & highest_quality == "2_yellow", sample := "Yellow_Discordant"]
+D3_pregnancy_reconciled_valid[Yellow_Discordant == 0 & highest_quality == "2_yellow" & Yellow_SlightlyDiscordant == 0, sample := "Yellow_SlightlyDiscordant"]
+
+D3_pregnancy_reconciled_valid[sample %notin% c("Yellow_SlightlyDiscordant", "Yellow_Discordant") & highest_quality == "2_yellow", sample := "Yellow_Concordant"]
+
+# Red
+D3_pregnancy_reconciled_valid[highest_quality == "4_red", sample := "Red_quality"]
+
+#------------------------------
+# Sampling
+#------------------------------
 list_of_sample <- vector(mode = "list")
+### 1: sample from discordant green
+l <- D3_pregnancy_reconciled_valid[sample == "Green_Discordant", .N]
 
-### 1: sample from all 
-sample_id_all <- sample(x = D3_pregnancy_reconciled_valid[, pregnancy_id], size = 10, replace = FALSE)
-list_of_sample[["sample_record_all"]] <- D3_pregnancy_reconciled_valid[pregnancy_id %in% sample_id_all][,sample:="All"]
-
-### 2: sample from Inconsistencies 
-l <- D3_pregnancy_reconciled_valid[like(algorithm_for_reconciliation, ":Inconsistency"), .N]
 if (l > 0){
-  sample_id_inc <- sample(x = D3_pregnancy_reconciled_valid[like(algorithm_for_reconciliation, ":Inconsistency"), pregnancy_id], size = min(l, 5), replace = FALSE)
-  list_of_sample[["sample_record_Inconsistencies"]] <- D3_pregnancy_reconciled_valid[pregnancy_id %in% sample_id_inc][,sample:="Inconsistency"]
+  sample_green_discord <- sample(x = D3_pregnancy_reconciled_valid[sample == "Green_Discordant", pregnancy_id], 
+                                 size = min(l, 7), 
+                                 replace = FALSE)
+  
+  list_of_sample[["sample_green_discord"]] <- D3_pregnancy_reconciled_valid[pregnancy_id %in% sample_green_discord][, sample:="sample_green_discord"]
 }
 
-### 3: sample from Discordant 
-l <- D3_pregnancy_reconciled_valid[like(algorithm_for_reconciliation, ":Discordant"), .N]
+### 2: sample from concordant green
+l <- D3_pregnancy_reconciled_valid[sample == "Green_Concordant",  .N]
+
 if (l > 0){
-  sample_id_disc <- sample(x = D3_pregnancy_reconciled_valid[like(algorithm_for_reconciliation, ":Discordant"), pregnancy_id], size =  min(l, 5), replace = FALSE)
-  list_of_sample[["sample_record_Discordant"]] <- D3_pregnancy_reconciled_valid[pregnancy_id %in% sample_id_disc][,sample:="Discordant"]
+  sample_green_concordant <- sample(x = D3_pregnancy_reconciled_valid[sample != "Green_Discordant" & highest_quality == "1_green", pregnancy_id], 
+                                 size = min(l, 7), 
+                                 replace = FALSE)
+  
+  list_of_sample[["sample_green_concordant"]] <- D3_pregnancy_reconciled_valid[pregnancy_id %in% sample_green_concordant][, sample:="Green_Concordant"]
 }
 
-### 4: sample from SlightyDiscordant
-l <- D3_pregnancy_reconciled_valid[like(algorithm_for_reconciliation,":SlightlyDiscordant"), .N]
+### 3: sample from discordant yellow
+l <- D3_pregnancy_reconciled_valid[sample == "Yellow_Discordant", .N]
+
 if (l > 0){
-  sample_id_sdisc <- sample(x = D3_pregnancy_reconciled_valid[like(algorithm_for_reconciliation, ":SlightlyDiscordant"), pregnancy_id], size =  min(l, 5), replace = FALSE)
-  list_of_sample[["sample_record_SlightyDiscordant"]] <- D3_pregnancy_reconciled_valid[pregnancy_id %in% sample_id_sdisc][,sample:="SlightlyDiscordant"]
+  sample_Yellow_Discordant <- sample(x = D3_pregnancy_reconciled_valid[sample == "Yellow_Discordant", pregnancy_id], 
+                                 size = min(l, 7), 
+                                 replace = FALSE)
+  
+  list_of_sample[["sample_Yellow_Discordant"]] <- D3_pregnancy_reconciled_valid[pregnancy_id %in% sample_Yellow_Discordant][, sample:="Yellow_Discordant"]
 }
 
-### 5: sample from excluded --> GG:DiscordantEnd
-l <- D3_pregnancy_reconciled_valid[GGDE == 1, .N]
+### 4: sample from slightly discordant yellow
+l <- D3_pregnancy_reconciled_valid[sample == "Yellow_SlightlyDiscordant", .N]
+
 if (l > 0){
-  sample_id_ggde <- sample(x = D3_pregnancy_reconciled_valid[GGDE == 1, pregnancy_id], size =  min(l, 5), replace = FALSE)
-  list_of_sample[["sample_record_DiscordantEnd"]] <- D3_pregnancy_reconciled_valid[pregnancy_id %in% sample_id_ggde][,sample:="GG:DiscordantEnd"]
+  sample_Yellow_SlightlyDiscordant <- sample(x = D3_pregnancy_reconciled_valid[sample == "Yellow_SlightlyDiscordant", pregnancy_id], 
+                                     size = min(l, 7), 
+                                     replace = FALSE)
+  
+  list_of_sample[["sample_Yellow_SlightlyDiscordant"]] <- D3_pregnancy_reconciled_valid[pregnancy_id %in% sample_Yellow_SlightlyDiscordant][, sample:="Yellow_SlightlyDiscordant"]
 }
 
-### 6: sample from excluded --> GG:DiscordantStart
-l <- D3_pregnancy_reconciled_valid[GGDS == 1, .N]
+### 5: sample from concordant yellow
+l <- D3_pregnancy_reconciled_valid[sample == "Yellow_Concordant", .N]
+
 if (l > 0){
-  sample_id_ex <- sample(x = D3_pregnancy_reconciled_valid[GGDS == 1, pregnancy_id], size =  min(l, 5), replace = FALSE)
-  list_of_sample[["sample_record_DiscordantStart"]] <- D3_pregnancy_reconciled_valid[pregnancy_id %in% sample_id_ex][,sample:="GG:DiscordantStart"]
+  sample_Yellow_Concordant <- sample(x = D3_pregnancy_reconciled_valid[sample == "Yellow_Concordant", pregnancy_id], 
+                                             size = min(l, 7), 
+                                             replace = FALSE)
+  
+  list_of_sample[["sample_Yellow_Concordant"]] <- D3_pregnancy_reconciled_valid[pregnancy_id %in% sample_Yellow_Concordant][, sample:="Yellow_Concordant"]
 }
 
-### 7: sample from excluded --> insufficient_quality
-l <- D3_pregnancy_reconciled_valid[INSUF_QUALITY == 1, .N]
+### 6: sample from red
+l <- D3_pregnancy_reconciled_valid[sample == "Red_quality", .N]
+
 if (l > 0){
-  sample_id_iq <- sample(x = D3_pregnancy_reconciled_valid[INSUF_QUALITY == 1, pregnancy_id], size =  min(l, 5), replace = FALSE)
-  list_of_sample[["sample_record_insufficient_quality"]] <- D3_pregnancy_reconciled_valid[pregnancy_id %in% sample_id_iq][,sample:="insufficient_quality"]
+  sample_Red_quality <- sample(x = D3_pregnancy_reconciled_valid[sample == "Red_quality", pregnancy_id], 
+                                     size = min(l, 7), 
+                                     replace = FALSE)
+  
+  list_of_sample[["sample_Red_quality"]] <- D3_pregnancy_reconciled_valid[pregnancy_id %in% sample_Red_quality][, sample:="Red_quality"]
 }
 
-### 8: sample from blue --> updated_start
-l <- D3_pregnancy_reconciled_valid[like(algorithm_for_reconciliation,":StartUpdated"), .N]
-if (l > 0){
-  sample_id_blue <- sample(x = D3_pregnancy_reconciled_valid[like(algorithm_for_reconciliation,":StartUpdated"), pregnancy_id], size =  min(l, 5), replace = FALSE)
-  list_of_sample[["sample_record_blue"]] <- D3_pregnancy_reconciled_valid[pregnancy_id %in% sample_id_blue][,sample:="StartUpdated"]
-}
 
-### 9: sample from splitted
-l <- D3_pregnancy_reconciled_valid[pregnancy_splitted ==1, .N]
-if (l > 0){
-  sample_id_splitted <- sample(x = D3_pregnancy_reconciled_valid[pregnancy_splitted ==1, pregnancy_id], size =  min(l, 5), replace = FALSE)
-  list_of_sample[["sample_splitted"]] <- D3_pregnancy_reconciled_valid[pregnancy_id %in% sample_id_splitted][,sample:="pregnancy_splitted"]
-}
+
+#----
+# OLD
+#----
+# ### 1: sample from all 
+# sample_id_all <- sample(x = D3_pregnancy_reconciled_valid[, pregnancy_id], size = 10, replace = FALSE)
+# list_of_sample[["sample_record_all"]] <- D3_pregnancy_reconciled_valid[pregnancy_id %in% sample_id_all][,sample:="All"]
+# 
+# ### 2: sample from Inconsistencies 
+# l <- D3_pregnancy_reconciled_valid[like(algorithm_for_reconciliation, ":Inconsistency"), .N]
+# if (l > 0){
+#   sample_id_inc <- sample(x = D3_pregnancy_reconciled_valid[like(algorithm_for_reconciliation, ":Inconsistency"), pregnancy_id], size = min(l, 5), replace = FALSE)
+#   list_of_sample[["sample_record_Inconsistencies"]] <- D3_pregnancy_reconciled_valid[pregnancy_id %in% sample_id_inc][,sample:="Inconsistency"]
+# }
+# 
+# ### 3: sample from Discordant 
+# l <- D3_pregnancy_reconciled_valid[like(algorithm_for_reconciliation, ":Discordant"), .N]
+# if (l > 0){
+#   sample_id_disc <- sample(x = D3_pregnancy_reconciled_valid[like(algorithm_for_reconciliation, ":Discordant"), pregnancy_id], size =  min(l, 5), replace = FALSE)
+#   list_of_sample[["sample_record_Discordant"]] <- D3_pregnancy_reconciled_valid[pregnancy_id %in% sample_id_disc][,sample:="Discordant"]
+# }
+# 
+# ### 4: sample from SlightyDiscordant
+# l <- D3_pregnancy_reconciled_valid[like(algorithm_for_reconciliation,":SlightlyDiscordant"), .N]
+# if (l > 0){
+#   sample_id_sdisc <- sample(x = D3_pregnancy_reconciled_valid[like(algorithm_for_reconciliation, ":SlightlyDiscordant"), pregnancy_id], size =  min(l, 5), replace = FALSE)
+#   list_of_sample[["sample_record_SlightyDiscordant"]] <- D3_pregnancy_reconciled_valid[pregnancy_id %in% sample_id_sdisc][,sample:="SlightlyDiscordant"]
+# }
+# 
+# ### 5: sample from excluded --> GG:DiscordantEnd
+# l <- D3_pregnancy_reconciled_valid[GGDE == 1, .N]
+# if (l > 0){
+#   sample_id_ggde <- sample(x = D3_pregnancy_reconciled_valid[GGDE == 1, pregnancy_id], size =  min(l, 5), replace = FALSE)
+#   list_of_sample[["sample_record_DiscordantEnd"]] <- D3_pregnancy_reconciled_valid[pregnancy_id %in% sample_id_ggde][,sample:="GG:DiscordantEnd"]
+# }
+# 
+# ### 6: sample from excluded --> GG:DiscordantStart
+# l <- D3_pregnancy_reconciled_valid[GGDS == 1, .N]
+# if (l > 0){
+#   sample_id_ex <- sample(x = D3_pregnancy_reconciled_valid[GGDS == 1, pregnancy_id], size =  min(l, 5), replace = FALSE)
+#   list_of_sample[["sample_record_DiscordantStart"]] <- D3_pregnancy_reconciled_valid[pregnancy_id %in% sample_id_ex][,sample:="GG:DiscordantStart"]
+# }
+# 
+# ### 7: sample from red --> insufficient_quality
+# l <- D3_pregnancy_reconciled_valid[INSUF_QUALITY == 1, .N]
+# if (l > 0){
+#   sample_id_iq <- sample(x = D3_pregnancy_reconciled_valid[INSUF_QUALITY == 1, pregnancy_id], size =  min(l, 5), replace = FALSE)
+#   list_of_sample[["sample_record_insufficient_quality"]] <- D3_pregnancy_reconciled_valid[pregnancy_id %in% sample_id_iq][,sample:="insufficient_quality"]
+# }
+# 
+# ### 8: sample from blue --> updated_start
+# l <- D3_pregnancy_reconciled_valid[like(algorithm_for_reconciliation,":StartUpdated"), .N]
+# if (l > 0){
+#   sample_id_blue <- sample(x = D3_pregnancy_reconciled_valid[like(algorithm_for_reconciliation,":StartUpdated"), pregnancy_id], size =  min(l, 5), replace = FALSE)
+#   list_of_sample[["sample_record_blue"]] <- D3_pregnancy_reconciled_valid[pregnancy_id %in% sample_id_blue][,sample:="StartUpdated"]
+# }
+# 
+# ## 9: sample from splitted
+# l <- D3_pregnancy_reconciled_valid[pregnancy_splitted ==1, .N]
+# if (l > 0){
+#  sample_id_splitted <- sample(x = D3_pregnancy_reconciled_valid[pregnancy_splitted ==1, pregnancy_id], size =  min(l, 5), replace = FALSE)
+#  list_of_sample[["sample_splitted"]] <- D3_pregnancy_reconciled_valid[pregnancy_id %in% sample_id_splitted][,sample:="pregnancy_splitted"]
+# }
 
 
 ### date and time 
@@ -211,65 +311,26 @@ if (this_datasource_has_itemsets_stream_from_medical_obs ) { # | this_datasource
   }
 }
 
-concept_set_list_1 <- c(concept_sets_of_pregnancy_eve) #concept_set_pregnancy_pre,
+
+if (this_datasource_has_conceptsets){
+  
+  concept_set_list_1 <- c(concept_sets_of_start_of_pregnancy_UNK,
+                          concept_sets_of_start_of_pregnancy_LB,
+                          concept_sets_of_ongoing_of_pregnancy,
+                          concept_sets_of_end_of_pregnancy_LB,
+                          concept_sets_of_end_of_pregnancy_UNK,
+                          concept_sets_of_end_of_pregnancy_UNF,
+                          concept_sets_of_end_of_pregnancy_T_SA_SB_ECT)
 
 
-concept_set_list_2 <- concept_sets_of_pregnancy_procedure
-
-#concept_set_list_3 <- concept_set_pregnancy_atc
-
-for (concept in concept_set_list_1){
-  if (concept %in% files_temp) {
-    load(paste0(dirtemp, concept, ".RData"))
-    assign("concept_temp", get(concept))
-    if(nrow(concept_temp)>0){
-      print(concept)
-      concept_temp <- concept_temp[visit_occurrence_id %in% record_sample[, survey_visit_id] & 
-                                     person_id %in% record_sample[, person_id], 
-                                   .(preg_id = NA,
-                                     person_id,
-                                     survey_id = NA,
-                                     visit_occurrence_id,
-                                     n = as.integer(2),
-                                     pregnancy_start_date = NA,
-                                     pregnancy_end_date = NA,
-                                     type_of_pregnancy_end = NA,
-                                     #####################################
-                                     pregnancy_start_date_correct = NA, 
-                                     pregnancy_start_date_difference = NA,
-                                     pregnancy_end_date_correct = NA,
-                                     pregnancy_end_date_difference = NA,
-                                     type_of_pregnancy_end_correct = NA,
-                                     records_belong_to_multiple_pregnancy = NA,
-                                     comments = NA,
-                                     #####################################
-                                     record_date = as.character(date),
-                                     origin = origin_of_event,
-                                     meaning= meaning_of_event,
-                                     codvar,
-                                     coding_system = event_record_vocabulary,
-                                     conceptset = concept,
-                                     source_column  = NA,
-                                     source_value  = NA,
-                                     itemsets = NA,
-                                     from_algorithm = 0,
-                                     link = NA,
-                                     sample = NA)]
-
-      list_of_records[[concept]] <- concept_temp
-    }
-  }
-}
-
-if(this_datasource_has_procedures){
-  for (concept in concept_set_list_2){
+  for (concept in concept_set_list_1){
     if (concept %in% files_temp) {
       load(paste0(dirtemp, concept, ".RData"))
       assign("concept_temp", get(concept))
       if(nrow(concept_temp)>0){
         print(concept)
         concept_temp <- concept_temp[visit_occurrence_id %in% record_sample[, survey_visit_id] & 
-                                       person_id %in% record_sample[, person_id],  
+                                       person_id %in% record_sample[, person_id], 
                                      .(preg_id = NA,
                                        person_id,
                                        survey_id = NA,
@@ -288,10 +349,10 @@ if(this_datasource_has_procedures){
                                        comments = NA,
                                        #####################################
                                        record_date = as.character(date),
-                                       origin = origin_of_procedure,
-                                       meaning= meaning_of_procedure,
+                                       origin = origin_of_event,
+                                       meaning= meaning_of_event,
                                        codvar,
-                                       coding_system = NA,
+                                       coding_system = event_record_vocabulary,
                                        conceptset = concept,
                                        source_column  = NA,
                                        source_value  = NA,
@@ -299,13 +360,65 @@ if(this_datasource_has_procedures){
                                        from_algorithm = 0,
                                        link = NA,
                                        sample = NA)]
-        
-       list_of_records[[concept]] <- concept_temp
+  
+        list_of_records[[concept]] <- concept_temp
+      }
+    }
+  }
+
+
+
+  if(this_datasource_has_procedures){
+    
+    concept_set_list_2 <- c(concept_sets_of_ongoing_of_pregnancy_procedures_DAP_specific,
+                            concept_sets_of_ongoing_of_pregnancy_procedures,
+                            concept_sets_of_end_of_pregnancy_LB_procedures,
+                            concept_sets_of_end_of_pregnancy_T_SA_SB_ECT_procedures)
+    
+    for (concept in concept_set_list_2){
+      if (concept %in% files_temp) {
+        load(paste0(dirtemp, concept, ".RData"))
+        assign("concept_temp", get(concept))
+        if(nrow(concept_temp)>0){
+          print(concept)
+          concept_temp <- concept_temp[visit_occurrence_id %in% record_sample[, survey_visit_id] & 
+                                         person_id %in% record_sample[, person_id],  
+                                       .(preg_id = NA,
+                                         person_id,
+                                         survey_id = NA,
+                                         visit_occurrence_id,
+                                         n = as.integer(2),
+                                         pregnancy_start_date = NA,
+                                         pregnancy_end_date = NA,
+                                         type_of_pregnancy_end = NA,
+                                         #####################################
+                                         pregnancy_start_date_correct = NA, 
+                                         pregnancy_start_date_difference = NA,
+                                         pregnancy_end_date_correct = NA,
+                                         pregnancy_end_date_difference = NA,
+                                         type_of_pregnancy_end_correct = NA,
+                                         records_belong_to_multiple_pregnancy = NA,
+                                         comments = NA,
+                                         #####################################
+                                         record_date = as.character(date),
+                                         origin = origin_of_procedure,
+                                         meaning= meaning_of_procedure,
+                                         codvar,
+                                         coding_system = NA,
+                                         conceptset = concept,
+                                         source_column  = NA,
+                                         source_value  = NA,
+                                         itemsets = NA,
+                                         from_algorithm = 0,
+                                         link = NA,
+                                         sample = NA)]
+          
+         list_of_records[[concept]] <- concept_temp
+        }
       }
     }
   }
 }
-
 # for (concept in concept_set_list_3){
 #   if (concept %in% files_temp) {
 #     load(paste0(dirtemp, concept, ".RData"))
@@ -441,6 +554,12 @@ fwrite(sample_from_pregnancies_anon, paste0(dirvalidation, "/sample_from_pregnan
 rm(D3_pregnancy_reconciled_valid, D3_groups_of_pregnancies_reconciled, 
    sample_id, sample_from_pregnancies, list_of_records, sample_from_pregnancies_anon)
 
-rm(list = concept_set_list_1)
-rm(list = concept_set_list_2)
-#rm(list = concept_set_list_3)
+if (this_datasource_has_conceptsets){
+  rm(list = concept_set_list_1)
+  if (this_datasource_has_procedures){
+    rm(list = concept_set_list_2)
+  } 
+} 
+
+
+
