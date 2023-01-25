@@ -158,9 +158,9 @@ if(this_datasource_has_conceptsets){
                                                                                            age_at_pregnancy_start,            
                                                                                            person_not_in_fertile_age,         
                                                                                            op_meaning,                        
-                                                                                           num_spell,                         
-                                                                                           entry_spell_category,              
-                                                                                           exit_spell_category,              
+                                                                                           #num_spell,                         
+                                                                                           #entry_spell_category,              
+                                                                                           #exit_spell_category,              
                                                                                            record_date_not_in_spells)]
   
   save(D3_excluded_pregnancies_from_CONCEPTSETS, file=paste0(dirtemp,"D3_excluded_pregnancies_from_CONCEPTSETS.RData")) 
@@ -268,3 +268,4 @@ if(this_datasource_has_conceptsets){
   
   print("Internal consistency for CONCEPTSETS checked")
 }
+

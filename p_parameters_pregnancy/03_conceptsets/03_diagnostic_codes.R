@@ -386,7 +386,8 @@ concept_set_codes_pregnancy[["Ectopicpregnancy"]] <- concept_set_codes_pregnancy
 
 
 
-
+# exclude narrow from possible 
+concept_set_codes_pregnancy_excl[["Birth_possible"]] <- concept_set_codes_pregnancy[["Birth_narrow"]] 
 concept_set_codes_pregnancy_excl[["Stillbirth_possible"]] <- concept_set_codes_pregnancy[["Stillbirth_narrow"]] 
 concept_set_codes_pregnancy_excl[["Interruption_possible"]] <- concept_set_codes_pregnancy[["Interruption_narrow"]]
 concept_set_codes_pregnancy_excl[["Spontaneousabortion_possible"]] <- concept_set_codes_pregnancy[["Spontaneousabortion_narrow"]]
