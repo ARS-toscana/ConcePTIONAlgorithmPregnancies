@@ -101,6 +101,7 @@ source(paste0(thisdir,"/p_parameters_pregnancy/02_itemsets.R"))
 source(paste0(thisdir,"/p_parameters_pregnancy/03_concept_sets.R"))
 source(paste0(thisdir,"/p_parameters_pregnancy/04_algorithms_pregnancy.R"))
 source(paste0(thisdir,"/p_parameters_pregnancy/05_check_coding_system.R"))
+source(paste0(thisdir,"/p_parameters_pregnancy/06_documentation_all_datasources.R"))
 
 
 #run scripts
