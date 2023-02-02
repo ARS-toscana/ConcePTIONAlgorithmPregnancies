@@ -6,6 +6,10 @@
 # 
 # link: https://github.com/ARS-toscana/ConcePTIONAlgorithmPregnancies
 #
+# changelog V3.19, 2 February 2022:
+# - fix for missing ITEMSETS end date
+# - added intermediate flowchart datasets in g_intermediate
+#
 # changelog V3.18, 24 January 2022:
 # - validation sample strata reclassified
 #

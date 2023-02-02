@@ -268,7 +268,7 @@ if (this_datasource_has_prompt) {
       for (i in c("LB", "SB", "SA", "T", "MD", "ECT", "UNK")) {
         for (t in 1:(length(unlist(dictonary_of_itemset_pregnancy_this_datasource[[i]]))/2)) {
           if (length(unlist(dictonary_of_itemset_pregnancy_this_datasource[[i]]))/2 > 0){
-            dataset_pregnancies2[pregnancy_end_date==DATEENDPREGNANCY & 
+            dataset_pregnancies2[#pregnancy_end_date==DATEENDPREGNANCY & 
                                    TYPE%in%unlist(dictonary_of_itemset_pregnancy_this_datasource[[i]][[t]])&
                                    table_TYPE %in%unlist(dictonary_of_itemset_pregnancy_this_datasource[[i]][[t]]),
                                  type_of_pregnancy_end:=i]
@@ -344,7 +344,9 @@ if (this_datasource_has_prompt) {
                          pregnancy_start_date:=pregnancy_end_date-as.numeric(GESTAGE_FROM_USOUNDS_WEEKS)*7]
     
     dataset_pregnancies3[is.na(pregnancy_end_date) & is.na(pregnancy_start_date) & !is.na(GESTAGE_FROM_USOUNDS_WEEKS),
-                         pregnancy_start_date:=survey_date - as.numeric(GESTAGE_FROM_USOUNDS_WEEKS)*7]
+                         `:=`(pregnancy_start_date = survey_date - as.numeric(GESTAGE_FROM_USOUNDS_WEEKS)*7,
+                              pregnancy_end_date = survey_date, 
+                              imputed_end_of_pregnancy = 1)]
     
     dataset_pregnancies3[!is.na(pregnancy_start_date) & !is.na(GESTAGE_FROM_USOUNDS_WEEKS) & is.na(meaning_start_date),
                          `:=`(meaning_start_date=paste0("from_itemset_","GESTAGE_FROM_USOUNDS_WEEKS"),
