@@ -1,173 +1,89 @@
 load(paste0(dirtemp,"D3_pregnancy_reconciled_valid.RData"))
 load(paste0(dirtemp,"D3_groups_of_pregnancies_reconciled.RData"))
-#------------------------------
-# create dummy var for sampling
-#------------------------------
-# Green
-D3_pregnancy_reconciled_valid[GGDE == 1 | GGDS == 1, Green_Discordant := 1]
-D3_pregnancy_reconciled_valid[is.na(Green_Discordant), Green_Discordant := 0]
 
-# Yellow
-D3_pregnancy_reconciled_valid[like(algorithm_for_reconciliation, ":Discordant"), Yellow_Discordant := 1]
-D3_pregnancy_reconciled_valid[is.na(Yellow_Discordant), Yellow_Discordant := 0]
+#------------------
+# create strata var 
+#------------------
 
-D3_pregnancy_reconciled_valid[like(algorithm_for_reconciliation, ":SlightlyDiscordant"), Yellow_SlightlyDiscordant := 1]
-D3_pregnancy_reconciled_valid[is.na(Yellow_SlightlyDiscordant), Yellow_SlightlyDiscordant := 0]
+D3_pregnancy_reconciled_valid[highest_quality == "1_green" & 
+                                (GGDE == 1 | GGDS == 1), 
+                              strata := "Green_Discordant"]
 
-### new var: sample
-# Green
-D3_pregnancy_reconciled_valid[Green_Discordant == 1, sample := "Green_Discordant"]
-D3_pregnancy_reconciled_valid[sample %notin% c("Green_Discordant") & highest_quality == "1_green",  sample := "Green_Concordant"]
+D3_pregnancy_reconciled_valid[highest_quality == "1_green" & 
+                                (GGDE != 1 & GGDS != 1), 
+                              strata := "Green_Concordant"]
 
-# Yellow
-D3_pregnancy_reconciled_valid[Yellow_Discordant == 1 & highest_quality == "2_yellow", sample := "Yellow_Discordant"]
-D3_pregnancy_reconciled_valid[Yellow_Discordant == 0 & highest_quality == "2_yellow" & Yellow_SlightlyDiscordant == 0, sample := "Yellow_SlightlyDiscordant"]
+D3_pregnancy_reconciled_valid[highest_quality == "2_yellow" & 
+                                like(algorithm_for_reconciliation, ":Discordant"), 
+                              strata := "Yellow_Discordant"]
 
-D3_pregnancy_reconciled_valid[sample %notin% c("Yellow_SlightlyDiscordant", "Yellow_Discordant") & highest_quality == "2_yellow", sample := "Yellow_Concordant"]
+D3_pregnancy_reconciled_valid[highest_quality == "2_yellow" & 
+                                like(algorithm_for_reconciliation, ":SlightlyDiscordant") &
+                                is.na(strata), 
+                              strata := "Yellow_SlightlyDiscordant"]
 
-# Red
-D3_pregnancy_reconciled_valid[highest_quality == "4_red", sample := "Red_quality"]
+D3_pregnancy_reconciled_valid[highest_quality == "2_yellow" & 
+                                is.na(strata), 
+                              strata := "Yellow_Concordant"]
+
+D3_pregnancy_reconciled_valid[highest_quality == "3_blue", 
+                              strata := "Blue"]
+
+D3_pregnancy_reconciled_valid[highest_quality == "4_red", 
+                              strata := "Red"]
+
+
+
+#-------------------
+# Define sample size
+#-------------------
+
+Dt_n_strata <- data.table(strata = c("Green_Discordant",
+                                     "Green_Concordant",
+                                     "Yellow_Discordant",
+                                     "Yellow_SlightlyDiscordant",
+                                     "Yellow_Concordant",
+                                     "Blue",
+                                     "Red"),
+                          n = c(D3_pregnancy_reconciled_valid[strata == "Green_Discordant", .N],
+                                D3_pregnancy_reconciled_valid[strata == "Green_Concordant", .N],
+                                D3_pregnancy_reconciled_valid[strata == "Yellow_Discordant", .N],
+                                D3_pregnancy_reconciled_valid[strata == "Yellow_SlightlyDiscordant", .N],
+                                D3_pregnancy_reconciled_valid[strata == "Yellow_Concordant", .N],
+                                D3_pregnancy_reconciled_valid[strata == "Blue", .N],
+                                D3_pregnancy_reconciled_valid[strata == "Red", .N]))
+
+Dt_n_strata[, sample_size := min(5, n), strata]
+
+iter_row = 1
+while (sum(Dt_n_strata[, sample_size]) < 35) {
+  tmp <- Dt_n_strata[iter_row, sample_size]
+  if(Dt_n_strata[iter_row, sample_size]>=5){
+    Dt_n_strata[iter_row, sample_size:= tmp + 1]
+  }
+  iter_row = iter_row +1
+  if(iter_row == 8){
+    iter_row = 1
+  }
+}
 
 #------------------------------
 # Sampling
 #------------------------------
-list_of_sample <- vector(mode = "list")
-### 1: sample from discordant green
-l <- D3_pregnancy_reconciled_valid[sample == "Green_Discordant", .N]
+list_of_samples <- vector(mode = "list")
 
-if (l > 0){
-  sample_green_discord <- sample(x = D3_pregnancy_reconciled_valid[sample == "Green_Discordant", pregnancy_id], 
-                                 size = min(l, 7), 
-                                 replace = FALSE)
-  
-  list_of_sample[["sample_green_discord"]] <- D3_pregnancy_reconciled_valid[pregnancy_id %in% sample_green_discord][, sample:="sample_green_discord"]
+for (i in Dt_n_strata[, strata]) {
+  tmp <- sample(x = D3_pregnancy_reconciled_valid[strata == i, pregnancy_id], 
+                size = Dt_n_strata[strata == i, sample_size], 
+                replace = FALSE)
+  list_of_samples[[i]] <- D3_pregnancy_reconciled_valid[pregnancy_id %in% tmp][, sample:= i]
 }
-
-### 2: sample from concordant green
-l <- D3_pregnancy_reconciled_valid[sample == "Green_Concordant",  .N]
-
-if (l > 0){
-  sample_green_concordant <- sample(x = D3_pregnancy_reconciled_valid[sample != "Green_Discordant" & highest_quality == "1_green", pregnancy_id], 
-                                 size = min(l, 7), 
-                                 replace = FALSE)
-  
-  list_of_sample[["sample_green_concordant"]] <- D3_pregnancy_reconciled_valid[pregnancy_id %in% sample_green_concordant][, sample:="Green_Concordant"]
-}
-
-### 3: sample from discordant yellow
-l <- D3_pregnancy_reconciled_valid[sample == "Yellow_Discordant", .N]
-
-if (l > 0){
-  sample_Yellow_Discordant <- sample(x = D3_pregnancy_reconciled_valid[sample == "Yellow_Discordant", pregnancy_id], 
-                                 size = min(l, 7), 
-                                 replace = FALSE)
-  
-  list_of_sample[["sample_Yellow_Discordant"]] <- D3_pregnancy_reconciled_valid[pregnancy_id %in% sample_Yellow_Discordant][, sample:="Yellow_Discordant"]
-}
-
-### 4: sample from slightly discordant yellow
-l <- D3_pregnancy_reconciled_valid[sample == "Yellow_SlightlyDiscordant", .N]
-
-if (l > 0){
-  sample_Yellow_SlightlyDiscordant <- sample(x = D3_pregnancy_reconciled_valid[sample == "Yellow_SlightlyDiscordant", pregnancy_id], 
-                                     size = min(l, 7), 
-                                     replace = FALSE)
-  
-  list_of_sample[["sample_Yellow_SlightlyDiscordant"]] <- D3_pregnancy_reconciled_valid[pregnancy_id %in% sample_Yellow_SlightlyDiscordant][, sample:="Yellow_SlightlyDiscordant"]
-}
-
-### 5: sample from concordant yellow
-l <- D3_pregnancy_reconciled_valid[sample == "Yellow_Concordant", .N]
-
-if (l > 0){
-  sample_Yellow_Concordant <- sample(x = D3_pregnancy_reconciled_valid[sample == "Yellow_Concordant", pregnancy_id], 
-                                             size = min(l, 7), 
-                                             replace = FALSE)
-  
-  list_of_sample[["sample_Yellow_Concordant"]] <- D3_pregnancy_reconciled_valid[pregnancy_id %in% sample_Yellow_Concordant][, sample:="Yellow_Concordant"]
-}
-
-### 6: sample from red
-l <- D3_pregnancy_reconciled_valid[sample == "Red_quality", .N]
-
-if (l > 0){
-  sample_Red_quality <- sample(x = D3_pregnancy_reconciled_valid[sample == "Red_quality", pregnancy_id], 
-                                     size = min(l, 7), 
-                                     replace = FALSE)
-  
-  list_of_sample[["sample_Red_quality"]] <- D3_pregnancy_reconciled_valid[pregnancy_id %in% sample_Red_quality][, sample:="Red_quality"]
-}
-
-
-
-#----
-# OLD
-#----
-# ### 1: sample from all 
-# sample_id_all <- sample(x = D3_pregnancy_reconciled_valid[, pregnancy_id], size = 10, replace = FALSE)
-# list_of_sample[["sample_record_all"]] <- D3_pregnancy_reconciled_valid[pregnancy_id %in% sample_id_all][,sample:="All"]
-# 
-# ### 2: sample from Inconsistencies 
-# l <- D3_pregnancy_reconciled_valid[like(algorithm_for_reconciliation, ":Inconsistency"), .N]
-# if (l > 0){
-#   sample_id_inc <- sample(x = D3_pregnancy_reconciled_valid[like(algorithm_for_reconciliation, ":Inconsistency"), pregnancy_id], size = min(l, 5), replace = FALSE)
-#   list_of_sample[["sample_record_Inconsistencies"]] <- D3_pregnancy_reconciled_valid[pregnancy_id %in% sample_id_inc][,sample:="Inconsistency"]
-# }
-# 
-# ### 3: sample from Discordant 
-# l <- D3_pregnancy_reconciled_valid[like(algorithm_for_reconciliation, ":Discordant"), .N]
-# if (l > 0){
-#   sample_id_disc <- sample(x = D3_pregnancy_reconciled_valid[like(algorithm_for_reconciliation, ":Discordant"), pregnancy_id], size =  min(l, 5), replace = FALSE)
-#   list_of_sample[["sample_record_Discordant"]] <- D3_pregnancy_reconciled_valid[pregnancy_id %in% sample_id_disc][,sample:="Discordant"]
-# }
-# 
-# ### 4: sample from SlightyDiscordant
-# l <- D3_pregnancy_reconciled_valid[like(algorithm_for_reconciliation,":SlightlyDiscordant"), .N]
-# if (l > 0){
-#   sample_id_sdisc <- sample(x = D3_pregnancy_reconciled_valid[like(algorithm_for_reconciliation, ":SlightlyDiscordant"), pregnancy_id], size =  min(l, 5), replace = FALSE)
-#   list_of_sample[["sample_record_SlightyDiscordant"]] <- D3_pregnancy_reconciled_valid[pregnancy_id %in% sample_id_sdisc][,sample:="SlightlyDiscordant"]
-# }
-# 
-# ### 5: sample from excluded --> GG:DiscordantEnd
-# l <- D3_pregnancy_reconciled_valid[GGDE == 1, .N]
-# if (l > 0){
-#   sample_id_ggde <- sample(x = D3_pregnancy_reconciled_valid[GGDE == 1, pregnancy_id], size =  min(l, 5), replace = FALSE)
-#   list_of_sample[["sample_record_DiscordantEnd"]] <- D3_pregnancy_reconciled_valid[pregnancy_id %in% sample_id_ggde][,sample:="GG:DiscordantEnd"]
-# }
-# 
-# ### 6: sample from excluded --> GG:DiscordantStart
-# l <- D3_pregnancy_reconciled_valid[GGDS == 1, .N]
-# if (l > 0){
-#   sample_id_ex <- sample(x = D3_pregnancy_reconciled_valid[GGDS == 1, pregnancy_id], size =  min(l, 5), replace = FALSE)
-#   list_of_sample[["sample_record_DiscordantStart"]] <- D3_pregnancy_reconciled_valid[pregnancy_id %in% sample_id_ex][,sample:="GG:DiscordantStart"]
-# }
-# 
-# ### 7: sample from red --> insufficient_quality
-# l <- D3_pregnancy_reconciled_valid[INSUF_QUALITY == 1, .N]
-# if (l > 0){
-#   sample_id_iq <- sample(x = D3_pregnancy_reconciled_valid[INSUF_QUALITY == 1, pregnancy_id], size =  min(l, 5), replace = FALSE)
-#   list_of_sample[["sample_record_insufficient_quality"]] <- D3_pregnancy_reconciled_valid[pregnancy_id %in% sample_id_iq][,sample:="insufficient_quality"]
-# }
-# 
-# ### 8: sample from blue --> updated_start
-# l <- D3_pregnancy_reconciled_valid[like(algorithm_for_reconciliation,":StartUpdated"), .N]
-# if (l > 0){
-#   sample_id_blue <- sample(x = D3_pregnancy_reconciled_valid[like(algorithm_for_reconciliation,":StartUpdated"), pregnancy_id], size =  min(l, 5), replace = FALSE)
-#   list_of_sample[["sample_record_blue"]] <- D3_pregnancy_reconciled_valid[pregnancy_id %in% sample_id_blue][,sample:="StartUpdated"]
-# }
-# 
-# ## 9: sample from splitted
-# l <- D3_pregnancy_reconciled_valid[pregnancy_splitted ==1, .N]
-# if (l > 0){
-#  sample_id_splitted <- sample(x = D3_pregnancy_reconciled_valid[pregnancy_splitted ==1, pregnancy_id], size =  min(l, 5), replace = FALSE)
-#  list_of_sample[["sample_splitted"]] <- D3_pregnancy_reconciled_valid[pregnancy_id %in% sample_id_splitted][,sample:="pregnancy_splitted"]
-# }
 
 
 ### date and time 
 now <- paste0(year(Sys.time()), month(Sys.time()), day(Sys.time()), "_", hour(Sys.time()), minute(Sys.time()))
 ### retriving from the algorithm
-original_sample <- rbindlist(list_of_sample)
+original_sample <- rbindlist(list_of_samples)
 original_sample <- original_sample[, link := seq_along(.I) ]
 
 sample_id <- original_sample[, pregnancy_id]
