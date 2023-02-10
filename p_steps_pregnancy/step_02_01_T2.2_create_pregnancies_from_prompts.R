@@ -374,7 +374,7 @@ if (this_datasource_has_prompt) {
                          pregnancy_start_date:=pregnancy_end_date-(GESTAGE_FROM_LMP_WEEKS*7)]
     
     dataset_pregnancies3[is.na(pregnancy_end_date) & is.na(pregnancy_start_date) & !is.na(GESTAGE_FROM_LMP_WEEKS),
-                         `:=`(pregnancy_start_date:= survey_date - (GESTAGE_FROM_LMP_WEEKS*7),
+                         `:=`(pregnancy_start_date= survey_date - (GESTAGE_FROM_LMP_WEEKS*7),
                               pregnancy_end_date = survey_date, 
                               imputed_end_of_pregnancy = 1)]
     
