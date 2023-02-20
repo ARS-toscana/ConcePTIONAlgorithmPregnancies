@@ -6,6 +6,9 @@
 # 
 # link: https://github.com/ARS-toscana/ConcePTIONAlgorithmPregnancies
 #
+# changelog V3.20, 20 February 2022:
+# - added THL parameters
+#
 # changelog V3.19, 2 February 2022:
 # - fix for missing ITEMSETS end date
 # - added intermediate flowchart datasets in g_intermediate
@@ -153,4 +156,5 @@ source(paste0(thisdir,"/p_steps_pregnancy/step_07_02_pregnancies_description.R")
 #source(paste0(thisdir,"/p_steps_pregnancy/step_07_03_records_description.R")) 
 source(paste0(thisdir,"/p_steps_pregnancy/step_07_04_create_aggregated_tables_for_manuscript.R")) 
 
-
+# 08 PREDICTIVE MODEL
+#source(paste0(thisdir,"/p_steps_pregnancy/step_08_01_predictive_model.R")) 

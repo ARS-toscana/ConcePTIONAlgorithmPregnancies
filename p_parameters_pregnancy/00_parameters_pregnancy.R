@@ -10,7 +10,7 @@ datasource_with_itemsets_stream_from_medical_obs <- c("TO_ADD","BIFAP","VID","PH
 this_datasource_has_itemsets_stream_from_medical_obs <- ifelse(thisdatasource %in% datasource_with_itemsets_stream_from_medical_obs,TRUE,FALSE) 
 
 #datasource with  prompt
-datasource_with_prompt <- c("TO_ADD","TEST","ARS","PHARMO","UOSL","CASERTA","VID","CPRD","GePaRD","EpiChron","SIDIAP","SAIL Databank","EFEMERIS", "DANREG" ,"KI") #@ use "TO_ADD" as example
+datasource_with_prompt <- c("TO_ADD","TEST","ARS","PHARMO","UOSL","CASERTA","VID","CPRD","GePaRD","EpiChron","SIDIAP","SAIL Databank","EFEMERIS", "DANREG" ,"KI", "THL") #@ use "TO_ADD" as example
 this_datasource_has_prompt <- ifelse(thisdatasource %in% datasource_with_prompt,TRUE,FALSE) 
 
 #datasource with VISIT_OCCURRENCE prompt
@@ -27,11 +27,11 @@ this_datasource_has_conceptsets <- ifelse(thisdatasource %in% datasource_with_co
 
 
 #datasource with prompt with child person_id
-datasource_with_prompt_child <- c("EFEMERIS") #@ use "TO_ADD" as example
+datasource_with_prompt_child <- c("EFEMERIS", "THL") #@ use "TO_ADD" as example
 this_datasource_has_prompt_child <- ifelse(thisdatasource %in% datasource_with_prompt_child, TRUE, FALSE) 
 
 #datasource with related_id correspondig to child
-datasource_with_related_id_correspondig_to_child <- c()
+datasource_with_related_id_correspondig_to_child <- c("THL")
 this_datasource_has_related_id_correspondig_to_child <- ifelse(thisdatasource %in% datasource_with_related_id_correspondig_to_child, TRUE, FALSE) 
 
 if(this_datasource_has_prompt_child){
