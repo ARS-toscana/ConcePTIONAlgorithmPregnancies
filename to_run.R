@@ -6,6 +6,9 @@
 # 
 # link: https://github.com/ARS-toscana/ConcePTIONAlgorithmPregnancies
 #
+# changelog V3.21, 22 February 2022:
+# - transformed PERSON_REL person_id as char
+#
 # changelog V3.20, 20 February 2022:
 # - added THL parameters
 #
