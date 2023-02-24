@@ -19,7 +19,9 @@ if (this_datasource_has_prompt) {
   #------------------------------------
   if(this_datasource_has_prompt_child){
     
-    PERSON_RELATIONSHIPS <- fread(paste0(dirinput, "PERSON_RELATIONSHIPS.csv"), colClasses = list( character="person_id"))
+    PERSON_RELATIONSHIPS <- fread(paste0(dirinput, "PERSON_RELATIONSHIPS.csv"), 
+                                  colClasses = list(character=c("person_id", "related_id")))
+    
     PERSON_RELATIONSHIPS_child <- PERSON_RELATIONSHIPS[meaning_of_relationship %in% meaning_of_relationship_child_this_datasource]
     
     if(this_datasource_has_related_id_correspondig_to_child){
