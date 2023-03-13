@@ -32,7 +32,7 @@ D3_pregnancy_reconciled_valid[highest_quality == "3_blue",
 D3_pregnancy_reconciled_valid[highest_quality == "4_red", 
                               strata := "Red"]
 
-
+save(D3_pregnancy_reconciled_valid, file = paste0(dirtemp,"D3_pregnancy_reconciled_valid.RData"))
 
 #-------------------
 # Define sample size

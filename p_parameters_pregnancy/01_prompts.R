@@ -18,6 +18,12 @@ if (this_datasource_has_prompt_child){
   }
 }
 
+if(this_datasource_has_person_rel_table){
+  meaning_of_relationship_child_this_datasource <- vector(mode="list")
+  for (i in 1:length(meaning_of_relationship_child)) {
+    if(names(meaning_of_relationship_child)[[i]]==thisdatasource) meaning_of_relationship_child_this_datasource<-meaning_of_relationship_child[[i]]
+  }
+}
 
 if (this_datasource_has_visit_occurrence_prompt){
   

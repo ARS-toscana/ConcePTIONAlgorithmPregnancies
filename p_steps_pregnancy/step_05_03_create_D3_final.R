@@ -173,6 +173,29 @@ if (thisdatasource == "BIFAP"){
   fwrite(D3_pregnancy_reconciled, paste0(dirvalidation, "/D3_pregnancy_reconciled.csv"))
 }
 
+#--------------------------
+#  D3_mother_child
+#--------------------------
+if (this_datasource_has_person_rel_table){
+  
+  PERSON_RELATIONSHIPS <- fread(paste0(dirinput, "PERSON_RELATIONSHIPS.csv"), 
+                                colClasses = list(character=c("person_id", "related_id")))
+  
+  D3_mother_child <- PERSON_RELATIONSHIPS[meaning_of_relationship %in% meaning_of_relationship_child_this_datasource]
+  
+  if(this_datasource_has_related_id_correspondig_to_child){
+    D3_mother_child <- D3_mother_child[, person_id_mother := person_id]
+    D3_mother_child <- D3_mother_child[, person_id_child := related_id]
+    D3_mother_child <- D3_mother_child[, .(person_id_mother, person_id_child, meaning_of_relationship, origin_of_relationship)]
+  }else{
+    D3_mother_child <- D3_mother_child[, person_id_mother := related_id]
+    D3_mother_child <- D3_mother_child[, person_id_child := person_id]
+    D3_mother_child <- D3_mother_child[, .(person_id_mother, person_id_child, meaning_of_relationship, origin_of_relationship)]
+  }
+  
+  save(D3_mother_child, file = paste0(dirtemp, "D3_mother_child.RData"))
+}
+
 
 #--------------------------
 #  D3_survey_and_visit_ids

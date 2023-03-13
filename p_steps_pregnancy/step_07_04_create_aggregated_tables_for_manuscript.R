@@ -244,13 +244,18 @@ fwrite(table_meaning_start, paste0(direxpmanuscript, "DTableMeaningStart_", year
 
 cat("20. Table reconciliation specific years  \n ")
 ##  Reconciliation 
-D3_pregnancy_reconciled_valid_specific_year <- D3_pregnancy_reconciled_valid_specific_year[like(algorithm_for_reconciliation, ":Discordant"), Discordant := 1][is.na(Discordant), Discordant:=0]
-D3_pregnancy_reconciled_valid_specific_year <- D3_pregnancy_reconciled_valid_specific_year[like(algorithm_for_reconciliation,":SlightlyDiscordant"), SlightlyDiscordant := 1][is.na(SlightlyDiscordant), SlightlyDiscordant:=0]
-D3_pregnancy_reconciled_valid_specific_year <- D3_pregnancy_reconciled_valid_specific_year[like(algorithm_for_reconciliation, ":Inconsistency"), Inconsistency := 1][is.na(Inconsistency), Inconsistency:=0]
-D3_pregnancy_reconciled_valid_specific_year <- D3_pregnancy_reconciled_valid_specific_year[like(algorithm_for_reconciliation, ":StartUpdated"), StartUpdated := 1][is.na(StartUpdated), StartUpdated:=0]
-D3_pregnancy_reconciled_valid_specific_year <- D3_pregnancy_reconciled_valid_specific_year[is.na(pregnancy_splitted), pregnancy_splitted:=0]
+#D3_pregnancy_reconciled_valid_specific_year <- D3_pregnancy_reconciled_valid_specific_year[like(algorithm_for_reconciliation, ":Discordant"), Discordant := 1][is.na(Discordant), Discordant:=0]
+#D3_pregnancy_reconciled_valid_specific_year <- D3_pregnancy_reconciled_valid_specific_year[like(algorithm_for_reconciliation,":SlightlyDiscordant"), SlightlyDiscordant := 1][is.na(SlightlyDiscordant), SlightlyDiscordant:=0]
+#D3_pregnancy_reconciled_valid_specific_year <- D3_pregnancy_reconciled_valid_specific_year[like(algorithm_for_reconciliation, ":Inconsistency"), Inconsistency := 1][is.na(Inconsistency), Inconsistency:=0]
+#D3_pregnancy_reconciled_valid_specific_year <- D3_pregnancy_reconciled_valid_specific_year[like(algorithm_for_reconciliation, ":StartUpdated"), StartUpdated := 1][is.na(StartUpdated), StartUpdated:=0]
+#D3_pregnancy_reconciled_valid_specific_year <- D3_pregnancy_reconciled_valid_specific_year[is.na(pregnancy_splitted), pregnancy_splitted:=0]
+#
+#TableReconciliation <- D3_pregnancy_reconciled_valid_specific_year[, .N, by = .(type_of_pregnancy_end, Discordant, SlightlyDiscordant, Inconsistency, GGDE, GGDS, pregnancy_splitted, StartUpdated, INSUF_QUALITY  )]
+#TableReconciliation <- TableReconciliation[N<5, N:= 0]
+#TableReconciliation <- TableReconciliation[, N:= as.character(N)]
+#TableReconciliation <- TableReconciliation[N=="0", N:= "<5"]
 
-TableReconciliation <- D3_pregnancy_reconciled_valid_specific_year[, .N, by = .(type_of_pregnancy_end, Discordant, SlightlyDiscordant, Inconsistency, GGDE, GGDS, pregnancy_splitted, StartUpdated, INSUF_QUALITY  )]
+TableReconciliation <- D3_pregnancy_reconciled_valid_specific_year[, .N, strata]
 TableReconciliation <- TableReconciliation[N<5, N:= 0]
 TableReconciliation <- TableReconciliation[, N:= as.character(N)]
 TableReconciliation <- TableReconciliation[N=="0", N:= "<5"]

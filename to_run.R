@@ -8,6 +8,9 @@
 #
 # changelog v3.22:
 # - added LOSTFU as type of PREG end
+# - added D3_mother_child
+# - fixed recon graphs
+# - included gest age concepts related to child
 #
 # changelog V3.21, 22 February 2022:
 # - transformed PERSON_REL person_id as char

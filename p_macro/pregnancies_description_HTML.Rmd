@@ -638,13 +638,13 @@ if (UNF_first_record[, .N]==0){
 
 ---
 
-## Variables for Exclusion
+## Quality variables  
 
 ---
 
 <br/>
 
-The graph shows the absolute number of pregnancies flagged by an exclusion variable.
+The graph shows the absolute number of pregnancies flagged by a quality variables
 
 <br/>
 
@@ -672,7 +672,7 @@ ___
 sum_of_excluded <- excluded[, .N]
 ```
 
-**The total number of pregnancies flagged by an exclusion variable is  `r sum_of_excluded`, the table below shows the absolute number for each variable:**
+**The total number of pregnancies flagged by a quality variables is  `r sum_of_excluded`, the table below shows the absolute number for each variable:**
 
 <br/><br/>
 
@@ -698,42 +698,44 @@ In the reconciliation outcomes, two records of the same pregnancy can be:
 
 - discordant: start and end date different more than 7 days;
 
-- inconsistent: when a red record is not included between the beginning and the end of the pregnancy.
-
-The next graph shows the percentage of pregnancies that have non-concordant records. A pregnancy can be composed of both concordant and discordant records, the graph shows the number of pregnancies with at least one of the outcomes.
+The next graph shows the percentage of pregnancies stratified by concordance variables or quality.
 
 
 
 
 ```{r reconciliation}
-D3_pregnancy_reconciled <- D3_pregnancy_reconciled[like(algorithm_for_reconciliation, ":Discordant"), Discordant := 1]
-D3_pregnancy_reconciled <- D3_pregnancy_reconciled[like(algorithm_for_reconciliation,":SlightlyDiscordant"), SlightlyDiscordant := 1]
-D3_pregnancy_reconciled <- D3_pregnancy_reconciled[like(algorithm_for_reconciliation, ":Inconsistency"), Inconsistency := 1]
-#D3_pregnancy_reconciled <- D3_pregnancy_reconciled[is.na(Reconciliation), Reconciliation := "Concordant"]
+#D3_pregnancy_reconciled <- D3_pregnancy_reconciled[like(algorithm_for_reconciliation, ":Discordant"), Discordant := 1]
+#D3_pregnancy_reconciled <- D3_pregnancy_reconciled[like(algorithm_for_reconciliation,":SlightlyDiscordant"), SlightlyDiscordant := 1]
+#D3_pregnancy_reconciled <- D3_pregnancy_reconciled[like(algorithm_for_reconciliation, ":Inconsistency"), Inconsistency := 1]
+##D3_pregnancy_reconciled <- D3_pregnancy_reconciled[is.na(Reconciliation), Reconciliation := "Concordant"]
+#
+#reconciliation <- D3_pregnancy_reconciled[, .N, by = .(type_of_pregnancy_end, Discordant, SlightlyDiscordant, Inconsistency)]
+#total <- D3_pregnancy_reconciled[, .(total=.N), type_of_pregnancy_end]
+#
+#Discordant <- reconciliation[Discordant == 1 , .(N=sum(N)), type_of_pregnancy_end]
+#Discordant <- Discordant[, reconciliation := "Discordant"]
+#
+#SlightlyDiscordant <- reconciliation[SlightlyDiscordant == 1 , .(N=sum(N)), type_of_pregnancy_end]
+#SlightlyDiscordant <- SlightlyDiscordant[, reconciliation := "SlightlyDiscordant"]
+#
+#Inconsistency <- reconciliation[Inconsistency == 1 , .(N=sum(N)), type_of_pregnancy_end]
+#Inconsistency <- Inconsistency[, reconciliation := "Inconsistency"]
+#
+#DF_plot_rec <- merge(rbind(Discordant, SlightlyDiscordant, Inconsistency), total, by = "type_of_pregnancy_end", all.x = TRUE)
+#
+#DF_plot_rec <- DF_plot_rec[, percentage := N/total * 100]
 
-reconciliation <- D3_pregnancy_reconciled[, .N, by = .(type_of_pregnancy_end, Discordant, SlightlyDiscordant, Inconsistency)]
-total <- D3_pregnancy_reconciled[, .(total=.N), type_of_pregnancy_end]
+DF_plot_rec <- D3_pregnancy_reconciled[, .N, by = c("strata", "type_of_pregnancy_end")]
+DF_plot_rec[, total := sum(DF_plot_rec[, N])][, percentage := N/total * 100]
 
-Discordant <- reconciliation[Discordant == 1 , .(N=sum(N)), type_of_pregnancy_end]
-Discordant <- Discordant[, reconciliation := "Discordant"]
-
-SlightlyDiscordant <- reconciliation[SlightlyDiscordant == 1 , .(N=sum(N)), type_of_pregnancy_end]
-SlightlyDiscordant <- SlightlyDiscordant[, reconciliation := "SlightlyDiscordant"]
-
-Inconsistency <- reconciliation[Inconsistency == 1 , .(N=sum(N)), type_of_pregnancy_end]
-Inconsistency <- Inconsistency[, reconciliation := "Inconsistency"]
-
-DF_plot_rec <- merge(rbind(Discordant, SlightlyDiscordant, Inconsistency), total, by = "type_of_pregnancy_end", all.x = TRUE)
-
-DF_plot_rec <- DF_plot_rec[, percentage := N/total * 100]
 ``` 
  
 
 
 ```{r reconciliation_plot}
-p <- ggplot(DF_plot_rec, aes(x = type_of_pregnancy_end , y = percentage, fill= reconciliation))+
+p <- ggplot(DF_plot_rec, aes(x = type_of_pregnancy_end , y = percentage, fill= type_of_pregnancy_end))+
   geom_col(position = position_dodge2(width = 0.9, preserve = "single"))+
-  facet_grid(.~reconciliation)+
+  facet_wrap(.~strata)+
   xlab("")+
   theme_hc()
 plot <- ggplotly(p)

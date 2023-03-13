@@ -25,6 +25,9 @@ this_datasource_has_procedures <- ifelse(thisdatasource %in% datasource_with_pro
 datasource_with_conceptsets <- c("TO_ADD","TEST","VID", "BIFAP", "CASERTA","SNDS","GePaRD","EpiChron","HSD", "SAIL Databank", "PHARMO", "UOSL","CPRD","SIDIAP", "DANREG" ,"KI", "ARS" )
 this_datasource_has_conceptsets <- ifelse(thisdatasource %in% datasource_with_conceptsets,TRUE,FALSE) 
 
+#datasource with person rel table
+datasource_with_person_rel_table <- c("EFEMERIS", "THL", "ARS") #@ use "TO_ADD" as example
+this_datasource_has_person_rel_table <- ifelse(thisdatasource %in% datasource_with_person_rel_table, TRUE, FALSE)
 
 #datasource with prompt with child person_id
 datasource_with_prompt_child <- c("EFEMERIS", "THL") #@ use "TO_ADD" as example

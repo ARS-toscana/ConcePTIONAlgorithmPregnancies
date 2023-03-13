@@ -64,6 +64,67 @@ if(this_datasource_has_conceptsets){
       }
     } 
   }
+  
+  
+  
+  #---------------
+  # Concepts Child
+  #---------------
+  if (this_datasource_has_person_rel_table){
+    
+    PERSON_RELATIONSHIPS <- fread(paste0(dirinput, "PERSON_RELATIONSHIPS.csv"), 
+                                  colClasses = list(character=c("person_id", "related_id")))
+    
+    PERSON_RELATIONSHIPS_child <- PERSON_RELATIONSHIPS[meaning_of_relationship %in% meaning_of_relationship_child_this_datasource]
+    
+    if(this_datasource_has_related_id_correspondig_to_child){
+      PERSON_RELATIONSHIPS_child <- PERSON_RELATIONSHIPS_child[, person_id_mother := person_id]
+      PERSON_RELATIONSHIPS_child <- PERSON_RELATIONSHIPS_child[, person_id_child := related_id]
+      PERSON_RELATIONSHIPS_child <- PERSON_RELATIONSHIPS_child[, -c("person_id", "related_id")]
+      
+      setnames(PERSON_RELATIONSHIPS_child, "person_id_mother", "related_id")
+      setnames(PERSON_RELATIONSHIPS_child, "person_id_child", "person_id")
+    }
+    
+    for (concept in concept_set_pregnancy) {
+      
+      if (endsWith(concept, '_CHILD')){
+        
+        name_concept_mother <- substring(concept, 1,  nchar(concept) - nchar('_CHILD'))
+        tmp_child <- get(concept)
+        tmp_mother <- get(name_concept_mother)
+        
+        
+        tmp_child <- merge(tmp_child,
+                     PERSON_RELATIONSHIPS_child[, .(person_id, related_id)], 
+                     by = "person_id", 
+                     all.x = TRUE)
+        
+        tmp_child <- tmp_child[so_meaning %in% unlist(meaning_of_survey_pregnancy_this_datasource_child),
+                   person_id := related_id]
+        
+        tmp_child <- tmp_child[, -c("related_id")]
+        
+        
+        if(nrow(tmp_mother) > 0){
+          tmp_rbinded <- rbind(tmp_child, tmp_mother)
+          assign(name_concept_mother, tmp_rbinded)
+        }else{
+          assign(name_concept_mother, tmp)
+        }
+        
+        save(list=name_concept_mother, 
+             file=paste0(dirtemp, concept,".RData"))
+        
+      }
+    }
+  }
+  
+  
+  
+  
+  
+  
   ################################################################################
   ###########################       Description        ###########################
   ################################################################################
