@@ -113,7 +113,47 @@ D3_pregnancy_reconciled_valid <- merge(D3_pregnancy_reconciled_valid, D3_PERSONS
 D3_pregnancy_reconciled <- D3_pregnancy_reconciled[eval(parse(text = legally_included_pregnancies))]
 D3_pregnancy_reconciled_valid <- D3_pregnancy_reconciled_valid[eval(parse(text = legally_included_pregnancies))]
 
-## saving 
+
+#--------
+# LOSTFU
+#--------
+load(paste0(dirtemp,"output_spells_category.RData"))
+
+max_spell <- max(output_spells_category[, num_spell])
+tmp <- copy(output_spells_category)
+tmp <- data.table::melt(tmp, 
+                        id.vars = c("person_id", "op_meaning", "num_spell"),
+                        measure.vars = c("entry_spell_category", "exit_spell_category"))
+
+#tmp <- tmp[order(num_spell)]
+tmp <- tmp[, col:= paste(variable, num_spell, sep = "_")]
+tmp <- tmp[, -c("num_spell", "variable")]
+
+tmp <- data.table::dcast(tmp,  
+                         person_id +  op_meaning ~ col, 
+                         value.var = "value")
+
+
+D3_pregnancy_reconciled <- merge(D3_pregnancy_reconciled,
+                                 tmp, 
+                                 by="person_id", 
+                                 all.x = T)
+if(max_spell >1){
+  cond <- paste0("(pregnancy_end_date > exit_spell_category_", 1:(max_spell-1),  
+                 " & pregnancy_end_date < entry_spell_category_", 2:(max_spell), ")",
+                 collapse = " | ")
+
+  cond <- paste0(cond, " | (pregnancy_end_date > exit_spell_category_", max_spell, ")")
+
+  D3_pregnancy_reconciled[eval(parse(text = cond)), type_of_pregnancy_end := "LOSTFU"]
+}else{
+  D3_pregnancy_reconciled[pregnancy_end_date > exit_spell_category_1, type_of_pregnancy_end := "LOSTFU"]
+}
+
+#-------
+# saving 
+#-------
+
 D3_pregnancy_final <- D3_pregnancy_reconciled
 
 save(D3_groups_of_pregnancies_reconciled, file=paste0(dirtemp,"D3_groups_of_pregnancies_reconciled.RData"))
@@ -134,9 +174,9 @@ if (thisdatasource == "BIFAP"){
 }
 
 
-#-------------------------------------------------------------------------------
+#--------------------------
 #  D3_survey_and_visit_ids
-#-------------------------------------------------------------------------------
+#--------------------------
 
 D3_survey_and_visit_ids <- D3_groups_of_pregnancies_reconciled[, .(pregnancy_id,
                                                                    person_id,

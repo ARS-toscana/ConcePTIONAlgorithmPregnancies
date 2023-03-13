@@ -6,6 +6,9 @@
 # 
 # link: https://github.com/ARS-toscana/ConcePTIONAlgorithmPregnancies
 #
+# changelog v3.22:
+# - added LOSTFU as type of PREG end
+#
 # changelog V3.21, 22 February 2022:
 # - transformed PERSON_REL person_id as char
 #
