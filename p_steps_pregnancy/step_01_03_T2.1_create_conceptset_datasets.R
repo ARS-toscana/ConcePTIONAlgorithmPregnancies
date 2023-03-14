@@ -90,10 +90,15 @@ if(this_datasource_has_conceptsets){
       
       if (endsWith(concept, '_CHILD')){
         
-        name_concept_mother <- substring(concept, 1,  nchar(concept) - nchar('_CHILD'))
+        name_concept_mother <- paste0(substring(concept, 1,  nchar(concept) - nchar('_CHILD')), 
+                                      "_LB")
         tmp_child <- get(concept)
-        tmp_mother <- get(name_concept_mother)
         
+        if (name_concept_mother %in% ls()){
+          tmp_mother <- get(name_concept_mother)
+        }else{
+          tmp_mother <- tmp_child[0]
+        }
         
         tmp_child <- merge(tmp_child,
                      PERSON_RELATIONSHIPS_child[, .(person_id, related_id)], 
@@ -104,13 +109,13 @@ if(this_datasource_has_conceptsets){
                    person_id := related_id]
         
         tmp_child <- tmp_child[, -c("related_id")]
-        
+        tmp_child <- tmp_child[!is.na(person_id)]
         
         if(nrow(tmp_mother) > 0){
           tmp_rbinded <- rbind(tmp_child, tmp_mother)
           assign(name_concept_mother, tmp_rbinded)
         }else{
-          assign(name_concept_mother, tmp)
+          assign(name_concept_mother, tmp_child)
         }
         
         save(list=name_concept_mother, 

@@ -134,24 +134,34 @@ if(this_datasource_has_conceptsets){
   # concept_sets_of_end_of_pregnancy_UNK <- c("Birth_possible")
   
   concept_sets_of_start_of_pregnancy_UNK <- c("Gestation_less24_UNK",
-                                              "Gestation_24_UNK",
+                                              #"Gestation_24_UNK",
                                               "Gestation_25_26_UNK",
                                               "Gestation_27_28_UNK",
                                               "Gestation_29_30_UNK",
                                               "Gestation_31_32_UNK",
-                                              "Gestation_33_34_UNK",
-                                              "Gestation_35_36_UNK",
-                                              "Gestation_more37_UNK") 
+                                              "Gestation_33_34_UNK")#,
+                                              #"Gestation_35_36_UNK",
+                                              #"Gestation_more37_UNK") 
   
-  concept_sets_of_start_of_pregnancy_LB <- c("Gestation_less24_LB",
-                                             "Gestation_24_LB",
-                                             "Gestation_25_26_LB",
+  concept_sets_of_start_of_pregnancy_LB <- c(#"Gestation_less24_LB",
+                                             #"Gestation_24_LB",
+                                             #"Gestation_25_26_LB",
                                              "Gestation_27_28_LB",
-                                             "Gestation_29_30_LB",
-                                             "Gestation_31_32_LB",
-                                             "Gestation_33_34_LB",
-                                             "Gestation_35_36_LB",
+                                             #"Gestation_29_30_LB",
+                                             #"Gestation_31_32_LB",
+                                             #"Gestation_33_34_LB",
+                                             #"Gestation_35_36_LB",
                                              "Gestation_more37_LB")
+  
+  
+  concept_sets_of_start_of_pregnancy_CHILD <- c("Gestation_25_26_CHILD",
+                                                "Gestation_27_28_CHILD",
+                                                "Gestation_29_30_CHILD",
+                                                "Gestation_31_32_CHILD",
+                                                "Gestation_33_34_CHILD",
+                                                "Gestation_35_36_CHILD",
+                                                "Gestation_more37_CHILD")
+  
   
   concept_sets_of_ongoing_of_pregnancy <- c("Ongoingpregnancy", 
                                             "FGR",
@@ -193,6 +203,7 @@ if(this_datasource_has_conceptsets){
   
   concept_set_pregnancy <- c(concept_sets_of_start_of_pregnancy_UNK,
                              concept_sets_of_start_of_pregnancy_LB,
+                             concept_sets_of_start_of_pregnancy_CHILD,
                              concept_sets_of_ongoing_of_pregnancy,
                              concept_sets_of_end_of_pregnancy_LB,
                              concept_sets_of_end_of_pregnancy_UNK,

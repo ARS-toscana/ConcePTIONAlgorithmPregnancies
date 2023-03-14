@@ -78,7 +78,9 @@ while (D3_gop[,.N]!=0) {
 
     D3_gop <- D3_gop[recon == 0, record_description_next_record:= shift(record_description, n = i, fill = NA, type=c("lead")), by = "pers_group_id"]
     
-    #dividing distant record
+    #------------------------
+    # dividing distant record
+    #------------------------
     D3_gop <- D3_gop[n == 1 & recon == 0 &  !is.na(record_date_next_record) & abs(as.integer(record_date - record_date_next_record)) > 270, 
                      `:=`(new_pregnancy_group = 1)]
     
