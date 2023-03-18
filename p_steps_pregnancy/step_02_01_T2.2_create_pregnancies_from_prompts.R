@@ -588,7 +588,41 @@ if (this_datasource_has_prompt) {
                                                                                     ITEMSETS = NA)]
   }
   
+  
+  #------------------------
+  # Person rel PROMPT
+  #------------------------
+  
+  if(this_datasource_has_person_rel_table){
+    load(paste0(dirtemp, "Person_rel_PROMPT_dataset.RData"))
+    D3_Stream_PROMPTS_person_rel <- Person_rel_PROMPT_dataset[, .(person_id,
+                                                                  pregnancy_id = paste0(child_id,
+                                                                                        "_",
+                                                                                        person_id,
+                                                                                        "_",
+                                                                                        birth_date),
+                                                                  type_of_pregnancy_end = "LB",
+                                                                  pregnancy_end_date = ymd(birth_date),
+                                                                  pregnancy_start_date = ymd(birth_date) - 280,
+                                                                  record_date = ymd(birth_date),
+                                                                  imputed_start_of_pregnancy = 1, 
+                                                                  imputed_end_of_pregnancy = 0, # ???
+                                                                  meaning = "PERSON_RELATIONSHIP",
+                                                                  meaning_end_date = "PERSON_RELATIONSHIP",
+                                                                  origin = "PERSON_RELATIONSHIP",
+                                                                  meaning_start_date = "imputed_from_PERSON_RELATIONSHIP",
+                                                                  PROMPT = "yes",
+                                                                  child_id)]
+    
+  }else{
+    D3_Stream_PROMPTS_person_rel <- data.table()
+    D3_Stream_PROMPTS_person_rel <- D3_Stream_PROMPTS_person_rel[, `:=`(meaning_ongoing_date = NA, 
+                                                                        imputed_end_of_pregnancy = NA, 
+                                                                        ITEMSETS = NA)]
+  }
+  
   D3_Stream_PROMPTS <- rbind(D3_Stream_PROMPTS, D3_Stream_PROMPTS_visit_occurrence, fill = TRUE)
+  D3_Stream_PROMPTS <- rbind(D3_Stream_PROMPTS, D3_Stream_PROMPTS_person_rel, fill = TRUE)
   save(D3_Stream_PROMPTS, file=paste0(dirtemp,"D3_Stream_PROMPTS.RData"))
   
   ##### Description #####

@@ -1,6 +1,8 @@
 ##Retrieve from VISIT_OCCURRENCE_ID and from SURVEY_ID all the records that have the prompts listed in 04_prompts
 
+#----------
 # SURVEY_ID
+#----------
 
 if (this_datasource_has_prompt) {
   
@@ -80,8 +82,9 @@ if (this_datasource_has_prompt) {
   rm(SURVEY_ID_BR)
 }
 
-
+#--------------------
 # VISIT_OCCURRENCE_ID 
+#--------------------
 
 if (this_datasource_has_visit_occurrence_prompt) {
   
@@ -121,3 +124,67 @@ if (this_datasource_has_visit_occurrence_prompt) {
 }
 
 
+#-----------
+# PERSON_REL
+#-----------
+
+if(this_datasource_has_person_rel_table){
+  
+  # Reading person_relationship table, filtering for meaning_of_relationship_child_this_datasource
+  # and uniforming ids:
+  #    person_id --> child
+  #    related_id --> mother
+  
+  PERSON_RELATIONSHIPS <- fread(paste0(dirinput, "PERSON_RELATIONSHIPS.csv"), 
+                                colClasses = list(character=c("person_id", "related_id")))
+  
+  PERSON_RELATIONSHIPS_child <- PERSON_RELATIONSHIPS[meaning_of_relationship %in% meaning_of_relationship_child_this_datasource]
+  
+  if(this_datasource_has_related_id_correspondig_to_child){
+    PERSON_RELATIONSHIPS_child <- PERSON_RELATIONSHIPS_child[, person_id_mother := person_id]
+    PERSON_RELATIONSHIPS_child <- PERSON_RELATIONSHIPS_child[, person_id_child := related_id]
+    PERSON_RELATIONSHIPS_child <- PERSON_RELATIONSHIPS_child[, -c("person_id", "related_id")]
+    
+    setnames(PERSON_RELATIONSHIPS_child, "person_id_mother", "related_id")
+    setnames(PERSON_RELATIONSHIPS_child, "person_id_child", "person_id")
+  }
+  
+  # Loading D3_PERSONS and merging child's date of birth
+  load(paste0(dirtemp, "D3_PERSONS.RData"))
+  
+  # uniforming date format
+  D3_PERSONS[, day_of_birth := as.character(day_of_birth)]
+  D3_PERSONS[nchar(day_of_birth) == 1, day_of_birth := paste0(0, day_of_birth)]
+  
+  D3_PERSONS[, month_of_birth := as.character(month_of_birth)]
+  D3_PERSONS[nchar(month_of_birth) == 1, month_of_birth := paste0(0, month_of_birth)]
+  
+  D3_PERSONS[, birth_date := paste0(year_of_birth, month_of_birth, day_of_birth)]
+  
+  Person_rel_PROMPT_dataset <- merge(PERSON_RELATIONSHIPS_child, 
+                                     D3_PERSONS[, .(person_id, birth_date)], 
+                                     all.x = TRUE)
+  
+  # renaming ids
+  setnames(Person_rel_PROMPT_dataset, "person_id", "child_id")
+  setnames(Person_rel_PROMPT_dataset, "related_id", "person_id")
+  
+  ##### Description #####
+  if(HTML_files_creation){
+    cat("Describing Person_rel_PROMPT_dataset \n")
+    DescribeThisDataset(Dataset = Person_rel_PROMPT_dataset,
+                        Individual=T,
+                        ColumnN=NULL,
+                        HeadOfDataset=FALSE,
+                        StructureOfDataset=FALSE,
+                        NameOutputFile="Person_rel_PROMPT_dataset",
+                        Cols=list("origin_of_relationship", "meaning_of_relationship"),
+                        ColsFormat=list("categorical", "categorical"),
+                        DateFormat_ymd=FALSE,
+                        DetailInformation=TRUE,
+                        PathOutputFolder= dirdescribe01_prompts)
+  }
+  
+  save(Person_rel_PROMPT_dataset, file=paste0(dirtemp,"Person_rel_PROMPT_dataset.RData"))
+  rm(Person_rel_PROMPT_dataset)
+}

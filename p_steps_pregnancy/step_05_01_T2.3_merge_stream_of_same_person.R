@@ -91,7 +91,8 @@ groups_of_pregnancies<-groups_of_pregnancies[,.(pregnancy_id,
                                                 EUROCAT,
                                                 CONCEPTSETS,
                                                 CONCEPTSET,
-                                                ITEMSETS)]
+                                                ITEMSETS, 
+                                                child_id)]
 
 
 groups_of_pregnancies<-groups_of_pregnancies[is.na(PROMPT),PROMPT:="no"]

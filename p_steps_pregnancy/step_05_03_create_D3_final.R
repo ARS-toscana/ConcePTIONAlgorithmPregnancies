@@ -150,6 +150,38 @@ if(max_spell >1){
   D3_pregnancy_reconciled[pregnancy_end_date > exit_spell_category_1, type_of_pregnancy_end := "LOSTFU"]
 }
 
+D3_pregnancy_reconciled <- D3_pregnancy_reconciled[, .(pregnancy_id,
+                                                       person_id,
+                                                       age_at_start_of_pregnancy,
+                                                       pregnancy_start_date,
+                                                       meaning_start_date,
+                                                       pregnancy_end_date,
+                                                       meaning_end_date,
+                                                       type_of_pregnancy_end,
+                                                       imputed_start_of_pregnancy,
+                                                       imputed_end_of_pregnancy,
+                                                       meaning_of_principal_record,
+                                                       PROMPT,
+                                                       EUROCAT,
+                                                       CONCEPTSETS,
+                                                       ITEMSETS,
+                                                       highest_quality,
+                                                       number_of_records_in_the_group,
+                                                       number_green,
+                                                       number_yellow,
+                                                       number_blue,
+                                                       number_red,
+                                                       date_of_principal_record,
+                                                       date_of_oldest_record,
+                                                       date_of_most_recent_record,
+                                                       gestage_at_first_record,
+                                                       algorithm_for_reconciliation,
+                                                       description,           
+                                                       GGDE,
+                                                       GGDS,
+                                                       INSUF_QUALITY,
+                                                       gestage_greater_44,
+                                                       origin)]
 #-------
 # saving 
 #-------
@@ -177,25 +209,20 @@ if (thisdatasource == "BIFAP"){
 #  D3_mother_child
 #--------------------------
 if (this_datasource_has_person_rel_table){
+  D3_mother_child_ids <- D3_groups_of_pregnancies_reconciled[!is.na(child_id)]
+  D3_mother_child_ids <- D3_mother_child_ids[, .(person_id,
+                                                 child_id,
+                                                 pregnancy_id)]
   
-  PERSON_RELATIONSHIPS <- fread(paste0(dirinput, "PERSON_RELATIONSHIPS.csv"), 
-                                colClasses = list(character=c("person_id", "related_id")))
-  
-  D3_mother_child <- PERSON_RELATIONSHIPS[meaning_of_relationship %in% meaning_of_relationship_child_this_datasource]
-  
-  if(this_datasource_has_related_id_correspondig_to_child){
-    D3_mother_child <- D3_mother_child[, person_id_mother := person_id]
-    D3_mother_child <- D3_mother_child[, person_id_child := related_id]
-    D3_mother_child <- D3_mother_child[, .(person_id_mother, person_id_child, meaning_of_relationship, origin_of_relationship)]
-  }else{
-    D3_mother_child <- D3_mother_child[, person_id_mother := related_id]
-    D3_mother_child <- D3_mother_child[, person_id_child := person_id]
-    D3_mother_child <- D3_mother_child[, .(person_id_mother, person_id_child, meaning_of_relationship, origin_of_relationship)]
-  }
-  
-  save(D3_mother_child, file = paste0(dirtemp, "D3_mother_child.RData"))
-}
+   load(paste0(dirtemp, "Person_rel_PROMPT_dataset.RData"))
+   D3_mother_child_ids <- merge(D3_mother_child_ids,
+                                Person_rel_PROMPT_dataset[, -c("person_id", "method_of_linkage", "birth_date")],
+                                by = "child_id",
+                                all.x = TRUE)
 
+  
+  save(D3_mother_child_ids, file = paste0(diroutput, "D3_mother_child_ids.RData"))
+}
 
 #--------------------------
 #  D3_survey_and_visit_ids

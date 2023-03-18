@@ -6,7 +6,10 @@
 # 
 # link: https://github.com/ARS-toscana/ConcePTIONAlgorithmPregnancies
 #
-# changelog v3.22:
+# changelog v3.23, 18 March 2023:
+# - added PERSON_REL PROMPT
+#
+# changelog v3.22, 10 March 2023:
 # - added LOSTFU as type of PREG end
 # - added D3_mother_child
 # - fixed recon graphs
@@ -102,8 +105,6 @@ setwd(thisdir)
 #@ use this below if you want to set different INPUT DIRECTORY
 dirinput <- c(paste0(thisdir,"/i_input/")) # remember to use / instead of \
 
-
-
 #load parameters
 source(paste0(thisdir,"/p_parameters/01_parameters_program.R"))
 source(paste0(thisdir,"/p_parameters/02_parameters_CDM.R"))
@@ -167,3 +168,4 @@ source(paste0(thisdir,"/p_steps_pregnancy/step_07_04_create_aggregated_tables_fo
 
 # 08 PREDICTIVE MODEL
 #source(paste0(thisdir,"/p_steps_pregnancy/step_08_01_predictive_model.R")) 
+

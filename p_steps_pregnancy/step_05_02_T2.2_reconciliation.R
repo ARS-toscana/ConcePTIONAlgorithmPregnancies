@@ -463,7 +463,8 @@ D3_groups_of_pregnancies_reconciled_before_excl <- D3_gop[, .(person_id,
                                                               pregnancy_splitted,
                                                               survey_id,
                                                               visit_occurrence_id, 
-                                                              origin)]
+                                                              origin,
+                                                              child_id)]
 
 setnames(D3_groups_of_pregnancies_reconciled_before_excl, "pers_group_id", "pregnancy_id")
 

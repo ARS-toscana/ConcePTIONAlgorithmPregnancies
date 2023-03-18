@@ -42,8 +42,16 @@ if (this_datasource_has_prompt) {
       D3_study_population_pregnancy1<- rbind(D3_study_population_pregnancy1, temp)
     }
     
+    #-----------
+    # tmp fix
+    #-----------
+    tmp <- copy(D3_Stream_PROMPTS)
+    tmp <- tmp[origin == "PERSON_RELATIONSHIP"][, pregnancy_with_dates_out_of_range := 0]
+    D3_study_population_pregnancy1 <- rbind(D3_study_population_pregnancy1,tmp)
+    #-----------
+    
     table(D3_study_population_pregnancy1$pregnancy_with_dates_out_of_range) 
-
+    
     D3_excluded_pregnancies_from_prompts_1 <-D3_study_population_pregnancy1[pregnancy_with_dates_out_of_range==1,] 
     
     D3_study_population_pregnancy2 <-D3_study_population_pregnancy1[pregnancy_with_dates_out_of_range==0,] 
@@ -161,23 +169,46 @@ if (this_datasource_has_prompt) {
       D3_study_population_pregnancy_from_prompts<-D3_study_population_pregnancy_from_prompts[,visit_occurrence_id:=""]
       }
     
-    D3_Stream_PROMPTS_check<-D3_study_population_pregnancy_from_prompts[,.(pregnancy_id,
-                                                                           person_id,
-                                                                           record_date,
-                                                                           pregnancy_start_date,
-                                                                           pregnancy_end_date,
-                                                                           meaning_start_date,
-                                                                           meaning_end_date,
-                                                                           type_of_pregnancy_end,
-                                                                           imputed_start_of_pregnancy,
-                                                                           imputed_end_of_pregnancy, 
-                                                                           column,meaning, 
-                                                                           origin,
-                                                                           so_source_value,
-                                                                           survey_id, 
-                                                                           visit_occurrence_id, 
-                                                                           PROMPT, 
-                                                                           ITEMSETS)]
+    if("child_id" %in% names(D3_Stream_PROMPTS_check)){
+      D3_Stream_PROMPTS_check<-D3_study_population_pregnancy_from_prompts[,.(pregnancy_id,
+                                                                             person_id,
+                                                                             record_date,
+                                                                             pregnancy_start_date,
+                                                                             pregnancy_end_date,
+                                                                             meaning_start_date,
+                                                                             meaning_end_date,
+                                                                             type_of_pregnancy_end,
+                                                                             imputed_start_of_pregnancy,
+                                                                             imputed_end_of_pregnancy, 
+                                                                             column,meaning, 
+                                                                             origin,
+                                                                             so_source_value,
+                                                                             survey_id, 
+                                                                             visit_occurrence_id, 
+                                                                             PROMPT, 
+                                                                             ITEMSETS, 
+                                                                             child_id)]
+    }else{
+      D3_Stream_PROMPTS_check<-D3_study_population_pregnancy_from_prompts[,.(pregnancy_id,
+                                                                             person_id,
+                                                                             record_date,
+                                                                             pregnancy_start_date,
+                                                                             pregnancy_end_date,
+                                                                             meaning_start_date,
+                                                                             meaning_end_date,
+                                                                             type_of_pregnancy_end,
+                                                                             imputed_start_of_pregnancy,
+                                                                             imputed_end_of_pregnancy, 
+                                                                             column,meaning, 
+                                                                             origin,
+                                                                             so_source_value,
+                                                                             survey_id, 
+                                                                             visit_occurrence_id, 
+                                                                             PROMPT, 
+                                                                             ITEMSETS, 
+                                                                             child_id = NA)]
+    }
+   
     
     save(D3_Stream_PROMPTS_check, file=paste0(dirtemp,"D3_Stream_PROMPTS_check.RData"))
     
