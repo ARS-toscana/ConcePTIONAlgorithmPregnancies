@@ -28,7 +28,7 @@ dirdescribe03_create_pregnancies <- paste0(thisdir, "/g_describe_HTML/02/")
 dirdescribe03_internal_consistency <- paste0(thisdir, "/g_describe_HTML/03/")
 dirdescribe03_06_excluded_pregnancies <- paste0(thisdir, "/g_describe_HTML/04_01/")
 dirdescribe03_06_groups_of_pregnancies <- paste0(thisdir, "/g_describe_HTML/04_03/")
-dirvalidation <- paste0(thisdir, "/g_validation/")
+dirvalidation <- paste0(thisdir, "/g_verification/")
 
 ###################################################################
 # CREATE FOLDERS
@@ -177,7 +177,8 @@ file.copy(paste0(dirinput,'/INSTANCE.csv'), direxp)
 file.copy(paste0(dirinput,'/METADATA.csv'), dirsmallcountsremoved)
 file.copy(paste0(dirinput,'/CDM_SOURCE.csv'), dirsmallcountsremoved)
 file.copy(paste0(dirinput,'/INSTANCE.csv'), dirsmallcountsremoved)
-file.copy(paste0(dirmacro,'/post_validation_script.R'), dirvalidation)
+file.copy(paste0(dirmacro,'/to_run_post_verification_script.R'), dirvalidation)
+file.copy(paste0(dirmacro,'/Report_verification_preg.Rmd'), dirvalidation)
 
 #############################################
 #HTML files: creation 

@@ -253,6 +253,7 @@ TableReconciliation <- TableReconciliation[, N:= as.character(N)]
 TableReconciliation <- TableReconciliation[N=="0", N:= "<5"]
 
 fwrite(TableReconciliation, paste0(direxp, "TableReconciliation.csv"))
+fwrite(TableReconciliation, paste0(dirvalidation, "TableReconciliation.csv"))
 
 cat("10. Table Gestage at first record \n ")
 ## Median Age 
