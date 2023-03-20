@@ -169,7 +169,7 @@ if (this_datasource_has_prompt) {
       D3_study_population_pregnancy_from_prompts<-D3_study_population_pregnancy_from_prompts[,visit_occurrence_id:=""]
       }
     
-    if("child_id" %in% names(D3_Stream_PROMPTS_check)){
+    if("child_id" %in% names(D3_study_population_pregnancy_from_prompts)){
       D3_Stream_PROMPTS_check<-D3_study_population_pregnancy_from_prompts[,.(pregnancy_id,
                                                                              person_id,
                                                                              record_date,
