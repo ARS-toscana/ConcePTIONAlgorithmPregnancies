@@ -6,6 +6,9 @@ output:
     toc: TRUE
     toc_float: TRUE
 date: ""
+params:
+  sample_validated: NULL
+  DT_recon: NULL
 ---
 
 ```{css, echo = FALSE}
@@ -18,34 +21,6 @@ h3 {color: #6ccff6}
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
 
-rm(list=ls(all.names=TRUE))
-
-#set the directories
-if (!require("rstudioapi")) install.packages("rstudioapi")
-thisdir<-setwd(dirname(rstudioapi::getSourceEditorContext()$path))
-thisdir<-setwd(dirname(rstudioapi::getSourceEditorContext()$path))
-setwd(thisdir)
-
-
-# libraries 
-if (!require("haven")) install.packages("haven")
-library(haven)
-if (!require("tidyverse")) install.packages("tidyverse")
-library(dplyr)
-if (!require("lubridate")) install.packages("lubridate")
-library(lubridate)
-if (!require("data.table")) install.packages("data.table")
-library(data.table)
-if (!require("stringr")) install.packages("stringr")
-library(stringr)
-if (!require("purrr")) install.packages("purrr")
-library(purrr)
-if (!require("readr")) install.packages("readr")
-library(readr)
-if (!require("dplyr")) install.packages("dplyr")
-library(dplyr)
-if (!require("survival")) install.packages("survival")
-library(survival)
 if (!require("rmarkdown")) install.packages("rmarkdown")
 library(rmarkdown )
 if (!require("ggplot2")) install.packages("ggplot2")
@@ -65,9 +40,9 @@ library(multipanelfigure)
 
 `%notin%` <- Negate(`%in%`)
 
-sample_validated = params$sample_validated
+sample_validated = copy(params$sample_validated)
+DT_recon = copy(params$DT_recon)
 ```
-
 
 
 ## Record concordance
@@ -79,109 +54,127 @@ Records of the same pregnancy can be:
 
 - slightly discordant: start and end date different by no more than 7 days;
 
-- discordant: start and end date different more than 7 days (GGDE and GGDS are green record discordant respectively on end date and start date);
-
-- inconsistent: when a red record is not included between the beginning and the end of the pregnancy.
-
-In addition a pregnancy can be compose only of low quality record (red or blue record), in this case the pregnancy will be classified as INSUF_QUALITY.
-
-The next graph shows the percentage of pregnancies that have non-concordant records (or are composed only of low quality records). The same pregnancy can be composed of concordant, discordant and inconsistent records, so the same pregnancy can be counted in multiple columns.
+- discordant: start and end date different more than 7 days 
 
 
+The next graph shows the percentage of pregnancies divided by highest quality color and stratified by concordance variables.
 
 
 ```{r reconciliation}
-# hierarchy
-# 1. GG_discordant_end
-# 2. GG_discordant_start
-# 3. Discordant
-# 4- SlightlyDiscordant
-
-# Inconsistency
-# StartUpdated
-# InsuffQuality
-# pregnancy splitted
-
-for (DAP in list_of_DAPs) {
-  tmp <- get(paste0(DAP, "_reconcil"))
-  tmp[N == "<5", N := 0][, N := as.integer(N)]
-  
-  list_of_var <- names(tmp)[names(tmp) %notin% c("type_of_pregnancy_end", "N", "pregnancy_splitted")]
-  string_cond <- paste0(list_of_var, " == 0 ", collapse = ' & ')
-  tmp <- tmp[eval(parse(text = string_cond)), Concordant := 1][is.na(Concordant), Concordant := 0]
-  list_of_var_2 <- c(list_of_var, 'Concordant')
-  tmp <- tmp[, tot := sum(N)][, percentage := round((N/tot)*100, 4)]
-  
-  total_n_of_pregnancy <- tmp[, sum(N)]
-  
-  
-  list_of_DT_vars <- vector(mode = 'list')
-  for (var in list_of_var_2) {
-    tmp2 <- tmp[get(var) == 1][, `:=` (Variable = var)]
-    tmp2 <- tmp2[, sum(N), .(type_of_pregnancy_end, Variable)]
-    list_of_DT_vars[[var]] <- tmp2
-  }
-  
-  tmp3 <- rbindlist(list_of_DT_vars)
-  setnames(tmp3, "V1", "N")
-  tmp3_type <- tmp3[, tot :=  total_n_of_pregnancy][, percentage := round((N/tot)*100, 4)]
-  tmp3_agg <- tmp3[, sum(N), Variable]
-  setnames(tmp3_agg, "V1", "N")
-  tmp3_agg <- tmp3_agg[, tot :=  total_n_of_pregnancy][, percentage := round((N/tot)*100, 4)]
-  
-  assign(paste0("DT_plt_", DAP), tmp3_type)
-}
-#DT_recon[percentage == "0", percentage := "< 0.05"]
-```
-```{r DT_plt_ARS_agg_type}
-# DT_plt_ARS <- DT_plt_ARS[type_of_pregnancy_end == "ONGOING", type_of_pregnancy_end := "ONG"]
-# 
-# plt <- ggplot(DT_plt_ARS[Variable != "Concordant"], aes(x = Variable, y =percentage, fill= type_of_pregnancy_end)) +
-#   geom_col()+
-#   #guides(fill = guide_legend(title = "Type of end")) +
-#   xlab("")+
-#   ylab("")+
-#   labs(fill = "Type of end") +
-#   theme_bw()+
-#   theme(text = element_text(family = "serif"), axis.text.x = element_text(angle = 45))
-# 
-# plt <- ggplotly(plt)
-# plt
-```
-
-
-
-
-
-```{r DT_plt_ARS_agg}
-plt <- ggplot(tmp3_agg[Variable != "Concordant"], aes(x = Variable, y =percentage)) +
-  geom_col(fill = "salmon")+
-  guides(fill = guide_legend(title = "")) +
+DT_recon[N == "<5", N := 0][, N := as.integer(N)]
+total_n_of_pregnancy <- DT_recon[, sum(N)]
+DT_recon <- DT_recon[, tot := sum(N)][, percentage := round((N/tot)*100, 4)]
+DT_recon[, color := str_split(strata, "_")[[1]][1], strata]
+DT_recon[strata == "Yellow_SlightlyDiscordant", strata := "Yellow_CP_SlightlyDiscordant"]
+plt <- ggplot(DT_recon, aes(x = color, y =percentage, fill = strata)) +
+  geom_col()+
+  scale_fill_manual(values = c("Green_Concordant" = "#69B34C", 
+                               "Green_Discordant" = "#ACB334", 
+                               "Yellow_Concordant" = "goldenrod1", 
+                               "Yellow_CP_SlightlyDiscordant" = "goldenrod", 
+                               "Yellow_Discordant"="gold4",
+                               "Blue" = "deepskyblue3",
+                               "Red" = "#FF0D0D")) +
+  #guides(fill = guide_legend(title = "")) +
   xlab("")+
   ylab("")+
   theme_bw()+
   theme(text = element_text(family = "serif"))
 
 plt <- ggplotly(plt)
-plt
+plt  
+  
+datatable(DT_recon[, -c("color")])
+
 ```
 
+---
+
+## Expected pregnancies 
+
+The following section shows the expected percentage of pregnancies with incorrect start, end and type of end. It also shows the expected percentage of pregnancies composed of records actually belonging to different pregnancies.
+
+### Expected difference in pregnancy start date
+
+The following graph shows the expected percentage of pregnancies with a different start date from that generated by the algorithm. 
+The percentages are calculated taking into account the verification and the size of the sampling strata.
+
+```{r exp_start}
+DT_cor <- copy(sample_validated)
+DT_strata <- DT_recon[, tot_strata := sum(N), color]
+DT_strata <- DT_strata[, perc_strata_col := round(N/tot_strata *100 , 4)]
+DT_strata <- DT_strata[strata== "Yellow_CP_SlightlyDiscordant", strata := "Yellow_SlightlyDiscordant"]
+setnames(DT_strata, "strata", "sample")
 
 
-The following graph shows for each concordance variables the proportion of type of end.
+DT_cor <- DT_cor[, pregnancy_start_date_difference := as.character(pregnancy_start_date_difference)]
 
-```{r DT_plt_ARS_agg_type_perc, warning=FALSE}
-DT_plt_ARS <- DT_plt_ARS[type_of_pregnancy_end == "ONGOING", type_of_pregnancy_end := "ONG"]
-DT_plt_ARS_tot_var <- DT_plt_ARS[, tot_var := sum(N), Variable]
-DT_plt_ARS_tot_var <- DT_plt_ARS_tot_var[, prop := N/tot_var]
+DT_strata[, color := str_split(sample, "_")[[1]][1], sample]
+
+DT_cor <- DT_cor[pregnancy_start_date_difference == "" | is.na(pregnancy_start_date_difference), pregnancy_start_date_difference :="1. 0 days"]
+DT_cor <- DT_cor[pregnancy_start_date_difference == 1| pregnancy_start_date_difference == 5, pregnancy_start_date_difference := "2. days < 5 "]
+DT_cor <- DT_cor[pregnancy_start_date_difference == 2| pregnancy_start_date_difference == 6, pregnancy_start_date_difference := "3. 5 < days <= 30"]
+DT_cor <- DT_cor[pregnancy_start_date_difference == 3| pregnancy_start_date_difference == 7, pregnancy_start_date_difference := "4. 30 < days <= 90"]
+DT_cor <- DT_cor[pregnancy_start_date_difference == 4| pregnancy_start_date_difference == 8, pregnancy_start_date_difference := "5. days > 90"]
+DT_cor <- DT_cor[pregnancy_start_date_difference == "not specified", pregnancy_start_date_difference := "6. not specified"]
+DT_cor[, color := str_split(sample, "_")[[1]][1], sample]
+
+DT_start <-  DT_cor[, .N, by = c("pregnancy_start_date_difference", "sample", "color")]
+
+n_valid <- DT_cor[, .(N_validated = .N), sample]
+
+DT_start <- merge(DT_start, DT_strata[, .(perc_strata_col, sample, percentage)], by = c("sample"), all.x = TRUE)
+DT_start <- merge(DT_start, n_valid, by = c("sample"), all.x = TRUE)
+
+DT_start[, y := N / N_validated * perc_strata_col]
+DT_plt <- DT_start[, .(y =sum(y)), by = c("color", "pregnancy_start_date_difference")]
 
 
-plt <- ggplot(DT_plt_ARS[Variable != "Concordant"], aes(x = Variable, y =prop, fill= type_of_pregnancy_end)) +
+DT_start[, y_pie := N/N_validated *percentage]
+DT_pie <- DT_start[, .(y_pie =sum(y_pie)), by = c("pregnancy_start_date_difference")]
+
+df2 <- DT_pie %>% 
+  mutate(csum = rev(cumsum(rev(y_pie))), 
+         pos = y_pie/2 + lead(csum, 1),
+         pos = if_else(is.na(pos), y_pie/2, pos))
+df2[, y_pie:= round(y_pie, 4)]
+ggplot(df2, aes(x = "" , y = y_pie, fill = fct_inorder(as.factor(pregnancy_start_date_difference)))) +
+  geom_col(width = 1 , col = "white") +
+  coord_polar(theta = "y", start = pi*1.5) +
+  geom_label_repel(aes(y = pos, label = paste0(y_pie, "%")),
+                   size = 4.5, nudge_x = 1,  show.legend = FALSE) + #col = "gray",
+    scale_fill_manual(values = c("1. 0 days" = "slategray1", 
+                               "2. days < 5 " = "slategray2", 
+                               "3. 5 < days <= 30" = "slategray3", 
+                               "4. 30 < days <= 90" = "slategray4", 
+                               "5. days > 90"="slategrey",
+                               
+                               "6. not specified" = "grey30")) +
+  guides(fill = guide_legend(title = "Group")) +
+  theme_void()+
+  theme(text = element_text(family = "serif"))
+
+
+
+
+
+```
+
+The following graph is stratified by color quality.
+
+```{r exp_start_plt_strata}
+plt <- ggplot(DT_plt, aes(x = color, y = y, fill = pregnancy_start_date_difference)) +
   geom_col()+
-  #guides(fill = guide_legend(title = "Type of end")) +
+  scale_fill_manual(values = c("1. 0 days" = "slategray1", 
+                               "2. days < 5 " = "slategray2", 
+                               "3. 5 < days <= 30" = "slategray3", 
+                               "4. 30 < days <= 90" = "slategray4", 
+                               "5. days > 90"="slategrey",
+                               
+                               "6. not specified" = "grey30")) +
+  #guides(fill = guide_legend(title = "")) +
   xlab("")+
   ylab("")+
-  labs(fill = "Type of end") +
   theme_bw()+
   theme(text = element_text(family = "serif"), axis.text.x = element_text(angle = 45))
 
@@ -190,42 +183,305 @@ plt
 ```
 
 
-```{r DT_plt_ARS}
-# DT_plt_ARS <- DT_plt_ARS[type_of_pregnancy_end == "ONGOING", type_of_pregnancy_end := "ONG"]
-# 
-# plt <- ggplot(DT_plt_ARS[Variable != "Concordant"], aes(x = type_of_pregnancy_end, y =percentage, fill = type_of_pregnancy_end)) +
-#   geom_col()+
-#   guides(fill = guide_legend(title = "")) +
-#   xlab("")+
-#   ylab("")+
-#   facet_wrap(. ~ Variable)+
-#   theme_bw()+
-#   theme(text = element_text(family = "serif"))
-# 
-# plt <- ggplotly(plt)
-# plt
+
+
+### Expected difference in pregnancy end date
+
+The following graph shows the expected percentage of pregnancies with a different end date from that generated by the algorithm. 
+The percentages are calculated taking into account the verification and the size of the sampling strata.
+```{r exp_end}
+DT_cor <- copy(sample_validated)
+
+DT_cor <- DT_cor[, pregnancy_end_date_difference := as.character(pregnancy_end_date_difference)]
+
+DT_strata[, color := str_split(sample, "_")[[1]][1], sample]
+
+DT_cor <- DT_cor[pregnancy_end_date_difference == "" | is.na(pregnancy_end_date_difference), pregnancy_end_date_difference :="1. 0 days"]
+DT_cor <- DT_cor[pregnancy_end_date_difference == 1| pregnancy_end_date_difference == 5, pregnancy_end_date_difference := "2. days < 5 "]
+DT_cor <- DT_cor[pregnancy_end_date_difference == 2| pregnancy_end_date_difference == 6, pregnancy_end_date_difference := "3. 5 < days <= 30"]
+DT_cor <- DT_cor[pregnancy_end_date_difference == 3| pregnancy_end_date_difference == 7, pregnancy_end_date_difference := "4. 30 < days <= 90"]
+DT_cor <- DT_cor[pregnancy_end_date_difference == 4| pregnancy_end_date_difference == 8, pregnancy_end_date_difference := "5. days > 90"]
+DT_cor <- DT_cor[pregnancy_end_date_difference == "not specified", pregnancy_end_date_difference := "6. not specified"]
+DT_cor[, color := str_split(sample, "_")[[1]][1], sample]
+
+DT_end <-  DT_cor[, .N, by = c("pregnancy_end_date_difference", "sample", "color")]
+
+n_valid <- DT_cor[, .(N_validated = .N), sample]
+
+DT_end <- merge(DT_end, DT_strata[, .(percentage, perc_strata_col, sample)], by = c("sample"), all.x = TRUE)
+DT_end <- merge(DT_end, n_valid, by = c("sample"), all.x = TRUE)
+
+DT_end[, y := N / N_validated * perc_strata_col]
+DT_plt <- DT_end[, .(y =sum(y)), by = c("color", "pregnancy_end_date_difference")]
+
+
+
+
+
+
+
+
+DT_end[, y_pie := N/N_validated *percentage]
+DT_pie <- DT_end[, .(y_pie =sum(y_pie)), by = c("pregnancy_end_date_difference")]
+
+df2 <- DT_pie %>% 
+  mutate(csum = rev(cumsum(rev(y_pie))), 
+         pos = y_pie/2 + lead(csum, 1),
+         pos = if_else(is.na(pos), y_pie/2, pos))
+df2[, y_pie:= round(y_pie, 4)]
+
+ggplot(df2, aes(x = "" , y = y_pie, fill = fct_inorder(as.factor(pregnancy_end_date_difference)))) +
+  geom_col(width = 1 , col = "white") +
+  coord_polar(theta = "y", start = pi*1.5) +
+  geom_label_repel(aes(y = pos, label = paste0(y_pie, "%")),
+                   size = 4.5, nudge_x = 1,  show.legend = FALSE) + #col = "gray",
+    scale_fill_manual(values = c("1. 0 days" = "slategray1", 
+                               "2. days < 5 " = "slategray2", 
+                               "3. 5 < days <= 30" = "slategray3", 
+                               "4. 30 < days <= 90" = "slategray4", 
+                               "5. days > 90"="slategrey",
+                               
+                               "6. not specified" = "grey30")) +
+  guides(fill = guide_legend(title = "Group")) +
+  theme_void()+
+  theme(text = element_text(family = "serif"))
+
+
+
+
+
+```
+
+The following graph is stratified by color quality.
+
+```{r exp_end_plt_strata}
+plt <- ggplot(DT_plt, aes(x = color, y = y, fill = pregnancy_end_date_difference)) +
+  geom_col()+
+  scale_fill_manual(values = c("1. 0 days" = "slategray1", 
+                               "2. days < 5 " = "slategray2", 
+                               "3. 5 < days <= 30" = "slategray3", 
+                               "4. 30 < days <= 90" = "slategray4", 
+                               "5. days > 90"="slategrey",
+                               
+                               "6. not specified" = "grey30")) +
+  #guides(fill = guide_legend(title = "")) +
+  xlab("")+
+  ylab("")+
+  theme_bw()+
+  theme(text = element_text(family = "serif"), axis.text.x = element_text(angle = 45))
+
+plt <- ggplotly(plt)
+plt
+```
+
+
+### Expected pregnancy with wrong type of end
+
+The following graph shows the expected percentage of pregnancies with a different type of end from that generated by the algorithm. 
+The percentages are calculated taking into account the verification and the size of the sampling strata.
+
+```{r exp_type}
+DT_cor <- copy(sample_validated)
+
+DT_cor <- DT_cor[, pregnancy_end_date_difference := as.character(pregnancy_end_date_difference)]
+
+DT_strata[, color := str_split(sample, "_")[[1]][1], sample]
+
+DT_cor <- DT_cor[type_of_pregnancy_end_correct == "" | 
+                   is.na(type_of_pregnancy_end_correct) |
+                   tolower(type_of_pregnancy_end_correct) == "yes" |
+                   tolower(type_of_pregnancy_end_correct) == "y" , 
+                 type_of_pregnancy_end_correct :="Correct"]
+
+DT_cor <- DT_cor[tolower(type_of_pregnancy_end_correct) == "no" |
+                   tolower(type_of_pregnancy_end_correct) == "n" , 
+                 type_of_pregnancy_end_correct :="Incorrect"]
+
+DT_cor <- DT_cor[type_of_pregnancy_end_correct != "Incorrect" &
+                   type_of_pregnancy_end_correct != "Correct" , 
+                 type_of_pregnancy_end_correct :="Not known"]
+
+DT_cor[, color := str_split(sample, "_")[[1]][1], sample]
+
+DT_type <-  DT_cor[, .N, by = c("type_of_pregnancy_end_correct", "sample", "color")]
+
+n_valid <- DT_cor[, .(N_validated = .N), sample]
+
+DT_type <- merge(DT_type, DT_strata[, .(percentage, perc_strata_col, sample)], by = c("sample"), all.x = TRUE)
+DT_type <- merge(DT_type, n_valid, by = c("sample"), all.x = TRUE)
+
+DT_type[, y := N / N_validated * perc_strata_col]
+DT_plt <- DT_type[, .(y =sum(y)), by = c("color", "type_of_pregnancy_end_correct")]
+
+
+
+
+
+
+
+
+DT_type[, y_pie := N/N_validated *percentage]
+DT_pie <- DT_type[, .(y_pie =sum(y_pie)), by = c("type_of_pregnancy_end_correct")]
+
+df2 <- DT_pie %>% 
+  mutate(csum = rev(cumsum(rev(y_pie))), 
+         pos = y_pie/2 + lead(csum, 1),
+         pos = if_else(is.na(pos), y_pie/2, pos))
+df2[, y_pie:= round(y_pie, 4)]
+df2[, y_pie:= round(y_pie, 4)]
+
+ggplot(df2, aes(x = "" , y = y_pie, fill = fct_inorder(as.factor(type_of_pregnancy_end_correct)))) +
+  geom_col(width = 1 , col = "white") +
+  coord_polar(theta = "y", start = pi*1.5) +
+  geom_label_repel(aes(y = pos, label = paste0(y_pie, "%")),
+                   size = 4.5, nudge_x = 1,  show.legend = FALSE) + 
+    scale_fill_manual(values = c("Correct" = "darkslategray3", 
+                               "Incorrect" = "firebrick", 
+                               "Not known" = "gray")) +
+  guides(fill = guide_legend(title = "Type of end")) +
+  theme_void()+
+  theme(text = element_text(family = "serif"))
+
+
+
+
+
+```
+
+The following graph is stratified by color quality.
+
+```{r exp_type_plt_strata}
+plt <- ggplot(DT_plt, aes(x = color, y = y, fill = type_of_pregnancy_end_correct)) +
+  geom_col()+
+  scale_fill_manual(values = c("Correct" = "darkslategray3", 
+                               "Incorrect" = "firebrick", 
+                               "Not known" = "gray")) +
+  guides(fill = guide_legend(title = "Type of end")) +
+  xlab("")+
+  ylab("")+
+  theme_bw()+
+  theme(text = element_text(family = "serif"), axis.text.x = element_text(angle = 45))
+
+plt <- ggplotly(plt)
+plt
 ```
 
 
 
+### Expected pregnancy with records belonging to multiple pregnancies
+
+The following graph shows the expected percentage of pregnancies composed of records belonging to multiple pregnancies. 
+The percentages are calculated taking into account the verification and the size of the sampling strata.
+
+```{r exp_belong}
+DT_cor <- copy(sample_validated)
+DT_strata[, color := str_split(sample, "_")[[1]][1], sample]
+
+DT_cor <- DT_cor[records_belong_to_multiple_pregnancy == "" | 
+                   is.na(records_belong_to_multiple_pregnancy) |
+                   tolower(records_belong_to_multiple_pregnancy) == "no" |
+                   tolower(records_belong_to_multiple_pregnancy) == "n" , 
+                 records_belong_to_multiple_pregnancy :="No"]
+
+DT_cor <- DT_cor[tolower(records_belong_to_multiple_pregnancy) == "yes" |
+                   tolower(records_belong_to_multiple_pregnancy) == "y" , 
+                 records_belong_to_multiple_pregnancy :="Yes"]
+
+DT_cor <- DT_cor[records_belong_to_multiple_pregnancy != "No" &
+                   records_belong_to_multiple_pregnancy != "Yes" , 
+                 records_belong_to_multiple_pregnancy :="Not known"]
+
+DT_cor[, color := str_split(sample, "_")[[1]][1], sample]
+
+DT_belong <-  DT_cor[, .N, by = c("records_belong_to_multiple_pregnancy", "sample", "color")]
+
+n_valid <- DT_cor[, .(N_validated = .N), sample]
+
+DT_belong <- merge(DT_belong, DT_strata[, .(percentage, perc_strata_col, sample)], by = c("sample"), all.x = TRUE)
+DT_belong <- merge(DT_belong, n_valid, by = c("sample"), all.x = TRUE)
+
+DT_belong[, y := N / N_validated * perc_strata_col]
+DT_plt <- DT_belong[, .(y =sum(y)), by = c("color", "records_belong_to_multiple_pregnancy")]
 
 
 
-## Validation results
 
-This section contains the results of the validation.
+
+
+
+
+DT_belong[, y_pie := N/N_validated *percentage]
+DT_pie <- DT_belong[, .(y_pie =sum(y_pie)), by = c("records_belong_to_multiple_pregnancy")]
+
+df2 <- DT_pie %>% 
+  mutate(csum = rev(cumsum(rev(y_pie))), 
+         pos = y_pie/2 + lead(csum, 1),
+         pos = if_else(is.na(pos), y_pie/2, pos))
+df2[, y_pie:= round(y_pie, 4)]
+df2[, y_pie:= round(y_pie, 4)]
+
+ggplot(df2, aes(x = "" , y = y_pie, fill = fct_inorder(as.factor(records_belong_to_multiple_pregnancy)))) +
+  geom_col(width = 1 , col = "white") +
+  coord_polar(theta = "y", start = pi*1.5) +
+  geom_label_repel(aes(y = pos, label = paste0(y_pie, "%")),
+                   size = 4.5, nudge_x = 1,  show.legend = FALSE) + 
+    scale_fill_manual(values = c("No" = "darkslategray3", 
+                               "Yes" = "firebrick", 
+                               "Not known" = "gray")) +
+  guides(fill = guide_legend(title = "Record belong to multiple pregnancies")) +
+  theme_void()+
+  theme(text = element_text(family = "serif"))
+
+
+
+
+
+```
+
+The following graph is stratified by color quality.
+
+```{r exp_belong_plt_strata}
+plt <- ggplot(DT_plt, aes(x = color, y = y, fill = records_belong_to_multiple_pregnancy)) +
+  geom_col()+
+  scale_fill_manual(values = c("No" = "darkslategray3", 
+                               "Yes" = "firebrick", 
+                               "Not known" = "gray")) +
+  guides(fill = guide_legend(title = "Record belong to multiple pregnancies")) +
+  xlab("")+
+  ylab("")+
+  theme_bw()+
+  theme(text = element_text(family = "serif"), axis.text.x = element_text(angle = 45))
+
+plt <- ggplotly(plt)
+plt
+```
+
+
+## Verification results
+
+This section contains the results of the verification.
 
 ---
 
 <br>
 
-### GGDE
+### Green concordant 
 
 
-```{r valid_res_1}
-if("GGDE" %in% names(ARS_reconcil)){
-  ntmp <- ARS_reconcil[GGDE == 1, sum(N)]
-  ntmp_validated <- ARS_valid[sample == "GG:DiscordantEnd", .N]
+```{r green_con}
+sample_validated = copy(params$sample_validated)
+DT_recon = copy(params$DT_recon)
+
+DT_recon[N == "<5", N := 0][, N := as.integer(N)]
+total_n_of_pregnancy <- DT_recon[, sum(N)]
+DT_recon <- DT_recon[, tot := sum(N)][, percentage := round((N/tot)*100, 4)]
+DT_recon[, color := str_split(strata, "_")[[1]][1], strata]
+DT_recon[strata == "Yellow_SlightlyDiscordant", strata := "Yellow_CP_SlightlyDiscordant"]
+
+ntmp_validated <- 0
+if("Green_Concordant" %in% unique(DT_recon$strata)){
+  ntmp <- DT_recon[strata == "Green_Concordant", N]
+  ntmp_validated <- sample_validated[sample == "Green_Concordant", .N]
   if(ntmp > 0){
     includ <- TRUE
   }else{
@@ -236,7 +492,54 @@ if("GGDE" %in% names(ARS_reconcil)){
 }
 
 if(includ){
-  talk <- paste0( ntmp, " on ",  total_n_of_pregnancy, " have discordant green records on the end." )
+  talk <- paste0( ntmp, " on ",  total_n_of_pregnancy, " have concordant green records." )
+}else{
+  talk <- paste0("There less than 35 pregnancies (5 for each type of end) with concordant green records on the end date on ",  total_n_of_pregnancy,".")
+}
+
+if(ntmp_validated >= 5){
+  talk <- paste0(talk, " 5 of those were sampled and validated.")
+}
+
+```
+
+
+`r {talk}`
+
+
+```{r DT_GC}
+if(ntmp_validated >= 5){
+  DT_GC <- sample_validated[sample == "Green_Concordant"]
+  paged_table(DT_GC[,-c("algorithm_for_reconciliation", "sample", "description")])
+}
+
+
+```
+
+
+---
+
+<br>
+
+### Green disconcordant 
+
+
+```{r green_disconcordant}
+ntmp_validated <- 0
+if("Green_Discordant" %in% unique(DT_recon$strata)){
+  ntmp <- DT_recon[strata == "Green_Discordant", N]
+  ntmp_validated <- sample_validated[sample == "Green_Discordant", .N]
+  if(ntmp > 0){
+    includ <- TRUE
+  }else{
+    includ <- FALSE
+  }
+}else{
+  includ <- FALSE
+}
+
+if(includ){
+  talk <- paste0( ntmp, " on ",  total_n_of_pregnancy, " have disconcordant green records." )
 }else{
   talk <- paste0("There less than 35 pregnancies (5 for each type of end) with discordant green records on the end date on ",  total_n_of_pregnancy,".")
 }
@@ -251,26 +554,15 @@ if(ntmp_validated >= 5){
 `r {talk}`
 
 
-
 ```{r valid_res_2}
 if(ntmp_validated >= 5){
-  DT_GGDE <- ARS_valid[sample == "GG:DiscordantEnd"][, .(pregnancy_id, pregnancy_start_date_correct, pregnancy_end_date_correct, type_of_pregnancy_end_correct, records_belong_to_multiple_pregnancy, comments)]
-  DT_GGDE <- DT_GGDE[(tolower(pregnancy_start_date_correct)  == "yes" | tolower(pregnancy_start_date_correct)  == "y") &
-                        (tolower(pregnancy_end_date_correct)    == "yes" | tolower(pregnancy_end_date_correct)    == "y") &
-                        (tolower(type_of_pregnancy_end_correct) == "yes" | tolower(type_of_pregnancy_end_correct) == "y") &
-                        (tolower(records_belong_to_multiple_pregnancy) == "no"  | tolower(records_belong_to_multiple_pregnancy) == "n"), 
-                       accepted := TRUE][is.na(accepted), accepted := FALSE]
-    
+  DT_GD <- sample_validated[sample == "Green_Discordant"]
 
-  paged_table(DT_GGDE)
+  paged_table(DT_GD[,-c("algorithm_for_reconciliation", "sample", "description")])
 }
 
 
 ```
-
-
-`r {DT_GGDE[accepted == TRUE, .N]}` pregnancy on `r {ntmp_validated}` are correctly classified according to validators. 
-
 
 
 
@@ -278,13 +570,14 @@ if(ntmp_validated >= 5){
 
 <br>
 
-### GGDS
+### Yellow concordant 
 
 
-```{r valid_res_3}
-if("GGDS" %in% names(ARS_reconcil)){
-  ntmp <- ARS_reconcil[GGDE == 1, sum(N)]
-  ntmp_validated <- ARS_valid[sample == "GG:DiscordantStart", .N]
+```{r Yellow_con}
+ntmp_validated <- 0
+if("Yellow_Concordant" %in% unique(DT_recon$strata)){
+  ntmp <- DT_recon[strata == "Yellow_Concordant", N]
+  ntmp_validated <- sample_validated[sample == "Yellow_Concordant", .N]
   if(ntmp > 0){
     includ <- TRUE
   }else{
@@ -295,9 +588,9 @@ if("GGDS" %in% names(ARS_reconcil)){
 }
 
 if(includ){
-  talk <- paste0( ntmp, " on ",  total_n_of_pregnancy, " have discordant green records on the start" )
+  talk <- paste0( ntmp, " on ",  total_n_of_pregnancy, " have concordant Yellow records." )
 }else{
-  talk <- paste0("There less than 35 pregnancies (5 for each type of end) with discordant green records on the start date on ",  total_n_of_pregnancy,".")
+  talk <- paste0("There less than 35 pregnancies (5 for each type of end) with concordant Yellow records on the end date on ",  total_n_of_pregnancy,".")
 }
 
 if(ntmp_validated >= 5){
@@ -310,39 +603,28 @@ if(ntmp_validated >= 5){
 `r {talk}`
 
 
-
-```{r valid_res_4}
+```{r DT_YC}
 if(ntmp_validated >= 5){
-  DT_GGDS <- ARS_valid[sample == "GG:DiscordantStart"][, .(pregnancy_id, pregnancy_start_date_correct, pregnancy_end_date_correct, type_of_pregnancy_end_correct, records_belong_to_multiple_pregnancy, comments)]
-  DT_GGDS <- DT_GGDS[(tolower(pregnancy_start_date_correct)  == "yes" | tolower(pregnancy_start_date_correct)  == "y") &
-                        (tolower(pregnancy_end_date_correct)    == "yes" | tolower(pregnancy_end_date_correct)    == "y") &
-                        (tolower(type_of_pregnancy_end_correct) == "yes" | tolower(type_of_pregnancy_end_correct) == "y") &
-                        (tolower(records_belong_to_multiple_pregnancy) == "no"  | tolower(records_belong_to_multiple_pregnancy) == "n"), 
-                       accepted := TRUE][is.na(accepted), accepted := FALSE]
-    
-
-  paged_table(DT_GGDS)
+  DT_YC <- sample_validated[sample == "Yellow_Concordant"]
+  paged_table(DT_YC[,-c("algorithm_for_reconciliation", "sample", "description")])
 }
 
 
 ```
 
 
-`r {DT_GGDS[accepted == TRUE, .N]}` pregnancy on `r {ntmp_validated}` are correctly classified according to validators. 
-
-
-
 ---
 
 <br>
 
-### Discordant
+### Yellow slightly discordant 
 
 
-```{r valid_res_5}
-if("Discordant" %in% names(ARS_reconcil)){
-  ntmp <- ARS_reconcil[GGDE == 1, sum(N)]
-  ntmp_validated <- ARS_valid[sample == "Discordant", .N]
+```{r Yellow_slightly}
+ntmp_validated <- 0
+if("Yellow_Concordant" %in% unique(DT_recon$strata)){
+  ntmp <- DT_recon[strata == "Yellow_CP_SlightlyDiscordant", N]
+  ntmp_validated <- sample_validated[sample == "Yellow_SlightlyDiscordant", .N]
   if(ntmp > 0){
     includ <- TRUE
   }else{
@@ -353,9 +635,9 @@ if("Discordant" %in% names(ARS_reconcil)){
 }
 
 if(includ){
-  talk <- paste0( ntmp, " on ",  total_n_of_pregnancy, " have discordant records on the end." )
+  talk <- paste0( ntmp, " on ",  total_n_of_pregnancy, " have slightly discordant Yellow records." )
 }else{
-  talk <- paste0("There less than 35 pregnancies (5 for each type of end) with discordant records on the end date on ",  total_n_of_pregnancy,".")
+  talk <- paste0("There less than 35 pregnancies (5 for each type of end) with slightly discordant Yellow records on the end date on ",  total_n_of_pregnancy,".")
 }
 
 if(ntmp_validated >= 5){
@@ -368,39 +650,27 @@ if(ntmp_validated >= 5){
 `r {talk}`
 
 
-
-```{r valid_res_6}
+```{r DT_YS}
 if(ntmp_validated >= 5){
-  DT_Discordant <- ARS_valid[sample == "Discordant"][, .(pregnancy_id, pregnancy_start_date_correct, pregnancy_end_date_correct, type_of_pregnancy_end_correct, records_belong_to_multiple_pregnancy, comments)]
-  DT_Discordant <- DT_Discordant[(tolower(pregnancy_start_date_correct)  == "yes" | tolower(pregnancy_start_date_correct)  == "y") &
-                        (tolower(pregnancy_end_date_correct)    == "yes" | tolower(pregnancy_end_date_correct)    == "y") &
-                        (tolower(type_of_pregnancy_end_correct) == "yes" | tolower(type_of_pregnancy_end_correct) == "y") &
-                        (tolower(records_belong_to_multiple_pregnancy) == "no"  | tolower(records_belong_to_multiple_pregnancy) == "n"), 
-                       accepted := TRUE][is.na(accepted), accepted := FALSE]
-    
-
-  paged_table(DT_Discordant)
+  DT_YS <- sample_validated[sample == "Yellow_SlightlyDiscordant"]
+  paged_table(DT_YS[,-c("algorithm_for_reconciliation", "sample", "description")])
 }
 
 
 ```
 
-
-`r {DT_Discordant[accepted == TRUE, .N]}` pregnancy on `r {ntmp_validated}` are correctly classified according to validators. 
-
-
-
 ---
 
 <br>
 
-### SlightlyDiscordant
+### Yellow  discordant 
 
 
-```{r valid_res_7}
-if("SlightlyDiscordant" %in% names(ARS_reconcil)){
-  ntmp <- ARS_reconcil[GGDE == 1, sum(N)]
-  ntmp_validated <- ARS_valid[sample == "SlightlyDiscordant", .N]
+```{r Yellow_discordant}
+ntmp_validated <- 0
+if("Yellow_Discordant" %in% unique(DT_recon$strata)){
+  ntmp <- DT_recon[strata == "Yellow_Discordant", N]
+  ntmp_validated <- sample_validated[sample == "Yellow_Discordant", .N]
   if(ntmp > 0){
     includ <- TRUE
   }else{
@@ -411,9 +681,9 @@ if("SlightlyDiscordant" %in% names(ARS_reconcil)){
 }
 
 if(includ){
-  talk <- paste0( ntmp, " on ",  total_n_of_pregnancy, " have slightly discordant records on the end." )
+  talk <- paste0( ntmp, " on ",  total_n_of_pregnancy, " have  discordant Yellow records." )
 }else{
-  talk <- paste0("There less than 35 pregnancies (5 for each type of end) with slightly discordant records on the end date on ",  total_n_of_pregnancy,".")
+  talk <- paste0("There less than 35 pregnancies (5 for each type of end) with  discordant Yellow records on the end date on ",  total_n_of_pregnancy,".")
 }
 
 if(ntmp_validated >= 5){
@@ -426,39 +696,28 @@ if(ntmp_validated >= 5){
 `r {talk}`
 
 
-
-```{r valid_res_8}
+```{r DT_YD}
 if(ntmp_validated >= 5){
-  DT_SlightlyDiscordant <- ARS_valid[sample == "SlightlyDiscordant"][, .(pregnancy_id, pregnancy_start_date_correct, pregnancy_end_date_correct, type_of_pregnancy_end_correct, records_belong_to_multiple_pregnancy, comments)]
-  DT_SlightlyDiscordant <- DT_SlightlyDiscordant[(tolower(pregnancy_start_date_correct)  == "yes" | tolower(pregnancy_start_date_correct)  == "y") &
-                        (tolower(pregnancy_end_date_correct)    == "yes" | tolower(pregnancy_end_date_correct)    == "y") &
-                        (tolower(type_of_pregnancy_end_correct) == "yes" | tolower(type_of_pregnancy_end_correct) == "y") &
-                        (tolower(records_belong_to_multiple_pregnancy) == "no"  | tolower(records_belong_to_multiple_pregnancy) == "n"), 
-                       accepted := TRUE][is.na(accepted), accepted := FALSE]
-    
-
-  paged_table(DT_SlightlyDiscordant)
+  DT_YD <- sample_validated[sample == "Yellow_Discordant"]
+  paged_table(DT_YD[,-c("algorithm_for_reconciliation", "sample", "description")])
 }
 
 
 ```
 
 
-`r {DT_SlightlyDiscordant[accepted == TRUE, .N]}` pregnancy on `r {ntmp_validated}` are correctly classified according to validators. 
-
-
-
 ---
 
 <br>
 
-### Inconsistency
+### Blue 
 
 
-```{r valid_res_9}
-if("Inconsistency" %in% names(ARS_reconcil)){
-  ntmp <- ARS_reconcil[Inconsistency == 1, sum(N)]
-  ntmp_validated <- ARS_valid[sample == "Inconsistency", .N]
+```{r Blue}
+ntmp_validated <- 0
+if("Blue" %in% unique(DT_recon$strata)){
+  ntmp <- DT_recon[strata == "Blue", N]
+  ntmp_validated <- sample_validated[sample == "Blue", .N]
   if(ntmp > 0){
     includ <- TRUE
   }else{
@@ -469,9 +728,9 @@ if("Inconsistency" %in% names(ARS_reconcil)){
 }
 
 if(includ){
-  talk <- paste0( ntmp, " on ",  total_n_of_pregnancy, " have inconcistent records" )
+  talk <- paste0( ntmp, " on ",  total_n_of_pregnancy, " have  Blue records." )
 }else{
-  talk <- paste0("There less than 35 pregnancies (5 for each type of end) with inconcistent records on ",  total_n_of_pregnancy,".")
+  talk <- paste0("There less than 35 pregnancies (5 for each type of end) with Blue records on the end date on ",  total_n_of_pregnancy,".")
 }
 
 if(ntmp_validated >= 5){
@@ -484,25 +743,14 @@ if(ntmp_validated >= 5){
 `r {talk}`
 
 
-
-```{r valid_res_10}
+```{r DT_B}
 if(ntmp_validated >= 5){
-  DT_Inconsistency <- ARS_valid[sample == "Inconsistency"][, .(pregnancy_id, pregnancy_start_date_correct, pregnancy_end_date_correct, type_of_pregnancy_end_correct, records_belong_to_multiple_pregnancy, comments)]
-  DT_Inconsistency <- DT_Inconsistency[(tolower(pregnancy_start_date_correct)  == "yes" | tolower(pregnancy_start_date_correct)  == "y") &
-                        (tolower(pregnancy_end_date_correct)    == "yes" | tolower(pregnancy_end_date_correct)    == "y") &
-                        (tolower(type_of_pregnancy_end_correct) == "yes" | tolower(type_of_pregnancy_end_correct) == "y") &
-                        (tolower(records_belong_to_multiple_pregnancy) == "no"  | tolower(records_belong_to_multiple_pregnancy) == "n"), 
-                       accepted := TRUE][is.na(accepted), accepted := FALSE]
-    
-
-  paged_table(DT_Inconsistency)
+  DT_B <- sample_validated[sample == "Blue"]
+  paged_table(DT_B[,-c("algorithm_for_reconciliation", "sample", "description")])
 }
 
 
 ```
-
-
-`r {DT_Inconsistency[accepted == TRUE, .N]}` pregnancy on `r {ntmp_validated}` are correctly classified according to validators. 
 
 
 
@@ -510,13 +758,14 @@ if(ntmp_validated >= 5){
 
 <br>
 
-### StartUpdated
+### Red 
 
 
-```{r valid_res_11}
-if("StartUpdated" %in% names(ARS_reconcil)){
-  ntmp <- ARS_reconcil[GGDE == 1, sum(N)]
-  ntmp_validated <- ARS_valid[sample == "StartUpdated", .N]
+```{r Red}
+ntmp_validated <- 0
+if("Red" %in% unique(DT_recon$strata)){
+  ntmp <- DT_recon[strata == "Red", N]
+  ntmp_validated <- sample_validated[sample == "Red", .N]
   if(ntmp > 0){
     includ <- TRUE
   }else{
@@ -527,9 +776,9 @@ if("StartUpdated" %in% names(ARS_reconcil)){
 }
 
 if(includ){
-  talk <- paste0( ntmp, " on ",  total_n_of_pregnancy, " have the start of pregnancy updated from a blue record." )
+  talk <- paste0( ntmp, " on ",  total_n_of_pregnancy, " have  Red records." )
 }else{
-  talk <- paste0("There less than 35 pregnancies (5 for each type of end) with the start of pregnancy updated from a blue record on ",  total_n_of_pregnancy,".")
+  talk <- paste0("There less than 35 pregnancies (5 for each type of end) with Red records on the end date on ",  total_n_of_pregnancy,".")
 }
 
 if(ntmp_validated >= 5){
@@ -542,353 +791,13 @@ if(ntmp_validated >= 5){
 `r {talk}`
 
 
-
-```{r valid_res_12}
+```{r DT_R}
 if(ntmp_validated >= 5){
-  DT_StartUpdated <- ARS_valid[sample == "StartUpdated"][, .(pregnancy_id, pregnancy_start_date_correct, pregnancy_end_date_correct, type_of_pregnancy_end_correct, records_belong_to_multiple_pregnancy, comments)]
-  DT_StartUpdated <- DT_StartUpdated[(tolower(pregnancy_start_date_correct)  == "yes" | tolower(pregnancy_start_date_correct)  == "y") &
-                        (tolower(pregnancy_end_date_correct)    == "yes" | tolower(pregnancy_end_date_correct)    == "y") &
-                        (tolower(type_of_pregnancy_end_correct) == "yes" | tolower(type_of_pregnancy_end_correct) == "y") &
-                        (tolower(records_belong_to_multiple_pregnancy) == "no"  | tolower(records_belong_to_multiple_pregnancy) == "n"), 
-                       accepted := TRUE][is.na(accepted), accepted := FALSE]
-    
-
-  paged_table(DT_StartUpdated)
+  DT_R <- sample_validated[sample == "Red"]
+  paged_table(DT_R[,-c("algorithm_for_reconciliation", "sample", "description")])
 }
 
 
 ```
 
 
-`r {DT_StartUpdated[accepted == TRUE, .N]}` pregnancy on `r {ntmp_validated}` are correctly classified according to validators. 
-
-
----
-
-<br>
-
-### INSUF_QUALITY
-
-
-```{r valid_res_13}
-if("INSUF_QUALITY" %in% names(ARS_reconcil)){
-  ntmp <- ARS_reconcil[INSUF_QUALITY == 1, sum(N)]
-  ntmp_validated <- ARS_valid[sample == "insufficient_quality", .N]
-  if(ntmp > 0){
-    includ <- TRUE
-  }else{
-    includ <- FALSE
-  }
-}else{
-  includ <- FALSE
-}
-
-if(includ){
-  talk <- paste0( ntmp, " on ",  total_n_of_pregnancy, " are only composed of low quality record." )
-}else{
-  talk <- paste0("There less than 35 pregnancies (5 for each type of end) only composed of low quality record on ",  total_n_of_pregnancy,".")
-}
-
-if(ntmp_validated >= 5){
-  talk <- paste0(talk, " 5 of those were sampled and validated.")
-}
-
-```
-
-
-`r {talk}`
-
-
-
-```{r valid_res_14}
-if(ntmp_validated >= 5){
-  DT_INSUF_QUALITY <- ARS_valid[sample == "insufficient_quality"][, .(pregnancy_id, pregnancy_start_date_correct, pregnancy_end_date_correct, type_of_pregnancy_end_correct, records_belong_to_multiple_pregnancy, comments)]
-  DT_INSUF_QUALITY <- DT_INSUF_QUALITY[(tolower(pregnancy_start_date_correct)  == "yes" | tolower(pregnancy_start_date_correct)  == "y") &
-                        (tolower(pregnancy_end_date_correct)    == "yes" | tolower(pregnancy_end_date_correct)    == "y") &
-                        (tolower(type_of_pregnancy_end_correct) == "yes" | tolower(type_of_pregnancy_end_correct) == "y") &
-                        (tolower(records_belong_to_multiple_pregnancy) == "no"  | tolower(records_belong_to_multiple_pregnancy) == "n"), 
-                       accepted := TRUE][is.na(accepted), accepted := FALSE]
-    
-
-  paged_table(DT_INSUF_QUALITY)
-}
-
-
-```
-
-
-`r {DT_INSUF_QUALITY[accepted == TRUE, .N]}` pregnancy on `r {ntmp_validated}` are correctly classified according to validators. 
-
-
-
-
----
-
-<br>
-
-### Random sample
-
-
-```{r valid_res_15}
-ntmp_validated <- ARS_valid[sample == "All", .N]
-
-if(ntmp_validated >= 5){
-  talk <- paste0(ntmp_validated, " pregnancies are ramndomply extracted and validated.")
-}
-
-```
-
-`r {talk}`
-
-
-
-```{r valid_res_16}
-if(ntmp_validated >= 5){
-  DT_All <- ARS_valid[sample == "All"][, .(pregnancy_id, pregnancy_start_date_correct, pregnancy_end_date_correct, type_of_pregnancy_end_correct, records_belong_to_multiple_pregnancy, comments)]
-  DT_All <- DT_All[(tolower(pregnancy_start_date_correct)  == "yes" | tolower(pregnancy_start_date_correct)  == "y") &
-                        (tolower(pregnancy_end_date_correct)    == "yes" | tolower(pregnancy_end_date_correct)    == "y") &
-                        (tolower(type_of_pregnancy_end_correct) == "yes" | tolower(type_of_pregnancy_end_correct) == "y") &
-                        (tolower(records_belong_to_multiple_pregnancy) == "no"  | tolower(records_belong_to_multiple_pregnancy) == "n"), 
-                       accepted := TRUE][is.na(accepted), accepted := FALSE]
-    
-
-  paged_table(DT_All)
-}
-
-
-```
-
-
-`r {DT_All[accepted == TRUE, .N]}` pregnancy on `r {ntmp_validated}` are correctly classified according to validators. 
-
-
-
-
-<br>
-<br>
-<br>
-
-## Expected pregnancies 
-
-#### total
-```{r valid_res_17}
-DT_All <- data.table(variable = c("GGDE", 
-                                  "GGDS",
-                                  "Discordant",
-                                  "SlightlyDiscordant",
-                                  "Inconsistency",
-                                  "StartUpdated",
-                                  "INSUF_QUALITY",
-                                  "Random"), 
-                     
-                     N = c(ARS_reconcil[GGDE == 1, sum(N)],
-                           ARS_reconcil[GGDS == 1, sum(N)],
-                           ARS_reconcil[Discordant == 1, sum(N)],
-                           ARS_reconcil[SlightlyDiscordant == 1, sum(N)],
-                           ARS_reconcil[Inconsistency == 1, sum(N)],
-                           ARS_reconcil[StartUpdated == 1, sum(N)],
-                           ARS_reconcil[INSUF_QUALITY == 1, sum(N)],
-                           ARS_reconcil[, sum(N)]),
-                     
-                     validated = c(5, 
-                                   5, 
-                                   5, 
-                                   5, 
-                                   5, 
-                                   5, 
-                                   5, 
-                                   10),
-                     
-                     correct = c(DT_GGDE[accepted == TRUE, .N],
-                                  DT_GGDS[accepted == TRUE, .N],
-                                  DT_Discordant[accepted == TRUE, .N],
-                                  DT_SlightlyDiscordant[accepted == TRUE, .N],
-                                  DT_Inconsistency[accepted == TRUE, .N],
-                                  DT_StartUpdated[accepted == TRUE, .N],
-                                  DT_INSUF_QUALITY[accepted == TRUE, .N],
-                                  DT_All[accepted == TRUE, .N]))
-
-
-DT_All[, expected_incorrect := N - round(correct/validated *N, 0)]
-DT_All[, incorrect := validated - correct]
-DT_All_chr <- DT_All[, N := as.character(N)][N==0, N:= "<35"]
-#DT_All_chr[, incorrect := paste0(not_correctly_classified, "/", validated)]
-paged_table(DT_All_chr[, .(variable, validated, incorrect, total = N, expected_incorrect)])
-```
-## Start / End Difference
-
-```{r valid_res_all, message=FALSE, warning=FALSE}
-ARS_valid[pregnancy_start_date_difference == "n.a. (see comment)", pregnancy_start_date_difference := ""]
-ARS_valid[pregnancy_end_date_difference == "n.a. (see comment)", pregnancy_end_date_difference := ""]
-
-DT_cor_start <- ARS_valid[tolower(pregnancy_start_date_correct) %in% c('no', 'n', 'unk') & pregnancy_start_date_difference == "", pregnancy_start_date_difference := "not specified"]
-DT_cor_end <- ARS_valid[tolower(pregnancy_end_date_correct) %in% c('no', 'n', 'unk') & pregnancy_end_date_difference == "", pregnancy_end_date_difference := "not specified"]
-
-DT_cor_start <- DT_cor_start[sample == "pregnancy_splitted", sample := "All"]
-DT_cor_start <- DT_cor_start[sample == "All" | sample == "pregnancy_splitted", .N, .(sample, pregnancy_start_date_difference)]
-setnames(DT_cor_start, "sample", "Variable")
-setnames(DT_cor_start, "pregnancy_start_date_difference", "difference")
-tmp3_agg_2 <- tmp3_agg[Variable %in% c("Concordant", "pregnancy_splitted"), Variable := "All"]
-
-DT_cor_start <- merge(DT_cor_start, tmp3_agg_2, all.x = T, by = c("Variable"))
-DT_cor_start <- DT_cor_start[, perc_strata := N.x/15 * 100]
-DT_cor_start <- DT_cor_start[Variable == "All", Variable := "Start Difference"]
-
-
-
-
-DT_cor_end <- DT_cor_end[sample == "pregnancy_splitted", sample := "All"]
-DT_cor_end <- DT_cor_end[sample == "All" | sample == "pregnancy_splitted", .N, .(sample, pregnancy_end_date_difference)]
-setnames(DT_cor_end, "sample", "Variable")
-setnames(DT_cor_end, "pregnancy_end_date_difference", "difference")
-tmp3_agg_2 <- tmp3_agg[Variable %in% c("Concordant", "pregnancy_splitted"), Variable := "All"]
-
-DT_cor_end <- merge(DT_cor_end, tmp3_agg_2, all.x = T, by = c("Variable"))
-DT_cor_end <- DT_cor_end[, perc_strata := N.x/15 * 100]
-DT_cor_end <- DT_cor_end[Variable == "All", Variable := "End Difference"]
-
-DT_cor <- rbind(DT_cor_start, DT_cor_end)
-
-
-
-DT_cor <- DT_cor[difference == "", difference :="1. 0 days"]
-DT_cor <- DT_cor[difference == 1| difference == 5, difference := "2. days < 5 "]
-DT_cor <- DT_cor[difference == 2| difference == 6, difference := "3. 5 < days <= 30"]
-DT_cor <- DT_cor[difference == 3| difference == 7, difference := "4. 30 < days <= 90"]
-DT_cor <- DT_cor[difference == 4| difference == 8, difference := "5. days > 90"]
-DT_cor <- DT_cor[difference == "not specified", difference := "6. not specified"]
-
-
-plt <- ggplot(DT_cor, aes(x = Variable, y =perc_strata, fill = difference)) +
-  geom_col()+
-  scale_fill_manual(values = c("1. 0 days" = "#69B34C", 
-                               "2. days < 5 " = "#ACB334", 
-                               "3. 5 < days <= 30" = "#FAB733", 
-                               "4. 30 < days <= 90" = "#FF4E11", 
-                               "5. days > 90"="#FF0D0D",
-                               "6. not specified" = "grey")) +
-  #guides(fill = guide_legend(title = "")) +
-  xlab("")+
-  ylab("")+
-  theme_bw()+
-  theme(text = element_text(family = "serif"), axis.text.x = element_text(angle = 45))
-
-plt <- ggplotly(plt)
-plt
-```
-
-#### With error on start
-
-```{r valid_res_18, fig.height=4, fig.width=4, message=FALSE, warning=FALSE}
-DT_start <- ARS_valid[tolower(pregnancy_start_date_correct) %in% c('no', 'n', 'unk') & pregnancy_start_date_difference == "", pregnancy_start_date_difference := "not specified"]
-DT_start <- DT_start[sample != "All" & sample != "StartUpdated" & sample != "pregnancy_splitted", .N, .(sample, pregnancy_start_date_difference)]
-setnames(DT_start, "sample", "Variable")
-DT_start[Variable == "GG:Discordantstart", Variable := "GGDE"]
-DT_start[Variable == "GG:DiscordantStart", Variable := "GGDS"]
-DT_start[Variable == "insufficient_quality", Variable := "INSUF_QUALITY"]
-DT_start[Variable == "StartUpdated", Variable := "INSUF_QUALITY"]
-
-
-DT_start <- merge(DT_start, tmp3_agg, all.x = T, by = c("Variable"))
-DT_start <- DT_start[, perc_strata := N.x/5 * percentage]
-
-DT_start <- DT_start[pregnancy_start_date_difference == "", pregnancy_start_date_difference :="1. 0 days"]
-DT_start <- DT_start[pregnancy_start_date_difference == 1| pregnancy_start_date_difference == 5, pregnancy_start_date_difference := "2. days < 5 "]
-DT_start <- DT_start[pregnancy_start_date_difference == 2| pregnancy_start_date_difference == 6, pregnancy_start_date_difference := "3. 5 < days <= 30"]
-DT_start <- DT_start[pregnancy_start_date_difference == 3| pregnancy_start_date_difference == 7, pregnancy_start_date_difference := "4. 30 < days <= 90"]
-DT_start <- DT_start[pregnancy_start_date_difference == 4| pregnancy_start_date_difference == 8, pregnancy_start_date_difference := "5. days > 90"]
-DT_start <- DT_start[pregnancy_start_date_difference == "not specified", pregnancy_start_date_difference := "6. not specified"]
-
-plt <- ggplot(DT_start, aes(x = Variable, y =perc_strata, fill = pregnancy_start_date_difference)) +
-  geom_col()+
-  scale_fill_manual(values = c("1. 0 days" = "#69B34C", 
-                               "2. days < 5 " = "#ACB334", 
-                               "3. 5 < days <= 30" = "#FAB733", 
-                               "4. 30 < days <= 90" = "#FF4E11", 
-                               "5. days > 90"="#FF0D0D",
-                               "6. not specified" = "grey")) +
-  guides(fill = guide_legend(title = "")) +
-  xlab("")+
-  ylab("")+
-  theme_bw()+
-  theme(text = element_text(family = "serif"), axis.text.x = element_text(angle = 45))
-
-plt <- ggplotly(plt)
-plt
-```
-
-#### With error on end
-
-```{r valid_res_19, fig.height=4, fig.width=4}
-#tmp3_agg
-DT_end <- ARS_valid[tolower(pregnancy_end_date_correct) %in% c('no', 'n', 'unk') & pregnancy_end_date_difference == "", pregnancy_end_date_difference := "not specified"]
-DT_end <- DT_end[sample != "All" & sample != "StartUpdated" & sample != "pregnancy_splitted", .N, .(sample, pregnancy_end_date_difference)]
-setnames(DT_end, "sample", "Variable")
-DT_end[Variable == "GG:DiscordantEnd", Variable := "GGDE"]
-DT_end[Variable == "GG:DiscordantStart", Variable := "GGDS"]
-DT_end[Variable == "insufficient_quality", Variable := "INSUF_QUALITY"]
-DT_end[Variable == "StartUpdated", Variable := "INSUF_QUALITY"]
-
-
-DT_end <- merge(DT_end, tmp3_agg, all.x = T, by = c("Variable"))
-DT_end <- DT_end[, perc_strata := N.x/5 * percentage]
-
-DT_end <- DT_end[pregnancy_end_date_difference == "", pregnancy_end_date_difference :="1. 0 days"]
-DT_end <- DT_end[pregnancy_end_date_difference == "1"| pregnancy_end_date_difference == "5", pregnancy_end_date_difference := "2. days < 5 "]
-DT_end <- DT_end[pregnancy_end_date_difference == "2"| pregnancy_end_date_difference == "6", pregnancy_end_date_difference := "3. 5 < days <= 30"]
-DT_end <- DT_end[pregnancy_end_date_difference == "3"| pregnancy_end_date_difference == "7", pregnancy_end_date_difference := "4. 30 < days <= 90"]
-DT_end <- DT_end[pregnancy_end_date_difference == "4"| pregnancy_end_date_difference == "8", pregnancy_end_date_difference := "5. days > 90"]
-DT_end <- DT_end[pregnancy_end_date_difference == "not specified", pregnancy_end_date_difference := "6. not specified"]
-
-plt <- ggplot(DT_end, aes(x = Variable, y =perc_strata, fill = pregnancy_end_date_difference)) +
-  geom_col()+
-  scale_fill_manual(values = c("1. 0 days" = "#69B34C", 
-                               "2. days < 5 " = "#ACB334", 
-                               "3. 5 < days <= 30" = "#FAB733", 
-                               "4. 30 < days <= 90" = "#FF4E11", 
-                               "5. days > 90"="#FF0D0D",
-                               "6. not specified" = "grey")) +
-  guides(fill = guide_legend(title = "")) +
-  xlab("")+
-  ylab("")+
-  theme_bw()+
-  theme(text = element_text(family = "serif"), axis.text.x = element_text(angle = 45))
-
-plt <- ggplotly(plt)
-plt
-```
-
-
-#### With record belonging to multiple pregnancies
-
-```{r valid_res_20, fig.height=4, fig.width=4}
-#tmp3_agg
-DT_rec <- ARS_valid[tolower(records_belong_to_multiple_pregnancy) %in% c("", "n", "no", "unk") , records_belong_to_multiple_pregnancy := "no"]
-DT_rec[tolower(records_belong_to_multiple_pregnancy) %in% c("y", "yes") , records_belong_to_multiple_pregnancy := "yes"] 
-
-DT_rec <- DT_rec[sample != "All" & sample != "StartUpdated" & sample != "pregnancy_splitted", .N, .(sample, records_belong_to_multiple_pregnancy)]
-setnames(DT_rec, "sample", "Variable")
-DT_rec[Variable == "GG:DiscordantEnd", Variable := "GGDE"]
-DT_rec[Variable == "GG:DiscordantStart", Variable := "GGDS"]
-DT_rec[Variable == "insufficient_quality", Variable := "INSUF_QUALITY"]
-DT_rec[Variable == "StartUpdated", Variable := "INSUF_QUALITY"]
-
-
-DT_rec <- merge(DT_rec, tmp3_agg, all.x = T, by = c("Variable"))
-
-DT_rec <- DT_rec[, perc_strata := N.x/5 * percentage]
-
-
-plt <- ggplot(DT_rec, aes(x = Variable, y =perc_strata, fill = records_belong_to_multiple_pregnancy)) +
-  geom_col()+
-  scale_fill_manual(values = c("no" = "#69B34C", 
-                               "yes"="#FF0D0D")) +
-  guides(fill = guide_legend(title = "")) +
-  xlab("")+
-  ylab("")+
-  theme_bw()+
-  theme(text = element_text(family = "serif"), axis.text.x = element_text(angle = 45))
-
-plt <- ggplotly(plt)
-plt
-```

@@ -10,9 +10,13 @@ rm(list=ls(all.names=TRUE))
 
 #set the directory where the file is saved as the working directory
 if (!require("rstudioapi")) install.packages("rstudioapi")
-dirvalidation<-setwd(dirname(rstudioapi::getSourceEditorContext()$path))
-dirvalidation<-setwd(dirname(rstudioapi::getSourceEditorContext()$path))
-setwd(dirvalidation)
+dirverification<-setwd(dirname(rstudioapi::getSourceEditorContext()$path))
+dirverification<-setwd(dirname(rstudioapi::getSourceEditorContext()$path))
+setwd(dirverification)
+
+dirVerificationOutput <- paste0(dirverification, "/verification_output")
+suppressWarnings(if (!file.exists(dirVerificationOutput)) dir.create(file.path( dirVerificationOutput)))
+
 
 #libraries
 if (!require("tidyverse")) install.packages("tidyverse")
@@ -37,9 +41,10 @@ if (!require("dplyr")) install.packages("dplyr")
 library(dplyr)
 
 # loading data
-time <- fread(paste0(dirvalidation,"/DT_time.csv"))[, time]
-validation_sample <- fread(paste0(dirvalidation,"/sample_from_pregnancies_validated.csv"))
-load(paste0(dirvalidation,"/original_sample", time, ".RData"))
+time <- fread(paste0(dirverification,"/DT_time.csv"))[, time]
+validation_sample <- fread(paste0(dirverification,"/sample_from_pregnancies_validated.csv"))
+load(paste0(dirverification,"/original_sample", time, ".RData"))
+DT_recon <- fread(paste0(dirverification,"/TableReconciliation.csv"))
 
 # table
 sample_validated <- merge(original_sample, validation_sample, by = c("link"), all.x = TRUE)
@@ -59,12 +64,14 @@ sample_validated <- sample_validated[, .(pregnancy_id,
 
 sample_validated <- sample_validated[, pregnancy_id := paste0("preg_", seq_along(.I))]
 
-fwrite(sample_validated, paste0(dirvalidation,"/verification_output/sample_validated.csv"))
+fwrite(sample_validated, paste0(dirVerificationOutput,"/sample_verificated.csv"))
 
 # Report-Reproportioning
-render(paste0(dirvalidation,"/Report_verification_preg.Rmd"),           
-       output_dir = paste0(dirvalidation, "/verification_output"),
+render(paste0(dirverification,"/Report_verification_preg.Rmd"),           
+       output_dir = dirVerificationOutput,
        output_file = "Report_verification_preg", 
-       params=list(sample_validated = sample_validated))
+       params=list(sample_validated = sample_validated, 
+                   DT_recon = DT_recon))
 
 rm(validation_sample, original_sample, sample_validated)
+
