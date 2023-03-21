@@ -8,6 +8,7 @@
 #
 # changelog v3.25, 21 March 2023:
 # - Updated codelist
+# - Added verification for PERSON_REL PROMPT for ARS
 #
 # changelog v3.24, 20 March 2023:
 # - Updated verification report

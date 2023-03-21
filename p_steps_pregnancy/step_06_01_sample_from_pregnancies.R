@@ -79,6 +79,18 @@ for (i in Dt_n_strata[, strata]) {
   list_of_samples[[i]] <- D3_pregnancy_reconciled_valid[pregnancy_id %in% tmp][, sample:= i]
 }
 
+#---------------------------------
+# Sampling from PERSON_REL & CHILD
+#---------------------------------
+
+if(thisdatasource == "ARS"){
+  tmp <- sample(x = D3_pregnancy_reconciled_valid[description %like% "PERSON_RELATIONSHIP", pregnancy_id], 
+                 10, 
+                replace = FALSE)
+  
+  list_of_samples[["PR"]] <- D3_pregnancy_reconciled_valid[pregnancy_id %in% tmp][, sample:= "PERSON_RELATIONSHIP"]
+}
+
 
 ### date and time 
 now <- paste0(year(Sys.time()), month(Sys.time()), day(Sys.time()), "_", hour(Sys.time()), minute(Sys.time()))
@@ -88,9 +100,13 @@ original_sample <- original_sample[, link := seq_along(.I) ]
 
 sample_id <- original_sample[, pregnancy_id]
 
-record_sample <- D3_groups_of_pregnancies_reconciled[pregnancy_id %in% sample_id, .(person_id, pregnancy_id, survey_id, visit_occurrence_id)]
+record_sample <- D3_groups_of_pregnancies_reconciled[pregnancy_id %in% sample_id, .(person_id, pregnancy_id, survey_id, visit_occurrence_id, child_id)]
 record_sample <- record_sample[, survey_visit_id := survey_id]
 record_sample <- record_sample[is.na(survey_id), survey_visit_id := visit_occurrence_id]
+if(this_datasource_has_person_rel_table){
+  record_sample <- record_sample[is.na(survey_visit_id), survey_visit_id := child_id]
+  
+}
 #record_sample <- record_sample[, -c("survey_id", "visit_occurrence_id")]
 
 save(original_sample, file = paste0(dirvalidation, "/original_sample", now, ".RData"))
@@ -98,6 +114,7 @@ validation_sample <- original_sample[, .(preg_id = pregnancy_id,
                                          person_id = as.character(person_id),
                                          survey_id = NA,
                                          visit_occurrence_id = NA,
+                                         child_id = NA,
                                          n = as.integer(1),
                                          pregnancy_start_date = as.character(pregnancy_start_date),
                                          pregnancy_end_date = as.character(pregnancy_end_date),
@@ -132,6 +149,8 @@ sample_id <- validation_sample[, person_id]
 sample_survey_id <- validation_sample[!is.na(survey_id), survey_id]
 sample_identifier <- validation_sample[, .(person_id, survey_id)]
 
+
+
 print("RETRIEVING ORIGINAL RECORDS: ")
 files_temp<-sub('\\.RData$', '', list.files(dirtemp))
 if (this_datasource_has_prompt) {
@@ -146,6 +165,7 @@ if (this_datasource_has_prompt) {
                                            person_id = NA,
                                            survey_id,
                                            visit_occurrence_id = NA,
+                                           child_id = NA,
                                            n = as.integer(2),
                                            pregnancy_start_date = NA,
                                            pregnancy_end_date = NA,
@@ -195,6 +215,7 @@ if (this_datasource_has_itemsets_stream_from_medical_obs ) { # | this_datasource
                                            person_id,
                                            survey_id = NA,
                                            visit_occurrence_id = NA,
+                                           child_id = NA,
                                            n = as.integer(2),
                                            pregnancy_start_date = NA,
                                            pregnancy_end_date = NA,
@@ -251,6 +272,7 @@ if (this_datasource_has_conceptsets){
                                        person_id,
                                        survey_id = NA,
                                        visit_occurrence_id,
+                                       child_id = NA,
                                        n = as.integer(2),
                                        pregnancy_start_date = NA,
                                        pregnancy_end_date = NA,
@@ -303,6 +325,7 @@ if (this_datasource_has_conceptsets){
                                          person_id,
                                          survey_id = NA,
                                          visit_occurrence_id,
+                                         child_id = NA,
                                          n = as.integer(2),
                                          pregnancy_start_date = NA,
                                          pregnancy_end_date = NA,
@@ -390,6 +413,7 @@ for (i in 1:length(files_temp)) {
                                                        person_id,
                                                        survey_id = NA,
                                                        visit_occurrence_id,
+                                                       child_id = NA,
                                                        n = as.integer(2),
                                                        pregnancy_start_date = NA,
                                                        pregnancy_end_date = NA,
@@ -422,7 +446,51 @@ for (i in 1:length(files_temp)) {
 }
 
 
+## Person rel
 
+files_temp<-sub('\\.RData$', '', list.files(dirtemp))
+for (i in 1:length(files_temp)) {
+  if (str_detect(files_temp[i],"^Person_rel_PROMPT_dataset")) {
+    print("Person_rel_PROMPT_dataset")
+    load(paste0(dirtemp,"Person_rel_PROMPT_dataset.RData"))
+    if(nrow(Person_rel_PROMPT_dataset)>0){
+      Person_rel_PROMPT_dataset <- Person_rel_PROMPT_dataset[child_id %in% record_sample[, survey_visit_id] &
+                                                       person_id %in% record_sample[, person_id],
+                                                     .(preg_id = NA,
+                                                       person_id,
+                                                       survey_id = NA,
+                                                       visit_occurrence_id = NA,
+                                                       child_id,
+                                                       n = as.integer(2),
+                                                       pregnancy_start_date = NA,
+                                                       pregnancy_end_date = NA,
+                                                       type_of_pregnancy_end = NA,
+                                                       #####################################
+                                                       pregnancy_start_date_correct = NA, 
+                                                       pregnancy_start_date_difference = NA,
+                                                       pregnancy_end_date_correct = NA,
+                                                       pregnancy_end_date_difference = NA,
+                                                       type_of_pregnancy_end_correct = NA,
+                                                       records_belong_to_multiple_pregnancy = NA,
+                                                       comments = NA,
+                                                       #####################################
+                                                       record_date = as.character(ymd(birth_date)),
+                                                       origin = "PERSON_RELATIONSHIP",
+                                                       meaning= meaning_of_relationship,
+                                                       codvar = NA,
+                                                       coding_system = NA,
+                                                       conceptset = NA,
+                                                       source_column  = NA,
+                                                       source_value  = NA,
+                                                       itemsets = NA,
+                                                       from_algorithm = 0,
+                                                       link = NA,
+                                                       sample = NA)]
+      
+      list_of_records[["Person_rel_PROMPT_dataset"]] <- Person_rel_PROMPT_dataset
+    }
+  }
+}
 
 ### final 
 sample_from_pregnancies <- rbind(validation_sample, rbindlist(list_of_records, use.names=TRUE))
@@ -443,7 +511,7 @@ sample_from_pregnancies_anon <- sample_from_pregnancies_anon[, n:=seq_along(.I),
 
 sample_from_pregnancies_anon <- sample_from_pregnancies_anon[record_date == "9999-12-31", record_date := NA]
 
-sample_from_pregnancies_anon <- sample_from_pregnancies_anon[, -c("person_id", "survey_id", "visit_occurrence_id", "from_algorithm", "pregnancy_id", "sample")]
+sample_from_pregnancies_anon <- sample_from_pregnancies_anon[, -c("person_id", "survey_id", "child_id","visit_occurrence_id", "from_algorithm", "pregnancy_id", "sample")]
 
 ### set end to (0)
 sample_from_pregnancies_anon <- sample_from_pregnancies_anon[!is.na(pregnancy_start_date) & !is.na(pregnancy_start_date), pregnancy_length_days := as.Date(pregnancy_end_date) - as.Date(pregnancy_start_date)]
