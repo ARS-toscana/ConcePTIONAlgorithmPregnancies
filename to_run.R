@@ -6,6 +6,12 @@
 # 
 # link: https://github.com/ARS-toscana/ConcePTIONAlgorithmPregnancies
 #
+# changelog v3.25, 21 March 2023:
+# - Updated codelist
+#
+# changelog v3.24, 20 March 2023:
+# - Updated verification report
+#
 # changelog v3.23, 18 March 2023:
 # - added PERSON_REL PROMPT
 #

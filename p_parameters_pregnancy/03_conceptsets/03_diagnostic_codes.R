@@ -122,7 +122,7 @@ concept_set_codes_pregnancy[["Spontaneousabortion_possible"]] <- list()
 # loading concepsets from csv 
 #concept_set_codes_pregnancy_data_table <- fread(paste0(thisdir, "/p_parameters_pregnancy/03_conceptsets/20221017_V2_ALL_full_codelist_pregnancy.csv"))
 
-concept_set_codes_pregnancy_data_table <- fread(paste0(thisdir, "/p_parameters_pregnancy/03_conceptsets/20230313_ALL_pregnancy_algorithm_codelist.csv"))
+concept_set_codes_pregnancy_data_table <- fread(paste0(thisdir, "/p_parameters_pregnancy/03_conceptsets/20230317_ALL_pregnancy_algorithm_codelist.csv"))
 
 ###--------------------------------------------------------------------
 # Concept in the FULL codelist ..........Concept used in the algorithm
