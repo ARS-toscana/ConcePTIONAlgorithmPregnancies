@@ -179,8 +179,8 @@ if(this_datasource_has_conceptsets){
   concept_sets_of_end_of_pregnancy_LB <- c("Birth_narrow",
                                            "Preterm",
                                            "Atterm",
-                                           "Postterm", 
-                                           "Livebirth") 
+                                           "Postterm")
+                                           #"Livebirth") 
   
   concept_sets_of_end_of_pregnancy_LB_procedures <- c("procedures_livebirth", 
                                                       "procedures_delivery")
