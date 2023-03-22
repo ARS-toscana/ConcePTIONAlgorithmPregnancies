@@ -162,8 +162,7 @@ if(this_datasource_has_person_rel_table){
   D3_PERSONS[, birth_date := paste0(year_of_birth, month_of_birth, day_of_birth)]
   
   Person_rel_PROMPT_dataset <- merge(PERSON_RELATIONSHIPS_child, 
-                                     D3_PERSONS[, .(person_id, birth_date)], 
-                                     all.x = TRUE)
+                                     D3_PERSONS[, .(person_id, birth_date)])
   
   # renaming ids
   setnames(Person_rel_PROMPT_dataset, "person_id", "child_id")
