@@ -24,7 +24,7 @@ meaning_of_survey_pregnancy_child[["ARS"]][["spontaneous_abortion"]]<-list()
 meaning_of_survey_pregnancy_child[["ARS"]][["induced_termination"]]<-list()
 meaning_of_survey_pregnancy_child[["ARS"]][["other"]]<-list()
 
-meaning_of_relationship_child[["ARS"]] <- list("gestational_mother")
+meaning_of_relationship_child[["ARS"]] <- list("gestational_mother", "birth_mother")
 
 ####### LOAD MEANING_OF_VISIT for ARS
 

@@ -62,7 +62,7 @@ concept_set_codes_pregnancy<-vector(mode="list")
 concept_set_codes_pregnancy_excl<-vector(mode="list")
 
 concept_set_codes_pregnancy_excl[["others"]][["ITA_procedures_coding_system"]] = c("88782", "88781","8878A") #c("88682 ???", senza punti )
-
+concept_set_codes_pregnancy_excl[["birth_narrow"]][["ICD9"]] = c("74", "74.99", "74.1", "74.2", "74.4")
 
 
 ################# Old R version fix
