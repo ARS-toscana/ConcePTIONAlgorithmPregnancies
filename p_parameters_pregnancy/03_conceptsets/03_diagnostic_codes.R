@@ -211,7 +211,7 @@ concept_set_codes_pregnancy_not_modified <- df_to_list_of_list(concept_set_codes
                                                                concepts_col = "event_abbreviation")
 
 
-unique(concept_set_codes_pregnancy_data_table[, event_abbreviation])
+#unique(concept_set_codes_pregnancy_data_table[, event_abbreviation])
 
 # assign each concept set of concept_set_codes_pregnancy_not_modified to concept_set_codes_pregnancy
 

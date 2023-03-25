@@ -117,6 +117,9 @@ D3_pregnancy_reconciled_valid <- D3_pregnancy_reconciled_valid[eval(parse(text =
 #--------
 # LOSTFU
 #--------
+
+# fai joint molti a molti con condizione end of preg contenuta nello spell, poi merge 1-1 con D3_final, le gravidanze non matchate sono LOSTFU
+
 load(paste0(dirtemp,"output_spells_category.RData"))
 
 max_spell <- max(output_spells_category[, num_spell])
