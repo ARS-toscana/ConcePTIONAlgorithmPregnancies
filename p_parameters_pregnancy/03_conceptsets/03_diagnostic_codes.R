@@ -2,7 +2,7 @@
 ################################# DIAGNOSTIC CODES ####################################
 #######################################################################################
 concept_sets_of_pregnancy_eve <- c("Gestation_less24_UNK",
-                                   #"Gestation_24_UNK",
+                                   "Gestation_24_UNK",
                                    "Gestation_25_26_UNK",
                                    "Gestation_27_28_UNK",
                                    "Gestation_29_30_UNK",
@@ -21,6 +21,7 @@ concept_sets_of_pregnancy_eve <- c("Gestation_less24_UNK",
                                    #"Gestation_35_36_LB",
                                    "Gestation_more37_LB",
                                    
+                                   "Gestation_24_CHILD",
                                    "Gestation_25_26_CHILD",
                                    "Gestation_27_28_CHILD",
                                    "Gestation_29_30_CHILD",
@@ -73,19 +74,11 @@ concept_set_codes_pregnancy[["Gestation_27_28_UNK"]] <- list()
 concept_set_codes_pregnancy[["Gestation_29_30_UNK"]] <- list()
 concept_set_codes_pregnancy[["Gestation_31_32_UNK"]] <- list()
 concept_set_codes_pregnancy[["Gestation_33_34_UNK"]] <- list()
-concept_set_codes_pregnancy[["Gestation_35_36_UNK"]] <- list()
-concept_set_codes_pregnancy[["Gestation_more37_UNK"]] <- list()
 
-concept_set_codes_pregnancy[["Gestation_less24_LB"]] <- list()
-concept_set_codes_pregnancy[["Gestation_24_LB"]] <- list()
-concept_set_codes_pregnancy[["Gestation_25_26_LB"]] <- list()
 concept_set_codes_pregnancy[["Gestation_27_28_LB"]] <- list()
-concept_set_codes_pregnancy[["Gestation_29_30_LB"]] <- list()
-concept_set_codes_pregnancy[["Gestation_31_32_LB"]] <- list()
-concept_set_codes_pregnancy[["Gestation_33_34_LB"]] <- list()
-concept_set_codes_pregnancy[["Gestation_35_36_LB"]] <- list()
 concept_set_codes_pregnancy[["Gestation_more37_LB"]] <- list()
 
+concept_set_codes_pregnancy[["Gestation_24_CHILD"]] <- list()
 concept_set_codes_pregnancy[["Gestation_25_26_CHILD"]] <- list()
 concept_set_codes_pregnancy[["Gestation_27_28_CHILD"]] <- list()
 concept_set_codes_pregnancy[["Gestation_29_30_CHILD"]] <- list()
@@ -106,7 +99,6 @@ concept_set_codes_pregnancy[["Birth_narrow"]] <- list()
 concept_set_codes_pregnancy[["Preterm"]] <- list() 
 concept_set_codes_pregnancy[["Atterm"]] <- list()
 concept_set_codes_pregnancy[["Postterm"]] <- list() 
-#concept_set_codes_pregnancy[["Livebirth"]] <- list()
 
 concept_set_codes_pregnancy[["Stillbirth_narrow"]] <- list()
 concept_set_codes_pregnancy[["Interruption_narrow"]] <- list()
@@ -120,35 +112,25 @@ concept_set_codes_pregnancy[["Spontaneousabortion_possible"]] <- list()
 
 
 # loading concepsets from csv 
-#concept_set_codes_pregnancy_data_table <- fread(paste0(thisdir, "/p_parameters_pregnancy/03_conceptsets/20221017_V2_ALL_full_codelist_pregnancy.csv"))
-
 concept_set_codes_pregnancy_data_table <- fread(paste0(thisdir, "/p_parameters_pregnancy/03_conceptsets/20230317_ALL_pregnancy_algorithm_codelist.csv"))
 
 ###--------------------------------------------------------------------
 # Concept in the FULL codelist ..........Concept used in the algorithm
 ###--------------------------------------------------------------------
 
-#-----------------------------------------------------------------------start
-# "Gestationlessthan24weeksU" ....Gestation_less24_UNK
-# "24weeksUNK"....................Gestation_24_UNK
-# "Gestation2526weeksUNK".........Gestation_25_26_UNK
-# "Gestation2728weeksUNK".........Gestation_27_28_UNK
-# "Gestation2930weeksUNK"  .......Gestation_29_30_UNK
-# "Gestation3132weeksUNK"   ......Gestation_31_32_UNK
-# "Gestation3334weeksUNK"   ......Gestation_33_34_UNK
-# "Gestation3536weeksUNK"   ......Gestation_35_36_UNK
-# "Gestation37weeksUNK"     ......Gestation_more37_UNK
-#
-# "Gestationlessthan24weeksL" ...Gestation_less24_LB
-# "24weeksLB".....................Gestation_24_LB
-# "Gestation2526weeksLB"..........Gestation_25_26_LB
-# "Gestation2728weeksLB"..........Gestation_27_28_LB
-# "Gestation2930weeksLB"  ........Gestation_29_30_LB
-# "Gestation3132weeksLB"   .......Gestation_31_32_LB
-# "Gestation3334weeksLB"   .......Gestation_33_34_LB
-# "Gestation3536weeksLB"   .......Gestation_35_36_LB
-# "Gestation37weeksLB"     .......Gestation_more37_LB
+#----------------------------------------------------------------------start UNK
+# "Gestationlessthan24weeksU" ......Gestation_less24_UNK
+# "24weeksUNK"......................Gestation_24_UNK
+# "Gestation2526weeksUNK"...........Gestation_25_26_UNK
+# "Gestation2728weeksUNK"...........Gestation_27_28_UNK
+# "Gestation2930weeksUNK"  .........Gestation_29_30_UNK
+# "Gestation3132weeksUNK"   ........Gestation_31_32_UNK
+# "Gestation3334weeksUNK"   ........Gestation_33_34_UNK
+#-----------------------------------------------------------------------start LB
+# "Gestation2728weeksLB"............Gestation_27_28_LB
+# "Gestation37weeksLB"     .........Gestation_more37_LB
 #-----------------------------------------------------------------------child
+# "24weeksCHILD"....................Gestation_24_CHILD
 # "Gestation2526weeksCHILD".........Gestation_25_26_CHILD
 # "Gestation2728weeksCHILD".........Gestation_27_28_CHILD
 # "Gestation2930weeksCHILD"  .......Gestation_29_30_CHILD
@@ -157,150 +139,78 @@ concept_set_codes_pregnancy_data_table <- fread(paste0(thisdir, "/p_parameters_p
 # "Gestation3536weeksCHILD"   ......Gestation_35_36_CHILD
 # "Gestation37weeksCHILD"     ......Gestation_more37_CHILD
 #----------------------------------------------------------------------ongoing
-# "OngoingPregnancy1"..............Ongoingpregnancy
-# "OngoingPregnancy2"..............Ongoingpregnancy
-# "OngoingPregnancy3"..............Ongoingpregnancy
-# "OngoingPregnancy4"..............Ongoingpregnancy
-# "OngoingPregnancy5"..............Ongoingpregnancy
-# "OngoingPregnancy6"..............Ongoingpregnancy
-# "OngoingPregnancy7"..............Ongoingpregnancy
-# "StartofPregnancy"     ..........Ongoingpregnancy
-# "PREECLAMP_narrow"...............PREECLAMP
-# "PREECLAMP_possible".............USED ONLY PREECLAMP_narrow -> PREECLAMP
-# "PREECLAMP"......................USED ONLY PREECLAMP_narrow -> PREECLAMP
-# "BLEEDING_narrow"................PREG_BLEEDING
-# "BLEEDING_possible"..............USED ONLY BLEEDING_narrow -> PREG_BLEEDING
-# "BLEEDING".......................USED ONLY BLEEDING_narrow -> PREG_BLEEDING
-# "GESTDIAB_possible"..............USED ONLY GESTDIAB -> GESTDIAB_narrow
-# "GESTDIAB_narrow"................GESTDIAB
-# "GESTDIAB".......................USED ONLY GESTDIAB -> GESTDIAB_narrow
-# "FGR_possible"...................USED ONLY FGR -> FGR
-# "FGR_narrow".....................USED ONLY FGR -> FGR
-# "FGR"............................FGR
+# "OngoingPregnancy1"...............Ongoingpregnancy
+# "OngoingPregnancy2"...............Ongoingpregnancy
+# "OngoingPregnancy3"...............Ongoingpregnancy
+# "OngoingPregnancy4"...............Ongoingpregnancy
+# "OngoingPregnancy5"...............Ongoingpregnancy
+# "OngoingPregnancy6"...............Ongoingpregnancy
+# "OngoingPregnancy7"...............Ongoingpregnancy
+# "StartofPregnancy"     ...........Ongoingpregnancy
+# "PREECLAMP_narrow"................PREECLAMP
+# "BLEEDING_narrow".................PREG_BLEEDING
+# "GESTDIAB_narrow".................GESTDIAB
+# "FGR".............................FGR
 #---------------------------------------------------------------------end_UNK
-# "BirthPossible1".................Birth_possible
-# "BirthPossible2".................Birth_possible
-# "BirthPossible3".................Birth_possible
-#---------------------------------------------------------------------end_LB
-# "BirthNarrow"....................Birth_narrow
-# "Livebirth1".....................Livebirth
-# "Livebirth2".....................Livebirth
-# "AtTerm".........................Atterm
-# "Preterm"........................Preterm
-# "PostTerm".......................Postterm
-#--------------------------------------------------------------end_T_SA_SB_ECT
-# "ELECTTERM_narrow" ..............Interruption_narrow
-# "SPONTABO_narrow"     ...........Spontaneousabortion_narrow
-# "STILLBIRTH_narrow" .............Stillbirth_narrow
-# "ECTOPIC"........................Ectopicpregnancy
-# "ECTOPIC_narrow".................NOT USED
-# "ECTOPIC_possible"...............NOT USED
-#----------------------------------------------------------------------end_UNF
-# "ELECTTERM_possible"  ...........Interruption_possible
-# "SPONTABO_possible"..............Spontaneousabortion_possible
-# "STILLBIRTH_possible" ...........Stillbirth_narrow
-#---------------------------------------------------------------other_not_USED
-# "SpontaneousAbortion"  ..........NOT USED
-# "StillBirth".....................NOT USED
-# "ELECTTERM"......................NOT USED
-# "SPONTABO".......................NOT USED
-# "STILLBIRTH" ....................NOT USED
+# "BirthPossible1"..................Birth_possible
+# "BirthPossible2"..................Birth_possible
+# "BirthPossible3"..................Birth_possible
+#--------------------------------.-------------------------------------end_LB
+# "BirthNarrow".....................Birth_narrow
+# "AtTerm"..........................Atterm
+# "Preterm".........................Preterm
+# "PostTerm"........................Postterm
+#--------------------------------.------------------------------end_T_SA_SB_ECT
+# "ELECTTERM_narrow" ...............Interruption_narrow
+# "SpontaneousAbortion_narrow"......Spontaneousabortion_narrow
+# "StillBirth_narrow" ..............Stillbirth_narrow
+# "EctopicPregnancy"................Ectopicpregnancy
+#--------------------------------.--------------------------------------end_UNF
+# "ELECTTERM_possible"  ............Interruption_possible
+# "SpontaneousAbortion_possible"....Spontaneousabortion_possible
+# "StillBirth_possible" ............Stillbirth_narrow
 #-------------------------------------------------------------
+
 concept_set_codes_pregnancy_not_modified <- df_to_list_of_list(concept_set_codes_pregnancy_data_table, 
                                                                codying_system_recode = "auto", 
                                                                concepts_col = "event_abbreviation")
 
-
-#unique(concept_set_codes_pregnancy_data_table[, event_abbreviation])
-
-# assign each concept set of concept_set_codes_pregnancy_not_modified to concept_set_codes_pregnancy
-
+#--------------
+# Gestation UNK
+#--------------
 concept_set_codes_pregnancy[["Gestation_less24_UNK"]] <- concept_set_codes_pregnancy_not_modified[["Gestationlessthan24weeksU"]] 
-# #-------------------------------------------------------------------------------
-# concept_set_codes_pregnancy[["Gestation_less24_UNK"]][["ICD9"]] <- c("765.21")
-# concept_set_codes_pregnancy[["Gestation_less24_UNK"]][["SCTSPA"]] <- c("13178001", "428567001")
-# concept_set_codes_pregnancy[["Gestation_less24_UNK"]][["SNOMED"]] <- c("428567001", "147035002", "169806005", "313178001")
-# #-------------------------------------------------------------------------------
-
-#concept_set_codes_pregnancy[["Gestation_24_UNK"]] <- concept_set_codes_pregnancy_not_modified[["24weeksUNK"]] 
-# #-------------------------------------------------------------------------------
-# concept_set_codes_pregnancy[["Gestation_24_UNK"]][["ICD9"]] <- c("765.22")
-# concept_set_codes_pregnancy[["Gestation_24_UNK"]][["SCTSPA"]] <- c("313179009", "69471007")
-# concept_set_codes_pregnancy[["Gestation_24_UNK"]][["SNOMED"]] <- c("147036001", "169807001", "313179009", "69471007")
-# #-------------------------------------------------------------------------------
-
+concept_set_codes_pregnancy[["Gestation_24_UNK"]] <- concept_set_codes_pregnancy_not_modified[["24weeksUNK"]] 
 concept_set_codes_pregnancy[["Gestation_25_26_UNK"]] <- concept_set_codes_pregnancy_not_modified[["Gestation2526weeksUNK"]] 
-
 concept_set_codes_pregnancy[["Gestation_27_28_UNK"]] <- concept_set_codes_pregnancy_not_modified[["Gestation2728weeksUNK"]]
-# #-------------------------------------------------------------------------------
-# concept_set_codes_pregnancy[["Gestation_27_28_UNK"]][["ICD9"]] <- c("765.24")
-# #-------------------------------------------------------------------------------
-
 concept_set_codes_pregnancy[["Gestation_29_30_UNK"]] <- concept_set_codes_pregnancy_not_modified[["Gestation2930weeksUNK"]] 
-
 concept_set_codes_pregnancy[["Gestation_31_32_UNK"]] <- concept_set_codes_pregnancy_not_modified[["Gestation3132weeksUNK"]] 
-# #-------------------------------------------------------------------------------
-# concept_set_codes_pregnancy[["Gestation_31_32_UNK"]][["ICD9"]] <- c("765.26")
-# #-------------------------------------------------------------------------------
-
 concept_set_codes_pregnancy[["Gestation_33_34_UNK"]] <- concept_set_codes_pregnancy_not_modified[["Gestation3334weeksUNK"]] 
 
-#concept_set_codes_pregnancy[["Gestation_35_36_UNK"]] <-  concept_set_codes_pregnancy_not_modified[["Gestation3536weeksUNK"]]
-
-#concept_set_codes_pregnancy[["Gestation_more37_UNK"]] <- concept_set_codes_pregnancy_not_modified[["Gestation37weeksUNK"]] 
-
-
-
-
-#concept_set_codes_pregnancy[["Gestation_less24_LB"]] <- concept_set_codes_pregnancy_not_modified[["Gestationlessthan24weeksL"]]
-# #-------------------------------------------------------------------------------
-# concept_set_codes_pregnancy[["Gestation_less24_LB"]][["ICD10"]] <- c("P07.2", "P07.22")
-# #-------------------------------------------------------------------------------
-
-#concept_set_codes_pregnancy[["Gestation_24_LB"]] <- concept_set_codes_pregnancy_not_modified[["24weeksLB"]] 
-# #-------------------------------------------------------------------------------
-# concept_set_codes_pregnancy[["Gestation_24_LB"]][["ICD10"]] <- c("P07.23")
-# #-------------------------------------------------------------------------------
-
-#concept_set_codes_pregnancy[["Gestation_25_26_LB"]] <- concept_set_codes_pregnancy_not_modified[["Gestation2526weeksLB"]]
-
+#--------------
+# Gestation LB
+#--------------
 concept_set_codes_pregnancy[["Gestation_27_28_LB"]] <- concept_set_codes_pregnancy_not_modified[["Gestation2728weeksLB"]]
-
-#concept_set_codes_pregnancy[["Gestation_29_30_LB"]] <- concept_set_codes_pregnancy_not_modified[["Gestation2930weeksLB"]]
-
-#concept_set_codes_pregnancy[["Gestation_31_32_LB"]] <- concept_set_codes_pregnancy_not_modified[["Gestation3132weeksLB"]]
-
-#concept_set_codes_pregnancy[["Gestation_33_34_LB"]] <- concept_set_codes_pregnancy_not_modified[["Gestation3334weeksLB"]]
-
-#concept_set_codes_pregnancy[["Gestation_35_36_LB"]] <-  concept_set_codes_pregnancy_not_modified[["Gestation3536weeksLB"]]
-
 concept_set_codes_pregnancy[["Gestation_more37_LB"]] <- concept_set_codes_pregnancy_not_modified[["Gestation37weeksLB"]]
 
-
+#----------------
+# Gestation CHILD
+#----------------
+concept_set_codes_pregnancy[["Gestation_24_CHILD"]]  <- concept_set_codes_pregnancy_not_modified[["24weeksCHILD"]]
 concept_set_codes_pregnancy[["Gestation_25_26_CHILD"]]  <- concept_set_codes_pregnancy_not_modified[["Gestation2526weeksCHILD"]]
-
 concept_set_codes_pregnancy[["Gestation_27_28_CHILD"]]  <- concept_set_codes_pregnancy_not_modified[["Gestation2728weeksCHILD"]]
-
 concept_set_codes_pregnancy[["Gestation_29_30_CHILD"]]  <- concept_set_codes_pregnancy_not_modified[["Gestation2930weeksCHILD"]]
-
 concept_set_codes_pregnancy[["Gestation_31_32_CHILD"]]  <- concept_set_codes_pregnancy_not_modified[["Gestation3132weeksCHILD"]]
-
 concept_set_codes_pregnancy[["Gestation_33_34_CHILD"]]  <- concept_set_codes_pregnancy_not_modified[["Gestation3334weeksCHILD"]]
-
 concept_set_codes_pregnancy[["Gestation_35_36_CHILD"]]  <- concept_set_codes_pregnancy_not_modified[["Gestation3536weeksCHILD"]]
-
 concept_set_codes_pregnancy[["Gestation_more37_CHILD"]] <- concept_set_codes_pregnancy_not_modified[["Gestation37weeksCHILD"]]
 
-
-
+#--------
+# Ongoing
+#--------
 concept_set_codes_pregnancy[["GESTDIAB"]] <- concept_set_codes_pregnancy_not_modified[["GESTDIAB_narrow"]] 
-
 concept_set_codes_pregnancy[["PREECLAMP"]] <- concept_set_codes_pregnancy_not_modified[["PREECLAMP_narrow"]] 
-
 concept_set_codes_pregnancy[["PREG_BLEEDING"]] <- concept_set_codes_pregnancy_not_modified[["BLEEDING_narrow"]] 
-
 concept_set_codes_pregnancy[["FGR"]] <- concept_set_codes_pregnancy_not_modified[["FGR"]] 
-
 
 concept_set_codes_pregnancy[["Ongoingpregnancy"]][["ICD9"]] <- c(concept_set_codes_pregnancy_not_modified[["OngoingPregnancy1"]][["ICD9"]],
                                                                 concept_set_codes_pregnancy_not_modified[["OngoingPregnancy2"]][["ICD9"]],
@@ -356,8 +266,9 @@ concept_set_codes_pregnancy[["Ongoingpregnancy"]][["ICPC2P"]] <- c(concept_set_c
                                                                  concept_set_codes_pregnancy_not_modified[["OngoingPregnancy7"]][["ICPC2P"]],
                                                                  concept_set_codes_pregnancy_not_modified[["StartofPregnancy"]][["ICPC2P"]])
 
-concept_set_codes_pregnancy[["Birth_narrow"]] <- concept_set_codes_pregnancy_not_modified[["BirthNarrow"]]
-
+#--------
+# End UNK
+#--------
 concept_set_codes_pregnancy[["Birth_possible"]][["ICD9"]] <- c(concept_set_codes_pregnancy_not_modified[["BirthPossible1"]][["ICD9"]],
                                                                  concept_set_codes_pregnancy_not_modified[["BirthPossible2"]][["ICD9"]],
                                                                  concept_set_codes_pregnancy_not_modified[["BirthPossible3"]][["ICD9"]])
@@ -382,46 +293,28 @@ concept_set_codes_pregnancy[["Birth_possible"]][["ICPC2P"]] <- c(concept_set_cod
                                                                    concept_set_codes_pregnancy_not_modified[["BirthPossible2"]][["ICPC2P"]],
                                                                    concept_set_codes_pregnancy_not_modified[["BirthPossible3"]][["ICPC2P"]])
 
+#-------
+# End LB
+#-------
+concept_set_codes_pregnancy[["Birth_narrow"]] <- concept_set_codes_pregnancy_not_modified[["BirthNarrow"]]
 concept_set_codes_pregnancy[["Preterm"]] <- concept_set_codes_pregnancy_not_modified[["Preterm"]] 
-
 concept_set_codes_pregnancy[["Atterm"]] <- concept_set_codes_pregnancy_not_modified[["AtTerm"]] 
-
 concept_set_codes_pregnancy[["Postterm"]] <- concept_set_codes_pregnancy_not_modified[["PostTerm"]] 
 
-# concept_set_codes_pregnancy[["Livebirth"]][["ICD9"]] <- c(concept_set_codes_pregnancy_not_modified[["Livebirth1"]][["ICD9"]],
-#                                                                concept_set_codes_pregnancy_not_modified[["Livebirth2"]][["ICD9"]])
-# 
-# concept_set_codes_pregnancy[["Livebirth"]][["ICD10"]] <- c(concept_set_codes_pregnancy_not_modified[["Livebirth1"]][["ICD10"]],
-#                                                                 concept_set_codes_pregnancy_not_modified[["Livebirth2"]][["ICD10"]])
-# 
-# concept_set_codes_pregnancy[["Livebirth"]][["SNOMED"]] <- c(concept_set_codes_pregnancy_not_modified[["Livebirth1"]][["SNOMED"]],
-#                                                                  concept_set_codes_pregnancy_not_modified[["Livebirth2"]][["SNOMED"]])
-# 
-# concept_set_codes_pregnancy[["Livebirth"]][["READ"]] <- c(concept_set_codes_pregnancy_not_modified[["Livebirth1"]][["READ"]],
-#                                                                concept_set_codes_pregnancy_not_modified[["Livebirth2"]][["READ"]])
-# 
-# concept_set_codes_pregnancy[["Livebirth"]][["ICPC"]] <- c(concept_set_codes_pregnancy_not_modified[["Livebirth1"]][["ICPC"]],
-#                                                             concept_set_codes_pregnancy_not_modified[["Livebirth2"]][["ICPC"]])
-# 
-# concept_set_codes_pregnancy[["Livebirth"]][["ICPC2P"]] <- c(concept_set_codes_pregnancy_not_modified[["Livebirth1"]][["ICPC2P"]],
-#                                                                  concept_set_codes_pregnancy_not_modified[["Livebirth2"]][["ICPC2P"]])
-
-concept_set_codes_pregnancy[["Stillbirth_narrow"]] <- concept_set_codes_pregnancy_not_modified[["STILLBIRTH_narrow"]] 
-
-concept_set_codes_pregnancy[["Stillbirth_possible"]] <- concept_set_codes_pregnancy_not_modified[["STILLBIRTH_possible"]] 
-
+#----------------
+# End T SA SB ECT
+#----------------
+concept_set_codes_pregnancy[["Stillbirth_narrow"]] <- concept_set_codes_pregnancy_not_modified[["StillBirth_narrow"]] 
 concept_set_codes_pregnancy[["Interruption_narrow"]] <- concept_set_codes_pregnancy_not_modified[["ELECTTERM_narrow"]] 
+concept_set_codes_pregnancy[["Spontaneousabortion_narrow"]] <- concept_set_codes_pregnancy_not_modified[["SpontaneousAbortion_narrow"]] 
+concept_set_codes_pregnancy[["Ectopicpregnancy"]] <- concept_set_codes_pregnancy_not_modified[["EctopicPregnancy"]] 
 
+#--------
+# End UNF
+#--------
+concept_set_codes_pregnancy[["Stillbirth_possible"]] <- concept_set_codes_pregnancy_not_modified[["StillBirth_possible"]] 
 concept_set_codes_pregnancy[["Interruption_possible"]] <- concept_set_codes_pregnancy_not_modified[["ELECTTERM_possible"]] 
-
-concept_set_codes_pregnancy[["Spontaneousabortion_narrow"]] <- concept_set_codes_pregnancy_not_modified[["SPONTABO_narrow"]] 
-
-concept_set_codes_pregnancy[["Spontaneousabortion_possible"]] <- concept_set_codes_pregnancy_not_modified[["SPONTABO_possible"]] 
-
-concept_set_codes_pregnancy[["Ectopicpregnancy"]] <- concept_set_codes_pregnancy_not_modified[["ECTOPIC"]] 
-
-
-
+concept_set_codes_pregnancy[["Spontaneousabortion_possible"]] <- concept_set_codes_pregnancy_not_modified[["SpontaneousAbortion_possible"]] 
 
 
 # exclude narrow from possible 
