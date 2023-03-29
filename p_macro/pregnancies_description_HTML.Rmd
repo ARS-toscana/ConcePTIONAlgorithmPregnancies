@@ -633,6 +633,32 @@ if (UNF_first_record[, .N]==0){
 }
 ```
 
+
+### LOSTFU: lost follow up
+
+___
+```{r first_record_LOSTFU}
+LOSTFU_first_record <- D3_pregnancy_reconciled[type_of_pregnancy_end == "LOSTFU"]
+if (LOSTFU_first_record[, .N]==0){
+  print("there is no LOSTFU among the types of end of pregnancy" )
+}else{
+  LOSTFU_first_record <- LOSTFU_first_record[, year_start_of_pregnancy := as.factor(year_start_of_pregnancy)]
+  p <- ggplot(LOSTFU_first_record, aes(x = days_before_first_record, 
+                                   group = year_start_of_pregnancy, 
+                                   fill = year_start_of_pregnancy, 
+                                   col = year_start_of_pregnancy))+
+    geom_density(alpha = 0.7, na.rm = TRUE)+
+    scale_x_continuous(name="Days between pregnancy start date and first observed record ", limits=c(0, 300))+
+    #facet_grid(type_of_pregnancy_end~.)+
+    theme_hc()
+  
+  
+  plot <- ggplotly(p)
+  plot
+}
+```
+
+<br/><br/>
 <br/><br/><br/><br/>
 
 
@@ -649,10 +675,13 @@ The graph shows the absolute number of pregnancies flagged by a quality variable
 <br/>
 
 ```{r excluded_graph}
+low_quality <- D3_pregnancy_reconciled[GGDE == 1| GGDS ==1 | highest_quality == "4_red"]
+low_quality[GGDE == 1, reason := "Green discordant on end date"]
+low_quality[GGDS == 1, reason := "Green discordant on start date"]
+low_quality[highest_quality == "4_red", reason := "Both start and end imputed"]
 
-excluded <- D3_pregnancy_reconciled[excluded == 1]
 
-p <- ggplot(excluded, aes(x = year_start_of_pregnancy, fill= reason_for_exclusion))+
+p <- ggplot(low_quality, aes(x = year_start_of_pregnancy, fill= reason))+
   geom_bar()+
   theme_hc()
 plot <- ggplotly(p)
@@ -660,8 +689,8 @@ plot
 ```
 
 ```{r exclusion_table}
-exclusion_table <- excluded[, .N, by = .(reason_for_exclusion, year_start_of_pregnancy)][order(year_start_of_pregnancy, reason_for_exclusion)]
-datatable(exclusion_table)
+table <- low_quality[, .N, by = .(reason, year_start_of_pregnancy)][order(year_start_of_pregnancy, reason)]
+datatable(table)
 ```
 ___
 
@@ -669,16 +698,16 @@ ___
 <br/><br/>
 
 ```{r exclusion_total}
-sum_of_excluded <- excluded[, .N]
+sum <- low_quality[, .N]
 ```
 
-**The total number of pregnancies flagged by a quality variables is  `r sum_of_excluded`, the table below shows the absolute number for each variable:**
+**The total number of pregnancies flagged by a quality variables is  `r sum`, the table below shows the absolute number for each variable:**
 
 <br/><br/>
 
 ```{r exclusion_table_total}
-exclusion_table <- excluded[, .N, by = .(reason_for_exclusion)][order(reason_for_exclusion)]
-datatable(exclusion_table)
+table <- low_quality[, .N, by = .(reason)][order(reason)]
+datatable(table)
 ```
 
 <br/><br/><br/><br/>

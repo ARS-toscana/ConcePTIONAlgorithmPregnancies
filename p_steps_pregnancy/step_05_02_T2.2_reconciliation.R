@@ -502,12 +502,7 @@ for (column in names(D3_groups_of_pregnancies_reconciled_before_excl)) {
   }
 }
 
-# applying dap specific rules for end of pregnancies in red records
 
-if (this_datasource_ends_red_pregnancies) {
-  D3_groups_of_pregnancies_reconciled_before_excl <- D3_groups_of_pregnancies_reconciled_before_excl[highest_quality == "4_red" & n ==1,
-                                                                                                     pregnancy_end_date := date_of_most_recent_record]
-}
 
 
 #------------------------
@@ -521,6 +516,44 @@ D3_pregnancy_reconciled_before_excl <- D3_groups_of_pregnancies_reconciled_befor
 D3_pregnancy_reconciled_before_excl <- D3_pregnancy_reconciled_before_excl[, -c("n")]
 D3_pregnancy_reconciled_before_excl <- D3_pregnancy_reconciled_before_excl[, gestage_at_first_record := date_of_oldest_record - pregnancy_start_date, 
                                                                            by = "pregnancy_id" ]
+
+
+
+#--------
+# LOSTFU
+#--------
+load(paste0(dirtemp,"output_spells_category.RData"))
+
+D3_LOSTFU <- copy(D3_pregnancy_reconciled_before_excl[, .(person_id, pregnancy_id, pregnancy_end_date)])
+D3_LOSTFU <- merge(D3_LOSTFU, output_spells_category, all.x = TRUE)
+
+D3_LOSTFU <- D3_LOSTFU[pregnancy_end_date > entry_spell_category & pregnancy_end_date < exit_spell_category, 
+                       end_pregnancy_in_spell := 1]
+
+D3_LOSTFU <- D3_LOSTFU[is.na(end_pregnancy_in_spell), end_pregnancy_in_spell := 0]
+D3_LOSTFU <- D3_LOSTFU[, .(end_pregnancy_in_spell = max(end_pregnancy_in_spell)), pregnancy_id]
+
+D3_LOSTFU <- D3_LOSTFU[end_pregnancy_in_spell == 1, LOSTFU := 0]
+D3_LOSTFU <- D3_LOSTFU[end_pregnancy_in_spell == 0, LOSTFU := 1]
+
+D3_LOSTFU <- D3_LOSTFU[, .(pregnancy_id, LOSTFU)]
+
+D3_pregnancy_reconciled_before_excl <- merge(D3_pregnancy_reconciled_before_excl, 
+                                       D3_LOSTFU, 
+                                       by = "pregnancy_id", 
+                                       all.x = TRUE)
+
+D3_pregnancy_reconciled_before_excl <- D3_pregnancy_reconciled_before_excl[LOSTFU == 1, type_of_pregnancy_end := "LOSTFU"]
+
+#----------------------------
+# End red quality pregnancies
+#----------------------------
+
+if (this_datasource_ends_red_pregnancies) {
+  D3_pregnancy_reconciled_before_excl <- D3_pregnancy_reconciled_before_excl[highest_quality == "4_red" & type_of_pregnancy_end != "LOSTFU",
+                                                                             pregnancy_end_date := date_of_most_recent_record]
+}
+
 
 ## saving and rm
 save(D3_groups_of_pregnancies_reconciled_before_excl, file=paste0(dirtemp,"D3_groups_of_pregnancies_reconciled_before_excl.RData"))

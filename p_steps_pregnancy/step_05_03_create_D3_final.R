@@ -22,10 +22,10 @@ D3_pregnancy_reconciled_valid <- D3_pregnancy_reconciled_valid[highest_quality =
 
 D3_pregnancy_reconciled_valid <- D3_pregnancy_reconciled_valid[GGDE == 1, reason_for_exclusion := "2Green:DiscordantEnd"]
 D3_pregnancy_reconciled_valid <- D3_pregnancy_reconciled_valid[GGDS == 1, reason_for_exclusion := "2Green:DiscordantStart"]
-D3_pregnancy_reconciled_valid <- D3_pregnancy_reconciled_valid[INSUF_QUALITY == 1, reason_for_exclusion := "Insufficient_quality"]
+#D3_pregnancy_reconciled_valid <- D3_pregnancy_reconciled_valid[INSUF_QUALITY == 1, reason_for_exclusion := "Insufficient_quality"]
 
-D3_pregnancy_reconciled_valid <- D3_pregnancy_reconciled_valid[INSUF_QUALITY == 1 | GGDE ==1 | GGDS == 1, 
-                                                   excluded := 1][is.na(excluded), excluded := 0]
+#D3_pregnancy_reconciled_valid <- D3_pregnancy_reconciled_valid[INSUF_QUALITY == 1 | GGDE ==1 | GGDS == 1, 
+#                                                   excluded := 1][is.na(excluded), excluded := 0]
 
 D3_pregnancy_reconciled_valid <- D3_pregnancy_reconciled_valid[, gestage := pregnancy_end_date - pregnancy_start_date]
 D3_pregnancy_reconciled_valid <- D3_pregnancy_reconciled_valid[gestage > 308, gestage_greater_44 :=1]
@@ -39,26 +39,40 @@ D3_groups_of_pregnancies_reconciled <- D3_groups_of_pregnancies_reconciled[, GGD
 D3_groups_of_pregnancies_reconciled <- D3_groups_of_pregnancies_reconciled[like(algorithm_for_reconciliation, "GG:DiscordantStart") , GGDS:=1]
 D3_groups_of_pregnancies_reconciled <- D3_groups_of_pregnancies_reconciled[, GGDS := max(GGDS), pregnancy_id]
 
-D3_groups_of_pregnancies_reconciled <- D3_groups_of_pregnancies_reconciled[highest_quality == "4_red", INSUF_QUALITY:=1]
-D3_groups_of_pregnancies_reconciled <- D3_groups_of_pregnancies_reconciled[, INSUF_QUALITY := max(INSUF_QUALITY), pregnancy_id]
+#D3_groups_of_pregnancies_reconciled <- D3_groups_of_pregnancies_reconciled[highest_quality == "4_red", INSUF_QUALITY:=1]
+#D3_groups_of_pregnancies_reconciled <- D3_groups_of_pregnancies_reconciled[, INSUF_QUALITY := max(INSUF_QUALITY), pregnancy_id]
 
 D3_groups_of_pregnancies_reconciled <- D3_groups_of_pregnancies_reconciled[GGDE == 1, reason_for_exclusion := "2Green:DiscordantEnd"]
 D3_groups_of_pregnancies_reconciled <- D3_groups_of_pregnancies_reconciled[GGDS == 1, reason_for_exclusion := "2Green:DiscordantStart"]
-D3_groups_of_pregnancies_reconciled <- D3_groups_of_pregnancies_reconciled[INSUF_QUALITY == 1, reason_for_exclusion := "Insufficient_quality"]
+#D3_groups_of_pregnancies_reconciled <- D3_groups_of_pregnancies_reconciled[INSUF_QUALITY == 1, reason_for_exclusion := "Insufficient_quality"]
 
-D3_groups_of_pregnancies_reconciled <- D3_groups_of_pregnancies_reconciled[INSUF_QUALITY == 1 | GGDE ==1 | GGDS == 1, 
-                                                                           excluded := 1][is.na(excluded), excluded := 0]
+#D3_groups_of_pregnancies_reconciled <- D3_groups_of_pregnancies_reconciled[INSUF_QUALITY == 1 | GGDE ==1 | GGDS == 1, 
+#                                                                           excluded := 1][is.na(excluded), excluded := 0]
 
-D3_groups_of_pregnancies_reconciled <- D3_groups_of_pregnancies_reconciled[, excluded := max(excluded), pregnancy_id]
+#D3_groups_of_pregnancies_reconciled <- D3_groups_of_pregnancies_reconciled[, excluded := max(excluded), pregnancy_id]
 
 D3_groups_of_pregnancies_reconciled <- D3_groups_of_pregnancies_reconciled[is.na(GGDS), GGDS:=0]
 D3_groups_of_pregnancies_reconciled <- D3_groups_of_pregnancies_reconciled[is.na(GGDE), GGDE:=0]
-D3_groups_of_pregnancies_reconciled <- D3_groups_of_pregnancies_reconciled[is.na(INSUF_QUALITY), INSUF_QUALITY:=0]
+#D3_groups_of_pregnancies_reconciled <- D3_groups_of_pregnancies_reconciled[is.na(INSUF_QUALITY), INSUF_QUALITY:=0]
 
 D3_pregnancy_reconciled_valid <- D3_pregnancy_reconciled_valid[is.na(GGDS), GGDS:=0]
 D3_pregnancy_reconciled_valid <- D3_pregnancy_reconciled_valid[is.na(GGDE), GGDE:=0]
-D3_pregnancy_reconciled_valid <- D3_pregnancy_reconciled_valid[is.na(INSUF_QUALITY), INSUF_QUALITY:=0]
+#D3_pregnancy_reconciled_valid <- D3_pregnancy_reconciled_valid[is.na(INSUF_QUALITY), INSUF_QUALITY:=0]
 
+
+### ONGOING 
+D3_pregnancy_reconciled_valid <- D3_pregnancy_reconciled_valid[pregnancy_end_date>study_end & imputed_end_of_pregnancy == 1, type_of_pregnancy_end := "ONGOING"]
+
+### Sex
+D3_pregnancy_reconciled_valid <- merge(D3_pregnancy_reconciled_valid, D3_PERSONS[,.(person_id, sex_at_instance_creation)], by = c("person_id"), all.x = T)
+
+# Filter pregnancies that can not be legally included
+D3_pregnancy_reconciled_valid <- D3_pregnancy_reconciled_valid[eval(parse(text = legally_included_pregnancies))]
+
+
+#-------
+# saving 
+#-------
 D3_pregnancy_reconciled_valid <- D3_pregnancy_reconciled_valid[, .(pregnancy_id,
                                                                    person_id,
                                                                    age_at_start_of_pregnancy,
@@ -69,7 +83,7 @@ D3_pregnancy_reconciled_valid <- D3_pregnancy_reconciled_valid[, .(pregnancy_id,
                                                                    type_of_pregnancy_end,
                                                                    imputed_start_of_pregnancy,
                                                                    imputed_end_of_pregnancy,
-                                                                   meaning,
+                                                                   meaning_of_principal_record = meaning,
                                                                    PROMPT,
                                                                    EUROCAT,
                                                                    CONCEPTSETS,
@@ -87,95 +101,13 @@ D3_pregnancy_reconciled_valid <- D3_pregnancy_reconciled_valid[, .(pregnancy_id,
                                                                    gestage_at_first_record,
                                                                    algorithm_for_reconciliation,
                                                                    description,           
+                                                                   sex_at_instance_creation,
                                                                    GGDE,
                                                                    GGDS,
-                                                                   INSUF_QUALITY,
                                                                    gestage_greater_44,
-                                                                   pregnancy_splitted, 
-                                                                   excluded,
-                                                                   reason_for_exclusion, 
                                                                    origin)]
 
-D3_pregnancy_reconciled <- D3_pregnancy_reconciled_valid[, -c( "pregnancy_splitted", "excluded", "order_quality", "reason_for_exclusion")]
-
-setnames(D3_pregnancy_reconciled_valid, "meaning", "meaning_of_principal_record")
-setnames(D3_pregnancy_reconciled, "meaning", "meaning_of_principal_record")
-
-### ONGOING 
-D3_pregnancy_reconciled <- D3_pregnancy_reconciled[pregnancy_end_date>study_end & imputed_end_of_pregnancy == 1, type_of_pregnancy_end := "ONGOING"]
-D3_pregnancy_reconciled_valid <- D3_pregnancy_reconciled_valid[pregnancy_end_date>study_end & imputed_end_of_pregnancy == 1, type_of_pregnancy_end := "ONGOING"]
-
-### Sex
-D3_pregnancy_reconciled <- merge(D3_pregnancy_reconciled, D3_PERSONS[,.(person_id, sex_at_instance_creation)], by = c("person_id"), all.x = T)
-D3_pregnancy_reconciled_valid <- merge(D3_pregnancy_reconciled_valid, D3_PERSONS[,.(person_id, sex_at_instance_creation)], by = c("person_id"), all.x = T)
-
-# Filter pregnancies that can not be legally included
-D3_pregnancy_reconciled <- D3_pregnancy_reconciled[eval(parse(text = legally_included_pregnancies))]
-D3_pregnancy_reconciled_valid <- D3_pregnancy_reconciled_valid[eval(parse(text = legally_included_pregnancies))]
-
-
-#--------
-# LOSTFU
-#--------
-
-load(paste0(dirtemp,"output_spells_category.RData"))
-
-D3_LOSTFU <- copy(D3_pregnancy_reconciled[, .(person_id, pregnancy_id, pregnancy_end_date)])
-D3_LOSTFU <- merge(D3_LOSTFU, output_spells_category, all.x = TRUE)
-
-D3_LOSTFU <- D3_LOSTFU[pregnancy_end_date > entry_spell_category & pregnancy_end_date < exit_spell_category, 
-                       end_pregnancy_in_spell := 1]
-
-D3_LOSTFU <- D3_LOSTFU[is.na(end_pregnancy_in_spell), end_pregnancy_in_spell := 0]
-D3_LOSTFU <- D3_LOSTFU[, .(end_pregnancy_in_spell = max(end_pregnancy_in_spell)), pregnancy_id]
-
-D3_LOSTFU <- D3_LOSTFU[end_pregnancy_in_spell == 1, LOSTFU := 0]
-D3_LOSTFU <- D3_LOSTFU[end_pregnancy_in_spell == 0, LOSTFU := 1]
-
-D3_LOSTFU <- D3_LOSTFU[, .(pregnancy_id, LOSTFU)]
-
-D3_pregnancy_reconciled <- merge(D3_pregnancy_reconciled, 
-                                 D3_LOSTFU, 
-                                 by = "pregnancy_id", 
-                                 all.x = TRUE)
-
-D3_pregnancy_reconciled <- D3_pregnancy_reconciled[LOSTFU == 1, type_of_pregnancy_end := "LOSTFU"]
-
-D3_pregnancy_reconciled <- D3_pregnancy_reconciled[, .(pregnancy_id,
-                                                       person_id,
-                                                       age_at_start_of_pregnancy,
-                                                       pregnancy_start_date,
-                                                       meaning_start_date,
-                                                       pregnancy_end_date,
-                                                       meaning_end_date,
-                                                       type_of_pregnancy_end,
-                                                       imputed_start_of_pregnancy,
-                                                       imputed_end_of_pregnancy,
-                                                       meaning_of_principal_record,
-                                                       PROMPT,
-                                                       EUROCAT,
-                                                       CONCEPTSETS,
-                                                       ITEMSETS,
-                                                       highest_quality,
-                                                       number_of_records_in_the_group,
-                                                       number_green,
-                                                       number_yellow,
-                                                       number_blue,
-                                                       number_red,
-                                                       date_of_principal_record,
-                                                       date_of_oldest_record,
-                                                       date_of_most_recent_record,
-                                                       gestage_at_first_record,
-                                                       algorithm_for_reconciliation,
-                                                       description,           
-                                                       GGDE,
-                                                       GGDS,
-                                                       INSUF_QUALITY,
-                                                       gestage_greater_44,
-                                                       origin)]
-#-------
-# saving 
-#-------
+D3_pregnancy_reconciled <- D3_pregnancy_reconciled_valid[, -c("order_quality")]
 
 D3_pregnancy_final <- D3_pregnancy_reconciled
 
@@ -246,3 +178,4 @@ D3_survey_and_visit_ids <- D3_survey_and_visit_ids[!(id %like% "_dummy_visit_occ
 save(D3_survey_and_visit_ids, file=paste0(diroutput,"D3_survey_and_visit_ids.RData"))
 #fwrite(D3_survey_and_visit_ids, paste0(diroutput,"D3_survey_and_visit_ids.csv"))
 rm(D3_groups_of_pregnancies_reconciled, D3_pregnancy_reconciled)
+
