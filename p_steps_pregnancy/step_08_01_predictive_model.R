@@ -37,7 +37,7 @@ DT_training[, pregnancy_start_date_green := max(pregnancy_start_date_green), pre
 DT_training[highest_quality == "1_green", days_from_start := as.integer(record_date - pregnancy_start_date_green)]
 
 
-# keep only record with explanatory variable present in both train and test
+# keep only record with explanatory variables present in both train and test
 exp_var_training <-  DT_training$exp_var_
 exp_var_test <-  DT_test$exp_var_
 
@@ -65,7 +65,50 @@ DT_test_linear <- copy(DT_test)
 mod_linear_simple <- lm(days_from_start ~ 0 + exp_var_, data = DT_training)
 summary(mod_linear_simple)
 
-# cross validation 
+#-----
+# BART
+#-----
+DT_training_BART <- copy(DT_training)
+DT_test_BART <- copy(DT_test)
+for (var in unique(DT_training$exp_var_)) {
+  DT_training_BART[exp_var_ == var, tmp := 1][is.na(tmp), tmp := 0]
+  setnames(DT_training_BART, "tmp", var)
+  
+  DT_test_BART[exp_var_ == var, tmp := 1][is.na(tmp), tmp := 0]
+  setnames(DT_test_BART, "tmp", var)
+}
+
+DT_training_BART <- DT_training_BART[, -c("exp_var_")]
+DT_test_BART <- DT_test_BART[, -c("exp_var_")]
+
+
+BART_model <- BART::wbart(as.data.frame(DT_training_BART[, -c("days_from_start")]),
+                                        as.integer(DT_training_BART$days_from_start),
+                                        as.data.frame(DT_test_BART), 
+                          nskip = 50, 
+                          ndpost = 400)
+
+#plot(BART_model$sigma, type = "l")
+#abline(v = 50, col = "red")
+#--------
+# Predict
+#--------
+DT_training$linear_pred = predict(mod_linear_simple, DT_training)
+DT_training$BART_pred = BART_model$yhat.train.mean
+
+posterior <-  as.data.frame(BART_model$yhat.train)
+
+DT_training$low <-  apply(posterior, 2, quantile, probs=c(0.01))
+DT_training$up <-  apply(posterior, 2, quantile, probs=c(0.99))
+
+DT_training[, .(exp_var_, days_from_start, linear_pred, BART_pred, low, up)]
+
+
+#-----------------
+# Cross validation
+#-----------------
+
+# cross validation linear 
 DT_training[, random := sample(1:nrow(DT_training), nrow(DT_training), replace = FALSE)]
 DT_training <- DT_training[order(random)][, -c("random")]
 
@@ -104,87 +147,52 @@ for (i in 1:5) {
 rmse_cross_validation_linear <- mean(rmse)
 
 
-#-----
-# BART
-#-----
-DT_training_BART <- copy(DT_training)
-DT_test_BART <- copy(DT_test)
-for (var in unique(DT_training$exp_var_)) {
-  DT_training_BART[exp_var_ == var, tmp := 1][is.na(tmp), tmp := 0]
-  setnames(DT_training_BART, "tmp", var)
+
+# cross validation BART
+DT_training[, random := sample(1:nrow(DT_training), nrow(DT_training), replace = FALSE)]
+DT_training <- DT_training[order(random)][, -c("random")]
+
+from <- 0
+to <- as.integer(nrow(DT_training)/5)
+
+rmse <- c(rep(0, 5))
+for (i in 1:5) {
+  test <- DT_training[from:to]
+  train <- DT_training[!(from:to)]
   
-  DT_test_BART[exp_var_ == var, tmp := 1][is.na(tmp), tmp := 0]
-  setnames(DT_test_BART, "tmp", var)
+  exp_var_test <- unique(test$exp_var_)
+  exp_var_train <- unique(train$exp_var_)
+  exp_var_to_keep <- intersect(exp_var_test, exp_var_train)
+  
+  test <- test[exp_var_ %in% exp_var_to_keep]
+  train <- train[exp_var_ %in% exp_var_to_keep]
+  
+  for (var in unique(train$exp_var_)) {
+    train[exp_var_ == var, tmp := 1][is.na(tmp), tmp := 0]
+    setnames(train, "tmp", var)
+    
+    test[exp_var_ == var, tmp := 1][is.na(tmp), tmp := 0]
+    setnames(test, "tmp", var)
+  }
+  
+  train <- train[, -c("exp_var_")]
+  test <- test[, -c("exp_var_")]
+  
+  from <- from + as.integer(nrow(DT_training)/5)
+  to <- to + as.integer(nrow(DT_training)/5)
+  
+  if(i == 4){
+    to <- nrow(DT_training)
+  }
+  
+  BART_tmp <- BART::wbart(as.data.frame(train[, -c("days_from_start")]),
+                          as.integer(train$days_from_start),
+                          as.data.frame(test[, -c("days_from_start")]))
+  
+  
+  test$BART_predicted <- BART_tmp$yhat.test.mean
+
+  rmse[i] <- sqrt( (sum( (test$days_from_start - test$BART_predicted)^2)  ) / length(test$days_from_start))
 }
 
-DT_training_BART <- DT_training_BART[, -c("exp_var_")]
-DT_test_BART <- DT_test_BART[, -c("exp_var_")]
-
-
-BART_model <- BART::wbart(as.data.frame(DT_training_BART[, -c("days_from_start")]),
-                                        as.integer(DT_training_BART$days_from_start),
-                                        as.data.frame(DT_test_BART))
-
-# cross validation 
-#DT_training[, random := sample(1:nrow(DT_training), nrow(DT_training), replace = FALSE)]
-#DT_training <- DT_training[order(random)][, -c("random")]
-#
-#from <- 0
-#to <- as.integer(nrow(DT_training)/5)
-#
-#rmse <- c(rep(0, 5))
-#for (i in 1:5) {
-#  test <- DT_training[from:to]
-#  train <- DT_training[!(from:to)]
-#  
-#  exp_var_test <- unique(test$exp_var_)
-#  exp_var_train <- unique(train$exp_var_)
-#  exp_var_to_keep <- intersect(exp_var_test, exp_var_train)
-#  
-#  test <- test[exp_var_ %in% exp_var_to_keep]
-#  train <- train[exp_var_ %in% exp_var_to_keep]
-#  
-#  for (var in unique(train$exp_var_)) {
-#    train[exp_var_ == var, tmp := 1][is.na(tmp), tmp := 0]
-#    setnames(train, "tmp", var)
-#    
-#    test[exp_var_ == var, tmp := 1][is.na(tmp), tmp := 0]
-#    setnames(test, "tmp", var)
-#  }
-#  
-#  train <- train[, -c("exp_var_")]
-#  test <- test[, -c("exp_var_")]
-#  
-#  from <- from + as.integer(nrow(DT_training)/5)
-#  to <- to + as.integer(nrow(DT_training)/5)
-#  
-#  if(i == 4){
-#    to <- nrow(DT_training)
-#  }
-#  
-#  BART_tmp <- BART::wbart(as.data.frame(train[, -c("days_from_start")]),
-#                          as.integer(train$days_from_start),
-#                          as.data.frame(test[, -c("days_from_start")]))
-#  
-#  
-#  test$BART_predicted <- BART_tmp$yhat.test.mean
-#
-#  rmse[i] <- sqrt( (sum( (test$days_from_start - test$BART_predicted)^2)  ) / length(test$days_from_start))
-#}
-#
-#rmse_cross_validation_BART <- mean(rmse)
-#
-
-#--------
-# Predict
-#--------
-DT_training$linear_pred = predict(mod_linear_simple, DT_training)
-DT_training$BART_pred = BART_model$yhat.train.mean
-
-posterior <-  as.data.frame(BART_model$yhat.train)
-
-DT_training$low <-  apply(posterior, 2, quantile, probs=c(0.01))
-DT_training$up <-  apply(posterior, 2, quantile, probs=c(0.99))
-
-DT_training
-
+rmse_cross_validation_BART <- mean(rmse)
