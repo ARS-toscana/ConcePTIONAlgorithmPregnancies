@@ -527,7 +527,7 @@ load(paste0(dirtemp,"output_spells_category.RData"))
 D3_LOSTFU <- copy(D3_pregnancy_reconciled_before_excl[, .(person_id, pregnancy_id, pregnancy_end_date)])
 D3_LOSTFU <- merge(D3_LOSTFU, output_spells_category, all.x = TRUE)
 
-D3_LOSTFU <- D3_LOSTFU[pregnancy_end_date > entry_spell_category & pregnancy_end_date < exit_spell_category, 
+D3_LOSTFU <- D3_LOSTFU[pregnancy_end_date >= entry_spell_category & pregnancy_end_date <= exit_spell_category, 
                        end_pregnancy_in_spell := 1]
 
 D3_LOSTFU <- D3_LOSTFU[is.na(end_pregnancy_in_spell), end_pregnancy_in_spell := 0]
