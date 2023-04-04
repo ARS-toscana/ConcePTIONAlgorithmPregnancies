@@ -397,17 +397,6 @@ D3_gop <- D3_gop[coloured_order == "4_red", number_red := .N, by = "pers_group_i
 D3_gop <- D3_gop[is.na(number_red), number_red:= 0]
 D3_gop <- D3_gop[, number_red:= max(number_red),  by = "pers_group_id" ]
 
-D3_gop <- D3_gop[n==1, date_of_principal_record := record_date,  by = "pers_group_id" ]
-D3_gop <- D3_gop[is.na(date_of_principal_record), date_of_principal_record:=0]
-
-D3_gop <- D3_gop[, date_of_principal_record:= max(date_of_principal_record),  by = "pers_group_id" ]
-
-D3_gop <- D3_gop[, date_of_oldest_record := min(record_date), by = "pers_group_id" ]
-D3_gop <- D3_gop[, date_of_most_recent_record := max(record_date), by = "pers_group_id" ]
-
-D3_gop <- D3_gop[, highest_quality := "Z"]
-D3_gop <- D3_gop[n==1, highest_quality := coloured_order]
-D3_gop <- D3_gop[, highest_quality := min(highest_quality), pers_group_id]
 
 
 # Age at start of pregnancy    
@@ -419,10 +408,6 @@ D3_PERSONS <- D3_PERSONS[,  birth_date := as.Date(paste0(year_of_birth, "-",
 
 D3_gop <- merge(D3_gop, D3_PERSONS[, .(person_id, birth_date)], by = "person_id")
 D3_gop <- D3_gop[, age_at_start_of_pregnancy := as.integer((pregnancy_start_date - birth_date) / 365)]
-
-# ------------------------
-# Red Record Distribution
-# ------------------------
 
 ## cleaning the dataset
 D3_groups_of_pregnancies_reconciled_before_excl <- D3_gop[, .(person_id,
@@ -447,7 +432,6 @@ D3_groups_of_pregnancies_reconciled_before_excl <- D3_gop[, .(person_id,
                                                               CONCEPTSET,
                                                               ITEMSETS,
                                                               coloured_order,
-                                                              highest_quality,
                                                               pers_group_id, 
                                                               number_of_records_in_the_group,
                                                               number_green,                      
@@ -455,9 +439,6 @@ D3_groups_of_pregnancies_reconciled_before_excl <- D3_gop[, .(person_id,
                                                               number_blue,
                                                               number_red,
                                                               order_quality,
-                                                              date_of_principal_record,         
-                                                              date_of_oldest_record, 
-                                                              date_of_most_recent_record,
                                                               algorithm_for_reconciliation,
                                                               description,
                                                               pregnancy_splitted,
@@ -468,98 +449,13 @@ D3_groups_of_pregnancies_reconciled_before_excl <- D3_gop[, .(person_id,
 
 setnames(D3_groups_of_pregnancies_reconciled_before_excl, "pers_group_id", "pregnancy_id")
 
-
-#--------------------
-# Red Record Managing      
-#--------------------
-D3_groups_of_pregnancies_reconciled_before_excl <- D3_groups_of_pregnancies_reconciled_before_excl[highest_quality == "4_red", 
-                                                                                                   record_selected := as.integer(number_red/2) + 1] 
-
-for (column in names(D3_groups_of_pregnancies_reconciled_before_excl)) {
-  if (column == "pregnancy_start_date" | 
-      column == "meaning_start_date" | 
-      column == "pregnancy_ongoing_date" | 
-      column == "meaning_ongoing_date"|
-      column == "pregnancy_end_date" |
-      column == "pregnancy_end_date" |
-      column == "meaning_end_date" |
-      column == "meaning") {
-
-    setnames(D3_groups_of_pregnancies_reconciled_before_excl, column, "tmp_column")
-    
-    D3_groups_of_pregnancies_reconciled_before_excl <- D3_groups_of_pregnancies_reconciled_before_excl[highest_quality == "4_red",
-                                                                                                       tmp_column_new := shift(tmp_column, 
-                                                                                                                           n = record_selected -1, 
-                                                                                                                           type=c("lead")), 
-                                                                                                       by = "pregnancy_id"]
-    
-    D3_groups_of_pregnancies_reconciled_before_excl <- D3_groups_of_pregnancies_reconciled_before_excl[highest_quality == "4_red" & n ==1,
-                                                                                                       tmp_column := tmp_column_new]
-    
-    D3_groups_of_pregnancies_reconciled_before_excl <- D3_groups_of_pregnancies_reconciled_before_excl[, -c("tmp_column_new")]
-    
-    setnames(D3_groups_of_pregnancies_reconciled_before_excl, "tmp_column", column)
-  }
-}
-
-
-
-
-#------------------------
-# D3_pregnancy_reconciled
-#------------------------
-
-D3_groups_of_pregnancies_reconciled_before_excl <- D3_groups_of_pregnancies_reconciled_before_excl[is.na(type_of_pregnancy_end), 
-                                                                                                   type_of_pregnancy_end := "UNK"]
-
-D3_pregnancy_reconciled_before_excl <- D3_groups_of_pregnancies_reconciled_before_excl[n==1]
-D3_pregnancy_reconciled_before_excl <- D3_pregnancy_reconciled_before_excl[, -c("n")]
-D3_pregnancy_reconciled_before_excl <- D3_pregnancy_reconciled_before_excl[, gestage_at_first_record := date_of_oldest_record - pregnancy_start_date, 
-                                                                           by = "pregnancy_id" ]
-
-
-
-#--------
-# LOSTFU
-#--------
-load(paste0(dirtemp,"output_spells_category.RData"))
-
-D3_LOSTFU <- copy(D3_pregnancy_reconciled_before_excl[, .(person_id, pregnancy_id, pregnancy_end_date)])
-D3_LOSTFU <- merge(D3_LOSTFU, output_spells_category, all.x = TRUE)
-
-D3_LOSTFU <- D3_LOSTFU[pregnancy_end_date >= entry_spell_category & pregnancy_end_date <= exit_spell_category, 
-                       end_pregnancy_in_spell := 1]
-
-D3_LOSTFU <- D3_LOSTFU[is.na(end_pregnancy_in_spell), end_pregnancy_in_spell := 0]
-D3_LOSTFU <- D3_LOSTFU[, .(end_pregnancy_in_spell = max(end_pregnancy_in_spell)), pregnancy_id]
-
-D3_LOSTFU <- D3_LOSTFU[end_pregnancy_in_spell == 1, LOSTFU := 0]
-D3_LOSTFU <- D3_LOSTFU[end_pregnancy_in_spell == 0, LOSTFU := 1]
-
-D3_LOSTFU <- D3_LOSTFU[, .(pregnancy_id, LOSTFU)]
-
-D3_pregnancy_reconciled_before_excl <- merge(D3_pregnancy_reconciled_before_excl, 
-                                       D3_LOSTFU, 
-                                       by = "pregnancy_id", 
-                                       all.x = TRUE)
-
-D3_pregnancy_reconciled_before_excl <- D3_pregnancy_reconciled_before_excl[LOSTFU == 1, type_of_pregnancy_end := "LOSTFU"]
-
-#----------------------------
-# End red quality pregnancies
-#----------------------------
-
-if (this_datasource_ends_red_pregnancies) {
-  D3_pregnancy_reconciled_before_excl <- D3_pregnancy_reconciled_before_excl[highest_quality == "4_red" & type_of_pregnancy_end != "LOSTFU",
-                                                                             pregnancy_end_date := date_of_most_recent_record]
-}
-
+################################################################################
 
 ## saving and rm
 save(D3_groups_of_pregnancies_reconciled_before_excl, file=paste0(dirtemp,"D3_groups_of_pregnancies_reconciled_before_excl.RData"))
-save(D3_pregnancy_reconciled_before_excl, file=paste0(dirtemp,"D3_pregnancy_reconciled_before_excl.RData"))
+#save(D3_pregnancy_reconciled_before_excl, file=paste0(dirtemp,"D3_pregnancy_reconciled_before_excl.RData"))
 
 rm(D3_gop, 
    D3_groups_of_pregnancies_MNIP,
-   D3_groups_of_pregnancies_reconciled_before_excl, 
-   D3_pregnancy_reconciled_before_excl)
+   D3_groups_of_pregnancies_reconciled_before_excl)#, 
+  # D3_pregnancy_reconciled_before_excl)

@@ -6,6 +6,9 @@
 # 
 # link: https://github.com/ARS-toscana/ConcePTIONAlgorithmPregnancies
 #
+# changelog v3.25, 30 March 2023:
+# - Added prediction of red-yellow record start of pregnancy
+#
 # changelog v3.25, 21 March 2023:
 # - Updated codelist
 # - Added verification for PERSON_REL PROMPT for ARS
@@ -160,7 +163,8 @@ source(paste0(thisdir,"/p_steps_pregnancy/step_04_02_T2.2_create_flowchart.R"))
 # 05 MAIN RECONCILIATION
 source(paste0(thisdir,"/p_steps_pregnancy/step_05_01_T2.3_merge_stream_of_same_person.R"))
 source(paste0(thisdir,"/p_steps_pregnancy/step_05_02_T2.2_reconciliation.R"))
-source(paste0(thisdir,"/p_steps_pregnancy/step_05_03_create_D3_final.R"))
+source(paste0(thisdir,"/p_steps_pregnancy/step_05_03_adjust_red_start.R"))
+source(paste0(thisdir,"/p_steps_pregnancy/step_05_04_create_D3_final.R"))
 
 # 06 SAMPLE FROM PREGNANCY COHORT 
 source(paste0(thisdir,"/p_steps_pregnancy/step_06_01_sample_from_pregnancies.R")) 
