@@ -42,7 +42,7 @@ library(dplyr)
 
 # loading data
 time <- fread(paste0(dirverification,"/DT_time.csv"))[, time]
-validation_sample <- fread(paste0(dirverification,"/sample_from_pregnancies_validated.csv"))
+validation_sample <- fread(paste0(dirverification,"/sample_from_pregnancies_verified.csv"))
 load(paste0(dirverification,"/original_sample", time, ".RData"))
 DT_recon <- fread(paste0(dirverification,"/TableReconciliation.csv"))
 
@@ -64,7 +64,7 @@ sample_validated <- sample_validated[, .(pregnancy_id,
 
 sample_validated <- sample_validated[, pregnancy_id := paste0("preg_", seq_along(.I))]
 
-fwrite(sample_validated, paste0(dirVerificationOutput,"/sample_verificated.csv"))
+fwrite(sample_validated, paste0(dirVerificationOutput,"/sample_verifited.csv"))
 
 # Report-Reproportioning
 render(paste0(dirverification,"/Report_verification_preg.Rmd"),           
