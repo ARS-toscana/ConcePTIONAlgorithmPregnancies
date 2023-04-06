@@ -24,8 +24,8 @@ if(this_datasource_has_conceptsets){
                            discard_from_environment = F,
                            dirinput = dirinput,
                            diroutput = dirtemp,
-                           extension = c("csv"),
-                           vocabularies_with_exact_search = "ICD9PROC"#,
+                           extension = c("csv")#,
+                           #vocabularies_with_exact_search = "ICD9PROC"#,
                            #vocabularies_with_dot_wildcard=c("READ")
                            )
   
