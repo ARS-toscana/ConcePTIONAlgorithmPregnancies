@@ -410,7 +410,7 @@ D3_gop <- merge(D3_gop, D3_PERSONS[, .(person_id, birth_date)], by = "person_id"
 D3_gop <- D3_gop[, age_at_start_of_pregnancy := as.integer((pregnancy_start_date - birth_date) / 365)]
 
 ## cleaning the dataset
-D3_groups_of_pregnancies_reconciled_before_excl <- D3_gop[, .(person_id,
+D3_groups_of_pregnancies_reconciled_before_predict <- D3_gop[, .(person_id,
                                                               age_at_start_of_pregnancy,
                                                               n,
                                                               record_date,
@@ -447,15 +447,15 @@ D3_groups_of_pregnancies_reconciled_before_excl <- D3_gop[, .(person_id,
                                                               origin,
                                                               child_id)]
 
-setnames(D3_groups_of_pregnancies_reconciled_before_excl, "pers_group_id", "pregnancy_id")
+setnames(D3_groups_of_pregnancies_reconciled_before_predict, "pers_group_id", "pregnancy_id")
 
 ################################################################################
 
 ## saving and rm
-save(D3_groups_of_pregnancies_reconciled_before_excl, file=paste0(dirtemp,"D3_groups_of_pregnancies_reconciled_before_excl.RData"))
+save(D3_groups_of_pregnancies_reconciled_before_predict, file=paste0(dirtemp,"D3_groups_of_pregnancies_reconciled_before_predict.RData"))
 #save(D3_pregnancy_reconciled_before_excl, file=paste0(dirtemp,"D3_pregnancy_reconciled_before_excl.RData"))
 
 rm(D3_gop, 
    D3_groups_of_pregnancies_MNIP,
-   D3_groups_of_pregnancies_reconciled_before_excl)#, 
+   D3_groups_of_pregnancies_reconciled_before_predict)#, 
   # D3_pregnancy_reconciled_before_excl)
