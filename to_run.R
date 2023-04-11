@@ -6,6 +6,9 @@
 # 
 # link: https://github.com/ARS-toscana/ConcePTIONAlgorithmPregnancies
 #
+# changelog v3.26, 11 April 2023:
+# - Updated Verification
+#
 # changelog v3.25, 30 March 2023:
 # - Added prediction of red-yellow record start of pregnancy
 #
@@ -168,15 +171,10 @@ source(paste0(thisdir,"/p_steps_pregnancy/step_05_04_create_D3_final.R"))
 
 # 06 SAMPLE FROM PREGNANCY COHORT 
 source(paste0(thisdir,"/p_steps_pregnancy/step_06_01_sample_from_pregnancies.R")) 
-#source(paste0(thisdir,"/p_steps_pregnancy/step_06_02_sample_from_insuf_quality.R")) 
-#source(paste0(thisdir,"/p_steps_pregnancy/step_06_03_sample_from_red.R")) 
 
 # 07 PREGNANCIES DESCRIPTION
 source(paste0(thisdir,"/p_steps_pregnancy/step_07_01_create_aggregated_tables.R")) 
 source(paste0(thisdir,"/p_steps_pregnancy/step_07_02_pregnancies_description.R")) 
-#source(paste0(thisdir,"/p_steps_pregnancy/step_07_03_records_description.R")) 
 source(paste0(thisdir,"/p_steps_pregnancy/step_07_04_create_aggregated_tables_for_manuscript.R")) 
 
-# 08 PREDICTIVE MODEL
-#source(paste0(thisdir,"/p_steps_pregnancy/step_08_01_predictive_model.R")) 
 

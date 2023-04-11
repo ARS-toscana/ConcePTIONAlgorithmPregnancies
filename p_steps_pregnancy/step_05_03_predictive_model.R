@@ -144,6 +144,42 @@ if(D3_groups_of_pregnancies_reconciled_before_excl[train_set == 1, .N] > 0){
   
   fwrite(cross_validation_results, file = paste0(direxp, "cross_validation_results.csv"))
   
+  
+  #------------------------------------------------
+  # Gestation age distribution for each record type 
+  #------------------------------------------------
+  
+  DT_red_stats <- data.table(record_type = character(0), mean = integer(0), sd = integer(0))
+  
+  for (type in unique(DT_green_blue_model[, record_type])){
+    tmp_mean <- as.integer(mean(DT_green_blue_model[record_type == type, days_from_start]))
+    if(DT_green_blue_model[record_type == type, .N] > 30 ){
+      tmp_var <- as.integer(sqrt(var(DT_green_blue_model[record_type == type, days_from_start])))
+    }else{
+      tmp_var <- 999
+    }
+    stats_row <- data.table(record_type = type, mean = tmp_mean, sd = tmp_var)
+    DT_red_stats <- rbind(DT_red_stats, stats_row)
+  }
+  
+  fwrite(DT_red_stats, file = paste0(direxp, "Gestage_distribution.csv"))
+  
+  #---------
+  # merge sd
+  #---------
+  DT_red_yellow <- merge(DT_red_yellow, 
+                         DT_red_stats, 
+                         by = c("record_type"), 
+                         all.x = TRUE)
+  
+  DT_red_yellow[is.na(sd), sd := 999]
+  #DT_red_yellow[is.na(mean), mean := as.integer(record_date - pregnancy_start_date)]
+  
+  DT_red_yellow <- DT_red_yellow[order(pregnancy_id, sd, -record_date)]
+  setnames(DT_red_yellow, "n", "n_old")
+  DT_red_yellow[, n := seq_along(.I), by = .(pregnancy_id)]
+  
+  
   #---------------
   # new imputation
   #---------------
@@ -157,42 +193,42 @@ if(D3_groups_of_pregnancies_reconciled_before_excl[train_set == 1, .N] > 0){
                                                                fill = TRUE)
   
   
-  #---------------------
-  # select median record
-  #---------------------
-  D3_groups_of_pregnancies_reconciled_before_excl[highest_quality == "4_red", record_selected := as.integer(number_red/2) + 1] 
-  
-  for (column in names(D3_groups_of_pregnancies_reconciled_before_excl)) {
-    if (column == "pregnancy_start_date" | 
-        column == "meaning_start_date" | 
-        column == "pregnancy_ongoing_date" | 
-        column == "meaning_ongoing_date"|
-        column == "pregnancy_end_date" |
-        column == "pregnancy_end_date" |
-        column == "meaning_end_date" |
-        column == "meaning" |
-        column == "pregnancy_start_date_predicted" |
-        column == "pregnancy_end_date_predicted") {
-      
-      setnames(D3_groups_of_pregnancies_reconciled_before_excl, column, "tmp_column")
-      
-      D3_groups_of_pregnancies_reconciled_before_excl[highest_quality == "4_red", 
-                                                      tmp_column_new := shift(tmp_column, 
-                                                                              n = record_selected -1,
-                                                                              type=c("lead")), 
-                                                      by = "pregnancy_id"]
-      
-      D3_groups_of_pregnancies_reconciled_before_excl[is.na(tmp_column_new), tmp_column_new := tmp_column]
-      
-      D3_groups_of_pregnancies_reconciled_before_excl[highest_quality == "4_red" & n ==1, 
-                                                      tmp_column := tmp_column_new]
-      
-      D3_groups_of_pregnancies_reconciled_before_excl <- D3_groups_of_pregnancies_reconciled_before_excl[, -c("tmp_column_new")]
-      
-      setnames(D3_groups_of_pregnancies_reconciled_before_excl, "tmp_column", column)
-    }
-  }
-  
+  # #---------------------
+  # # select median record
+  # #---------------------
+  # D3_groups_of_pregnancies_reconciled_before_excl[highest_quality == "4_red", record_selected := as.integer(number_red/2) + 1] 
+  # 
+  # for (column in names(D3_groups_of_pregnancies_reconciled_before_excl)) {
+  #   if (column == "pregnancy_start_date" | 
+  #       column == "meaning_start_date" | 
+  #       column == "pregnancy_ongoing_date" | 
+  #       column == "meaning_ongoing_date"|
+  #       column == "pregnancy_end_date" |
+  #       column == "pregnancy_end_date" |
+  #       column == "meaning_end_date" |
+  #       column == "meaning" |
+  #       column == "pregnancy_start_date_predicted" |
+  #       column == "pregnancy_end_date_predicted") {
+  #     
+  #     setnames(D3_groups_of_pregnancies_reconciled_before_excl, column, "tmp_column")
+  #     
+  #     D3_groups_of_pregnancies_reconciled_before_excl[highest_quality == "4_red", 
+  #                                                     tmp_column_new := shift(tmp_column, 
+  #                                                                             n = record_selected -1,
+  #                                                                             type=c("lead")), 
+  #                                                     by = "pregnancy_id"]
+  #     
+  #     D3_groups_of_pregnancies_reconciled_before_excl[is.na(tmp_column_new), tmp_column_new := tmp_column]
+  #     
+  #     D3_groups_of_pregnancies_reconciled_before_excl[highest_quality == "4_red" & n ==1, 
+  #                                                     tmp_column := tmp_column_new]
+  #     
+  #     D3_groups_of_pregnancies_reconciled_before_excl <- D3_groups_of_pregnancies_reconciled_before_excl[, -c("tmp_column_new")]
+  #     
+  #     setnames(D3_groups_of_pregnancies_reconciled_before_excl, "tmp_column", column)
+  #   }
+  # }
+  # 
   
 }else{
   D3_groups_of_pregnancies_reconciled_before_excl[, pregnancy_start_date_predicted := NA]
@@ -251,7 +287,7 @@ D3_pregnancy_reconciled_before_excl[, gestage_at_first_record := date_of_oldest_
 load(paste0(dirtemp,"output_spells_category.RData"))
 
 D3_LOSTFU <- copy(D3_pregnancy_reconciled_before_excl[, .(person_id, pregnancy_id, pregnancy_end_date)])
-D3_LOSTFU <- merge(D3_LOSTFU, output_spells_category, all.x = TRUE)
+D3_LOSTFU <- merge(D3_LOSTFU, output_spells_category, all.x = TRUE, by = "person_id")
 
 D3_LOSTFU <- D3_LOSTFU[pregnancy_end_date >= entry_spell_category & pregnancy_end_date <= exit_spell_category, 
                        end_pregnancy_in_spell := 1]
