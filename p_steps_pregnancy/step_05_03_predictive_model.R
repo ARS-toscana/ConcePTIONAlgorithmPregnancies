@@ -17,7 +17,7 @@ D3_groups_of_pregnancies_reconciled_before_excl[, record_year := as.integer(year
 D3_groups_of_pregnancies_reconciled_before_excl[, record_id := paste0(pregnancy_id, "_record_", n)]
 
 D3_groups_of_pregnancies_reconciled_before_excl[, distance_from_oldest := as.integer(record_date - date_of_oldest_record)]
-D3_groups_of_pregnancies_reconciled_before_excl[, distance_from_most_recent := as.integer(date_of_most_recent_record - record_date)]
+#D3_groups_of_pregnancies_reconciled_before_excl[, distance_from_most_recent := as.integer(date_of_most_recent_record - record_date)]
 
 D3_groups_of_pregnancies_reconciled_before_excl[record_year < 2000 , record_year := 1]
 D3_groups_of_pregnancies_reconciled_before_excl[record_year >= 2000 & record_year < 2005, record_year := 2]
@@ -75,11 +75,9 @@ if(D3_groups_of_pregnancies_reconciled_before_excl[train_set == 1, .N] > 0){
   #------------------
   # Random forest
   #------------------
-  library(ranger)
-  
   number_of_trees = 100
   
-  RF <- ranger(formula = days_from_start ~ record_type + age_at_start_of_pregnancy + record_year + distance_from_most_recent + distance_from_oldest,
+  RF <- ranger(formula = days_from_start ~ record_type + age_at_start_of_pregnancy + record_year + distance_from_oldest,
                data = DT_green_blue_model, 
                num.trees=number_of_trees)
 
@@ -125,7 +123,7 @@ if(D3_groups_of_pregnancies_reconciled_before_excl[train_set == 1, .N] > 0){
       to <- nrow(DT_cross_valid)
     }
     
-    RF_CV <- ranger(formula = days_from_start ~ record_type + age_at_start_of_pregnancy + record_year + distance_from_most_recent + distance_from_oldest,
+    RF_CV <- ranger(formula = days_from_start ~ record_type + age_at_start_of_pregnancy + record_year + distance_from_oldest,
                     data = train, 
                     num.trees=number_of_trees)
   
@@ -149,17 +147,26 @@ if(D3_groups_of_pregnancies_reconciled_before_excl[train_set == 1, .N] > 0){
   # Gestation age distribution for each record type 
   #------------------------------------------------
   
-  DT_red_stats <- data.table(record_type = character(0), mean = integer(0), sd = integer(0))
+  DT_red_stats <- data.table(record_type = character(0),  
+                             record_year = integer(0), 
+                             mean = integer(0), 
+                             sd = integer(0))
   
   for (type in unique(DT_green_blue_model[, record_type])){
-    tmp_mean <- as.integer(mean(DT_green_blue_model[record_type == type, days_from_start]))
-    if(DT_green_blue_model[record_type == type, .N] > 30 ){
-      tmp_var <- as.integer(sqrt(var(DT_green_blue_model[record_type == type, days_from_start])))
-    }else{
-      tmp_var <- 999
+    for(time in 1:6){
+      if(DT_green_blue[record_type == type & record_year == time, .N] > 30){
+        tmp_mean <- as.integer(mean(DT_green_blue[record_type == type & record_year == time, days_from_start]))
+      }else{
+        tmp_mean <- NA
+      }
+      if(DT_green_blue[record_type == type & record_year == time, .N] > 30 ){
+        tmp_var <- as.integer(sqrt(var(DT_green_blue[record_type == type & record_year == time, days_from_start])))
+      }else{
+        tmp_var <- 999
+      }
+      stats_row <- data.table(record_type = type, record_year = time, mean = tmp_mean, sd = tmp_var)
+      DT_red_stats <- rbind(DT_red_stats, stats_row)
     }
-    stats_row <- data.table(record_type = type, mean = tmp_mean, sd = tmp_var)
-    DT_red_stats <- rbind(DT_red_stats, stats_row)
   }
   
   fwrite(DT_red_stats, file = paste0(direxp, "Gestage_distribution.csv"))
@@ -167,9 +174,10 @@ if(D3_groups_of_pregnancies_reconciled_before_excl[train_set == 1, .N] > 0){
   #---------
   # merge sd
   #---------
+  DT_red_stats[, record_year := as.factor(record_year)]
   DT_red_yellow <- merge(DT_red_yellow, 
                          DT_red_stats, 
-                         by = c("record_type"), 
+                         by = c("record_type", "record_year"), 
                          all.x = TRUE)
   
   DT_red_yellow[is.na(sd), sd := 999]
@@ -191,44 +199,6 @@ if(D3_groups_of_pregnancies_reconciled_before_excl[train_set == 1, .N] > 0){
                                                                     DT_green_blue), 
                                                                use.names = TRUE, 
                                                                fill = TRUE)
-  
-  
-  # #---------------------
-  # # select median record
-  # #---------------------
-  # D3_groups_of_pregnancies_reconciled_before_excl[highest_quality == "4_red", record_selected := as.integer(number_red/2) + 1] 
-  # 
-  # for (column in names(D3_groups_of_pregnancies_reconciled_before_excl)) {
-  #   if (column == "pregnancy_start_date" | 
-  #       column == "meaning_start_date" | 
-  #       column == "pregnancy_ongoing_date" | 
-  #       column == "meaning_ongoing_date"|
-  #       column == "pregnancy_end_date" |
-  #       column == "pregnancy_end_date" |
-  #       column == "meaning_end_date" |
-  #       column == "meaning" |
-  #       column == "pregnancy_start_date_predicted" |
-  #       column == "pregnancy_end_date_predicted") {
-  #     
-  #     setnames(D3_groups_of_pregnancies_reconciled_before_excl, column, "tmp_column")
-  #     
-  #     D3_groups_of_pregnancies_reconciled_before_excl[highest_quality == "4_red", 
-  #                                                     tmp_column_new := shift(tmp_column, 
-  #                                                                             n = record_selected -1,
-  #                                                                             type=c("lead")), 
-  #                                                     by = "pregnancy_id"]
-  #     
-  #     D3_groups_of_pregnancies_reconciled_before_excl[is.na(tmp_column_new), tmp_column_new := tmp_column]
-  #     
-  #     D3_groups_of_pregnancies_reconciled_before_excl[highest_quality == "4_red" & n ==1, 
-  #                                                     tmp_column := tmp_column_new]
-  #     
-  #     D3_groups_of_pregnancies_reconciled_before_excl <- D3_groups_of_pregnancies_reconciled_before_excl[, -c("tmp_column_new")]
-  #     
-  #     setnames(D3_groups_of_pregnancies_reconciled_before_excl, "tmp_column", column)
-  #   }
-  # }
-  # 
   
 }else{
   D3_groups_of_pregnancies_reconciled_before_excl[, pregnancy_start_date_predicted := NA]
@@ -266,6 +236,44 @@ if(D3_groups_of_pregnancies_reconciled_before_excl[train_set == 1, .N] > 0){
     }
   }
 }
+
+#------------------------------
+# check start/end red records
+#------------------------------
+# start
+D3_groups_of_pregnancies_reconciled_before_excl[highest_quality == "4_red", 
+                                                pregnancy_start_date := min(date_of_oldest_record - 15, 
+                                                                            pregnancy_start_date)]
+
+D3_groups_of_pregnancies_reconciled_before_excl[highest_quality == "4_red", 
+                                                pregnancy_start_date_predicted := min(date_of_oldest_record - 15, 
+                                                                                      pregnancy_start_date_predicted)]
+
+D3_groups_of_pregnancies_reconciled_before_excl[highest_quality == "4_red", 
+                                                pregnancy_start_date := max(pregnancy_start_date, 
+                                                                            date_of_most_recent_record - 290)]
+
+D3_groups_of_pregnancies_reconciled_before_excl[highest_quality == "4_red", 
+                                                pregnancy_start_date_predicted := max(pregnancy_start_date_predicted, 
+                                                                                      date_of_most_recent_record - 290)]
+
+# end
+D3_groups_of_pregnancies_reconciled_before_excl[highest_quality == "4_red", 
+                                                pregnancy_end_date := max(date_of_most_recent_record, 
+                                                                          pregnancy_end_date)]
+
+D3_groups_of_pregnancies_reconciled_before_excl[highest_quality == "4_red", 
+                                                pregnancy_end_date := min(pregnancy_end_date, 
+                                                                          pregnancy_start_date + 300)]
+
+D3_groups_of_pregnancies_reconciled_before_excl[highest_quality == "4_red", 
+                                                pregnancy_end_date_predicted := max(date_of_most_recent_record, 
+                                                                                    pregnancy_end_date_predicted)]
+
+D3_groups_of_pregnancies_reconciled_before_excl[highest_quality == "4_red", 
+                                                pregnancy_end_date_predicted := min(pregnancy_end_date_predicted, 
+                                                                                    pregnancy_start_date_predicted + 300)]
+
 
 #---------------------------------
 # creating D3_pregnancy_reconciled
@@ -313,6 +321,9 @@ D3_pregnancy_reconciled_before_excl <- D3_pregnancy_reconciled_before_excl[LOSTF
 if (this_datasource_ends_red_pregnancies) {
   D3_pregnancy_reconciled_before_excl[highest_quality == "4_red" & type_of_pregnancy_end != "LOSTFU",
                                       pregnancy_end_date := date_of_most_recent_record]
+  
+  D3_pregnancy_reconciled_before_excl[highest_quality == "4_red" & type_of_pregnancy_end != "LOSTFU",
+                                      pregnancy_end_date_predicted := date_of_most_recent_record]
 }
 
 

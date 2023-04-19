@@ -6,6 +6,9 @@
 # 
 # link: https://github.com/ARS-toscana/ConcePTIONAlgorithmPregnancies
 #
+# changelog v3.27, 19 April 2023:
+# - updated predictive model
+#
 # changelog v3.26, 11 April 2023:
 # - Updated Verification
 #
