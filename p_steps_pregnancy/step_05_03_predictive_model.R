@@ -489,13 +489,13 @@ while (DT_ov[,.N]!=0) {
                      `:=`(new_pregnancy_group = 1)]
     
     # dividing non overlapping pregnancy --- > coloured_order == "1_green" & coloured_order_next_record == "1_green" &
-    DT_ov <- DT_ov[n == 1 & recon == 0 & !is.na(record_date_next_record) & 
-                       pregnancy_start_date > pregnancy_end_date_next_record, 
-                     `:=`(new_pregnancy_group = 1)]
-    
-    DT_ov <- DT_ov[n == 1 & recon == 0 & !is.na(record_date_next_record) & 
-                       pregnancy_end_date < pregnancy_start_date_next_record, 
-                     `:=`(new_pregnancy_group = 1)]
+    # DT_ov <- DT_ov[n == 1 & recon == 0 & !is.na(record_date_next_record) & 
+    #                    pregnancy_start_date > pregnancy_end_date_next_record, 
+    #                  `:=`(new_pregnancy_group = 1)]
+    # 
+    # DT_ov <- DT_ov[n == 1 & recon == 0 & !is.na(record_date_next_record) & 
+    #                    pregnancy_end_date < pregnancy_start_date_next_record, 
+    #                  `:=`(new_pregnancy_group = 1)]
     
     # dividing SA e T
     DT_ov <- DT_ov[n == 1 & recon == 0 & !is.na(record_date_next_record) & 
@@ -505,9 +505,9 @@ while (DT_ov[,.N]!=0) {
                      `:=`(new_pregnancy_group = 1)]
     
     # dividing green SA e T from inconcistencies
-    DT_ov <- DT_ov[n == 1 & recon == 0 & !is.na(record_date_next_record) & coloured_order == "1_green" &
-                       pregnancy_start_date > record_date_next_record, 
-                     `:=`(new_pregnancy_group = 1)]
+    # DT_ov <- DT_ov[n == 1 & recon == 0 & !is.na(record_date_next_record) & coloured_order == "1_green" &
+    #                    pregnancy_start_date > record_date_next_record + 30, 
+    #                  `:=`(new_pregnancy_group = 1)]
     
     # dividing other color SA e T from inconcistencies
     DT_ov <- DT_ov[n == 1 & recon == 0 & !is.na(record_date_next_record) & 
@@ -523,6 +523,22 @@ while (DT_ov[,.N]!=0) {
                        (as.integer(record_date_next_record - date_of_most_recent_record) > 120 |
                        as.integer(date_of_oldest_record - record_date_next_record) > 120),
                      `:=`(new_pregnancy_group = 1)]
+    
+    DT_ov <- DT_ov[n == 1 & recon == 0 & !is.na(record_date_next_record) & 
+                     coloured_order != "4_red" & 
+                     coloured_order_next_record == "4_red" &
+                     pregnancy_end_date < ymd(CDM_SOURCE$recommended_end_date) &
+                     record_date_next_record < pregnancy_start_date &
+                     as.integer(pregnancy_start_date - record_date_next_record) > 30,
+                   `:=`(new_pregnancy_group = 1)]
+    
+    DT_ov <- DT_ov[n == 1 & recon == 0 & !is.na(record_date_next_record) & 
+                     coloured_order != "4_red" & 
+                     coloured_order_next_record == "4_red" &
+                     pregnancy_end_date <= ymd(CDM_SOURCE$recommended_end_date) &
+                     record_date_next_record > pregnancy_end_date &
+                     as.integer(record_date_next_record - pregnancy_end_date) > 30,
+                   `:=`(new_pregnancy_group = 1)]
     
     
     # updating most recent and oldest record
@@ -838,8 +854,8 @@ DT_ov[, date_of_most_recent_record := max(record_date), by = "pregnancy_id" ]
 # Adjusting red start
 #----------------------
 DT_ov_pregnancy <- DT_ov[n==1]
-DT_ov_pregnancy[, pregnancy_start_date := max(date_of_oldest_record - 59, pregnancy_start_date), pregnancy_id]
-DT_ov_pregnancy[, pregnancy_end_date := max(date_of_most_recent_record, pregnancy_start_date + 59), pregnancy_id]
+DT_ov_pregnancy[highest_quality == "4_red", pregnancy_start_date := max(date_of_oldest_record - 59, pregnancy_start_date), pregnancy_id]
+DT_ov_pregnancy[highest_quality == "4_red", pregnancy_end_date := max(date_of_most_recent_record, pregnancy_start_date + 59), pregnancy_id]
 
 
 #------------------
