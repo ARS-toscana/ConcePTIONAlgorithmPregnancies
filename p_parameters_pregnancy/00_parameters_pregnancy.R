@@ -37,6 +37,12 @@ this_datasource_has_prompt_child <- ifelse(thisdatasource %in% datasource_with_p
 datasource_with_related_id_correspondig_to_child <- c("THL")
 this_datasource_has_related_id_correspondig_to_child <- ifelse(thisdatasource %in% datasource_with_related_id_correspondig_to_child, TRUE, FALSE) 
 
+#datasources that use predictive model to estimate start of pregnancies
+datasources_that_use_prediction_on_red <- c("ARS")
+this_datasource_use_prediction_on_red <- ifelse(thisdatasource %in% datasources_that_use_prediction_on_red, TRUE, FALSE) 
+
+
+
 if(this_datasource_has_prompt_child){
   this_datasource_has_prompt <- TRUE
 }

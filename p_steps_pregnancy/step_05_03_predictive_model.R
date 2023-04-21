@@ -35,7 +35,7 @@ D3_groups_of_pregnancies_reconciled_before_excl[is.na(train_set),  train_set := 
 D3_groups_of_pregnancies_reconciled_before_excl[,  train_set := max(train_set), pregnancy_id]
 
 
-if(D3_groups_of_pregnancies_reconciled_before_excl[train_set == 1, .N] > 0){
+if(this_datasource_use_prediction_on_red & D3_groups_of_pregnancies_reconciled_before_excl[train_set == 1, .N] > 0){
   # creating variable for record type
   D3_groups_of_pregnancies_reconciled_before_excl[, record_type := paste0(CONCEPTSET, "_", codvar)]
   D3_groups_of_pregnancies_reconciled_before_excl[is.na(codvar) | codvar == "", record_type := meaning]
@@ -325,6 +325,52 @@ if (this_datasource_ends_red_pregnancies) {
   D3_pregnancy_reconciled_before_excl[highest_quality == "4_red" & type_of_pregnancy_end != "LOSTFU",
                                       pregnancy_end_date_predicted := date_of_most_recent_record]
 }
+
+
+#--------------------------------
+# This datasource use prediction
+#--------------------------------
+
+if(this_datasource_use_prediction_on_red){
+  
+  D3_pregnancy_reconciled_before_excl[pregnancy_start_date := pregnancy_start_date_predicted]
+  
+  D3_pregnancy_reconciled_before_excl[highest_quality == "4_red" | highest_quality == "3_blue", 
+                                      pregnancy_end_date := pregnancy_end_date_predicted]
+}
+
+
+#--------------------------------
+# manage overlapping pregnancies
+#--------------------------------
+# find overlapping pregnancies
+DT.x <- copy(D3_pregnancy_reconciled_before_excl)
+DT.x <- DT.x[, .(person_id, pregnancy_id, pregnancy_start_date, pregnancy_end_date)]
+DT.y <- copy(DT.x)
+
+DT.xy <- merge(DT.x, DT.y, by = "person_id", allow.cartesian=TRUE)
+DT.xy <- DT.xy[pregnancy_id.x != pregnancy_id.y]
+
+DT.xy[pregnancy_end_date.x >= pregnancy_start_date.y &
+        pregnancy_end_date.x <= pregnancy_end_date.y,
+      overlapping := 1]
+
+DT.xy[pregnancy_start_date.x >= pregnancy_start_date.y &
+        pregnancy_start_date.x <= pregnancy_end_date.y,
+      overlapping := 1]
+
+DT.xy[is.na(overlapping), overlapping := 0]
+
+overlapping_preg <- unique(DT.xy[overlapping == 1, pregnancy_id.x])
+overlapping_pers <- unique(DT.xy[overlapping == 1, person_id])
+
+# correct overlapping pregnancies
+DT_overlap <- D3_pregnancy_reconciled_before_excl[person_id %in% overlapping_pers]
+D3_pregnancy_reconciled_before_excl <- D3_pregnancy_reconciled_before_excl[person_id %notin% overlapping_pers]
+
+
+
+
 
 
 # saving
