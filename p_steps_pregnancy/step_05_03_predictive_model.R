@@ -366,8 +366,7 @@ DT.xy[highest_quality.x == "4_red" &
         date_of_most_recent_record.x - date_of_most_recent_record.x > 260, 
       overlapping := 1]
 
-overlapping_preg <- unique(DT.xy[overlapping == 1, pregnancy_id.x])
-overlapping_pers <- unique(DT.xy[overlapping == 1, person_id])
+overlapping_preg <- unique(c(DT.xy[overlapping == 1, pregnancy_id.x], DT.xy[overlapping == 1, pregnancy_id.y]))
 
 # correct overlapping pregnancies
 DT_overlap <- D3_groups_of_pregnancies_reconciled_before_excl[pregnancy_id %in% overlapping_preg]
@@ -926,6 +925,8 @@ D3_pregnancy_reconciled_before_excl <- D3_pregnancy_reconciled_before_excl[, -c(
                                                                                 "date_of_principal_record")]
 
 D3_pregnancy_reconciled_before_excl <- rbind(D3_pregnancy_reconciled_before_excl, DT_ov_pregnancy)
+
+setnames(D3_pregnancy_reconciled_before_excl, "record_date", "date_of_principal_record")
 
 #--------
 # Saving

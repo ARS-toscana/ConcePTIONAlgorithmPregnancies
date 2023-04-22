@@ -6,6 +6,9 @@
 # 
 # link: https://github.com/ARS-toscana/ConcePTIONAlgorithmPregnancies
 #
+# changelog v3.28, 2 April 2023:
+# - added second reconciliation for overlapping pregnancies
+#
 # changelog v3.27, 19 April 2023:
 # - updated predictive model
 #
