@@ -183,7 +183,7 @@ if(this_datasource_use_prediction_on_red & D3_groups_of_pregnancies_reconciled_b
   DT_red_yellow[is.na(sd), sd := 999]
   #DT_red_yellow[is.na(mean), mean := as.integer(record_date - pregnancy_start_date)]
   
-  DT_red_yellow <- DT_red_yellow[order(pregnancy_id, sd, -record_date)]
+  DT_red_yellow <- DT_red_yellow[order(pregnancy_id, order_quality, sd, -record_date)]
   setnames(DT_red_yellow, "n", "n_old")
   DT_red_yellow[, n := seq_along(.I), by = .(pregnancy_id)]
   
@@ -926,7 +926,6 @@ D3_pregnancy_reconciled_before_excl <- D3_pregnancy_reconciled_before_excl[, -c(
                                                                                 "date_of_principal_record")]
 
 D3_pregnancy_reconciled_before_excl <- rbind(D3_pregnancy_reconciled_before_excl, DT_ov_pregnancy)
-
 
 #--------
 # Saving
