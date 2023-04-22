@@ -279,9 +279,9 @@ D3_pregnancy_reconciled_before_excl <- D3_groups_of_pregnancies_reconciled_befor
 D3_pregnancy_reconciled_before_excl <- D3_pregnancy_reconciled_before_excl[, -c("n")]
 D3_pregnancy_reconciled_before_excl[, gestage_at_first_record := date_of_oldest_record - pregnancy_start_date, by = "pregnancy_id" ]
 
-#--------
-# LOSTFU
-#--------
+#------------
+# LOSTFU 1/2
+#------------
 load(paste0(dirtemp,"output_spells_category.RData"))
 
 D3_LOSTFU <- copy(D3_pregnancy_reconciled_before_excl[, .(person_id, pregnancy_id, pregnancy_end_date)])
@@ -849,6 +849,7 @@ DT_ov[, highest_quality := min(highest_quality), pregnancy_id]
 # creating var 
 DT_ov[, date_of_oldest_record := min(record_date), by = "pregnancy_id" ]
 DT_ov[, date_of_most_recent_record := max(record_date), by = "pregnancy_id" ]
+DT_ov[, gestage_at_first_record := date_of_oldest_record - pregnancy_start_date, by = "pregnancy_id" ]
 
 #----------------------
 # Adjusting red start
@@ -857,11 +858,75 @@ DT_ov_pregnancy <- DT_ov[n==1]
 DT_ov_pregnancy[highest_quality == "4_red", pregnancy_start_date := max(date_of_oldest_record - 59, pregnancy_start_date), pregnancy_id]
 DT_ov_pregnancy[highest_quality == "4_red", pregnancy_end_date := max(date_of_most_recent_record, pregnancy_start_date + 59), pregnancy_id]
 
+#------------
+# LOSTFU 2/2
+#------------
+D3_LOSTFU <- copy(DT_ov_pregnancy[, .(person_id, pregnancy_id, pregnancy_end_date)])
+D3_LOSTFU <- merge(D3_LOSTFU, output_spells_category, all.x = TRUE, by = "person_id")
+
+D3_LOSTFU <- D3_LOSTFU[pregnancy_end_date >= entry_spell_category & pregnancy_end_date <= exit_spell_category, 
+                       end_pregnancy_in_spell := 1]
+
+D3_LOSTFU <- D3_LOSTFU[is.na(end_pregnancy_in_spell), end_pregnancy_in_spell := 0]
+D3_LOSTFU <- D3_LOSTFU[, .(end_pregnancy_in_spell = max(end_pregnancy_in_spell)), pregnancy_id]
+
+D3_LOSTFU <- D3_LOSTFU[end_pregnancy_in_spell == 1, LOSTFU := 0]
+D3_LOSTFU <- D3_LOSTFU[end_pregnancy_in_spell == 0, LOSTFU := 1]
+
+D3_LOSTFU <- D3_LOSTFU[, .(pregnancy_id, LOSTFU)]
+
+DT_ov_pregnancy <- merge(DT_ov_pregnancy, 
+                                             D3_LOSTFU, 
+                                             by = "pregnancy_id", 
+                                             all.x = TRUE)
+
+DT_ov_pregnancy <- DT_ov_pregnancy[LOSTFU == 1, type_of_pregnancy_end := "LOSTFU"]
+
 
 #------------------
 # Rbind fixed preg
 #-----------------
+cols_not_used <- names(DT_ov_pregnancy)[names(DT_ov_pregnancy) %notin% names(D3_pregnancy_reconciled_before_excl)]
+cols_missing <- names(D3_pregnancy_reconciled_before_excl)[names(D3_pregnancy_reconciled_before_excl) %notin% names(DT_ov_pregnancy)]
+
+DT_ov_pregnancy <- DT_ov_pregnancy[, -c("n",
+                                        "record_description",
+                                        "new_pregnancy_group",
+                                        "new_group",
+                                        "n_max",
+                                        "recon",
+                                        "pregnancy_start_date_next_record",
+                                        "pregnancy_end_date_next_record",
+                                        "coloured_order_next_record",
+                                        "type_of_pregnancy_end_next_record",
+                                        "record_date_next_record",
+                                        "start_diff",
+                                        "end_diff",
+                                        "PROMPT_next_record",
+                                        "ITEMSETS_next_record",
+                                        "EUROCAT_next_record",
+                                        "CONCEPTSETS_next_record",
+                                        "record_description_next_record",
+                                        "new_group_next_record",
+                                        "MNIP",
+                                        "MNIP_sum",
+                                        "birth_date")]
+
+D3_pregnancy_reconciled_before_excl <- D3_pregnancy_reconciled_before_excl[, -c("record_type",
+                                                                                "record_year",
+                                                                                "n_old",
+                                                                                "record_id",
+                                                                                "distance_from_oldest",        
+                                                                                "train_set",
+                                                                                "predicted_day_from_start",
+                                                                                "pregnancy_start_date_predicted",
+                                                                                "pregnancy_end_date_predicted",
+                                                                                "pregnancy_start_date_green",    
+                                                                                "days_from_start",
+                                                                                "date_of_principal_record")]
+
 D3_pregnancy_reconciled_before_excl <- rbind(D3_pregnancy_reconciled_before_excl, DT_ov_pregnancy)
+
 
 #--------
 # Saving
