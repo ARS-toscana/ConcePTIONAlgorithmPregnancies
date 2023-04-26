@@ -35,7 +35,7 @@ D3_groups_of_pregnancies_reconciled_before_excl[is.na(train_set),  train_set := 
 D3_groups_of_pregnancies_reconciled_before_excl[,  train_set := max(train_set), pregnancy_id]
 
 
-if(this_datasource_use_prediction_on_red & D3_groups_of_pregnancies_reconciled_before_excl[train_set == 1, .N] > 0){
+if(!this_datasource_do_not_use_prediction_on_red & D3_groups_of_pregnancies_reconciled_before_excl[train_set == 1, .N] > 0){
   # creating variable for record type
   D3_groups_of_pregnancies_reconciled_before_excl[, record_type := paste0(CONCEPTSET, "_", codvar)]
   D3_groups_of_pregnancies_reconciled_before_excl[is.na(codvar) | codvar == "", record_type := meaning]
@@ -320,7 +320,7 @@ if (this_datasource_ends_red_pregnancies) {
 # This datasource use prediction
 #--------------------------------
 
-if(this_datasource_use_prediction_on_red){
+if(!this_datasource_do_not_use_prediction_on_red){
   D3_pregnancy_reconciled_before_excl[!is.na(pregnancy_start_date_predicted), 
                                       pregnancy_start_date := max(pregnancy_start_date_predicted, 
                                                                   record_date - 300), 
@@ -438,7 +438,7 @@ if(length(overlapping_preg) > 0){
                           sd)]
   
   DT_ov[is.na(sd), sd:=999]
-  DT_ov <- DT_ov[, pers_group_id := person_id] 
+  DT_ov <- DT_ov[, pers_group_id := paste0(person_id, "_overl")] 
   DT_ov <- DT_ov[, highest_quality := coloured_order] 
   
   ## defining hierarchy & ordering
@@ -991,17 +991,37 @@ if(length(overlapping_preg) > 0){
   DT.xy[is.na(overlapping), overlapping := 0]
   
   # adding pregnancies with very distant record
-  DT.xy[highest_quality.x == "4_red" & 
-          date_of_most_recent_record.x - date_of_most_recent_record.x > 270, 
-        overlapping := 1]
+  # DT.xy[highest_quality.x == "4_red" & 
+  #         date_of_most_recent_record.x - date_of_most_recent_record.x > 270, 
+  #       overlapping := 1]
   
-  overlapping_preg <- unique(c(DT.xy[overlapping == 1, pregnancy_id.x], DT.xy[overlapping == 1, pregnancy_id.y]))
+  DT.xy.overlap <- DT.xy[overlapping == 1]
   
-  D3_excluded_for_overlapping <- D3_pregnancy_reconciled_before_excl[ pregnancy_id %in% overlapping_preg]
-  save(D3_excluded_for_overlapping, file = paste0(dirtemp, "D3_excluded_for_overlapping.RData"))
-  
-  D3_pregnancy_reconciled_before_excl <- D3_pregnancy_reconciled_before_excl[ pregnancy_id %notin% overlapping_preg]
+  if (DT.xy.overlap[, .N]>0){
+    DT.xy.overlap[, overlap_id:= paste0(min(pregnancy_id.x, pregnancy_id.y), 
+                                        max(pregnancy_id.x, pregnancy_id.y)), 
+                  by = seq_len(nrow(DT.xy.overlap))]
+    
+    DT.xy.all.preg <- rbind(DT.xy.overlap[, .(person_id, pregnancy_id = pregnancy_id.x, overlap_id)],
+                            DT.xy.overlap[, .(person_id, pregnancy_id = pregnancy_id.y, overlap_id)])
+    
+    DT.unique <- unique(DT.xy.all.preg[, .(person_id, pregnancy_id, overlap_id)],)
+    DT.unique <- DT.unique[, n_overlap := seq_along(.I), overlap_id]
+    
+    overlapping_preg <- unique(c(DT.xy[overlapping == 1, pregnancy_id.x], DT.xy[overlapping == 1, pregnancy_id.y]))
+    overlapping_preg_to_keep <- DT.unique[n_overlap==1, pregnancy_id]
+    overlapping_preg_to_dischard <- overlapping_preg[overlapping_preg %notin% overlapping_preg_to_keep]
+    
+    D3_excluded_for_overlapping <- D3_pregnancy_reconciled_before_excl[ pregnancy_id %in% overlapping_preg_to_dischard]
+    save(D3_excluded_for_overlapping, file = paste0(dirtemp, "D3_excluded_for_overlapping.RData"))
+    
+    D3_pregnancy_reconciled_before_excl <- D3_pregnancy_reconciled_before_excl[ pregnancy_id %notin% overlapping_preg_to_dischard]
+  }
 }
+
+D3_pregnancy_reconciled_before_excl[highest_quality == "4_red" | highest_quality == "2_yellow", 
+                                    pregnancy_start_date := max(pregnancy_start_date, pregnancy_end_date - 300), 
+                                    pregnancy_id]
 
 setnames(D3_pregnancy_reconciled_before_excl, "record_date", "date_of_principal_record")
 
