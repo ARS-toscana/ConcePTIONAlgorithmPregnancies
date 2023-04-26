@@ -231,6 +231,26 @@ if (this_datasource_has_prompt) {
 
 
     # classified DATEENDPREGNANCY with TYPE
+    if (thisdatasource=="PHARMO"){
+      
+      dataset_pregnancies2[pregnancy_end_date==DATEENDPREGNANCY & TYPE%in%unlist(dictonary_of_itemset_pregnancy_this_datasource[["LB"]]),type_of_pregnancy_end:="LB"]
+      dataset_pregnancies2[pregnancy_end_date==DATEENDPREGNANCY & TYPE%in%unlist(dictonary_of_itemset_pregnancy_this_datasource[["SA"]]) ,type_of_pregnancy_end:="SA"]
+      
+      dataset_pregnancies2[pregnancy_end_date==DATEENDPREGNANCY & 
+                             TYPE%in%unlist(dictonary_of_itemset_pregnancy_this_datasource[["UNK"]]) & 
+                             (as.integer(DATEENDPREGNANCY - DATESTARTPREGNANCY)/7)>22 
+                           ,type_of_pregnancy_end:="SB"]
+      
+      dataset_pregnancies2[pregnancy_end_date==DATEENDPREGNANCY & 
+                             TYPE%in%unlist(dictonary_of_itemset_pregnancy_this_datasource[["UNK"]]) & 
+                             (as.integer(DATEENDPREGNANCY - DATESTARTPREGNANCY)/7)<=22
+                           ,type_of_pregnancy_end:="SA"]
+      
+      dataset_pregnancies2[pregnancy_end_date==DATEENDPREGNANCY & 
+                             TYPE%in%unlist(dictonary_of_itemset_pregnancy_this_datasource[["UNK"]]) & 
+                             is.na(DATESTARTPREGNANCY)
+                           ,type_of_pregnancy_end:="UNK"]
+    }
     
     if (thisdatasource=="UOSL"){
       
