@@ -1,114 +1,11 @@
-#-------------------------------
+#------------------------------------------------------------------------------------------
 # ConcePTION_Algorithm_Pregnancies script
 #
-# v3.0 - 19 October 2022
+# v4.0 - 26 April 2022
 # authors: Claudia Bartolini, Rosa Gini, Giorgio Limoncella, Olga Paoletti, Davide Messina
 # 
 # link: https://github.com/ARS-toscana/ConcePTIONAlgorithmPregnancies
-#
-# changelog v3.28, 2 April 2023:
-# - added second reconciliation for overlapping pregnancies
-#
-# changelog v3.27, 19 April 2023:
-# - updated predictive model
-#
-# changelog v3.26, 11 April 2023:
-# - Updated Verification
-#
-# changelog v3.25, 30 March 2023:
-# - Added prediction of red-yellow record start of pregnancy
-#
-# changelog v3.25, 21 March 2023:
-# - Updated codelist
-# - Added verification for PERSON_REL PROMPT for ARS
-#
-# changelog v3.24, 20 March 2023:
-# - Updated verification report
-#
-# changelog v3.23, 18 March 2023:
-# - added PERSON_REL PROMPT
-#
-# changelog v3.22, 10 March 2023:
-# - added LOSTFU as type of PREG end
-# - added D3_mother_child
-# - fixed recon graphs
-# - included gest age concepts related to child
-#
-# changelog V3.21, 22 February 2022:
-# - transformed PERSON_REL person_id as char
-#
-# changelog V3.20, 20 February 2022:
-# - added THL parameters
-#
-# changelog V3.19, 2 February 2022:
-# - fix for missing ITEMSETS end date
-# - added intermediate flowchart datasets in g_intermediate
-#
-# changelog V3.18, 24 January 2022:
-# - validation sample strata reclassified
-#
-# changelog V3.17, 23 January 2022:
-# - set multiple obs period by default
-#
-# changelog V3.16, 20 January 2022:
-# - added param for not include conceptsets
-#
-# changelog V3.15, 13 January 2022:
-# - fixed error with ICPC codes
-#
-# changelog V3.14, 3 January 2022:
-# - added imputation for UNK gestage
-#
-# changelog V3.13, 27 December 2022:
-# - added imputation for SA gestage
-#
-# changelog V3.12, 15 December 2022:
-# - added visit for EpiChron
-#
-# changelog V3.11, 12 December 2022:
-# - EFEMERIS params updated
-#
-# changelog V3.10, 5 December 2022:
-# - reconciliation update 
-#
-# changelog V3.09, 1 December 2022:
-# - included option for multiple obs period
-#
-# changelog V3.08, 20 November 2022:
-# - added prompt with child person_id
-#
-# changelog V3.07, 18 November 2022:
-# - fix for repeated vocabulary of "TYPE" itemset
-#
-# changelog V3.06, 16 November 2022:
-# - fixed gestage for stillbirth possible (SB duplicate)
-#
-# changelog V3.05, 16 November 2022:
-# - added new UOSL meaning in 04_algorithm
-#
-# changelog V3.04, 11 November 2022:
-# - added parameters for EpiChron: TYPE
-#
-# changelog V3.03, 27 October 2022:
-# - added parameters for EFEMERIS
-#
-# changelog V3.02, 24 October 2022:
-# - added code for SNDS
-# - fixed D3_survey_and_visit_ids for empty ("") visit id
-#
-# changelog V3.01, 19 October 2022:
-# - fixed VID parameters
-# - fix for repeated meaning of survey
-# - fix for missing procedure 
-#
-# changelog V2:
-# - New codelist and flowchart
-# - service before termination --> quality 99
-# - D3_survey_and_visit_ids included
-# - Fix ICD9CM
-# -----------------------------
-
-
+#------------------------------------------------------------------------------------------
 
 rm(list=ls(all.names=TRUE))
 
