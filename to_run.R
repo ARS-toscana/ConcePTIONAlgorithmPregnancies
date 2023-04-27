@@ -5,7 +5,11 @@
 # authors: Claudia Bartolini, Rosa Gini, Giorgio Limoncella, Olga Paoletti, Davide Messina
 # 
 # link: https://github.com/ARS-toscana/ConcePTIONAlgorithmPregnancies
+#
+# Changelog 4.01, 27 April 2023:
+# - Update codelist
 #------------------------------------------------------------------------------------------
+
 
 rm(list=ls(all.names=TRUE))
 

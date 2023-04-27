@@ -549,7 +549,7 @@ Birth classified as narrow,ICD9CM,652.70,Prolapsed arm of fetus- unspecified as 
 Birth classified as narrow,ICD9CM,652.7,Prolapsed arm of fetus,,,narrow,P,BirthNarrow,PrA,652.7
 Birth classified as narrow,ICD9CM,652.71,Prolapsed arm of fetus- delivered- with or without mention of antepartum condition,,,narrow,P,BirthNarrow,PrA,652.71
 Birth classified as narrow,ICD9CM,652.73,Prolapsed arm of fetus- antepartum condition or complication,,,narrow,P,BirthNarrow,PrA,652.73
-Birth classified as narrow,ICD9CM,652.8,Other specified malposition or malpresentation- delivered- with or without mention of antepartum condition,,,narrow,P,BirthNarrow,PrA,652.8
+Birth classified as narrow,ICD9CM,652.81,Other specified malposition or malpresentation- delivered- with or without mention of antepartum condition,,,narrow,P,BirthNarrow,PrA,652.81
 Birth classified as narrow,ICD9CM,652.91,Unspecified malposition or malpresentation- delivered- with or without mention of antepartum condition,,,narrow,P,BirthNarrow,PrA,652.91
 Birth classified as narrow,ICD9CM,653.01,Major abnormality of bony pelvis- not further specified- delivered- with or without mention of antepartum condition,,,narrow,P,BirthNarrow,PrA,653.01
 Birth classified as narrow,ICD9CM,653.31,Outlet contraction of pelvis- delivered- with or without mention of antepartum condition,C0156979,Outlet pelvic contraction - delivered,narrow,P,BirthNarrow,PrA,653.31
@@ -9079,7 +9079,6 @@ Spontaneous abortion,ICD10,O06.7,Unspecified abortion- complete or unspecified- 
 Spontaneous abortion,ICD10,O06.8,Unspecified abortion- complete or unspecified- with other and unspecified complications,,,possible,P,SpontaneousAbortion,PrA,O06.8
 Spontaneous abortion,ICD10,O06.9,Unspecified abortion- complete or unspecified- without complication,,,possible,P,SpontaneousAbortion,PrA,O06.9
 Spontaneous abortion,ICD10,O08.1,Delayed or excessive haemorrhage following abortion and ectopic and molar pregnancy,C0495168,Delayed or excessive hemorrhage following abortion and ectopic and molar pregnancy,possible,P,SpontaneousAbortion,PrA,O08.1
-Spontaneous abortion,ICD10,O08.6,Damage to pelvic organs and tissues following abortion and ectopic and molar pregnancy,C0495173,Damage to pelvic organs and tissues following abortion and ectopic and molar pregnancy,narrow,P,SpontaneousAbortion,PrA,O08.6
 Spontaneous abortion,ICD10CM,O02.1,Missed abortion,C0000814,Missed abortion,possible,P,SpontaneousAbortion,PrA,O02.1
 Spontaneous abortion,ICD10CM,O03,Spontaneous abortion,C0000786,Spontaneous abortion,narrow,P,SpontaneousAbortion,PrA,O03
 Spontaneous abortion,ICD10CM,O03,miscarriage,C0000786,Spontaneous abortion,narrow,P,SpontaneousAbortion,PrA,O03
@@ -9119,7 +9118,6 @@ Spontaneous abortion,ICD10CM,O03.88,Urinary tract infection following complete o
 Spontaneous abortion,ICD10CM,O03.89,Complete or unspecified spontaneous abortion with other complications,,,narrow,P,SpontaneousAbortion,PrA,O03.89
 Spontaneous abortion,ICD10CM,O03.9,Complete or unspecified spontaneous abortion without complication - Spontaneous abortion- Complete or unspecified- without complication,,,narrow,P,SpontaneousAbortion,PrA,O03.9
 Spontaneous abortion,ICD10CM,O03.9,Miscarriage NOS,C0000786,Spontaneous abortion,narrow,P,SpontaneousAbortion,PrA,O03.9
-Spontaneous abortion,ICD10CM,O04,Medical abortion,C3146283,Medical abortion (finding),narrow,P,SpontaneousAbortion,PrA,O04
 Spontaneous abortion,ICD10CM,O05,Other abortion,C0477801,Other abortion,possible,P,SpontaneousAbortion,PrA,O05
 Spontaneous abortion,ICD10CM,O05.0,Other abortion- incomplete- complicated by genital tract and pelvic infection,,,possible,P,SpontaneousAbortion,PrA,O05.0
 Spontaneous abortion,ICD10CM,O05.1,Other abortion- incomplete- complicated by delayed or excessive haemorrhage,,,possible,P,SpontaneousAbortion,PrA,O05.1
@@ -9142,22 +9140,8 @@ Spontaneous abortion,ICD10CM,O06.6,Unspecified abortion- complete or unspecified
 Spontaneous abortion,ICD10CM,O06.7,Unspecified abortion- complete or unspecified- complicated by embolism,,,possible,P,SpontaneousAbortion,PrA,O06.7
 Spontaneous abortion,ICD10CM,O06.8,Unspecified abortion- complete or unspecified- with other and unspecified complications,,,possible,P,SpontaneousAbortion,PrA,O06.8
 Spontaneous abortion,ICD10CM,O06.9,Unspecified abortion- complete or unspecified- without complication,,,possible,P,SpontaneousAbortion,PrA,O06.9
-Spontaneous abortion,ICD10CM,O07,Failed attempted termination of pregnancy,C0392536,Failed attempted abortion,possible,P,SpontaneousAbortion,PrA,O07
-Spontaneous abortion,ICD10CM,O07,incomplete elective abortion,C2048762,incomplete elective abortion,narrow,P,SpontaneousAbortion,PrA,O07
-Spontaneous abortion,ICD10CM,O07.3,Failed medical abortion- with other and unspecified complications,C0477802,Failed medical abortion- with other and unspecified complications,possible,P,SpontaneousAbortion,PrA,O07.3
-Spontaneous abortion,ICD10CM,O07.4,Failed attempted termination of pregnancy without complication,C0269549,Failed attempted termination of pregnancy without complication,possible,P,SpontaneousAbortion,PrA,O07.4
 Spontaneous abortion,ICD10CM,O08.1,Delayed or excessive haemorrhage following abortion and ectopic and molar pregnancy,C0495168,Delayed or excessive hemorrhage following abortion and ectopic and molar pregnancy,possible,P,SpontaneousAbortion,PrA,O08.1
 Spontaneous abortion,ICD10CM,O08.1,Delayed or excessive hemorrhage following ectopic and molar pregnancy,C0495168,Delayed or excessive hemorrhage following abortion and ectopic and molar pregnancy,possible,P,SpontaneousAbortion,PrA,O08.1
-Spontaneous abortion,ICD10CM,O08.2,Embolism following abortion and ectopic and molar pregnancy,C0495169,Embolism following abortion and ectopic and molar pregnancy,narrow,P,SpontaneousAbortion,PrA,O08.2
-Spontaneous abortion,ICD10CM,O08.2,Embolism following ectopic and molar pregnancy,C0495169,Embolism following abortion and ectopic and molar pregnancy,narrow,P,SpontaneousAbortion,PrA,O08.2
-Spontaneous abortion,ICD10CM,O08.3,Shock following abortion and ectopic and molar pregnancy,C0495170,Shock following abortion and ectopic and molar pregnancy,narrow,P,SpontaneousAbortion,PrA,O08.3
-Spontaneous abortion,ICD10CM,O08.3,Shock following ectopic and molar pregnancy,C0495170,Shock following abortion and ectopic and molar pregnancy,narrow,P,SpontaneousAbortion,PrA,O08.3
-Spontaneous abortion,ICD10CM,O08.5,Metabolic disorders following abortion and ectopic and molar pregnancy,C0495172,Metabolic disorders following abortion and ectopic and molar pregnancy,narrow,P,SpontaneousAbortion,PrA,O08.5
-Spontaneous abortion,ICD10CM,O08.5,Metabolic disorders following an ectopic and molar pregnancy,C0495172,Metabolic disorders following abortion and ectopic and molar pregnancy,narrow,P,SpontaneousAbortion,PrA,O08.5
-Spontaneous abortion,ICD10CM,O08.6,Damage to pelvic organs and tissues following abortion and ectopic and molar pregnancy,C0495173,Damage to pelvic organs and tissues following abortion and ectopic and molar pregnancy,narrow,P,SpontaneousAbortion,PrA,O08.6
-Spontaneous abortion,ICD10CM,O08.6,Damage to pelvic organs and tissues following an ectopic and molar pregnancy,C0495173,Damage to pelvic organs and tissues following abortion and ectopic and molar pregnancy,narrow,P,SpontaneousAbortion,PrA,O08.6
-Spontaneous abortion,ICD10CM,Z37.11,single birth- stillborn child- following a termination of pregnancy for medical reasons,,single birth- stillborn child- following a termination of pregnancy for medical reasons  ,narrow,P,SpontaneousAbortion,PrA,Z37.11
-Spontaneous abortion,ICD10DA,O01.9A,Ektopisk mola,,,possible,P,SpontaneousAbortion,PrA,O01.9A
 Spontaneous abortion,ICD9CM,632,Missed abortion,C0000814,Missed abortion,possible,P,SpontaneousAbortion,PrA,632
 Spontaneous abortion,ICD9CM,634,Spontaneous abortion,C0000786,Spontaneous abortion,narrow,P,SpontaneousAbortion,PrA,634
 Spontaneous abortion,ICD9CM,634.0,Spontaneous abortion complicated by genital tract and pelvic infection,C0156424,Spontaneous abortion- complicated by genital tract and pelvic infection- unspecified,narrow,P,SpontaneousAbortion,PrA,634.0
@@ -9200,87 +9184,6 @@ Spontaneous abortion,ICD9CM,634.9,Spontaneous abortion without mention of compli
 Spontaneous abortion,ICD9CM,634.90,Spontaneous abortion- without mention of complication- unspecified,C0156459,Spontaneous abortion- without mention of complication- unspecified,narrow,P,SpontaneousAbortion,PrA,634.90
 Spontaneous abortion,ICD9CM,634.91,Spontaneous abortion- without mention of complication- incomplete,C0729205,Spontaneous abortion- incomplete- without complication,narrow,P,SpontaneousAbortion,PrA,634.91
 Spontaneous abortion,ICD9CM,634.92,Spontaneous abortion- without mention of complication- complete,C0156461,Spontaneous abortion- without mention of complication- complete,narrow,P,SpontaneousAbortion,PrA,634.92
-Spontaneous abortion,ICD9CM,635,Legally induced abortion,C1456876,Legal abortion (finding),narrow,P,SpontaneousAbortion,PrA,635
-Spontaneous abortion,ICD9CM,635.0,Legally induced abortion complicated by genital tract and pelvic infection,C0156464,Legally induced abortion- complicated by genital tract and pelvic infection- unspecified,narrow,P,SpontaneousAbortion,PrA,635.0
-Spontaneous abortion,ICD9CM,635.00,Legally induced abortion- complicated by genital tract and pelvic infection- unspecified,C0156464,Legally induced abortion- complicated by genital tract and pelvic infection- unspecified,narrow,P,SpontaneousAbortion,PrA,635.00
-Spontaneous abortion,ICD9CM,635.01,Legally induced abortion- complicated by genital tract and pelvic infection- incomplete,C0156465,Incomplete legal termination of pregnancy with genital tract or pelvic infection,narrow,P,SpontaneousAbortion,PrA,635.01
-Spontaneous abortion,ICD9CM,635.02,Legally induced abortion- complicated by genital tract and pelvic infection- complete,C0156466,Complete legal termination of pregnancy with genital tract or pelvic infection,narrow,P,SpontaneousAbortion,PrA,635.02
-Spontaneous abortion,ICD9CM,635.1,Legally induced abortion complicated by delayed or excessive hemorrhage,C0269450,Legally induced abortion- complicated by delayed or excessive hemorrhage- unspecified,narrow,P,SpontaneousAbortion,PrA,635.1
-Spontaneous abortion,ICD9CM,635.10,Legally induced abortion- complicated by delayed or excessive hemorrhage- unspecified,C0269450,Legally induced abortion- complicated by delayed or excessive hemorrhage- unspecified,narrow,P,SpontaneousAbortion,PrA,635.10
-Spontaneous abortion,ICD9CM,635.11,Legally induced abortion- complicated by delayed or excessive hemorrhage- incomplete,C0156469,Incomplete legal termination of pregnancy with delayed or excessive hemorrhage,narrow,P,SpontaneousAbortion,PrA,635.11
-Spontaneous abortion,ICD9CM,635.12,Legally induced abortion- complicated by delayed or excessive hemorrhage- complete,C0156470,Complete legal termination of pregnancy with delayed or excessive hemorrhage,narrow,P,SpontaneousAbortion,PrA,635.12
-Spontaneous abortion,ICD9CM,635.2,Legally induced abortion complicated by damage to pelvic organs or tissues,C0156472,Legal termination of pregnancy complicated by damage to pelvic organ and-or tissues,narrow,P,SpontaneousAbortion,PrA,635.2
-Spontaneous abortion,ICD9CM,635.20,Legally induced abortion- complicated by damage to pelvic organs or tissues- unspecified,C0156472,Legal termination of pregnancy complicated by damage to pelvic organ and-or tissues,narrow,P,SpontaneousAbortion,PrA,635.20
-Spontaneous abortion,ICD9CM,635.21,Legally induced abortion- complicated by damage to pelvic organs or tissues- incomplete,C0156473,Incomplete legal termination of pregnancy with damage to pelvic organs or tissues,narrow,P,SpontaneousAbortion,PrA,635.21
-Spontaneous abortion,ICD9CM,635.22,Legally induced abortion- complicated by damage to pelvic organs or tissues- complete,C0156474,Complete legal termination of pregnancy with damage to pelvic organs or tissues,narrow,P,SpontaneousAbortion,PrA,635.22
-Spontaneous abortion,ICD9CM,635.3,Legally induced abortion complicated by renal failure,C0269469,Legal termination of pregnancy complicated by renal failure,narrow,P,SpontaneousAbortion,PrA,635.3
-Spontaneous abortion,ICD9CM,635.30,Legally induced abortion- complicated by renal failure-unspecified,C0269469,Legal termination of pregnancy complicated by renal failure,narrow,P,SpontaneousAbortion,PrA,635.30
-Spontaneous abortion,ICD9CM,635.31,Legally induced abortion- complicated by renal failure- incomplete,C0156477,Incomplete legal termination of pregnancy with renal failure,narrow,P,SpontaneousAbortion,PrA,635.31
-Spontaneous abortion,ICD9CM,635.32,Legally induced abortion- complicated by renal failure- complete,C0156478,Complete legal termination of pregnancy with renal failure,narrow,P,SpontaneousAbortion,PrA,635.32
-Spontaneous abortion,ICD9CM,635.4,Legally induced abortion complicated by metabolic disorder,C0269474,Legal termination of pregnancy complicated by metabolic disorder,narrow,P,SpontaneousAbortion,PrA,635.4
-Spontaneous abortion,ICD9CM,635.40,Legally induced abortion- complicated by metabolic disorder- unspecified,C0269474,Legal termination of pregnancy complicated by metabolic disorder,narrow,P,SpontaneousAbortion,PrA,635.40
-Spontaneous abortion,ICD9CM,635.41,Legally induced abortion- complicated by metabolic disorder- incomplete,C0156481,Incomplete legal termination of pregnancy with metabolic disorder,narrow,P,SpontaneousAbortion,PrA,635.41
-Spontaneous abortion,ICD9CM,635.42,Legally induced abortion- complicated by metabolic disorder- complete,C0156482,Complete legal termination of pregnancy with metabolic disorder,narrow,P,SpontaneousAbortion,PrA,635.42
-Spontaneous abortion,ICD9CM,635.5,Legally induced abortion complicated by shock,C0269476,Legal termination of pregnancy complicated by shock,narrow,P,SpontaneousAbortion,PrA,635.5
-Spontaneous abortion,ICD9CM,635.50,Legally induced abortion- complicated by shock- unspecified,C0269476,Legal termination of pregnancy complicated by shock,narrow,P,SpontaneousAbortion,PrA,635.50
-Spontaneous abortion,ICD9CM,635.51,Legally induced abortion- complicated by shock- incomplete,C0156485,Incomplete legal termination of pregnancy with shock,narrow,P,SpontaneousAbortion,PrA,635.51
-Spontaneous abortion,ICD9CM,635.52,Legally induced abortion- complicated by shock- complete,C0156486,Complete legal termination of pregnancy with shock,narrow,P,SpontaneousAbortion,PrA,635.52
-Spontaneous abortion,ICD9CM,635.6,Legally induced abortion complicated by embolism,C0269479,Legal termination of pregnancy complicated by embolism,narrow,P,SpontaneousAbortion,PrA,635.6
-Spontaneous abortion,ICD9CM,635.60,Legally induced abortion- complicated by embolism- unspecified,C0269479,Legal termination of pregnancy complicated by embolism,narrow,P,SpontaneousAbortion,PrA,635.60
-Spontaneous abortion,ICD9CM,635.61,Legally induced abortion- complicated by embolism- incomplete,C0156489,Legally induced abortion- complicated by embolism- incomplete,narrow,P,SpontaneousAbortion,PrA,635.61
-Spontaneous abortion,ICD9CM,635.62,Legally induced abortion- complicated by embolism- complete,C0156490,Complete legal termination of pregnancy with embolism,narrow,P,SpontaneousAbortion,PrA,635.62
-Spontaneous abortion,ICD9CM,635.7,Legally induced abortion with other specified complications,C0156492,Legally induced abortion- with other specified complications- unspecified,narrow,P,SpontaneousAbortion,PrA,635.7
-Spontaneous abortion,ICD9CM,635.70,Legally induced abortion- with other specified complications- unspecified,C0156492,Legally induced abortion- with other specified complications- unspecified,narrow,P,SpontaneousAbortion,PrA,635.70
-Spontaneous abortion,ICD9CM,635.71,Legally induced abortion- with other specified complications- incomplete,C0156493,Legally induced abortion- with other specified complications- incomplete,narrow,P,SpontaneousAbortion,PrA,635.71
-Spontaneous abortion,ICD9CM,635.72,Legally induced abortion- with other specified complications- complete,C0156494,Legally induced abortion- with other specified complications- complete,narrow,P,SpontaneousAbortion,PrA,635.72
-Spontaneous abortion,ICD9CM,635.8,Legally induced abortion with unspecified complication,C0269441,Legal termination of pregnancy with complication,narrow,P,SpontaneousAbortion,PrA,635.8
-Spontaneous abortion,ICD9CM,635.80,Legally induced abortion- with unspecified complication- unspecified,C0269441,Legal termination of pregnancy with complication,narrow,P,SpontaneousAbortion,PrA,635.80
-Spontaneous abortion,ICD9CM,635.81,Legally induced abortion- with unspecified complication- incomplete,C0600042,incomplete legal abortion with complication,narrow,P,SpontaneousAbortion,PrA,635.81
-Spontaneous abortion,ICD9CM,635.82,Legally induced abortion- with unspecified complication- complete,C3697208,Complete legal abortion with complication,narrow,P,SpontaneousAbortion,PrA,635.82
-Spontaneous abortion,ICD9CM,635.9,Legally induced abortion without mention of complication,C0156499,Legally induced abortion- without mention of complication- unspecified,narrow,P,SpontaneousAbortion,PrA,635.9
-Spontaneous abortion,ICD9CM,635.90,Legally induced abortion- without mention of complication- unspecified,C0156499,Legally induced abortion- without mention of complication- unspecified,narrow,P,SpontaneousAbortion,PrA,635.90
-Spontaneous abortion,ICD9CM,635.91,Legally induced abortion- without mention of complication- incomplete,C0600043,Legally induced abortion- without mention of complication- incomplete,narrow,P,SpontaneousAbortion,PrA,635.91
-Spontaneous abortion,ICD9CM,635.92,Legally induced abortion- without mention of complication- complete,C1261319,Legally induced abortion- without mention of complication- complete,narrow,P,SpontaneousAbortion,PrA,635.92
-Spontaneous abortion,ICD9CM,636,Illegally induced abortion,C0000804,Abortion- Criminal,narrow,P,SpontaneousAbortion,PrA,636
-Spontaneous abortion,ICD9CM,636.0,Illegally induced abortion complicated by genital tract and pelvic infection,C0156504,Illegally induced abortion- complicated by genital tract and pelvic infection- unspecified,narrow,P,SpontaneousAbortion,PrA,636.0
-Spontaneous abortion,ICD9CM,636.00,Illegally induced abortion- complicated by genital tract and pelvic infection- unspecified,C0156504,Illegally induced abortion- complicated by genital tract and pelvic infection- unspecified,narrow,P,SpontaneousAbortion,PrA,636.00
-Spontaneous abortion,ICD9CM,636.01,Illegally induced abortion- complicated by genital tract and pelvic infection- incomplete,C0156505,Illegally induced abortion- complicated by genital tract and pelvic infection- incomplete,narrow,P,SpontaneousAbortion,PrA,636.01
-Spontaneous abortion,ICD9CM,636.02,Illegally induced abortion- complicated by genital tract and pelvic infection- complete,C0156506,Illegally induced abortion- complicated by genital tract and pelvic infection- complete,narrow,P,SpontaneousAbortion,PrA,636.02
-Spontaneous abortion,ICD9CM,636.1,Illegally induced abortion complicated by delayed or excessive hemorrhage,C0269505,Illegally induced abortion- complicated by delayed or excessive hemorrhage- unspecified,narrow,P,SpontaneousAbortion,PrA,636.1
-Spontaneous abortion,ICD9CM,636.10,Illegally induced abortion- complicated by delayed or excessive hemorrhage- unspecified,C0269505,Illegally induced abortion- complicated by delayed or excessive hemorrhage- unspecified,narrow,P,SpontaneousAbortion,PrA,636.10
-Spontaneous abortion,ICD9CM,636.11,Illegally induced abortion- complicated by delayed or excessive hemorrhage- incomplete,C0156509,Illegally induced abortion- complicated by delayed or excessive hemorrhage- incomplete,narrow,P,SpontaneousAbortion,PrA,636.11
-Spontaneous abortion,ICD9CM,636.12,Illegally induced abortion- complicated by delayed or excessive hemorrhage- complete,C0156510,Illegally induced abortion- complicated by delayed or excessive hemorrhage- complete,narrow,P,SpontaneousAbortion,PrA,636.12
-Spontaneous abortion,ICD9CM,636.2,Illegally induced abortion complicated by damage to pelvic organs or tissue,C0269509,Illegal termination of pregnancy complicated by damage to pelvic organs and-or tissues,narrow,P,SpontaneousAbortion,PrA,636.2
-Spontaneous abortion,ICD9CM,636.20,Illegally induced abortion- complicated by damage to pelvic organs or tissues- unspecified,C0269509,Illegal termination of pregnancy complicated by damage to pelvic organs and-or tissues,narrow,P,SpontaneousAbortion,PrA,636.20
-Spontaneous abortion,ICD9CM,636.21,Illegally induced abortion- complicated by damage to pelvic organs or tissues- incomplete,C0156513,Illegally induced abortion- complicated by damage to pelvic organs or tissues- incomplete,narrow,P,SpontaneousAbortion,PrA,636.21
-Spontaneous abortion,ICD9CM,636.22,Illegally induced abortion- complicated by damage to pelvic organs or tissues- complete,C0156514,Illegally induced abortion- complicated by damage to pelvic organs or tissues- complete,narrow,P,SpontaneousAbortion,PrA,636.22
-Spontaneous abortion,ICD9CM,636.3,Illegally induced abortion complicated by renal failure,C0269524,Illegal termination of pregnancy complicated by renal failure,narrow,P,SpontaneousAbortion,PrA,636.3
-Spontaneous abortion,ICD9CM,636.30,Illegally induced abortion- complicated by renal failure- unspecified,C0269524,Illegal termination of pregnancy complicated by renal failure,narrow,P,SpontaneousAbortion,PrA,636.30
-Spontaneous abortion,ICD9CM,636.31,Illegally induced abortion- complicated by renal failure- incomplete,C0156517,Illegally induced abortion- complicated by renal failure- incomplete,narrow,P,SpontaneousAbortion,PrA,636.31
-Spontaneous abortion,ICD9CM,636.32,Illegally induced abortion- complicated by renal failure- complete,C0156518,Illegally induced abortion- complicated by renal failure- complete,narrow,P,SpontaneousAbortion,PrA,636.32
-Spontaneous abortion,ICD9CM,636.4,Illegally induced abortion complicated by metabolic disorder,C0269529,Illegal termination of pregnancy complicated by metabolic disorder,narrow,P,SpontaneousAbortion,PrA,636.4
-Spontaneous abortion,ICD9CM,636.40,Illegally induced abortion- complicated by metabolic disorder- unspecified,C0269529,Illegal termination of pregnancy complicated by metabolic disorder,narrow,P,SpontaneousAbortion,PrA,636.40
-Spontaneous abortion,ICD9CM,636.41,Illegally induced abortion- complicated by metabolic disorder- incomplete,C0156521,Illegally induced abortion- complicated by metabolic disorder- incomplete,narrow,P,SpontaneousAbortion,PrA,636.41
-Spontaneous abortion,ICD9CM,636.42,Illegally induced abortion- complicated by metabolic disorder- complete,C0156522,Illegally induced abortion- complicated by metabolic disorder- complete,narrow,P,SpontaneousAbortion,PrA,636.42
-Spontaneous abortion,ICD9CM,636.5,Illegally induced abortion complicated by shock,C0269531,Illegal termination of pregnancy complicated by shock,narrow,P,SpontaneousAbortion,PrA,636.5
-Spontaneous abortion,ICD9CM,636.50,Illegally induced abortion- complicated by shock- unspecified,C0269531,Illegal termination of pregnancy complicated by shock,narrow,P,SpontaneousAbortion,PrA,636.50
-Spontaneous abortion,ICD9CM,636.51,Illegally induced abortion- complicated by shock- incomplete,C0156525,Illegally induced abortion- complicated by shock- incomplete,narrow,P,SpontaneousAbortion,PrA,636.51
-Spontaneous abortion,ICD9CM,636.6,Illegally induced abortion complicated by embolism,C0269534,Illegal termination of pregnancy complicated by embolism,narrow,P,SpontaneousAbortion,PrA,636.6
-Spontaneous abortion,ICD9CM,636.60,Illegally induced abortion- complicated by embolism- unspecified,C0269534,Illegal termination of pregnancy complicated by embolism,narrow,P,SpontaneousAbortion,PrA,636.60
-Spontaneous abortion,ICD9CM,636.61,Illegally induced abortion- complicated by embolism- incomplete,C0156529,Illegally induced abortion- complicated by embolism- incomplete,narrow,P,SpontaneousAbortion,PrA,636.61
-Spontaneous abortion,ICD9CM,636.62,Illegally induced abortion- complicated by embolism- complete,C0156530,Illegally induced abortion- complicated by embolism- complete,narrow,P,SpontaneousAbortion,PrA,636.62
-Spontaneous abortion,ICD9CM,636.7,Illegally induced abortion with other specified complications,C0156532,Illegally induced abortion- with other specified complications- unspecified,narrow,P,SpontaneousAbortion,PrA,636.7
-Spontaneous abortion,ICD9CM,636.70,Illegally induced abortion- with other specified complications- unspecified,C0156532,Illegally induced abortion- with other specified complications- unspecified,narrow,P,SpontaneousAbortion,PrA,636.70
-Spontaneous abortion,ICD9CM,636.71,Illegally induced abortion- with other specified complications- incomplete,C0156533,Illegally induced abortion- with other specified complications- incomplete,narrow,P,SpontaneousAbortion,PrA,636.71
-Spontaneous abortion,ICD9CM,636.72,Illegally induced abortion- with other specified complications- complete,C0156534,Illegally induced abortion- with other specified complications- complete,narrow,P,SpontaneousAbortion,PrA,636.72
-Spontaneous abortion,ICD9CM,636.8,Illegally induced abortion with unspecified complication,C0269496,Illegal termination of pregnancy with complication,narrow,P,SpontaneousAbortion,PrA,636.8
-Spontaneous abortion,ICD9CM,636.80,Illegally induced abortion- with unspecified complication- unspecified,C0269496,Illegal termination of pregnancy with complication,narrow,P,SpontaneousAbortion,PrA,636.80
-Spontaneous abortion,ICD9CM,636.81,Illegally induced abortion- with unspecified complication- incomplete,C0156537,Illegally induced abortion- with unspecified complication- incomplete,narrow,P,SpontaneousAbortion,PrA,636.81
-Spontaneous abortion,ICD9CM,636.82,Illegally induced abortion- with unspecified complication- complete,C0156538,Illegally induced abortion- with unspecified complication- complete,narrow,P,SpontaneousAbortion,PrA,636.82
-Spontaneous abortion,ICD9CM,636.9,Illegally induced abortion without mention of complication,C0260335,Illegal termination of pregnancy without complication,narrow,P,SpontaneousAbortion,PrA,636.9
-Spontaneous abortion,ICD9CM,636.90,Illegally induced abortion- without mention of complication- unspecified,C0260335,Illegal termination of pregnancy without complication,narrow,P,SpontaneousAbortion,PrA,636.90
-Spontaneous abortion,ICD9CM,636.91,Illegally induced abortion- without mention of complication- incomplete,C0156541,Illegally induced abortion- without mention of complication- incomplete,narrow,P,SpontaneousAbortion,PrA,636.91
-Spontaneous abortion,ICD9CM,636.92,Illegally induced abortion- without mention of complication- complete,C0156542,Illegally induced abortion- without mention of complication- complete,narrow,P,SpontaneousAbortion,PrA,636.92
 Spontaneous abortion,ICD9CM,637,Unspecified abortion,C0156543,Unspecified Abortion,possible,P,SpontaneousAbortion,PrA,637
 Spontaneous abortion,ICD9CM,637.0,Unspecified abortion complicated by genital tract and pelvic infection,C0156545,Unspecified abortion- complicated by genital tract and pelvic infection- unspecified,possible,P,SpontaneousAbortion,PrA,637.0
 Spontaneous abortion,ICD9CM,637.00,Unspecified abortion- complicated by genital tract and pelvic infection- unspecified,C0156545,Unspecified abortion- complicated by genital tract and pelvic infection- unspecified,possible,P,SpontaneousAbortion,PrA,637.00
@@ -9322,95 +9225,19 @@ Spontaneous abortion,ICD9CM,637.9,Unspecified abortion without mention of compli
 Spontaneous abortion,ICD9CM,637.90,Unspecified abortion- without mention of complication- unspecified,,,possible,P,SpontaneousAbortion,PrA,637.90
 Spontaneous abortion,ICD9CM,637.91,Unspecified abortion- without mention of complication- incomplete,,,possible,P,SpontaneousAbortion,PrA,637.91
 Spontaneous abortion,ICD9CM,637.92,Unspecified abortion- without mention of complication- complete,,,possible,P,SpontaneousAbortion,PrA,637.92
-Spontaneous abortion,ICD9CM,638,Failed attempted abortion,C0392536,Failed attempted abortion,possible,P,SpontaneousAbortion,PrA,638
-Spontaneous abortion,ICD9CM,638.0,Failed attempted abortion complicated by genital tract and pelvic infection,C0156584,Failed attempted abortion complicated by genital tract and pelvic infection,possible,P,SpontaneousAbortion,PrA,638.0
-Spontaneous abortion,ICD9CM,638.1,Failed attempted abortion complicated by delayed or excessive hemorrhage,C0156585,Failed attempted termination of pregnancy complicated by delayed and-or excessive hemorrhage,possible,P,SpontaneousAbortion,PrA,638.1
-Spontaneous abortion,ICD9CM,638.2,Failed attempted abortion complicated by damage to pelvic organs or tissues,C0269561,Failed attempted termination of pregnancy complicated by damage to pelvic organ and-or tissues,possible,P,SpontaneousAbortion,PrA,638.2
-Spontaneous abortion,ICD9CM,638.3,Failed attempted abortion complicated by renal failure,C0156587,Failed attempted termination of pregnancy complicated by renal failure,possible,P,SpontaneousAbortion,PrA,638.3
-Spontaneous abortion,ICD9CM,638.4,Failed attempted abortion complicated by metabolic disorder,C0156588,Failed attempted termination of pregnancy complicated by metabolic disorder,possible,P,SpontaneousAbortion,PrA,638.4
-Spontaneous abortion,ICD9CM,638.5,Failed attempted abortion complicated by shock,C0156589,Failed attempted termination of pregnancy complicated by shock,possible,P,SpontaneousAbortion,PrA,638.5
-Spontaneous abortion,ICD9CM,638.6,Failed attempted abortion complicated by embolism,C0156590,Failed attempted termination of pregnancy complicated by embolism,possible,P,SpontaneousAbortion,PrA,638.6
-Spontaneous abortion,ICD9CM,638.7,Failed attempted abortion with other specified complications,C0156591,Failed attempted abortion with other specified complications,possible,P,SpontaneousAbortion,PrA,638.7
-Spontaneous abortion,ICD9CM,638.8,Failed attempted abortion with unspecified complication,C0156592,Failed attempted termination of pregnancy with complication,possible,P,SpontaneousAbortion,PrA,638.8
-Spontaneous abortion,ICD9CM,638.9,Failed attempted abortion without mention of complication,C0269549,Failed attempted termination of pregnancy without complication,possible,P,SpontaneousAbortion,PrA,638.9
 Spontaneous abortion,ICD9CM,639.1,Delayed or excessive hemorrhage following abortion or ectopic and molar pregnancies,C0495168,Delayed or excessive hemorrhage following abortion and ectopic and molar pregnancy,possible,P,SpontaneousAbortion,PrA,639.1
-Spontaneous abortion,ICD9CM,639.2,Damage to pelvic organs and tissues following abortion or ectopic and molar pregnancies,C0495173,Damage to pelvic organs and tissues following abortion and ectopic and molar pregnancy,narrow,P,SpontaneousAbortion,PrA,639.2
-Spontaneous abortion,ICD9CM,639.3,Kidney failure following abortion and ectopic and molar pregnancies,C2712637,Kidney failure following abortion and ectopic and molar pregnancies,narrow,P,SpontaneousAbortion,PrA,639.3
-Spontaneous abortion,ICD9CM,639.4,Metabolic disorders following abortion or ectopic and molar pregnancies,C0495172,Metabolic disorders following abortion and ectopic and molar pregnancy,narrow,P,SpontaneousAbortion,PrA,639.4
-Spontaneous abortion,ICD9CM,639.5,Shock following abortion or ectopic and molar pregnancies,C0495170,Shock following abortion and ectopic and molar pregnancy,narrow,P,SpontaneousAbortion,PrA,639.5
-Spontaneous abortion,ICD9CM,639.6,Embolism following abortion or ectopic and molar pregnancies,C0495169,Embolism following abortion and ectopic and molar pregnancy,narrow,P,SpontaneousAbortion,PrA,639.6
-Spontaneous abortion,ICD9CM,639.8,Other specified complications following abortion or ectopic and molar pregnancy,C0156602,Other specified complications following abortion or ectopic and molar pregnancy,narrow,P,SpontaneousAbortion,PrA,639.8
 Spontaneous abortion,ICD9CM,646.3,Recurrent pregnancy loss,,,possible,P,SpontaneousAbortion,PrA,646.3
 Spontaneous abortion,ICD9CM,646.3,Recurrent pregnancy loss- unspecified as to episode of care or not applicable,,,possible,P,SpontaneousAbortion,PrA,646.3
 Spontaneous abortion,ICD9CM,646.31,Recurrent pregnancy loss- delivered- with or without mention of antepartum condition,C0156742,Recurrent pregnancy loss- delivered- with or without mention of antepartum condition,possible,P,SpontaneousAbortion,PrA,646.31
 Spontaneous abortion,ICD9CM,646.33,Recurrent pregnancy loss- antepartum condition or complication,C0156743,Recurrent pregnancy loss- antepartum condition or complication,possible,P,SpontaneousAbortion,PrA,646.33
 Spontaneous abortion,ICPC,W82,Abortion spontaneous,C0000786,Spontaneous abortion,narrow,P,SpontaneousAbortion,PrA,W82
-Spontaneous abortion,ICPC,W83,Abortion induced,C1704300,Induced abortion (finding),narrow,P,SpontaneousAbortion,PrA,W83
 Spontaneous abortion,ICPC2EENG,W82,Abortion spontaneous,C0000786,Spontaneous abortion,narrow,P,SpontaneousAbortion,PrA,W82
-Spontaneous abortion,ICPC2EENG,W83,Abortion induced,C1704300,Induced abortion (finding),narrow,P,SpontaneousAbortion,PrA,W83
 Spontaneous abortion,ICPC2P,W82001,Abortion-spontaneous,C0000786,Spontaneous abortion,narrow,P,SpontaneousAbortion,PrA,W82001
 Spontaneous abortion,ICPC2P,W82002,Abortion,C0156543,Unspecified Abortion,possible,P,SpontaneousAbortion,PrA,W82002
 Spontaneous abortion,ICPC2P,W82004,Miscarriage,C0000786,Spontaneous abortion,narrow,P,SpontaneousAbortion,PrA,W82004
 Spontaneous abortion,ICPC2P,W82007,Missed-abortion,C0000814,Missed abortion,possible,P,SpontaneousAbortion,PrA,W82007
 Spontaneous abortion,ICPC2P,W82008,Abortion-incomplete,C0812470,Incomplete abortion unspecified,possible,P,SpontaneousAbortion,PrA,W82008
-Spontaneous abortion,ICPC2P,W83002,Abortion-induced-legal,C1456876,Legal abortion (finding),narrow,P,SpontaneousAbortion,PrA,W83002
-Spontaneous abortion,ICPC2P,W83004,Termination of preg-request,C0581121,Requests pregnancy termination,possible,P,SpontaneousAbortion,PrA,W83004
-Spontaneous abortion,ICPC2P,W83005,Abortion-request,C0581121,Requests pregnancy termination,possible,P,SpontaneousAbortion,PrA,W83005
-Spontaneous abortion,MEDCODEID,115533013,Mural pregnancy,,,narrow,P,SpontaneousAbortion,PrA,115533013
-Spontaneous abortion,MEDCODEID,1209117011,Antenatal ultrasound confirms ectopic pregnancy,,,narrow,P,SpontaneousAbortion,PrA,1209117011
-Spontaneous abortion,MEDCODEID,1234377011,Fallopian tube pregnancy,,,narrow,P,SpontaneousAbortion,PrA,1234377011
-Spontaneous abortion,MEDCODEID,12717161000006113,Complications following abortion and ectopic and molar pregnancies,,,possible,P,SpontaneousAbortion,PrA,12717161000006113
-Spontaneous abortion,MEDCODEID,131553011,Cervical pregnancy,,,narrow,P,SpontaneousAbortion,PrA,131553011
-Spontaneous abortion,MEDCODEID,132037019,Tubal pregnancy,,,narrow,P,SpontaneousAbortion,PrA,132037019
-Spontaneous abortion,MEDCODEID,137128014,Abdominal pregnancy,,,narrow,P,SpontaneousAbortion,PrA,137128014
-Spontaneous abortion,MEDCODEID,13718411000006111,Ectopic pregnancy of left ovary,,,narrow,P,SpontaneousAbortion,PrA,13718411000006111
-Spontaneous abortion,MEDCODEID,13718431000006117,Ectopic pregnancy of right ovary,,,narrow,P,SpontaneousAbortion,PrA,13718431000006117
-Spontaneous abortion,MEDCODEID,145245010,Cornual pregnancy,,,narrow,P,SpontaneousAbortion,PrA,145245010
-Spontaneous abortion,MEDCODEID,1481702017,Removal of ectopic pregnancy from fallopian tube,,,narrow,P,SpontaneousAbortion,PrA,1481702017
-Spontaneous abortion,MEDCODEID,1481703010,Fimbrial extraction of tubal pregnancy,,,narrow,P,SpontaneousAbortion,PrA,1481703010
-Spontaneous abortion,MEDCODEID,148811000006119,Sepsis NOS following abortion-ectopic-molar pregnancy,,,possible,P,SpontaneousAbortion,PrA,148811000006119
-Spontaneous abortion,MEDCODEID,17279018,Ovarian pregnancy,,,narrow,P,SpontaneousAbortion,PrA,17279018
-Spontaneous abortion,MEDCODEID,2546831000006116,Complication following molar AND-OR ectopic pregnancy,,,possible,P,SpontaneousAbortion,PrA,2546831000006116
-Spontaneous abortion,MEDCODEID,273916010,Excision of ectopic ovarian pregnancy,,,narrow,P,SpontaneousAbortion,PrA,273916010
-Spontaneous abortion,MEDCODEID,273917018,Excision of ruptured ectopic tubal pregnancy,,,narrow,P,SpontaneousAbortion,PrA,273917018
-Spontaneous abortion,MEDCODEID,2776761000006115,Ruptured ectopic pregnancy,,,narrow,P,SpontaneousAbortion,PrA,2776761000006115
-Spontaneous abortion,MEDCODEID,2776771000006110,Aborted ectopic pregnancy,,,narrow,P,SpontaneousAbortion,PrA,2776771000006110
-Spontaneous abortion,MEDCODEID,305290019,Delivery of viable fetus in abdominal pregnancy,,,narrow,P,SpontaneousAbortion,PrA,305290019
-Spontaneous abortion,MEDCODEID,305295012,Tubal abortion,,,narrow,P,SpontaneousAbortion,PrA,305295012
-Spontaneous abortion,MEDCODEID,305296013,Tubal pregnancy NOS,,,narrow,P,SpontaneousAbortion,PrA,305296013
-Spontaneous abortion,MEDCODEID,305297016,Other ectopic pregnancy,,,narrow,P,SpontaneousAbortion,PrA,305297016
-Spontaneous abortion,MEDCODEID,305298014,Membranous pregnancy,,,narrow,P,SpontaneousAbortion,PrA,305298014
-Spontaneous abortion,MEDCODEID,305300014,Mesenteric pregnancy,,,narrow,P,SpontaneousAbortion,PrA,305300014
-Spontaneous abortion,MEDCODEID,305301013,Angular pregnancy,,,narrow,P,SpontaneousAbortion,PrA,305301013
-Spontaneous abortion,MEDCODEID,305303011,Other ectopic pregnancy NOS,,,narrow,P,SpontaneousAbortion,PrA,305303011
-Spontaneous abortion,MEDCODEID,305304017,Ectopic pregnancy NOS,,,narrow,P,SpontaneousAbortion,PrA,305304017
-Spontaneous abortion,MEDCODEID,3060451000006110,EP - Ectopic pregnancy,,,narrow,P,SpontaneousAbortion,PrA,3060451000006110
-Spontaneous abortion,MEDCODEID,308065014,Maternal care for viable fetus in abdominal pregnancy,,,narrow,P,SpontaneousAbortion,PrA,308065014
-Spontaneous abortion,MEDCODEID,308080015,[X]Other ectopic pregnancy,,,narrow,P,SpontaneousAbortion,PrA,308080015
-Spontaneous abortion,MEDCODEID,3819701000006113,Removal of intraligamentous ectopic pregnancy,,,narrow,P,SpontaneousAbortion,PrA,3819701000006113
-Spontaneous abortion,MEDCODEID,405601000006118,[X]Oth venous complicatns follow abortn+ectopic+molr pregncy,,,possible,P,SpontaneousAbortion,PrA,405601000006118
-Spontaneous abortion,MEDCODEID,407661000006111,[X]Other complications follow abortn+ectopic+molar pregnancy,,,possible,P,SpontaneousAbortion,PrA,407661000006111
-Spontaneous abortion,MEDCODEID,4793001000006113,Ruptured tubal pregnancy,,,narrow,P,SpontaneousAbortion,PrA,4793001000006113
-Spontaneous abortion,MEDCODEID,501321010,Mesometric pregnancy,,,narrow,P,SpontaneousAbortion,PrA,501321010
-Spontaneous abortion,MEDCODEID,5104861000006118,Viable fetus in abdominal pregnancy,,,narrow,P,SpontaneousAbortion,PrA,5104861000006118
-Spontaneous abortion,MEDCODEID,5104871000006113,Viable foetus in abdominal pregnancy,,,narrow,P,SpontaneousAbortion,PrA,5104871000006113
-Spontaneous abortion,MEDCODEID,5104881000006111,Unruptured tubal pregnancy,,,narrow,P,SpontaneousAbortion,PrA,5104881000006111
-Spontaneous abortion,MEDCODEID,5592021000006116,Secondary abdominal pregnancy,,,narrow,P,SpontaneousAbortion,PrA,5592021000006116
-Spontaneous abortion,MEDCODEID,574561000006119,Combined or heterotopic pregnancy,,,narrow,P,SpontaneousAbortion,PrA,574561000006119
-Spontaneous abortion,MEDCODEID,577381000006110,Complication NOS following abortion-ectopic-molar pregnancy,,,possible,P,SpontaneousAbortion,PrA,577381000006110
-Spontaneous abortion,MEDCODEID,577461000006111,Complications following abortion-ectopic-molar pregnancies,,,possible,P,SpontaneousAbortion,PrA,577461000006111
-Spontaneous abortion,MEDCODEID,577471000006116,Complications following abortion-ectopic-molar pregnancies,,,possible,P,SpontaneousAbortion,PrA,577471000006116
-Spontaneous abortion,MEDCODEID,58080013,Ectopic pregnancy,,,narrow,P,SpontaneousAbortion,PrA,58080013
-Spontaneous abortion,MEDCODEID,59478019,Intraligamentous pregnancy,,,narrow,P,SpontaneousAbortion,PrA,59478019
-Spontaneous abortion,MEDCODEID,6474551000006114,Aspiration of ectopic pregnancy from fallopian tube,,,narrow,P,SpontaneousAbortion,PrA,6474551000006114
-Spontaneous abortion,MEDCODEID,7264921000006115,Multiple pregnancy involving intrauterine pregnancy and tubal pregnancy,,,narrow,P,SpontaneousAbortion,PrA,7264921000006115
-Spontaneous abortion,MEDCODEID,7499561000006116,Miscarriage of tubal ectopic pregnancy,,,narrow,P,SpontaneousAbortion,PrA,7499561000006116
-Spontaneous abortion,MEDCODEID,806911000006111,Gravid fallopian tube rupture,,,narrow,P,SpontaneousAbortion,PrA,806911000006111
-Spontaneous abortion,MEDCODEID,870501000006114,Ovarian preg. removal op.,,,narrow,P,SpontaneousAbortion,PrA,870501000006114
-Spontaneous abortion,MEDCODEID,870511000006112,Ruptured tubal preg.removal op,,,narrow,P,SpontaneousAbortion,PrA,870511000006112
-Spontaneous abortion,MEDCODEID,870521000006116,Tubal preg. removal op.,,,narrow,P,SpontaneousAbortion,PrA,870521000006116
 Spontaneous abortion,MTHICD9,637.00,Unspecified type of abortion- unspecified- complicated by genital tract and pelvic infection,C0156545,Unspecified abortion- complicated by genital tract and pelvic infection- unspecified,possible,P,SpontaneousAbortion,PrA,637.00
-Spontaneous abortion,MTHICD9,639.3,Kidney failure following abortion or ectopic and molar pregnancies,C2712637,Kidney failure following abortion and ectopic and molar pregnancies,narrow,P,SpontaneousAbortion,PrA,639.3
 Spontaneous abortion,MTHICD9,646.31,Habitual aborter- delivered- with or without mention of antepartum condition,C0156742,Recurrent pregnancy loss- delivered- with or without mention of antepartum condition,possible,P,SpontaneousAbortion,PrA,646.31
 Spontaneous abortion,MTHICD9,646.33,Habitual aborter- antepartum condition or complication,C0156743,Recurrent pregnancy loss- antepartum condition or complication,possible,P,SpontaneousAbortion,PrA,646.33
 Spontaneous abortion,RCD,7E084,Suction termination of pregnancy,C0004050,Aspiration curettage of uterus for termination of pregnancy,,P,SpontaneousAbortion,PrA,7E084
@@ -9447,78 +9274,15 @@ Spontaneous abortion,RCD,XE0vh,Incomplete spontaneous abortion NOS,C0000810,Inco
 Spontaneous abortion,RCD,XE0xe,Abortion NOS,C0156543,Unspecified Abortion,possible,P,SpontaneousAbortion,PrA,XE0xe
 Spontaneous abortion,RCD,XM1PB,Retained products after spontaneous abortion,C0000810,Incomplete spontaneous abortion,narrow,P,SpontaneousAbortion,PrA,XM1PB
 Spontaneous abortion,RCD,XaBDd,Inevitable abortion complete,C0585601,Inevitable miscarriage complete,narrow,P,SpontaneousAbortion,PrA,XaBDd
-Spontaneous abortion,RCD2,7E066,Hysterot termination pregnancy,C0195643,Hysterotomy and termination of pregnancy,narrow,P,SpontaneousAbortion,PrA,7E066
-Spontaneous abortion,RCD2,7E084,Suction termination pregnancy,C0004050,Aspiration curettage of uterus for termination of pregnancy,narrow,P,SpontaneousAbortion,PrA,7E084
-Spontaneous abortion,RCD2,8M6..,Requests pregnancy termination,C0581121,Requests pregnancy termination,possible,P,SpontaneousAbortion,PrA,8M6..
-Spontaneous abortion,RCD2,L0...,Pregnancy + abortive outcome,C0156543,Unspecified Abortion,possible,P,SpontaneousAbortion,PrA,L0...
 Spontaneous abortion,RCD2,L041.,Spontaneous abortion incompl.,C0812470,Incomplete abortion unspecified,possible,P,SpontaneousAbortion,PrA,L041.
 Spontaneous abortion,RCD2,L042.,Spontaneous abortion complete,C1306041,Complete miscarriage,narrow,P,SpontaneousAbortion,PrA,L042.
 Spontaneous abortion,RCD2,L042z,Spontaneous abort.complete NOS,C1306041,Complete miscarriage,narrow,P,SpontaneousAbortion,PrA,L042z
-Spontaneous abortion,RCD2,L050.,Legal abortion unspecified,C1456876,Legal abortion (finding),narrow,P,SpontaneousAbortion,PrA,L050.
-Spontaneous abortion,RCD2,L0500,Legal ab.unsp.+genit-pelv.inf.,C0404925,Unspecified legal abortion with genital tract or pelvic infection,narrow,P,SpontaneousAbortion,PrA,L0500
-Spontaneous abortion,RCD2,L0501,Legal ab.unsp.+h-ge problem,C0269450,Legally induced abortion- complicated by delayed or excessive hemorrhage- unspecified,narrow,P,SpontaneousAbortion,PrA,L0501
-Spontaneous abortion,RCD2,L0502,Legal ab.unsp.+pelvic damage,C0156472,Legal termination of pregnancy complicated by damage to pelvic organ and-or tissues,narrow,P,SpontaneousAbortion,PrA,L0502
-Spontaneous abortion,RCD2,L0503,Legal ab.unsp.+renal failure,C0269469,Legal termination of pregnancy complicated by renal failure,narrow,P,SpontaneousAbortion,PrA,L0503
-Spontaneous abortion,RCD2,L0504,Legal ab.unsp.+metab.disorder,C0269474,Legal termination of pregnancy complicated by metabolic disorder,narrow,P,SpontaneousAbortion,PrA,L0504
-Spontaneous abortion,RCD2,L0505,Legal ab.unsp. + shock,C0269476,Legal termination of pregnancy complicated by shock,narrow,P,SpontaneousAbortion,PrA,L0505
-Spontaneous abortion,RCD2,L0506,Legal ab.unsp. + embolism,C0269479,Legal termination of pregnancy complicated by embolism,narrow,P,SpontaneousAbortion,PrA,L0506
-Spontaneous abortion,RCD2,L050w,Legal ab.unsp.+other complic.,C0156492,Legally induced abortion- with other specified complications- unspecified,narrow,P,SpontaneousAbortion,PrA,L050w
-Spontaneous abortion,RCD2,L050x,Legal ab.unsp.+complicat.NOS,C0269441,Legal termination of pregnancy with complication,narrow,P,SpontaneousAbortion,PrA,L050x
-Spontaneous abortion,RCD2,L050y,Legal ab.unsp.+no complicat.,C0156499,Legally induced abortion- without mention of complication- unspecified,narrow,P,SpontaneousAbortion,PrA,L050y
-Spontaneous abortion,RCD2,L050z,Legal abortion unspecified NOS,C1456876,Legal abortion (finding),narrow,P,SpontaneousAbortion,PrA,L050z
-Spontaneous abortion,RCD2,L0510,Legal ab.incom.+genit-pelv.inf,C0156465,Incomplete legal termination of pregnancy with genital tract or pelvic infection,narrow,P,SpontaneousAbortion,PrA,L0510
-Spontaneous abortion,RCD2,L0511,Legal ab.incom.+h-ge problem,C0156469,Incomplete legal termination of pregnancy with delayed or excessive hemorrhage,narrow,P,SpontaneousAbortion,PrA,L0511
-Spontaneous abortion,RCD2,L0512,Legal ab.incom.+pelvic damage,C0156473,Incomplete legal termination of pregnancy with damage to pelvic organs or tissues,narrow,P,SpontaneousAbortion,PrA,L0512
-Spontaneous abortion,RCD2,L0513,Legal ab.incom.+renal failure,C0156477,Incomplete legal termination of pregnancy with renal failure,narrow,P,SpontaneousAbortion,PrA,L0513
-Spontaneous abortion,RCD2,L0514,Legal ab.incom.+metab.disorder,C0156481,Incomplete legal termination of pregnancy with metabolic disorder,narrow,P,SpontaneousAbortion,PrA,L0514
-Spontaneous abortion,RCD2,L0515,Legal ab.incom. + shock,C0156485,Incomplete legal termination of pregnancy with shock,narrow,P,SpontaneousAbortion,PrA,L0515
-Spontaneous abortion,RCD2,L051w,Legal ab.incom.+other complic.,C0156493,Legally induced abortion- with other specified complications- incomplete,narrow,P,SpontaneousAbortion,PrA,L051w
-Spontaneous abortion,RCD2,L051x,Legal ab.incom.+complicat.NOS,C0600042,incomplete legal abortion with complication,narrow,P,SpontaneousAbortion,PrA,L051x
-Spontaneous abortion,RCD2,L051y,Legal ab.incom.+no complicat.,C0600043,Legally induced abortion- without mention of complication- incomplete,narrow,P,SpontaneousAbortion,PrA,L051y
-Spontaneous abortion,RCD2,L0520,Legal ab.compl.+genit-pelv.inf,C0156466,Complete legal termination of pregnancy with genital tract or pelvic infection,narrow,P,SpontaneousAbortion,PrA,L0520
-Spontaneous abortion,RCD2,L0521,Legal ab.compl.+h-ge problem,C0156470,Complete legal termination of pregnancy with delayed or excessive hemorrhage,narrow,P,SpontaneousAbortion,PrA,L0521
-Spontaneous abortion,RCD2,L0522,Legal ab.compl.+pelvic damage,C0156474,Complete legal termination of pregnancy with damage to pelvic organs or tissues,narrow,P,SpontaneousAbortion,PrA,L0522
-Spontaneous abortion,RCD2,L0523,Legal ab.compl.+renal failure,C0156478,Complete legal termination of pregnancy with renal failure,narrow,P,SpontaneousAbortion,PrA,L0523
-Spontaneous abortion,RCD2,L0524,Legal ab.compl.+metab.disorder,C0156482,Complete legal termination of pregnancy with metabolic disorder,narrow,P,SpontaneousAbortion,PrA,L0524
-Spontaneous abortion,RCD2,L0525,Legal ab.compl. + shock,C0156486,Complete legal termination of pregnancy with shock,narrow,P,SpontaneousAbortion,PrA,L0525
-Spontaneous abortion,RCD2,L0526,Legal ab.compl. + embolism,C0156490,Complete legal termination of pregnancy with embolism,narrow,P,SpontaneousAbortion,PrA,L0526
-Spontaneous abortion,RCD2,L052w,Legal ab.compl.+other complic.,C0156494,Legally induced abortion- with other specified complications- complete,narrow,P,SpontaneousAbortion,PrA,L052w
-Spontaneous abortion,RCD2,L052x,Legal ab.compl.+complicat.NOS,C3697208,Complete legal abortion with complication,narrow,P,SpontaneousAbortion,PrA,L052x
-Spontaneous abortion,RCD2,L052y,Legal ab.compl.+no complicat.,C1261319,Legally induced abortion- without mention of complication- complete,narrow,P,SpontaneousAbortion,PrA,L052y
-Spontaneous abortion,RCD2,L05z.,Legally induced abortion NOS,C1456876,Legal abortion (finding),narrow,P,SpontaneousAbortion,PrA,L05z.
-Spontaneous abortion,RCD2,L060.,Illegal abortion unspecified,C0000804,Abortion- Criminal,narrow,P,SpontaneousAbortion,PrA,L060.
-Spontaneous abortion,RCD2,L0601,Illegal ab.unsp.+h-ge problem,C0269505,Illegally induced abortion- complicated by delayed or excessive hemorrhage- unspecified,narrow,P,SpontaneousAbortion,PrA,L0601
-Spontaneous abortion,RCD2,L0602,Illegal ab.unsp.+pelvic damage,C0269509,Illegal termination of pregnancy complicated by damage to pelvic organs and-or tissues,narrow,P,SpontaneousAbortion,PrA,L0602
-Spontaneous abortion,RCD2,L0603,Illegal ab.unsp.+renal failure,C0269524,Illegal termination of pregnancy complicated by renal failure,narrow,P,SpontaneousAbortion,PrA,L0603
-Spontaneous abortion,RCD2,L0604,Illegal ab.unsp.+metab.disord.,C0269529,Illegal termination of pregnancy complicated by metabolic disorder,narrow,P,SpontaneousAbortion,PrA,L0604
-Spontaneous abortion,RCD2,L0605,Illegal ab.unsp. + shock,C0269531,Illegal termination of pregnancy complicated by shock,narrow,P,SpontaneousAbortion,PrA,L0605
-Spontaneous abortion,RCD2,L0606,Illegal ab.unsp. + embolism,C0269534,Illegal termination of pregnancy complicated by embolism,narrow,P,SpontaneousAbortion,PrA,L0606
-Spontaneous abortion,RCD2,L060w,Illegal ab.unsp.+other complic,C0156532,Illegally induced abortion- with other specified complications- unspecified,narrow,P,SpontaneousAbortion,PrA,L060w
-Spontaneous abortion,RCD2,L060x,Illegal ab.unsp.+complicat.NOS,C0269496,Illegal termination of pregnancy with complication,narrow,P,SpontaneousAbortion,PrA,L060x
-Spontaneous abortion,RCD2,L060y,Illegal ab.unsp.+no complicat.,C0260335,Illegal termination of pregnancy without complication,narrow,P,SpontaneousAbortion,PrA,L060y
-Spontaneous abortion,RCD2,L060z,Illegal abortion unspecif.NOS,C0000804,Abortion- Criminal,narrow,P,SpontaneousAbortion,PrA,L060z
-Spontaneous abortion,RCD2,L061w,Illegal ab.incom.+other compl.,C0156533,Illegally induced abortion- with other specified complications- incomplete,narrow,P,SpontaneousAbortion,PrA,L061w
-Spontaneous abortion,RCD2,L062w,Illegal ab.compl.+other compl.,C0156534,Illegally induced abortion- with other specified complications- complete,narrow,P,SpontaneousAbortion,PrA,L062w
-Spontaneous abortion,RCD2,L06z.,Illegally induced abortion NOS,C0000804,Abortion- Criminal,narrow,P,SpontaneousAbortion,PrA,L06z.
-Spontaneous abortion,RCD2,L07..,Unspecified abortion,C0156543,Unspecified Abortion,possible,P,SpontaneousAbortion,PrA,L07..
-Spontaneous abortion,RCD2,L070z,Unspecified abortion NOS,C0156543,Unspecified Abortion,possible,P,SpontaneousAbortion,PrA,L070z
 Spontaneous abortion,RCD2,L071.,Unspecif. abortion incomplete,C0812470,Incomplete abortion unspecified,possible,P,SpontaneousAbortion,PrA,L071.
 Spontaneous abortion,RCD2,L071z,Unspec.incomplete abortion NOS,C0812470,Incomplete abortion unspecified,possible,P,SpontaneousAbortion,PrA,L071z
-Spontaneous abortion,RCD2,L08..,Failed attempted abortion,C0392536,Failed attempted abortion,possible,P,SpontaneousAbortion,PrA,L08..
-Spontaneous abortion,RCD2,L08w.,Failed att.ab.+other complicat,C0156591,Failed attempted abortion with other specified complications,possible,P,SpontaneousAbortion,PrA,L08w.
-Spontaneous abortion,RCD2,L08x.,Failed att.ab.+complicat.NOS,C0156592,Failed attempted termination of pregnancy with complication,possible,P,SpontaneousAbortion,PrA,L08x.
-Spontaneous abortion,RCD2,L08y.,Failed att.ab.+no complication,C0269549,Failed attempted termination of pregnancy without complication,possible,P,SpontaneousAbortion,PrA,L08y.
-Spontaneous abortion,RCD2,L08z.,Failed attempted abortion NOS,C0392536,Failed attempted abortion,possible,P,SpontaneousAbortion,PrA,L08z.
-Spontaneous abortion,RCD2,L0A4.,Fail med abort wthout complctn,C0451793,Failed medical termination of pregnancy- without complication,possible,P,SpontaneousAbortion,PrA,L0A4.
-Spontaneous abortion,RCD2,L0z..,Pregnancy+abortive outcome NOS,C0156543,Unspecified Abortion,possible,P,SpontaneousAbortion,PrA,L0z..
 Spontaneous abortion,RCD2,Lyu02,[X]Other abortion,C0477801,Other abortion,possible,P,SpontaneousAbortion,PrA,Lyu02
-Spontaneous abortion,RCD2,Lyu03,[X]Fail med abrt-wth o+uns cmp,C0477802,Failed medical abortion- with other and unspecified complications,possible,P,SpontaneousAbortion,PrA,Lyu03
-Spontaneous abortion,SCTSPA,10455003,remoción de un embarazo cervical ectópico por evacuación,C0195635,Removal of ectopic cervical pregnancy by evacuation,narrow,P,SpontaneousAbortion,PrA,10455003
 Spontaneous abortion,SCTSPA,10697004,aborto espontáneo complicado por insuficiencia renal,C0156435,Miscarriage complicated by renal failure,narrow,P,SpontaneousAbortion,PrA,10697004
 Spontaneous abortion,SCTSPA,109894007,Retained placenta,,,possible,P,SpontaneousAbortion,PrA,109894007
 Spontaneous abortion,SCTSPA,109895008,Retained placental fragment,,,possible,P,SpontaneousAbortion,PrA,109895008
-Spontaneous abortion,SCTSPA,111431001,aborto legal complicado por lesión de tejidos Y-U órganos pélvicos,C0156472,Legal termination of pregnancy complicated by damage to pelvic organ and-or tissues,narrow,P,SpontaneousAbortion,PrA,111431001
-Spontaneous abortion,SCTSPA,111432008,aborto legal con embolia gaseosa,C0269480,Legal termination of pregnancy with air embolism,narrow,P,SpontaneousAbortion,PrA,111432008
 Spontaneous abortion,SCTSPA,111453004,Retained placenta- without hemorrhage,,,possible,P,SpontaneousAbortion,PrA,111453004
 Spontaneous abortion,SCTSPA,1148484005,Retained uterine membrane,,,possible,P,SpontaneousAbortion,PrA,1148484005
 Spontaneous abortion,SCTSPA,1148619000,Retained uterine membrane without hemorrhage,,,possible,P,SpontaneousAbortion,PrA,1148619000
@@ -9527,8 +9291,6 @@ Spontaneous abortion,SCTSPA,1148941002,Retention of part of placenta and uterine
 Spontaneous abortion,SCTSPA,1148942009,Retention of part of placenta without hemorrhage,,,possible,P,SpontaneousAbortion,PrA,1148942009
 Spontaneous abortion,SCTSPA,1148943004,Retention of placenta and uterine membrane,,,possible,P,SpontaneousAbortion,PrA,1148943004
 Spontaneous abortion,SCTSPA,13384007,aborto espontáneo complicado por trastorno metabólico,C0156439,Miscarriage complicated by metabolic disorder,narrow,P,SpontaneousAbortion,PrA,13384007
-Spontaneous abortion,SCTSPA,13943000,intento fallido de aborto complicado por embolia,C0156590,Failed attempted termination of pregnancy complicated by embolism,possible,P,SpontaneousAbortion,PrA,13943000
-Spontaneous abortion,SCTSPA,149998006,operación para finalización del embarazo- SAI,C0404068,Operative termination of pregnancy,narrow,P,SpontaneousAbortion,PrA,149998006
 Spontaneous abortion,SCTSPA,156072005,aborto espontáneo incompleto,C0000810,Incomplete spontaneous abortion,narrow,P,SpontaneousAbortion,PrA,156072005
 Spontaneous abortion,SCTSPA,156072005,aborto incompleto,C0812470,Incomplete abortion unspecified,possible,P,SpontaneousAbortion,PrA,156072005
 Spontaneous abortion,SCTSPA,156073000,aborto espontáneo completo,C1306041,Complete miscarriage,narrow,P,SpontaneousAbortion,PrA,156073000
@@ -9541,10 +9303,6 @@ Spontaneous abortion,SCTSPA,16607004,aborto inadvertido,C0000814,Missed abortion
 Spontaneous abortion,SCTSPA,16863000,aborto espontáneo incompleto,C0812470,Incomplete abortion unspecified,possible,P,SpontaneousAbortion,PrA,16863000
 Spontaneous abortion,SCTSPA,16863000,aborto retenido,C0000810,Incomplete spontaneous abortion,narrow,P,SpontaneousAbortion,PrA,16863000
 Spontaneous abortion,SCTSPA,17369002,aborto espontáneo,C0000786,Spontaneous abortion,narrow,P,SpontaneousAbortion,PrA,17369002
-Spontaneous abortion,SCTSPA,18302006,aborto terapéutico por histerotomía,C0195643,Hysterotomy and termination of pregnancy,narrow,P,SpontaneousAbortion,PrA,18302006
-Spontaneous abortion,SCTSPA,18391007,aborto electivo,C0269439,Elective abortion,narrow,P,SpontaneousAbortion,PrA,18391007
-Spontaneous abortion,SCTSPA,184005004,solicita interrupción del embarazo (situación),,,possible,P,SpontaneousAbortion,PrA,184005004
-Spontaneous abortion,SCTSPA,18684002,aborto ilegal complicado por trastorno metabólico,C0269529,Illegal termination of pregnancy complicated by metabolic disorder,narrow,P,SpontaneousAbortion,PrA,18684002
 Spontaneous abortion,SCTSPA,19169002,aborto espontáneo en el primer trimestre,C0269388,Miscarriage in first trimester,narrow,P,SpontaneousAbortion,PrA,19169002
 Spontaneous abortion,SCTSPA,19169002,aborto espontáneo en el primer trimestre (trastorno),,,narrow,P,SpontaneousAbortion,PrA,19169002
 Spontaneous abortion,SCTSPA,198631006,aborto espontáneo- no especificado,C0000786,Spontaneous abortion,narrow,P,SpontaneousAbortion,PrA,198631006
@@ -9571,161 +9329,52 @@ Spontaneous abortion,SCTSPA,198663000,aborto espontáneo completo con embolia,C0
 Spontaneous abortion,SCTSPA,198665007,aborto espontáneo completo con complicación- SAI,C0156458,complete spontaneous abortion with complication,narrow,P,SpontaneousAbortion,PrA,198665007
 Spontaneous abortion,SCTSPA,198667004,aborto espontáneo completo- SAI,C1306041,Complete miscarriage,narrow,P,SpontaneousAbortion,PrA,198667004
 Spontaneous abortion,SCTSPA,198689000,aborto espontáneo- SAI,C0000786,Spontaneous abortion,narrow,P,SpontaneousAbortion,PrA,198689000
-Spontaneous abortion,SCTSPA,198691008,aborto legal no especificado,C1456876,Legal abortion (finding),narrow,P,SpontaneousAbortion,PrA,198691008
-Spontaneous abortion,SCTSPA,198692001,aborto legal no especificado con infección pélvica o del aparato genital,C0404925,Unspecified legal abortion with genital tract or pelvic infection,narrow,P,SpontaneousAbortion,PrA,198692001
-Spontaneous abortion,SCTSPA,198693006,aborto legal no especificado con hemorragia tardía o excesiva,C0269450,Legally induced abortion- complicated by delayed or excessive hemorrhage- unspecified,narrow,P,SpontaneousAbortion,PrA,198693006
-Spontaneous abortion,SCTSPA,198694000,aborto legal no especificado con lesión de órganos o tejidos pélvicos,C0156472,Legal termination of pregnancy complicated by damage to pelvic organ and-or tissues,narrow,P,SpontaneousAbortion,PrA,198694000
-Spontaneous abortion,SCTSPA,198695004,aborto legal no especificado con insuficiencia renal,C0269469,Legal termination of pregnancy complicated by renal failure,narrow,P,SpontaneousAbortion,PrA,198695004
-Spontaneous abortion,SCTSPA,198696003,aborto legal no especificado con trastorno metabólico,C0269474,Legal termination of pregnancy complicated by metabolic disorder,narrow,P,SpontaneousAbortion,PrA,198696003
-Spontaneous abortion,SCTSPA,198697007,aborto legal no especificado con choque,C0269476,Legal termination of pregnancy complicated by shock,narrow,P,SpontaneousAbortion,PrA,198697007
-Spontaneous abortion,SCTSPA,198698002,aborto legal no especificado con embolia,C0269479,Legal termination of pregnancy complicated by embolism,narrow,P,SpontaneousAbortion,PrA,198698002
-Spontaneous abortion,SCTSPA,198699005,aborto legal no especificado con otra complicación especificada,C0156492,Legally induced abortion- with other specified complications- unspecified,narrow,P,SpontaneousAbortion,PrA,198699005
-Spontaneous abortion,SCTSPA,198701005,aborto legal no especificado con complicación- SAI,C0269441,Legal termination of pregnancy with complication,narrow,P,SpontaneousAbortion,PrA,198701005
-Spontaneous abortion,SCTSPA,198702003,aborto legal no especificado sin mención de complicación,C0156499,Legally induced abortion- without mention of complication- unspecified,narrow,P,SpontaneousAbortion,PrA,198702003
-Spontaneous abortion,SCTSPA,198703008,aborto legal no especificado- SAI,C1456876,Legal abortion (finding),narrow,P,SpontaneousAbortion,PrA,198703008
-Spontaneous abortion,SCTSPA,198705001,aborto legal incompleto con infección pélvica o del tracto genital,C0156465,Incomplete legal termination of pregnancy with genital tract or pelvic infection,narrow,P,SpontaneousAbortion,PrA,198705001
-Spontaneous abortion,SCTSPA,198706000,aborto legal incompleto con hemorragia tardía o excesiva,C0156469,Incomplete legal termination of pregnancy with delayed or excessive hemorrhage,narrow,P,SpontaneousAbortion,PrA,198706000
-Spontaneous abortion,SCTSPA,198707009,aborto legal incompleto con lesión de órganos o tejidos pélvicos,C0156473,Incomplete legal termination of pregnancy with damage to pelvic organs or tissues,narrow,P,SpontaneousAbortion,PrA,198707009
-Spontaneous abortion,SCTSPA,198708004,aborto legal incompleto con insuficiencia renal,C0156477,Incomplete legal termination of pregnancy with renal failure,narrow,P,SpontaneousAbortion,PrA,198708004
-Spontaneous abortion,SCTSPA,198709007,aborto legal incompleto con trastorno metabólico,C0156481,Incomplete legal termination of pregnancy with metabolic disorder,narrow,P,SpontaneousAbortion,PrA,198709007
-Spontaneous abortion,SCTSPA,198710002,aborto legal incompleto con choque,C0156485,Incomplete legal termination of pregnancy with shock,narrow,P,SpontaneousAbortion,PrA,198710002
-Spontaneous abortion,SCTSPA,198712005,aborto legal incompleto con otra complicación especificada,C0156493,Legally induced abortion- with other specified complications- incomplete,narrow,P,SpontaneousAbortion,PrA,198712005
-Spontaneous abortion,SCTSPA,198714006,aborto legal incompleto con complicación- SAI,C0600042,incomplete legal abortion with complication,narrow,P,SpontaneousAbortion,PrA,198714006
-Spontaneous abortion,SCTSPA,198715007,aborto legal incompleto sin mención de complicación,C0600043,Legally induced abortion- without mention of complication- incomplete,narrow,P,SpontaneousAbortion,PrA,198715007
-Spontaneous abortion,SCTSPA,198718009,aborto legal completo con infección pélvica o del tracto genital,C0156466,Complete legal termination of pregnancy with genital tract or pelvic infection,narrow,P,SpontaneousAbortion,PrA,198718009
-Spontaneous abortion,SCTSPA,198719001,aborto legal completo con hemorragia tardía o excesiva,C0156470,Complete legal termination of pregnancy with delayed or excessive hemorrhage,narrow,P,SpontaneousAbortion,PrA,198719001
-Spontaneous abortion,SCTSPA,198720007,aborto legal completo con daño de órganos o tejidos pélvicos,C0156474,Complete legal termination of pregnancy with damage to pelvic organs or tissues,narrow,P,SpontaneousAbortion,PrA,198720007
-Spontaneous abortion,SCTSPA,198721006,aborto legal completo con insuficiencia renal,C0156478,Complete legal termination of pregnancy with renal failure,narrow,P,SpontaneousAbortion,PrA,198721006
-Spontaneous abortion,SCTSPA,198722004,aborto legal completo con trastorno metabólico,C0156482,Complete legal termination of pregnancy with metabolic disorder,narrow,P,SpontaneousAbortion,PrA,198722004
-Spontaneous abortion,SCTSPA,198723009,aborto legal completo con choque,C0156486,Complete legal termination of pregnancy with shock,narrow,P,SpontaneousAbortion,PrA,198723009
-Spontaneous abortion,SCTSPA,198724003,aborto legal completo con embolia,C0156490,Complete legal termination of pregnancy with embolism,narrow,P,SpontaneousAbortion,PrA,198724003
-Spontaneous abortion,SCTSPA,198725002,aborto legal completo con otra complicación especificada,C0156494,Legally induced abortion- with other specified complications- complete,narrow,P,SpontaneousAbortion,PrA,198725002
-Spontaneous abortion,SCTSPA,198726001,aborto legal completo con complicación- SAI,C0156498,Legally induced abortion- with unspecified complication- complete,narrow,P,SpontaneousAbortion,PrA,198726001
-Spontaneous abortion,SCTSPA,198726001,aborto legal completo con complicación- SAI,C3697208,Complete legal abortion with complication,narrow,P,SpontaneousAbortion,PrA,198726001
-Spontaneous abortion,SCTSPA,198727005,aborto legal completo sin mención de complicación,C1261319,Legally induced abortion- without mention of complication- complete,narrow,P,SpontaneousAbortion,PrA,198727005
-Spontaneous abortion,SCTSPA,198729008,aborto inducido por razones legales- SAI,C1456876,Legal abortion (finding),narrow,P,SpontaneousAbortion,PrA,198729008
-Spontaneous abortion,SCTSPA,198731004,aborto ilegal- no especificado,C0000804,Abortion- Criminal,narrow,P,SpontaneousAbortion,PrA,198731004
-Spontaneous abortion,SCTSPA,198733001,aborto ilegal no especificado con hemorragia tardía o excesiva,C0269505,Illegally induced abortion- complicated by delayed or excessive hemorrhage- unspecified,narrow,P,SpontaneousAbortion,PrA,198733001
-Spontaneous abortion,SCTSPA,198734007,aborto ilegal no especificado con lesión de órganos o tejidos pélvicos,C0269509,Illegal termination of pregnancy complicated by damage to pelvic organs and-or tissues,narrow,P,SpontaneousAbortion,PrA,198734007
-Spontaneous abortion,SCTSPA,198735008,aborto ilegal no especificado con insuficiencia renal,C0269524,Illegal termination of pregnancy complicated by renal failure,narrow,P,SpontaneousAbortion,PrA,198735008
-Spontaneous abortion,SCTSPA,198736009,aborto ilegal no especificado con trastorno metabólico,C0269529,Illegal termination of pregnancy complicated by metabolic disorder,narrow,P,SpontaneousAbortion,PrA,198736009
-Spontaneous abortion,SCTSPA,198737000,aborto ilegal no especificado con choque,C0269531,Illegal termination of pregnancy complicated by shock,narrow,P,SpontaneousAbortion,PrA,198737000
-Spontaneous abortion,SCTSPA,198738005,aborto ilegal no especificado con embolia,C0269534,Illegal termination of pregnancy complicated by embolism,narrow,P,SpontaneousAbortion,PrA,198738005
-Spontaneous abortion,SCTSPA,198739002,aborto ilegal no especificado con otra complicación especificada,C0156532,Illegally induced abortion- with other specified complications- unspecified,narrow,P,SpontaneousAbortion,PrA,198739002
-Spontaneous abortion,SCTSPA,198740000,aborto ilegal no especificado con complicación- SAI,C0269496,Illegal termination of pregnancy with complication,narrow,P,SpontaneousAbortion,PrA,198740000
-Spontaneous abortion,SCTSPA,198741001,aborto ilegal no especificado sin mención de complicación,C0260335,Illegal termination of pregnancy without complication,narrow,P,SpontaneousAbortion,PrA,198741001
-Spontaneous abortion,SCTSPA,198742008,aborto ilegal no especificado- SAI,C0000804,Abortion- Criminal,narrow,P,SpontaneousAbortion,PrA,198742008
-Spontaneous abortion,SCTSPA,198751000,aborto ilegal incompleto con otra complicación especificada,C0156533,Illegally induced abortion- with other specified complications- incomplete,narrow,P,SpontaneousAbortion,PrA,198751000
-Spontaneous abortion,SCTSPA,198763005,aborto ilegal completo con otra complicación especificada,C0156534,Illegally induced abortion- with other specified complications- complete,narrow,P,SpontaneousAbortion,PrA,198763005
-Spontaneous abortion,SCTSPA,198767006,aborto ilegal inducido- SAI,C0000804,Abortion- Criminal,narrow,P,SpontaneousAbortion,PrA,198767006
 Spontaneous abortion,SCTSPA,198768001,aborto no especificado,C0156543,Unspecified Abortion,possible,P,SpontaneousAbortion,PrA,198768001
 Spontaneous abortion,SCTSPA,198769009,aborto no especificado,C0156543,Unspecified Abortion,possible,P,SpontaneousAbortion,PrA,198769009
 Spontaneous abortion,SCTSPA,198780009,aborto no especificado- SAI,C0156543,Unspecified Abortion,possible,P,SpontaneousAbortion,PrA,198780009
 Spontaneous abortion,SCTSPA,198781008,aborto incompleto no especificado,C0812470,Incomplete abortion unspecified,possible,P,SpontaneousAbortion,PrA,198781008
 Spontaneous abortion,SCTSPA,198792009,aborto incompleto no especificado- SAI,C0812470,Incomplete abortion unspecified,possible,P,SpontaneousAbortion,PrA,198792009
 Spontaneous abortion,SCTSPA,198805006,aborto no especificado- SAI,C0156543,Unspecified Abortion,possible,P,SpontaneousAbortion,PrA,198805006
-Spontaneous abortion,SCTSPA,198814001,intento de aborto frustrado con otra complicación especificada,C0156591,Failed attempted abortion with other specified complications,possible,P,SpontaneousAbortion,PrA,198814001
-Spontaneous abortion,SCTSPA,198815000,intento de aborto frustrado con complicación- SAI,C0156592,Failed attempted termination of pregnancy with complication,possible,P,SpontaneousAbortion,PrA,198815000
-Spontaneous abortion,SCTSPA,198816004,intento fallido de aborto sin mención de complicación,C0269549,Failed attempted termination of pregnancy without complication,possible,P,SpontaneousAbortion,PrA,198816004
-Spontaneous abortion,SCTSPA,198817008,intento de aborto frustrado- SAI,C0392536,Failed attempted abortion,possible,P,SpontaneousAbortion,PrA,198817008
-Spontaneous abortion,SCTSPA,198878009,intento fallido de aborto realizado con métodos no quirúrgicos- sin complicación,C0451793,Failed medical termination of pregnancy- without complication,possible,P,SpontaneousAbortion,PrA,198878009
 Spontaneous abortion,SCTSPA,198880003,embarazo y aborto- SAI,C0156543,Unspecified Abortion,possible,P,SpontaneousAbortion,PrA,198880003
 Spontaneous abortion,SCTSPA,200483009,[X]otro aborto provocado,C0477801,Other abortion,possible,P,SpontaneousAbortion,PrA,200483009
-Spontaneous abortion,SCTSPA,200485002,aborto terapéutico fallido- con otras complicaciones y complicaciones no especificadas,C0477802,Failed medical abortion- with other and unspecified complications,possible,P,SpontaneousAbortion,PrA,200485002
-Spontaneous abortion,SCTSPA,21280005,aborto legal con choque postoperatorio,C0269477,Legal termination of pregnancy with postoperative shock,narrow,P,SpontaneousAbortion,PrA,21280005
 Spontaneous abortion,SCTSPA,21737000,Retained fetal tissue,,,narrow,P,SpontaneousAbortion,PrA,21737000
-Spontaneous abortion,SCTSPA,237013006,embriotomía,C0013951,Embryotomy,narrow,P,SpontaneousAbortion,PrA,237013006
 Spontaneous abortion,SCTSPA,237242009,embarazo no viable,C0404844,Non-viable pregnancy,narrow,P,SpontaneousAbortion,PrA,237242009
 Spontaneous abortion,SCTSPA,237245006,síndrome del gemelo evanescente,C0404852,Vanishing twin syndrome,narrow,P,SpontaneousAbortion,PrA,237245006
 Spontaneous abortion,SCTSPA,23793007,aborto espontáneo sin complicación,C0269391,Miscarriage without complication,narrow,P,SpontaneousAbortion,PrA,23793007
 Spontaneous abortion,SCTSPA,23793007,aborto espontáneo sin complicación (trastorno),,,narrow,P,SpontaneousAbortion,PrA,23793007
-Spontaneous abortion,SCTSPA,26623000,intento fallido de aborto complicado por hemorragia tardía y-o excesiva,C0156585,Failed attempted termination of pregnancy complicated by delayed and-or excessive hemorrhage,possible,P,SpontaneousAbortion,PrA,26623000
 Spontaneous abortion,SCTSPA,267191002,aborto espontáneo incompleto- SAI,C0000810,Incomplete spontaneous abortion,narrow,P,SpontaneousAbortion,PrA,267191002
-Spontaneous abortion,SCTSPA,267195006,nueva admisión por aborto (códigos del NHS),C0404958,Readmission for abortive pregnancy (NHS codes),possible,P,SpontaneousAbortion,PrA,267195006
 Spontaneous abortion,SCTSPA,267297005,aborto- SAI,C0156543,Unspecified Abortion,possible,P,SpontaneousAbortion,PrA,267297005
-Spontaneous abortion,SCTSPA,26743002,aborto ilegal complicado por embolia,C0269534,Illegal termination of pregnancy complicated by embolism,narrow,P,SpontaneousAbortion,PrA,26743002
-Spontaneous abortion,SCTSPA,27169005,aborto legal complicado por choque,C0269476,Legal termination of pregnancy complicated by shock,narrow,P,SpontaneousAbortion,PrA,27169005
-Spontaneous abortion,SCTSPA,275423001,aborto fallido,C0558369,Failed abortion,possible,P,SpontaneousAbortion,PrA,275423001
 Spontaneous abortion,SCTSPA,275425008,Retained products after miscarriage,,,narrow,P,SpontaneousAbortion,PrA,275425008
 Spontaneous abortion,SCTSPA,275425008,productos retenidos después de aborto espontáneo,C0000810,Incomplete spontaneous abortion,narrow,P,SpontaneousAbortion,PrA,275425008
 Spontaneous abortion,SCTSPA,2781009,aborto espontáneo complicado por hemorragia tardía o excesiva,C0156427,Spontaneous abortion complicated by delayed or excessive hemorrhage,narrow,P,SpontaneousAbortion,PrA,2781009
 Spontaneous abortion,SCTSPA,28379004,dilatación y raspado del útero luego de un aborto,C0195650,Dilation and curettage of uterus after abortion,narrow,P,SpontaneousAbortion,PrA,28379004
 Spontaneous abortion,SCTSPA,28379004,dilatación y raspado del útero luego de un aborto (procedimiento),,,narrow,P,SpontaneousAbortion,PrA,28379004
-Spontaneous abortion,SCTSPA,287955003,operación para finalización del embarazo- SAI,C0404068,Operative termination of pregnancy,narrow,P,SpontaneousAbortion,PrA,287955003
-Spontaneous abortion,SCTSPA,288045002,inyección amniótica para la interrupción del embarazo,C0565454,Injection of amnion for termination of pregnancy,narrow,P,SpontaneousAbortion,PrA,288045002
 Spontaneous abortion,SCTSPA,29171003,Trapped placenta,,,possible,P,SpontaneousAbortion,PrA,29171003
-Spontaneous abortion,SCTSPA,29421008,intento fallido de aborto complicado por insuficiencia renal,C0156587,Failed attempted termination of pregnancy complicated by renal failure,possible,P,SpontaneousAbortion,PrA,29421008
-Spontaneous abortion,SCTSPA,302375005,interrupción quirúrgica de embarazo,C0404068,Operative termination of pregnancy,possible,P,SpontaneousAbortion,PrA,302375005
 Spontaneous abortion,SCTSPA,307733001,aborto completo inevitable,C0585601,Inevitable miscarriage complete,narrow,P,SpontaneousAbortion,PrA,307733001
 Spontaneous abortion,SCTSPA,34270000,aborto espontáneo complicado por choque,C0156443,Miscarriage complicated by shock,narrow,P,SpontaneousAbortion,PrA,34270000
-Spontaneous abortion,SCTSPA,34500003,aborto legal- sin complicación,C0269440,Legal termination of pregnancy without complication,narrow,P,SpontaneousAbortion,PrA,34500003
 Spontaneous abortion,SCTSPA,34614007,aborto espontáneo con complicación,C0156456,Miscarriage with complication,narrow,P,SpontaneousAbortion,PrA,34614007
-Spontaneous abortion,SCTSPA,3634007,aborto legal complicado por trastorno metabólico,C0269474,Legal termination of pregnancy complicated by metabolic disorder,narrow,P,SpontaneousAbortion,PrA,3634007
 Spontaneous abortion,SCTSPA,363681007,embarazo con aborto como desenlace,C0156543,Unspecified Abortion,possible,P,SpontaneousAbortion,PrA,363681007
 Spontaneous abortion,SCTSPA,371374003,productos de la concepción retenidos,C0033270,Retained products of conception,possible,P,SpontaneousAbortion,PrA,371374003
 Spontaneous abortion,SCTSPA,371374003,productos de la concepción retenidos (trastorno),,,possible,P,SpontaneousAbortion,PrA,371374003
 Spontaneous abortion,SCTSPA,371375002,secundinas retenidas,C0033270,Retained products of conception,possible,P,SpontaneousAbortion,PrA,371375002
-Spontaneous abortion,SCTSPA,38784004,aborto ilegal complicado por lesión de órganos Y-O tejidos pélvicos,C0269509,Illegal termination of pregnancy complicated by damage to pelvic organs and-or tissues,narrow,P,SpontaneousAbortion,PrA,38784004
 Spontaneous abortion,SCTSPA,391896006,aborto terapéutico mediante legrado por aspiración,C0004050,Aspiration curettage of uterus for termination of pregnancy,,P,SpontaneousAbortion,PrA,391896006
-Spontaneous abortion,SCTSPA,391896006,aborto terapéutico mediante legrado por aspiración,C0004050,Aspiration curettage of uterus for termination of pregnancy,narrow,P,SpontaneousAbortion,PrA,391896006
 Spontaneous abortion,SCTSPA,391897002,legrado uterino por aspiración para interrupción de embarazo,C0004050,Aspiration curettage of uterus for termination of pregnancy,,P,SpontaneousAbortion,PrA,391897002
-Spontaneous abortion,SCTSPA,39406005,interrupción legal del embarazo,C1456876,Legal abortion (finding),narrow,P,SpontaneousAbortion,PrA,39406005
 Spontaneous abortion,SCTSPA,413338003,aborto espontáneo incompleto con complicación,C0156457,Incomplete miscarriage with complication,narrow,P,SpontaneousAbortion,PrA,413338003
 Spontaneous abortion,SCTSPA,43306002,aborto espontáneo complicado por embolia,C0156447,Miscarriage complicated by embolism,narrow,P,SpontaneousAbortion,PrA,43306002
 Spontaneous abortion,SCTSPA,44216000,Retained products of conception- following delivery with hemorrhage,,,possible,P,SpontaneousAbortion,PrA,44216000
-Spontaneous abortion,SCTSPA,4576001,aborto legal complicado por insuficiencia renal,C0269469,Legal termination of pregnancy complicated by renal failure,narrow,P,SpontaneousAbortion,PrA,4576001
-Spontaneous abortion,SCTSPA,46101000119101,asesoramiento sobre interrupción del embarazo realizado (situación),,,possible,P,SpontaneousAbortion,PrA,46101000119101
-Spontaneous abortion,SCTSPA,48433002,aborto legal con complicación,C0269441,Legal termination of pregnancy with complication,narrow,P,SpontaneousAbortion,PrA,48433002
-Spontaneous abortion,SCTSPA,49416000,intento fallido de aborto,C0392536,Failed attempted abortion,possible,P,SpontaneousAbortion,PrA,49416000
-Spontaneous abortion,SCTSPA,49632008,aborto ilegal,C0000804,Abortion- Criminal,narrow,P,SpontaneousAbortion,PrA,49632008
-Spontaneous abortion,SCTSPA,52660002,aborto inducido luego de inyección intramniótica- con histerotomía,C0195644,Induced termination of pregnancy following intra-amniotic injection with hysterotomy,narrow,P,SpontaneousAbortion,PrA,52660002
-Spontaneous abortion,SCTSPA,53638009,aborto terapéutico (trastorno),,,narrow,P,SpontaneousAbortion,PrA,53638009
-Spontaneous abortion,SCTSPA,57734001,aborto legal complicado por embolia,C0269479,Legal termination of pregnancy complicated by embolism,narrow,P,SpontaneousAbortion,PrA,57734001
-Spontaneous abortion,SCTSPA,57797005,interrupción inducida del embarazo,C1704300,Induced abortion (finding),narrow,P,SpontaneousAbortion,PrA,57797005
-Spontaneous abortion,SCTSPA,58071009,aborto legal complicado por hemorragia tardía o excesiva,C0269450,Legally induced abortion- complicated by delayed or excessive hemorrhage- unspecified,narrow,P,SpontaneousAbortion,PrA,58071009
 Spontaneous abortion,SCTSPA,58990004,aborto espontáneo complicado por lesión de órganos Y-O tejidos pélvicos,C0269403,Miscarriage complicated by damage to pelvic organs and-or tissues,narrow,P,SpontaneousAbortion,PrA,58990004
-Spontaneous abortion,SCTSPA,5939002,intento fallido de aborto complicado por trastorno metabólico,C0156588,Failed attempted termination of pregnancy complicated by metabolic disorder,possible,P,SpontaneousAbortion,PrA,5939002
-Spontaneous abortion,SCTSPA,59859005,aborto legal con laceración de vejiga,C0269455,Legal termination of pregnancy with laceration of bladder,narrow,P,SpontaneousAbortion,PrA,59859005
-Spontaneous abortion,SCTSPA,59919008,intento fallido de aborto con complicación,C0156592,Failed attempted termination of pregnancy with complication,possible,P,SpontaneousAbortion,PrA,59919008
-Spontaneous abortion,SCTSPA,60330007,aborto terapéutico mediante curetaje por aspiración,C0004050,Aspiration curettage of uterus for termination of pregnancy,narrow,P,SpontaneousAbortion,PrA,60330007
-Spontaneous abortion,SCTSPA,609446006,terminación inducida del embarazo con complicación (trastorno),,,narrow,P,SpontaneousAbortion,PrA,609446006
-Spontaneous abortion,SCTSPA,609485004,interrupción inducida del embarazo complicada por sepsis (trastorno),,,narrow,P,SpontaneousAbortion,PrA,609485004
-Spontaneous abortion,SCTSPA,61752008,aborto ilegal complicado por choque,C0269531,Illegal termination of pregnancy complicated by shock,narrow,P,SpontaneousAbortion,PrA,61752008
 Spontaneous abortion,SCTSPA,6176008,aborto micótico,C0276649,Mycotic abortion,narrow,P,SpontaneousAbortion,PrA,6176008
-Spontaneous abortion,SCTSPA,67042008,intento fallido de aborto complicado por choque,C0156589,Failed attempted termination of pregnancy complicated by shock,possible,P,SpontaneousAbortion,PrA,67042008
 Spontaneous abortion,SCTSPA,69124005,aborto consumado (trastorno),C1306041,Complete miscarriage,narrow,P,SpontaneousAbortion,PrA,69124005
-Spontaneous abortion,SCTSPA,69302000,petición de aborto,C0000793,Abortion on Demand,possible,P,SpontaneousAbortion,PrA,69302000
-Spontaneous abortion,SCTSPA,698636009,aborto legal completo con complicación,C3697208,Complete legal abortion with complication,narrow,P,SpontaneousAbortion,PrA,698636009
 Spontaneous abortion,SCTSPA,699949009,Retained placenta due to morbidly adherent placenta,,,possible,P,SpontaneousAbortion,PrA,699949009
-Spontaneous abortion,SCTSPA,70186003,embriotomía,C0013951,Embryotomy,narrow,P,SpontaneousAbortion,PrA,70186003
 Spontaneous abortion,SCTSPA,70317007,aborto,C0156543,Unspecified Abortion,possible,P,SpontaneousAbortion,PrA,70317007
-Spontaneous abortion,SCTSPA,707207004,interrupción inducida del embarazo incompleta (trastorno),,,narrow,P,SpontaneousAbortion,PrA,707207004
-Spontaneous abortion,SCTSPA,714812005,terminación del embarazo- inducida,C4049831,Induced termination of pregnancy,narrow,P,SpontaneousAbortion,PrA,714812005
-Spontaneous abortion,SCTSPA,74978008,aborto ilegal con complicación,C0269496,Illegal termination of pregnancy with complication,narrow,P,SpontaneousAbortion,PrA,74978008
-Spontaneous abortion,SCTSPA,7802000,aborto ilegal sin complicación,C0260335,Illegal termination of pregnancy without complication,narrow,P,SpontaneousAbortion,PrA,7802000
-Spontaneous abortion,SCTSPA,7822001,intento fallido de aborto complicado por lesión de tejidos Y-U órganos pélvicos,C0269561,Failed attempted termination of pregnancy complicated by damage to pelvic organ and-or tissues,possible,P,SpontaneousAbortion,PrA,7822001
 Spontaneous abortion,SCTSPA,8095007,legrado uterino por aspiración consecutivo a aborto,C0195651,Aspiration curettage of uterus after abortion,narrow,P,SpontaneousAbortion,PrA,8095007
 Spontaneous abortion,SCTSPA,8095007,legrado uterino por aspiración consecutivo a aborto (procedimiento),,,narrow,P,SpontaneousAbortion,PrA,8095007
 Spontaneous abortion,SCTSPA,81002003,productos de la concepción retenidos,C0033270,Retained products of conception,possible,P,SpontaneousAbortion,PrA,81002003
 Spontaneous abortion,SCTSPA,85116003,aborto espontáneo en el segundo trimestre,C0269389,Miscarriage in second trimester,narrow,P,SpontaneousAbortion,PrA,85116003
 Spontaneous abortion,SCTSPA,85116003,aborto espontáneo en el segundo trimestre (trastorno),,,narrow,P,SpontaneousAbortion,PrA,85116003
-Spontaneous abortion,SCTSPA,86891002,aborto ilegal complicado por hemorragia tardía o excesiva,C0269505,Illegally induced abortion- complicated by delayed or excessive hemorrhage- unspecified,narrow,P,SpontaneousAbortion,PrA,86891002
-Spontaneous abortion,SCTSPA,8996006,aborto ilegal complicado por insuficiencia renal,C0269524,Illegal termination of pregnancy complicated by renal failure,narrow,P,SpontaneousAbortion,PrA,8996006
-Spontaneous abortion,SCTSPA,90645002,intento fallido de aborto sin complicación,C0269549,Failed attempted termination of pregnancy without complication,possible,P,SpontaneousAbortion,PrA,90645002
-Spontaneous abortion,SNM,F31600,Abortion,C0156543,Unspecified Abortion,possible,P,SpontaneousAbortion,PrA,F31600
-Spontaneous abortion,SNM,F31670,Abortion- nontherapeutic,C0269439,Elective abortion,narrow,P,SpontaneousAbortion,PrA,F31670
-Spontaneous abortion,SNM,F31690,Abortion- criminal,C0000804,Abortion- Criminal,narrow,P,SpontaneousAbortion,PrA,F31690
-Spontaneous abortion,SNM,F31720,Abortion- failed attempt,C0392536,Failed attempted abortion,possible,P,SpontaneousAbortion,PrA,F31720
-Spontaneous abortion,SNM,F31740,Abortion- on demand,C0000793,Abortion on Demand,possible,P,SpontaneousAbortion,PrA,F31740
-Spontaneous abortion,SNM,P1500,Embryotomy,C0013951,Embryotomy,narrow,P,SpontaneousAbortion,PrA,P1500
-Spontaneous abortion,SNM,P1755,Abortion- induced,C1704300,Induced abortion (finding),narrow,P,SpontaneousAbortion,PrA,P1755
-Spontaneous abortion,SNM,U000205,Abortion,C0156543,Unspecified Abortion,possible,P,SpontaneousAbortion,PrA,U000205
-Spontaneous abortion,SNOMEDCT_US,10455003,Removal of ectopic cervical pregnancy by evacuation,C0195635,Removal of ectopic cervical pregnancy by evacuation,narrow,P,SpontaneousAbortion,PrA,10455003
 Spontaneous abortion,SNOMEDCT_US,10697004,Miscarriage complicated by renal failure,C0156435,Miscarriage complicated by renal failure,narrow,P,SpontaneousAbortion,PrA,10697004
 Spontaneous abortion,SNOMEDCT_US,109894007,Retained placenta,,,possible,P,SpontaneousAbortion,PrA,109894007
 Spontaneous abortion,SNOMEDCT_US,109895008,Retained placental fragment,,,possible,P,SpontaneousAbortion,PrA,109895008
-Spontaneous abortion,SNOMEDCT_US,111431001,Legal termination of pregnancy complicated by damage to pelvic organ and-or tissues,C0156472,Legal termination of pregnancy complicated by damage to pelvic organ and-or tissues,narrow,P,SpontaneousAbortion,PrA,111431001
-Spontaneous abortion,SNOMEDCT_US,111432008,Legal termination of pregnancy with air embolism,C0269480,Legal termination of pregnancy with air embolism,narrow,P,SpontaneousAbortion,PrA,111432008
 Spontaneous abortion,SNOMEDCT_US,111453004,Retained placenta- without hemorrhage,,,possible,P,SpontaneousAbortion,PrA,111453004
 Spontaneous abortion,SNOMEDCT_US,1148484005,Retained uterine membrane,,,possible,P,SpontaneousAbortion,PrA,1148484005
 Spontaneous abortion,SNOMEDCT_US,1148619000,Retained uterine membrane without hemorrhage,,,possible,P,SpontaneousAbortion,PrA,1148619000
@@ -9734,12 +9383,7 @@ Spontaneous abortion,SNOMEDCT_US,1148941002,Retention of part of placenta and ut
 Spontaneous abortion,SNOMEDCT_US,1148942009,Retention of part of placenta without hemorrhage,,,possible,P,SpontaneousAbortion,PrA,1148942009
 Spontaneous abortion,SNOMEDCT_US,1148943004,Retention of placenta and uterine membrane,,,possible,P,SpontaneousAbortion,PrA,1148943004
 Spontaneous abortion,SNOMEDCT_US,13384007,Miscarriage complicated by metabolic disorder,C0156439,Miscarriage complicated by metabolic disorder,narrow,P,SpontaneousAbortion,PrA,13384007
-Spontaneous abortion,SNOMEDCT_US,13943000,Failed attempted termination of pregnancy complicated by embolism,C0156590,Failed attempted termination of pregnancy complicated by embolism,possible,P,SpontaneousAbortion,PrA,13943000
-Spontaneous abortion,SNOMEDCT_US,149995009,Operative termination of pregnancy,C0404068,Operative termination of pregnancy,narrow,P,SpontaneousAbortion,PrA,149995009
 Spontaneous abortion,SNOMEDCT_US,149997001,Suction termination of pregnancy,C0004050,Aspiration curettage of uterus for termination of pregnancy,,P,SpontaneousAbortion,PrA,149997001
-Spontaneous abortion,SNOMEDCT_US,149997001,Suction termination of pregnancy,C0004050,Aspiration curettage of uterus for termination of pregnancy,narrow,P,SpontaneousAbortion,PrA,149997001
-Spontaneous abortion,SNOMEDCT_US,149998006,Termination of pregnancy operation NOS,C0404068,Operative termination of pregnancy,narrow,P,SpontaneousAbortion,PrA,149998006
-Spontaneous abortion,SNOMEDCT_US,152229008,Requests pregnancy termination,C0581121,Requests pregnancy termination,possible,P,SpontaneousAbortion,PrA,152229008
 Spontaneous abortion,SNOMEDCT_US,156070002,Pregnancy with abortive outcome,C0156543,Unspecified Abortion,possible,P,SpontaneousAbortion,PrA,156070002
 Spontaneous abortion,SNOMEDCT_US,156071003,Abortion - spontaneous,C0000786,Spontaneous abortion,narrow,P,SpontaneousAbortion,PrA,156071003
 Spontaneous abortion,SNOMEDCT_US,156071003,Incomplete abortion,C0812470,Incomplete abortion unspecified,possible,P,SpontaneousAbortion,PrA,156071003
@@ -9747,9 +9391,6 @@ Spontaneous abortion,SNOMEDCT_US,156072005,Incomplete miscarriage,C0000810,Incom
 Spontaneous abortion,SNOMEDCT_US,156072005,Incomplete miscarriage,C0812470,Incomplete abortion unspecified,possible,P,SpontaneousAbortion,PrA,156072005
 Spontaneous abortion,SNOMEDCT_US,156073000,Complete miscarriage,C1306041,Complete miscarriage,narrow,P,SpontaneousAbortion,PrA,156073000
 Spontaneous abortion,SNOMEDCT_US,156074006,Spontaneous abortion NOS,C0000786,Spontaneous abortion,narrow,P,SpontaneousAbortion,PrA,156074006
-Spontaneous abortion,SNOMEDCT_US,156075007,Induced abortion,C1704300,Induced abortion (finding),narrow,P,SpontaneousAbortion,PrA,156075007
-Spontaneous abortion,SNOMEDCT_US,156077004,Illegally induced abortion,C0000804,Abortion- Criminal,narrow,P,SpontaneousAbortion,PrA,156077004
-Spontaneous abortion,SNOMEDCT_US,156078009,Failed attempted abortion,C0392536,Failed attempted abortion,possible,P,SpontaneousAbortion,PrA,156078009
 Spontaneous abortion,SNOMEDCT_US,156079001,Abortion NOS,C0156543,Unspecified Abortion,possible,P,SpontaneousAbortion,PrA,156079001
 Spontaneous abortion,SNOMEDCT_US,156087000,Missed abortion,C0000814,Missed abortion,possible,P,SpontaneousAbortion,PrA,156087000
 Spontaneous abortion,SNOMEDCT_US,156096000,Pregnancy with abortive outcome NOS,C0156543,Unspecified Abortion,possible,P,SpontaneousAbortion,PrA,156096000
@@ -9758,10 +9399,6 @@ Spontaneous abortion,SNOMEDCT_US,16607004,Missed miscarriage,C0000814,Missed abo
 Spontaneous abortion,SNOMEDCT_US,16863000,Incomplete abortion,C0812470,Incomplete abortion unspecified,possible,P,SpontaneousAbortion,PrA,16863000
 Spontaneous abortion,SNOMEDCT_US,16863000,Incomplete miscarriage,C0000810,Incomplete spontaneous abortion,narrow,P,SpontaneousAbortion,PrA,16863000
 Spontaneous abortion,SNOMEDCT_US,17369002,Miscarriage,C0000786,Spontaneous abortion,narrow,P,SpontaneousAbortion,PrA,17369002
-Spontaneous abortion,SNOMEDCT_US,18302006,Hysterotomy and termination of pregnancy,C0195643,Hysterotomy and termination of pregnancy,narrow,P,SpontaneousAbortion,PrA,18302006
-Spontaneous abortion,SNOMEDCT_US,18391007,Elective termination of pregnancy,C0269439,Elective abortion,narrow,P,SpontaneousAbortion,PrA,18391007
-Spontaneous abortion,SNOMEDCT_US,184005004,Requests pregnancy termination,C0581121,Requests pregnancy termination,possible,P,SpontaneousAbortion,PrA,184005004
-Spontaneous abortion,SNOMEDCT_US,18684002,Illegal termination of pregnancy complicated by metabolic disorder,C0269529,Illegal termination of pregnancy complicated by metabolic disorder,narrow,P,SpontaneousAbortion,PrA,18684002
 Spontaneous abortion,SNOMEDCT_US,19169002,Miscarriage in first trimester,C0269388,Miscarriage in first trimester,narrow,P,SpontaneousAbortion,PrA,19169002
 Spontaneous abortion,SNOMEDCT_US,198616002,Missed abortion,C0000814,Missed abortion,possible,P,SpontaneousAbortion,PrA,198616002
 Spontaneous abortion,SNOMEDCT_US,198631006,Spontaneous abortion unspecified,C0000786,Spontaneous abortion,narrow,P,SpontaneousAbortion,PrA,198631006
@@ -9790,148 +9427,45 @@ Spontaneous abortion,SNOMEDCT_US,198665007,Complete spontaneous abortion with co
 Spontaneous abortion,SNOMEDCT_US,198667004,Complete spontaneous abortion NOS,C1306041,Complete miscarriage,narrow,P,SpontaneousAbortion,PrA,198667004
 Spontaneous abortion,SNOMEDCT_US,198682009,Inevitable abortion complete,C0585601,Inevitable miscarriage complete,narrow,P,SpontaneousAbortion,PrA,198682009
 Spontaneous abortion,SNOMEDCT_US,198689000,Spontaneous abortion NOS,C0000786,Spontaneous abortion,narrow,P,SpontaneousAbortion,PrA,198689000
-Spontaneous abortion,SNOMEDCT_US,198690009,Elective abortion,C0269439,Elective abortion,narrow,P,SpontaneousAbortion,PrA,198690009
-Spontaneous abortion,SNOMEDCT_US,198691008,Legal abortion unspecified,C1456876,Legal abortion (finding),narrow,P,SpontaneousAbortion,PrA,198691008
-Spontaneous abortion,SNOMEDCT_US,198692001,Unspecified legal abortion with genital tract or pelvic infection,C0404925,Unspecified legal abortion with genital tract or pelvic infection,narrow,P,SpontaneousAbortion,PrA,198692001
-Spontaneous abortion,SNOMEDCT_US,198693006,Unspecified legal abortion with delayed or excessive haemorrhage,C0269450,Legally induced abortion- complicated by delayed or excessive hemorrhage- unspecified,narrow,P,SpontaneousAbortion,PrA,198693006
-Spontaneous abortion,SNOMEDCT_US,198694000,Unspecified legal abortion with damage to pelvic organs or tissues,C0156472,Legal termination of pregnancy complicated by damage to pelvic organ and-or tissues,narrow,P,SpontaneousAbortion,PrA,198694000
-Spontaneous abortion,SNOMEDCT_US,198695004,Unspecified legal abortion with renal failure,C0269469,Legal termination of pregnancy complicated by renal failure,narrow,P,SpontaneousAbortion,PrA,198695004
-Spontaneous abortion,SNOMEDCT_US,198696003,Unspecified legal abortion with metabolic disorder,C0269474,Legal termination of pregnancy complicated by metabolic disorder,narrow,P,SpontaneousAbortion,PrA,198696003
-Spontaneous abortion,SNOMEDCT_US,198697007,Unspecified legal abortion with shock,C0269476,Legal termination of pregnancy complicated by shock,narrow,P,SpontaneousAbortion,PrA,198697007
-Spontaneous abortion,SNOMEDCT_US,198698002,Unspecified legal abortion with embolism,C0269479,Legal termination of pregnancy complicated by embolism,narrow,P,SpontaneousAbortion,PrA,198698002
-Spontaneous abortion,SNOMEDCT_US,198699005,Unspecified legal abortion with other specified complication,C0156492,Legally induced abortion- with other specified complications- unspecified,narrow,P,SpontaneousAbortion,PrA,198699005
-Spontaneous abortion,SNOMEDCT_US,198701005,Unspecified legal abortion with complication NOS,C0269441,Legal termination of pregnancy with complication,narrow,P,SpontaneousAbortion,PrA,198701005
-Spontaneous abortion,SNOMEDCT_US,198702003,Unspecified legal abortion with no mention of complication,C0156499,Legally induced abortion- without mention of complication- unspecified,narrow,P,SpontaneousAbortion,PrA,198702003
-Spontaneous abortion,SNOMEDCT_US,198703008,Unspecified legal abortion NOS,C1456876,Legal abortion (finding),narrow,P,SpontaneousAbortion,PrA,198703008
-Spontaneous abortion,SNOMEDCT_US,198705001,Incomplete legal termination of pregnancy with genital tract or pelvic infection,C0156465,Incomplete legal termination of pregnancy with genital tract or pelvic infection,narrow,P,SpontaneousAbortion,PrA,198705001
-Spontaneous abortion,SNOMEDCT_US,198706000,Incomplete legal termination of pregnancy with delayed or excessive hemorrhage,C0156469,Incomplete legal termination of pregnancy with delayed or excessive hemorrhage,narrow,P,SpontaneousAbortion,PrA,198706000
-Spontaneous abortion,SNOMEDCT_US,198707009,Incomplete legal termination of pregnancy with damage to pelvic organs or tissues,C0156473,Incomplete legal termination of pregnancy with damage to pelvic organs or tissues,narrow,P,SpontaneousAbortion,PrA,198707009
-Spontaneous abortion,SNOMEDCT_US,198708004,Incomplete legal termination of pregnancy with renal failure,C0156477,Incomplete legal termination of pregnancy with renal failure,narrow,P,SpontaneousAbortion,PrA,198708004
-Spontaneous abortion,SNOMEDCT_US,198709007,Incomplete legal termination of pregnancy with metabolic disorder,C0156481,Incomplete legal termination of pregnancy with metabolic disorder,narrow,P,SpontaneousAbortion,PrA,198709007
-Spontaneous abortion,SNOMEDCT_US,198710002,Incomplete legal termination of pregnancy with shock,C0156485,Incomplete legal termination of pregnancy with shock,narrow,P,SpontaneousAbortion,PrA,198710002
-Spontaneous abortion,SNOMEDCT_US,198712005,Incomplete legal abortion with other specified complication,C0156493,Legally induced abortion- with other specified complications- incomplete,narrow,P,SpontaneousAbortion,PrA,198712005
-Spontaneous abortion,SNOMEDCT_US,198714006,Incomplete legal abortion with complication NOS,C0600042,incomplete legal abortion with complication,narrow,P,SpontaneousAbortion,PrA,198714006
-Spontaneous abortion,SNOMEDCT_US,198715007,Incomplete legal abortion with no mention of complication,C0600043,Legally induced abortion- without mention of complication- incomplete,narrow,P,SpontaneousAbortion,PrA,198715007
-Spontaneous abortion,SNOMEDCT_US,198718009,Complete legal termination of pregnancy with genital tract or pelvic infection,C0156466,Complete legal termination of pregnancy with genital tract or pelvic infection,narrow,P,SpontaneousAbortion,PrA,198718009
-Spontaneous abortion,SNOMEDCT_US,198719001,Complete legal termination of pregnancy with delayed or excessive hemorrhage,C0156470,Complete legal termination of pregnancy with delayed or excessive hemorrhage,narrow,P,SpontaneousAbortion,PrA,198719001
-Spontaneous abortion,SNOMEDCT_US,198720007,Complete legal termination of pregnancy with damage to pelvic organs or tissues,C0156474,Complete legal termination of pregnancy with damage to pelvic organs or tissues,narrow,P,SpontaneousAbortion,PrA,198720007
-Spontaneous abortion,SNOMEDCT_US,198721006,Complete legal termination of pregnancy with renal failure,C0156478,Complete legal termination of pregnancy with renal failure,narrow,P,SpontaneousAbortion,PrA,198721006
-Spontaneous abortion,SNOMEDCT_US,198722004,Complete legal termination of pregnancy with metabolic disorder,C0156482,Complete legal termination of pregnancy with metabolic disorder,narrow,P,SpontaneousAbortion,PrA,198722004
-Spontaneous abortion,SNOMEDCT_US,198723009,Complete legal termination of pregnancy with shock,C0156486,Complete legal termination of pregnancy with shock,narrow,P,SpontaneousAbortion,PrA,198723009
-Spontaneous abortion,SNOMEDCT_US,198724003,Complete legal termination of pregnancy with embolism,C0156490,Complete legal termination of pregnancy with embolism,narrow,P,SpontaneousAbortion,PrA,198724003
-Spontaneous abortion,SNOMEDCT_US,198725002,Complete legal abortion with other specified complication,C0156494,Legally induced abortion- with other specified complications- complete,narrow,P,SpontaneousAbortion,PrA,198725002
-Spontaneous abortion,SNOMEDCT_US,198726001,Complete legal abortion with complication NOS,C0156498,Legally induced abortion- with unspecified complication- complete,narrow,P,SpontaneousAbortion,PrA,198726001
-Spontaneous abortion,SNOMEDCT_US,198726001,Complete legal abortion with complication NOS,C3697208,Complete legal abortion with complication,narrow,P,SpontaneousAbortion,PrA,198726001
-Spontaneous abortion,SNOMEDCT_US,198727005,Complete legal abortion with no mention of complication,C1261319,Legally induced abortion- without mention of complication- complete,narrow,P,SpontaneousAbortion,PrA,198727005
-Spontaneous abortion,SNOMEDCT_US,198729008,Legally induced abortion NOS,C1456876,Legal abortion (finding),narrow,P,SpontaneousAbortion,PrA,198729008
-Spontaneous abortion,SNOMEDCT_US,198730003,Criminal abortion,C0000804,Abortion- Criminal,narrow,P,SpontaneousAbortion,PrA,198730003
-Spontaneous abortion,SNOMEDCT_US,198731004,Illegal abortion unspecified,C0000804,Abortion- Criminal,narrow,P,SpontaneousAbortion,PrA,198731004
-Spontaneous abortion,SNOMEDCT_US,198733001,Unspecified illegal abortion with delayed or excessive haemorrhage,C0269505,Illegally induced abortion- complicated by delayed or excessive hemorrhage- unspecified,narrow,P,SpontaneousAbortion,PrA,198733001
-Spontaneous abortion,SNOMEDCT_US,198734007,Unspecified illegal abortion with damage to pelvic organs or tissues,C0269509,Illegal termination of pregnancy complicated by damage to pelvic organs and-or tissues,narrow,P,SpontaneousAbortion,PrA,198734007
-Spontaneous abortion,SNOMEDCT_US,198735008,Unspecified illegal abortion with renal failure,C0269524,Illegal termination of pregnancy complicated by renal failure,narrow,P,SpontaneousAbortion,PrA,198735008
-Spontaneous abortion,SNOMEDCT_US,198736009,Unspecified illegal abortion with metabolic disorder,C0269529,Illegal termination of pregnancy complicated by metabolic disorder,narrow,P,SpontaneousAbortion,PrA,198736009
-Spontaneous abortion,SNOMEDCT_US,198737000,Unspecified illegal abortion with shock,C0269531,Illegal termination of pregnancy complicated by shock,narrow,P,SpontaneousAbortion,PrA,198737000
-Spontaneous abortion,SNOMEDCT_US,198738005,Unspecified illegal abortion with embolism,C0269534,Illegal termination of pregnancy complicated by embolism,narrow,P,SpontaneousAbortion,PrA,198738005
-Spontaneous abortion,SNOMEDCT_US,198739002,Unspecified illegal abortion with other specified complication,C0156532,Illegally induced abortion- with other specified complications- unspecified,narrow,P,SpontaneousAbortion,PrA,198739002
-Spontaneous abortion,SNOMEDCT_US,198740000,Unspecified illegal abortion with complication NOS,C0269496,Illegal termination of pregnancy with complication,narrow,P,SpontaneousAbortion,PrA,198740000
-Spontaneous abortion,SNOMEDCT_US,198741001,Unspecified illegal abortion with no mention of complication,C0260335,Illegal termination of pregnancy without complication,narrow,P,SpontaneousAbortion,PrA,198741001
-Spontaneous abortion,SNOMEDCT_US,198742008,Unspecified illegal abortion NOS,C0000804,Abortion- Criminal,narrow,P,SpontaneousAbortion,PrA,198742008
-Spontaneous abortion,SNOMEDCT_US,198751000,Incomplete illegal abortion with other specified complication,C0156533,Illegally induced abortion- with other specified complications- incomplete,narrow,P,SpontaneousAbortion,PrA,198751000
-Spontaneous abortion,SNOMEDCT_US,198763005,Complete illegal abortion with other specified complication,C0156534,Illegally induced abortion- with other specified complications- complete,narrow,P,SpontaneousAbortion,PrA,198763005
-Spontaneous abortion,SNOMEDCT_US,198767006,Illegally induced abortion NOS,C0000804,Abortion- Criminal,narrow,P,SpontaneousAbortion,PrA,198767006
 Spontaneous abortion,SNOMEDCT_US,198768001,Unspecified abortion,C0156543,Unspecified Abortion,possible,P,SpontaneousAbortion,PrA,198768001
 Spontaneous abortion,SNOMEDCT_US,198769009,Unspecified abortion,C0156543,Unspecified Abortion,possible,P,SpontaneousAbortion,PrA,198769009
 Spontaneous abortion,SNOMEDCT_US,198780009,Unspecified abortion NOS,C0156543,Unspecified Abortion,possible,P,SpontaneousAbortion,PrA,198780009
 Spontaneous abortion,SNOMEDCT_US,198781008,Unspecified abortion incomplete,C0812470,Incomplete abortion unspecified,possible,P,SpontaneousAbortion,PrA,198781008
 Spontaneous abortion,SNOMEDCT_US,198792009,Unspecified incomplete abortion NOS,C0812470,Incomplete abortion unspecified,possible,P,SpontaneousAbortion,PrA,198792009
 Spontaneous abortion,SNOMEDCT_US,198805006,Unspecified abortion NOS,C0156543,Unspecified Abortion,possible,P,SpontaneousAbortion,PrA,198805006
-Spontaneous abortion,SNOMEDCT_US,198814001,Failed attempted abortion with other specified complication,C0156591,Failed attempted abortion with other specified complications,possible,P,SpontaneousAbortion,PrA,198814001
-Spontaneous abortion,SNOMEDCT_US,198815000,Failed attempted abortion with complication NOS,C0156592,Failed attempted termination of pregnancy with complication,possible,P,SpontaneousAbortion,PrA,198815000
-Spontaneous abortion,SNOMEDCT_US,198816004,Failed attempted abortion with no mention of complication,C0269549,Failed attempted termination of pregnancy without complication,possible,P,SpontaneousAbortion,PrA,198816004
-Spontaneous abortion,SNOMEDCT_US,198817008,Failed attempted abortion NOS,C0392536,Failed attempted abortion,possible,P,SpontaneousAbortion,PrA,198817008
-Spontaneous abortion,SNOMEDCT_US,198860004,Readmission for abortive pregnancy (NHS codes),C0404958,Readmission for abortive pregnancy (NHS codes),possible,P,SpontaneousAbortion,PrA,198860004
-Spontaneous abortion,SNOMEDCT_US,198873000,Failed attempted abortion,C0392536,Failed attempted abortion,possible,P,SpontaneousAbortion,PrA,198873000
-Spontaneous abortion,SNOMEDCT_US,198878009,Failed medical termination of pregnancy- without complication,C0451793,Failed medical termination of pregnancy- without complication,possible,P,SpontaneousAbortion,PrA,198878009
 Spontaneous abortion,SNOMEDCT_US,198880003,Pregnancy with abortive outcome NOS,C0156543,Unspecified Abortion,possible,P,SpontaneousAbortion,PrA,198880003
 Spontaneous abortion,SNOMEDCT_US,200480007,Pregnancy with abortive outcome,C0156543,Unspecified Abortion,possible,P,SpontaneousAbortion,PrA,200480007
 Spontaneous abortion,SNOMEDCT_US,200483009,[X]Other abortion,C0477801,Other abortion,possible,P,SpontaneousAbortion,PrA,200483009
-Spontaneous abortion,SNOMEDCT_US,200485002,[X]Failed medical abortion- with other and unspecified complications,C0477802,Failed medical abortion- with other and unspecified complications,possible,P,SpontaneousAbortion,PrA,200485002
-Spontaneous abortion,SNOMEDCT_US,21280005,Legal termination of pregnancy with postoperative shock,C0269477,Legal termination of pregnancy with postoperative shock,narrow,P,SpontaneousAbortion,PrA,21280005
 Spontaneous abortion,SNOMEDCT_US,21737000,Retained fetal tissue,,,narrow,P,SpontaneousAbortion,PrA,21737000
-Spontaneous abortion,SNOMEDCT_US,237013006,Embryotomy,C0013951,Embryotomy,narrow,P,SpontaneousAbortion,PrA,237013006
 Spontaneous abortion,SNOMEDCT_US,237242009,Non-viable pregnancy,C0404844,Non-viable pregnancy,narrow,P,SpontaneousAbortion,PrA,237242009
 Spontaneous abortion,SNOMEDCT_US,237245006,Vanishing twin syndrome,C0404852,Vanishing twin syndrome,narrow,P,SpontaneousAbortion,PrA,237245006
 Spontaneous abortion,SNOMEDCT_US,23793007,Miscarriage without complication,C0269391,Miscarriage without complication,narrow,P,SpontaneousAbortion,PrA,23793007
-Spontaneous abortion,SNOMEDCT_US,26623000,Failed attempted termination of pregnancy complicated by delayed and-or excessive hemorrhage,C0156585,Failed attempted termination of pregnancy complicated by delayed and-or excessive hemorrhage,possible,P,SpontaneousAbortion,PrA,26623000
 Spontaneous abortion,SNOMEDCT_US,267187007,Missed abortion,C0000814,Missed abortion,possible,P,SpontaneousAbortion,PrA,267187007
 Spontaneous abortion,SNOMEDCT_US,267191002,Incomplete spontaneous abortion NOS,C0000810,Incomplete spontaneous abortion,narrow,P,SpontaneousAbortion,PrA,267191002
-Spontaneous abortion,SNOMEDCT_US,267192009,Legal abortion,C1456876,Legal abortion (finding),narrow,P,SpontaneousAbortion,PrA,267192009
-Spontaneous abortion,SNOMEDCT_US,267195006,Readmission for abortive pregnancy National Health Service codes,C0404958,Readmission for abortive pregnancy (NHS codes),possible,P,SpontaneousAbortion,PrA,267195006
 Spontaneous abortion,SNOMEDCT_US,267294003,Abortion - spontaneous,C0000786,Spontaneous abortion,narrow,P,SpontaneousAbortion,PrA,267294003
 Spontaneous abortion,SNOMEDCT_US,267294003,Incomplete abortion,C0812470,Incomplete abortion unspecified,possible,P,SpontaneousAbortion,PrA,267294003
-Spontaneous abortion,SNOMEDCT_US,267295002,Induced abortion,C1704300,Induced abortion (finding),narrow,P,SpontaneousAbortion,PrA,267295002
 Spontaneous abortion,SNOMEDCT_US,267297005,Abortion NOS,C0156543,Unspecified Abortion,possible,P,SpontaneousAbortion,PrA,267297005
-Spontaneous abortion,SNOMEDCT_US,26743002,Illegal termination of pregnancy complicated by embolism,C0269534,Illegal termination of pregnancy complicated by embolism,narrow,P,SpontaneousAbortion,PrA,26743002
-Spontaneous abortion,SNOMEDCT_US,27169005,Legal termination of pregnancy complicated by shock,C0269476,Legal termination of pregnancy complicated by shock,narrow,P,SpontaneousAbortion,PrA,27169005
-Spontaneous abortion,SNOMEDCT_US,275423001,Failed abortion,C0558369,Failed abortion,possible,P,SpontaneousAbortion,PrA,275423001
 Spontaneous abortion,SNOMEDCT_US,275425008,Retained products after miscarriage,,,narrow,P,SpontaneousAbortion,PrA,275425008
 Spontaneous abortion,SNOMEDCT_US,275425008,Retained products after miscarriage,C0000810,Incomplete spontaneous abortion,narrow,P,SpontaneousAbortion,PrA,275425008
 Spontaneous abortion,SNOMEDCT_US,2781009,Miscarriage complicated by delayed and-or excessive haemorrhage,C0156427,Spontaneous abortion complicated by delayed or excessive hemorrhage,narrow,P,SpontaneousAbortion,PrA,2781009
-Spontaneous abortion,SNOMEDCT_US,287955003,Termination of pregnancy operation NOS,C0404068,Operative termination of pregnancy,narrow,P,SpontaneousAbortion,PrA,287955003
-Spontaneous abortion,SNOMEDCT_US,288045002,Injection of amnion for termination of pregnancy,C0565454,Injection of amnion for termination of pregnancy,narrow,P,SpontaneousAbortion,PrA,288045002
 Spontaneous abortion,SNOMEDCT_US,29171003,Trapped placenta,,,possible,P,SpontaneousAbortion,PrA,29171003
-Spontaneous abortion,SNOMEDCT_US,29421008,Failed attempted termination of pregnancy complicated by renal failure,C0156587,Failed attempted termination of pregnancy complicated by renal failure,possible,P,SpontaneousAbortion,PrA,29421008
-Spontaneous abortion,SNOMEDCT_US,302375005,Operative termination of pregnancy,C0404068,Operative termination of pregnancy,narrow,P,SpontaneousAbortion,PrA,302375005
 Spontaneous abortion,SNOMEDCT_US,307733001,Inevitable miscarriage complete,C0585601,Inevitable miscarriage complete,narrow,P,SpontaneousAbortion,PrA,307733001
 Spontaneous abortion,SNOMEDCT_US,34270000,Miscarriage complicated by shock,C0156443,Miscarriage complicated by shock,narrow,P,SpontaneousAbortion,PrA,34270000
-Spontaneous abortion,SNOMEDCT_US,34500003,Legal termination of pregnancy without complication,C0269440,Legal termination of pregnancy without complication,narrow,P,SpontaneousAbortion,PrA,34500003
 Spontaneous abortion,SNOMEDCT_US,34614007,Miscarriage with complication,C0156456,Miscarriage with complication,narrow,P,SpontaneousAbortion,PrA,34614007
-Spontaneous abortion,SNOMEDCT_US,3634007,Legal termination of pregnancy complicated by metabolic disorder,C0269474,Legal termination of pregnancy complicated by metabolic disorder,narrow,P,SpontaneousAbortion,PrA,3634007
 Spontaneous abortion,SNOMEDCT_US,363681007,Pregnancy with abortive outcome,C0156543,Unspecified Abortion,possible,P,SpontaneousAbortion,PrA,363681007
 Spontaneous abortion,SNOMEDCT_US,371374003,Retained products of conception,C0033270,Retained products of conception,possible,P,SpontaneousAbortion,PrA,371374003
 Spontaneous abortion,SNOMEDCT_US,371375002,Retained secundines,C0033270,Retained products of conception,possible,P,SpontaneousAbortion,PrA,371375002
 Spontaneous abortion,SNOMEDCT_US,386639001,Abortion,C0156543,Unspecified Abortion,possible,P,SpontaneousAbortion,PrA,386639001
-Spontaneous abortion,SNOMEDCT_US,38784004,Illegal termination of pregnancy complicated by damage to pelvic organs and-or tissues,C0269509,Illegal termination of pregnancy complicated by damage to pelvic organs and-or tissues,narrow,P,SpontaneousAbortion,PrA,38784004
-Spontaneous abortion,SNOMEDCT_US,391897002,Aspiration curettage of uterus for termination of pregnancy,C0004050,Aspiration curettage of uterus for termination of pregnancy,narrow,P,SpontaneousAbortion,PrA,391897002
-Spontaneous abortion,SNOMEDCT_US,39406005,Legal termination of pregnancy,C1456876,Legal abortion (finding),narrow,P,SpontaneousAbortion,PrA,39406005
 Spontaneous abortion,SNOMEDCT_US,413338003,Incomplete miscarriage with complication,C0156457,Incomplete miscarriage with complication,narrow,P,SpontaneousAbortion,PrA,413338003
 Spontaneous abortion,SNOMEDCT_US,43306002,Miscarriage complicated by embolism,C0156447,Miscarriage complicated by embolism,narrow,P,SpontaneousAbortion,PrA,43306002
 Spontaneous abortion,SNOMEDCT_US,44216000,Retained products of conception- following delivery with hemorrhage,,,possible,P,SpontaneousAbortion,PrA,44216000
-Spontaneous abortion,SNOMEDCT_US,4576001,Legal termination of pregnancy complicated by renal failure,C0269469,Legal termination of pregnancy complicated by renal failure,narrow,P,SpontaneousAbortion,PrA,4576001
-Spontaneous abortion,SNOMEDCT_US,46101000119101,Counseling for termination of pregnancy done,C3839599,Counseling for termination of pregnancy done,possible,P,SpontaneousAbortion,PrA,46101000119101
-Spontaneous abortion,SNOMEDCT_US,48433002,Legal termination of pregnancy with complication,C0269441,Legal termination of pregnancy with complication,narrow,P,SpontaneousAbortion,PrA,48433002
-Spontaneous abortion,SNOMEDCT_US,49416000,Failed attempted termination of pregnancy,C0392536,Failed attempted abortion,possible,P,SpontaneousAbortion,PrA,49416000
-Spontaneous abortion,SNOMEDCT_US,49632008,Illegal termination of pregnancy,C0000804,Abortion- Criminal,narrow,P,SpontaneousAbortion,PrA,49632008
-Spontaneous abortion,SNOMEDCT_US,52660002,Induced termination of pregnancy following intra-amniotic injection with hysterotomy,C0195644,Induced termination of pregnancy following intra-amniotic injection with hysterotomy,narrow,P,SpontaneousAbortion,PrA,52660002
-Spontaneous abortion,SNOMEDCT_US,53638009,Therapeutic termination of pregnancy,C3146284,Therapeutic abortion (finding),narrow,P,SpontaneousAbortion,PrA,53638009
-Spontaneous abortion,SNOMEDCT_US,57734001,Legal termination of pregnancy complicated by embolism,C0269479,Legal termination of pregnancy complicated by embolism,narrow,P,SpontaneousAbortion,PrA,57734001
-Spontaneous abortion,SNOMEDCT_US,57797005,Termination of pregnancy,C1704300,Induced abortion (finding),narrow,P,SpontaneousAbortion,PrA,57797005
-Spontaneous abortion,SNOMEDCT_US,58071009,Legal abortion complicated by delayed AND-OR excessive haemorrhage,C0269450,Legally induced abortion- complicated by delayed or excessive hemorrhage- unspecified,narrow,P,SpontaneousAbortion,PrA,58071009
 Spontaneous abortion,SNOMEDCT_US,58990004,Miscarriage complicated by damage to pelvic organs and-or tissues,C0269403,Miscarriage complicated by damage to pelvic organs and-or tissues,narrow,P,SpontaneousAbortion,PrA,58990004
-Spontaneous abortion,SNOMEDCT_US,5939002,Failed attempted termination of pregnancy complicated by metabolic disorder,C0156588,Failed attempted termination of pregnancy complicated by metabolic disorder,possible,P,SpontaneousAbortion,PrA,5939002
-Spontaneous abortion,SNOMEDCT_US,59859005,Legal termination of pregnancy with laceration of bladder,C0269455,Legal termination of pregnancy with laceration of bladder,narrow,P,SpontaneousAbortion,PrA,59859005
-Spontaneous abortion,SNOMEDCT_US,59919008,Failed attempted termination of pregnancy with complication,C0156592,Failed attempted termination of pregnancy with complication,possible,P,SpontaneousAbortion,PrA,59919008
-Spontaneous abortion,SNOMEDCT_US,60330007,Aspiration curettage of uterus for termination of pregnancy,C0004050,Aspiration curettage of uterus for termination of pregnancy,narrow,P,SpontaneousAbortion,PrA,60330007
-Spontaneous abortion,SNOMEDCT_US,609446006,Termination of pregnancy with complication,C3662201,Termination of pregnancy with complication,narrow,P,SpontaneousAbortion,PrA,609446006
-Spontaneous abortion,SNOMEDCT_US,609485004,Induced termination of pregnancy complicated by sepsis,C3662156,Induced termination of pregnancy complicated by sepsis,narrow,P,SpontaneousAbortion,PrA,609485004
-Spontaneous abortion,SNOMEDCT_US,61752008,Illegal termination of pregnancy complicated by shock,C0269531,Illegal termination of pregnancy complicated by shock,narrow,P,SpontaneousAbortion,PrA,61752008
 Spontaneous abortion,SNOMEDCT_US,6176008,Mycotic abortion,C0276649,Mycotic abortion,narrow,P,SpontaneousAbortion,PrA,6176008
-Spontaneous abortion,SNOMEDCT_US,67042008,Failed attempted termination of pregnancy complicated by shock,C0156589,Failed attempted termination of pregnancy complicated by shock,possible,P,SpontaneousAbortion,PrA,67042008
 Spontaneous abortion,SNOMEDCT_US,69124005,Complete spontaneous abortion,C1306041,Complete miscarriage,narrow,P,SpontaneousAbortion,PrA,69124005
-Spontaneous abortion,SNOMEDCT_US,69302000,Termination of pregnancy on demand,C0000793,Abortion on Demand,possible,P,SpontaneousAbortion,PrA,69302000
-Spontaneous abortion,SNOMEDCT_US,698636009,Complete legal abortion with complication,C3697208,Complete legal abortion with complication,narrow,P,SpontaneousAbortion,PrA,698636009
 Spontaneous abortion,SNOMEDCT_US,699949009,Retained placenta due to morbidly adherent placenta,,,possible,P,SpontaneousAbortion,PrA,699949009
-Spontaneous abortion,SNOMEDCT_US,70186003,Embryotomy,C0013951,Embryotomy,narrow,P,SpontaneousAbortion,PrA,70186003
 Spontaneous abortion,SNOMEDCT_US,70317007,Abortion,C0156543,Unspecified Abortion,possible,P,SpontaneousAbortion,PrA,70317007
-Spontaneous abortion,SNOMEDCT_US,714812005,Induced termination of pregnancy,C4049831,Induced termination of pregnancy,narrow,P,SpontaneousAbortion,PrA,714812005
-Spontaneous abortion,SNOMEDCT_US,74978008,Illegal termination of pregnancy with complication,C0269496,Illegal termination of pregnancy with complication,narrow,P,SpontaneousAbortion,PrA,74978008
-Spontaneous abortion,SNOMEDCT_US,7802000,Illegal termination of pregnancy without complication,C0260335,Illegal termination of pregnancy without complication,narrow,P,SpontaneousAbortion,PrA,7802000
-Spontaneous abortion,SNOMEDCT_US,7822001,Failed attempted termination of pregnancy complicated by damage to pelvic organ and-or tissues,C0269561,Failed attempted termination of pregnancy complicated by damage to pelvic organ and-or tissues,possible,P,SpontaneousAbortion,PrA,7822001
 Spontaneous abortion,SNOMEDCT_US,81002003,Retained products of conception,C0033270,Retained products of conception,possible,P,SpontaneousAbortion,PrA,81002003
 Spontaneous abortion,SNOMEDCT_US,85116003,Miscarriage in second trimester,C0269389,Miscarriage in second trimester,narrow,P,SpontaneousAbortion,PrA,85116003
-Spontaneous abortion,SNOMEDCT_US,86891002,Illegal abortion complicated by delayed AND-OR excessive haemorrhage,C0269505,Illegally induced abortion- complicated by delayed or excessive hemorrhage- unspecified,narrow,P,SpontaneousAbortion,PrA,86891002
-Spontaneous abortion,SNOMEDCT_US,8996006,Illegal termination of pregnancy complicated by renal failure,C0269524,Illegal termination of pregnancy complicated by renal failure,narrow,P,SpontaneousAbortion,PrA,8996006
-Spontaneous abortion,SNOMEDCT_US,90645002,Failed attempted termination of pregnancy without complication,C0269549,Failed attempted termination of pregnancy without complication,possible,P,SpontaneousAbortion,PrA,90645002
 Start of Pregnancy,ICPC,W78,Pregnancy confirmed,C0549169,Confirmation of pregnancy,narrow,P,StartofPregnancy,PrA,W78
 Start of Pregnancy,ICPC,W79,Unwanted pregnancy,C0032995,Unwanted pregnancy,narrow,P,StartofPregnancy,PrA,W79
 Start of Pregnancy,ICPC2P,W78002,Pregnancy-confirmed,C0549169,Confirmation of pregnancy,narrow,P,StartofPregnancy,PrA,W78002
