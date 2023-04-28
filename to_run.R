@@ -8,6 +8,9 @@
 #
 # Changelog 4.01, 27 April 2023:
 # - Update codelist
+#
+# Changelog 4.02, 28 April 2023:
+# - added empty itemset LMP for PHARMO 
 #------------------------------------------------------------------------------------------
 
 

@@ -84,9 +84,11 @@ itemsetMED_AVpair_pregnancy[["GestationalAge"]][[files[i]]][["PHARMO"]] <- list(
 ### specification PregnancyTest
 itemsetMED_AVpair_pregnancy[["PregnancyTest"]][[files[i]]][["PHARMO"]] <- list(list("gp","gp_exaval1")) #list("mo_source_table","mo_source_column")
 
+### specification LastMestrualPeriodImplyingPregnancy
+itemsetMED_AVpair_pregnancy[["LastMestrualPeriodImplyingPregnancy"]][[files[i]]][["PHARMO"]] <- list()
+
 
 ################################ DICTINARY OF PregnancyTest ##################################
-
 dictonary_of_itemset_PregnancyTest[["PregnancyTest"]][["positive"]]<-list(list("positive")) 
 
 
