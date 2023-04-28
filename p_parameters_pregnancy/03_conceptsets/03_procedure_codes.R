@@ -21,6 +21,8 @@ concept_set_codes_pregnancy[["procedures_livebirth"]][["ICD10"]] <- c()
 concept_set_codes_pregnancy[["procedures_livebirth"]][["READ"]] <- c()
 concept_set_codes_pregnancy[["procedures_livebirth"]][["ICPC2P"]] <- c()
 concept_set_codes_pregnancy[["procedures_livebirth"]][["SNOMED"]] <- c()
+concept_set_codes_pregnancy[["procedures_livebirth"]][["ICD10ES"]] <- c("10E0XZZ","10D07Z3","10D07Z4","10D07Z5","10S07ZZ","10D07Z6","10D07Z8","10D00Z0","10D00Z1","10D00Z2","10907ZC","10907ZD","10D07Z7") # based on FISABIO's input
+
 
 # procedure termination in various coding system
 concept_set_codes_pregnancy[["procedures_termination"]][["ICD9PROC"]] <- c("69.51", "74.91", "75.0", "69.01") 
@@ -28,6 +30,9 @@ concept_set_codes_pregnancy[["procedures_termination"]][["ICD10"]] <- c("10A00ZZ
 concept_set_codes_pregnancy[["procedures_termination"]][["READ"]] <- c()
 concept_set_codes_pregnancy[["procedures_termination"]][["ICPC2P"]] <- c()
 concept_set_codes_pregnancy[["procedures_termination"]][["SNOMED"]] <- c()
+concept_set_codes_pregnancy[["procedures_termination"]][["ICD10ES"]] <- c("10A00ZZ","10A03ZZ","10A04ZZ","10A07Z6","10A07ZW","10A07ZX","10A07ZZ","10A08ZZ","10D18ZZ","10D17ZZ",,"10D17Z9","10D18Z9") # based on FISABIO's input
+
+
 
 
 # procedure spontaneous abortion in various coding system
@@ -43,6 +48,9 @@ concept_set_codes_pregnancy[["procedures_ectopic"]][["ICD10"]] <- c()
 concept_set_codes_pregnancy[["procedures_ectopic"]][["READ"]] <- c()
 concept_set_codes_pregnancy[["procedures_ectopic"]][["ICPC2P"]] <- c()
 concept_set_codes_pregnancy[["procedures_ectopic"]][["SNOMED"]] <- c()
+concept_set_codes_pregnancy[["procedures_ectopic"]][["ICD10ES"]] <- c("10T20ZZ","10T23ZZ","10T24ZZ","10T28ZZ","10D20ZZ","10D24ZZ","10D27ZZ","10D28ZZ",) # based on FISABIO's input
+
+
 
 # procedures indicating ongoing pregnancies in various coding system
 concept_set_codes_pregnancy[["procedures_ongoing"]][["ICD9PROC"]] <- c("75.3", "75.32", "75.33", "75.34", "75.35", "75.36", "75.38", "75.2")
@@ -50,10 +58,9 @@ concept_set_codes_pregnancy[["procedures_ongoing"]][["ICD10"]] <- c("10900Z9", "
 concept_set_codes_pregnancy[["procedures_ongoing"]][["READ"]] <- c()
 concept_set_codes_pregnancy[["procedures_ongoing"]][["ICPC2P"]] <- c()
 concept_set_codes_pregnancy[["procedures_ongoing"]][["SNOMED"]] <- c()
+concept_set_codes_pregnancy[["procedures_ongoing"]][["ICD10ES"]] <- c("10900Z9","10900ZB","10903Z9","10903ZA","10903ZB","10904Z9","10904ZB","10907Z9","10907ZA","10907ZB","10908Z9","10908ZA","BY30Y0Z","BY30ZZZ","BY31Y0Z","BY31YZZ","BY31ZZZ","BY32ZZZ","BY47ZZZ","BY48ZZZ","BY49ZZZ","BY4BZZZ","BY4CZZZ","BY4DZZZ","BY4FZZZ","BY4GZZZ","BY36ZZZ","4A0H7CZ","4A0H7FZ","4A0H7HZ","4A0HX4Z","4A0HXCZ","4A0HXFZ","4A0JXBZ","10J07ZZ","10S0XZZ","10Q04ZY","10903ZU","10H073Z","10J18ZZ","10H07YZ","10904ZC","10Q04YF","10J0XZZ","10904ZU","10903ZC","10J08ZZ","10J28ZZ","10J20ZZ","10Q07ZR","10907ZU","10900ZU","10J17ZZ","10J1XZZ",10908ZU,10P07YZ,10J00ZZ,10904ZD,10908ZC,10P073Z,10J04ZZ,10Q08ZJ)
 
-
-
-
+# based on FISABIO's input
 
 
 # -itemset_AVpair_pregnancy- is a nested list, with 3 levels: foreach study variable, for each coding system of its data domain, the list of AVpair is recorded
