@@ -120,6 +120,9 @@ if (this_datasource_has_itemsets_stream_from_medical_obs) {
     }
   }
 
+  dictonary_of_itemset_PregnancyTest_thisdatasource <- dictonary_of_itemset_PregnancyTest
+  days_from_start_PregnancyTest_thisdatasource <- days_from_start_PregnancyTest
+  days_to_end_PregnancyTest_thisdatasource <- days_to_end_PregnancyTest
 }
 
 

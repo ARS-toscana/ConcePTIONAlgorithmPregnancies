@@ -120,11 +120,11 @@ if (this_datasource_has_itemsets_stream_from_medical_obs){
   # }
   
   
-  if (thisdatasource=="PHARMO" |thisdatasource== "CASERTA"){
+  if (thisdatasource=="PHARMO" | thisdatasource== "CASERTA"){
     
     # select only POSITIVE records
     dataset_item_sets<-dataset_item_sets[item_set=="PregnancyTest" & 
-                                           mo_source_value==unlist(dictonary_of_itemset_PregnancyTest$PregnancyTest),]
+                                           mo_source_value==unlist(dictonary_of_itemset_PregnancyTest_thisdatasource$PregnancyTest),]
                                          
     # start creating pregnancy_ongoing_date
     dataset_item_sets<-dataset_item_sets[,`:=`(pregnancy_ongoing_date=date, 
@@ -132,13 +132,13 @@ if (this_datasource_has_itemsets_stream_from_medical_obs){
     
     # then pregnancy_start_date
     dataset_item_sets<-dataset_item_sets[item_set=="PregnancyTest", 
-                                         `:=`(pregnancy_start_date=pregnancy_ongoing_date - days_from_start_PregnancyTest, 
+                                         `:=`(pregnancy_start_date=pregnancy_ongoing_date - days_from_start_PregnancyTest_thisdatasource, 
                                               meaning_start_date=paste0("from_itemset_",item_set,"_positive")) ]
 
     
     #the pregnancy is ongoing and has a start date but has no end, then at term end of the pregnancy is assumed for the imputation
     dataset_item_sets<-dataset_item_sets[item_set=="PregnancyTest", 
-                                         `:=`(pregnancy_end_date = pregnancy_start_date + days_to_end_PregnancyTest, 
+                                         `:=`(pregnancy_end_date = pregnancy_start_date + days_to_end_PregnancyTest_thisdatasource, 
                                               imputed_end_of_pregnancy=1,  
                                               imputed_start_of_pregnancy=0, 
                                               meaning_end_date=paste0("imputed_itemset_from_",item_set,"_positive"))]
