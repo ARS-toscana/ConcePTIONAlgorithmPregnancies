@@ -30,7 +30,7 @@ concept_set_codes_pregnancy[["procedures_termination"]][["ICD10"]] <- c("10A00ZZ
 concept_set_codes_pregnancy[["procedures_termination"]][["READ"]] <- c()
 concept_set_codes_pregnancy[["procedures_termination"]][["ICPC2P"]] <- c()
 concept_set_codes_pregnancy[["procedures_termination"]][["SNOMED"]] <- c()
-concept_set_codes_pregnancy[["procedures_termination"]][["ICD10ES"]] <- c("10A00ZZ","10A03ZZ","10A04ZZ","10A07Z6","10A07ZW","10A07ZX","10A07ZZ","10A08ZZ","10D18ZZ","10D17ZZ",,"10D17Z9","10D18Z9") # based on FISABIO's input
+concept_set_codes_pregnancy[["procedures_termination"]][["ICD10ES"]] <- c("10A00ZZ","10A03ZZ","10A04ZZ","10A07Z6","10A07ZW","10A07ZX","10A07ZZ","10A08ZZ","10D18ZZ","10D17ZZ","10D17Z9","10D18Z9") # based on FISABIO's input
 
 
 
@@ -48,7 +48,7 @@ concept_set_codes_pregnancy[["procedures_ectopic"]][["ICD10"]] <- c()
 concept_set_codes_pregnancy[["procedures_ectopic"]][["READ"]] <- c()
 concept_set_codes_pregnancy[["procedures_ectopic"]][["ICPC2P"]] <- c()
 concept_set_codes_pregnancy[["procedures_ectopic"]][["SNOMED"]] <- c()
-concept_set_codes_pregnancy[["procedures_ectopic"]][["ICD10ES"]] <- c("10T20ZZ","10T23ZZ","10T24ZZ","10T28ZZ","10D20ZZ","10D24ZZ","10D27ZZ","10D28ZZ",) # based on FISABIO's input
+concept_set_codes_pregnancy[["procedures_ectopic"]][["ICD10ES"]] <- c("10T20ZZ","10T23ZZ","10T24ZZ","10T28ZZ","10D20ZZ","10D24ZZ","10D27ZZ","10D28ZZ") # based on FISABIO's input
 
 
 
