@@ -12,6 +12,9 @@
 # Changelog 4.02, 28 April 2023:
 # - added empty itemset LMP for PHARMO 
 # - added DAP specific parameters for pregnancy test
+#
+# Changelog 4.03, 28 April 2023:
+# - added FISABIO procedures codes
 #------------------------------------------------------------------------------------------
 
 
