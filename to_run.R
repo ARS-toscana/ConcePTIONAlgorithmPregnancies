@@ -18,6 +18,7 @@
 #
 # Changelog 4.04, 4 May 2023:
 # - fixed verification for overlapping preg
+# - adjusted end for overlapping preg
 #------------------------------------------------------------------------------------------
 
 

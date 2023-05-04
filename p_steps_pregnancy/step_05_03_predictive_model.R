@@ -323,12 +323,12 @@ if (this_datasource_ends_red_pregnancies) {
 if(!this_datasource_do_not_use_prediction_on_red){
   D3_pregnancy_reconciled_before_excl[!is.na(pregnancy_start_date_predicted), 
                                       pregnancy_start_date := max(pregnancy_start_date_predicted, 
-                                                                  record_date - 300), 
+                                                                  record_date - 280), 
                                       pregnancy_id]
   
   D3_pregnancy_reconciled_before_excl[!is.na(pregnancy_end_date_predicted) & (highest_quality == "4_red" | highest_quality == "3_blue"), 
-                                      pregnancy_end_date := max(pregnancy_end_date_predicted, 
-                                                                pregnancy_start_date + 300), 
+                                      pregnancy_end_date := min(pregnancy_end_date_predicted, 
+                                                                pregnancy_start_date + 280), 
                                       pregnancy_id]
 }
 
@@ -387,20 +387,20 @@ if(length(overlapping_preg) > 0){
 #'    ------R------
 #'          
 #'      ----P-----  
-#'      <--> 59 days
+#'      <--> 60 days
 #' 
 #' to avoid overlap start of pregnancy is defined as: 
-#' max(start of preg, date of oldest record -59)
+#' max(start of preg, date of oldest record -60)
 #' 
 #' #'3)
 #'           ----R-----
 #'    ------R------
 #'          
 #'      ----P-----  
-#'                |    date of most recent record or start + 59 days
+#'                |    date of most recent record or start + 60 days
 #'      
 #' and end of pregnancy is define as 
-#' max(date of most recent record,  start of preg + 59)
+#' max(date of most recent record,  start of preg + 60)
 
 
   DT_overlap <- D3_groups_of_pregnancies_reconciled_before_excl[pregnancy_id %in% overlapping_preg]
@@ -892,14 +892,11 @@ if(length(overlapping_preg) > 0){
   # Adjusting red start
   #----------------------
   DT_ov_pregnancy <- DT_ov[n==1]
-  #DT_ov_pregnancy[highest_quality == "4_red", pregnancy_start_date := min(date_of_oldest_record, pregnancy_start_date), pregnancy_id]
-  DT_ov_pregnancy[highest_quality == "4_red", pregnancy_start_date := max(date_of_oldest_record - 59, pregnancy_start_date), pregnancy_id]
-  DT_ov_pregnancy[highest_quality == "4_red", pregnancy_end_date := max(date_of_most_recent_record, pregnancy_start_date + 59), pregnancy_id]
   
-  
-  
-  
-  
+  DT_ov_pregnancy[highest_quality == "4_red", pregnancy_start_date := min(date_of_oldest_record, pregnancy_start_date), pregnancy_id]
+  DT_ov_pregnancy[highest_quality == "4_red", pregnancy_start_date := max(date_of_oldest_record - 60, pregnancy_start_date), pregnancy_id]
+  #DT_ov_pregnancy[highest_quality == "4_red", pregnancy_end_date := max(date_of_most_recent_record, pregnancy_start_date + 60), pregnancy_id]
+  DT_ov_pregnancy[highest_quality == "4_red", pregnancy_end_date := date_of_most_recent_record]
   
   #------------
   # LOSTFU 2/2
@@ -924,7 +921,6 @@ if(length(overlapping_preg) > 0){
                            all.x = TRUE)
   
   DT_ov_pregnancy <- DT_ov_pregnancy[LOSTFU == 1, type_of_pregnancy_end := "LOSTFU"]
-  
   
   #------------------
   # Rbind fixed preg
@@ -1072,6 +1068,14 @@ D3_pregnancy_reconciled_before_excl[highest_quality == "4_red" | highest_quality
                                     pregnancy_id]
 
 setnames(D3_pregnancy_reconciled_before_excl, "record_date", "date_of_principal_record")
+
+#----------------------------
+# End red quality pregnancies
+#----------------------------
+if (this_datasource_ends_red_pregnancies) {
+  D3_pregnancy_reconciled_before_excl[highest_quality == "4_red" & type_of_pregnancy_end != "LOSTFU",
+                                      pregnancy_end_date := date_of_most_recent_record]
+}
 
 #--------
 # Saving
