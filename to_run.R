@@ -15,6 +15,9 @@
 #
 # Changelog 4.03, 28 April 2023:
 # - added FISABIO procedures codes
+#
+# Changelog 4.04, 4 May 2023:
+# - fixed verification for overlapping preg
 #------------------------------------------------------------------------------------------
 
 

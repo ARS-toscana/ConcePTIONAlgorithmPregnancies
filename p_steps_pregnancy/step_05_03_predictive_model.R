@@ -404,6 +404,10 @@ if(length(overlapping_preg) > 0){
 
 
   DT_overlap <- D3_groups_of_pregnancies_reconciled_before_excl[pregnancy_id %in% overlapping_preg]
+  D3_groups_of_pregnancies_reconciled_before_excl <- D3_groups_of_pregnancies_reconciled_before_excl[pregnancy_id %notin% overlapping_preg]
+  
+  
+  
   D3_pregnancy_reconciled_before_excl <- D3_pregnancy_reconciled_before_excl[pregnancy_id %notin% overlapping_preg]
   
   #----------------------
@@ -892,6 +896,11 @@ if(length(overlapping_preg) > 0){
   DT_ov_pregnancy[highest_quality == "4_red", pregnancy_start_date := max(date_of_oldest_record - 59, pregnancy_start_date), pregnancy_id]
   DT_ov_pregnancy[highest_quality == "4_red", pregnancy_end_date := max(date_of_most_recent_record, pregnancy_start_date + 59), pregnancy_id]
   
+  
+  
+  
+  
+  
   #------------
   # LOSTFU 2/2
   #------------
@@ -946,6 +955,44 @@ if(length(overlapping_preg) > 0){
                                           "MNIP_sum",
                                           "birth_date")]
   
+  DT_ov <- DT_ov[, -c("record_description",
+                      "new_pregnancy_group",
+                      "new_group",
+                      "n_max",
+                      "recon",
+                      "pregnancy_start_date_next_record",
+                      "pregnancy_end_date_next_record",
+                      "coloured_order_next_record",
+                      "type_of_pregnancy_end_next_record",
+                      "record_date_next_record",
+                      "start_diff",
+                      "end_diff",
+                      "PROMPT_next_record",
+                      "ITEMSETS_next_record",
+                      "EUROCAT_next_record",
+                      "CONCEPTSETS_next_record",
+                      "record_description_next_record",
+                      "new_group_next_record",
+                      "MNIP",
+                      "MNIP_sum",
+                      "birth_date",
+                      "gestage_at_first_record")]
+  
+  D3_groups_of_pregnancies_reconciled_before_excl <- D3_groups_of_pregnancies_reconciled_before_excl[, -c("record_type",
+                                                                                                          "record_year",
+                                                                                                          "n_old",
+                                                                                                          "record_id",
+                                                                                                          "distance_from_oldest",        
+                                                                                                          "train_set",
+                                                                                                          "predicted_day_from_start",
+                                                                                                          "pregnancy_start_date_predicted",
+                                                                                                          "pregnancy_end_date_predicted",
+                                                                                                          "pregnancy_start_date_green",    
+                                                                                                          "days_from_start",
+                                                                                                          "date_of_principal_record")]
+  
+  
+
   D3_pregnancy_reconciled_before_excl <- D3_pregnancy_reconciled_before_excl[, -c("record_type",
                                                                                   "record_year",
                                                                                   "n_old",
@@ -960,6 +1007,7 @@ if(length(overlapping_preg) > 0){
                                                                                   "date_of_principal_record")]
   
   D3_pregnancy_reconciled_before_excl <- rbind(D3_pregnancy_reconciled_before_excl, DT_ov_pregnancy)
+  D3_groups_of_pregnancies_reconciled_before_excl <- rbind(D3_groups_of_pregnancies_reconciled_before_excl, DT_ov)
   
   #----------------------------------------
   # 2nd check for overlapping pregnancies
