@@ -69,6 +69,10 @@ if("CONCEPTSET" %notin% names(groups_of_pregnancies)){
   groups_of_pregnancies[, `:=`(CONCEPTSET = NA)]
 }
 
+if("child_id" %notin% names(groups_of_pregnancies)){
+  groups_of_pregnancies[, `:=`(child_id = NA)]
+}
+
 groups_of_pregnancies<-groups_of_pregnancies[,.(pregnancy_id,
                                                 person_id,
                                                 record_date,

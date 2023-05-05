@@ -19,6 +19,9 @@
 # Changelog 4.04, 4 May 2023:
 # - fixed verification for overlapping preg
 # - adjusted end for overlapping preg
+#
+# Changelog 4.05, 5 May 2023:
+# - added empty child_id variables
 #------------------------------------------------------------------------------------------
 
 
