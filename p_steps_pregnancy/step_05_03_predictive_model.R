@@ -1009,8 +1009,8 @@ if(length(overlapping_preg) > 0){
                                                                                   "date_of_principal_record")]
   )
   
-  D3_pregnancy_reconciled_before_excl <- rbind(D3_pregnancy_reconciled_before_excl, DT_ov_pregnancy, fill = TRUE)
-  D3_groups_of_pregnancies_reconciled_before_excl <- rbind(D3_groups_of_pregnancies_reconciled_before_excl, DT_ov, fill = TRUE)
+  D3_pregnancy_reconciled_before_excl <- rbind(D3_pregnancy_reconciled_before_excl, DT_ov_pregnancy, use.names = TRUE, fill = TRUE)
+  D3_groups_of_pregnancies_reconciled_before_excl <- rbind(D3_groups_of_pregnancies_reconciled_before_excl, DT_ov, use.names = TRUE, fill = TRUE)
   
   #----------------------------------------
   # 2nd check for overlapping pregnancies
