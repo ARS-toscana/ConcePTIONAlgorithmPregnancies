@@ -114,12 +114,18 @@ The following graph shows the results of the verification for the variable start
 DT_start <- copy(sample_validated)
 #DT_start[sample == "Yellow_SlightlyDiscordant", sample := "Yellow_CP_SlightlyDiscordant"]
 DT_start <- DT_start[, pregnancy_start_date_difference := as.character(pregnancy_start_date_difference)]
-DT_start <- DT_start[pregnancy_start_date_difference == "" | is.na(pregnancy_start_date_difference), pregnancy_start_date_difference :="1. 0 days"]
+
+
+DT_start <- DT_start[tolower(pregnancy_start_date_correct) == "y", pregnancy_start_date_difference :="1. 0 days"]
 DT_start <- DT_start[pregnancy_start_date_difference == "1"| pregnancy_start_date_difference == "5", pregnancy_start_date_difference := "2. days < 5 "]
 DT_start <- DT_start[pregnancy_start_date_difference == "2"| pregnancy_start_date_difference == "6", pregnancy_start_date_difference := "3. 5 < days <= 30"]
 DT_start <- DT_start[pregnancy_start_date_difference == "3"| pregnancy_start_date_difference == "7", pregnancy_start_date_difference := "4. 30 < days <= 90"]
 DT_start <- DT_start[pregnancy_start_date_difference == "4"| pregnancy_start_date_difference == "8", pregnancy_start_date_difference := "5. days > 90"]
-DT_start <- DT_start[pregnancy_start_date_difference == "not specified", pregnancy_start_date_difference := "6. not specified"]
+DT_start <- DT_start[tolower(pregnancy_start_date_correct) == "unk_not_ass", pregnancy_start_date_difference := "6. UNK ASSESSABLE"]
+DT_start <- DT_start[tolower(pregnancy_start_date_correct) == "unk_not_asse", pregnancy_start_date_difference := "7. UNK NOT ASSESSABLE"]
+DT_start <- DT_start[tolower(pregnancy_start_date_correct) == "unk_appraisable", pregnancy_start_date_difference := "8. UNK APPRAISABLE"]
+DT_start <- DT_start[pregnancy_start_date_difference == "" | is.na(pregnancy_start_date_difference), pregnancy_start_date_difference :="9. NOT SPECIFIED"]
+
 DT_start[, color := str_split(sample, "_")[[1]][1], sample]
 
 DT_start_agg <- DT_start[, .N, by = c("pregnancy_start_date_difference", "sample")]
@@ -133,8 +139,10 @@ plt <- ggplot(DT_start_agg_plt, aes(x = sample, y =N, fill = pregnancy_start_dat
                                "3. 5 < days <= 30" = "slategray3", 
                                "4. 30 < days <= 90" = "slategray4", 
                                "5. days > 90"="slategrey",
-                               
-                               "6. not specified" = "grey30")) +
+                               "6. UNK ASSESSABLE"= "orangered",
+                               "7. UNK NOT ASSESSABLE"= "saddlebrown",
+                               "8. UNK APPRAISABLE"= "yellow4",
+                               "9. NOT SPECIFIED" = "tan2")) +
   scale_x_discrete(guide = guide_axis(angle = 45)) +
   guides(fill = guide_legend(title = "Verification: start difference")) +
   xlab("Strata")+
@@ -177,12 +185,24 @@ DT_cor <- DT_cor[, pregnancy_start_date_difference := as.character(pregnancy_sta
 
 DT_strata[, color := str_split(sample, "_")[[1]][1], sample]
 
-DT_cor <- DT_cor[pregnancy_start_date_difference == "" | is.na(pregnancy_start_date_difference), pregnancy_start_date_difference :="1. 0 days"]
-DT_cor <- DT_cor[pregnancy_start_date_difference == 1| pregnancy_start_date_difference == 5, pregnancy_start_date_difference := "2. days < 5 "]
-DT_cor <- DT_cor[pregnancy_start_date_difference == 2| pregnancy_start_date_difference == 6, pregnancy_start_date_difference := "3. 5 < days <= 30"]
-DT_cor <- DT_cor[pregnancy_start_date_difference == 3| pregnancy_start_date_difference == 7, pregnancy_start_date_difference := "4. 30 < days <= 90"]
-DT_cor <- DT_cor[pregnancy_start_date_difference == 4| pregnancy_start_date_difference == 8, pregnancy_start_date_difference := "5. days > 90"]
-DT_cor <- DT_cor[pregnancy_start_date_difference == "not specified", pregnancy_start_date_difference := "6. not specified"]
+# DT_cor <- DT_cor[pregnancy_start_date_difference == "" | is.na(pregnancy_start_date_difference), pregnancy_start_date_difference :="1. 0 days"]
+# DT_cor <- DT_cor[pregnancy_start_date_difference == 1| pregnancy_start_date_difference == 5, pregnancy_start_date_difference := "2. days < 5 "]
+# DT_cor <- DT_cor[pregnancy_start_date_difference == 2| pregnancy_start_date_difference == 6, pregnancy_start_date_difference := "3. 5 < days <= 30"]
+# DT_cor <- DT_cor[pregnancy_start_date_difference == 3| pregnancy_start_date_difference == 7, pregnancy_start_date_difference := "4. 30 < days <= 90"]
+# DT_cor <- DT_cor[pregnancy_start_date_difference == 4| pregnancy_start_date_difference == 8, pregnancy_start_date_difference := "5. days > 90"]
+# DT_cor <- DT_cor[pregnancy_start_date_difference == "not specified", pregnancy_start_date_difference := "6. not specified"]
+
+DT_cor <- DT_cor[tolower(pregnancy_start_date_correct) == "y", pregnancy_start_date_difference :="1. 0 days"]
+DT_cor <- DT_cor[pregnancy_start_date_difference == "1"| pregnancy_start_date_difference == "5", pregnancy_start_date_difference := "2. days < 5 "]
+DT_cor <- DT_cor[pregnancy_start_date_difference == "2"| pregnancy_start_date_difference == "6", pregnancy_start_date_difference := "3. 5 < days <= 30"]
+DT_cor <- DT_cor[pregnancy_start_date_difference == "3"| pregnancy_start_date_difference == "7", pregnancy_start_date_difference := "4. 30 < days <= 90"]
+DT_cor <- DT_cor[pregnancy_start_date_difference == "4"| pregnancy_start_date_difference == "8", pregnancy_start_date_difference := "5. days > 90"]
+DT_cor <- DT_cor[tolower(pregnancy_start_date_correct) == "unk_assessable", pregnancy_start_date_difference := "6. UNK ASSESSABLE"]
+DT_cor <- DT_cor[tolower(pregnancy_start_date_correct) == "unk_not_assessable", pregnancy_start_date_difference := "7. UNK NOT ASSESSABLE"]
+DT_cor <- DT_cor[tolower(pregnancy_start_date_correct) == "unk_appraisable", pregnancy_start_date_difference := "8. UNK APPRAISABLE"]
+DT_cor <- DT_cor[pregnancy_start_date_difference == "" | is.na(pregnancy_start_date_difference), pregnancy_start_date_difference :="9. NOT SPECIFIED"]
+
+
 DT_cor[, color := str_split(sample, "_")[[1]][1], sample]
 
 DT_start <-  DT_cor[, .N, by = c("pregnancy_start_date_difference", "sample", "color")]
@@ -211,13 +231,15 @@ ggplot(df2, aes(x = "" , y = y_pie, fill = fct_inorder(as.factor(pregnancy_start
   coord_polar(theta = "y", start = pi*1.5) +
   geom_label_repel(aes(y = pos, label = paste0(y_pie, "%")),
                    size = 4.5, nudge_x = 1,  show.legend = FALSE) + #col = "gray",
-    scale_fill_manual(values = c("1. 0 days" = "slategray1", 
+ scale_fill_manual(values = c("1. 0 days" = "slategray1", 
                                "2. days < 5 " = "slategray2", 
                                "3. 5 < days <= 30" = "slategray3", 
                                "4. 30 < days <= 90" = "slategray4", 
                                "5. days > 90"="slategrey",
-                               
-                               "6. not specified" = "grey30")) +
+                               "6. UNK ASSESSABLE"= "orangered",
+                               "7. UNK NOT ASSESSABLE"= "saddlebrown",
+                               "8. UNK APPRAISABLE"= "yellow4",
+                               "9. NOT SPECIFIED" = "tan2")) +
   guides(fill = guide_legend(title = "Start difference")) +
   theme_void()+
   theme(text = element_text(family = "serif"))
@@ -244,13 +266,15 @@ where:
 ```{r exp_start_plt_strata}
 plt <- ggplot(DT_plt, aes(x = color, y = y, fill = pregnancy_start_date_difference)) +
   geom_col()+
-  scale_fill_manual(values = c("1. 0 days" = "slategray1", 
+ scale_fill_manual(values = c("1. 0 days" = "slategray1", 
                                "2. days < 5 " = "slategray2", 
                                "3. 5 < days <= 30" = "slategray3", 
                                "4. 30 < days <= 90" = "slategray4", 
                                "5. days > 90"="slategrey",
-                               
-                               "6. not specified" = "grey30")) +
+                               "6. UNK ASSESSABLE"= "orangered",
+                               "7. UNK NOT ASSESSABLE"= "saddlebrown",
+                               "8. UNK APPRAISABLE"= "yellow4",
+                               "9. NOT SPECIFIED" = "tan2")) +
   #guides(fill = guide_legend(title = "")) +
   xlab("")+
   ylab("")+
@@ -277,12 +301,19 @@ The following graph shows the results of the verification for the variable end o
 ```{r end}
 DT_end <- copy(sample_validated)
 DT_end <- DT_end[, pregnancy_end_date_difference := as.character(pregnancy_end_date_difference)]
-DT_end <- DT_end[pregnancy_end_date_difference == "" | is.na(pregnancy_end_date_difference), pregnancy_end_date_difference :="1. 0 days"]
+
+DT_end <- DT_end[tolower(pregnancy_end_date_correct) == "y", pregnancy_end_date_difference :="1. 0 days"]
 DT_end <- DT_end[pregnancy_end_date_difference == "1"| pregnancy_end_date_difference == "5", pregnancy_end_date_difference := "2. days < 5 "]
 DT_end <- DT_end[pregnancy_end_date_difference == "2"| pregnancy_end_date_difference == "6", pregnancy_end_date_difference := "3. 5 < days <= 30"]
 DT_end <- DT_end[pregnancy_end_date_difference == "3"| pregnancy_end_date_difference == "7", pregnancy_end_date_difference := "4. 30 < days <= 90"]
 DT_end <- DT_end[pregnancy_end_date_difference == "4"| pregnancy_end_date_difference == "8", pregnancy_end_date_difference := "5. days > 90"]
-DT_end <- DT_end[pregnancy_end_date_difference == "not specified", pregnancy_end_date_difference := "6. not specified"]
+DT_end <- DT_end[tolower(pregnancy_end_date_correct) == "unk_assessable", pregnancy_end_date_difference := "6. UNK ASSESSABLE"]
+DT_end <- DT_end[tolower(pregnancy_end_date_correct) == "unk_not_ass", pregnancy_end_date_difference := "7. UNK NOT ASSESSABLE"]
+DT_end <- DT_end[tolower(pregnancy_end_date_correct) == "unk_appraisable", pregnancy_end_date_difference := "8. UNK APPRAISABLE"]
+DT_end <- DT_end[pregnancy_end_date_difference == "" | is.na(pregnancy_end_date_difference), pregnancy_end_date_difference :="9. NOT SPECIFIED"]
+
+
+
 DT_end[, color := str_split(sample, "_")[[1]][1], sample]
 
 DT_end_agg <- DT_end[, .N, by = c("pregnancy_end_date_difference", "sample")]
@@ -296,8 +327,10 @@ plt <- ggplot(DT_end_agg_plt, aes(x = sample, y =N, fill = pregnancy_end_date_di
                                "3. 5 < days <= 30" = "slategray3", 
                                "4. 30 < days <= 90" = "slategray4", 
                                "5. days > 90"="slategrey",
-                               
-                               "6. not specified" = "grey30")) +
+                               "6. UNK ASSESSABLE"= "orangered",
+                               "7. UNK NOT ASSESSABLE"= "saddlebrown",
+                               "8. UNK APPRAISABLE"= "yellow4",
+                               "9. NOT SPECIFIED" = "tan2")) +
   scale_x_discrete(guide = guide_axis(angle = 45)) +
   guides(fill = guide_legend(title = "Verification: end difference")) +
   xlab("Strata")+
@@ -321,12 +354,25 @@ DT_cor <- DT_cor[, pregnancy_end_date_difference := as.character(pregnancy_end_d
 
 DT_strata[, color := str_split(sample, "_")[[1]][1], sample]
 
-DT_cor <- DT_cor[pregnancy_end_date_difference == "" | is.na(pregnancy_end_date_difference), pregnancy_end_date_difference :="1. 0 days"]
-DT_cor <- DT_cor[pregnancy_end_date_difference == 1| pregnancy_end_date_difference == 5, pregnancy_end_date_difference := "2. days < 5 "]
-DT_cor <- DT_cor[pregnancy_end_date_difference == 2| pregnancy_end_date_difference == 6, pregnancy_end_date_difference := "3. 5 < days <= 30"]
-DT_cor <- DT_cor[pregnancy_end_date_difference == 3| pregnancy_end_date_difference == 7, pregnancy_end_date_difference := "4. 30 < days <= 90"]
-DT_cor <- DT_cor[pregnancy_end_date_difference == 4| pregnancy_end_date_difference == 8, pregnancy_end_date_difference := "5. days > 90"]
-DT_cor <- DT_cor[pregnancy_end_date_difference == "not specified", pregnancy_end_date_difference := "6. not specified"]
+# DT_cor <- DT_cor[pregnancy_end_date_difference == "" | is.na(pregnancy_end_date_difference), pregnancy_end_date_difference :="1. 0 days"]
+# DT_cor <- DT_cor[pregnancy_end_date_difference == 1| pregnancy_end_date_difference == 5, pregnancy_end_date_difference := "2. days < 5 "]
+# DT_cor <- DT_cor[pregnancy_end_date_difference == 2| pregnancy_end_date_difference == 6, pregnancy_end_date_difference := "3. 5 < days <= 30"]
+# DT_cor <- DT_cor[pregnancy_end_date_difference == 3| pregnancy_end_date_difference == 7, pregnancy_end_date_difference := "4. 30 < days <= 90"]
+# DT_cor <- DT_cor[pregnancy_end_date_difference == 4| pregnancy_end_date_difference == 8, pregnancy_end_date_difference := "5. days > 90"]
+# DT_cor <- DT_cor[pregnancy_end_date_difference == "not specified", pregnancy_end_date_difference := "6. not specified"]
+
+
+DT_cor <- DT_cor[tolower(pregnancy_end_date_correct) == "y", pregnancy_end_date_difference :="1. 0 days"]
+DT_cor <- DT_cor[pregnancy_end_date_difference == "1"| pregnancy_end_date_difference == "5", pregnancy_end_date_difference := "2. days < 5 "]
+DT_cor <- DT_cor[pregnancy_end_date_difference == "2"| pregnancy_end_date_difference == "6", pregnancy_end_date_difference := "3. 5 < days <= 30"]
+DT_cor <- DT_cor[pregnancy_end_date_difference == "3"| pregnancy_end_date_difference == "7", pregnancy_end_date_difference := "4. 30 < days <= 90"]
+DT_cor <- DT_cor[pregnancy_end_date_difference == "4"| pregnancy_end_date_difference == "8", pregnancy_end_date_difference := "5. days > 90"]
+DT_cor <- DT_cor[tolower(pregnancy_end_date_correct) == "unk_assessable", pregnancy_end_date_difference := "6. UNK ASSESSABLE"]
+DT_cor <- DT_cor[tolower(pregnancy_end_date_correct) == "unk_not_assessable", pregnancy_end_date_difference := "7. UNK NOT ASSESSABLE"]
+DT_cor <- DT_cor[tolower(pregnancy_end_date_correct) == "unk_appraisable", pregnancy_end_date_difference := "8. UNK APPRAISABLE"]
+DT_cor <- DT_cor[pregnancy_end_date_difference == "" | is.na(pregnancy_end_date_difference), pregnancy_end_date_difference :="9. NOT SPECIFIED"]
+
+
 DT_cor[, color := str_split(sample, "_")[[1]][1], sample]
 
 DT_end <-  DT_cor[, .N, by = c("pregnancy_end_date_difference", "sample", "color")]
@@ -360,13 +406,15 @@ ggplot(df2, aes(x = "" , y = y_pie, fill = fct_inorder(as.factor(pregnancy_end_d
   coord_polar(theta = "y", start = pi*1.5) +
   geom_label_repel(aes(y = pos, label = paste0(y_pie, "%")),
                    size = 4.5, nudge_x = 1,  show.legend = FALSE) + #col = "gray",
-    scale_fill_manual(values = c("1. 0 days" = "slategray1", 
+ scale_fill_manual(values = c("1. 0 days" = "slategray1", 
                                "2. days < 5 " = "slategray2", 
                                "3. 5 < days <= 30" = "slategray3", 
                                "4. 30 < days <= 90" = "slategray4", 
                                "5. days > 90"="slategrey",
-                               
-                               "6. not specified" = "grey30")) +
+                               "6. UNK ASSESSABLE"= "orangered",
+                               "7. UNK NOT ASSESSABLE"= "saddlebrown",
+                               "8. UNK APPRAISABLE"= "yellow4",
+                               "9. NOT SPECIFIED" = "tan2")) +
   guides(fill = guide_legend(title = "Group")) +
   theme_void()+
   theme(text = element_text(family = "serif"))
@@ -385,13 +433,15 @@ The percentages are calculated taking into account the verification results and 
 ```{r exp_end_plt_strata}
 plt <- ggplot(DT_plt, aes(x = color, y = y, fill = pregnancy_end_date_difference)) +
   geom_col()+
-  scale_fill_manual(values = c("1. 0 days" = "slategray1", 
+ scale_fill_manual(values = c("1. 0 days" = "slategray1", 
                                "2. days < 5 " = "slategray2", 
                                "3. 5 < days <= 30" = "slategray3", 
                                "4. 30 < days <= 90" = "slategray4", 
                                "5. days > 90"="slategrey",
-                               
-                               "6. not specified" = "grey30")) +
+                               "6. UNK ASSESSABLE"= "orangered",
+                               "7. UNK NOT ASSESSABLE"= "saddlebrown",
+                               "8. UNK APPRAISABLE"= "yellow4",
+                               "9. NOT SPECIFIED" = "tan2")) +
   #guides(fill = guide_legend(title = "")) +
   xlab("")+
   ylab("")+
