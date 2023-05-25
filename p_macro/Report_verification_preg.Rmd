@@ -461,9 +461,9 @@ plt
 
 
 
-### Type of Pregnancies
+### Type of Pregnancies end
 
-The following graph shows the results of the verification for the variable type of pregnancy.
+The following graph shows the results of the verification for the variable "type of pregnancy end".
 
 ```{r type}
 DT_type <- copy(sample_validated)
@@ -490,7 +490,7 @@ DT_type_agg_plt <- merge(DT_type_agg, tmp[, .(strata, N_verified )] , by.x =  "s
 
 plt <- ggplot(DT_type_agg_plt, aes(x = sample, y =N, fill = type_of_pregnancy_end_correct)) +
   geom_col()+
-    scale_fill_manual(values = c("Correct" = "darkslategray3", 
+    scale_fill_manual(values = c("Correct" = "slategray1", 
                                "Incorrect" = "firebrick", 
                                "Not known" = "gray")) +
   scale_x_discrete(guide = guide_axis(angle = 45)) +
@@ -565,7 +565,7 @@ ggplot(df2, aes(x = "" , y = y_pie, fill = fct_inorder(as.factor(type_of_pregnan
   coord_polar(theta = "y", start = pi*1.5) +
   geom_label_repel(aes(y = pos, label = paste0(y_pie, "%")),
                    size = 4.5, nudge_x = 1,  show.legend = FALSE) + 
-    scale_fill_manual(values = c("Correct" = "darkslategray3", 
+    scale_fill_manual(values = c("Correct" = "slategray1", 
                                "Incorrect" = "firebrick", 
                                "Not known" = "gray")) +
   guides(fill = guide_legend(title = "Type of end")) +
@@ -586,7 +586,7 @@ The percentages are calculated taking into account the verification results and 
 ```{r exp_type_plt_strata}
 plt <- ggplot(DT_plt, aes(x = color, y = y, fill = type_of_pregnancy_end_correct)) +
   geom_col()+
-  scale_fill_manual(values = c("Correct" = "darkslategray3", 
+  scale_fill_manual(values = c("Correct" = "slategray1", 
                                "Incorrect" = "firebrick", 
                                "Not known" = "gray")) +
   guides(fill = guide_legend(title = "Type of end")) +
@@ -608,7 +608,7 @@ plt
 
 ### Records of multiple Pregnancies
 
-The following graph shows the results of the verification for the variable record belonging to multiple pregnancy.
+The following graph shows the results of the verification for the variable "record belonging to multiple pregnancy".
 
 ```{r bel}
 DT_belong <- copy(sample_validated)
@@ -635,7 +635,7 @@ DT_belong_agg_plt <- merge(DT_belong_agg, tmp[, .(strata, N_verified )] , by.x =
 
 plt <- ggplot(DT_belong_agg_plt, aes(x = sample, y =N, fill = records_belong_to_multiple_pregnancy)) +
   geom_col()+
-    scale_fill_manual(values = c("No" = "darkslategray3", 
+    scale_fill_manual(values = c("No" = "slategray1", 
                                "Yes" = "firebrick", 
                                "Not known" = "gray")) +
   scale_x_discrete(guide = guide_axis(angle = 45)) +
@@ -707,7 +707,7 @@ ggplot(df2, aes(x = "" , y = y_pie, fill = fct_inorder(as.factor(records_belong_
   coord_polar(theta = "y", start = pi*1.5) +
   geom_label_repel(aes(y = pos, label = paste0(y_pie, "%")),
                    size = 4.5, nudge_x = 1,  show.legend = FALSE) + 
-    scale_fill_manual(values = c("No" = "darkslategray3", 
+    scale_fill_manual(values = c("No" = "slategray1", 
                                "Yes" = "firebrick", 
                                "Not known" = "gray")) +
   guides(fill = guide_legend(title = "Record belong to multiple pregnancies")) +
@@ -725,7 +725,7 @@ The following graph is stratified by color quality.
 ```{r exp_belong_plt_strata}
 plt <- ggplot(DT_plt, aes(x = color, y = y, fill = records_belong_to_multiple_pregnancy)) +
   geom_col()+
-  scale_fill_manual(values = c("No" = "darkslategray3", 
+  scale_fill_manual(values = c("No" = "slategray1", 
                                "Yes" = "firebrick", 
                                "Not known" = "gray")) +
   guides(fill = guide_legend(title = "Record belong to multiple pregnancies")) +

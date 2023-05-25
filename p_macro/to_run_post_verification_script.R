@@ -46,6 +46,7 @@ validation_sample <- fread(paste0(dirverification,"/sample_from_pregnancies_veri
 load(paste0(dirverification,"/original_sample", time, ".RData"))
 DT_recon <- fread(paste0(dirverification,"/TableReconciliation.csv"))
 
+original_sample <- original_sample[sample != "PERSON_RELATIONSHIP"]
 # table
 sample_validated <- merge(original_sample, validation_sample, by = c("link"), all.x = TRUE)
 
