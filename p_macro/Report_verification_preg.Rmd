@@ -121,8 +121,8 @@ DT_start <- DT_start[pregnancy_start_date_difference == "1"| pregnancy_start_dat
 DT_start <- DT_start[pregnancy_start_date_difference == "2"| pregnancy_start_date_difference == "6", pregnancy_start_date_difference := "3. 5 < days <= 30"]
 DT_start <- DT_start[pregnancy_start_date_difference == "3"| pregnancy_start_date_difference == "7", pregnancy_start_date_difference := "4. 30 < days <= 90"]
 DT_start <- DT_start[pregnancy_start_date_difference == "4"| pregnancy_start_date_difference == "8", pregnancy_start_date_difference := "5. days > 90"]
-DT_start <- DT_start[tolower(pregnancy_start_date_correct) == "unk_not_ass", pregnancy_start_date_difference := "6. UNK ASSESSABLE"]
-DT_start <- DT_start[tolower(pregnancy_start_date_correct) == "unk_not_asse", pregnancy_start_date_difference := "7. UNK NOT ASSESSABLE"]
+DT_start <- DT_start[tolower(pregnancy_start_date_correct) == "unk_assessable", pregnancy_start_date_difference := "6. UNK ASSESSABLE"]
+DT_start <- DT_start[tolower(pregnancy_start_date_correct) == "unk_not_assessable", pregnancy_start_date_difference := "7. UNK NOT ASSESSABLE"]
 DT_start <- DT_start[tolower(pregnancy_start_date_correct) == "unk_appraisable", pregnancy_start_date_difference := "8. UNK APPRAISABLE"]
 DT_start <- DT_start[pregnancy_start_date_difference == "" | is.na(pregnancy_start_date_difference), pregnancy_start_date_difference :="9. NOT SPECIFIED"]
 
@@ -308,7 +308,7 @@ DT_end <- DT_end[pregnancy_end_date_difference == "2"| pregnancy_end_date_differ
 DT_end <- DT_end[pregnancy_end_date_difference == "3"| pregnancy_end_date_difference == "7", pregnancy_end_date_difference := "4. 30 < days <= 90"]
 DT_end <- DT_end[pregnancy_end_date_difference == "4"| pregnancy_end_date_difference == "8", pregnancy_end_date_difference := "5. days > 90"]
 DT_end <- DT_end[tolower(pregnancy_end_date_correct) == "unk_assessable", pregnancy_end_date_difference := "6. UNK ASSESSABLE"]
-DT_end <- DT_end[tolower(pregnancy_end_date_correct) == "unk_not_ass", pregnancy_end_date_difference := "7. UNK NOT ASSESSABLE"]
+DT_end <- DT_end[tolower(pregnancy_end_date_correct) == "unk_not_assessable", pregnancy_end_date_difference := "7. UNK NOT ASSESSABLE"]
 DT_end <- DT_end[tolower(pregnancy_end_date_correct) == "unk_appraisable", pregnancy_end_date_difference := "8. UNK APPRAISABLE"]
 DT_end <- DT_end[pregnancy_end_date_difference == "" | is.na(pregnancy_end_date_difference), pregnancy_end_date_difference :="9. NOT SPECIFIED"]
 
