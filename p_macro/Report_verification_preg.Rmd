@@ -219,6 +219,12 @@ DT_plt <- DT_start[, .(y =sum(y)), by = c("color", "pregnancy_start_date_differe
 DT_start[, y_pie := N/N_validated *percentage]
 DT_pie <- DT_start[, .(y_pie =sum(y_pie)), by = c("pregnancy_start_date_difference")]
 
+if(sum(DT_pie$y_pie)<100){
+  tmp_pie <- data.table(y_pie = 100 - sum(DT_pie$y_pie),
+                    pregnancy_start_date_difference = "10. Not_sampled")
+  DT_pie <- rbind(DT_pie, tmp_pie)
+}
+
 df2 <- DT_pie %>% 
   mutate(csum = rev(cumsum(rev(y_pie))), 
          pos = y_pie/2 + lead(csum, 1),
@@ -239,7 +245,8 @@ ggplot(df2, aes(x = "" , y = y_pie, fill = fct_inorder(as.factor(pregnancy_start
                                "6. UNK ASSESSABLE"= "orangered",
                                "7. UNK NOT ASSESSABLE"= "saddlebrown",
                                "8. UNK APPRAISABLE"= "yellow4",
-                               "9. NOT SPECIFIED" = "tan2")) +
+                               "9. NOT SPECIFIED" = "tan2", 
+                              "10. Not_sampled" = "grey")) +
   guides(fill = guide_legend(title = "Start difference")) +
   theme_void()+
   theme(text = element_text(family = "serif"))
@@ -395,11 +402,20 @@ DT_plt <- DT_end[, .(y =sum(y)), by = c("color", "pregnancy_end_date_difference"
 DT_end[, y_pie := N/N_validated *percentage]
 DT_pie <- DT_end[, .(y_pie =sum(y_pie)), by = c("pregnancy_end_date_difference")]
 
+if(sum(DT_pie$y_pie)<100){
+  tmp_pie <- data.table(y_pie = 100 - sum(DT_pie$y_pie),
+                    pregnancy_end_date_difference = "10. Not_sampled")
+  DT_pie <- rbind(DT_pie, tmp_pie)
+}
+
 df2 <- DT_pie %>% 
   mutate(csum = rev(cumsum(rev(y_pie))), 
          pos = y_pie/2 + lead(csum, 1),
          pos = if_else(is.na(pos), y_pie/2, pos))
 df2[, y_pie:= round(y_pie, 4)]
+
+
+
 
 ggplot(df2, aes(x = "" , y = y_pie, fill = fct_inorder(as.factor(pregnancy_end_date_difference)))) +
   geom_col(width = 1 , col = "white") +
@@ -414,7 +430,8 @@ ggplot(df2, aes(x = "" , y = y_pie, fill = fct_inorder(as.factor(pregnancy_end_d
                                "6. UNK ASSESSABLE"= "orangered",
                                "7. UNK NOT ASSESSABLE"= "saddlebrown",
                                "8. UNK APPRAISABLE"= "yellow4",
-                               "9. NOT SPECIFIED" = "tan2")) +
+                               "9. NOT SPECIFIED" = "tan2", 
+                              "10. Not_sampled" = "grey")) +
   guides(fill = guide_legend(title = "Group")) +
   theme_void()+
   theme(text = element_text(family = "serif"))
@@ -553,6 +570,12 @@ DT_plt <- DT_type[, .(y =sum(y)), by = c("color", "type_of_pregnancy_end_correct
 DT_type[, y_pie := N/N_validated *percentage]
 DT_pie <- DT_type[, .(y_pie =sum(y_pie)), by = c("type_of_pregnancy_end_correct")]
 
+if(sum(DT_pie$y_pie)<100){
+  tmp_pie <- data.table(y_pie = 100 - sum(DT_pie$y_pie),
+                    type_of_pregnancy_end_correct = "Not_sampled")
+  DT_pie <- rbind(DT_pie, tmp_pie)
+}
+
 df2 <- DT_pie %>% 
   mutate(csum = rev(cumsum(rev(y_pie))), 
          pos = y_pie/2 + lead(csum, 1),
@@ -567,7 +590,8 @@ ggplot(df2, aes(x = "" , y = y_pie, fill = fct_inorder(as.factor(type_of_pregnan
                    size = 4.5, nudge_x = 1,  show.legend = FALSE) + 
     scale_fill_manual(values = c("Correct" = "slategray1", 
                                "Incorrect" = "firebrick", 
-                               "Not known" = "gray")) +
+                               "Not known" = "darkgray", 
+                              "Not_sampled" = "grey")) +
   guides(fill = guide_legend(title = "Type of end")) +
   theme_void()+
   theme(text = element_text(family = "serif"))
@@ -695,6 +719,12 @@ DT_plt <- DT_belong[, .(y =sum(y)), by = c("color", "records_belong_to_multiple_
 DT_belong[, y_pie := N/N_validated *percentage]
 DT_pie <- DT_belong[, .(y_pie =sum(y_pie)), by = c("records_belong_to_multiple_pregnancy")]
 
+if(sum(DT_pie$y_pie)<100){
+  tmp_pie <- data.table(y_pie = 100 - sum(DT_pie$y_pie),
+                    records_belong_to_multiple_pregnancy = "Not_sampled")
+  DT_pie <- rbind(DT_pie, tmp_pie)
+}
+
 df2 <- DT_pie %>% 
   mutate(csum = rev(cumsum(rev(y_pie))), 
          pos = y_pie/2 + lead(csum, 1),
@@ -709,7 +739,8 @@ ggplot(df2, aes(x = "" , y = y_pie, fill = fct_inorder(as.factor(records_belong_
                    size = 4.5, nudge_x = 1,  show.legend = FALSE) + 
     scale_fill_manual(values = c("No" = "slategray1", 
                                "Yes" = "firebrick", 
-                               "Not known" = "gray")) +
+                               "Not known" = "darkgray", 
+                              "Not_sampled" = "grey")) +
   guides(fill = guide_legend(title = "Record belong to multiple pregnancies")) +
   theme_void()+
   theme(text = element_text(family = "serif"))
