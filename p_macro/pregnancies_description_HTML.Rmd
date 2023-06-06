@@ -150,6 +150,28 @@ datatable(table_streams)
 ```
 <br/><br/><br/><br/>
 
+---
+
+## Type of pregnancies end
+
+---
+
+
+```{r type_graph}
+type_DF <- D3_pregnancy_reconciled[, type_of_pregnancy_end := as.factor(type_of_pregnancy_end)]
+type_DF <- type_DF[, .N, by = .(year_start_of_pregnancy, type_of_pregnancy_end)]
+type_DF[, total := sum(N), year_start_of_pregnancy]
+type_DF[, type_percentage := round(N/total *100, 2)]
+
+p <- ggplot(type_DF, aes(year_start_of_pregnancy, type_percentage, fill= type_of_pregnancy_end))+
+  geom_col()+
+  theme_hc()
+plot <- ggplotly(p)
+plot
+```
+
+<br/><br/><br/><br/>
+
 
 ---
 
