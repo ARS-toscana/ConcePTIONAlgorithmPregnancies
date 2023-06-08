@@ -73,22 +73,13 @@ while (sum(Dt_n_strata[, sample_size]) < 35) {
 list_of_samples <- vector(mode = "list")
 
 for (i in Dt_n_strata[, strata]) {
-  tmp <- sample(x = D3_pregnancy_reconciled_valid[strata == i, pregnancy_id], 
+  tmp <- sample(x = D3_pregnancy_reconciled_valid[strata == i & 
+                                                    year(pregnancy_start_date) <= 2019 &
+                                                    year(pregnancy_end_date) <= 2015,
+                                                  pregnancy_id], 
                 size = Dt_n_strata[strata == i, sample_size], 
                 replace = FALSE)
   list_of_samples[[i]] <- D3_pregnancy_reconciled_valid[pregnancy_id %in% tmp][, sample:= i]
-}
-
-#---------------------------------
-# Sampling from PERSON_REL & CHILD
-#---------------------------------
-
-if(thisdatasource == "ARS"){
-  tmp <- sample(x = D3_pregnancy_reconciled_valid[description %like% "PERSON_RELATIONSHIP", pregnancy_id], 
-                 10, 
-                replace = FALSE)
-  
-  list_of_samples[["PR"]] <- D3_pregnancy_reconciled_valid[pregnancy_id %in% tmp][, sample:= "PERSON_RELATIONSHIP"]
 }
 
 
