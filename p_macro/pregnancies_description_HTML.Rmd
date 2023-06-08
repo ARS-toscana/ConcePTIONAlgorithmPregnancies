@@ -241,11 +241,10 @@ plot
 <br/><br/><br/><br/>
 
 
----
 
-## Type of pregnancies end 
 
----
+### Type of pregnancies end 
+
 
 The same analysis is done for each different types of end of pregnancy, which are:
 
@@ -794,6 +793,29 @@ plot
 ``` 
 
 <br/><br/><br/><br/>
+
+<br/><br/>
+
+### Type of pregnancy end discordant 
+
+The next graph shows the absolute number of pregnancies with at least two discordant records on the type of end of pregnancy, stratified by the type of end of pregnancy selected by the algorithm and anchored to the year of start of pregnancy.
+
+```{r type_diff_plot}
+D3_pregnancy_reconciled[algorithm_for_reconciliation %like% "TypeDiff" , TypeDiff := 1]
+D3_pregnancy_reconciled[is.na(TypeDiff) , TypeDiff := 0]
+
+DT_type <- D3_pregnancy_reconciled[ TypeDiff == 1, .N, .(type_of_pregnancy_end, year_start_of_pregnancy)]
+
+p <- ggplot(DT_type, aes(x = year_start_of_pregnancy, y = N , fill= type_of_pregnancy_end))+
+  geom_col()+
+  theme_hc()
+plot <- ggplotly(p)
+plot
+``` 
+
+
+
+
 
 
 ---
