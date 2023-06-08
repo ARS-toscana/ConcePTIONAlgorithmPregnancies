@@ -22,6 +22,13 @@
 #
 # Changelog 4.05, 5 May 2023:
 # - added empty child_id variables
+#
+# Changelog 4.06, 8 June 2023:
+# - added verification for TypeDiff
+# - added TypeDiff plot 
+# - fixed years for sample
+# - added function for sampling from TypeDiff
+# - updated codelist
 #------------------------------------------------------------------------------------------
 
 
