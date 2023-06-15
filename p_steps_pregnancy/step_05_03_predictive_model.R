@@ -1066,6 +1066,7 @@ if(length(overlapping_preg) > 0){
     D3_excluded_for_overlapping <- D3_pregnancy_reconciled_before_excl[ pregnancy_id %in% overlapping_preg_to_dischard]
     save(D3_excluded_for_overlapping, file = paste0(dirtemp, "D3_excluded_for_overlapping.RData"))
     
+    D3_groups_of_pregnancies_reconciled_before_excl <- D3_groups_of_pregnancies_reconciled_before_excl[ pregnancy_id %notin% overlapping_preg_to_dischard]
     D3_pregnancy_reconciled_before_excl <- D3_pregnancy_reconciled_before_excl[ pregnancy_id %notin% overlapping_preg_to_dischard]
   }
 }
