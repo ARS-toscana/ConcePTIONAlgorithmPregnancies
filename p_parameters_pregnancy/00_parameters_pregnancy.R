@@ -26,7 +26,7 @@ datasource_with_conceptsets <- c("TO_ADD","TEST","VID", "BIFAP", "CASERTA","SNDS
 this_datasource_has_conceptsets <- ifelse(thisdatasource %in% datasource_with_conceptsets,TRUE,FALSE) 
 
 #datasource with person rel table
-datasource_with_person_rel_table <- c("EFEMERIS", "THL", "ARS", "FERR") #@ use "TO_ADD" as example
+datasource_with_person_rel_table <- c("EFEMERIS", "THL", "ARS", "FERR", "UOSL", "SAIL Databank") #@ use "TO_ADD" as example
 this_datasource_has_person_rel_table <- ifelse(thisdatasource %in% datasource_with_person_rel_table, TRUE, FALSE)
 
 #datasource with prompt with child person_id
@@ -34,7 +34,7 @@ datasource_with_prompt_child <- c("EFEMERIS", "THL") #@ use "TO_ADD" as example
 this_datasource_has_prompt_child <- ifelse(thisdatasource %in% datasource_with_prompt_child, TRUE, FALSE) 
 
 #datasource with related_id correspondig to child
-datasource_with_related_id_correspondig_to_child <- c("THL")
+datasource_with_related_id_correspondig_to_child <- c("THL", "SAIL Databank")
 this_datasource_has_related_id_correspondig_to_child <- ifelse(thisdatasource %in% datasource_with_related_id_correspondig_to_child, TRUE, FALSE) 
 
 #datasources that use predictive model to estimate start of pregnancies

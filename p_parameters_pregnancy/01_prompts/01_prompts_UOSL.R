@@ -16,3 +16,4 @@ meaning_of_survey_pregnancy[["UOSL"]][["induced_termination"]]<-list()
 meaning_of_survey_pregnancy[["UOSL"]][["other"]]<-list()
 
 
+meaning_of_relationship_child[["UOSL"]] <- list("gestational_mother")
