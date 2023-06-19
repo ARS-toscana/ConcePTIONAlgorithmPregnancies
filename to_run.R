@@ -29,6 +29,9 @@
 # - fixed years for sample
 # - added function for sampling from TypeDiff
 # - updated codelist
+#
+# Changelog 4.07, 19 June 2023:
+# - added parameters for PERSON_REL table 
 #------------------------------------------------------------------------------------------
 
 
