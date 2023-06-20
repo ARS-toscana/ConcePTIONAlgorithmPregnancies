@@ -18,7 +18,7 @@ datasource_with_visit_occurrence_prompt <- c("TO_ADD","TEST","ARS","EpiChron") #
 this_datasource_has_visit_occurrence_prompt <- ifelse(thisdatasource %in% datasource_with_visit_occurrence_prompt,TRUE,FALSE) 
 
 #datasource with procedures
-datasource_with_procedures <- c("TO_ADD","TEST","ARS","VID", "BIFAP", "CASERTA","SNDS","GePaRD","EpiChron","HSD", "FERR") #@ use "TO_ADD" as example # check new concepeset
+datasource_with_procedures <- c("TO_ADD","TEST","ARS","VID", "BIFAP", "CASERTA","SNDS","GePaRD","EpiChron","HSD") #@ use "TO_ADD" as example # check new concepeset
 this_datasource_has_procedures <- ifelse(thisdatasource %in% datasource_with_procedures,TRUE,FALSE) 
 
 #datasource with CONCEPTSETS
