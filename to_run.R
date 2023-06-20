@@ -32,6 +32,7 @@
 #
 # Changelog 4.07, 19 June 2023:
 # - added parameters for PERSON_REL table 
+# - updated FERR procedures parameter
 #------------------------------------------------------------------------------------------
 
 
