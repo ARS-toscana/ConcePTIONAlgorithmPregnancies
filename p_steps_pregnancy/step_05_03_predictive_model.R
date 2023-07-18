@@ -381,4 +381,8 @@ suppressWarnings(rm(D3_group_model,
 
 end <- Sys.time()
 
+time_cv <- data.table(time = end-start)
+
+fwrite(time_cv, paste0(direxp, "/time_cv.csv"))
+
 cat("Time: ", end - start, "\n")
