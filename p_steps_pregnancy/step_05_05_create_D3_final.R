@@ -1,5 +1,8 @@
-load(paste0(dirtemp,"D3_pregnancy_reconciled_before_excl.RData"))
-load(paste0(dirtemp,"D3_groups_of_pregnancies_reconciled_before_excl.RData"))
+load(paste0(dirtemp,"D3_group_overlap.RData"))
+load(paste0(dirtemp,"D3_pregnancy_overlap.RData"))
+
+D3_pregnancy_reconciled_before_excl <- D3_pregnancy_overlap
+D3_groups_of_pregnancies_reconciled_before_excl <- D3_group_overlap
 
 D3_PERSONS <- data.table()
 files<-sub('\\.RData$', '', list.files(dirtemp))
