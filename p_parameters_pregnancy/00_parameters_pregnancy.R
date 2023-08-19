@@ -49,27 +49,21 @@ if(this_datasource_has_prompt_child){
 
 
 
-################################################################################
+#------------------------------------------------
+# Parameter for reconciliation: gapallowed
+#------------------------------------------------
+
 gap_allowed_red_record <- vector(mode="list")
 gap_allowed_red_record[["HSD"]] <- 270
+gap_allowed_red_record[["UOSL"]] <- 42
+
 #gap_allowed_red_record[["TO_ADD"]] <- 
 
 gap_allowed_red_record_thisdatasource = ifelse(is.null(gap_allowed_red_record[[thisdatasource]]), 
-                                               154,
+                                               74,
                                                gap_allowed_red_record[[thisdatasource]])
 
 
-################################################################################
-# Define DAPs who have input from CSV
-datasource_with_conceptset_fromCSV <- c("TO_ADD","SIDIAP") #@ use "TO_ADD" as example # check new concepeset
-this_datasource_has_conceptset_fromCSV <- ifelse(thisdatasource %in% datasource_with_conceptset_fromCSV,TRUE,FALSE) 
-
-datasource_with_itemset_fromCSV <- c("TO_ADD","SIDIAP") #@ use "TO_ADD" as example # check new concepeset
-this_datasource_has_itemset_fromCSV <- ifelse(thisdatasource %in% datasource_with_itemset_fromCSV,TRUE,FALSE) 
-
-
-
-################################################################################
 # Define paramters for DummyTables
 
 if(thisdatasource == "DANREG"){
@@ -83,3 +77,19 @@ if(thisdatasource == "DANREG"){
 
 year_start_manuscript <- 2015
 year_end_manuscript <- 2019
+
+
+
+
+
+
+
+
+################################################################################
+# # Define DAPs who have input from CSV
+# datasource_with_conceptset_fromCSV <- c("TO_ADD","SIDIAP") #@ use "TO_ADD" as example # check new concepeset
+# this_datasource_has_conceptset_fromCSV <- ifelse(thisdatasource %in% datasource_with_conceptset_fromCSV,TRUE,FALSE) 
+# 
+# datasource_with_itemset_fromCSV <- c("TO_ADD","SIDIAP") #@ use "TO_ADD" as example # check new concepeset
+# this_datasource_has_itemset_fromCSV <- ifelse(thisdatasource %in% datasource_with_itemset_fromCSV,TRUE,FALSE) 
+################################################################################
