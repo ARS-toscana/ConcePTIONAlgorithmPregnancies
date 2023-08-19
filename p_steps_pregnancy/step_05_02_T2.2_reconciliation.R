@@ -242,60 +242,51 @@ while (D3_gop[,.N]!=0) {
     #--------------------------
     D3_gop <- D3_gop[n == 1 & recon == 0 & !is.na(record_date_next_record) & 
                        coloured_order == "3_blue" & coloured_order_next_record == "3_blue" & 
-                       type_of_pregnancy_end_next_record %in% list_of_not_LB_SB &
-                       pregnancy_end_date + 56 < pregnancy_end_date_next_record, 
+                       (pregnancy_start_date - maxgap > record_date_next_record |
+                          record_date + gapallowed < pregnancy_start_date_next_record), 
                      `:=`(new_pregnancy_group = 1)]
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    # dividing SA e T
+    #--------------------------
+    # Blue - Red
+    # Rule 14: B-R 
+    #--------------------------
     D3_gop <- D3_gop[n == 1 & recon == 0 & !is.na(record_date_next_record) & 
-                       (type_of_pregnancy_end == "SA" | type_of_pregnancy_end == "T" | type_of_pregnancy_end == "ECT") &
-                       (type_of_pregnancy_end_next_record == "SA" | type_of_pregnancy_end_next_record == "T" | type_of_pregnancy_end_next_record == "ECT") &
-                       pregnancy_start_date > pregnancy_end_date_next_record, 
+                       coloured_order == "3_blue" & coloured_order_next_record == "4_red" & 
+                       (pregnancy_start_date - maxgap > record_date_next_record |
+                          record_date + gapallowed < record_date_next_record), 
                      `:=`(new_pregnancy_group = 1)]
     
-    # dividing green SA e T from inconcistencies
-    D3_gop <- D3_gop[n == 1 & recon == 0 & !is.na(record_date_next_record) & coloured_order == "1_green" &
-                       pregnancy_start_date > record_date_next_record, 
-                     `:=`(new_pregnancy_group = 1)]
     
-    # dividing other color SA e T from inconcistencies
+    #--------------------------
+    # Red - Red
+    # Rule 14: B-R 
+    #--------------------------
     D3_gop <- D3_gop[n == 1 & recon == 0 & !is.na(record_date_next_record) & 
-                       (type_of_pregnancy_end == "SA" | type_of_pregnancy_end == "T" | type_of_pregnancy_end == "ECT") &
-                       (type_of_pregnancy_end_next_record == "SA" | type_of_pregnancy_end_next_record == "T" | type_of_pregnancy_end_next_record == "ECT") &
-                       pregnancy_start_date > record_date_next_record + 154, 
+                       coloured_order == "4_red" & coloured_order_next_record == "4_red" & 
+                       abs(as.integer(record_date - record_date_next_record)) > gapallowed, 
                      `:=`(new_pregnancy_group = 1)]
     
+    
+    
+    
+    # # dividing SA e T
+    # D3_gop <- D3_gop[n == 1 & recon == 0 & !is.na(record_date_next_record) & 
+    #                    (type_of_pregnancy_end == "SA" | type_of_pregnancy_end == "T" | type_of_pregnancy_end == "ECT") &
+    #                    (type_of_pregnancy_end_next_record == "SA" | type_of_pregnancy_end_next_record == "T" | type_of_pregnancy_end_next_record == "ECT") &
+    #                    pregnancy_start_date > pregnancy_end_date_next_record, 
+    #                  `:=`(new_pregnancy_group = 1)]
+    # 
+    # # dividing green SA e T from inconcistencies
+    # D3_gop <- D3_gop[n == 1 & recon == 0 & !is.na(record_date_next_record) & coloured_order == "1_green" &
+    #                    pregnancy_start_date > record_date_next_record, 
+    #                  `:=`(new_pregnancy_group = 1)]
+    # 
+    # # dividing other color SA e T from inconcistencies
+    # D3_gop <- D3_gop[n == 1 & recon == 0 & !is.na(record_date_next_record) & 
+    #                    (type_of_pregnancy_end == "SA" | type_of_pregnancy_end == "T" | type_of_pregnancy_end == "ECT") &
+    #                    (type_of_pregnancy_end_next_record == "SA" | type_of_pregnancy_end_next_record == "T" | type_of_pregnancy_end_next_record == "ECT") &
+    #                    pregnancy_start_date > record_date_next_record + 154, 
+    #                  `:=`(new_pregnancy_group = 1)]
     # dividing Red
     # D3_gop <- D3_gop[n == 1 & recon == 0 & !is.na(record_date_next_record) & 
     #                    coloured_order == "4_red" & coloured_order_next_record == "4_red" &
@@ -538,6 +529,7 @@ while (D3_gop[,.N]!=0) {
     #                  `:=`( pregnancy_start_date = pregnancy_start_date_next_record,
     #                        algorithm_for_reconciliation = paste0(algorithm_for_reconciliation, "RR:StartUpdated_"))]
   }
+  print("1")
   D3_gop<-D3_gop[new_group == 1, pers_group_id := paste0(pers_group_id, "_", counter)]
   D3_gop<-D3_gop[,n:=seq_along(.I), by= "pers_group_id"]
   D3_gop_precessed <- D3_gop[new_group != 1]
