@@ -652,33 +652,33 @@ if(length(overlapping_preg) > 0){
   
   suppressWarnings(
   D3_group_overlap <- D3_group_overlap[, -c("record_type",
-                                                                                                          "record_year",
-                                                                                                          "n_old",
-                                                                                                          "record_id",
-                                                                                                          "distance_from_oldest",        
-                                                                                                          "train_set",
-                                                                                                          "predicted_day_from_start",
-                                                                                                          "pregnancy_start_date_predicted",
-                                                                                                          "pregnancy_end_date_predicted",
-                                                                                                          "pregnancy_start_date_green",    
-                                                                                                          "days_from_start",
-                                                                                                          "date_of_principal_record")]
+                                            "record_year",
+                                            "n_old",
+                                            "record_id",
+                                            "distance_from_oldest",        
+                                            "train_set",
+                                            "predicted_day_from_start",
+                                            "pregnancy_start_date_predicted",
+                                            "pregnancy_end_date_predicted",
+                                            "pregnancy_start_date_green",    
+                                            "days_from_start",
+                                            "date_of_principal_record")]
   
   )
 
   suppressWarnings(
   D3_pregnancy_overlap <- D3_pregnancy_overlap[, -c("record_type",
-                                                                                  "record_year",
-                                                                                  "n_old",
-                                                                                  "record_id",
-                                                                                  "distance_from_oldest",        
-                                                                                  "train_set",
-                                                                                  "predicted_day_from_start",
-                                                                                  "pregnancy_start_date_predicted",
-                                                                                  "pregnancy_end_date_predicted",
-                                                                                  "pregnancy_start_date_green",    
-                                                                                  "days_from_start",
-                                                                                  "date_of_principal_record")]
+                                                    "record_year",
+                                                    "n_old",
+                                                    "record_id",
+                                                    "distance_from_oldest",        
+                                                    "train_set",
+                                                    "predicted_day_from_start",
+                                                    "pregnancy_start_date_predicted",
+                                                    "pregnancy_end_date_predicted",
+                                                    "pregnancy_start_date_green",    
+                                                    "days_from_start",
+                                                    "date_of_principal_record")]
   )
   
   D3_pregnancy_overlap <- rbind(D3_pregnancy_overlap, DT_ov_pregnancy, use.names = TRUE, fill = TRUE)
