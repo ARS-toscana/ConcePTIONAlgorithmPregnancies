@@ -1,7 +1,5 @@
 start <- Sys.time()
-#---------------------------------------------------------------
-# Empirical distribution of gestational age for each record_type
-#---------------------------------------------------------------
+
 load(paste0(dirtemp,"D3_groups_of_pregnancies_reconciled_before_predict.RData"))
 
 D3_group_model <- D3_groups_of_pregnancies_reconciled_before_predict
@@ -38,7 +36,8 @@ D3_group_model[,  train_set := max(train_set), pregnancy_id]
 model_condition <- !this_datasource_do_not_use_prediction_on_red & D3_group_model[train_set == 1, .N] > 0
 if(model_condition){
   # creating variable for record type
-  D3_group_model[, record_type := paste0(CONCEPTSET, "_", codvar)]
+  D3_group_model[!is.na(origin), record_type := paste0(CONCEPTSET, "_", origin, "_", codvar)]
+  D3_group_model[is.na(origin), record_type := paste0(CONCEPTSET, "_", "_", codvar)]
   D3_group_model[is.na(codvar) | codvar == "", record_type := meaning]
   
   #dividing red and green pregnancies 
@@ -74,6 +73,7 @@ if(model_condition){
  
   
   DT_green_blue_model <- DT_green_blue[record_id %in% unlist(train_sample_list)]
+  DT_green_blue_model <- DT_green_blue_model[days_from_start > 0]
   DT_red_yellow_model <- DT_red_yellow[record_type %in% record_type_to_keep]
   DT_red_yellow_not_model <- DT_red_yellow[record_type %notin% record_type_to_keep]
 
@@ -85,18 +85,22 @@ if(model_condition){
   # CV parameters
   number_of_trees = c(200, 400)
   
-  var_selected = c(2:4)
+  var_selected = c(2:3)
   
   min_node_size =  c(ifelse(min(sample_size_vector) < 100, min(sample_size_vector), 100),
                      ifelse(min(sample_size_vector) < 100, min(sample_size_vector)*2, 200),
                      ifelse(min(sample_size_vector) < 100, min(sample_size_vector)*5, 500))
+  
+  always_split_variables = c("none", "record_type")
   
   rmse = NA
   
   grid <- expand.grid(number_of_trees = number_of_trees, 
                       var_selected = var_selected,
                       min_node_size = min_node_size, 
+                      always_split_variables = always_split_variables,
                       rmse = rmse)
+  
   
   # K-folder
   set.seed(99)
@@ -109,20 +113,34 @@ if(model_condition){
   for(i in 1:NROW(grid)){
     cat( "num.trees =", grid[i, 1], "-",  
          "mtry =", grid[i, 2], "-",
-         "min.node.size =", grid[i, 3],  "\n")
+         "min.node.size =", grid[i, 3], "-", 
+         "always.split.variables =", grid[i, 4],  "\n")
     for(k in 1:kfold){
       
       DT_green_blue_model_Train <- DT_green_blue_model[index != k]
       DT_green_blue_model_Test <- DT_green_blue_model[index == k]
     
-      rf <- ranger(formula = days_from_start ~ record_type + age_at_start_of_pregnancy + record_year + distance_from_oldest,
-                   data = DT_green_blue_model_Train, 
-                   num.trees = grid[i, 1], 
-                   mtry = grid[i, 2], 
-                   min.node.size = grid[i, 3])
+      
+      if(grid[i, 4] == "none"){
+        rf <- ranger(formula = days_from_start ~ record_type + age_at_start_of_pregnancy + record_year + distance_from_oldest,
+                     data = DT_green_blue_model_Train, 
+                     num.trees = grid[i, 1], 
+                     mtry = grid[i, 2], 
+                     min.node.size = grid[i, 3]
+        )
+      }else{
+        rf <- ranger(formula = days_from_start ~ record_type + age_at_start_of_pregnancy + record_year + distance_from_oldest,
+                     data = DT_green_blue_model_Train, 
+                     num.trees = grid[i, 1], 
+                     mtry = grid[i, 2], 
+                     min.node.size = grid[i, 3], 
+                     always.split.variables = "record_type"
+        )
+      }
+
       
       pred.rf <- predict(rf, DT_green_blue_model_Test)
-      grid[i, 4] <-  sqrt( (sum( (DT_green_blue_model_Test$days_from_start - pred.rf$predictions)^2)  ) / NROW(DT_green_blue_model_Test))
+      grid[i, 5] <-  sqrt( (sum( (DT_green_blue_model_Test$days_from_start - pred.rf$predictions)^2)  ) / NROW(DT_green_blue_model_Test))
       
     }
   }
@@ -135,11 +153,23 @@ if(model_condition){
   # Random forest: Final model
   #---------------------------
 
-  RF <- ranger(formula = days_from_start ~ record_type + age_at_start_of_pregnancy + record_year + distance_from_oldest,
-               data = DT_green_blue_model, 
-               num.trees = grid[selected == 1, number_of_trees], 
-               mtry = grid[selected == 1, var_selected],
-               min.node.size = grid[selected == 1, min_node_size])
+  if(grid[selected == 1, always_split_variables]  == "none"){
+    RF <- ranger(formula = days_from_start ~ record_type + age_at_start_of_pregnancy + record_year + distance_from_oldest,
+                 data = DT_green_blue_model, 
+                 num.trees = grid[selected == 1, number_of_trees], 
+                 mtry = grid[selected == 1, var_selected],
+                 min.node.size = grid[selected == 1, min_node_size])
+  }else{
+    RF <- ranger(formula = days_from_start ~ record_type + age_at_start_of_pregnancy + record_year + distance_from_oldest,
+                 data = DT_green_blue_model, 
+                 num.trees = grid[selected == 1, number_of_trees], 
+                 mtry = grid[selected == 1, var_selected],
+                 min.node.size = grid[selected == 1, min_node_size],
+                 always.split.variables = "record_type")
+  }
+  
+  
+
 
   predic <- predict(RF, DT_red_yellow_model)
 
@@ -170,7 +200,7 @@ if(model_condition){
       if(DT_green_blue[record_type == type & record_year == time, .N] > 30 ){
         tmp_var <- as.integer(sqrt(var(DT_green_blue[record_type == type & record_year == time, days_from_start])))
       }else{
-        tmp_var <- 999
+        tmp_var <- 300
       }
       stats_row <- data.table(record_type = type, record_year = time, mean = tmp_mean, sd = tmp_var)
       DT_red_stats <- rbind(DT_red_stats, stats_row)
@@ -188,7 +218,7 @@ if(model_condition){
                          by = c("record_type", "record_year"), 
                          all.x = TRUE)
   
-  DT_red_yellow[is.na(sd), sd := 999]
+  DT_red_yellow[is.na(sd), sd := 300]
   #DT_red_yellow[is.na(mean), mean := as.integer(record_date - pregnancy_start_date)]
   
   DT_red_yellow <- DT_red_yellow[order(pregnancy_id, order_quality, sd, -record_date)]
@@ -292,18 +322,16 @@ D3_group_model[is.na(type_of_pregnancy_end), type_of_pregnancy_end := "UNK"]
 
 if(model_condition){
   D3_group_model[is.na(pregnancy_start_date_predicted), pregnancy_start_date_predicted := pregnancy_start_date]
-  D3_group_model[is.na(sd), sd := 999]
+  D3_group_model[is.na(sd), sd := 300]
   
-  D3_group_model[, start_integer := as.integer(pregnancy_start_date_predicted)]
+  D3_group_model[, start_integer := as.integer(pregnancy_start_date_predicted - as.Date.character("1970-01-01"))]
   
   D3_group_model[highest_quality == "4_red" , 
-                 weighted_start := as.Date(weighted.mean(start_integer, sd)), 
+                 weighted_start := as.Date("1970-01-01") + weighted.mean(start_integer, sd), 
                  pregnancy_id] 
   
   D3_group_model[highest_quality == "4_red" & n == 1, pregnancy_start_date := weighted_start]
 }
-
-
 
 D3_pregnancy_model <- D3_group_model[n==1]
 D3_pregnancy_model <- D3_pregnancy_model[, -c("n")]

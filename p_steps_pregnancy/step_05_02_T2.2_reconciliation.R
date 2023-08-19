@@ -46,6 +46,29 @@ D3_gop <- D3_gop[, number_of_records_in_the_group := max(n), by = "pers_group_id
 threshold = 7 
 counter = 1
 
+list_of_not_LB_SB <- c("T", "ECT", "UNF", "SA")
+
+#-------------------------------------------------------------------------------
+#                       Parameters for reconciliation
+#-------------------------------------------------------------------------------
+
+#' maxgap indicates the period after (or before) a pregnancy in which pregnancy
+#'  are implausible, it is set at 28 days
+maxgap <- 28
+
+#' gapallowed indicates the maximum time that  can elapse between pregnancy records of the
+#' same pregnancy that do not contain start or end information, set according to 
+#' DAPs
+gapallowed <- gap_allowed_red_record_thisdatasource
+  
+  
+# checks
+
+if(D3_gop[is.na(record_date), .N] > 0){
+  stop('Missing record date in step 05_02_T2.2')
+}
+
+
 while (D3_gop[,.N]!=0) {
   n_of_iteration <- max(D3_gop[, n])
   D3_gop <- D3_gop[, new_pregnancy_group := 0]
@@ -81,10 +104,17 @@ while (D3_gop[,.N]!=0) {
     #------------------------
     # dividing distant record
     #------------------------
-    D3_gop <- D3_gop[n == 1 & recon == 0 &  !is.na(record_date_next_record) & abs(as.integer(record_date - record_date_next_record)) > 270, 
+    
+    #----------------------------------------------------------
+    # Rule 1: Abs(Record date – record date next record) > 280
+    #----------------------------------------------------------
+    D3_gop <- D3_gop[n == 1 & recon == 0 &  !is.na(record_date_next_record) & abs(as.integer(record_date - record_date_next_record)) > 280, 
                      `:=`(new_pregnancy_group = 1)]
     
-    # dividing non overlapping pregnancy --- > coloured_order == "1_green" & coloured_order_next_record == "1_green" &
+    
+    #------------------------------------------------------------------------------
+    # Rule 2: end date < start date next record | start date > end date next record
+    #------------------------------------------------------------------------------
     D3_gop <- D3_gop[n == 1 & recon == 0 & !is.na(record_date_next_record) & 
                        pregnancy_start_date > pregnancy_end_date_next_record, 
                      `:=`(new_pregnancy_group = 1)]
@@ -92,6 +122,160 @@ while (D3_gop[,.N]!=0) {
     D3_gop <- D3_gop[n == 1 & recon == 0 & !is.na(record_date_next_record) & 
                        pregnancy_end_date < pregnancy_start_date_next_record, 
                      `:=`(new_pregnancy_group = 1)]
+    
+    
+    #----------------
+    # Green  - Yellow
+    # Rule 3: G-Y, LB 
+    #----------------
+    D3_gop <- D3_gop[n == 1 & recon == 0 & !is.na(record_date_next_record) & 
+                       coloured_order == "1_green" & coloured_order_next_record == "2_yellow" & 
+                       type_of_pregnancy_end_next_record == "LB" &
+                       pregnancy_end_date + 168 < pregnancy_end_date_next_record, 
+                     `:=`(new_pregnancy_group = 1)]
+    
+    #----------------
+    # Rule 4: G-Y, SB
+    #----------------
+    D3_gop <- D3_gop[n == 1 & recon == 0 & !is.na(record_date_next_record) & 
+                       coloured_order == "1_green" & coloured_order_next_record == "2_yellow" & 
+                       type_of_pregnancy_end_next_record == "SB" &
+                       pregnancy_end_date + 168 < pregnancy_end_date_next_record, 
+                     `:=`(new_pregnancy_group = 1)]
+    
+    #--------------------------
+    # Rule 5: G-Y, not LB or SB 
+    #--------------------------
+    D3_gop <- D3_gop[n == 1 & recon == 0 & !is.na(record_date_next_record) & 
+                       coloured_order == "1_green" & coloured_order_next_record == "2_yellow" & 
+                       type_of_pregnancy_end_next_record %in% list_of_not_LB_SB &
+                       pregnancy_end_date + 56 < pregnancy_end_date_next_record, 
+                     `:=`(new_pregnancy_group = 1)]
+    
+    #--------------------------
+    # Green - Blue
+    # Rule 6: G-B 
+    #--------------------------
+    D3_gop <- D3_gop[n == 1 & recon == 0 & !is.na(record_date_next_record) & 
+                       coloured_order == "1_green" & coloured_order_next_record == "3_blue" &
+                       pregnancy_start_date - maxgap > record_date_next_record, 
+                     `:=`(new_pregnancy_group = 1)]
+    
+    
+    #--------------------------
+    # Green - Red
+    # Rule 7: G-R
+    #--------------------------
+    D3_gop <- D3_gop[n == 1 & recon == 0 & !is.na(record_date_next_record) & 
+                       coloured_order == "1_green" & coloured_order_next_record == "4_red" &
+                       (pregnancy_end_date + maxgap < record_date_next_record |
+                          pregnancy_start_date - maxgap > record_date_next_record), 
+                     `:=`(new_pregnancy_group = 1)]
+    
+    #--------------------------
+    # Yellow-Yellow
+    # Rule 8: Y-Y, LB
+    #--------------------------
+    D3_gop <- D3_gop[n == 1 & recon == 0 & !is.na(record_date_next_record) & 
+                       coloured_order == "2_yellow" & coloured_order_next_record == "2_yellow" & 
+                       type_of_pregnancy_end_next_record == "LB" &
+                       pregnancy_end_date + 168 < pregnancy_end_date_next_record, 
+                     `:=`(new_pregnancy_group = 1)]
+    
+    #----------------
+    # Rule 9: Y-Y, SB
+    #----------------
+    D3_gop <- D3_gop[n == 1 & recon == 0 & !is.na(record_date_next_record) & 
+                       coloured_order == "2_yellow" & coloured_order_next_record == "2_yellow" & 
+                       type_of_pregnancy_end_next_record == "SB" &
+                       pregnancy_end_date + 168 < pregnancy_end_date_next_record, 
+                     `:=`(new_pregnancy_group = 1)]
+    
+    #--------------------------
+    # Rule 10: Y-Y, not LB or SB 
+    #--------------------------
+    D3_gop <- D3_gop[n == 1 & recon == 0 & !is.na(record_date_next_record) & 
+                       coloured_order == "2_yellow" & coloured_order_next_record == "2_yellow" & 
+                       type_of_pregnancy_end_next_record %in% list_of_not_LB_SB &
+                       pregnancy_end_date + 56 < pregnancy_end_date_next_record, 
+                     `:=`(new_pregnancy_group = 1)]
+    
+    
+    #--------------------------
+    # Yellow - Blue
+    # Rule 11: Y-B 
+    #--------------------------
+    D3_gop <- D3_gop[n == 1 & recon == 0 & !is.na(record_date_next_record) & 
+                       coloured_order == "2_yellow" & coloured_order_next_record == "3_blue" &
+                       type_of_pregnancy_end %in% c("LB", "SB")&
+                       pregnancy_end_date - 308 > pregnancy_start_date_next_record &
+                       pregnancy_end_date - 168 < record_date_next_record, 
+                     `:=`(new_pregnancy_group = 1)]
+    
+    D3_gop <- D3_gop[n == 1 & recon == 0 & !is.na(record_date_next_record) & 
+                       coloured_order == "2_yellow" & coloured_order_next_record == "3_blue" &
+                       type_of_pregnancy_end %in% list_of_not_LB_SB &
+                       pregnancy_end_date - 154 > pregnancy_start_date_next_record &
+                       pregnancy_end_date - gapallowed < record_date_next_record, 
+                     `:=`(new_pregnancy_group = 1)]
+    
+    
+    
+    #--------------------------
+    # Yellow - Red
+    # Rule 12: Y-R
+    #--------------------------
+    D3_gop <- D3_gop[n == 1 & recon == 0 & !is.na(record_date_next_record) & 
+                       coloured_order == "2_yellow" & coloured_order_next_record == "4_red" &
+                       (pregnancy_end_date + maxgap < record_date_next_record ), 
+                     `:=`(new_pregnancy_group = 1)]
+    
+    D3_gop <- D3_gop[n == 1 & recon == 0 & !is.na(record_date_next_record) & 
+                       coloured_order == "2_yellow" & coloured_order_next_record == "4_red" &
+                       type_of_pregnancy_end %in% list_of_not_LB_SB &
+                       pregnancy_end_date -154 > record_date_next_record, 
+                     `:=`(new_pregnancy_group = 1)]
+    
+    #--------------------------
+    # Blue - Blue
+    # Rule 13: B-B 
+    #--------------------------
+    D3_gop <- D3_gop[n == 1 & recon == 0 & !is.na(record_date_next_record) & 
+                       coloured_order == "3_blue" & coloured_order_next_record == "3_blue" & 
+                       type_of_pregnancy_end_next_record %in% list_of_not_LB_SB &
+                       pregnancy_end_date + 56 < pregnancy_end_date_next_record, 
+                     `:=`(new_pregnancy_group = 1)]
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
     # dividing SA e T
     D3_gop <- D3_gop[n == 1 & recon == 0 & !is.na(record_date_next_record) & 
