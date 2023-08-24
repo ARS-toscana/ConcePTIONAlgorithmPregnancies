@@ -54,13 +54,13 @@ if(this_datasource_has_prompt_child){
 #-----------------------------------------
 
 gap_allowed_red_record <- vector(mode="list")
-gap_allowed_red_record[["HSD"]] <- 270
-gap_allowed_red_record[["UOSL"]] <- 42
+gap_allowed_red_record[["HSD"]] <- 180 #270
+gap_allowed_red_record[["UOSL"]] <- 56
 
 #gap_allowed_red_record[["TO_ADD"]] <- 
 
 gap_allowed_red_record_thisdatasource = ifelse(is.null(gap_allowed_red_record[[thisdatasource]]), 
-                                               74,
+                                               56,
                                                gap_allowed_red_record[[thisdatasource]])
 
 
