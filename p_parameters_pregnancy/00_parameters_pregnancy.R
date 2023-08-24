@@ -49,9 +49,9 @@ if(this_datasource_has_prompt_child){
 
 
 
-#------------------------------------------------
+#-----------------------------------------
 # Parameter for reconciliation: gapallowed
-#------------------------------------------------
+#-----------------------------------------
 
 gap_allowed_red_record <- vector(mode="list")
 gap_allowed_red_record[["HSD"]] <- 270
@@ -62,6 +62,15 @@ gap_allowed_red_record[["UOSL"]] <- 42
 gap_allowed_red_record_thisdatasource = ifelse(is.null(gap_allowed_red_record[[thisdatasource]]), 
                                                74,
                                                gap_allowed_red_record[[thisdatasource]])
+
+
+#-------------------------------------
+# Parameter for reconciliation: maxgap
+#-------------------------------------
+#' maxgap indicates the period after (or before) a pregnancy in which pregnancy
+#'  are implausible, it is set at 28 days
+maxgap <- 28
+
 
 
 # Define paramters for DummyTables

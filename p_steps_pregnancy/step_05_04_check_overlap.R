@@ -35,6 +35,20 @@ DT.xy[is.na(overlapping_right), overlapping_right := 0]
 DT.xy[is.na(overlapping_left), overlapping_left := 0]
 
 
+#-----------------------------------------------
+# fix for pregnancies overlapping right and left
+#-----------------------------------------------
+#
+#    -------------<>
+#     ----<>
+#
+
+preg_doble_overlap <- DT.xy[overlapping_right == 1 & overlapping_left ==1, 
+                            pregnancy_id.x]
+
+D3_pregnancy_overlap <- D3_pregnancy_overlap[pregnancy_id %notin% preg_doble_overlap]
+
+
 #------------------------------
 # apply rules for overlap
 #------------------------------
@@ -343,9 +357,6 @@ if(DT.xy[, .N]>1){
 #----------------------
 # Adjusting red start
 #----------------------
-D3_pregnancy_overlap[highest_quality == "4_red", 
-                     pregnancy_start_date := min(date_of_oldest_record, pregnancy_start_date), 
-                     pregnancy_id]
 
 if(thisdatasource == "UOSL"){
   D3_pregnancy_overlap[highest_quality == "4_red", 
@@ -353,13 +364,6 @@ if(thisdatasource == "UOSL"){
                        pregnancy_id]
 }
 
-#----------------------------
-# End red quality pregnancies
-#----------------------------
-if (this_datasource_ends_red_pregnancies) {
-  D3_pregnancy_overlap[highest_quality == "4_red" & type_of_pregnancy_end != "LOSTFU",
-                                      pregnancy_end_date := date_of_most_recent_record]
-}
 
 #--------
 # Saving

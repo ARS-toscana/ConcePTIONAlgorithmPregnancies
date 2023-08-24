@@ -36,8 +36,10 @@ D3_group_model[,  train_set := max(train_set), pregnancy_id]
 model_condition <- !this_datasource_do_not_use_prediction_on_red & D3_group_model[train_set == 1, .N] > 0
 if(model_condition){
   # creating variable for record type
-  D3_group_model[!is.na(origin), record_type := paste0(CONCEPTSET, "_", origin, "_", codvar)]
-  D3_group_model[is.na(origin), record_type := paste0(CONCEPTSET, "_", "_", codvar)]
+  #D3_group_model[!is.na(origin), record_type := paste0(CONCEPTSET, "_", origin, "_", codvar)]
+  #D3_group_model[is.na(origin), record_type := paste0(CONCEPTSET, "_", codvar)]
+  D3_group_model[, record_type := paste0(CONCEPTSET, "_", codvar)]
+  
   D3_group_model[is.na(codvar) | codvar == "", record_type := meaning]
   
   #dividing red and green pregnancies 
@@ -85,11 +87,11 @@ if(model_condition){
   # CV parameters
   number_of_trees = c(200, 400)
   
-  var_selected = c(2:3)
+  var_selected = c(2:4)
   
-  min_node_size =  c(ifelse(min(sample_size_vector) < 100, min(sample_size_vector), 100),
-                     ifelse(min(sample_size_vector) < 100, min(sample_size_vector)*2, 200),
-                     ifelse(min(sample_size_vector) < 100, min(sample_size_vector)*5, 500))
+  min_node_size =  c(1,
+                     10,
+                     100)
   
   always_split_variables = c("none", "record_type")
   
@@ -122,14 +124,14 @@ if(model_condition){
     
       
       if(grid[i, 4] == "none"){
-        rf <- ranger(formula = days_from_start ~ record_type + age_at_start_of_pregnancy + record_year + distance_from_oldest,
+        rf <- ranger(formula = days_from_start ~ record_type + origin + age_at_start_of_pregnancy + record_year + distance_from_oldest,
                      data = DT_green_blue_model_Train, 
                      num.trees = grid[i, 1], 
                      mtry = grid[i, 2], 
                      min.node.size = grid[i, 3]
         )
       }else{
-        rf <- ranger(formula = days_from_start ~ record_type + age_at_start_of_pregnancy + record_year + distance_from_oldest,
+        rf <- ranger(formula = days_from_start ~ record_type + origin + age_at_start_of_pregnancy + record_year + distance_from_oldest,
                      data = DT_green_blue_model_Train, 
                      num.trees = grid[i, 1], 
                      mtry = grid[i, 2], 
@@ -154,13 +156,13 @@ if(model_condition){
   #---------------------------
 
   if(grid[selected == 1, always_split_variables]  == "none"){
-    RF <- ranger(formula = days_from_start ~ record_type + age_at_start_of_pregnancy + record_year + distance_from_oldest,
+    RF <- ranger(formula = days_from_start ~ record_type + origin + age_at_start_of_pregnancy + record_year + distance_from_oldest,
                  data = DT_green_blue_model, 
                  num.trees = grid[selected == 1, number_of_trees], 
                  mtry = grid[selected == 1, var_selected],
                  min.node.size = grid[selected == 1, min_node_size])
   }else{
-    RF <- ranger(formula = days_from_start ~ record_type + age_at_start_of_pregnancy + record_year + distance_from_oldest,
+    RF <- ranger(formula = days_from_start ~ record_type + origin + age_at_start_of_pregnancy + record_year + distance_from_oldest,
                  data = DT_green_blue_model, 
                  num.trees = grid[selected == 1, number_of_trees], 
                  mtry = grid[selected == 1, var_selected],
@@ -284,12 +286,12 @@ if(model_condition){
 #------------------------------
 # start
 D3_group_model[highest_quality == "4_red", 
-               pregnancy_start_date := min(date_of_oldest_record - 15, 
+               pregnancy_start_date := min(date_of_oldest_record - 14, 
                                            pregnancy_start_date), 
                pregnancy_id]
 
 D3_group_model[!is.na(pregnancy_start_date_predicted) & highest_quality == "4_red", 
-              pregnancy_start_date_predicted := min(date_of_oldest_record - 15, 
+              pregnancy_start_date_predicted := min(date_of_oldest_record - 14, 
                                                     pregnancy_start_date_predicted), 
               pregnancy_id]
 
@@ -337,9 +339,25 @@ D3_pregnancy_model <- D3_group_model[n==1]
 D3_pregnancy_model <- D3_pregnancy_model[, -c("n")]
 D3_pregnancy_model[, gestage_at_first_record := date_of_oldest_record - pregnancy_start_date, by = "pregnancy_id" ]
 
-#------------
-# LOSTFU 1/2
-#------------
+
+#--------------------------------
+# This datasource use prediction
+#--------------------------------
+if(!this_datasource_do_not_use_prediction_on_red){
+  D3_pregnancy_model[!is.na(pregnancy_start_date_predicted), 
+                     pregnancy_start_date := max(pregnancy_start_date_predicted, 
+                                                 record_date - 280), 
+                     pregnancy_id]
+  
+  D3_pregnancy_model[!is.na(pregnancy_end_date_predicted) & (highest_quality == "4_red" | highest_quality == "3_blue"), 
+                     pregnancy_end_date := min(pregnancy_end_date_predicted, 
+                                               pregnancy_start_date + 280), 
+                     pregnancy_id]
+}
+
+#-------
+# LOSTFU
+#-------
 load(paste0(dirtemp,"output_spells_category.RData"))
 
 D3_LOSTFU <- copy(D3_pregnancy_model[, .(person_id, pregnancy_id, pregnancy_end_date)])
@@ -374,21 +392,6 @@ if (this_datasource_ends_red_pregnancies) {
                                       pregnancy_end_date_predicted := date_of_most_recent_record]
 }
 
-#--------------------------------
-# This datasource use prediction
-#--------------------------------
-
-if(!this_datasource_do_not_use_prediction_on_red){
-  D3_pregnancy_model[!is.na(pregnancy_start_date_predicted), 
-                                      pregnancy_start_date := max(pregnancy_start_date_predicted, 
-                                                                  record_date - 280), 
-                                      pregnancy_id]
-  
-  D3_pregnancy_model[!is.na(pregnancy_end_date_predicted) & (highest_quality == "4_red" | highest_quality == "3_blue"), 
-                                      pregnancy_end_date := min(pregnancy_end_date_predicted, 
-                                                                pregnancy_start_date + 280), 
-                                      pregnancy_id]
-}
 
 #--------------
 # Saving and rm

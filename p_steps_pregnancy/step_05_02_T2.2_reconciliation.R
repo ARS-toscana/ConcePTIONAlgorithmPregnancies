@@ -54,7 +54,7 @@ list_of_not_LB_SB <- c("T", "ECT", "UNF", "SA")
 
 #' maxgap indicates the period after (or before) a pregnancy in which pregnancy
 #'  are implausible, it is set at 28 days
-maxgap <- 28
+maxgap <- maxgap # from 00_parameters_pregnancy
 
 #' gapallowed indicates the maximum time that  can elapse between pregnancy records of the
 #' same pregnancy that do not contain start or end information, set according to 
@@ -625,13 +625,16 @@ D3_groups_of_pregnancies_reconciled_before_predict <- D3_gop[, .(person_id,
 
 setnames(D3_groups_of_pregnancies_reconciled_before_predict, "pers_group_id", "pregnancy_id")
 
+
 ################################################################################
 
 ## saving and rm
 save(D3_groups_of_pregnancies_reconciled_before_predict, file=paste0(dirtemp,"D3_groups_of_pregnancies_reconciled_before_predict.RData"))
 #save(D3_pregnancy_reconciled_before_excl, file=paste0(dirtemp,"D3_pregnancy_reconciled_before_excl.RData"))
 
-rm(D3_gop, 
+rm(groups_of_pregnancies,
+   D3_gop, 
    D3_groups_of_pregnancies_MNIP,
-   D3_groups_of_pregnancies_reconciled_before_predict)#, 
+   D3_groups_of_pregnancies_reconciled_before_predict, 
+   D3_PERSONS)#, 
   # D3_pregnancy_reconciled_before_excl)
