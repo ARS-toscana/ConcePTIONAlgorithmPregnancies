@@ -61,7 +61,7 @@ if(model_condition){
   
   sample_size_vector <- c()
   
-  max_sample_size_for_record_type <- 1000
+  max_sample_size_for_record_type <- 5000
   
   for (type in record_type_to_keep) {
     n_type <- DT_green_blue[record_type == type, .N]
@@ -85,9 +85,9 @@ if(model_condition){
   #--------------------------------
   
   # CV parameters
-  number_of_trees = c(200, 400)
+  number_of_trees = c(100, 500)
   
-  var_selected = c(2:4)
+  var_selected = c(1:4)
   
   min_node_size =  c(1,
                      10,
@@ -105,8 +105,8 @@ if(model_condition){
   
   
   # K-folder
-  set.seed(99)
-  kfold <- 5 
+  set.seed(5)
+  kfold <- 5
   DT_green_blue_model[, index := sample(rep_len(1:kfold,  NROW(DT_green_blue_model)))]    
   
   
@@ -117,11 +117,22 @@ if(model_condition){
          "mtry =", grid[i, 2], "-",
          "min.node.size =", grid[i, 3], "-", 
          "always.split.variables =", grid[i, 4],  "\n")
+    rmse.cv.vector <- c()
+    fold_size <- c()
     for(k in 1:kfold){
       
       DT_green_blue_model_Train <- DT_green_blue_model[index != k]
       DT_green_blue_model_Test <- DT_green_blue_model[index == k]
     
+      
+      ## selecting record type 
+      record_type_training <-  DT_green_blue_model_Train[, record_type]
+      record_type_red <-  DT_green_blue_model_Test[, record_type]
+      
+      record_type_to_keep <- intersect(record_type_training, record_type_red)
+      
+      DT_green_blue_model_Train[record_type %in% record_type_to_keep]
+      DT_green_blue_model_Test[record_type %in% record_type_to_keep]
       
       if(grid[i, 4] == "none"){
         rf <- ranger(formula = days_from_start ~ record_type + origin + age_at_start_of_pregnancy + record_year + distance_from_oldest,
@@ -142,9 +153,19 @@ if(model_condition){
 
       
       pred.rf <- predict(rf, DT_green_blue_model_Test)
-      grid[i, 5] <-  sqrt( (sum( (DT_green_blue_model_Test$days_from_start - pred.rf$predictions)^2)  ) / NROW(DT_green_blue_model_Test))
       
+      rmse.ik = sqrt((sum( (DT_green_blue_model_Test$days_from_start - pred.rf$predictions)^2 )  ) / NROW(DT_green_blue_model_Test))
+      
+      rmse.cv.vector <- c(
+        rmse.cv.vector,
+        rmse.ik
+      )
+      
+      fold_size <- c(fold_size, length(DT_green_blue_model_Test$days_from_start))
     }
+    #grid[i, 5] <- mean(rmse.cv.vector)
+    fold_prop <- fold_size / sum(fold_size)
+    grid[i, 5] <- round(sum(rmse.cv.vector*fold_prop), 2)
   }
   
   grid <- as.data.table(grid)
