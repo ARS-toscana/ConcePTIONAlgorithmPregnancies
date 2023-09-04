@@ -47,7 +47,7 @@ year_end_stydy <- max(D3_pregnancy_reconciled[, year_start_of_pregnancy])
 number_of_pregnancies_with_child <- uniqueN(D3_mother_child_ids[, pregnancy_id])
 
 D3_mother_child_ids_plt_year <- merge(D3_pregnancy_reconciled[, .(pregnancy_id, year = year(pregnancy_start_date))],
-                                      D3_mother_child_ids, 
+                                      unique(D3_mother_child_ids), 
                                       by = 'pregnancy_id',
                                       all.x = TRUE)
 
