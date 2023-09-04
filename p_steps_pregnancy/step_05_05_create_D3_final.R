@@ -146,7 +146,7 @@ if (this_datasource_has_person_rel_table){
                                 by = "child_id",
                                 all.x = TRUE)
 
-  
+   D3_mother_child_ids <- unique(D3_mother_child_ids)
   save(D3_mother_child_ids, file = paste0(diroutput, "D3_mother_child_ids.RData"))
 }
 
