@@ -43,30 +43,7 @@ year_end_stydy <- max(D3_pregnancy_reconciled[, year_start_of_pregnancy])
 ```
 
 
-```{r survey_ids}
-number_of_pregnancies_with_child <- uniqueN(D3_mother_child_ids[, pregnancy_id])
 
-D3_mother_child_ids_plt_year <- merge(D3_pregnancy_reconciled[, .(pregnancy_id, year = year(pregnancy_start_date))],
-                                      unique(D3_mother_child_ids), 
-                                      by = 'pregnancy_id',
-                                      all.x = TRUE)
-
-
-
-
-D3_mother_child_ids_plt_year[, n_child := seq_along(.I), pregnancy_id][,n_child := max(n_child), pregnancy_id]
-D3_mother_child_ids_plt_year[is.na(child_id), n_child := 0]
-
-D3_mother_child_ids_plt_year <- unique(D3_mother_child_ids_plt_year[,.(pregnancy_id, year, n_child)])
-
-D3_mother_child_ids_plt = D3_mother_child_ids_plt_year[, .N, .(n_child, year)]
-
-number_of_pregnancies_with_one_child <- D3_mother_child_ids_plt[n_child == 1, sum(N)]
-number_of_pregnancies_with_more_than_one_child <- D3_mother_child_ids_plt[n_child > 1, sum(N)]
-
-
-
-```
 <br/><br/>
 
 
@@ -79,22 +56,6 @@ The algorithm has retrieved `r number_of_pregnancies ` pregnancies, for a total 
 `r number_of_records ` records were reconciled to build the pregnancies. 
 <br/>
 
-Of these pregnancies `r number_of_pregnancies_with_child ` were linked to offsprings. Among these `r number_of_pregnancies_with_one_child` have 1 child, `r number_of_pregnancies_with_more_than_one_child` have more than one.
-
- The following graph shows the absolute number of pregnancies linked to the respective number of children, anchored by the year of start of pregnancy.
-
-
-
-```{r survey_ids_plt}
-D3_mother_child_ids_plt[, n_child := as.factor(n_child)]
-plt_child <- ggplot(D3_mother_child_ids_plt, aes(year, N, fill = n_child))+
-  geom_col()+
-  xlab("Number of child")+
-  ylab("Number of pregnancies")+
-  theme_hc()
-plt_child <- ggplotly(plt_child)
-plt_child
-```
 
 
 <br/><br/><br/><br/>
@@ -867,7 +828,7 @@ plot
 
 ---
 
-## Dummy Tables
+## Descriptive tables of the pregnancies
 
 ---
 
@@ -1134,8 +1095,59 @@ paged_table(table_meaning_end)
 
 ```
 
+---
+
+## Linkage to children
+
+---
+
+<br/><br/>
+
+
+```{r survey_ids}
+number_of_pregnancies_with_child <- uniqueN(D3_mother_child_ids[, pregnancy_id])
+
+D3_mother_child_ids_plt_year <- merge(D3_pregnancy_reconciled[type_of_pregnancy_end == 'LB', .(pregnancy_id, year = year(pregnancy_start_date))],
+                                      unique(D3_mother_child_ids), 
+                                      by = 'pregnancy_id',
+                                      all.x = TRUE)
 
 
 
 
+D3_mother_child_ids_plt_year[, n_child := seq_along(.I), pregnancy_id][,n_child := max(n_child), pregnancy_id]
+D3_mother_child_ids_plt_year[, n_mother := seq_along(.I), child_id][, n_mother:= max(n_mother), child_id ]
+D3_mother_child_ids_plt_year[is.na(child_id), n_mother := 0]
 
+n_of_child_with_more_than_one_mother = D3_mother_child_ids_plt_year[n_mother > 1, .N]
+
+D3_mother_child_ids_plt_year[is.na(child_id), n_child := 0]
+
+D3_mother_child_ids_plt_year <- unique(D3_mother_child_ids_plt_year[,.(pregnancy_id, year, n_child)])
+
+D3_mother_child_ids_plt = D3_mother_child_ids_plt_year[, .N, .(n_child, year)]
+
+number_of_pregnancies_with_one_child <- D3_mother_child_ids_plt[n_child == 1, sum(N)]
+number_of_pregnancies_with_more_than_one_child <- D3_mother_child_ids_plt[n_child > 1, sum(N)]
+
+
+
+```
+
+
+`r number_of_pregnancies_with_child ` pregnancies were linked to offsprings. Among these `r number_of_pregnancies_with_one_child` have 1 child, `r number_of_pregnancies_with_more_than_one_child` have more than one. `r n_of_child_with_more_than_one_mother` children have more than one mother.
+
+ The following graph shows the absolute number of live birth pregnancies linked to the respective number of children, anchored by the year of start of pregnancy.
+
+
+
+```{r survey_ids_plt}
+D3_mother_child_ids_plt[, n_child := as.factor(n_child)]
+plt_child <- ggplot(D3_mother_child_ids_plt, aes(year, N, fill = n_child))+
+  geom_col()+
+  xlab("Number of child")+
+  ylab("Number of pregnancies")+
+  theme_hc()
+plt_child <- ggplotly(plt_child)
+plt_child
+```
