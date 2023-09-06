@@ -110,14 +110,10 @@ D3_pregnancy_reconciled_valid <- D3_pregnancy_reconciled_valid[, .(pregnancy_id,
                                                                    gestage_greater_44,
                                                                    origin)]
 
-D3_pregnancy_reconciled <- D3_pregnancy_reconciled_valid[, -c("order_quality")]
 
-D3_pregnancy_final <- D3_pregnancy_reconciled
 
-save(D3_groups_of_pregnancies_reconciled, file=paste0(dirtemp,"D3_groups_of_pregnancies_reconciled.RData"))
-save(D3_pregnancy_reconciled_valid, file=paste0(dirtemp,"D3_pregnancy_reconciled_valid.RData"))
-save(D3_pregnancy_reconciled, file=paste0(dirtemp,"D3_pregnancy_reconciled.RData"))
-save(D3_pregnancy_final, file=paste0(diroutput,"D3_pregnancy_final.RData"))
+
+
 
 #### create D3_included_pregnancies and D3_excluded_pregnancies
 #D3_included_pregnancies <- D3_pregnancy_reconciled[excluded == 0][, -c("excluded", "INSUF_QUALITY", "GGDE", "GGDS")]
@@ -147,9 +143,34 @@ if (this_datasource_has_person_rel_table){
                                 all.x = TRUE)
 
    D3_mother_child_ids <- unique(D3_mother_child_ids)
-  save(D3_mother_child_ids, file = paste0(diroutput, "D3_mother_child_ids.RData"))
+   D3_mother_child_ids[, n_child := seq_along(.I), pregnancy_id][,n_child := max(n_child), pregnancy_id]
+   D3_mother_child_ids[, n_pregnancy_for_child := seq_along(.I), child_id][,n_pregnancy_for_child := max(n_pregnancy_for_child), child_id]
+   
+   D3_mother_child_ids[, n_pregnancy_for_child := max(n_pregnancy_for_child), pregnancy_id]
+   D3_mother_child_ids[n_pregnancy_for_child > 1, child_in_multiple_pregnancies := 1][is.na(child_in_multiple_pregnancies), child_in_multiple_pregnancies := 0]
+   
+   D3_mother_child_ids <- D3_mother_child_ids[, -c("n_pregnancy_for_child")]
+   
+   D3_pregnancy_reconciled_valid <- merge(D3_pregnancy_reconciled_valid, 
+                                    D3_mother_child_ids[, .(pregnancy_id, n_child, child_in_multiple_pregnancies)],
+                                    all.x = TRUE,
+                                    by = c("pregnancy_id"))
+   
+   save(D3_mother_child_ids, file = paste0(diroutput, "D3_mother_child_ids.RData"))
+   
+}else{
+  D3_pregnancy_reconciled_valid[, `:=`(n_child = NA, child_in_multiple_pregnancies =NA)]
 }
 
+
+D3_pregnancy_reconciled <- D3_pregnancy_reconciled_valid[, -c("order_quality")]
+
+D3_pregnancy_final <- D3_pregnancy_reconciled
+
+save(D3_groups_of_pregnancies_reconciled, file=paste0(dirtemp,"D3_groups_of_pregnancies_reconciled.RData"))
+save(D3_pregnancy_reconciled_valid, file=paste0(dirtemp,"D3_pregnancy_reconciled_valid.RData"))
+save(D3_pregnancy_reconciled, file=paste0(dirtemp,"D3_pregnancy_reconciled.RData"))
+save(D3_pregnancy_final, file=paste0(diroutput,"D3_pregnancy_final.RData"))
 #--------------------------
 #  D3_survey_and_visit_ids
 #--------------------------
