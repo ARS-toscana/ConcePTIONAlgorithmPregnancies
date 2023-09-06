@@ -1105,43 +1105,80 @@ paged_table(table_meaning_end)
 
 
 ```{r survey_ids}
-number_of_pregnancies_with_child <- uniqueN(D3_mother_child_ids[, pregnancy_id])
+# number_of_pregnancies_with_child <- uniqueN(D3_mother_child_ids[, pregnancy_id])
+# 
+# D3_mother_child_ids_plt_year <- merge(D3_pregnancy_reconciled[type_of_pregnancy_end == 'LB', .(pregnancy_id, year = year(pregnancy_start_date))],
+#                                       unique(D3_mother_child_ids), 
+#                                       by = 'pregnancy_id',
+#                                       all.x = TRUE)
+# 
+# 
+# 
+# 
+# D3_mother_child_ids_plt_year[, n_child := seq_along(.I), pregnancy_id][,n_child := max(n_child), pregnancy_id]
+# D3_mother_child_ids_plt_year[, n_mother := seq_along(.I), child_id][, n_mother:= max(n_mother), child_id ]
+# D3_mother_child_ids_plt_year[is.na(child_id), n_mother := 0]
+# 
+# n_of_child_with_more_than_one_mother = uniqueN(D3_mother_child_ids_plt_year[n_mother > 1, .(child_id)])
+# 
+# n_of_pregnancies_sharing_child = 0
+# 
+# 
+# D3_mother_child_ids_plt_year[is.na(child_id), n_child := 0]
+# 
+# D3_mother_child_ids_plt_year <- unique(D3_mother_child_ids_plt_year[,.(pregnancy_id, year, n_child)])
+# 
+# D3_mother_child_ids_plt = D3_mother_child_ids_plt_year[, .N, .(n_child, year)]
+# 
+# number_of_pregnancies_with_one_child <- D3_mother_child_ids_plt[n_child == 1, sum(N)]
+# number_of_pregnancies_with_more_than_one_child <- D3_mother_child_ids_plt[n_child > 1, sum(N)]
 
-D3_mother_child_ids_plt_year <- merge(D3_pregnancy_reconciled[type_of_pregnancy_end == 'LB', .(pregnancy_id, year = year(pregnancy_start_date))],
-                                      unique(D3_mother_child_ids), 
-                                      by = 'pregnancy_id',
-                                      all.x = TRUE)
+if (this_datasource_has_person_rel_table){
+  N_LB <- D3_pregnancy_reconciled[type_of_pregnancy_end == 'LB', .N]
+  
+  number_of_pregnancies_with_one_child <- D3_pregnancy_reconciled[type_of_pregnancy_end == 'LB' & n_child == 1, .N]
+  number_of_pregnancies_with_more_than_one_child <- D3_pregnancy_reconciled[type_of_pregnancy_end == 'LB' & n_child > 1, .N]
+  
+  number_of_LB_pregnancies_with_no_child <-  N_LB - number_of_pregnancies_with_one_child - number_of_pregnancies_with_more_than_one_child
+  
+  n_of_pregnancies_sharing_child <- D3_pregnancy_reconciled[type_of_pregnancy_end == 'LB' & child_in_multiple_pregnancies == 1, .N]
+  
+  
+  
+  D3_mother_child_ids[, n_mother := seq_along(.I), child_id][, n_mother:= max(n_mother), child_id ]
+  D3_mother_child_ids[is.na(child_id), n_mother := 0]
+  n_of_child_with_more_than_one_mother = uniqueN(D3_mother_child_ids[n_mother > 1, .(child_id)])
+  
+  talk_1 = paste0("We attempted to link the ",  N_LB,  " pregnancies with a livebirth with children. Among these, ", number_of_pregnancies_with_one_child, " have 1 child, ", number_of_pregnancies_with_more_than_one_child, " have more than one child, and ", number_of_LB_pregnancies_with_no_child, "are not linked to any child. ")
+  
+  if(n_of_child_with_more_than_one_mother > 0){
+    talk_2 = paste0(' WARNING: there were ', n_of_child_with_more_than_one_mother , ' children who were linked to more than one pregnancy,',n_of_pregnancies_sharing_child, ' pregnancies were involved. ')
+  }else{
+    talk_2 = ' We have checked that no child was linked to more than one pregnancy. '
+  }
 
+  talk_3 =  " The following graph shows the absolute number of live birth pregnancies linked to the respective number of children, anchored by the year of start of pregnancy."
 
-
-
-D3_mother_child_ids_plt_year[, n_child := seq_along(.I), pregnancy_id][,n_child := max(n_child), pregnancy_id]
-D3_mother_child_ids_plt_year[, n_mother := seq_along(.I), child_id][, n_mother:= max(n_mother), child_id ]
-D3_mother_child_ids_plt_year[is.na(child_id), n_mother := 0]
-
-n_of_child_with_more_than_one_mother = uniqueN(D3_mother_child_ids_plt_year[n_mother > 1, .(child_id)])
-
-D3_mother_child_ids_plt_year[is.na(child_id), n_child := 0]
-
-D3_mother_child_ids_plt_year <- unique(D3_mother_child_ids_plt_year[,.(pregnancy_id, year, n_child)])
-
-D3_mother_child_ids_plt = D3_mother_child_ids_plt_year[, .N, .(n_child, year)]
-
-number_of_pregnancies_with_one_child <- D3_mother_child_ids_plt[n_child == 1, sum(N)]
-number_of_pregnancies_with_more_than_one_child <- D3_mother_child_ids_plt[n_child > 1, sum(N)]
-
-
-
+  talk = paste0(talk_1, talk_2, talk_3)
+}else{
+  talk = "There is no person relationship table"
+}
 ```
 
 
-`r number_of_pregnancies_with_child ` pregnancies were linked to offsprings. Among these `r number_of_pregnancies_with_one_child` have 1 child, `r number_of_pregnancies_with_more_than_one_child` have more than one. `r n_of_child_with_more_than_one_mother` children have more than one mother.
 
- The following graph shows the absolute number of live birth pregnancies linked to the respective number of children, anchored by the year of start of pregnancy.
+
+`r talk `.
+
 
 
 
 ```{r survey_ids_plt}
+if (this_datasource_has_person_rel_table){
+  D3_pregnancy_reconciled[type_of_pregnancy_end == "LB" & is.na(n_child), n_child := 0]
+  D3_mother_child_ids_plt <- D3_pregnancy_reconciled[type_of_pregnancy_end == "LB", .N, .(n_child, year = year_start_of_pregnancy)]
+  
+  
 D3_mother_child_ids_plt[, n_child := as.factor(n_child)]
 plt_child <- ggplot(D3_mother_child_ids_plt, aes(year, N, fill = n_child))+
   geom_col()+
@@ -1150,4 +1187,5 @@ plt_child <- ggplot(D3_mother_child_ids_plt, aes(year, N, fill = n_child))+
   theme_hc()
 plt_child <- ggplotly(plt_child)
 plt_child
+}
 ```
