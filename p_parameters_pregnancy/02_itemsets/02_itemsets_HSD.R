@@ -78,15 +78,13 @@ itemsetMED_AVpair_pregnancy[["GestationalAge"]][[files[i]]][["HSD"]] <- list()
 
 
 ### specification PregnancyTest
-itemsetMED_AVpair_pregnancy[["PregnancyTest"]][[files[i]]][["HSD"]] <- list()
+itemsetMED_AVpair_pregnancy[["PregnancyTest"]][[files[i]]][["HSD"]] <- list(list("CART_ACCERT", "TEST_GRAVIDANZA"))
 
-### specification LastMestrualPeriodImplyingPregnancy
-itemsetMED_AVpair_pregnancy[["LastMestrualPeriodImplyingPregnancy"]][[files[i]]][["HSD"]] <- list()
 
 
 ################################ DICTINARY OF PregnancyTest ##################################
 
-dictonary_of_itemset_PregnancyTest[["PregnancyTest"]][["positive"]]<-list() ##list(list("positive")) 
+dictonary_of_itemset_PregnancyTest[["PregnancyTest"]][["positive"]]<-list(list("POSITIVE")) 
 
 
 
