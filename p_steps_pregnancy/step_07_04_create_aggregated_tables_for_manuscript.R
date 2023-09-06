@@ -1,3 +1,4 @@
+if(thisdatasource %notin% c("EFEMERIS", "POMME")){
 ##############################################################################
 ###################             Aggregated table          ####################
 ##############################################################################
@@ -459,5 +460,5 @@ for (type_end in list_of_type) {
   fwrite(Descriptive_pregnancies, paste0(direxpmanuscript, "Descriptive_pregnancies_",  year_start_descriptive_manuscript, "_", year_end_descriptive_manuscript, "_", type_end, ".csv"))
   
 }
-
+}
 
