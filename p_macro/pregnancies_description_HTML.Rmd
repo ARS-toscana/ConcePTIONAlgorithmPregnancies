@@ -1151,6 +1151,11 @@ if (this_datasource_has_person_rel_table){
   
   talk_1 = paste0("We attempted to link the ",  N_LB,  " pregnancies with a livebirth with children. Among these, ", number_of_pregnancies_with_one_child, " have 1 child, ", number_of_pregnancies_with_more_than_one_child, " have more than one child, and ", number_of_LB_pregnancies_with_no_child, "are not linked to any child. ")
   
+  Table_child = data.table(n_of_child_in_more_than_one_pregnancy = n_of_child_with_more_than_one_mother, 
+                           n_of_pregnancies_sharing_child = n_of_pregnancies_sharing_child)
+  
+  fwrite(Table_child, paste0(direxp, "Table_child_", year_start_study, "_", year_end_stydy, ".csv"))
+  
   if(n_of_child_with_more_than_one_mother > 0){
     talk_2 = paste0(' WARNING: there were ', n_of_child_with_more_than_one_mother , ' children who were linked to more than one pregnancy,',n_of_pregnancies_sharing_child, ' pregnancies were involved. ')
   }else{
