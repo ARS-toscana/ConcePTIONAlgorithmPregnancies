@@ -1119,7 +1119,7 @@ D3_mother_child_ids_plt_year[, n_child := seq_along(.I), pregnancy_id][,n_child 
 D3_mother_child_ids_plt_year[, n_mother := seq_along(.I), child_id][, n_mother:= max(n_mother), child_id ]
 D3_mother_child_ids_plt_year[is.na(child_id), n_mother := 0]
 
-n_of_child_with_more_than_one_mother = D3_mother_child_ids_plt_year[n_mother > 1, .N]
+n_of_child_with_more_than_one_mother = uniqueN(D3_mother_child_ids_plt_year[n_mother > 1, .(child_id)])
 
 D3_mother_child_ids_plt_year[is.na(child_id), n_child := 0]
 
