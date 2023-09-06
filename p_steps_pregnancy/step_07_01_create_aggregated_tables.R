@@ -314,6 +314,147 @@ fwrite(TablePregSex, paste0(direxp, "TablePregSex.csv"))
 
 
 
+################################################################################
+##################          Descriptive_pregnancies        #####################
+################################################################################
+cat("00. Table Outline all years  \n ") 
+
+N_preg <- D3_pregnancy_reconciled_valid[, .N]
+Descriptive_pregnancies <- data.table(var = c("Total"), subvar=c("N"), value=c(N_preg))
+
+
+N_record <-  D3_pregnancy_reconciled_valid[,.(number_of_records_in_the_group)]
+N_record <- N_record[,.(mean = round(mean(number_of_records_in_the_group, na.rm = TRUE), 2), 
+                        sd = round(sqrt(var(number_of_records_in_the_group, na.rm = TRUE)), 2),
+                        quantile_25 = round(quantile(number_of_records_in_the_group, 0.25, na.rm = TRUE), 2),
+                        median =median(number_of_records_in_the_group, na.rm = TRUE),
+                        quantile_75 = round(quantile(number_of_records_in_the_group, 0.75, na.rm = TRUE), 2))]
+tmp <- names(N_record)
+N_record <- as.data.table(t(N_record))
+N_record <- N_record[, subvar:= c(tmp[1],
+                                  tmp[2],
+                                  tmp[3],
+                                  tmp[4],
+                                  tmp[5])]
+
+N_record <- N_record[, var := "N_record"]
+setnames(N_record, "V1", "value")
+
+
+N_colour <- D3_pregnancy_reconciled_valid[, .N, highest_quality ][order(highest_quality)]
+N_colour <- N_colour[, value := paste0(N, " (", round(N/N_preg, 2) * 100, "%)")][, -c("N")]
+N_colour <- N_colour[, var:= "highest_quality"]
+setnames(N_colour, "highest_quality", "subvar")
+
+
+N_quality <- D3_pregnancy_reconciled_valid[, .N, order_quality  ][order(order_quality )]
+N_quality <- N_quality[, value := paste0(N, " (", round(N/N_preg, 2) * 100, "%)")][, -c("N")]
+N_quality <- N_quality[, var:= "order_quality"]
+setnames(N_quality, "order_quality", "subvar")
+
+
+N_type_of_end <- D3_pregnancy_reconciled_valid[, .N, type_of_pregnancy_end  ][order(-N)]
+N_type_of_end <- N_type_of_end[, value := paste0(N, " (", round(N/N_preg, 2) * 100, "%)")][, -c("N")]
+N_type_of_end <- N_type_of_end[, var:= "type_of_pregnancy_end"]
+setnames(N_type_of_end, "type_of_pregnancy_end", "subvar")
+
+
+Gestage <- D3_pregnancy_reconciled_valid[,.(gestage_at_first_record)]
+Gestage <- Gestage[,.(mean = round(mean(gestage_at_first_record, na.rm = TRUE), 2), 
+                      sd = round(sqrt(var(gestage_at_first_record, na.rm = TRUE)), 2),
+                      quantile_25 = round(quantile(gestage_at_first_record, 0.25, na.rm = TRUE), 2),
+                      median =median(gestage_at_first_record, na.rm = TRUE),
+                      quantile_75 = round(quantile(gestage_at_first_record, 0.75, na.rm = TRUE), 2))]
+
+tmp <- names(Gestage)
+Gestage <- as.data.table(t(Gestage))
+Gestage <- Gestage[, subvar:= c(tmp[1],
+                                tmp[2],
+                                tmp[3],
+                                tmp[4],
+                                tmp[5])]
+
+Gestage <- Gestage[, var := "Gestage_first_record"]
+setnames(Gestage, "V1", "value")
+
+
+Descriptive_pregnancies <- rbind(Descriptive_pregnancies, N_record, N_colour, N_quality, N_type_of_end, Gestage)
+setcolorder(Descriptive_pregnancies, c("var", "subvar", "value"))
+
+fwrite(Descriptive_pregnancies, paste0(direxp, "Descriptive_pregnancies.csv"))
+
+
+### Descriptive_pregnancies for each type of end of pregnancy
+
+list_of_type <- unique(D3_pregnancy_reconciled_valid[, type_of_pregnancy_end])
+
+for (type_end in list_of_type) {
+  DT_tmp <- D3_pregnancy_reconciled_valid[type_of_pregnancy_end == type_end]
+  N_preg <- DT_tmp[, .N]
+  Descriptive_pregnancies <- data.table(var = c("Total"), subvar=c("N"), value=c(N_preg))
+  
+  
+  N_record <-  DT_tmp[,.(number_of_records_in_the_group)]
+  N_record <- N_record[,.(mean = round(mean(number_of_records_in_the_group, na.rm = TRUE), 2), 
+                          sd = round(sqrt(var(number_of_records_in_the_group, na.rm = TRUE)), 2),
+                          quantile_25 = round(quantile(number_of_records_in_the_group, 0.25, na.rm = TRUE), 2),
+                          median =median(number_of_records_in_the_group, na.rm = TRUE),
+                          quantile_75 = round(quantile(number_of_records_in_the_group, 0.75, na.rm = TRUE), 2))]
+  tmp <- names(N_record)
+  N_record <- as.data.table(t(N_record))
+  N_record <- N_record[, subvar:= c(tmp[1],
+                                    tmp[2],
+                                    tmp[3],
+                                    tmp[4],
+                                    tmp[5])]
+  
+  N_record <- N_record[, var := "N_record"]
+  setnames(N_record, "V1", "value")
+  
+  
+  N_colour <- DT_tmp[, .N, highest_quality ][order(highest_quality)]
+  N_colour <- N_colour[, value := paste0(N, " (", round(N/N_preg, 2) * 100, "%)")][, -c("N")]
+  N_colour <- N_colour[, var:= "highest_quality"]
+  setnames(N_colour, "highest_quality", "subvar")
+  
+  
+  N_quality <- DT_tmp[, .N, order_quality  ][order(order_quality )]
+  N_quality <- N_quality[, value := paste0(N, " (", round(N/N_preg, 2) * 100, "%)")][, -c("N")]
+  N_quality <- N_quality[, var:= "order_quality"]
+  setnames(N_quality, "order_quality", "subvar")
+  
+  
+  N_type_of_end <- DT_tmp[, .N, type_of_pregnancy_end  ][order(-N)]
+  N_type_of_end <- N_type_of_end[, value := paste0(N, " (", round(N/N_preg, 2) * 100, "%)")][, -c("N")]
+  N_type_of_end <- N_type_of_end[, var:= "type_of_pregnancy_end"]
+  setnames(N_type_of_end, "type_of_pregnancy_end", "subvar")
+  
+  
+  Gestage <- DT_tmp[,.(gestage_at_first_record)]
+  Gestage <- Gestage[,.(mean = round(mean(gestage_at_first_record, na.rm = TRUE), 2), 
+                        sd = round(sqrt(var(gestage_at_first_record, na.rm = TRUE)), 2),
+                        quantile_25 = round(quantile(gestage_at_first_record, 0.25, na.rm = TRUE), 2),
+                        median =median(gestage_at_first_record, na.rm = TRUE),
+                        quantile_75 = round(quantile(gestage_at_first_record, 0.75, na.rm = TRUE), 2))]
+  
+  tmp <- names(Gestage)
+  Gestage <- as.data.table(t(Gestage))
+  Gestage <- Gestage[, subvar:= c(tmp[1],
+                                  tmp[2],
+                                  tmp[3],
+                                  tmp[4],
+                                  tmp[5])]
+  
+  Gestage <- Gestage[, var := "Gestage_first_record"]
+  setnames(Gestage, "V1", "value")
+  
+  
+  Descriptive_pregnancies <- rbind(Descriptive_pregnancies, N_record, N_colour, N_quality, N_type_of_end, Gestage)
+  setcolorder(Descriptive_pregnancies, c("var", "subvar", "value"))
+  
+  fwrite(Descriptive_pregnancies, paste0(direxp, "Descriptive_pregnancies_", type_end, ".csv"))
+  
+}
 
 
 
