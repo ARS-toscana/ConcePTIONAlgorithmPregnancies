@@ -257,7 +257,8 @@ if(model_condition){
     RF_yellow <- ranger(formula = days_from_start ~ record_type + origin + age_at_start_of_pregnancy + record_year + distance_from_oldest,
                  data = DT_green_blue_model_for_yellow, 
                  num.trees = grid[selected_yellow == 1, number_of_trees], 
-                 mtry = grid[selected_yellow == 1, var_selected])#,
+                 mtry = grid[selected_yellow == 1, var_selected],
+                 seed = 5 )#,
                 # min.node.size = grid[selected_yellow == 1, min_node_size])
   }else{
     RF_yellow <- ranger(formula = days_from_start ~ record_type + origin + age_at_start_of_pregnancy + record_year + distance_from_oldest,
@@ -265,7 +266,8 @@ if(model_condition){
                  num.trees = grid[selected_yellow == 1, number_of_trees], 
                  mtry = grid[selected_yellow == 1, var_selected],
                  #min.node.size = grid[selected_yellow == 1, min_node_size],
-                 always.split.variables = "record_type")
+                 always.split.variables = "record_type",
+                 seed = 5 )
   }
   
   
@@ -273,7 +275,8 @@ if(model_condition){
     RF_red <- ranger(formula = days_from_start ~ record_type + origin + age_at_start_of_pregnancy + record_year + distance_from_oldest,
                         data = DT_green_blue_model_for_red, 
                         num.trees = grid[selected_red == 1, number_of_trees], 
-                        mtry = grid[selected_red == 1, var_selected])#,
+                        mtry = grid[selected_red == 1, var_selected],
+                        seed = 5 )#,
                        # min.node.size = grid[selected_red == 1, min_node_size])
   }else{
     RF_red <- ranger(formula = days_from_start ~ record_type + origin + age_at_start_of_pregnancy + record_year + distance_from_oldest,
@@ -281,11 +284,12 @@ if(model_condition){
                         num.trees = grid[selected_red == 1, number_of_trees], 
                         mtry = grid[selected_red == 1, var_selected],
                        # min.node.size = grid[selected_red == 1, min_node_size],
-                        always.split.variables = "record_type")
+                        always.split.variables = "record_type",
+                        seed = 5 )
   }
   
-  
-  
+  saveRDS(RF_red, file = paste0(dirtemp, 'RandomForest_Red.rds'))
+  saveRDS(RF_yellow, file = paste0(dirtemp, 'RandomForest_Yellow.rds'))
   
   DT_yellow_model = DT_red_yellow_model[coloured_order == '2_yellow']
   DT_red_model = DT_red_yellow_model[coloured_order == '4_red']
