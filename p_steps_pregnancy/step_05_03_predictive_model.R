@@ -79,6 +79,12 @@ if(model_condition){
   DT_red_yellow_model <- DT_red_yellow[record_type %in% record_type_to_keep]
   DT_red_yellow_not_model <- DT_red_yellow[record_type %notin% record_type_to_keep]
 
+  #------------------
+  # Divide red/yellow
+  #------------------
+  
+  DT_green_blue_model_for_yellow = DT_green_blue_model[coloured_order == '2_yellow']
+  DT_green_blue_model_for_red = DT_green_blue_model[coloured_order == '4_red']
   
   #--------------------------------
   # Random forest: Cross Validation
@@ -89,25 +95,28 @@ if(model_condition){
   
   var_selected = c(1:4)
   
-  min_node_size =  c(1,
-                     10,
-                     100)
+  # min_node_size =  c(1,
+  #                    10,
+  #                    100)
   
   always_split_variables = c("none", "record_type")
   
-  rmse = NA
+  rmse_yellow = NA
+  rmse_red = NA
   
   grid <- expand.grid(number_of_trees = number_of_trees, 
                       var_selected = var_selected,
-                      min_node_size = min_node_size, 
+                      # min_node_size = min_node_size, 
                       always_split_variables = always_split_variables,
-                      rmse = rmse)
+                      rmse_yellow = rmse_yellow,
+                      rmse_red = rmse_red)
   
   
   # K-folder
   set.seed(5)
   kfold <- 5
-  DT_green_blue_model[, index := sample(rep_len(1:kfold,  NROW(DT_green_blue_model)))]    
+  DT_green_blue_model_for_yellow[, index := sample(rep_len(1:kfold,  NROW(DT_green_blue_model_for_yellow)))]    
+  DT_green_blue_model_for_red[, index := sample(rep_len(1:kfold,  NROW(DT_green_blue_model_for_red)))]    
   
   
   # Model 
@@ -115,91 +124,184 @@ if(model_condition){
   for(i in 1:NROW(grid)){
     cat( "num.trees =", grid[i, 1], "-",  
          "mtry =", grid[i, 2], "-",
-         "min.node.size =", grid[i, 3], "-", 
-         "always.split.variables =", grid[i, 4],  "\n")
-    rmse.cv.vector <- c()
-    fold_size <- c()
+        # "min.node.size =", grid[i, 3], "-", 
+         "always.split.variables =", grid[i, 3],  "\n")
+    rmse.cv.vector.y <- c()
+    fold_size.y <- c()
+    
+    rmse.cv.vector.r <- c()
+    fold_size.r <- c()
+    
+    
     for(k in 1:kfold){
-      
-      DT_green_blue_model_Train <- DT_green_blue_model[index != k]
-      DT_green_blue_model_Test <- DT_green_blue_model[index == k]
+      #-----------------
+      # Model for Yellow
+      #-----------------
+      DT_green_blue_model_Train_y <- DT_green_blue_model_for_yellow[index != k]
+      DT_green_blue_model_Test_y <- DT_green_blue_model_for_yellow[index == k]
     
       
       ## selecting record type 
-      record_type_training <-  DT_green_blue_model_Train[, record_type]
-      record_type_red <-  DT_green_blue_model_Test[, record_type]
+      record_type_training <-  DT_green_blue_model_Train_y[, record_type]
+      record_type_red <-  DT_green_blue_model_Test_y[, record_type]
       
       record_type_to_keep <- intersect(record_type_training, record_type_red)
       
-      DT_green_blue_model_Train[record_type %in% record_type_to_keep]
-      DT_green_blue_model_Test[record_type %in% record_type_to_keep]
+      DT_green_blue_model_Train_y = DT_green_blue_model_Train_y[record_type %in% record_type_to_keep]
+      DT_green_blue_model_Test_y = DT_green_blue_model_Test_y[record_type %in% record_type_to_keep]
       
-      if(grid[i, 4] == "none"){
-        rf <- ranger(formula = days_from_start ~ record_type + origin + age_at_start_of_pregnancy + record_year + distance_from_oldest,
-                     data = DT_green_blue_model_Train, 
+      if(grid[i, 3] == "none"){
+        rfy <- ranger(formula = days_from_start ~ record_type + origin + age_at_start_of_pregnancy + record_year + distance_from_oldest,
+                     data = DT_green_blue_model_Train_y, 
                      num.trees = grid[i, 1], 
-                     mtry = grid[i, 2], 
-                     min.node.size = grid[i, 3]
+                     mtry = grid[i, 2]#, 
+                     #min.node.size = grid[i, 3]
         )
       }else{
-        rf <- ranger(formula = days_from_start ~ record_type + origin + age_at_start_of_pregnancy + record_year + distance_from_oldest,
-                     data = DT_green_blue_model_Train, 
+        rfy <- ranger(formula = days_from_start ~ record_type + origin + age_at_start_of_pregnancy + record_year + distance_from_oldest,
+                     data = DT_green_blue_model_Train_y, 
                      num.trees = grid[i, 1], 
                      mtry = grid[i, 2], 
-                     min.node.size = grid[i, 3], 
+                     #min.node.size = grid[i, 3], 
                      always.split.variables = "record_type"
         )
       }
 
       
-      pred.rf <- predict(rf, DT_green_blue_model_Test)
+      pred.rf.y <- predict(rfy, DT_green_blue_model_Test_y)
       
-      rmse.ik = sqrt((sum( (DT_green_blue_model_Test$days_from_start - pred.rf$predictions)^2 )  ) / NROW(DT_green_blue_model_Test))
+      rmse.ik.y = sqrt((sum( (DT_green_blue_model_Test_y$days_from_start - pred.rf.y$predictions)^2 )  ) / NROW(DT_green_blue_model_Test_y))
       
-      rmse.cv.vector <- c(
-        rmse.cv.vector,
-        rmse.ik
+      rmse.cv.vector.y <- c(
+        rmse.cv.vector.y,
+        rmse.ik.y
       )
       
-      fold_size <- c(fold_size, length(DT_green_blue_model_Test$days_from_start))
+      fold_size.y <- c(fold_size.y, length(DT_green_blue_model_Test_y$days_from_start))
+      
+      
+      
+      
+      
+      
+      #--------------
+      # Model for Red
+      #--------------
+      DT_green_blue_model_Train_r <- DT_green_blue_model_for_red[index != k]
+      DT_green_blue_model_Test_r <- DT_green_blue_model_for_red[index == k]
+      
+      
+      ## selecting record type 
+      record_type_training <-  DT_green_blue_model_Train_r[, record_type]
+      record_type_red <-  DT_green_blue_model_Test_r[, record_type]
+      
+      record_type_to_keep <- intersect(record_type_training, record_type_red)
+      
+      DT_green_blue_model_Train_r = DT_green_blue_model_Train_r[record_type %in% record_type_to_keep]
+      DT_green_blue_model_Test_r = DT_green_blue_model_Test_r[record_type %in% record_type_to_keep]
+      
+      if(grid[i, 3] == "none"){
+        rf <- ranger(formula = days_from_start ~ record_type + origin + age_at_start_of_pregnancy + record_year + distance_from_oldest,
+                     data = DT_green_blue_model_Train_r, 
+                     num.trees = grid[i, 1], 
+                     mtry = grid[i, 2]#, 
+                     #min.node.size = grid[i, 3]
+        )
+      }else{
+        rf <- ranger(formula = days_from_start ~ record_type + origin + age_at_start_of_pregnancy + record_year + distance_from_oldest,
+                     data = DT_green_blue_model_Train_r, 
+                     num.trees = grid[i, 1], 
+                     mtry = grid[i, 2], 
+                     #min.node.size = grid[i, 3], 
+                     always.split.variables = "record_type"
+        )
+      }
+      
+      
+      pred.rf.r <- predict(rf, DT_green_blue_model_Test_r)
+      
+      rmse.ik.r = sqrt((sum( (DT_green_blue_model_Test_r$days_from_start - pred.rf.r$predictions)^2 )  ) / NROW(DT_green_blue_model_Test_r))
+      
+      rmse.cv.vector.r <- c(
+        rmse.cv.vector.r,
+        rmse.ik.r
+      )
+      
+      fold_size.r <- c(fold_size.r, length(DT_green_blue_model_Test_r$days_from_start))
     }
+    
+    
+    
+    
+    
+    
+    
     #grid[i, 5] <- mean(rmse.cv.vector)
-    fold_prop <- fold_size / sum(fold_size)
-    grid[i, 5] <- round(sum(rmse.cv.vector*fold_prop), 2)
+    fold_prop.y <- fold_size.y / sum(fold_size.y)
+    grid[i, 4] <- round(sum(rmse.cv.vector.y*fold_prop.y), 2)
+    
+    fold_prop.r <- fold_size.r / sum(fold_size.r)
+    grid[i, 5] <- round(sum(rmse.cv.vector.r*fold_prop.r), 2)
   }
   
   grid <- as.data.table(grid)
-  grid[rmse == min(rmse), selected := 1][is.na(selected), selected :=0]
+  grid[rmse_yellow == min(rmse_yellow), selected_yellow := 1][is.na(selected_yellow), selected_yellow :=0]
+  grid[rmse_red == min(rmse_red), selected_red := 1][is.na(selected_red), selected_red :=0]
   fwrite(grid, file = paste0(direxp, "cross_validation_results.csv"))
   
-  #---------------------------
-  # Random forest: Final model
-  #---------------------------
+  #----------------------------
+  # Random forest: Final models
+  #----------------------------
 
-  if(grid[selected == 1, always_split_variables]  == "none"){
-    RF <- ranger(formula = days_from_start ~ record_type + origin + age_at_start_of_pregnancy + record_year + distance_from_oldest,
-                 data = DT_green_blue_model, 
-                 num.trees = grid[selected == 1, number_of_trees], 
-                 mtry = grid[selected == 1, var_selected],
-                 min.node.size = grid[selected == 1, min_node_size])
+  if(grid[selected_yellow == 1, always_split_variables]  == "none"){
+    RF_yellow <- ranger(formula = days_from_start ~ record_type + origin + age_at_start_of_pregnancy + record_year + distance_from_oldest,
+                 data = DT_green_blue_model_for_yellow, 
+                 num.trees = grid[selected_yellow == 1, number_of_trees], 
+                 mtry = grid[selected_yellow == 1, var_selected])#,
+                # min.node.size = grid[selected_yellow == 1, min_node_size])
   }else{
-    RF <- ranger(formula = days_from_start ~ record_type + origin + age_at_start_of_pregnancy + record_year + distance_from_oldest,
-                 data = DT_green_blue_model, 
-                 num.trees = grid[selected == 1, number_of_trees], 
-                 mtry = grid[selected == 1, var_selected],
-                 min.node.size = grid[selected == 1, min_node_size],
+    RF_yellow <- ranger(formula = days_from_start ~ record_type + origin + age_at_start_of_pregnancy + record_year + distance_from_oldest,
+                 data = DT_green_blue_model_for_yellow, 
+                 num.trees = grid[selected_yellow == 1, number_of_trees], 
+                 mtry = grid[selected_yellow == 1, var_selected],
+                 #min.node.size = grid[selected_yellow == 1, min_node_size],
                  always.split.variables = "record_type")
   }
   
   
-
-
-  predic <- predict(RF, DT_red_yellow_model)
-
-  DT_red_yellow_model[, predicted_day_from_start := as.integer(predic$predictions)]
+  if(grid[selected_red == 1, always_split_variables]  == "none"){
+    RF_red <- ranger(formula = days_from_start ~ record_type + origin + age_at_start_of_pregnancy + record_year + distance_from_oldest,
+                        data = DT_green_blue_model_for_red, 
+                        num.trees = grid[selected_red == 1, number_of_trees], 
+                        mtry = grid[selected_red == 1, var_selected])#,
+                       # min.node.size = grid[selected_red == 1, min_node_size])
+  }else{
+    RF_red <- ranger(formula = days_from_start ~ record_type + origin + age_at_start_of_pregnancy + record_year + distance_from_oldest,
+                        data = DT_green_blue_model_for_red, 
+                        num.trees = grid[selected_red == 1, number_of_trees], 
+                        mtry = grid[selected_red == 1, var_selected],
+                       # min.node.size = grid[selected_red == 1, min_node_size],
+                        always.split.variables = "record_type")
+  }
+  
+  
+  
+  
+  DT_yellow_model = DT_red_yellow_model[coloured_order == '2_yellow']
+  DT_red_model = DT_red_yellow_model[coloured_order == '4_red']
+  
+  predict_yellow <- predict(RF_yellow, DT_yellow_model)
+  predict_red <- predict(RF_yellow, DT_red_model)
+  
+  DT_yellow_model[, predicted_day_from_start := as.integer(predict_yellow$predictions)]
+  DT_red_model[, predicted_day_from_start := as.integer(predict_red$predictions)]
+  
   DT_red_yellow_not_model [, predicted_day_from_start := NA]
   
-  DT_red_yellow <- rbind(DT_red_yellow_model, DT_red_yellow_not_model)
+  DT_red_yellow <- rbind(
+    rbind(DT_yellow_model, DT_red_yellow_not_model),
+    DT_red_model
+    )
   
 
   
