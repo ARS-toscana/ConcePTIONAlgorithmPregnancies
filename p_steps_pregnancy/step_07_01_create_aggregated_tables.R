@@ -25,8 +25,9 @@ for (i in 1:length(files)) {
 
 D3_pregnancy_reconciled_valid <- D3_pregnancy_reconciled_valid[CONCEPTSETS== "yes", stream := "CONCEPTSETS"]
 D3_pregnancy_reconciled_valid <- D3_pregnancy_reconciled_valid[ITEMSETS== "yes", stream := "ITEMSETS"]
-D3_pregnancy_reconciled_valid <- D3_pregnancy_reconciled_valid[EUROCAT== "yes", stream := "EUROCAT"]
 D3_pregnancy_reconciled_valid <- D3_pregnancy_reconciled_valid[PROMPT== "yes", stream := "PROMPT"]
+D3_pregnancy_reconciled_valid <- D3_pregnancy_reconciled_valid[EUROCAT== "yes", stream := "EUROCAT"]
+
 D3_pregnancy_reconciled_valid <- D3_pregnancy_reconciled_valid[, year_start_of_pregnancy:= as.integer(year(pregnancy_start_date))]
 
 cat("1. Table stream \n ")
