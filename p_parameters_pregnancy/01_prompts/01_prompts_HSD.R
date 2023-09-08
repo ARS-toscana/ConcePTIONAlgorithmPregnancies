@@ -20,3 +20,10 @@ meaning_of_survey_pregnancy[["HSD"]][["other"]]<-list()
 
 meaning_of_visit_pregnancy <- vector(mode="list")
 meaning_of_visit_pregnancy[["HSD"]]<-list()
+
+
+meaning_of_survey_pregnancy_child <- vector(mode="list")
+meaning_of_relationship_child <- vector(mode="list")
+
+meaning_of_survey_pregnancy_child[["HSD"]] <- NA
+meaning_of_relationship_child[["HSD"]] <- NA

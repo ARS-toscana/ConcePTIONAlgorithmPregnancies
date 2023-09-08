@@ -15,6 +15,7 @@ meaning_of_survey_pregnancy[["SAIL Databank"]][["spontaneous_abortion"]]<-list()
 meaning_of_survey_pregnancy[["SAIL Databank"]][["induced_termination"]]<-list()
 meaning_of_survey_pregnancy[["SAIL Databank"]][["other"]]<-list()
 
+meaning_of_relationship_child  <- vector(mode="list")
 
 meaning_of_relationship_child[["SAIL Databank"]] <- list("birth_mother")
 
@@ -22,3 +23,9 @@ meaning_of_relationship_child[["SAIL Databank"]] <- list("birth_mother")
 
 meaning_of_visit_pregnancy <- vector(mode="list")
 meaning_of_visit_pregnancy[["TO_ADD"]]<-list("first_encounter_for_ongoing_pregnancy", "service_before_termination","service_for_ongoing_pregnancy")
+
+
+
+meaning_of_survey_pregnancy_child <- vector(mode="list")
+
+meaning_of_survey_pregnancy_child[["SAIL Databank"]] <- NA

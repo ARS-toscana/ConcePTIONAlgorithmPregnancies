@@ -16,3 +16,8 @@ meaning_of_survey_pregnancy[["BIFAP"]][["induced_termination"]]<-list()
 meaning_of_survey_pregnancy[["BIFAP"]][["other"]]<-list()
 
 
+meaning_of_survey_pregnancy_child <- vector(mode="list")
+meaning_of_relationship_child <- vector(mode="list")
+
+meaning_of_survey_pregnancy_child[["BIFAP"]] <- NA
+meaning_of_relationship_child[["BIFAP"]] <- NA

@@ -18,3 +18,10 @@ meaning_of_survey_pregnancy[["VID"]][["ongoing_pregnancy"]] <- list()
 meaning_of_survey_pregnancy[["VID"]][["spontaneous_abortion"]] <- list("electronic_obstetric_sheet")
 meaning_of_survey_pregnancy[["VID"]][["induced_termination"]] <- list()
 meaning_of_survey_pregnancy[["VID"]][["other"]] <- list()
+
+
+meaning_of_survey_pregnancy_child <- vector(mode="list")
+meaning_of_relationship_child <- vector(mode="list")
+
+meaning_of_survey_pregnancy_child[["VID"]] <- NA
+meaning_of_relationship_child[["VID"]] <- NA

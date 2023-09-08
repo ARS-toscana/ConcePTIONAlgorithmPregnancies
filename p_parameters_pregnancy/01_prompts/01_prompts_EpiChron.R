@@ -20,3 +20,9 @@ meaning_of_survey_pregnancy[["EpiChron"]][["other"]]<-list()
 
 meaning_of_visit_pregnancy <- vector(mode="list")
 meaning_of_visit_pregnancy[["EpiChron"]]<-list("first_visit_pregnancy", "pregnancy_control_visit")
+
+meaning_of_survey_pregnancy_child <- vector(mode="list")
+meaning_of_relationship_child <- vector(mode="list")
+
+meaning_of_survey_pregnancy_child[["EpiChron"]] <- NA
+meaning_of_relationship_child[["EpiChron"]] <- NA

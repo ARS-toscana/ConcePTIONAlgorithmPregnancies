@@ -16,3 +16,8 @@ meaning_of_survey_our_study[["CNR-IFC"]][["induced_termination"]]<-list()
 meaning_of_survey_our_study[["CNR-IFC"]][["other"]]<-list()
 
 
+meaning_of_survey_pregnancy_child <- vector(mode="list")
+meaning_of_relationship_child <- vector(mode="list")
+
+meaning_of_survey_pregnancy_child[["CNR-IFC"]] <- NA
+meaning_of_relationship_child[["CNR-IFC"]] <- NA
