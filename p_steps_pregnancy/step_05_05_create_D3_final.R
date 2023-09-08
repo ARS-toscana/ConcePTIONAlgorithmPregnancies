@@ -144,9 +144,12 @@ if (this_datasource_has_person_rel_table){
 
    D3_mother_child_ids <- unique(D3_mother_child_ids)
    D3_mother_child_ids[, n_child := seq_along(.I), pregnancy_id][,n_child := max(n_child), pregnancy_id]
+   D3_mother_child_ids[is.na(n_child), n_child := 0]
+   
    D3_mother_child_ids[, n_pregnancy_for_child := seq_along(.I), child_id][,n_pregnancy_for_child := max(n_pregnancy_for_child), child_id]
    
    D3_mother_child_ids[, n_pregnancy_for_child := max(n_pregnancy_for_child), pregnancy_id]
+   
    D3_mother_child_ids[n_pregnancy_for_child > 1, child_in_multiple_pregnancies := 1][is.na(child_in_multiple_pregnancies), child_in_multiple_pregnancies := 0]
    
    D3_mother_child_ids <- D3_mother_child_ids[, -c("n_pregnancy_for_child")]
@@ -156,6 +159,7 @@ if (this_datasource_has_person_rel_table){
                                     all.x = TRUE,
                                     by = c("pregnancy_id"))
    
+   D3_pregnancy_reconciled_valid <- unique(D3_pregnancy_reconciled_valid)
    save(D3_mother_child_ids, file = paste0(diroutput, "D3_mother_child_ids.RData"))
    
 }else{
