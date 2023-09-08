@@ -16,3 +16,10 @@ meaning_of_survey_pregnancy[["SIDIAP"]][["induced_termination"]]<-list("primary_
 meaning_of_survey_pregnancy[["SIDIAP"]][["other"]]<-list("primary_care_pregnancies_other")
 
 
+
+
+meaning_of_survey_pregnancy_child <- vector(mode="list")
+meaning_of_relationship_child <- vector(mode="list")
+
+meaning_of_survey_pregnancy_child[["SIDIAP"]] <- NA
+meaning_of_relationship_child[["SIDIAP"]] <- NA

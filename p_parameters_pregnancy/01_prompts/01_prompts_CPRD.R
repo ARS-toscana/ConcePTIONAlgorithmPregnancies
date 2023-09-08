@@ -16,3 +16,8 @@ meaning_of_survey_pregnancy[["CPRD"]][["induced_termination"]]<-list("primary_ca
 meaning_of_survey_pregnancy[["CPRD"]][["other"]]<-list("primary_care_pregnancy_register")
 
 
+meaning_of_survey_pregnancy_child <- vector(mode="list")
+meaning_of_relationship_child <- vector(mode="list")
+
+meaning_of_survey_pregnancy_child[["CPRD"]] <- NA
+meaning_of_relationship_child[["CPRD"]] <- NA

@@ -16,6 +16,11 @@ meaning_of_survey_pregnancy[["CASERTA"]][["induced_termination"]]<-list()
 meaning_of_survey_pregnancy[["CASERTA"]][["other"]]<-list()
 
 
+meaning_of_survey_pregnancy_child <- vector(mode="list")
+meaning_of_relationship_child <- vector(mode="list")
+
+meaning_of_survey_pregnancy_child[["CASERTA"]] <- NA
+meaning_of_relationship_child[["CASERTA"]] <- NA
 
 ####### LOAD MEANING_OF_VISIT for CASERTA
 

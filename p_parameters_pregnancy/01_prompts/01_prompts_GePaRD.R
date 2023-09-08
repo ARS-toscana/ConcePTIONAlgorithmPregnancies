@@ -16,3 +16,8 @@ meaning_of_survey_pregnancy[["GePaRD"]][["induced_termination"]]<-list("expected
 meaning_of_survey_pregnancy[["GePaRD"]][["other"]]<-list()
 
 
+meaning_of_survey_pregnancy_child <- vector(mode="list")
+meaning_of_relationship_child <- vector(mode="list")
+
+meaning_of_survey_pregnancy_child[["GePaRD"]] <- NA
+meaning_of_relationship_child[["GePaRD"]] <- NA

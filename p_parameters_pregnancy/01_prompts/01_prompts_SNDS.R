@@ -16,3 +16,9 @@ meaning_of_survey_pregnancy[["SNDS"]][["induced_termination"]]<-list("")
 meaning_of_survey_pregnancy[["SNDS"]][["other"]]<-list()
 
 
+
+meaning_of_survey_pregnancy_child <- vector(mode="list")
+meaning_of_relationship_child <- vector(mode="list")
+
+meaning_of_survey_pregnancy_child[["SNDS"]] <- NA
+meaning_of_relationship_child[["SNDS"]] <- NA

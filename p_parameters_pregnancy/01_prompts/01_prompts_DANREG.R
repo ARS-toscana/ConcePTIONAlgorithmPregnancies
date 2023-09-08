@@ -20,3 +20,10 @@ meaning_of_survey_pregnancy[["DANREG"]][["other"]]<-list()
 
 meaning_of_visit_pregnancy <- vector(mode="list")
 meaning_of_visit_pregnancy[["DANREG"]]<-list()
+
+
+meaning_of_survey_pregnancy_child <- vector(mode="list")
+meaning_of_relationship_child <- vector(mode="list")
+
+meaning_of_survey_pregnancy_child[["DANREG"]] <- NA
+meaning_of_relationship_child[["DANREG"]] <- NA

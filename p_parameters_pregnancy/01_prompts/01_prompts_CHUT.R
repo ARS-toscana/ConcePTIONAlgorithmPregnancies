@@ -15,3 +15,9 @@ meaning_of_survey_our_study[["CHUT"]][["spontaneous_abortion"]]<-list("pregnancy
 meaning_of_survey_our_study[["CHUT"]][["induced_termination"]]<-list("pregnancy_characteristics")
 meaning_of_survey_our_study[["CHUT"]][["other"]]<-list()
 
+
+meaning_of_survey_pregnancy_child <- vector(mode="list")
+meaning_of_relationship_child <- vector(mode="list")
+
+meaning_of_survey_pregnancy_child[["CHUT"]] <- NA
+meaning_of_relationship_child[["CHUT"]] <- NA

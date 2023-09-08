@@ -16,3 +16,10 @@ meaning_of_survey_pregnancy[["PHARMO"]][["induced_termination"]]<-list("birth_re
 meaning_of_survey_pregnancy[["PHARMO"]][["other"]]<-list()
 
 
+
+
+meaning_of_survey_pregnancy_child <- vector(mode="list")
+meaning_of_relationship_child <- vector(mode="list")
+
+meaning_of_survey_pregnancy_child[["PHARMO"]] <- NA
+meaning_of_relationship_child[["PHARMO"]] <- NA
