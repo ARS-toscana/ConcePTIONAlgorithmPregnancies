@@ -38,7 +38,7 @@ datasource_with_related_id_correspondig_to_child <- c("THL", "SAIL Databank")
 this_datasource_has_related_id_correspondig_to_child <- ifelse(thisdatasource %in% datasource_with_related_id_correspondig_to_child, TRUE, FALSE) 
 
 #datasources that use predictive model to estimate start of pregnancies
-datasources_that_do_not_use_prediction_on_red <- c()
+datasources_that_do_not_use_prediction_on_red <- c("EFEMERIS")
 this_datasource_do_not_use_prediction_on_red <- ifelse(thisdatasource %in% datasources_that_do_not_use_prediction_on_red, TRUE, FALSE) 
 
 
