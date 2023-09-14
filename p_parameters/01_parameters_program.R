@@ -180,10 +180,15 @@ file.copy(paste0(dirinput,'/INSTANCE.csv'), dirsmallcountsremoved)
 file.copy(paste0(dirmacro,'/to_run_post_verification_script.R'), dirvalidation)
 file.copy(paste0(dirmacro,'/Report_verification_preg.Rmd'), dirvalidation)
 
+file.copy(paste0(thisdir,'/to_run.R'), direxpmanuscript)
+file.copy(paste0(dirinput,'/METADATA.csv'), direxpmanuscript)
+file.copy(paste0(dirinput,'/CDM_SOURCE.csv'), direxpmanuscript)
+file.copy(paste0(dirinput,'/INSTANCE.csv'), direxpmanuscript)
+
 #############################################
 #HTML files: creation 
 #############################################
 
-HTML_files_creation <- TRUE
+HTML_files_creation <- FALSE
 
 

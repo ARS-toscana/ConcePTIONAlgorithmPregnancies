@@ -1,38 +1,17 @@
 #------------------------------------------------------------------------------------------
 # ConcePTION_Algorithm_Pregnancies script
 #
-# v4.0 - 26 April 2022
+# v5.0.1 - 8 September 2022
 # authors: Claudia Bartolini, Rosa Gini, Giorgio Limoncella, Olga Paoletti, Davide Messina
 # 
 # link: https://github.com/ARS-toscana/ConcePTIONAlgorithmPregnancies
 #
-# Changelog 4.01, 27 April 2023:
-# - Update codelist
+# Changelog 5.0.1, 8 September 2023:
+# - Update PROMPT parameters
+# - fixed bug with child-pregnancy link
 #
-# Changelog 4.02, 28 April 2023:
-# - added empty itemset LMP for PHARMO 
-# - added DAP specific parameters for pregnancy test
-#
-# Changelog 4.03, 28 April 2023:
-# - added FISABIO procedures codes
-#
-# Changelog 4.04, 4 May 2023:
-# - fixed verification for overlapping preg
-# - adjusted end for overlapping preg
-#
-# Changelog 4.05, 5 May 2023:
-# - added empty child_id variables
-#
-# Changelog 4.06, 8 June 2023:
-# - added verification for TypeDiff
-# - added TypeDiff plot 
-# - fixed years for sample
-# - added function for sampling from TypeDiff
-# - updated codelist
-#
-# Changelog 4.07, 19 June 2023:
-# - added parameters for PERSON_REL table 
-# - updated FERR procedures parameter
+# Changelog 5.0.2, 13 September 2023:
+# - added metadata and parameters in g_export_manuscript
 #------------------------------------------------------------------------------------------
 
 
@@ -110,3 +89,6 @@ source(paste0(thisdir,"/p_steps_pregnancy/step_06_01_sample_from_pregnancies.R")
 source(paste0(thisdir,"/p_steps_pregnancy/step_07_01_create_aggregated_tables.R")) 
 source(paste0(thisdir,"/p_steps_pregnancy/step_07_02_pregnancies_description.R")) 
 source(paste0(thisdir,"/p_steps_pregnancy/step_07_04_create_aggregated_tables_for_manuscript.R")) 
+
+# 08 Export metadata in g_export_manuscript
+source(paste0(thisdir,"/p_steps_pregnancy/step_08_01_manuscript_export.R")) 

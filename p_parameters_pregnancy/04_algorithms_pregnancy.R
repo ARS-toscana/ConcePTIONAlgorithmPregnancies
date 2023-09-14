@@ -112,10 +112,16 @@ legally_included_pregnancies = ifelse(is.null(legally_included_pregnancies_dap_l
 save(meaning_of_survey_pregnancy, file=paste0(direxp, "meaning_of_survey_pregnancy.RData"))
 if (this_datasource_has_visit_occurrence_prompt)save(meaning_of_visit_pregnancy, file=paste0(direxp, "meaning_of_visit_pregnancy.RData"))
 
+save(meaning_of_survey_pregnancy, file=paste0(direxpmanuscript, "meaning_of_survey_pregnancy.RData"))
+if (this_datasource_has_visit_occurrence_prompt)save(meaning_of_visit_pregnancy, file=paste0(direxpmanuscript, "meaning_of_visit_pregnancy.RData"))
+
+
 if(this_datasource_has_conceptsets){
   # Saving concepsets code 
   save(concept_set_codes_pregnancy,file=paste0(direxp,"concept_set_codes_pregnancy.RData"))
   save(concept_set_codes_pregnancy_excl,file=paste0(direxp,"concept_set_codes_pregnancy_excl.RData"))
+  save(concept_set_codes_pregnancy,file=paste0(direxpmanuscript,"concept_set_codes_pregnancy.RData"))
+  save(concept_set_codes_pregnancy_excl,file=paste0(direxpmanuscript,"concept_set_codes_pregnancy_excl.RData"))
   save(concept_set_codes_pregnancy,file=paste0(dirsmallcountsremoved,"concept_set_codes_pregnancy.RData"))
   save(concept_set_codes_pregnancy_excl,file=paste0(dirsmallcountsremoved,"concept_set_codes_pregnancy_excl.RData"))
 }
@@ -126,6 +132,10 @@ save(dictonary_of_itemset_pregnancy, file=paste0(direxp,"dictonary_of_itemset_pr
 save(itemsetMED_AVpair_pregnancy, file=paste0(direxp,"itemsetMED_AVpair_pregnancy.RData"))
 save(dictonary_of_itemset_PregnancyTest, file=paste0(direxp,"dictonary_of_itemset_PregnancyTest.RData"))
 
+save(itemset_AVpair_pregnancy, file=paste0(direxpmanuscript,"itemset_AVpair_pregnancy.RData"))
+save(dictonary_of_itemset_pregnancy, file=paste0(direxpmanuscript,"dictonary_of_itemset_pregnancy.RData"))
+save(itemsetMED_AVpair_pregnancy, file=paste0(direxpmanuscript,"itemsetMED_AVpair_pregnancy.RData"))
+save(dictonary_of_itemset_PregnancyTest, file=paste0(direxpmanuscript,"dictonary_of_itemset_PregnancyTest.RData"))
 
 if (this_datasource_has_subpopulations == TRUE){
   for (subpop in subpopulations[[thisdatasource]]){

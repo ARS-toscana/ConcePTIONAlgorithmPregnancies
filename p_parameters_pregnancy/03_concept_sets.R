@@ -220,4 +220,5 @@ if(this_datasource_has_conceptsets){
   
   codes_used_in_this_run <- list_of_list_to_df(concept_set_codes_pregnancy)
   fwrite(codes_used_in_this_run, file = paste0(direxp, "concept_set_codes_pregnancy.csv"))
+  fwrite(codes_used_in_this_run, file = paste0(direxpmanuscript, "concept_set_codes_pregnancy.csv"))
 }
