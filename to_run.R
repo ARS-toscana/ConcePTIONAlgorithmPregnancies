@@ -95,4 +95,4 @@ source(paste0(thisdir,"/p_steps_pregnancy/step_07_02_pregnancies_description.R")
 source(paste0(thisdir,"/p_steps_pregnancy/step_07_04_create_aggregated_tables_for_manuscript.R")) 
 
 # 08 Export metadata in g_export_manuscript
-source(paste0(thisdir,"/p_steps_pregnancy/step_08_01_manuscript_export.R")) 
+#source(paste0(thisdir,"/p_steps_pregnancy/step_08_01_manuscript_export.R")) 
