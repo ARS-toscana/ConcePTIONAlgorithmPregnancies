@@ -12,6 +12,10 @@
 #
 # Changelog 5.0.2, 13 September 2023:
 # - added metadata and parameters in g_export_manuscript
+#
+# Changelog 5.0.3, 15 September 2023
+# - added POMME parameters
+# - fixed bug LB/SB
 #------------------------------------------------------------------------------------------
 
 
