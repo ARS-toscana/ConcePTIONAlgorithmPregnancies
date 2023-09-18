@@ -16,6 +16,9 @@
 # Changelog 5.0.3, 15 September 2023
 # - added POMME parameters
 # - fixed bug LB/SB
+#
+# Changelog 5.0.4, 18 September 2023
+# - fixed parameters for THL
 #------------------------------------------------------------------------------------------
 
 
