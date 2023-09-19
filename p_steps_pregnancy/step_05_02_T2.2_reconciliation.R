@@ -336,7 +336,7 @@ while (D3_gop[,.N]!=0) {
     #### Green - Green
     
     D3_gop <- D3_gop[ n == 1 & new_group_next_record != 1 & recon == 0 &  coloured_order == "1_green" & coloured_order_next_record == "1_green" & 
-                        type_of_pregnancy_end == "SB" & type_of_pregnancy_end_next_record == "LB",
+                        type_of_pregnancy_end != "LB" & type_of_pregnancy_end_next_record == "LB",
                       `:=`(type_of_pregnancy_end = "LB")]
     
     if(thisdatasource == "VID"){
