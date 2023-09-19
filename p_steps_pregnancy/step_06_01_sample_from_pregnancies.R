@@ -75,7 +75,7 @@ list_of_samples <- vector(mode = "list")
 for (i in Dt_n_strata[, strata]) {
   tmp <- sample(x = D3_pregnancy_reconciled_valid[strata == i & 
                                                     year(pregnancy_start_date) <= 2019 &
-                                                    year(pregnancy_end_date) <= 2015,
+                                                    year(pregnancy_start_date) >= 2015,
                                                   pregnancy_id], 
                 size = Dt_n_strata[strata == i, sample_size], 
                 replace = FALSE)

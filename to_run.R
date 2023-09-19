@@ -19,6 +19,10 @@
 #
 # Changelog 5.0.4, 18 September 2023
 # - fixed parameters for THL
+#
+# Changelog 5.0.4, 18 September 2023
+# - fixed bug for missing itemset "end_date"
+# - fixed bug g_verification sampling
 #------------------------------------------------------------------------------------------
 
 

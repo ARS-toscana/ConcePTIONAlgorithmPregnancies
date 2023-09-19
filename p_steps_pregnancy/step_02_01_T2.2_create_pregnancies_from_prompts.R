@@ -326,6 +326,9 @@ if (this_datasource_has_prompt) {
                          pregnancy_start_date:=pregnancy_end_date-as.numeric(GESTAGE_FROM_DAPS_CRITERIA_DAYS)]
     
     dataset_pregnancies3[is.na(pregnancy_end_date) & is.na(pregnancy_start_date) & !is.na(GESTAGE_FROM_DAPS_CRITERIA_DAYS),
+                         pregnancy_end_date:=survey_date]
+    
+    dataset_pregnancies3[is.na(pregnancy_start_date) & !is.na(GESTAGE_FROM_DAPS_CRITERIA_DAYS),
                          pregnancy_start_date:=survey_date - as.numeric(GESTAGE_FROM_DAPS_CRITERIA_DAYS)]
     
     dataset_pregnancies3[!is.na(pregnancy_start_date) & !is.na(GESTAGE_FROM_DAPS_CRITERIA_DAYS) & is.na(meaning_start_date),
@@ -339,6 +342,9 @@ if (this_datasource_has_prompt) {
                          pregnancy_start_date:=pregnancy_end_date-as.numeric(GESTAGE_FROM_DAPS_CRITERIA_WEEKS)*7]
     
     dataset_pregnancies3[is.na(pregnancy_end_date) & is.na(pregnancy_start_date) & !is.na(GESTAGE_FROM_DAPS_CRITERIA_WEEKS),
+                         pregnancy_end_date:=survey_date]
+    
+    dataset_pregnancies3[is.na(pregnancy_start_date) & !is.na(GESTAGE_FROM_DAPS_CRITERIA_WEEKS),
                          pregnancy_start_date:= survey_date - as.numeric(GESTAGE_FROM_DAPS_CRITERIA_WEEKS)*7]
     
     dataset_pregnancies3[!is.na(pregnancy_start_date) & !is.na(GESTAGE_FROM_DAPS_CRITERIA_WEEKS) & is.na(meaning_start_date),
@@ -351,7 +357,10 @@ if (this_datasource_has_prompt) {
      dataset_pregnancies3[is.na(pregnancy_start_date) & !is.na(GESTAGE_FROM_USOUNDS_DAYS),
                           pregnancy_start_date := pregnancy_end_date-as.numeric(GESTAGE_FROM_USOUNDS_DAYS)]
      
-     dataset_pregnancies3[is.na(pregnancy_end_date) &  is.na(pregnancy_start_date) & !is.na(GESTAGE_FROM_USOUNDS_DAYS),
+     dataset_pregnancies3[is.na(pregnancy_end_date) & is.na(pregnancy_start_date) & !is.na(GESTAGE_FROM_USOUNDS_DAYS),
+                          pregnancy_end_date:=survey_date]
+     
+     dataset_pregnancies3[is.na(pregnancy_start_date) & !is.na(GESTAGE_FROM_USOUNDS_DAYS),
                           pregnancy_start_date := survey_date - as.numeric(GESTAGE_FROM_USOUNDS_DAYS)]
      
     dataset_pregnancies3[!is.na(pregnancy_start_date) & !is.na(GESTAGE_FROM_USOUNDS_DAYS) & is.na(meaning_start_date),
