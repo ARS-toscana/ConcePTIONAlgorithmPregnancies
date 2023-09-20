@@ -6,6 +6,7 @@
 # Changelog: 1.0
 #---------------------------
 
+
 rm(list=ls(all.names=TRUE))
 
 #set the directory where the file is saved as the working directory
@@ -13,9 +14,26 @@ if (!require("rstudioapi")) install.packages("rstudioapi")
 dirverification<-setwd(dirname(rstudioapi::getSourceEditorContext()$path))
 dirverification<-setwd(dirname(rstudioapi::getSourceEditorContext()$path))
 setwd(dirverification)
-
-dirVerificationOutput <- paste0(dirverification, "/verification_output")
+dirVerificationOutput <- paste0(dirverification, "/g_export_verification")
 suppressWarnings(if (!file.exists(dirVerificationOutput)) dir.create(file.path( dirVerificationOutput)))
+
+# copy metadata
+file.copy(paste0(dirverification,'/to_run.R'), dirVerificationOutput)
+file.copy(paste0(dirverification,'/METADATA.csv'), dirVerificationOutput)
+file.copy(paste0(dirverification,'/CDM_SOURCE.csv'), dirVerificationOutput)
+file.copy(paste0(dirverification,'/INSTANCE.csv'), dirVerificationOutput)
+file.copy(paste0(dirverification,'/to_run.R'), dirVerificationOutput)
+file.copy(paste0(dirverification,'/METADATA.csv'), dirVerificationOutput)
+file.copy(paste0(dirverification,'/CDM_SOURCE.csv'), dirVerificationOutput)
+file.copy(paste0(dirverification,'/INSTANCE.csv'), dirVerificationOutput)
+suppressWarnings( file.copy(paste0(dirverification,'/meaning_of_visit_pregnancy.RData'), dirVerificationOutput))
+suppressWarnings(file.copy(paste0(dirverification,'/concept_set_codes_pregnancy.RData'), dirVerificationOutput))
+suppressWarnings(file.copy(paste0(dirverification,'/concept_set_codes_pregnancy_excl.RData'), dirVerificationOutput))
+suppressWarnings(file.copy(paste0(dirverification,'/sss'), dirVerificationOutput))
+file.copy(paste0(dirverification,'/itemset_AVpair_pregnancy.RData'), dirVerificationOutput)
+file.copy(paste0(dirverification,'/dictonary_of_itemset_pregnancy.RData'), dirVerificationOutput)
+file.copy(paste0(dirverification,'/itemsetMED_AVpair_pregnancy.RData'), dirVerificationOutput)
+file.copy(paste0(dirverification,'/dictonary_of_itemset_PregnancyTest.RData'), dirVerificationOutput)
 
 
 #libraries

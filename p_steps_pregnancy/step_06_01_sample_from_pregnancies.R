@@ -45,13 +45,34 @@ Dt_n_strata <- data.table(strata = c("Green_Discordant",
                                      "Yellow_Concordant",
                                      "Blue",
                                      "Red"),
-                          n = c(D3_pregnancy_reconciled_valid[strata == "Green_Discordant", .N],
-                                D3_pregnancy_reconciled_valid[strata == "Green_Concordant", .N],
-                                D3_pregnancy_reconciled_valid[strata == "Yellow_Discordant", .N],
-                                D3_pregnancy_reconciled_valid[strata == "Yellow_SlightlyDiscordant", .N],
-                                D3_pregnancy_reconciled_valid[strata == "Yellow_Concordant", .N],
-                                D3_pregnancy_reconciled_valid[strata == "Blue", .N],
-                                D3_pregnancy_reconciled_valid[strata == "Red", .N]))
+                          n = c(D3_pregnancy_reconciled_valid[strata == "Green_Discordant"& 
+                                                                year(pregnancy_start_date) <= 2019 &
+                                                                year(pregnancy_start_date) >= 2015, 
+                                                              .N],
+                                D3_pregnancy_reconciled_valid[strata == "Green_Concordant"& 
+                                                                year(pregnancy_start_date) <= 2019 &
+                                                                year(pregnancy_start_date) >= 2015, 
+                                                              .N],
+                                D3_pregnancy_reconciled_valid[strata == "Yellow_Discordant"& 
+                                                                year(pregnancy_start_date) <= 2019 &
+                                                                year(pregnancy_start_date) >= 2015,
+                                                              .N],
+                                D3_pregnancy_reconciled_valid[strata == "Yellow_SlightlyDiscordant"& 
+                                                                year(pregnancy_start_date) <= 2019 &
+                                                                year(pregnancy_start_date) >= 2015, 
+                                                              .N],
+                                D3_pregnancy_reconciled_valid[strata == "Yellow_Concordant"& 
+                                                                year(pregnancy_start_date) <= 2019 &
+                                                                year(pregnancy_start_date) >= 2015,
+                                                              .N],
+                                D3_pregnancy_reconciled_valid[strata == "Blue"& 
+                                                                year(pregnancy_start_date) <= 2019 &
+                                                                year(pregnancy_start_date) >= 2015, 
+                                                              .N],
+                                D3_pregnancy_reconciled_valid[strata == "Red"& 
+                                                                year(pregnancy_start_date) <= 2019 &
+                                                                year(pregnancy_start_date) >= 2015,
+                                                              .N]))
 
 Dt_n_strata[, sample_size := min(5, n), strata]
 
@@ -59,7 +80,9 @@ iter_row = 1
 while (sum(Dt_n_strata[, sample_size]) < 35) {
   tmp <- Dt_n_strata[iter_row, sample_size]
   if(Dt_n_strata[iter_row, sample_size]>=5){
-    Dt_n_strata[iter_row, sample_size:= tmp + 1]
+    if( Dt_n_strata[iter_row, sample_size] < Dt_n_strata[iter_row, n]){
+      Dt_n_strata[iter_row, sample_size:= tmp + 1]
+    }
   }
   iter_row = iter_row +1
   if(iter_row == 8){

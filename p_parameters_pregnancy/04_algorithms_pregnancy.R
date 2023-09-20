@@ -115,6 +115,7 @@ if (this_datasource_has_visit_occurrence_prompt)save(meaning_of_visit_pregnancy,
 save(meaning_of_survey_pregnancy, file=paste0(direxpmanuscript, "meaning_of_survey_pregnancy.RData"))
 if (this_datasource_has_visit_occurrence_prompt)save(meaning_of_visit_pregnancy, file=paste0(direxpmanuscript, "meaning_of_visit_pregnancy.RData"))
 
+if (this_datasource_has_visit_occurrence_prompt)save(meaning_of_visit_pregnancy, file=paste0(dirvalidation, "meaning_of_visit_pregnancy.RData"))
 
 if(this_datasource_has_conceptsets){
   # Saving concepsets code 
@@ -122,6 +123,10 @@ if(this_datasource_has_conceptsets){
   save(concept_set_codes_pregnancy_excl,file=paste0(direxp,"concept_set_codes_pregnancy_excl.RData"))
   save(concept_set_codes_pregnancy,file=paste0(direxpmanuscript,"concept_set_codes_pregnancy.RData"))
   save(concept_set_codes_pregnancy_excl,file=paste0(direxpmanuscript,"concept_set_codes_pregnancy_excl.RData"))
+  
+  save(concept_set_codes_pregnancy,file=paste0(dirvalidation,"concept_set_codes_pregnancy.RData"))
+  save(concept_set_codes_pregnancy_excl,file=paste0(dirvalidation,"concept_set_codes_pregnancy_excl.RData"))
+  
   save(concept_set_codes_pregnancy,file=paste0(dirsmallcountsremoved,"concept_set_codes_pregnancy.RData"))
   save(concept_set_codes_pregnancy_excl,file=paste0(dirsmallcountsremoved,"concept_set_codes_pregnancy_excl.RData"))
 }
@@ -136,6 +141,12 @@ save(itemset_AVpair_pregnancy, file=paste0(direxpmanuscript,"itemset_AVpair_preg
 save(dictonary_of_itemset_pregnancy, file=paste0(direxpmanuscript,"dictonary_of_itemset_pregnancy.RData"))
 save(itemsetMED_AVpair_pregnancy, file=paste0(direxpmanuscript,"itemsetMED_AVpair_pregnancy.RData"))
 save(dictonary_of_itemset_PregnancyTest, file=paste0(direxpmanuscript,"dictonary_of_itemset_PregnancyTest.RData"))
+
+
+save(itemset_AVpair_pregnancy, file=paste0(dirvalidation,"itemset_AVpair_pregnancy.RData"))
+save(dictonary_of_itemset_pregnancy, file=paste0(dirvalidation,"dictonary_of_itemset_pregnancy.RData"))
+save(itemsetMED_AVpair_pregnancy, file=paste0(dirvalidation,"itemsetMED_AVpair_pregnancy.RData"))
+save(dictonary_of_itemset_PregnancyTest, file=paste0(dirvalidation,"dictonary_of_itemset_PregnancyTest.RData"))
 
 if (this_datasource_has_subpopulations == TRUE){
   for (subpop in subpopulations[[thisdatasource]]){

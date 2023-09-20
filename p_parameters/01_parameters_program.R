@@ -185,6 +185,11 @@ file.copy(paste0(dirinput,'/METADATA.csv'), direxpmanuscript)
 file.copy(paste0(dirinput,'/CDM_SOURCE.csv'), direxpmanuscript)
 file.copy(paste0(dirinput,'/INSTANCE.csv'), direxpmanuscript)
 
+
+file.copy(paste0(thisdir,'/to_run.R'), dirvalidation)
+file.copy(paste0(dirinput,'/METADATA.csv'), dirvalidation)
+file.copy(paste0(dirinput,'/CDM_SOURCE.csv'), dirvalidation)
+file.copy(paste0(dirinput,'/INSTANCE.csv'), dirvalidation)
 #############################################
 #HTML files: creation 
 #############################################

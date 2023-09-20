@@ -24,6 +24,9 @@
 # - fixed bug for missing itemset "end_date"
 # - fixed bug g_verification sampling
 # - added parameters for RDRU_FISABIO
+#
+# Changelog 5.0.6, 20 September 2023
+# - added metadata in g_export_verification
 #------------------------------------------------------------------------------------------
 
 
