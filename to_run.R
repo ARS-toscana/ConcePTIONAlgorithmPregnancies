@@ -27,6 +27,9 @@
 #
 # Changelog 5.0.6, 20 September 2023
 # - added metadata in g_export_verification
+#
+# Changelog 5.0.7, 27 September 2023
+# - fixed bug with "-" symbol in create_itemset_dataset
 #------------------------------------------------------------------------------------------
 
 

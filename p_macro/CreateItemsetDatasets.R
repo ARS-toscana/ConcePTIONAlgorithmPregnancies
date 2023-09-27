@@ -209,7 +209,7 @@ CreateItemsetDatasets <- function(EAVtables,datevar,dateformat, rename_col,numer
             for (p in 1:length(EAVtables)){
               for (df2 in EAVtables[[p]][[1]][[1]]){
                 if (exists(paste0(study_var,"_",df2))){
-                  temp <- eval(parse(text = paste0(study_var,"_",df2)))
+                  temp <- get(paste0(study_var,"_",df2))
                   if(nrow(temp)!=0){
                     export_df = suppressWarnings(rbind(export_df, temp, fill = T))
                   }
