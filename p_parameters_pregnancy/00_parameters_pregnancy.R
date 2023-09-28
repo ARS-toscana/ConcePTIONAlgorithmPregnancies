@@ -30,7 +30,7 @@ datasource_with_person_rel_table <- c("EFEMERIS", "POMME",  "THL", "ARS", "FERR"
 this_datasource_has_person_rel_table <- ifelse(thisdatasource %in% datasource_with_person_rel_table, TRUE, FALSE)
 
 #datasource with prompt with child person_id
-datasource_with_prompt_child <- c("EFEMERIS", "POMME",  "THL", "RDRU_FISABIO") #@ use "TO_ADD" as example
+datasource_with_prompt_child <- c("EFEMERIS", "POMME",  "THL", "FERR", "RDRU_FISABIO") #@ use "TO_ADD" as example
 this_datasource_has_prompt_child <- ifelse(thisdatasource %in% datasource_with_prompt_child, TRUE, FALSE) 
 
 #datasource with related_id correspondig to child
