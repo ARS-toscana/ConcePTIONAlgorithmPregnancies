@@ -30,6 +30,14 @@
 #
 # Changelog 5.0.7, 27 September 2023
 # - fixed bug with "-" symbol in create_itemset_dataset
+#
+# Changelog 5.0.8, 29 September 2023
+# - added parameter for selecting pregnancies description years
+# - updated label in pregnancies_description.HTML
+#
+# Changelog 5.0.9, 5 October 2023
+# - added parameter for adjusting prediction on yellow non-LB pregnancies
+# - exported 00_parameters_pregnancy
 #------------------------------------------------------------------------------------------
 
 
@@ -108,5 +116,3 @@ source(paste0(thisdir,"/p_steps_pregnancy/step_07_01_create_aggregated_tables.R"
 source(paste0(thisdir,"/p_steps_pregnancy/step_07_02_pregnancies_description.R")) 
 source(paste0(thisdir,"/p_steps_pregnancy/step_07_04_create_aggregated_tables_for_manuscript.R")) 
 
-# 08 Export metadata in g_export_manuscript
-#source(paste0(thisdir,"/p_steps_pregnancy/step_08_01_manuscript_export.R")) 

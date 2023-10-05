@@ -64,6 +64,16 @@ gap_allowed_red_record_thisdatasource = ifelse(is.null(gap_allowed_red_record[[t
                                                gap_allowed_red_record[[thisdatasource]])
 
 
+#------------------------------------------
+# Parameter for correcting predictive model
+#------------------------------------------
+max_gestage_yellow_no_LB <- vector(mode="list")
+max_gestage_yellow_no_LB[["UOSL"]] <- 84
+
+max_gestage_yellow_no_LB_thisdatasource = ifelse(is.null(max_gestage_yellow_no_LB[[thisdatasource]]), 
+                                                 NA,
+                                                 max_gestage_yellow_no_LB[[thisdatasource]])
+
 #-------------------------------------
 # Parameter for reconciliation: maxgap
 #-------------------------------------
@@ -88,8 +98,35 @@ year_start_manuscript <- 2015
 year_end_manuscript <- 2019
 
 
+#---------------------------------
+# Parameter for description (HTML)
+#---------------------------------
+# description_period indicates the period for an extra html file 
+description_period <- vector(mode="list")
+
+description_period[["UOSL"]][["start"]] <- c(2008)
+description_period[["UOSL"]][["end"]] <-   c(2020)
 
 
+if(!is.null(description_period[[thisdatasource]])){
+  description_period_this_datasource <- vector(mode="list")
+  i <-1
+  for (period in description_period[[thisdatasource]][["start"]]) {
+    description_period_this_datasource[[as.character(i)]][["start"]] <- c(description_period_this_datasource[["start"]], 
+                                                            period)
+    i <- i+1
+  }
+  
+  i <-1
+  for (period in description_period[[thisdatasource]][["end"]]) {
+    
+    description_period_this_datasource[[as.character(i)]][["end"]] <- c(description_period_this_datasource[["end"]], 
+                                                                        period)
+    i <- i+1
+  }
+}else{
+  description_period_this_datasource <- NULL
+}
 
 
 

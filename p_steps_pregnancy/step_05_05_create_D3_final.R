@@ -167,6 +167,23 @@ if (this_datasource_has_person_rel_table){
 }
 
 
+
+
+#---------------------------------------
+# Adjusting prediction for yellow non-LB
+#---------------------------------------
+
+if(!is.na(max_gestage_yellow_no_LB_thisdatasource)){
+  D3_pregnancy_reconciled_valid[type_of_pregnancy_end != "LB" & 
+                                  highest_quality == "2_yellow" &
+                                  PROMPT == "no",
+                                pregnancy_start_date := max(pregnancy_start_date, 
+                                                            pregnancy_end_date - max_gestage_yellow_no_LB_thisdatasource), 
+                                pregnancy_id]
+  
+}
+
+
 D3_pregnancy_reconciled <- D3_pregnancy_reconciled_valid[, -c("order_quality")]
 
 D3_pregnancy_final <- D3_pregnancy_reconciled

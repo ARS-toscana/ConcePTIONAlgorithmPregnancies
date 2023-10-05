@@ -171,6 +171,7 @@ thisdatasource_has_prescriptions <- ifelse(thisdatasource %in% datasources_presc
 #SAVE METADATA TO direxp
 #############################################
 file.copy(paste0(thisdir,'/to_run.R'), direxp)
+file.copy(paste0(thisdir,'/p_parameters_pregnancy/00_parameters_pregnancy.R'), direxp)
 file.copy(paste0(dirinput,'/METADATA.csv'), direxp)
 file.copy(paste0(dirinput,'/CDM_SOURCE.csv'), direxp)
 file.copy(paste0(dirinput,'/INSTANCE.csv'), direxp)
@@ -181,6 +182,7 @@ file.copy(paste0(dirmacro,'/to_run_post_verification_script.R'), dirvalidation)
 file.copy(paste0(dirmacro,'/Report_verification_preg.Rmd'), dirvalidation)
 
 file.copy(paste0(thisdir,'/to_run.R'), direxpmanuscript)
+file.copy(paste0(thisdir,'/p_parameters_pregnancy/00_parameters_pregnancy.R'), direxpmanuscript)
 file.copy(paste0(dirinput,'/METADATA.csv'), direxpmanuscript)
 file.copy(paste0(dirinput,'/CDM_SOURCE.csv'), direxpmanuscript)
 file.copy(paste0(dirinput,'/INSTANCE.csv'), direxpmanuscript)

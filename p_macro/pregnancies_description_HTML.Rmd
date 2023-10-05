@@ -143,6 +143,28 @@ The subsequent figure shows the number of absolute pregnancies retrieved, strati
 quality_DF <- D3_pregnancy_reconciled[, order_quality := as.factor(order_quality)]
 quality_DF <- quality_DF[, .N, by = .(year_start_of_pregnancy, order_quality)]
 
+
+quality_DF[order_quality == 1, order_quality := "EUROCAT: start/end recorded"]
+quality_DF[order_quality == 2, order_quality := "PROMPT: start/end recorded"]
+quality_DF[order_quality == 3, order_quality :=	"PROMPT: start/end recorded in linked data"]
+quality_DF[order_quality == 4, order_quality :=	"CONCEPSETS: start/end recorded"]
+quality_DF[order_quality == 5, order_quality :=	"PROMPT: only end recorded"]
+quality_DF[order_quality == 6, order_quality :=	"PROMPT:  only end recorded in linked data"]
+quality_DF[order_quality == 7, order_quality :=	"CONCEPSETS: pre-term birth"]
+quality_DF[order_quality == 7, order_quality :=	"CONCEPSETS: at-term birth"]
+quality_DF[order_quality == 7, order_quality := "CONCEPSETS: post-term birth"]
+quality_DF[order_quality == 8, order_quality :=	"CONCEPSETS: live birth"]
+quality_DF[order_quality == 9, order_quality :=	"CONCEPSETS: still birth"]
+quality_DF[order_quality == 10, order_quality :=  "CONCEPSETS: interruption"]
+quality_DF[order_quality == 11, order_quality :=  "CONCEPTSETS: spontaneous abortion"]
+quality_DF[order_quality == 12, order_quality :=  "CONCEPTSETS: ectopic pregnancy"]
+quality_DF[order_quality == 13, order_quality :=  "CONCEPSETS: still birth possible"]
+quality_DF[order_quality == 14, order_quality :=  "CONCEPSETS: interruption possible"]
+quality_DF[order_quality == 15, order_quality :=  "CONCEPSETS: spontaneous abortion possible"]
+quality_DF[order_quality == 20, order_quality :=  "CONCEPTSETS: meaning implying primary care"]
+quality_DF[order_quality == 25, order_quality :=  "all Streams: blue"]
+quality_DF[order_quality == 50, order_quality :=  "all Streams: red"]
+           
 p <- ggplot(quality_DF, aes(year_start_of_pregnancy, N, fill= order_quality))+
   geom_col()+
   theme_hc()

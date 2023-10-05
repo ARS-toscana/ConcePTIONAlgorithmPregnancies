@@ -67,6 +67,13 @@ if(this_datasource_has_conceptsets){
     }
   }
   
+  # fix for ICD10ES
+  for (conceptset in concept_set_pregnancy){
+    if (concept_set_domains[[conceptset]] == "Diagnosis"){
+      concept_set_codes_pregnancy[[conceptset]][["ICD10ES"]] <- concept_set_codes_pregnancy[[conceptset]][["ICD10"]]
+    }
+  }
+  
   # fix for CIM10
   for (conceptset in concept_set_pregnancy){
     if (concept_set_domains[[conceptset]] == "Diagnosis"){
