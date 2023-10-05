@@ -1,43 +1,10 @@
 #------------------------------------------------------------------------------------------
 # ConcePTION_Algorithm_Pregnancies script
 #
-# v5.0.1 - 8 September 2022
+# v5.1.0 - 5 October 2022
 # authors: Claudia Bartolini, Rosa Gini, Giorgio Limoncella, Olga Paoletti, Davide Messina
 # 
 # link: https://github.com/ARS-toscana/ConcePTIONAlgorithmPregnancies
-#
-# Changelog 5.0.1, 8 September 2023:
-# - Update PROMPT parameters
-# - fixed bug with child-pregnancy link
-#
-# Changelog 5.0.2, 13 September 2023:
-# - added metadata and parameters in g_export_manuscript
-#
-# Changelog 5.0.3, 15 September 2023
-# - added POMME parameters
-# - fixed bug LB/SB
-#
-# Changelog 5.0.4, 18 September 2023
-# - fixed parameters for THL
-#
-# Changelog 5.0.5, 18 September 2023
-# - fixed bug for missing itemset "end_date"
-# - fixed bug g_verification sampling
-# - added parameters for RDRU_FISABIO
-#
-# Changelog 5.0.6, 20 September 2023
-# - added metadata in g_export_verification
-#
-# Changelog 5.0.7, 27 September 2023
-# - fixed bug with "-" symbol in create_itemset_dataset
-#
-# Changelog 5.0.8, 29 September 2023
-# - added parameter for selecting pregnancies description years
-# - updated label in pregnancies_description.HTML
-#
-# Changelog 5.0.9, 5 October 2023
-# - added parameter for adjusting prediction on yellow non-LB pregnancies
-# - exported 00_parameters_pregnancy
 #------------------------------------------------------------------------------------------
 
 
