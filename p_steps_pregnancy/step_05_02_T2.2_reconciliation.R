@@ -6,8 +6,10 @@ load(paste0(dirtemp,"groups_of_pregnancies.RData"))
 D3_gop <- copy(groups_of_pregnancies)
 D3_gop <- D3_gop[, pers_group_id := person_id] 
 D3_gop <- D3_gop[, highest_quality := coloured_order] 
+
 ## defining hierarchy & ordering
 if(thisdatasource == "VID"){
+  
   D3_gop<-D3_gop[origin=="PMR", hyerarchy := 1]
   D3_gop<-D3_gop[origin=="MDR", hyerarchy := 2]
   D3_gop<-D3_gop[origin=="EOS", hyerarchy := 3]
@@ -18,7 +20,28 @@ if(thisdatasource == "VID"){
                        order_quality, 
                        -record_date),]
   D3_gop<-D3_gop[, YGrecon:=0]
+  
+} else if (thisdatasource == "RDRU_FISABIO"){
+
+  D3_gop<-D3_gop[origin=="RPAC-CV1", hyerarchy := 1]
+  D3_gop<-D3_gop[origin=="RPAC-CV2", hyerarchy := 1]
+  
+  D3_gop<-D3_gop[origin=="RMPCV1", hyerarchy := 2]
+  D3_gop<-D3_gop[origin=="RMPCV2", hyerarchy := 2]
+  
+  D3_gop<-D3_gop[origin=="META-B1", hyerarchy := 3]
+  D3_gop<-D3_gop[origin=="META-B2", hyerarchy := 3]
+  
+  D3_gop<-D3_gop[is.na(hyerarchy), hyerarchy := 4]
+  
+  D3_gop<-D3_gop[order(pers_group_id, 
+                       hyerarchy, 
+                       order_quality, 
+                       -record_date),]
+  D3_gop<-D3_gop[, YGrecon:=0]
+  
 }else{
+  
   D3_gop<-D3_gop[order(pers_group_id, 
                        order_quality, 
                        -record_date),]
@@ -95,7 +118,7 @@ while (D3_gop[,.N]!=0) {
     D3_gop <- D3_gop[recon == 0, EUROCAT_next_record:= shift(EUROCAT, n = i, fill = NA, type=c("lead")), by = "pers_group_id"]
     D3_gop <- D3_gop[recon == 0, CONCEPTSETS_next_record:= shift(CONCEPTSETS, n = i, fill = NA, type=c("lead")), by = "pers_group_id"]
     
-    if(thisdatasource == "VID"){
+    if(thisdatasource == "VID" | thisdatasource == "RDRU_FISABIO"){
       D3_gop <- D3_gop[recon == 0, origin_next_record:= shift(origin, n = i, fill = NA, type=c("lead")), by = "pers_group_id"]
     }
 
@@ -339,7 +362,7 @@ while (D3_gop[,.N]!=0) {
                         type_of_pregnancy_end != "LB" & type_of_pregnancy_end_next_record == "LB",
                       `:=`(type_of_pregnancy_end = "LB")]
     
-    if(thisdatasource == "VID"){
+    if(thisdatasource == "VID" | thisdatasource == "RDRU_FISABIO"){
       D3_gop <- D3_gop[ n == 1 & new_group_next_record != 1 & recon == 0 &  coloured_order == "1_green" & coloured_order_next_record == "1_green" & 
                           start_diff == 0 & end_diff == 0,
                         `:=`(algorithm_for_reconciliation = paste0(algorithm_for_reconciliation, 
@@ -405,7 +428,7 @@ while (D3_gop[,.N]!=0) {
     
     
     #### Yellow - Green
-    if(thisdatasource == "VID"){
+    if(thisdatasource == "VID" | thisdatasource == "RDRU_FISABIO"){
       
       
       D3_gop <- D3_gop[n == 1 & new_group_next_record != 1 &  recon == 0 & YGrecon == 0 &

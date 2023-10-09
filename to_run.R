@@ -10,6 +10,7 @@
 # - fixed description for DAPs without person_rel table
 # - fixed bug related to library(forcats)
 # - fixed ".N" typo in post verification script
+# - added hierarchy for RDRU_FISABIO
 #------------------------------------------------------------------------------------------
 
 
