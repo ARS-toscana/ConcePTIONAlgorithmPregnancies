@@ -6,7 +6,11 @@ print("Creating HTML files for descriptions ")
 #loading the datasets
 load(paste0(dirtemp,"D3_pregnancy_reconciled_valid.RData"))
 load(paste0(dirtemp,"D3_groups_of_pregnancies_reconciled.RData"))
-load(paste0(diroutput,"D3_mother_child_ids.RData"))
+if(this_datasource_has_person_rel_table){
+  load(paste0(diroutput,"D3_mother_child_ids.RData"))
+}else{
+  D3_mother_child_ids <- data.table()
+}
 
 #rendering the file
 render(paste0(dirmacro,"pregnancies_description_HTML.Rmd"),           

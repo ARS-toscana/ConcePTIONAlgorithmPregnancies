@@ -5,6 +5,11 @@
 # authors: Claudia Bartolini, Rosa Gini, Giorgio Limoncella, Olga Paoletti, Davide Messina
 # 
 # link: https://github.com/ARS-toscana/ConcePTIONAlgorithmPregnancies
+#
+# changelog 5.1.1:
+# - fixed description for DAPs without person_rel table
+# - fixed bug related to library(forcats)
+# - fixed ".N" typo in post verification script
 #------------------------------------------------------------------------------------------
 
 

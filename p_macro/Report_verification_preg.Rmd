@@ -37,6 +37,9 @@ if (!require("magrittr")) install.packages("magrittr")
 library(magrittr)
 if (!require("multipanelfigure")) install.packages("multipanelfigure")
 library(multipanelfigure)
+if (!require("forcats")) install.packages("forcats")
+library(forcats)
+
 
 `%notin%` <- Negate(`%in%`)
 
@@ -936,7 +939,7 @@ if(ntmp_validated >= 5){
 ```{r Yellow_slightly}
 ntmp_validated <- 0
 if("Yellow_Concordant" %in% unique(DT_recon$strata)){
-  ntmp <- DT_recon[strata == "Yellow_CP_SlightlyDiscordant", N]
+  ntmp <- DT_recon[strata == "Yellow_CP_SlightlyDiscordant", .N]
   ntmp_validated <- sample_validated[sample == "Yellow_SlightlyDiscordant", .N]
   if(ntmp > 0){
     includ <- TRUE
