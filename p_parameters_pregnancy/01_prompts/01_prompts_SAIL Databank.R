@@ -17,7 +17,7 @@ meaning_of_survey_pregnancy[["SAIL Databank"]][["other"]]<-list()
 
 meaning_of_relationship_child  <- vector(mode="list")
 
-meaning_of_relationship_child[["SAIL Databank"]] <- list("birth_mother")
+meaning_of_relationship_child[["SAIL Databank"]] <- list("birth_mother", "gestational_mother")
 
 ####### LOAD MEANING_OF_VISIT for TO_ADD
 
