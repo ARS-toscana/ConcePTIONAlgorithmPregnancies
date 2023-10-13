@@ -34,7 +34,7 @@ datasource_with_prompt_child <- c("EFEMERIS", "POMME",  "THL", "FERR", "RDRU_FIS
 this_datasource_has_prompt_child <- ifelse(thisdatasource %in% datasource_with_prompt_child, TRUE, FALSE) 
 
 #datasource with related_id correspondig to child
-datasource_with_related_id_correspondig_to_child <- c("THL", "SAIL Databank")
+datasource_with_related_id_correspondig_to_child <- c("THL")
 this_datasource_has_related_id_correspondig_to_child <- ifelse(thisdatasource %in% datasource_with_related_id_correspondig_to_child, TRUE, FALSE) 
 
 #datasources that use predictive model to estimate start of pregnancies
