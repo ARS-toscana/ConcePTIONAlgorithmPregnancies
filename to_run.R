@@ -14,6 +14,9 @@
 #
 # changelog 5.1.2:
 # - updated parameters for SAIL 
+#
+# changelog 5.1.3:
+# - updated parameters for DANREG
 #------------------------------------------------------------------------------------------
 
 

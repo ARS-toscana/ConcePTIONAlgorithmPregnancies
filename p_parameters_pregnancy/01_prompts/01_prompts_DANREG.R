@@ -9,7 +9,7 @@
 
 meaning_of_survey_pregnancy <- vector(mode="list")
 
-meaning_of_survey_pregnancy[["DANREG"]][["livebirth_or_stillbirth"]]<-list("birth_registry")
+meaning_of_survey_pregnancy[["DANREG"]][["livebirth_or_stillbirth"]]<-list("birth_registry_mother")
 meaning_of_survey_pregnancy[["DANREG"]][["ongoing_pregnancy"]]<-list()
 meaning_of_survey_pregnancy[["DANREG"]][["spontaneous_abortion"]]<-list()
 meaning_of_survey_pregnancy[["DANREG"]][["induced_termination"]]<-list()
@@ -25,5 +25,6 @@ meaning_of_visit_pregnancy[["DANREG"]]<-list()
 meaning_of_survey_pregnancy_child <- vector(mode="list")
 meaning_of_relationship_child <- vector(mode="list")
 
-meaning_of_survey_pregnancy_child[["DANREG"]] <- NA
-meaning_of_relationship_child[["DANREG"]] <- NA
+meaning_of_survey_pregnancy_child[["DANREG"]][["livebirth_or_stillbirth"]]<-list("birth_registry_child")
+meaning_of_relationship_child[["DANREG"]] <- list("birth_mother")
+
