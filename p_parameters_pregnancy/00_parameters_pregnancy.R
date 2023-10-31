@@ -59,9 +59,11 @@ gap_allowed_red_record[["UOSL"]] <- 56
 
 #gap_allowed_red_record[["TO_ADD"]] <- 
 
-gap_allowed_red_record_thisdatasource = ifelse(is.null(gap_allowed_red_record[[thisdatasource]]), 
-                                               56,
-                                               gap_allowed_red_record[[thisdatasource]])
+gap_allowed_red_record_thisdatasource = ifelse(
+  is.null(gap_allowed_red_record[[thisdatasource]]),
+  56,
+  gap_allowed_red_record[[thisdatasource]]
+  )
 
 
 #------------------------------------------
@@ -70,9 +72,10 @@ gap_allowed_red_record_thisdatasource = ifelse(is.null(gap_allowed_red_record[[t
 max_gestage_yellow_no_LB <- vector(mode="list")
 max_gestage_yellow_no_LB[["UOSL"]] <- 84
 
-max_gestage_yellow_no_LB_thisdatasource = ifelse(is.null(max_gestage_yellow_no_LB[[thisdatasource]]), 
-                                                 NA,
-                                                 max_gestage_yellow_no_LB[[thisdatasource]])
+max_gestage_yellow_no_LB_thisdatasource = ifelse(
+  is.null(max_gestage_yellow_no_LB[[thisdatasource]]),
+  NA,
+  max_gestage_yellow_no_LB[[thisdatasource]])
 
 #-------------------------------------
 # Parameter for reconciliation: maxgap
@@ -81,6 +84,28 @@ max_gestage_yellow_no_LB_thisdatasource = ifelse(is.null(max_gestage_yellow_no_L
 #'  are implausible, it is set at 28 days
 maxgap <- 28
 
+# max gap for specific meaning
+maxgap_specific_meanings <- vector(mode="list")
+
+maxgap_specific_meanings[["UOSL"]] <- 168
+
+maxgap_specific_meanings_thisdatasource = ifelse(
+  is.null(maxgap_specific_meanings[[thisdatasource]]),
+  NA,
+  maxgap_specific_meanings[[thisdatasource]]
+  )
+
+# max gap for specific meaning
+list_of_meanings_with_specific_maxgap <- vector(mode="list")
+
+list_of_meanings_with_specific_maxgap[["UOSL"]] <- c("primary_care_diagnosis",
+                                                      "hospitalisation_primary")
+
+list_of_meanings_with_specific_maxgap_thisdatasource = ifelse(
+  is.null(list_of_meanings_with_specific_maxgap[[thisdatasource]]),
+  NA,
+  list_of_meanings_with_specific_maxgap[[thisdatasource]]
+  )
 
 
 # Define paramters for DummyTables
@@ -112,16 +137,20 @@ if(!is.null(description_period[[thisdatasource]])){
   description_period_this_datasource <- vector(mode="list")
   i <-1
   for (period in description_period[[thisdatasource]][["start"]]) {
-    description_period_this_datasource[[as.character(i)]][["start"]] <- c(description_period_this_datasource[["start"]], 
-                                                            period)
+    description_period_this_datasource[[as.character(i)]][["start"]] <- c(
+      description_period_this_datasource[["start"]], 
+      period
+      )
     i <- i+1
   }
   
   i <-1
   for (period in description_period[[thisdatasource]][["end"]]) {
     
-    description_period_this_datasource[[as.character(i)]][["end"]] <- c(description_period_this_datasource[["end"]], 
-                                                                        period)
+    description_period_this_datasource[[as.character(i)]][["end"]] <- c(
+      description_period_this_datasource[["end"]], 
+      period
+      )
     i <- i+1
   }
 }else{

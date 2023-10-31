@@ -17,7 +17,7 @@ if(this_datasource_has_conceptsets){
   for (conceptvar in concept_sets_of_start_of_pregnancy_UNK){
     cat(paste0(conceptvar, "\n"))
     studyvardataset <- get(conceptvar)[!is.na(date),][,concept_set:=conceptvar]
-    studyvardataset <- unique(studyvardataset,by=c("person_id","codvar","date"))
+    #studyvardataset <- unique(studyvardataset,by=c("person_id","codvar","date"))
     dataset_start_concept_sets <- rbind(dataset_start_concept_sets,
                                         studyvardataset[,.(person_id,
                                                            date, 
@@ -30,7 +30,7 @@ if(this_datasource_has_conceptsets){
   }
   
   # check if dataset is unique for person_id, survey_id and survey_date
-  dataset_start_concept_sets<-unique(dataset_start_concept_sets, by=c("person_id","visit_occurrence_id","date","concept_set")) 
+  #dataset_start_concept_sets<-unique(dataset_start_concept_sets, by=c("person_id","visit_occurrence_id","date","concept_set")) 
   
   # Defining concept specific start dates
   dataset_start_concept_sets <- dataset_start_concept_sets[concept_set == "Gestation_less24_UNK", pregnancy_start_date := date - (154)]
@@ -85,7 +85,7 @@ if(this_datasource_has_conceptsets){
   for (conceptvar in concept_sets_of_start_of_pregnancy_LB){
     cat(paste0(conceptvar, "\n"))
     studyvardataset <- get(conceptvar)[!is.na(date),][,concept_set:=conceptvar]
-    studyvardataset <- unique(studyvardataset,by=c("person_id","codvar","date"))
+    #studyvardataset <- unique(studyvardataset,by=c("person_id","codvar","date"))
     dataset_start_LB_concept_sets <- rbind(dataset_start_LB_concept_sets,
                                         studyvardataset[,.(person_id,
                                                            date,
@@ -98,7 +98,7 @@ if(this_datasource_has_conceptsets){
   }
   
   # check if dataset is unique for person_id, survey_id and survey_date
-  dataset_start_LB_concept_sets<-unique(dataset_start_LB_concept_sets, by=c("person_id","visit_occurrence_id","date","concept_set"))
+  #dataset_start_LB_concept_sets<-unique(dataset_start_LB_concept_sets, by=c("person_id","visit_occurrence_id","date","concept_set"))
   
   # Defining concept specific start dates
   dataset_start_LB_concept_sets <- dataset_start_LB_concept_sets[concept_set == "Gestation_less24_LB", pregnancy_start_date := date - (154  )]
@@ -162,7 +162,7 @@ if(this_datasource_has_conceptsets){
   for (conceptvar in concept_sets_of_ongoing_of_pregnancy_final){ 
     cat(paste0(conceptvar, "\n"))
     studyvardataset <- get(conceptvar)[!is.na(date),][,concept_set:=conceptvar]
-    studyvardataset <- unique(studyvardataset,by=c("person_id","codvar","date"))
+    #studyvardataset <- unique(studyvardataset,by=c("person_id","codvar","date"))
     
     if(concept_set_domains[[conceptvar]] == "Diagnosis"){
       dataset_ongoing_concept_sets <- rbind(dataset_ongoing_concept_sets,
@@ -189,7 +189,7 @@ if(this_datasource_has_conceptsets){
   }
   
   # check if dataset is unique for person_id, survey_id and survey_date
-  dataset_ongoing_concept_sets<-unique(dataset_ongoing_concept_sets, by=c("person_id","visit_occurrence_id","date","concept_set")) 
+  #dataset_ongoing_concept_sets<-unique(dataset_ongoing_concept_sets, by=c("person_id","visit_occurrence_id","date","concept_set")) 
   
   # defining start dates
   dataset_ongoing_concept_sets <- dataset_ongoing_concept_sets[, pregnancy_start_date := date - (55)]
@@ -246,7 +246,7 @@ if(this_datasource_has_conceptsets){
   for (conceptvar in concept_sets_of_end_of_pregnancy_LB_final){ 
     cat(paste0(conceptvar, "\n"))
     studyvardataset <- get(conceptvar)[!is.na(date),][,concept_set:=conceptvar]
-    studyvardataset <- unique(studyvardataset,by=c("person_id","codvar","date"))
+    #studyvardataset <- unique(studyvardataset,by=c("person_id","codvar","date"))
     
     if(concept_set_domains[[conceptvar]] == "Diagnosis"){
       dataset_LB_concept_sets <- rbind(dataset_LB_concept_sets,
@@ -273,7 +273,7 @@ if(this_datasource_has_conceptsets){
   }
   
   # check if dataset is unique for person_id, survey_id and survey_date
-  dataset_LB_concept_sets <-unique( dataset_LB_concept_sets, by=c("person_id","visit_occurrence_id","date","concept_set")) 
+  #dataset_LB_concept_sets <-unique( dataset_LB_concept_sets, by=c("person_id","visit_occurrence_id","date","concept_set")) 
   
   # defining end dates
   dataset_LB_concept_sets <- dataset_LB_concept_sets[, pregnancy_end_date := date]
@@ -326,7 +326,7 @@ if(this_datasource_has_conceptsets){
   for (conceptvar in concept_sets_of_end_of_pregnancy_UNK  ){ 
     cat(paste0(conceptvar, "\n"))
     studyvardataset <- get(conceptvar)[!is.na(date),][,concept_set:=conceptvar]
-    studyvardataset <- unique(studyvardataset,by=c("person_id","codvar","date"))
+    #studyvardataset <- unique(studyvardataset,by=c("person_id","codvar","date"))
     
     if(concept_set_domains[[conceptvar]] == "Diagnosis"){
       dataset_end_UNK_concept_sets <- rbind(dataset_end_UNK_concept_sets,
@@ -353,7 +353,7 @@ if(this_datasource_has_conceptsets){
   }
   
   # check if dataset is unique for person_id, survey_id and survey_date
-  dataset_end_UNK_concept_sets <-unique( dataset_end_UNK_concept_sets, by=c("person_id","visit_occurrence_id","date","concept_set")) 
+  #dataset_end_UNK_concept_sets <-unique( dataset_end_UNK_concept_sets, by=c("person_id","visit_occurrence_id","date","concept_set")) 
   
   # defining end dates
   dataset_end_UNK_concept_sets <- dataset_end_UNK_concept_sets[, pregnancy_end_date := date]
@@ -402,7 +402,7 @@ if(this_datasource_has_conceptsets){
   for (conceptvar in concept_sets_of_end_of_pregnancy_UNF){ 
     cat(paste0(conceptvar, "\n"))
     studyvardataset <- get(conceptvar)[!is.na(date),][,concept_set:=conceptvar]
-    studyvardataset <- unique(studyvardataset,by=c("person_id","codvar","date"))
+    #studyvardataset <- unique(studyvardataset,by=c("person_id","codvar","date"))
     
     if(concept_set_domains[[conceptvar]] == "Diagnosis"){
       dataset_UNF_concept_sets <- rbind(dataset_UNF_concept_sets,
@@ -429,7 +429,7 @@ if(this_datasource_has_conceptsets){
   }
   
   # check if dataset is unique for person_id, survey_id and survey_date
-  dataset_UNF_concept_sets <-unique(dataset_UNF_concept_sets, by=c("person_id","visit_occurrence_id","date","concept_set")) 
+  #dataset_UNF_concept_sets <-unique(dataset_UNF_concept_sets, by=c("person_id","visit_occurrence_id","date","concept_set")) 
   
   # defining end dates
   dataset_UNF_concept_sets <- dataset_UNF_concept_sets[, pregnancy_end_date := date]
@@ -487,7 +487,7 @@ if(this_datasource_has_conceptsets){
   for (conceptvar in concept_sets_of_end_of_pregnancy_T_SA_SB_ECT_final){ 
     cat(paste0(conceptvar, "\n"))
     studyvardataset <- get(conceptvar)[!is.na(date),][,concept_set:=conceptvar]
-    studyvardataset <- unique(studyvardataset,by=c("person_id","codvar","date"))
+    #studyvardataset <- unique(studyvardataset,by=c("person_id","codvar","date"))
     
     if(concept_set_domains[[conceptvar]] == "Diagnosis"){
       dataset_SB_T_SA_ECT_concept_sets <- rbind(dataset_SB_T_SA_ECT_concept_sets,
@@ -514,7 +514,7 @@ if(this_datasource_has_conceptsets){
   }
   
   # check if dataset is unique for person_id, survey_id and survey_date
-  dataset_SB_T_SA_ECT_concept_sets <-unique(dataset_SB_T_SA_ECT_concept_sets, by=c("person_id", "visit_occurrence_id", "date",   "concept_set")) 
+  #dataset_SB_T_SA_ECT_concept_sets <-unique(dataset_SB_T_SA_ECT_concept_sets, by=c("person_id", "visit_occurrence_id", "date",   "concept_set")) 
   
   # defining end dates
   dataset_SB_T_SA_ECT_concept_sets <- dataset_SB_T_SA_ECT_concept_sets[, pregnancy_end_date := date]

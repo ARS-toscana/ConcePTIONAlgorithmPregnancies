@@ -295,7 +295,7 @@ if(model_condition){
   DT_red_model = DT_red_yellow_model[coloured_order == '4_red']
   
   predict_yellow <- predict(RF_yellow, DT_yellow_model)
-  predict_red <- predict(RF_yellow, DT_red_model)
+  predict_red <- predict(RF_red, DT_red_model)
   
   DT_yellow_model[, predicted_day_from_start := as.integer(predict_yellow$predictions)]
   DT_red_model[, predicted_day_from_start := as.integer(predict_red$predictions)]
@@ -391,15 +391,15 @@ if(model_condition){
       setnames(D3_group_model, column, "tmp_column")
       
       D3_group_model[highest_quality == "4_red" & number_red > 1, 
-                                                      tmp_column_new := shift(tmp_column, 
-                                                                              n = record_selected -1,
-                                                                              type=c("lead")), 
-                                                      by = "pregnancy_id"]
+                     tmp_column_new := shift(tmp_column, 
+                                             n = record_selected -1,
+                                             type=c("lead")), 
+                     by = "pregnancy_id"]
       
       D3_group_model[is.na(tmp_column_new), tmp_column_new := tmp_column]
       
-      D3_group_model[highest_quality == "4_red" & n ==1 & number_red > 1, 
-                                                      tmp_column := tmp_column_new]
+      D3_group_model[highest_quality == "4_red" & n ==1 & number_red > 1,
+                     tmp_column := tmp_column_new]
     
       D3_group_model <- D3_group_model[, -c("tmp_column_new")]
       
@@ -407,32 +407,6 @@ if(model_condition){
     }
   }
 }
-
-#------------------------------
-# check start/end red records
-#------------------------------
-# start
-D3_group_model[highest_quality == "4_red", 
-               pregnancy_start_date := min(date_of_oldest_record - 14, 
-                                           pregnancy_start_date), 
-               pregnancy_id]
-
-D3_group_model[!is.na(pregnancy_start_date_predicted) & highest_quality == "4_red", 
-              pregnancy_start_date_predicted := min(date_of_oldest_record - 14, 
-                                                    pregnancy_start_date_predicted), 
-              pregnancy_id]
-
-# end
-D3_group_model[highest_quality == "4_red", 
-               pregnancy_end_date := max(date_of_most_recent_record, 
-                                         pregnancy_end_date), 
-               pregnancy_id]
-
-
-D3_group_model[!is.na(pregnancy_end_date_predicted) & highest_quality == "4_red", 
-               pregnancy_end_date_predicted := max(date_of_most_recent_record, 
-                                                   pregnancy_end_date_predicted), 
-               pregnancy_id]
 
 #---------------------------------
 # creating D3_pregnancy_reconciled
@@ -444,8 +418,6 @@ D3_group_model[is.na(date_of_principal_record), date_of_principal_record:=0]
 D3_group_model[, date_of_principal_record:= max(date_of_principal_record),  by = "pregnancy_id" ]
 
 D3_group_model[is.na(type_of_pregnancy_end), type_of_pregnancy_end := "UNK"]
-
-
 
 
 
@@ -471,16 +443,32 @@ D3_pregnancy_model[, gestage_at_first_record := date_of_oldest_record - pregnanc
 # This datasource use prediction
 #--------------------------------
 if(!this_datasource_do_not_use_prediction_on_red){
-  D3_pregnancy_model[!is.na(pregnancy_start_date_predicted), 
+                 
+  D3_pregnancy_model[(highest_quality == "4_red" | highest_quality == "2_yellow"),  
                      pregnancy_start_date := max(pregnancy_start_date_predicted, 
-                                                 record_date - 280), 
+                                                 record_date - 300), 
                      pregnancy_id]
   
-  D3_pregnancy_model[!is.na(pregnancy_end_date_predicted) & (highest_quality == "4_red" | highest_quality == "3_blue"), 
+  D3_pregnancy_model[(highest_quality == "4_red" | highest_quality == "3_blue"), 
                      pregnancy_end_date := min(pregnancy_end_date_predicted, 
-                                               pregnancy_start_date + 280), 
+                                               pregnancy_start_date + 300), 
                      pregnancy_id]
 }
+
+
+#------------------------------
+# check start/end red records
+#------------------------------
+
+D3_pregnancy_model[highest_quality == "4_red", 
+                   pregnancy_start_date := min(date_of_oldest_record - 14, 
+                                               pregnancy_start_date), 
+                   pregnancy_id]
+
+D3_pregnancy_model[highest_quality == "4_red", 
+                   pregnancy_end_date := max(date_of_most_recent_record, 
+                                             pregnancy_end_date), 
+                   pregnancy_id]
 
 #-------
 # LOSTFU

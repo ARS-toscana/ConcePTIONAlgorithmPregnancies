@@ -17,6 +17,10 @@
 #
 # changelog 5.1.3:
 # - updated parameters for DANREG
+# - removed "unique" for record with same date, code and conceptsets
+# - fix bug on predictive model
+# - added parameter: maxgap_specific_meanings
+# - fixed directories BIFAP
 #------------------------------------------------------------------------------------------
 
 
@@ -94,4 +98,3 @@ source(paste0(thisdir,"/p_steps_pregnancy/step_06_01_sample_from_pregnancies.R")
 source(paste0(thisdir,"/p_steps_pregnancy/step_07_01_create_aggregated_tables.R")) 
 source(paste0(thisdir,"/p_steps_pregnancy/step_07_02_pregnancies_description.R")) 
 source(paste0(thisdir,"/p_steps_pregnancy/step_07_04_create_aggregated_tables_for_manuscript.R")) 
-

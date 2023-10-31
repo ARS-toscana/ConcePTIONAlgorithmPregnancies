@@ -124,7 +124,7 @@ D3_pregnancy_reconciled_valid <- D3_pregnancy_reconciled_valid[, .(pregnancy_id,
 #save(D3_excluded_pregnancies, file=paste0(dirtemp,"D3_excluded_pregnancies.RData"))
 
 if (thisdatasource == "BIFAP"){
-  fwrite(D3_pregnancy_reconciled, paste0(dirvalidation, "/D3_pregnancy_reconciled.csv"))
+  fwrite(D3_pregnancy_reconciled_valid, paste0(dirvalidation, "/D3_pregnancy_reconciled.csv"))
 }
 
 #--------------------------
