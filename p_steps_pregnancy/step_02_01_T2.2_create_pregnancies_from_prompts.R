@@ -245,6 +245,10 @@ if (this_datasource_has_prompt) {
 
 
     # classified DATEENDPREGNANCY with TYPE
+    if (thisdatasource=="DANREG"){
+      dataset_pregnancies2[, type_of_pregnancy_end:="LB"]
+    }
+    
     if (thisdatasource=="PHARMO"){
       
       dataset_pregnancies2[pregnancy_end_date==DATEENDPREGNANCY & TYPE%in%unlist(dictonary_of_itemset_pregnancy_this_datasource[["LB"]]),type_of_pregnancy_end:="LB"]
@@ -264,9 +268,7 @@ if (this_datasource_has_prompt) {
                              TYPE%in%unlist(dictonary_of_itemset_pregnancy_this_datasource[["UNK"]]) & 
                              is.na(DATESTARTPREGNANCY)
                            ,type_of_pregnancy_end:="UNK"]
-    }
-    
-    if (thisdatasource=="UOSL"){
+    } else if (thisdatasource=="UOSL"){
       
       dataset_pregnancies2[pregnancy_end_date==DATEENDPREGNANCY & TYPE%in%unlist(dictonary_of_itemset_pregnancy_this_datasource[["LB"]]),type_of_pregnancy_end:="LB"]
       dataset_pregnancies2[pregnancy_end_date==DATEENDPREGNANCY & TYPE%in%unlist(dictonary_of_itemset_pregnancy_this_datasource[["T"]]) ,type_of_pregnancy_end:="T"]

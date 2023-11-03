@@ -103,7 +103,7 @@ itemset_AVpair_pregnancy[["END_ABORTION_CHILD"]][[files[i]]][["DANREG"]] <- list
 
 ############################# TYPE #############################################
 
-itemset_AVpair_pregnancy[["TYPE_CHILD"]][[files[i]]][["DANREG"]] <- list()
+itemset_AVpair_pregnancy[["TYPE_CHILD"]][[files[i]]][["DANREG"]] <- list(list("mfr_nyfoedte", "LEVENDEFOEDTDOEDFOEDT"))
 
 
 
@@ -114,8 +114,8 @@ itemset_AVpair_pregnancy[["TYPE_CHILD"]][[files[i]]][["DANREG"]] <- list()
 #-------------------------------------------------------------------------------
 ########################### DICTINARY OF TYPE ##################################
 
-dictonary_of_itemset_pregnancy[["TYPE"]][["DANREG"]][["LB"]]<-list()
-dictonary_of_itemset_pregnancy[["TYPE"]][["DANREG"]][["SB"]]<-list()
+dictonary_of_itemset_pregnancy[["TYPE"]][["DANREG"]][["LB"]]<-list(list("mfr_nyfoedte", "1"))
+dictonary_of_itemset_pregnancy[["TYPE"]][["DANREG"]][["SB"]]<-list(list("mfr_nyfoedte", "2"))
 dictonary_of_itemset_pregnancy[["TYPE"]][["DANREG"]][["SA"]]<-list()
 dictonary_of_itemset_pregnancy[["TYPE"]][["DANREG"]][["T"]]<-list()
 dictonary_of_itemset_pregnancy[["TYPE"]][["DANREG"]][["MD"]]<-list()
