@@ -132,6 +132,9 @@ if (thisdatasource == "BIFAP"){
 #--------------------------
 if (this_datasource_has_person_rel_table){
   D3_mother_child_ids <- D3_groups_of_pregnancies_reconciled[!is.na(child_id)]
+  
+  D3_mother_child_ids <- D3_mother_child_ids[pregnancy_id %in% D3_pregnancy_reconciled_valid[, pregnancy_id]]
+  
   D3_mother_child_ids <- D3_mother_child_ids[, .(person_id,
                                                  child_id,
                                                  pregnancy_id)]

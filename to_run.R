@@ -22,6 +22,7 @@
 # - fixed directories BIFAP
 # - added description of gestational age in html files
 # - fix gestational age values for SAIL (0, 99 -> NA)
+# - updated SAIL condition for legally included pregnancies
 # - added parameters for DANREG
 #------------------------------------------------------------------------------------------
 

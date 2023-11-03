@@ -100,7 +100,7 @@ if(this_datasource_has_conceptsets){
 # Legally included 
 
 legally_included_pregnancies_dap_list <- vector(mode="list")
-legally_included_pregnancies_dap_list[["SAIL Databank"]] <- "EUROCAT == 'yes' | !((pregnancy_end_date - pregnancy_start_date < 24*7) & (type_of_pregnancy_end != 'LB'))"
+legally_included_pregnancies_dap_list[["SAIL Databank"]] <- "(EUROCAT == 'yes' | !((pregnancy_end_date - pregnancy_start_date < 24*7) & (type_of_pregnancy_end != 'LB')) ) & type_of_pregnancy_end != 'ECT' "
 
 #UNK of 25 week of gestational age is included
 
