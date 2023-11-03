@@ -273,7 +273,7 @@ plot
 
 
 
-### Type of pregnancies end 
+## Quality by type of pregnancies end 
 
 
 The same analysis is done for each different types of end of pregnancy, which are:
@@ -485,6 +485,41 @@ plot}
 
 
 <br/><br/><br/><br/>
+
+
+---
+
+## Gestational age distribution 
+
+---
+
+<br/>
+
+For each pregnancy the difference (in days) between the date of end, and the date of start of pregnancy is calculated.
+The sebsequent graphs show the distribution of the gestational age stratified by type of end of pregnancy.
+
+
+```{r gestationa_age_plot}
+gest_DT <- D3_pregnancy_reconciled[, gestational_age := pregnancy_end_date - pregnancy_start_date]
+
+gest_DT <- gest_DT[, year_start_of_pregnancy := as.factor(year_start_of_pregnancy)]
+
+p <- ggplot(gest_DT, aes(x = gestational_age, 
+                         group = type_of_pregnancy_end, 
+                         fill = type_of_pregnancy_end, 
+                         col = type_of_pregnancy_end))+
+  geom_density(alpha = 0.7, na.rm = TRUE)+
+  scale_x_continuous(name="Gestational Age ", limits=c(0, 300))+
+  #facet_grid(type_of_pregnancy_end~.)+
+  theme_hc()
+
+plot <- ggplotly(p)
+plot
+
+```
+
+<br/><br/><br/><br/>
+
 
 ---
 

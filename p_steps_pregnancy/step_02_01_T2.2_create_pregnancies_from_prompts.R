@@ -89,6 +89,20 @@ if (this_datasource_has_prompt) {
     
     ## HANDLE EXCEPTION FOR DAPs
     # transform to NA incorrect values'
+    if(thisdatasource == 'SAIL Databank'){
+      dataset_pregnancies0<-dataset_pregnancies0[GESTAGE_FROM_DAPS_CRITERIA_WEEKS==99, 
+                                                 GESTAGE_FROM_DAPS_CRITERIA_WEEKS:=NA]
+      
+      dataset_pregnancies0<-dataset_pregnancies0[GESTAGE_FROM_DAPS_CRITERIA_WEEKS==0, 
+                                                 GESTAGE_FROM_DAPS_CRITERIA_WEEKS:=NA]
+      
+      dataset_pregnancies0<-dataset_pregnancies0[GESTAGE_FROM_USOUNDS_WEEKS==99, 
+                                                 GESTAGE_FROM_USOUNDS_WEEKS:=NA]
+      
+      dataset_pregnancies0<-dataset_pregnancies0[GESTAGE_FROM_USOUNDS_WEEKS==0,
+                                                 GESTAGE_FROM_USOUNDS_WEEKS:=NA]
+    }
+    
     if(thisdatasource=="ARS" | thisdatasource=="TEST"){
       dataset_pregnancies0<-dataset_pregnancies0[GESTAGE_FROM_LMP_WEEKS==99,GESTAGE_FROM_LMP_WEEKS:=NA]
       dataset_pregnancies0<-dataset_pregnancies0[GESTAGE_FROM_USOUNDS_WEEKS==99,GESTAGE_FROM_USOUNDS_WEEKS:=NA]

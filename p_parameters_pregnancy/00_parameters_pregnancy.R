@@ -99,7 +99,13 @@ maxgap_specific_meanings_thisdatasource = ifelse(
 list_of_meanings_with_specific_maxgap <- vector(mode="list")
 
 list_of_meanings_with_specific_maxgap[["UOSL"]] <- c("primary_care_diagnosis",
-                                                      "hospitalisation_primary")
+                                                      "primary_care")
+
+# primary_care from ETL
+#
+# from level check:
+# primary_care in 'VISITS'
+# primary_care_diagnosis in 'EVENTS'
 
 list_of_meanings_with_specific_maxgap_thisdatasource = ifelse(
   is.null(list_of_meanings_with_specific_maxgap[[thisdatasource]]),

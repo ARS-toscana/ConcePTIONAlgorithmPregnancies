@@ -16,11 +16,12 @@
 # - updated parameters for SAIL 
 #
 # changelog 5.1.3:
-# - updated parameters for DANREG
 # - removed "unique" for record with same date, code and conceptsets
 # - fix bug on predictive model
 # - added parameter: maxgap_specific_meanings
 # - fixed directories BIFAP
+# - added description of gestational age in html files
+# - fix gestational age values for SAIL (0, 99 -> NA)
 #------------------------------------------------------------------------------------------
 
 
