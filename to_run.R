@@ -24,6 +24,9 @@
 # - fix gestational age values for SAIL (0, 99 -> NA)
 # - updated SAIL condition for legally included pregnancies
 # - added parameters for DANREG
+#
+# changelog 5.1.4:
+# - fixed bug blue record
 #------------------------------------------------------------------------------------------
 
 

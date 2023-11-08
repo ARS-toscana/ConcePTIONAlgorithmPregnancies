@@ -133,11 +133,10 @@ groups_of_pregnancies<-groups_of_pregnancies[is.na(coloured_order) &
                                                imputed_end_of_pregnancy==1,
                                              coloured_order:="3_blue"]
 
-groups_of_pregnancies<-groups_of_pregnancies[!is.na(pregnancy_ongoing_date) |
-                                               (!is.na(pregnancy_start_date) &
+groups_of_pregnancies<-groups_of_pregnancies[!is.na(pregnancy_start_date) &
                                                   !is.na(pregnancy_end_date) & 
                                                   imputed_start_of_pregnancy==1 &
-                                                  imputed_end_of_pregnancy==1),
+                                                  imputed_end_of_pregnancy==1,
                                              coloured_order:="4_red"]
 
 table(groups_of_pregnancies[,coloured_order], useNA = "ifany")
