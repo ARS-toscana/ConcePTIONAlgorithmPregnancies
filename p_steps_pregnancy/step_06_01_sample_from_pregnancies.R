@@ -115,6 +115,10 @@ original_sample <- original_sample[, link := seq_along(.I) ]
 sample_id <- original_sample[, pregnancy_id]
 
 record_sample <- D3_groups_of_pregnancies_reconciled[pregnancy_id %in% sample_id, .(person_id, pregnancy_id, survey_id, visit_occurrence_id, child_id)]
+
+record_sample <- record_sample[, survey_id := as.character(survey_id)]
+record_sample <- record_sample[, visit_occurrence_id := as.character(visit_occurrence_id)]
+
 record_sample <- record_sample[, survey_visit_id := survey_id]
 record_sample <- record_sample[is.na(survey_id), survey_visit_id := visit_occurrence_id]
 if(this_datasource_has_person_rel_table){
