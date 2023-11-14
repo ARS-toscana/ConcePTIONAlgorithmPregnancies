@@ -7,7 +7,7 @@ all_datasources_documented <- c("TEST","ARS","SIDIAP","BIFAP","VID","PHARMO","CA
 itemset_AVpair_pregnancy_alldatasources <- vector(mode="list")
 itemsetMED_AVpair_pregnancy_alldatasources <- vector(mode="list")
 
-study_variables_pregnancy_all <- c("DATESTARTPREGNANCY","GESTAGE_FROM_DAPS_CRITERIA_DAYS","GESTAGE_FROM_DAPS_CRITERIA_WEEKS","GESTAGE_FROM_USOUNDS_DAYS","GESTAGE_FROM_USOUNDS_WEEKS","GESTAGE_FROM_LMP_WEEKS","GESTAGE_FROM_LMP_DAYS", "DATEENDPREGNANCY","END_LIVEBIRTH","END_STILLBIRTH","END_TERMINATION","END_ABORTION", "TYPE")
+study_variables_pregnancy_all <- c("DATESTARTPREGNANCY","GESTAGE_FROM_DAPS_CRITERIA_DAYS","GESTAGE_FROM_DAPS_CRITERIA_WEEKS","GESTAGE_FROM_USOUNDS_DAYS","GESTAGE_FROM_USOUNDS_WEEKS","GESTAGE_FROM_LMP_WEEKS","GESTAGE_FROM_LMP_DAYS", "DATEENDPREGNANCY","END_LIVEBIRTH","END_STILLBIRTH","END_TERMINATION","END_ABORTION", "TYPE", "ONGOING_COVID_REG")
 
 study_itemset_pregnancy_all <- c("LastMestrualPeriod","GestationalAge","PregnancyTest", "LastMestrualPeriodImplyingPregnancy")
 

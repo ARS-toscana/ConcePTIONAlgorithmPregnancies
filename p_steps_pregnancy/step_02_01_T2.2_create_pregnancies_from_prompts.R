@@ -32,7 +32,9 @@ if (this_datasource_has_prompt) {
       load(paste0(dirtemp,studyvar,".RData"))
     }
     
-    
+    if(thisdatasource == "CASERTA"){
+      load(paste0(dirtemp,"ONGOING_COVID_REG.RData"))
+    }
     # merge with SURVEY_ID_BR both LMP and USOUNDS, define two variables start_of_pregnancy_LMP and start_of_pregnancy_USOUNDS, define pregnancy_id as survey_id
     
     dataset_pregnancies <- SURVEY_ID_BR
@@ -56,6 +58,24 @@ if (this_datasource_has_prompt) {
       setnames(dataset_pregnancies,"so_source_table",paste0("table_",studyvar))
       setnames(dataset_pregnancies,"so_meaning",paste0("meaning_",studyvar))
       setnames(dataset_pregnancies,"so_source_column", paste0("column_",studyvar))
+    }
+    
+    if(thisdatasource == "CASERTA"){
+      print("ONGOING_COVID_REG")
+      studyvardataset <- ONGOING_COVID_REG
+      dataset_pregnancies <- merge(dataset_pregnancies,
+                                   studyvardataset[,.(survey_id,
+                                                      so_source_value,
+                                                      so_source_table,
+                                                      so_meaning, 
+                                                      so_source_column)],
+                                   by=c("survey_id"),
+                                   all.x=T) #,"person_id"
+      
+      setnames(dataset_pregnancies,"so_source_value","ONGOING_COVID_REG")
+      setnames(dataset_pregnancies,"so_source_table",paste0("table_","ONGOING_COVID_REG"))
+      setnames(dataset_pregnancies,"so_meaning",paste0("meaning_","ONGOING_COVID_REG"))
+      setnames(dataset_pregnancies,"so_source_column", paste0("column_","ONGOING_COVID_REG"))
     }
     
     # take the max btw date of same survey_id
@@ -472,6 +492,27 @@ if (this_datasource_has_prompt) {
                                                     imputed_end_of_pregnancy = 1, 
                                                     meaning_end_date = paste0("imputed_itemset_from_", type_of_pregnancy_end))]
     
+    
+    # ONGOING_COVID
+    if(thisdatasource == "CASERTA"){
+      dataset_pregnancies3 <- dataset_pregnancies3[column_ONGOING_COVID_REG != "gravidanza" | 
+                                                     ONGOING_COVID_REG %in% unlist(dictonary_of_itemset_pregnancy_this_datasource$UNK)]
+      
+      dataset_pregnancies3[column_ONGOING_COVID_REG == "gravidanza", 
+                           `:=`(pregnancy_end_date = survey_date + 140,
+                                pregnancy_start_date = survey_date - 140,
+                                imputed_end_of_pregnancy = 1, 
+                                imputed_start_of_pregnancy = 1, 
+                                meaning_end_date = "imputed_from_covid_registry", 
+                                meaning_start_date = "imputed_from_covid_registry", 
+                                origin = "covid_registry")]
+    }
+    
+    
+    
+    
+    
+    
     # create PROMPT
     dataset_pregnancies3[,PROMPT:="yes"]
     dataset_pregnancies3 <- dataset_pregnancies3[, ITEMSETS:= "yes"]
@@ -674,6 +715,9 @@ if (this_datasource_has_prompt) {
   
   D3_Stream_PROMPTS <- rbind(D3_Stream_PROMPTS, D3_Stream_PROMPTS_visit_occurrence, fill = TRUE)
   D3_Stream_PROMPTS <- rbind(D3_Stream_PROMPTS, D3_Stream_PROMPTS_person_rel, fill = TRUE)
+  
+  D3_Stream_PROMPTS <- D3_Stream_PROMPTS[!is.na(person_id)]
+
   save(D3_Stream_PROMPTS, file=paste0(dirtemp,"D3_Stream_PROMPTS.RData"))
   
   ##### Description #####

@@ -17,7 +17,7 @@ itemset_AVpair_pregnancy[["GESTAGE_FROM_DAPS_CRITERIA_WEEKS"]][[files[i]]][["CAS
 itemset_AVpair_pregnancy[["GESTAGE_FROM_DAPS_CRITERIA_DAYS"]][[files[i]]][["CASERTA"]] <- list()
 
 ### specification GESTAGE_FROM_LMP_WEEK
-itemset_AVpair_pregnancy[["GESTAGE_FROM_LMP_WEEKS"]][[files[i]]][["CASERTA"]] <- list(list("SCHEDA_MADRE","ETA_GESTAZIONALE"))
+itemset_AVpair_pregnancy[["GESTAGE_FROM_LMP_WEEKS"]][[files[i]]][["CASERTA"]] <- list()
 
 # specification GESTAGE_FROM_LMP_DAYS
 itemset_AVpair_pregnancy[["GESTAGE_FROM_LMP_DAYS"]][[files[i]]][["CASERTA"]] <- list()
@@ -29,12 +29,12 @@ itemset_AVpair_pregnancy[["GESTAGE_FROM_USOUNDS_DAYS"]][[files[i]]][["CASERTA"]]
 itemset_AVpair_pregnancy[["GESTAGE_FROM_USOUNDS_WEEKS"]][[files[i]]][["CASERTA"]]  <- list()
 
 # specification DATESTARTPREGNANCY
-itemset_AVpair_pregnancy[["DATESTARTPREGNANCY"]][[files[i]]][["CASERTA"]] <- list(list("SCHEDA_MADRE","DATA_ULTIMA_MESTRUAZIONE"))
+itemset_AVpair_pregnancy[["DATESTARTPREGNANCY"]][[files[i]]][["CASERTA"]] <- list()
 
 
 ########################################## END ###################################################### 
 
-itemset_AVpair_pregnancy[["DATEENDPREGNANCY"]][[files[i]]][["CASERTA"]] <-list(list("SCHEDA_MADRE","DATA_PARTO"))
+itemset_AVpair_pregnancy[["DATEENDPREGNANCY"]][[files[i]]][["CASERTA"]] <-list()
 
 ### specification END_LIVEBIRTH
 itemset_AVpair_pregnancy[["END_LIVEBIRTH"]][[files[i]]][["CASERTA"]] <- list()
@@ -51,13 +51,13 @@ itemset_AVpair_pregnancy[["END_ABORTION"]][[files[i]]][["CASERTA"]] <- list()
 
 ########################################### TYPE #######################################
 
-itemset_AVpair_pregnancy[["TYPE"]][[files[i]]][["CASERTA"]] <- list(list("SCHEDA_NEONATO","VITALITA"))
+itemset_AVpair_pregnancy[["TYPE"]][[files[i]]][["CASERTA"]] <- list()
 
 
 ################################ DICTINARY OF TYPE ##################################
 
-dictonary_of_itemset_pregnancy[["TYPE"]][["CASERTA"]][["LB"]]<-list(list("SCHEDA_NEONATO", "1"),list("SCHEDA_NEONATO", "2"),list("SCHEDA_NEONATO", "3")) 
-dictonary_of_itemset_pregnancy[["TYPE"]][["CASERTA"]][["SB"]]<-list(list("SCHEDA_NEONATO", "4"))
+dictonary_of_itemset_pregnancy[["TYPE"]][["CASERTA"]][["LB"]]<-list() 
+dictonary_of_itemset_pregnancy[["TYPE"]][["CASERTA"]][["SB"]]<-list()
 dictonary_of_itemset_pregnancy[["TYPE"]][["CASERTA"]][["SA"]]<-list()
 dictonary_of_itemset_pregnancy[["TYPE"]][["CASERTA"]][["T"]]<-list()
 dictonary_of_itemset_pregnancy[["TYPE"]][["CASERTA"]][["MD"]]<-list()
@@ -65,7 +65,11 @@ dictonary_of_itemset_pregnancy[["TYPE"]][["CASERTA"]][["ECT"]]<-list()
 dictonary_of_itemset_pregnancy[["TYPE"]][["CASERTA"]][["UNK"]]<-list()
 
 
+################################ ONGOING  ##################################
 
+### specification ONGOING
+itemset_AVpair_pregnancy[["ONGOING_COVID_REG"]][[files[i]]][["CASERTA"]] <- list(list("vaccino_covid", "gravidanza"))
+dictonary_of_itemset_pregnancy[["ONGOING_COVID_REG"]][["CASERTA"]][["UNK"]]<-list("GRAVIDA")
 
 
 ##### FROM MEDICAL_OBSERVATION
@@ -77,7 +81,7 @@ itemsetMED_AVpair_pregnancy[["LastMestrualPeriod"]][[files[i]]][["CASERTA"]] <- 
 itemsetMED_AVpair_pregnancy[["GestationalAge"]][[files[i]]][["CASERTA"]] <- list()
 
 ### specification PregnancyTest
-itemsetMED_AVpair_pregnancy[["PregnancyTest"]][[files[i]]][["CASERTA"]] <- list(list("ESAMI","BHCG")) #inserire tabella e variabile
+itemsetMED_AVpair_pregnancy[["PregnancyTest"]][[files[i]]][["CASERTA"]] <- list() #inserire tabella e variabile
 
 
 
@@ -87,7 +91,7 @@ itemsetMED_AVpair_pregnancy[["LastMestrualPeriodImplyingPregnancy"]][[files[i]]]
 
 ################################ DICTINARY OF PregnancyTest ##################################
 
-dictonary_of_itemset_PregnancyTest[["PregnancyTest"]][["positive"]]<-list(list("POSITIVO")) #inserire valore per esito positivo
+dictonary_of_itemset_PregnancyTest[["PregnancyTest"]][["positive"]]<-list() #inserire valore per esito positivo
 
 
 
@@ -100,4 +104,4 @@ days_to_end_PregnancyTest <- 280
 
 
 ### specification LastMestrualPeriodImplyingPregnancy
-itemsetMED_AVpair_pregnancy[["LastMestrualPeriodImplyingPregnancy"]][[files[i]]][["EpiChron"]] <- list(list('CARTILLA_EMBARAZO','fur'))
+itemsetMED_AVpair_pregnancy[["LastMestrualPeriodImplyingPregnancy"]][[files[i]]][["EpiChron"]] <- list()

@@ -54,6 +54,13 @@ if (this_datasource_has_prompt) {
     
   }
   
+  if(thisdatasource == "CASERTA"){
+    study_variables_pregnancy <- c(
+      study_variables_pregnancy, 
+      "ONGOING_COVID_REG"
+    )
+  }
+  
   print(paste0("Load ITEMSETS in SURVEY_OBSERVATIONS for ",thisdatasource))
   
   files<-sub('\\.csv$', '', list.files(dirinput))
@@ -82,6 +89,12 @@ if (this_datasource_has_prompt) {
   
   for (i in 1:length(dictonary_of_itemset_pregnancy$TYPE)) {
     if(names(dictonary_of_itemset_pregnancy$TYPE)[[i]]==thisdatasource) dictonary_of_itemset_pregnancy_this_datasource<-dictonary_of_itemset_pregnancy$TYPE[[i]]
+  }
+  
+  if(thisdatasource == "CASERTA"){
+    for (i in 1:length(dictonary_of_itemset_pregnancy$ONGOING_COVID_REG)) {
+      if(names(dictonary_of_itemset_pregnancy$ONGOING_COVID_REG)[[i]]==thisdatasource) dictonary_of_itemset_pregnancy_this_datasource<-dictonary_of_itemset_pregnancy$ONGOING_COVID_REG[[i]]
+    }
   }
 
 }

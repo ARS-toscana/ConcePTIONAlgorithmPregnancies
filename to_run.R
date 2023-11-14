@@ -27,6 +27,12 @@
 #
 # changelog 5.1.4:
 # - fixed bug blue record
+#
+# changelog 5.1.5:
+# - updated parameters for CASERTA
+# - added itemset ONGOING_COVID_REG for CASERTA
+# - updated SAIL's condition for legally included pregnancies
+# - added parameter for seed in predictive model 
 #------------------------------------------------------------------------------------------
 
 

@@ -6,11 +6,11 @@ datasources_EUROCAT <- c("TO_ADD","SAIL Databank") #@ use "TO_ADD" as example
 thisdatasource_has_EUROCAT <- ifelse(thisdatasource %in% datasources_EUROCAT,TRUE,FALSE)
 
 #datasource with itemsets stream from medical observation
-datasource_with_itemsets_stream_from_medical_obs <- c("TO_ADD","BIFAP","VID","PHARMO","CASERTA","EpiChron","HSD") #@ use "TO_ADD" as example
+datasource_with_itemsets_stream_from_medical_obs <- c("TO_ADD","BIFAP","VID","PHARMO","EpiChron","HSD") #@ use "TO_ADD" as example
 this_datasource_has_itemsets_stream_from_medical_obs <- ifelse(thisdatasource %in% datasource_with_itemsets_stream_from_medical_obs,TRUE,FALSE) 
 
 #datasource with  prompt
-datasource_with_prompt <- c("TO_ADD","TEST","ARS","PHARMO","UOSL","CASERTA","VID","CPRD","GePaRD","EpiChron","SIDIAP","SAIL Databank","EFEMERIS", "POMME",  "DANREG" ,"KI", "THL", "FERR", "RDRU_FISABIO") #@ use "TO_ADD" as example
+datasource_with_prompt <- c("TO_ADD","TEST","ARS","PHARMO","UOSL","VID","CPRD","GePaRD","EpiChron","SIDIAP","SAIL Databank","EFEMERIS", "POMME",  "DANREG" ,"KI", "THL", "FERR", "RDRU_FISABIO", "CASERTA") #@ use "TO_ADD" as example
 this_datasource_has_prompt <- ifelse(thisdatasource %in% datasource_with_prompt,TRUE,FALSE) 
 
 #datasource with VISIT_OCCURRENCE prompt
@@ -38,7 +38,7 @@ datasource_with_related_id_correspondig_to_child <- c("THL")
 this_datasource_has_related_id_correspondig_to_child <- ifelse(thisdatasource %in% datasource_with_related_id_correspondig_to_child, TRUE, FALSE) 
 
 #datasources that use predictive model to estimate start of pregnancies
-datasources_that_do_not_use_prediction_on_red <- c("EFEMERIS", "POMME", "THL", "RDRU_FISABIO", "DANREG")
+datasources_that_do_not_use_prediction_on_red <- c("EFEMERIS", "POMME", "THL", "RDRU_FISABIO", "DANREG","CASERTA")
 this_datasource_do_not_use_prediction_on_red <- ifelse(thisdatasource %in% datasources_that_do_not_use_prediction_on_red, TRUE, FALSE) 
 
 
@@ -101,7 +101,7 @@ list_of_meanings_with_specific_maxgap <- vector(mode="list")
 list_of_meanings_with_specific_maxgap[["UOSL"]] <- c("primary_care_diagnosis",
                                                       "primary_care")
 
-# primary_care from ETL
+# primary_care from ETL 
 #
 # from level check:
 # primary_care in 'VISITS'

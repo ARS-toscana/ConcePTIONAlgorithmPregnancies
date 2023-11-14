@@ -1,3 +1,5 @@
+seed <- 6
+
 start <- Sys.time()
 
 load(paste0(dirtemp,"D3_groups_of_pregnancies_reconciled_before_predict.RData"))
@@ -113,7 +115,7 @@ if(model_condition){
   
   
   # K-folder
-  set.seed(5)
+  set.seed(seed)
   kfold <- 5
   DT_green_blue_model_for_yellow[, index := sample(rep_len(1:kfold,  NROW(DT_green_blue_model_for_yellow)))]    
   DT_green_blue_model_for_red[, index := sample(rep_len(1:kfold,  NROW(DT_green_blue_model_for_red)))]    
@@ -258,7 +260,7 @@ if(model_condition){
                  data = DT_green_blue_model_for_yellow, 
                  num.trees = grid[selected_yellow == 1, number_of_trees], 
                  mtry = grid[selected_yellow == 1, var_selected],
-                 seed = 5 )#,
+                 seed = seed )#,
                 # min.node.size = grid[selected_yellow == 1, min_node_size])
   }else{
     RF_yellow <- ranger(formula = days_from_start ~ record_type + origin + age_at_start_of_pregnancy + record_year + distance_from_oldest,
@@ -267,7 +269,7 @@ if(model_condition){
                  mtry = grid[selected_yellow == 1, var_selected],
                  #min.node.size = grid[selected_yellow == 1, min_node_size],
                  always.split.variables = "record_type",
-                 seed = 5 )
+                 seed = seed )
   }
   
   
@@ -276,7 +278,7 @@ if(model_condition){
                         data = DT_green_blue_model_for_red, 
                         num.trees = grid[selected_red == 1, number_of_trees], 
                         mtry = grid[selected_red == 1, var_selected],
-                        seed = 5 )#,
+                        seed = seed )#,
                        # min.node.size = grid[selected_red == 1, min_node_size])
   }else{
     RF_red <- ranger(formula = days_from_start ~ record_type + origin + age_at_start_of_pregnancy + record_year + distance_from_oldest,
@@ -285,7 +287,7 @@ if(model_condition){
                         mtry = grid[selected_red == 1, var_selected],
                        # min.node.size = grid[selected_red == 1, min_node_size],
                         always.split.variables = "record_type",
-                        seed = 5 )
+                        seed = seed )
   }
   
   saveRDS(RF_red, file = paste0(dirtemp, 'RandomForest_Red.rds'))
