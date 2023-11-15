@@ -446,12 +446,14 @@ D3_pregnancy_model[, gestage_at_first_record := date_of_oldest_record - pregnanc
 #--------------------------------
 if(!this_datasource_do_not_use_prediction_on_red){
                  
-  D3_pregnancy_model[(highest_quality == "4_red" | highest_quality == "2_yellow"),  
+  D3_pregnancy_model[(highest_quality == "4_red" | highest_quality == "2_yellow") &
+                       !is.na(pregnancy_start_date_predicted),  
                      pregnancy_start_date := max(pregnancy_start_date_predicted, 
                                                  record_date - 300), 
                      pregnancy_id]
   
-  D3_pregnancy_model[(highest_quality == "4_red" | highest_quality == "3_blue"), 
+  D3_pregnancy_model[(highest_quality == "4_red" | highest_quality == "3_blue") &
+                       !is.na(pregnancy_end_date_predicted),
                      pregnancy_end_date := min(pregnancy_end_date_predicted, 
                                                pregnancy_start_date + 300), 
                      pregnancy_id]
@@ -467,10 +469,16 @@ D3_pregnancy_model[highest_quality == "4_red",
                                                pregnancy_start_date), 
                    pregnancy_id]
 
-D3_pregnancy_model[highest_quality == "4_red", 
+D3_pregnancy_model[highest_quality == "4_red" & !is.na(pregnancy_end_date), 
                    pregnancy_end_date := max(date_of_most_recent_record, 
                                              pregnancy_end_date), 
                    pregnancy_id]
+
+#----------------------------------------------
+# fix end date for pregnancy without prediction
+#----------------------------------------------
+D3_pregnancy_model[is.na(pregnancy_end_date), pregnancy_end_date := pregnancy_start_date + 280]
+
 
 #-------
 # LOSTFU

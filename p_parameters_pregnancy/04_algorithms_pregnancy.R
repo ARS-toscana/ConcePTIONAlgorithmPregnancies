@@ -95,6 +95,15 @@ if(this_datasource_has_conceptsets){
       concept_set_codes_pregnancy[[conceptset]][["ICD9CM"]] <- concept_set_codes_pregnancy[[conceptset]][["ICD9"]]
     }
   }
+  
+  # fix for ICD9CMPROC
+  for (conceptset in concept_set_pregnancy){
+    if (concept_set_domains[[conceptset]] == "Procedures"){
+      concept_set_codes_pregnancy[[conceptset]][["ICD9CMPROC"]] <- concept_set_codes_pregnancy[[conceptset]][["ICD9PROC"]]
+    }
+  }
+  
+  
 }
 
 # Legally included 

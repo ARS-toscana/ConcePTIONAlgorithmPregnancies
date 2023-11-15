@@ -33,6 +33,8 @@
 # - added itemset ONGOING_COVID_REG for CASERTA
 # - updated SAIL's condition for legally included pregnancies
 # - added parameter for seed in predictive model 
+# - added code "997M50", "M50" for CASERTA
+
 #------------------------------------------------------------------------------------------
 
 
