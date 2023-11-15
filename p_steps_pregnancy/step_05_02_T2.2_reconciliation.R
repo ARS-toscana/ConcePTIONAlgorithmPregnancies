@@ -411,7 +411,7 @@ while (D3_gop[,.N]!=0) {
                                                                    origin,
                                                                    "/",
                                                                    origin_next_record,
-                                                                   ":concordant_"),
+                                                                   "_GG:concordant_"),
                              recon = 1)]
       
       D3_gop <- D3_gop[ n == 1 & new_group_next_record != 1 & recon == 0 & coloured_order == "1_green" & coloured_order_next_record == "1_green" & 
@@ -420,7 +420,7 @@ while (D3_gop[,.N]!=0) {
                                                                    origin,
                                                                    "/",
                                                                    origin_next_record,
-                                                                   ":SlightlyDiscordantStart_"))]
+                                                                   "_GG:SlightlyDiscordantStart_"))]
       
       D3_gop <- D3_gop[ n == 1 & new_group_next_record != 1 &  recon == 0 & coloured_order == "1_green" & coloured_order_next_record == "1_green" & 
                           start_diff > threshold,
@@ -428,7 +428,7 @@ while (D3_gop[,.N]!=0) {
                                                                     origin,
                                                                     "/",
                                                                     origin_next_record, 
-                                                                    ":DiscordantStart_"))]
+                                                                    "_GG:DiscordantStart_"))]
       
       D3_gop <- D3_gop[ n == 1 & new_group_next_record != 1 &  recon == 0 & coloured_order == "1_green" & coloured_order_next_record == "1_green" & 
                           end_diff <= threshold,
@@ -436,7 +436,7 @@ while (D3_gop[,.N]!=0) {
                                                                    origin,
                                                                    "/",
                                                                    origin_next_record,
-                                                                   ":SlightlyDiscordantEnd_"))]
+                                                                   "_GG:SlightlyDiscordantEnd_"))]
       
       D3_gop <- D3_gop[n == 1 & new_group_next_record != 1 &  recon == 0 & coloured_order == "1_green" & coloured_order_next_record == "1_green" & 
                          end_diff > threshold,
@@ -444,7 +444,7 @@ while (D3_gop[,.N]!=0) {
                                                                   origin,
                                                                   "/",
                                                                   origin_next_record,
-                                                                  ":DiscordantEnd_"))]
+                                                                  "_GG:DiscordantEnd_"))]
     }else{
       D3_gop <- D3_gop[ n == 1 & new_group_next_record != 1 & recon == 0 &  coloured_order == "1_green" & coloured_order_next_record == "1_green" & 
                           start_diff == 0 & end_diff == 0,

@@ -34,7 +34,9 @@
 # - updated SAIL's condition for legally included pregnancies
 # - added parameter for seed in predictive model 
 # - added code "997M50", "M50" for CASERTA
-
+# - fix for ICD9CMPROC
+# - fixed bug for missing predicted end of pregnancy
+# - fixed bug for GG:discordant pregnancies not detected in FISABIO 
 #------------------------------------------------------------------------------------------
 
 
