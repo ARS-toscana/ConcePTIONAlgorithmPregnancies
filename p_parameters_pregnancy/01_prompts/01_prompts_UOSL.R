@@ -16,7 +16,7 @@ meaning_of_survey_pregnancy[["UOSL"]][["induced_termination"]]<-list()
 meaning_of_survey_pregnancy[["UOSL"]][["other"]]<-list()
 
 meaning_of_relationship_child <- vector(mode="list")
-meaning_of_relationship_child[["UOSL"]] <- list("gestational_mother")
+meaning_of_relationship_child[["UOSL"]] <- list("getational_mother", "birth_mother")
 
 meaning_of_survey_pregnancy_child <- vector(mode="list")
 meaning_of_survey_pregnancy_child[["UOSL"]] <- NA

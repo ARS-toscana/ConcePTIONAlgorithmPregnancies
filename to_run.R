@@ -38,6 +38,7 @@
 # - fixed bug for missing predicted end of pregnancy
 # - fixed bug for GG:discordant pregnancies not detected in FISABIO 
 # - updated procedures codes for CASERTA
+# - updated meaning of relationship child for UOSL
 #------------------------------------------------------------------------------------------
 
 

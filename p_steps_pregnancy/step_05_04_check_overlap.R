@@ -4,6 +4,37 @@ load(paste0(dirtemp,"D3_pregnancy_model.RData"))
 D3_group_overlap <-  D3_group_model
 D3_pregnancy_overlap <- D3_pregnancy_model
 
+
+#------------------------------
+# check gestage by type
+#------------------------------
+
+D3_pregnancy_overlap[, gestage := pregnancy_end_date - pregnancy_start_date]
+
+D3_pregnancy_overlap[type_of_pregnancy_end == 'LB' & (gestage > 310 | gestage < 154),
+                     pregnancy_start_date := pregnancy_end_date - 280]
+
+D3_pregnancy_overlap[type_of_pregnancy_end == 'T' & (gestage > 154| gestage < 14),
+                     pregnancy_start_date := pregnancy_end_date - 70]
+
+D3_pregnancy_overlap[type_of_pregnancy_end == 'SA' & (gestage > 154 | gestage < 14),
+                     pregnancy_start_date := pregnancy_end_date - 70]
+
+D3_pregnancy_overlap[type_of_pregnancy_end == 'UNF' & (gestage > 310 | gestage < 14),
+                     pregnancy_start_date := pregnancy_end_date - 70]
+
+D3_pregnancy_overlap[type_of_pregnancy_end == 'SB' & (gestage > 310| gestage < 154),
+                     pregnancy_start_date := pregnancy_end_date - 280]
+
+D3_pregnancy_overlap[type_of_pregnancy_end == 'ECT'& (gestage > 154 | gestage < 14),
+                     pregnancy_start_date := pregnancy_end_date - 70]
+
+D3_pregnancy_overlap[type_of_pregnancy_end %in% c('LOSTFU','ONGOING', 'UNK') & (gestage > 310 | gestage < 14),
+                    `:=`(pregnancy_end_date =  date_of_most_recent_record)]
+
+D3_pregnancy_overlap[type_of_pregnancy_end %in% c('LOSTFU','ONGOING', 'UNK') & (gestage > 310 | gestage < 14),
+                     `:=`(pregnancy_start_date =  min(date_of_oldest_record, pregnancy_start_date - 280))]
+
 #------------------------------
 # find overlapping pregnancies
 #------------------------------
