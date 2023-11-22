@@ -39,6 +39,7 @@
 # - fixed bug for GG:discordant pregnancies not detected in FISABIO 
 # - updated procedures codes for CASERTA
 # - updated meaning of relationship child for UOSL
+# - fixed id loaded as numeric (SIDIAP)
 #------------------------------------------------------------------------------------------
 
 

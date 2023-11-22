@@ -206,6 +206,9 @@ D3_survey_and_visit_ids <- D3_groups_of_pregnancies_reconciled[, .(pregnancy_id,
                                                                    meaning, 
                                                                    origin)]
 
+D3_survey_and_visit_ids[, survey_id := as.character(survey_id)]
+D3_survey_and_visit_ids[, visit_occurrence_id := as.character(visit_occurrence_id)]
+
 D3_survey_and_visit_ids <- D3_survey_and_visit_ids[!(is.na(survey_id) & is.na(visit_occurrence_id))]
 
 D3_survey_and_visit_ids <- D3_survey_and_visit_ids[!is.na(survey_id), type_of_id := "survey_id"]
@@ -226,4 +229,3 @@ D3_survey_and_visit_ids <- D3_survey_and_visit_ids[!(id %like% "_dummy_visit_occ
 save(D3_survey_and_visit_ids, file=paste0(diroutput,"D3_survey_and_visit_ids.RData"))
 #fwrite(D3_survey_and_visit_ids, paste0(diroutput,"D3_survey_and_visit_ids.csv"))
 rm(D3_groups_of_pregnancies_reconciled, D3_pregnancy_reconciled)
-
