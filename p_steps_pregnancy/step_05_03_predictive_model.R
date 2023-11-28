@@ -84,14 +84,12 @@ if(model_condition){
   #------------------
   # Divide red/yellow
   #------------------
-  
   DT_green_blue_model_for_yellow = DT_green_blue_model[coloured_order == '2_yellow']
   DT_green_blue_model_for_red = DT_green_blue_model[coloured_order == '4_red']
   
   #--------------------------------
   # Random forest: Cross Validation
   #--------------------------------
-  
   # CV parameters
   number_of_trees = c(100, 500)
   
@@ -180,11 +178,6 @@ if(model_condition){
       )
       
       fold_size.y <- c(fold_size.y, length(DT_green_blue_model_Test_y$days_from_start))
-      
-      
-      
-      
-      
       
       #--------------
       # Model for Red
@@ -309,9 +302,6 @@ if(model_condition){
     DT_red_model
     )
   
-
-  
-  
   #------------------------------------------------
   # Gestation age distribution for each record type 
   #------------------------------------------------
@@ -413,7 +403,6 @@ if(model_condition){
 #---------------------------------
 # creating D3_pregnancy_reconciled
 #---------------------------------
-
 D3_group_model[n==1, date_of_principal_record := record_date,  by = "pregnancy_id" ]
 D3_group_model[is.na(date_of_principal_record), date_of_principal_record:=0]
 
@@ -449,7 +438,7 @@ if(!this_datasource_do_not_use_prediction_on_red){
   D3_pregnancy_model[(highest_quality == "4_red" | highest_quality == "2_yellow") &
                        !is.na(pregnancy_start_date_predicted),  
                      pregnancy_start_date := max(pregnancy_start_date_predicted, 
-                                                 record_date - 300), 
+                                                 date_of_most_recent_record - 300), 
                      pregnancy_id]
   
   D3_pregnancy_model[(highest_quality == "4_red" | highest_quality == "3_blue") &
@@ -464,21 +453,25 @@ if(!this_datasource_do_not_use_prediction_on_red){
 # check start/end red records
 #------------------------------
 
-D3_pregnancy_model[highest_quality == "4_red", 
-                   pregnancy_start_date := min(date_of_oldest_record - 14, 
-                                               pregnancy_start_date), 
+D3_pregnancy_model[highest_quality == "4_red" | highest_quality == "2_yellow", 
+                       pregnancy_start_date := min(date_of_oldest_record - 14, 
+                                                   pregnancy_start_date), 
                    pregnancy_id]
 
-D3_pregnancy_model[highest_quality == "4_red" & !is.na(pregnancy_end_date), 
-                   pregnancy_end_date := max(date_of_most_recent_record, 
+D3_pregnancy_model[(highest_quality == "4_red" | highest_quality == "2_yellow") 
+                   & !is.na(pregnancy_end_date),
+                      pregnancy_end_date := max(date_of_most_recent_record, 
                                              pregnancy_end_date), 
                    pregnancy_id]
 
 #----------------------------------------------
 # fix end date for pregnancy without prediction
 #----------------------------------------------
-D3_pregnancy_model[is.na(pregnancy_end_date), pregnancy_end_date := pregnancy_start_date + 280]
+D3_pregnancy_model[is.na(pregnancy_end_date) & highest_quality == "4_red",
+                   pregnancy_end_date := pregnancy_start_date + 280]
 
+D3_pregnancy_model[is.na(pregnancy_end_date) & highest_quality == "2_yellow", 
+                   pregnancy_end_date := date_of_most_recent_record]
 
 #-------
 # LOSTFU
@@ -516,6 +509,38 @@ if (this_datasource_ends_red_pregnancies) {
   D3_pregnancy_model[highest_quality == "4_red" & type_of_pregnancy_end != "LOSTFU",
                                       pregnancy_end_date_predicted := date_of_most_recent_record]
 }
+
+
+#------------------------------
+# check gestage by type
+#------------------------------
+
+D3_pregnancy_model[, gestage := pregnancy_end_date - pregnancy_start_date]
+
+D3_pregnancy_model[type_of_pregnancy_end == 'LB' & (gestage > 310 | gestage < 154),
+                     pregnancy_start_date := pregnancy_end_date - 280]
+
+D3_pregnancy_model[type_of_pregnancy_end == 'T' & (gestage > 154| gestage < 14),
+                     pregnancy_start_date := pregnancy_end_date - 70]
+
+D3_pregnancy_model[type_of_pregnancy_end == 'SA' & (gestage > 154 | gestage < 14),
+                     pregnancy_start_date := pregnancy_end_date - 70]
+
+D3_pregnancy_model[type_of_pregnancy_end == 'UNF' & (gestage > 310 | gestage < 14),
+                     pregnancy_start_date := pregnancy_end_date - 70]
+
+D3_pregnancy_model[type_of_pregnancy_end == 'SB' & (gestage > 310| gestage < 154),
+                     pregnancy_start_date := pregnancy_end_date - 280]
+
+D3_pregnancy_model[type_of_pregnancy_end == 'ECT'& (gestage > 154 | gestage < 14),
+                     pregnancy_start_date := pregnancy_end_date - 70]
+
+D3_pregnancy_model[type_of_pregnancy_end %in% c('LOSTFU','ONGOING', 'UNK') & (gestage > 310 | gestage < 14),
+                     `:=`(pregnancy_end_date =  date_of_most_recent_record)]
+
+D3_pregnancy_model[type_of_pregnancy_end %in% c('LOSTFU','ONGOING', 'UNK') & (gestage > 310 | gestage < 14),
+                     `:=`(pregnancy_start_date =  min(date_of_oldest_record, pregnancy_end_date - 280)),
+                   pregnancy_id]
 
 
 #--------------

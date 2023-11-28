@@ -6,36 +6,6 @@ D3_pregnancy_overlap <- D3_pregnancy_model
 
 
 #------------------------------
-# check gestage by type
-#------------------------------
-
-D3_pregnancy_overlap[, gestage := pregnancy_end_date - pregnancy_start_date]
-
-D3_pregnancy_overlap[type_of_pregnancy_end == 'LB' & (gestage > 310 | gestage < 154),
-                     pregnancy_start_date := pregnancy_end_date - 280]
-
-D3_pregnancy_overlap[type_of_pregnancy_end == 'T' & (gestage > 154| gestage < 14),
-                     pregnancy_start_date := pregnancy_end_date - 70]
-
-D3_pregnancy_overlap[type_of_pregnancy_end == 'SA' & (gestage > 154 | gestage < 14),
-                     pregnancy_start_date := pregnancy_end_date - 70]
-
-D3_pregnancy_overlap[type_of_pregnancy_end == 'UNF' & (gestage > 310 | gestage < 14),
-                     pregnancy_start_date := pregnancy_end_date - 70]
-
-D3_pregnancy_overlap[type_of_pregnancy_end == 'SB' & (gestage > 310| gestage < 154),
-                     pregnancy_start_date := pregnancy_end_date - 280]
-
-D3_pregnancy_overlap[type_of_pregnancy_end == 'ECT'& (gestage > 154 | gestage < 14),
-                     pregnancy_start_date := pregnancy_end_date - 70]
-
-D3_pregnancy_overlap[type_of_pregnancy_end %in% c('LOSTFU','ONGOING', 'UNK') & (gestage > 310 | gestage < 14),
-                    `:=`(pregnancy_end_date =  date_of_most_recent_record)]
-
-D3_pregnancy_overlap[type_of_pregnancy_end %in% c('LOSTFU','ONGOING', 'UNK') & (gestage > 310 | gestage < 14),
-                     `:=`(pregnancy_start_date =  min(date_of_oldest_record, pregnancy_start_date - 280))]
-
-#------------------------------
 # find overlapping pregnancies
 #------------------------------
 DT.x <- copy(D3_pregnancy_overlap)
@@ -328,22 +298,25 @@ if(DT.xy[, .N]>1){
   # Red - Red
   # Rule 14: B-R 
   #--------------------------
+  #left
+  overlap_R_R_left <- DT.xy[overlapping_left == 1 &
+                               highest_quality.x == "4_red" &
+                               highest_quality.y == "4_red" ,
+                             pregnancy_id.y]
+  
+  D3_pregnancy_overlap[pregnancy_id %in% overlap_R_R_left, 
+                       pregnancy_end_date := date_of_most_recent_record]
+  
   #right
   overlap_R_R_right <- DT.xy[overlapping_right == 1 &
-                                highest_quality.x == "4_red" &
-                                highest_quality.y == "4_red" ,
-                              pregnancy_id.y]
-  
-  D3_pregnancy_overlap[pregnancy_id %in% overlap_R_R_right, 
-                       pregnancy_start_date := pregnancy_end_date - maxgap/2]
-  #left
-  overlap_R_R_right <- DT.xy[overlapping_left == 1 &
                                highest_quality.x == "4_red" &
                                highest_quality.y == "4_red" ,
                              pregnancy_id.y]
   
   D3_pregnancy_overlap[pregnancy_id %in% overlap_R_R_right, 
-                       pregnancy_end_date := date_of_most_recent_record]
+                       pregnancy_start_date := min(pregnancy_end_date - maxgap/2,
+                                                   date_of_oldest_record), 
+                       by="pregnancy_id" ]
   
   #----------------------------------------
   # 2nd check for overlapping pregnancies
@@ -394,6 +367,11 @@ if(thisdatasource == "UOSL"){
                        pregnancy_start_date := max(pregnancy_start_date, pregnancy_end_date - 54), 
                        pregnancy_id]
 }
+
+#------------------------
+# Gest-age at first record
+#------------------------
+D3_pregnancy_overlap[, gestage_at_first_record := date_of_oldest_record - pregnancy_start_date, by = "pregnancy_id" ]
 
 
 #--------
