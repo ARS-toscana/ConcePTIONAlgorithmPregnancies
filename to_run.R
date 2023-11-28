@@ -41,6 +41,7 @@
 # - updated meaning of relationship child for UOSL
 # - fixed id loaded as numeric (SIDIAP)
 # - fixed bug gestage 
+# - saved predictive model results on g_export manuscript
 #------------------------------------------------------------------------------------------
 
 

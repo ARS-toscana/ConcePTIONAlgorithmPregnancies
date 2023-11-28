@@ -242,8 +242,9 @@ if(model_condition){
   grid <- as.data.table(grid)
   grid[rmse_yellow == min(rmse_yellow), selected_yellow := 1][is.na(selected_yellow), selected_yellow :=0]
   grid[rmse_red == min(rmse_red), selected_red := 1][is.na(selected_red), selected_red :=0]
-  fwrite(grid, file = paste0(direxp, "cross_validation_results.csv"))
   
+  fwrite(grid, file = paste0(direxp, "cross_validation_results.csv"))
+  fwrite(grid, file = paste0(direxpmanuscript, "cross_validation_results.csv"))
   #----------------------------
   # Random forest: Final models
   #----------------------------
@@ -329,6 +330,7 @@ if(model_condition){
   }
   
   fwrite(DT_red_stats, file = paste0(direxp, "Gestage_distribution.csv"))
+  fwrite(DT_red_stats, file = paste0(direxpmanuscript, "Gestage_distribution.csv"))
   
   #---------
   # merge sd
@@ -511,36 +513,108 @@ if (this_datasource_ends_red_pregnancies) {
 }
 
 
-#------------------------------
+#----------------------
 # check gestage by type
-#------------------------------
-
+#----------------------
 D3_pregnancy_model[, gestage := pregnancy_end_date - pregnancy_start_date]
+vec.type.of.end = unique(D3_pregnancy_model[, type_of_pregnancy_end])
 
-D3_pregnancy_model[type_of_pregnancy_end == 'LB' & (gestage > 310 | gestage < 154),
-                     pregnancy_start_date := pregnancy_end_date - 280]
+# check LB gestage
+if("LB" %in% vec.type.of.end){
+  mean.gestage.LB = as.integer(D3_pregnancy_model[type_of_pregnancy_end == "LB", 
+                                                  mean(gestage)])
+  
+  D3_pregnancy_model[type_of_pregnancy_end == 'LB' & (gestage > 310 | gestage < 154),
+                     pregnancy_start_date := pregnancy_end_date - mean.gestage.LB]
+}
 
-D3_pregnancy_model[type_of_pregnancy_end == 'T' & (gestage > 154| gestage < 14),
-                     pregnancy_start_date := pregnancy_end_date - 70]
+# check T gestage
+if("T" %in% vec.type.of.end){
+  mean.gestage.T = as.integer(D3_pregnancy_model[type_of_pregnancy_end == "T", 
+                                                  mean(gestage)])
+  
+  D3_pregnancy_model[type_of_pregnancy_end == 'T' & (gestage > 154| gestage < 14),
+                     pregnancy_start_date := pregnancy_end_date - mean.gestage.T]
+}
 
-D3_pregnancy_model[type_of_pregnancy_end == 'SA' & (gestage > 154 | gestage < 14),
-                     pregnancy_start_date := pregnancy_end_date - 70]
+# check SA gestage
+if("SA" %in% vec.type.of.end){
+  mean.gestage.SA = as.integer(D3_pregnancy_model[type_of_pregnancy_end == "SA", 
+                                                  mean(gestage)])
+  
+  D3_pregnancy_model[type_of_pregnancy_end == 'SA' & (gestage > 154| gestage < 14),
+                     pregnancy_start_date := pregnancy_end_date - mean.gestage.SA]
+}
 
-D3_pregnancy_model[type_of_pregnancy_end == 'UNF' & (gestage > 310 | gestage < 14),
-                     pregnancy_start_date := pregnancy_end_date - 70]
+# check UNF gestage
+if("UNF" %in% vec.type.of.end){
+  mean.gestage.UNF = as.integer(D3_pregnancy_model[type_of_pregnancy_end == "UNF", 
+                                                  mean(gestage)])
+  
+  D3_pregnancy_model[type_of_pregnancy_end == 'UNF' & (gestage > 310 | gestage < 14),
+                     pregnancy_start_date := pregnancy_end_date - mean.gestage.UNF]
+}
+  
 
-D3_pregnancy_model[type_of_pregnancy_end == 'SB' & (gestage > 310| gestage < 154),
-                     pregnancy_start_date := pregnancy_end_date - 280]
+# check SB gestage
+if("SB" %in% vec.type.of.end){
+  mean.gestage.SB = as.integer(D3_pregnancy_model[type_of_pregnancy_end == "SB", 
+                                                   mean(gestage)])
+  
+  D3_pregnancy_model[type_of_pregnancy_end == 'SB' & (gestage > 310 | gestage < 14),
+                     pregnancy_start_date := pregnancy_end_date - mean.gestage.SB]
+}
 
-D3_pregnancy_model[type_of_pregnancy_end == 'ECT'& (gestage > 154 | gestage < 14),
-                     pregnancy_start_date := pregnancy_end_date - 70]
+# check ECT gestage
+if("ECT" %in% vec.type.of.end){
+  mean.gestage.ECT = as.integer(D3_pregnancy_model[type_of_pregnancy_end == "ECT", 
+                                                  mean(gestage)])
+  
+  D3_pregnancy_model[type_of_pregnancy_end == 'ECT'& (gestage > 154 | gestage < 14),
+                     pregnancy_start_date := pregnancy_end_date - mean.gestage.ECT]
+}
 
-D3_pregnancy_model[type_of_pregnancy_end %in% c('LOSTFU','ONGOING', 'UNK') & (gestage > 310 | gestage < 14),
+# check LOSTFU gestage
+if("LOSTFU" %in% vec.type.of.end){
+  mean.gestage.LOSTFU = as.integer(D3_pregnancy_model[type_of_pregnancy_end == "LOSTFU", 
+                                                   mean(gestage)])
+  
+  D3_pregnancy_model[type_of_pregnancy_end == 'LOSTFU' & (gestage > 310 | gestage < 14),
                      `:=`(pregnancy_end_date =  date_of_most_recent_record)]
+  
+  D3_pregnancy_model[type_of_pregnancy_end == 'LOSTFU' & (gestage > 310 | gestage < 14),
+                     `:=`(pregnancy_start_date =  min(date_of_oldest_record, pregnancy_end_date - mean.gestage.LOSTFU)),
+                     pregnancy_id]
 
-D3_pregnancy_model[type_of_pregnancy_end %in% c('LOSTFU','ONGOING', 'UNK') & (gestage > 310 | gestage < 14),
-                     `:=`(pregnancy_start_date =  min(date_of_oldest_record, pregnancy_end_date - 280)),
-                   pregnancy_id]
+}
+
+# check ONGOING gestage
+if("ONGOING" %in% vec.type.of.end){
+  mean.gestage.ONGOING = as.integer(D3_pregnancy_model[type_of_pregnancy_end == "ONGOING", 
+                                                      mean(gestage)])
+  
+  D3_pregnancy_model[type_of_pregnancy_end == 'ONGOING' & (gestage > 310 | gestage < 14),
+                     `:=`(pregnancy_end_date =  date_of_most_recent_record)]
+  
+  D3_pregnancy_model[type_of_pregnancy_end == 'ONGOING' & (gestage > 310 | gestage < 14),
+                     `:=`(pregnancy_start_date =  min(date_of_oldest_record, pregnancy_end_date - mean.gestage.ONGOING)),
+                     pregnancy_id]
+  
+}
+
+# check UNK gestage
+if("UNK" %in% vec.type.of.end){
+  mean.gestage.UNK = as.integer(D3_pregnancy_model[type_of_pregnancy_end == "UNK", 
+                                                      mean(gestage)])
+  
+  D3_pregnancy_model[type_of_pregnancy_end == 'UNK' & (gestage > 310 | gestage < 14),
+                     `:=`(pregnancy_end_date =  date_of_most_recent_record)]
+  
+  D3_pregnancy_model[type_of_pregnancy_end == 'UNK' & (gestage > 310 | gestage < 14),
+                     `:=`(pregnancy_start_date =  min(date_of_oldest_record, pregnancy_end_date - mean.gestage.UNK)),
+                     pregnancy_id]
+  
+}
 
 
 #--------------
@@ -565,5 +639,6 @@ end <- Sys.time()
 time_cv <- data.table(time = end-start)
 
 fwrite(time_cv, paste0(direxp, "/time_cv.csv"))
+fwrite(time_cv, paste0(direxpmanuscript, "/time_cv.csv"))
 
 cat("Time: ", end - start, "\n")
