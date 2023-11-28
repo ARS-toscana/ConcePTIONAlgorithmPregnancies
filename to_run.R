@@ -40,7 +40,7 @@
 # - updated procedures codes for CASERTA
 # - updated meaning of relationship child for UOSL
 # - fixed id loaded as numeric (SIDIAP)
-# - fixed bug gestage
+# - fixed bug gestage 
 #------------------------------------------------------------------------------------------
 
 
