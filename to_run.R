@@ -42,6 +42,7 @@
 # - fixed id loaded as numeric (SIDIAP)
 # - fixed bug gestage 
 # - saved predictive model results on g_export manuscript
+# - fixed flowchart bug when years are missing
 #------------------------------------------------------------------------------------------
 
 
