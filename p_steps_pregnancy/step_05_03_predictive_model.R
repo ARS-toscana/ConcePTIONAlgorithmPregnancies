@@ -233,10 +233,10 @@ if(model_condition){
     
     #grid[i, 5] <- mean(rmse.cv.vector)
     fold_prop.y <- fold_size.y / sum(fold_size.y)
-    grid[i, 4] <- round(sum(rmse.cv.vector.y*fold_prop.y), 2)
+    grid[i, 4] <- round(sum(rmse.cv.vector.y*fold_prop.y), 5)
     
     fold_prop.r <- fold_size.r / sum(fold_size.r)
-    grid[i, 5] <- round(sum(rmse.cv.vector.r*fold_prop.r), 2)
+    grid[i, 5] <- round(sum(rmse.cv.vector.r*fold_prop.r), 5)
   }
   
   grid <- as.data.table(grid)

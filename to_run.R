@@ -40,9 +40,10 @@
 # - updated procedures codes for CASERTA
 # - updated meaning of relationship child for UOSL
 # - fixed id loaded as numeric (SIDIAP)
-# - fixed bug gestage 
+# - fixed wrong prediction of gestational age 
 # - saved predictive model results on g_export manuscript
-# - fixed flowchart bug when years are missing
+# - fixed flowchart bug (due to missing years)
+# - fixed bug due to identical rmse of predictive model
 #------------------------------------------------------------------------------------------
 
 
