@@ -524,8 +524,10 @@ if("LB" %in% vec.type.of.end){
   mean.gestage.LB = as.integer(D3_pregnancy_model[type_of_pregnancy_end == "LB", 
                                                   mean(gestage)])
   
-  D3_pregnancy_model[type_of_pregnancy_end == 'LB' & (gestage > 310 | gestage < 154),
-                     pregnancy_start_date := pregnancy_end_date - mean.gestage.LB]
+  D3_pregnancy_model[type_of_pregnancy_end == 'LB' & (gestage > 310 | gestage < 147),
+                     `:=`(pregnancy_start_date = pregnancy_end_date - mean.gestage.LB, 
+                          algorithm_for_reconciliation = paste0(algorithm_for_reconciliation,
+                                                                "/gestageAdjusted"))]
 }
 
 # check T gestage
@@ -534,7 +536,9 @@ if("T" %in% vec.type.of.end){
                                                   mean(gestage)])
   
   D3_pregnancy_model[type_of_pregnancy_end == 'T' & (gestage > 154| gestage < 14),
-                     pregnancy_start_date := pregnancy_end_date - mean.gestage.T]
+                     `:=`(pregnancy_start_date = pregnancy_end_date - mean.gestage.T, 
+                          algorithm_for_reconciliation = paste0(algorithm_for_reconciliation,
+                                                                "/gestageAdjusted"))]
 }
 
 # check SA gestage
@@ -543,7 +547,9 @@ if("SA" %in% vec.type.of.end){
                                                   mean(gestage)])
   
   D3_pregnancy_model[type_of_pregnancy_end == 'SA' & (gestage > 154| gestage < 14),
-                     pregnancy_start_date := pregnancy_end_date - mean.gestage.SA]
+                     `:=`(pregnancy_start_date = pregnancy_end_date - mean.gestage.SA, 
+                          algorithm_for_reconciliation = paste0(algorithm_for_reconciliation,
+                                                                "/gestageAdjusted"))]
 }
 
 # check UNF gestage
@@ -552,7 +558,9 @@ if("UNF" %in% vec.type.of.end){
                                                   mean(gestage)])
   
   D3_pregnancy_model[type_of_pregnancy_end == 'UNF' & (gestage > 310 | gestage < 14),
-                     pregnancy_start_date := pregnancy_end_date - mean.gestage.UNF]
+                     `:=`(pregnancy_start_date = pregnancy_end_date - mean.gestage.UNF, 
+                          algorithm_for_reconciliation = paste0(algorithm_for_reconciliation,
+                                                                "/gestageAdjusted"))]
 }
   
 
@@ -562,7 +570,9 @@ if("SB" %in% vec.type.of.end){
                                                    mean(gestage)])
   
   D3_pregnancy_model[type_of_pregnancy_end == 'SB' & (gestage > 310 | gestage < 14),
-                     pregnancy_start_date := pregnancy_end_date - mean.gestage.SB]
+                     `:=`(pregnancy_start_date = pregnancy_end_date - mean.gestage.SB, 
+                          algorithm_for_reconciliation = paste0(algorithm_for_reconciliation,
+                                                                "/gestageAdjusted"))]
 }
 
 # check ECT gestage
@@ -571,7 +581,9 @@ if("ECT" %in% vec.type.of.end){
                                                   mean(gestage)])
   
   D3_pregnancy_model[type_of_pregnancy_end == 'ECT'& (gestage > 154 | gestage < 14),
-                     pregnancy_start_date := pregnancy_end_date - mean.gestage.ECT]
+                     `:=`(pregnancy_start_date = pregnancy_end_date - mean.gestage.ECT, 
+                          algorithm_for_reconciliation = paste0(algorithm_for_reconciliation,
+                                                                "/gestageAdjusted"))]
 }
 
 # check LOSTFU gestage
@@ -580,7 +592,9 @@ if("LOSTFU" %in% vec.type.of.end){
                                                    mean(gestage)])
   
   D3_pregnancy_model[type_of_pregnancy_end == 'LOSTFU' & (gestage > 310 | gestage < 14),
-                     `:=`(pregnancy_end_date =  date_of_most_recent_record)]
+                     `:=`(pregnancy_end_date =  date_of_most_recent_record, 
+                          algorithm_for_reconciliation = paste0(algorithm_for_reconciliation,
+                                                                "/gestageAdjusted"))]
   
   D3_pregnancy_model[type_of_pregnancy_end == 'LOSTFU' & (gestage > 310 | gestage < 14),
                      `:=`(pregnancy_start_date =  min(date_of_oldest_record, pregnancy_end_date - mean.gestage.LOSTFU)),
@@ -594,7 +608,9 @@ if("ONGOING" %in% vec.type.of.end){
                                                       mean(gestage)])
   
   D3_pregnancy_model[type_of_pregnancy_end == 'ONGOING' & (gestage > 310 | gestage < 14),
-                     `:=`(pregnancy_end_date =  date_of_most_recent_record)]
+                     `:=`(pregnancy_end_date =  date_of_most_recent_record, 
+                          algorithm_for_reconciliation = paste0(algorithm_for_reconciliation,
+                                                                "/gestageAdjusted"))]
   
   D3_pregnancy_model[type_of_pregnancy_end == 'ONGOING' & (gestage > 310 | gestage < 14),
                      `:=`(pregnancy_start_date =  min(date_of_oldest_record, pregnancy_end_date - mean.gestage.ONGOING)),
@@ -608,7 +624,9 @@ if("UNK" %in% vec.type.of.end){
                                                       mean(gestage)])
   
   D3_pregnancy_model[type_of_pregnancy_end == 'UNK' & (gestage > 310 | gestage < 14),
-                     `:=`(pregnancy_end_date =  date_of_most_recent_record)]
+                     `:=`(pregnancy_end_date =  date_of_most_recent_record, 
+                          algorithm_for_reconciliation = paste0(algorithm_for_reconciliation,
+                                                                "/gestageAdjusted"))]
   
   D3_pregnancy_model[type_of_pregnancy_end == 'UNK' & (gestage > 310 | gestage < 14),
                      `:=`(pregnancy_start_date =  min(date_of_oldest_record, pregnancy_end_date - mean.gestage.UNK)),

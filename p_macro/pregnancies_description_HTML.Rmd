@@ -116,7 +116,7 @@ As reported in the sap, some records have both pregnancy start date and pregnanc
  
 - **11**  CONCEPTSETS: spontaneous abortion, meaning non primary care, pregnancy_start_date not available and imputed
  
-- **12**  CONCEPTSETS: ectopic pregnancy, meaning non primary care, pregnancy_start_date not available and imputed
+- **12**  CONCEPTSETS: ectopic-molar pregnancy, meaning non primary care, pregnancy_start_date not available and imputed
  
 - **13**  CONCEPSETS: still birth possible, meaning non primary care,  pregnancy_start_date not available and imputed
 
@@ -157,7 +157,7 @@ quality_DF[order_quality == 8, order_quality :=	"CONCEPSETS: live birth"]
 quality_DF[order_quality == 9, order_quality :=	"CONCEPSETS: still birth"]
 quality_DF[order_quality == 10, order_quality :=  "CONCEPSETS: interruption"]
 quality_DF[order_quality == 11, order_quality :=  "CONCEPTSETS: spontaneous abortion"]
-quality_DF[order_quality == 12, order_quality :=  "CONCEPTSETS: ectopic pregnancy"]
+quality_DF[order_quality == 12, order_quality :=  "CONCEPTSETS: ectopic-molar pregnancy"]
 quality_DF[order_quality == 13, order_quality :=  "CONCEPSETS: still birth possible"]
 quality_DF[order_quality == 14, order_quality :=  "CONCEPSETS: interruption possible"]
 quality_DF[order_quality == 15, order_quality :=  "CONCEPSETS: spontaneous abortion possible"]
@@ -286,13 +286,15 @@ The same analysis is done for each different types of end of pregnancy, which ar
 
 - SA: spontaneous abortion
 
-- ECT: ectopic pregnancy
+- ECT-MOL: ectopic pregnancy
 
 - ONGOING: ongoing pregnancy
 
 - UNK: unknown 
 
 - UNF: Other Non-Live Birth
+
+- LOSTFU: Lost follow-up
 
 <br/><br/>
 
@@ -319,7 +321,7 @@ LB[order_quality == 8, order_quality :=	"CONCEPSETS: live birth"]
 LB[order_quality == 9, order_quality :=	"CONCEPSETS: still birth"]
 LB[order_quality == 10, order_quality :=  "CONCEPSETS: interruption"]
 LB[order_quality == 11, order_quality :=  "CONCEPTSETS: spontaneous abortion"]
-LB[order_quality == 12, order_quality :=  "CONCEPTSETS: ectopic pregnancy"]
+LB[order_quality == 12, order_quality :=  "CONCEPTSETS: ectopic-molar pregnancy"]
 LB[order_quality == 13, order_quality :=  "CONCEPSETS: still birth possible"]
 LB[order_quality == 14, order_quality :=  "CONCEPSETS: interruption possible"]
 LB[order_quality == 15, order_quality :=  "CONCEPSETS: spontaneous abortion possible"]
@@ -362,7 +364,7 @@ SB[order_quality == 8, order_quality :=	"CONCEPSETS: live birth"]
 SB[order_quality == 9, order_quality :=	"CONCEPSETS: still birth"]
 SB[order_quality == 10, order_quality :=  "CONCEPSETS: interruption"]
 SB[order_quality == 11, order_quality :=  "CONCEPTSETS: spontaneous abortion"]
-SB[order_quality == 12, order_quality :=  "CONCEPTSETS: ectopic pregnancy"]
+SB[order_quality == 12, order_quality :=  "CONCEPTSETS: ectopic-molar pregnancy"]
 SB[order_quality == 13, order_quality :=  "CONCEPSETS: still birth possible"]
 SB[order_quality == 14, order_quality :=  "CONCEPSETS: interruption possible"]
 SB[order_quality == 15, order_quality :=  "CONCEPSETS: spontaneous abortion possible"]
@@ -408,7 +410,7 @@ TE[order_quality == 8, order_quality :=	"CONCEPSETS: live birth"]
 TE[order_quality == 9, order_quality :=	"CONCEPSETS: still birth"]
 TE[order_quality == 10, order_quality :=  "CONCEPSETS: interruption"]
 TE[order_quality == 11, order_quality :=  "CONCEPTSETS: spontaneous abortion"]
-TE[order_quality == 12, order_quality :=  "CONCEPTSETS: ectopic pregnancy"]
+TE[order_quality == 12, order_quality :=  "CONCEPTSETS: ectopic-molar pregnancy"]
 TE[order_quality == 13, order_quality :=  "CONCEPSETS: still birth possible"]
 TE[order_quality == 14, order_quality :=  "CONCEPSETS: interruption possible"]
 TE[order_quality == 15, order_quality :=  "CONCEPSETS: spontaneous abortion possible"]
@@ -452,7 +454,7 @@ SA[order_quality == 8, order_quality :=	"CONCEPSETS: live birth"]
 SA[order_quality == 9, order_quality :=	"CONCEPSETS: still birth"]
 SA[order_quality == 10, order_quality :=  "CONCEPSETS: interruption"]
 SA[order_quality == 11, order_quality :=  "CONCEPTSETS: spontaneous abortion"]
-SA[order_quality == 12, order_quality :=  "CONCEPTSETS: ectopic pregnancy"]
+SA[order_quality == 12, order_quality :=  "CONCEPTSETS: ectopic-molar pregnancy"]
 SA[order_quality == 13, order_quality :=  "CONCEPSETS: still birth possible"]
 SA[order_quality == 14, order_quality :=  "CONCEPSETS: interruption possible"]
 SA[order_quality == 15, order_quality :=  "CONCEPSETS: spontaneous abortion possible"]
@@ -479,7 +481,7 @@ ___
 
 
 ```{r ectgraph}
-ECT <- D3_pregnancy_reconciled[type_of_pregnancy_end == "ECT"]
+ECT <- D3_pregnancy_reconciled[type_of_pregnancy_end == "ECT-MOL"]
 ECT <-ECT[, order_quality := as.factor(order_quality)]
 
 ECT[order_quality == 1, order_quality := "EUROCAT: start/end recorded"]
@@ -495,7 +497,7 @@ ECT[order_quality == 8, order_quality :=	"CONCEPSETS: live birth"]
 ECT[order_quality == 9, order_quality :=	"CONCEPSETS: still birth"]
 ECT[order_quality == 10, order_quality :=  "CONCEPSETS: interruption"]
 ECT[order_quality == 11, order_quality :=  "CONCEPTSETS: spontaneous abortion"]
-ECT[order_quality == 12, order_quality :=  "CONCEPTSETS: ectopic pregnancy"]
+ECT[order_quality == 12, order_quality :=  "CONCEPTSETS: ectopic-molar pregnancy"]
 ECT[order_quality == 13, order_quality :=  "CONCEPSETS: still birth possible"]
 ECT[order_quality == 14, order_quality :=  "CONCEPSETS: interruption possible"]
 ECT[order_quality == 15, order_quality :=  "CONCEPSETS: spontaneous abortion possible"]
@@ -505,7 +507,7 @@ ECT[order_quality == 50, order_quality :=  "all Streams: red"]
 
 ECT <-ECT[, .N, .(order_quality, year_start_of_pregnancy)]
 if (ECT[, .N]==0){
-  print("there is no ECT among the types of end of pregnancy" )
+  print("there is no ECT-MOL among the types of end of pregnancy" )
 }else{
 p <- ggplot(ECT, aes(x = year_start_of_pregnancy, y = N, fill= order_quality))+
   geom_col()+
@@ -540,7 +542,7 @@ ONGOING[order_quality == 8, order_quality :=	"CONCEPSETS: live birth"]
 ONGOING[order_quality == 9, order_quality :=	"CONCEPSETS: still birth"]
 ONGOING[order_quality == 10, order_quality :=  "CONCEPSETS: interruption"]
 ONGOING[order_quality == 11, order_quality :=  "CONCEPTSETS: spontaneous abortion"]
-ONGOING[order_quality == 12, order_quality :=  "CONCEPTSETS: ectopic pregnancy"]
+ONGOING[order_quality == 12, order_quality :=  "CONCEPTSETS: ectopic-molar pregnancy"]
 ONGOING[order_quality == 13, order_quality :=  "CONCEPSETS: still birth possible"]
 ONGOING[order_quality == 14, order_quality :=  "CONCEPSETS: interruption possible"]
 ONGOING[order_quality == 15, order_quality :=  "CONCEPSETS: spontaneous abortion possible"]
@@ -587,7 +589,7 @@ UNK[order_quality == 8, order_quality :=	"CONCEPSETS: live birth"]
 UNK[order_quality == 9, order_quality :=	"CONCEPSETS: still birth"]
 UNK[order_quality == 10, order_quality :=  "CONCEPSETS: interruption"]
 UNK[order_quality == 11, order_quality :=  "CONCEPTSETS: spontaneous abortion"]
-UNK[order_quality == 12, order_quality :=  "CONCEPTSETS: ectopic pregnancy"]
+UNK[order_quality == 12, order_quality :=  "CONCEPTSETS: ectopic-molar pregnancy"]
 UNK[order_quality == 13, order_quality :=  "CONCEPSETS: still birth possible"]
 UNK[order_quality == 14, order_quality :=  "CONCEPSETS: interruption possible"]
 UNK[order_quality == 15, order_quality :=  "CONCEPSETS: spontaneous abortion possible"]
@@ -630,7 +632,7 @@ UNF[order_quality == 8, order_quality :=	"CONCEPSETS: live birth"]
 UNF[order_quality == 9, order_quality :=	"CONCEPSETS: still birth"]
 UNF[order_quality == 10, order_quality :=  "CONCEPSETS: interruption"]
 UNF[order_quality == 11, order_quality :=  "CONCEPTSETS: spontaneous abortion"]
-UNF[order_quality == 12, order_quality :=  "CONCEPTSETS: ectopic pregnancy"]
+UNF[order_quality == 12, order_quality :=  "CONCEPTSETS: ectopic-molar pregnancy"]
 UNF[order_quality == 13, order_quality :=  "CONCEPSETS: still birth possible"]
 UNF[order_quality == 14, order_quality :=  "CONCEPSETS: interruption possible"]
 UNF[order_quality == 15, order_quality :=  "CONCEPSETS: spontaneous abortion possible"]
@@ -650,6 +652,50 @@ plot <- ggplotly(p)
 plot}
 ```
 
+
+<br/><br/>
+
+### Lost follow-up
+
+___
+
+
+```{r lostfugraph}
+LOSTFU <- D3_pregnancy_reconciled[type_of_pregnancy_end == "LOSTFU"]
+LOSTFU <-LOSTFU[, order_quality := as.factor(order_quality)]
+
+LOSTFU[order_quality == 1, order_quality := "EUROCAT: start/end recorded"]
+LOSTFU[order_quality == 2, order_quality := "PROMPT: start/end recorded"]
+LOSTFU[order_quality == 3, order_quality :=	"PROMPT: start/end recorded in linked data"]
+LOSTFU[order_quality == 4, order_quality :=	"CONCEPSETS: start/end recorded"]
+LOSTFU[order_quality == 5, order_quality :=	"PROMPT: only end recorded"]
+LOSTFU[order_quality == 6, order_quality :=	"PROMPT:  only end recorded in linked data"]
+LOSTFU[order_quality == 7, order_quality :=	"CONCEPSETS: pre-term birth"]
+LOSTFU[order_quality == 7, order_quality :=	"CONCEPSETS: at-term birth"]
+LOSTFU[order_quality == 7, order_quality := "CONCEPSETS: post-term birth"]
+LOSTFU[order_quality == 8, order_quality :=	"CONCEPSETS: live birth"]
+LOSTFU[order_quality == 9, order_quality :=	"CONCEPSETS: still birth"]
+LOSTFU[order_quality == 10, order_quality :=  "CONCEPSETS: interruption"]
+LOSTFU[order_quality == 11, order_quality :=  "CONCEPTSETS: spontaneous abortion"]
+LOSTFU[order_quality == 12, order_quality :=  "CONCEPTSETS: ectopic-molar pregnancy"]
+LOSTFU[order_quality == 13, order_quality :=  "CONCEPSETS: still birth possible"]
+LOSTFU[order_quality == 14, order_quality :=  "CONCEPSETS: interruption possible"]
+LOSTFU[order_quality == 15, order_quality :=  "CONCEPSETS: spontaneous abortion possible"]
+LOSTFU[order_quality == 20, order_quality :=  "CONCEPTSETS: meaning implying primary care"]
+LOSTFU[order_quality == 25, order_quality :=  "all Streams: blue"]
+LOSTFU[order_quality == 50, order_quality :=  "all Streams: red"]
+
+LOSTFU <-LOSTFU[, .N, .(order_quality, year_start_of_pregnancy)]
+if (LOSTFU[, .N]==0){
+  print("there is no LOSTFU among the types of end of pregnancy" )
+}else{
+p <- ggplot(LOSTFU, aes(x = year_start_of_pregnancy, y = N, fill= order_quality))+
+  geom_col()+
+  theme_hc()
+
+plot <- ggplotly(p)
+plot}
+```
 
 
 <br/><br/><br/><br/>
