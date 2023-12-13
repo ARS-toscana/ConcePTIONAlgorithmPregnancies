@@ -146,7 +146,9 @@ list_flowChart_years <- list(all = list(start = year_start_all_instance,
                              descriptive = list(start = year_start_descriptive,
                                                 end = year_end_descriptive),
                              manuscript = list(start = year_start_manuscript,
-                                               end = year_end_manuscript))
+                                               end = year_end_manuscript),
+                             prova = list(start = 2050,
+                                               end = 2060) )
 
 
 
@@ -155,84 +157,97 @@ for (years_flowChart in list_flowChart_years) {
   D3_all_stream_tmp <- D3_all_stream[ year_start_of_pregnancy >= years_flowChart$start &
                                     year_start_of_pregnancy <= years_flowChart$end]
   
-  D3_all_stream_tmp <- D3_all_stream_tmp[is.na(no_linked_to_person), no_linked_to_person := 0]
-  D3_all_stream_tmp <- D3_all_stream_tmp[is.na(person_not_in_fertile_age), person_not_in_fertile_age := 0]
-  D3_all_stream_tmp <- D3_all_stream_tmp[is.na(record_date_not_in_spells), record_date_not_in_spells := 0]
-  D3_all_stream_tmp <- D3_all_stream_tmp[is.na(pregnancy_with_dates_out_of_range), pregnancy_with_dates_out_of_range := 0]
-  
-  
-  # hierarchy: 
-  # a) no_linked_to_person                4
-  # b) person_not_in_fertile_age          3
-  # c) record_date_not_in_spells          2
-  # d) pregnancy_with_dates_out_of_range  1
-  
-
-  D3_all_stream_single_criteria <- D3_all_stream_tmp[pregnancy_with_dates_out_of_range == 1, exclusion := 1]
-  D3_all_stream_single_criteria <- D3_all_stream_single_criteria[record_date_not_in_spells == 1, exclusion := 2]
-  D3_all_stream_single_criteria <- D3_all_stream_single_criteria[person_not_in_fertile_age == 1, exclusion := 3]
-  D3_all_stream_single_criteria <- D3_all_stream_single_criteria[no_linked_to_person == 1, exclusion := 4]
-  
-  D3_all_stream_single_criteria <- D3_all_stream_single_criteria[is.na(exclusion), exclusion := 0]
-  
-  # id  a b c d   exclusion
-  # x   0 1 1 0       3
-  # x   0 0 0 0  -->  0
-  # x   0 0 1 0       2
-  # y   1 0 0 1       4
-  # y   0 1 0 0       3
-  
-  save(D3_all_stream_single_criteria, file = paste0(dirtemp, "D3_all_stream_single_criteria_", years_flowChart$start, "_", years_flowChart$end, ".RData"))
-  
-  #-------------------
-  # creating FlowChart 
-  #-------------------
-
-  D3_all_stream_person_id <- D3_all_stream_single_criteria[, .(exclusion = min(exclusion)), person_id]
-  
-  # id    exclusion
-  # x         0
-  # y         4
-  
-  
-  D3_all_stream_person_id <- D3_all_stream_person_id[exclusion == 4, `:=` (criteria ="A_no_linked_to_person", excluded = 1)]
-  D3_all_stream_person_id <- D3_all_stream_person_id[exclusion == 3, `:=` (criteria ="B_person_not_in_fertile_age", excluded = 1)]
-  D3_all_stream_person_id <- D3_all_stream_person_id[exclusion == 2, `:=` (criteria ="C_record_date_not_in_spells", excluded = 1)]
-  D3_all_stream_person_id <- D3_all_stream_person_id[exclusion == 1, `:=` (criteria ="D_pregnancy_with_dates_out_of_range", excluded = 1)]
-  D3_all_stream_person_id <- D3_all_stream_person_id[is.na(excluded), excluded := 0]
-  D3_all_stream_person_id <- D3_all_stream_person_id[is.na(criteria), criteria := "excluded"]
-  
-  save(D3_all_stream_person_id, file = paste0(dirtemp, "D3_all_stream_person_id_", years_flowChart$start, "_", years_flowChart$end, ".RData"))
-  
-  # id              exclusion
-  # x                  0
-  # y   "pregnancy_with_dates_out_of_range"
-  
-  FlowChart <- data.table::dcast(D3_all_stream_person_id, person_id  ~ criteria, value.var = "excluded", fill = 0) 
-  
-  #    no_linked_to_person  person_not_in_fertile_age   record_date_not_in_spells   pregnancy_with_dates_out_of_range
-  # x                  0                  0                        0                                0
-  # y                  1                  0                        0                                0
-  
-  criteria_in_this_flowchart <- names(FlowChart)[names(FlowChart) %in% c("A_no_linked_to_person",
-                                                                         "B_person_not_in_fertile_age",
-                                                                         "C_record_date_not_in_spells",
-                                                                         "D_pregnancy_with_dates_out_of_range")]
-  
-  
-  FlowChart <- FlowChart[, .N, by = criteria_in_this_flowchart]
- 
-
-  #    pregnancy_with_dates_out_of_range   N
-  #                    0                   0
-  #                    1                   1
-  
-  criteria_in_this_flowchart <- sort(criteria_in_this_flowchart, decreasing = TRUE)
-  
-  for (criteria_tmp in criteria_in_this_flowchart) {
-    FlowChart <- FlowChart[order( -get(criteria_tmp))]
+  if(D3_all_stream_tmp[, .N] > 0){
+    D3_all_stream_tmp <- D3_all_stream_tmp[is.na(no_linked_to_person), no_linked_to_person := 0]
+    D3_all_stream_tmp <- D3_all_stream_tmp[is.na(person_not_in_fertile_age), person_not_in_fertile_age := 0]
+    D3_all_stream_tmp <- D3_all_stream_tmp[is.na(record_date_not_in_spells), record_date_not_in_spells := 0]
+    D3_all_stream_tmp <- D3_all_stream_tmp[is.na(pregnancy_with_dates_out_of_range), pregnancy_with_dates_out_of_range := 0]
+    
+    
+    # hierarchy: 
+    # a) no_linked_to_person                4
+    # b) person_not_in_fertile_age          3
+    # c) record_date_not_in_spells          2
+    # d) pregnancy_with_dates_out_of_range  1
+    
+    
+    D3_all_stream_single_criteria <- D3_all_stream_tmp[pregnancy_with_dates_out_of_range == 1, exclusion := 1]
+    D3_all_stream_single_criteria <- D3_all_stream_single_criteria[record_date_not_in_spells == 1, exclusion := 2]
+    D3_all_stream_single_criteria <- D3_all_stream_single_criteria[person_not_in_fertile_age == 1, exclusion := 3]
+    D3_all_stream_single_criteria <- D3_all_stream_single_criteria[no_linked_to_person == 1, exclusion := 4]
+    
+    D3_all_stream_single_criteria <- D3_all_stream_single_criteria[is.na(exclusion), exclusion := 0]
+    
+    # id  a b c d   exclusion
+    # x   0 1 1 0       3
+    # x   0 0 0 0  -->  0
+    # x   0 0 1 0       2
+    # y   1 0 0 1       4
+    # y   0 1 0 0       3
+    
+    save(D3_all_stream_single_criteria, file = paste0(dirtemp, 
+                                                      "D3_all_stream_single_criteria_", 
+                                                      years_flowChart$start,
+                                                      "_", 
+                                                      years_flowChart$end, 
+                                                      ".RData"))
+    
+    #-------------------
+    # creating FlowChart 
+    #-------------------
+    
+    D3_all_stream_person_id <- D3_all_stream_single_criteria[, .(exclusion = min(exclusion)), person_id]
+    
+    # id    exclusion
+    # x         0
+    # y         4
+    
+    
+    D3_all_stream_person_id <- D3_all_stream_person_id[exclusion == 4, `:=` (criteria ="A_no_linked_to_person", excluded = 1)]
+    D3_all_stream_person_id <- D3_all_stream_person_id[exclusion == 3, `:=` (criteria ="B_person_not_in_fertile_age", excluded = 1)]
+    D3_all_stream_person_id <- D3_all_stream_person_id[exclusion == 2, `:=` (criteria ="C_record_date_not_in_spells", excluded = 1)]
+    D3_all_stream_person_id <- D3_all_stream_person_id[exclusion == 1, `:=` (criteria ="D_pregnancy_with_dates_out_of_range", excluded = 1)]
+    D3_all_stream_person_id <- D3_all_stream_person_id[is.na(excluded), excluded := 0]
+    D3_all_stream_person_id <- D3_all_stream_person_id[is.na(criteria), criteria := "excluded"]
+    
+    save(D3_all_stream_person_id, file = paste0(dirtemp, "D3_all_stream_person_id_", years_flowChart$start, "_", years_flowChart$end, ".RData"))
+    
+    # id              exclusion
+    # x                  0
+    # y   "pregnancy_with_dates_out_of_range"
+    
+    FlowChart <- data.table::dcast(D3_all_stream_person_id, person_id  ~ criteria, value.var = "excluded", fill = 0) 
+    
+    #    no_linked_to_person  person_not_in_fertile_age   record_date_not_in_spells   pregnancy_with_dates_out_of_range
+    # x                  0                  0                        0                                0
+    # y                  1                  0                        0                                0
+    
+    criteria_in_this_flowchart <- names(FlowChart)[names(FlowChart) %in% c("A_no_linked_to_person",
+                                                                           "B_person_not_in_fertile_age",
+                                                                           "C_record_date_not_in_spells",
+                                                                           "D_pregnancy_with_dates_out_of_range")]
+    
+    
+    FlowChart <- FlowChart[, .N, by = criteria_in_this_flowchart]
+    
+    
+    #    pregnancy_with_dates_out_of_range   N
+    #                    0                   0
+    #                    1                   1
+    
+    criteria_in_this_flowchart <- sort(criteria_in_this_flowchart, decreasing = TRUE)
+    
+    for (criteria_tmp in criteria_in_this_flowchart) {
+      FlowChart <- FlowChart[order( -get(criteria_tmp))]
+    }
+  }else{
+    FlowChart <- data.table(A_no_linked_to_person = 0,
+                            B_person_not_in_fertile_age = 0,
+                            C_record_date_not_in_spells = 0,
+                            D_pregnancy_with_dates_out_of_range = 0,
+                            N = 0)
   }
-  
+    
   fwrite(FlowChart, paste0(direxp, "FlowChart_", years_flowChart$start, "_", years_flowChart$end, ".csv"))
   
   if (years_flowChart$start == 2015 & years_flowChart$end == 2019) {
