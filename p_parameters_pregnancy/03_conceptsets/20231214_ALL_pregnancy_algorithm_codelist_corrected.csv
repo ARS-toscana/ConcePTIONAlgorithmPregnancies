@@ -1735,10 +1735,6 @@ Ectopic Pregnancy,SNOMEDCT_US,79586000,Tubal pregnancy,C0032994,Pregnancy- Tubal
 Ectopic Pregnancy,SNOMEDCT_US,82661006,Abdominal pregnancy,C0032984,Pregnancy- Abdominal,narrow,P,EctopicPregnancy,PrA,82661006
 Ectopic Pregnancy,SNOMEDCT_US,9899009,Ovarian pregnancy,C0032991,Pregnancy- Ovarian,narrow,P,EctopicPregnancy,PrA,9899009
 Elective termination,Free_text,ELECTTERM_narrow,"","","",narrow,P,ELECTTERM,PrA,ELECTTERM_narrow
-Elective termination,ICD10,O01,Hydatidiform mole,"","",narrow,P,ELECTTERM,PrA,O01
-Elective termination,ICD10,O01.0,Classical hydatidiform mole,"","",narrow,P,ELECTTERM,PrA,O01.0
-Elective termination,ICD10,O01.1,Incomplete and partial hydatidiform mole,"","",narrow,P,ELECTTERM,PrA,O01.1
-Elective termination,ICD10,O01.9,Hydatidiform mole- unspecified,"","",narrow,P,ELECTTERM,PrA,O01.9
 Elective termination,ICD10,O02,Other abnormal product of conception,"","",possible,P,ELECTTERM,PrA,O02
 Elective termination,ICD10,O02.8,Other specified abnormal products of conception,"","",possible,P,ELECTTERM,PrA,O02.8
 Elective termination,ICD10,O02.9,Abnormal product of conception- unspecified,"","",possible,P,ELECTTERM,PrA,O02.9
@@ -1813,10 +1809,6 @@ Elective termination,ICD10,O08.5,Metabolic disorders following abortion and ecto
 Elective termination,ICD10,O08.6,Damage to pelvic organs and tissues following abortion and ectopic and molar pregnancy,C0495173,Damage to pelvic organs and tissues following abortion and ectopic and molar pregnancy,narrow,P,ELECTTERM,PrA,O08.6
 Elective termination,ICD10,Z33.2,Encounter for elective termination of pregnancy,"","",possible,P,ELECTTERM,PrA,Z33.2
 Elective termination,ICD10,Z37.11,single birth- stillborn child- following a termination of pregnancy for medical reasons,"",single birth- stillborn child- following a termination of pregnancy for medical reasons  ,narrow,P,ELECTTERM,PrA,Z37.11
-Elective termination,ICD10CM,O01,Hydatidiform mole,"","",narrow,P,ELECTTERM,PrA,O01
-Elective termination,ICD10CM,O01.0,Classical hydatidiform mole,"","",narrow,P,ELECTTERM,PrA,O01.0
-Elective termination,ICD10CM,O01.1,Incomplete and partial hydatidiform mole,"","",narrow,P,ELECTTERM,PrA,O01.1
-Elective termination,ICD10CM,O01.9,Hydatidiform mole- unspecified,"","",narrow,P,ELECTTERM,PrA,O01.9
 Elective termination,ICD10CM,O02,Other abnormal product of conception,"","",possible,P,ELECTTERM,PrA,O02
 Elective termination,ICD10CM,O02.8,Other specified abnormal products of conception,"","",possible,P,ELECTTERM,PrA,O02.8
 Elective termination,ICD10CM,O02.89,Other abnormal products of conception,"","",possible,P,ELECTTERM,PrA,O02.89
@@ -1908,7 +1900,6 @@ Elective termination,ICD10DA,O06,Second induced abortion with consultation permi
 Elective termination,ICD10DA,O069,Induced abortion before the end of the 12th week of pregnancy with consultation permission,"","",narrow,P,ELECTTERM,PrA,O06.9
 Elective termination,ICD10DA,O07,Failed to induce abortion,"","",possible,P,ELECTTERM,PrA,O07
 Elective termination,ICD10DA,P964,Abortion with consequences for the newborn,"","",narrow,P,ELECTTERM,PrA,P96.4
-Elective termination,ICD9CM,630,Hydatidiform mole,"","",narrow,P,ELECTTERM,PrA,630
 Elective termination,ICD9CM,631,Other abnormal product of conception,"","",possible,P,ELECTTERM,PrA,631
 Elective termination,ICD9CM,635,Legally induced abortion,C1456876,Legal abortion (finding),narrow,P,ELECTTERM,PrA,635
 Elective termination,ICD9CM,635.0,Legally induced abortion complicated by genital tract and pelvic infection,C0156464,Legally induced abortion- complicated by genital tract and pelvic infection- unspecified,narrow,P,ELECTTERM,PrA,635.0
@@ -2051,8 +2042,6 @@ Elective termination,ICD9CM,639.4,Metabolic disorders following abortion or ecto
 Elective termination,ICD9CM,639.5,Shock following abortion or ectopic and molar pregnancies,C0495170,Shock following abortion and ectopic and molar pregnancy,narrow,P,ELECTTERM,PrA,639.5
 Elective termination,ICD9CM,639.6,Embolism following abortion or ectopic and molar pregnancies,C0495169,Embolism following abortion and ectopic and molar pregnancy,narrow,P,ELECTTERM,PrA,639.6
 Elective termination,ICD9CM,639.8,Other specified complications following abortion or ectopic and molar pregnancy,C0156602,Other specified complications following abortion or ectopic and molar pregnancy,narrow,P,ELECTTERM,PrA,639.8
-Elective termination,ICDPC2P,S77010,Mole-malignant,"","",narrow,P,ELECTTERM,PrA,S77.010
-Elective termination,ICDPC2P,W73002,Hydatidiform mole,"","",narrow,P,ELECTTERM,PrA,W73.002
 Elective termination,ICPC,W83,Abortion induced,C1704300,Induced abortion (finding),narrow,P,ELECTTERM,PrA,W83
 Elective termination,ICPC2EENG,W83,Abortion induced,C1704300,Induced abortion (finding),narrow,P,ELECTTERM,PrA,W83
 Elective termination,ICPC2P,W82002,Abortion,C0156543,Unspecified Abortion,possible,P,ELECTTERM,PrA,W82002
@@ -2112,14 +2101,12 @@ Elective termination,MEDCODEID,806911000006111,Gravid fallopian tube rupture,"",
 Elective termination,MEDCODEID,870501000006114,Ovarian preg. removal op.,"","",narrow,P,ELECTTERM,PrA,870501000006114
 Elective termination,MEDCODEID,870511000006112,Ruptured tubal preg.removal op,"","",narrow,P,ELECTTERM,PrA,870511000006112
 Elective termination,MEDCODEID,870521000006116,Tubal preg. removal op.,"","",narrow,P,ELECTTERM,PrA,870521000006116
-Elective termination,MTHICD9,630,vescicular mole,"","",narrow,P,ELECTTERM,PrA,630
 Elective termination,MTHICD9,637.00,Unspecified type of abortion- unspecified- complicated by genital tract and pelvic infection,C0156545,Unspecified abortion- complicated by genital tract and pelvic infection- unspecified,possible,P,ELECTTERM,PrA,637.00
 Elective termination,MTHICD9,639.3,Kidney failure following abortion or ectopic and molar pregnancies,C2712637,Kidney failure following abortion and ectopic and molar pregnancies,narrow,P,ELECTTERM,PrA,639.3
 Elective termination,RCD2,7E066,Hysterot termination pregnancy,C0195643,Hysterotomy and termination of pregnancy,narrow,P,ELECTTERM,PrA,7E066
 Elective termination,RCD2,7E084,Suction termination pregnancy,C0004050,Aspiration curettage of uterus for termination of pregnancy,narrow,P,ELECTTERM,PrA,7E084
 Elective termination,RCD2,8M6..,Requests pregnancy termination,C0581121,Requests pregnancy termination,possible,P,ELECTTERM,PrA,8M6..
 Elective termination,RCD2,L0...,Pregnancy + abortive outcome,C0156543,Unspecified Abortion,possible,P,ELECTTERM,PrA,L0...
-Elective termination,RCD2,L000.,Hydatidiform mole,"","",narrow,P,ELECTTERM,PrA,L000.
 Elective termination,RCD2,L050.,Legal abortion unspecified,C1456876,Legal abortion (finding),narrow,P,ELECTTERM,PrA,L050.
 Elective termination,RCD2,L0500,Legal ab.unsp.+genit-pelv.inf.,C0404925,Unspecified legal abortion with genital tract or pelvic infection,narrow,P,ELECTTERM,PrA,L0500
 Elective termination,RCD2,L0501,Legal ab.unsp.+h-ge problem,C0269450,Legally induced abortion- complicated by delayed or excessive hemorrhage- unspecified,narrow,P,ELECTTERM,PrA,L0501
@@ -2180,9 +2167,6 @@ Elective termination,RCD2,Lyu03,[X]Fail med abrt-wth o+uns cmp,C0477802,Failed m
 Elective termination,SCTSPA,10455003,remoción de un embarazo cervical ectópico por evacuación,C0195635,Removal of ectopic cervical pregnancy by evacuation,narrow,P,ELECTTERM,PrA,10455003
 Elective termination,SCTSPA,111431001,aborto legal complicado por lesión de tejidos Y-U órganos pélvicos,C0156472,Legal termination of pregnancy complicated by damage to pelvic organ and-or tissues,narrow,P,ELECTTERM,PrA,111431001
 Elective termination,SCTSPA,111432008,aborto legal con embolia gaseosa,C0269480,Legal termination of pregnancy with air embolism,narrow,P,ELECTTERM,PrA,111432008
-Elective termination,SCTSPA,115234004,neoplasia trofoblástica,"","",narrow,P,ELECTTERM,PrA,115234004
-Elective termination,SCTSPA,1156971005,Choriocarcinoma,"","",narrow,P,ELECTTERM,PrA,1156971005
-Elective termination,SCTSPA,1156973008,Benign complete hydatidiform mole,"","",narrow,P,ELECTTERM,PrA,1156973008
 Elective termination,SCTSPA,1204036002,trastorno posterior a interrupción inducida de embarazo (trastorno),"","",narrow,P,ELECTTERM,PrA,1204036002
 Elective termination,SCTSPA,1204036002,trastorno posterior a interrupción inducida de embarazo (trastorno),C0269474,Legal termination of pregnancy complicated by metabolic disorder,narrow,P,ELECTTERM,PrA,1204036002
 Elective termination,SCTSPA,1204037006,sepsis posterior a interrupción inducida de embarazo (trastorno),"","",narrow,P,ELECTTERM,PrA,1204037006
@@ -2200,7 +2184,6 @@ Elective termination,SCTSPA,1220652003,Complete induced termination of pregnancy
 Elective termination,SCTSPA,1220653008,Complete induced termination of pregnancy complicated by excessive hemorrhage (disorder),C0156470,Complete legal termination of pregnancy with delayed or excessive hemorrhage,narrow,P,ELECTTERM,PrA,1220653008
 Elective termination,SCTSPA,1220656000,Complete induced termination of pregnancy complicated by genital-pelvic infection (disorder),C0156466,Complete legal termination of pregnancy with genital tract or pelvic infection,narrow,P,ELECTTERM,PrA,1220656000
 Elective termination,SCTSPA,1220657009,Complete induced termination of pregnancy complicated by damage to pelvic organs and-or tissues (disorder),C0156474,Complete legal termination of pregnancy with damage to pelvic organs or tissues,narrow,P,ELECTTERM,PrA,1220657009
-Elective termination,SCTSPA,128767001,Trophoblastic tumor- epithelioid,"","",narrow,P,ELECTTERM,PrA,128767001
 Elective termination,SCTSPA,13943000,intento fallido de aborto complicado por embolia,C0156590,Failed attempted termination of pregnancy complicated by embolism,possible,P,ELECTTERM,PrA,13943000
 Elective termination,SCTSPA,149998006,operación para finalización del embarazo- SAI,C0404068,Operative termination of pregnancy,narrow,P,ELECTTERM,PrA,149998006
 Elective termination,SCTSPA,156079001,Abortion NOS,C0156543,Unspecified Abortion,possible,P,ELECTTERM,PrA,156079001
@@ -2210,8 +2193,6 @@ Elective termination,SCTSPA,18302006,aborto terapéutico por histerotomía,C0195
 Elective termination,SCTSPA,18391007,aborto electivo,C0269439,Elective abortion,narrow,P,ELECTTERM,PrA,18391007
 Elective termination,SCTSPA,184005004,solicita interrupción del embarazo (situación),"","",possible,P,ELECTTERM,PrA,184005004
 Elective termination,SCTSPA,18684002,aborto ilegal complicado por trastorno metabólico,C0269529,Illegal termination of pregnancy complicated by metabolic disorder,narrow,P,ELECTTERM,PrA,18684002
-Elective termination,SCTSPA,18799007,Invasive hydatidiform mole,"","",narrow,P,ELECTTERM,PrA,18799007
-Elective termination,SCTSPA,189857001,Choriocarcinoma combined with teratoma,"","",narrow,P,ELECTTERM,PrA,189857001
 Elective termination,SCTSPA,198691008,aborto legal no especificado,C1456876,Legal abortion (finding),narrow,P,ELECTTERM,PrA,198691008
 Elective termination,SCTSPA,198692001,aborto legal no especificado con infección pélvica o del aparato genital,C0404925,Unspecified legal abortion with genital tract or pelvic infection,narrow,P,ELECTTERM,PrA,198692001
 Elective termination,SCTSPA,198693006,aborto legal no especificado con hemorragia tardía o excesiva,C0269450,Legally induced abortion- complicated by delayed or excessive hemorrhage- unspecified,narrow,P,ELECTTERM,PrA,198693006
@@ -2280,9 +2261,6 @@ Elective termination,SCTSPA,200483009,[X]otro aborto provocado,C0477801,Other ab
 Elective termination,SCTSPA,200485002,aborto terapéutico fallido- con otras complicaciones y complicaciones no especificadas,C0477802,Failed medical abortion- with other and unspecified complications,possible,P,ELECTTERM,PrA,200485002
 Elective termination,SCTSPA,21280005,aborto legal con choque postoperatorio,C0269477,Legal termination of pregnancy with postoperative shock,narrow,P,ELECTTERM,PrA,21280005
 Elective termination,SCTSPA,237013006,embriotomía,C0013951,Embryotomy,narrow,P,ELECTTERM,PrA,237013006
-Elective termination,SCTSPA,237249000,mola hidatídica completa,"","",narrow,P,ELECTTERM,PrA,237249000
-Elective termination,SCTSPA,237250000,mola hidatiforme incompleta,"","",narrow,P,ELECTTERM,PrA,237250000
-Elective termination,SCTSPA,237252008,Placental site trophoblastic tumor,"","",narrow,P,ELECTTERM,PrA,237252008
 Elective termination,SCTSPA,26623000,intento fallido de aborto complicado por hemorragia tardía y-o excesiva,C0156585,Failed attempted termination of pregnancy complicated by delayed and-or excessive hemorrhage,possible,P,ELECTTERM,PrA,26623000
 Elective termination,SCTSPA,267194005,Complete legal abortion (disorder),C1261319,Legally induced abortion- without mention of complication- complete,narrow,P,ELECTTERM,PrA,267194005
 Elective termination,SCTSPA,267195006,nueva admisión por aborto (códigos del NHS),C0404958,Readmission for abortive pregnancy (NHS codes),possible,P,ELECTTERM,PrA,267195006
@@ -2299,29 +2277,17 @@ Elective termination,SCTSPA,302375005,interrupción quirúrgica de embarazo,C040
 Elective termination,SCTSPA,34500003,aborto legal- sin complicación,C0269440,Legal termination of pregnancy without complication,narrow,P,ELECTTERM,PrA,34500003
 Elective termination,SCTSPA,3634007,aborto legal complicado por trastorno metabólico,C0269474,Legal termination of pregnancy complicated by metabolic disorder,narrow,P,ELECTTERM,PrA,3634007
 Elective termination,SCTSPA,363681007,embarazo con aborto como desenlace,C0156543,Unspecified Abortion,possible,P,ELECTTERM,PrA,363681007
-Elective termination,SCTSPA,370079006,Choriocarcinoma- metastatic,"","",narrow,P,ELECTTERM,PrA,370079006
 Elective termination,SCTSPA,386641000,procedimiento de aborto terapéutico,C0269439,Elective abortion,narrow,P,ELECTTERM,PrA,386641000
 Elective termination,SCTSPA,386641000,procedimiento de aborto terapéutico (procedimiento),C1456876,Legal abortion (finding),narrow,P,ELECTTERM,PrA,386641000
 Elective termination,SCTSPA,38784004,aborto ilegal complicado por lesión de órganos Y-O tejidos pélvicos,C0269509,Illegal termination of pregnancy complicated by damage to pelvic organs and-or tissues,narrow,P,ELECTTERM,PrA,38784004
 Elective termination,SCTSPA,391896006,aborto terapéutico mediante legrado por aspiración,C0004050,Aspiration curettage of uterus for termination of pregnancy,narrow,P,ELECTTERM,PrA,391896006
 Elective termination,SCTSPA,39406005,interrupción legal del embarazo,C1456876,Legal abortion (finding),narrow,P,ELECTTERM,PrA,39406005
-Elective termination,SCTSPA,399380001,Choriocarcinoma- biphasic,"","",narrow,P,ELECTTERM,PrA,399380001
-Elective termination,SCTSPA,399479003,tumor maligno trofoblástico- no se puede determinar el tipo,"","",narrow,P,ELECTTERM,PrA,399479003
-Elective termination,SCTSPA,399669007,Choriocarcinoma- monophasic,"","",narrow,P,ELECTTERM,PrA,399669007
-Elective termination,SCTSPA,416402001,enfermedad trofoblástica gestacional,"","",narrow,P,ELECTTERM,PrA,416402001
-Elective termination,SCTSPA,416669000,Invasive hydatidiform mole,"","",narrow,P,ELECTTERM,PrA,416669000
-Elective termination,SCTSPA,417044008,mola hidatiforme- benigna,"","",narrow,P,ELECTTERM,PrA,417044008
-Elective termination,SCTSPA,417271000,mola hidatiforme benigna,"","",narrow,P,ELECTTERM,PrA,417271000
-Elective termination,SCTSPA,417570003,Gestational choriocarcinoma,"","",narrow,P,ELECTTERM,PrA,417570003
-Elective termination,SCTSPA,445149007,Residual trophoblastic disease,"","",narrow,P,ELECTTERM,PrA,445149007
-Elective termination,SCTSPA,44979007,Mola carnosa,"","",narrow,P,ELECTTERM,PrA,44979007
 Elective termination,SCTSPA,4576001,aborto legal complicado por insuficiencia renal,C0269469,Legal termination of pregnancy complicated by renal failure,narrow,P,ELECTTERM,PrA,4576001
 Elective termination,SCTSPA,46101000119101,asesoramiento sobre interrupción del embarazo realizado (situación),"","",possible,P,ELECTTERM,PrA,46101000119101
 Elective termination,SCTSPA,48433002,aborto legal con complicación,C0269441,Legal termination of pregnancy with complication,narrow,P,ELECTTERM,PrA,48433002
 Elective termination,SCTSPA,49416000,Failed attempted abortion (disorder),C0392536,Failed attempted abortion,narrow,P,ELECTTERM,PrA,49416000
 Elective termination,SCTSPA,49416000,intento fallido de aborto,C0392536,Failed attempted abortion,possible,P,ELECTTERM,PrA,49416000
 Elective termination,SCTSPA,49632008,aborto ilegal,C0000804,Abortion- Criminal,narrow,P,ELECTTERM,PrA,49632008
-Elective termination,SCTSPA,51793002,mola hidatiforme parcial,"","",narrow,P,ELECTTERM,PrA,51793002
 Elective termination,SCTSPA,52660002,aborto inducido luego de inyección intramniótica- con histerotomía,C0195644,Induced termination of pregnancy following intra-amniotic injection with hysterotomy,narrow,P,ELECTTERM,PrA,52660002
 Elective termination,SCTSPA,53638009,aborto terapéutico (trastorno),"","",narrow,P,ELECTTERM,PrA,53638009
 Elective termination,SCTSPA,57734001,aborto legal complicado por embolia,C0269479,Legal termination of pregnancy complicated by embolism,narrow,P,ELECTTERM,PrA,57734001
@@ -2339,12 +2305,7 @@ Elective termination,SCTSPA,609450004,interrupción inducida del embarazo compli
 Elective termination,SCTSPA,609452007,interrupción inducida del embarazo complicada por insuficiencia renal (trastorno),C0269469,Legal termination of pregnancy complicated by renal failure,narrow,P,ELECTTERM,PrA,609452007
 Elective termination,SCTSPA,609453002,interrupción inducida del embarazo complicada por choque (trastorno),C0269476,Legal termination of pregnancy complicated by shock,narrow,P,ELECTTERM,PrA,609453002
 Elective termination,SCTSPA,609485004,interrupción inducida del embarazo complicada por sepsis (trastorno),"","",narrow,P,ELECTTERM,PrA,609485004
-Elective termination,SCTSPA,609515005,Epithelioid trophoblastic tumor,"","",narrow,P,ELECTTERM,PrA,609515005
-Elective termination,SCTSPA,609517002,Gestational trophoblastic neoplasia,"","",narrow,P,ELECTTERM,PrA,609517002
-Elective termination,SCTSPA,609518007,enfermedad trofoblática gestacional,"","",narrow,P,ELECTTERM,PrA,609518007
-Elective termination,SCTSPA,609519004,Gestational trophoblastic neoplasia,"","",narrow,P,ELECTTERM,PrA,609519004
 Elective termination,SCTSPA,61752008,aborto ilegal complicado por choque,C0269531,Illegal termination of pregnancy complicated by shock,narrow,P,ELECTTERM,PrA,61752008
-Elective termination,SCTSPA,65646006,Malignant teratoma- trophoblastic,"","",narrow,P,ELECTTERM,PrA,65646006
 Elective termination,SCTSPA,67042008,intento fallido de aborto complicado por choque,C0156589,Failed attempted termination of pregnancy complicated by shock,possible,P,ELECTTERM,PrA,67042008
 Elective termination,SCTSPA,69302000,petición de aborto,C0000793,Abortion on Demand,possible,P,ELECTTERM,PrA,69302000
 Elective termination,SCTSPA,698636009,aborto legal completo con complicación,C3697208,Complete legal abortion with complication,narrow,P,ELECTTERM,PrA,698636009
@@ -2355,12 +2316,10 @@ Elective termination,SCTSPA,707207004,Incomplete induced termination of pregnanc
 Elective termination,SCTSPA,707207004,interrupción inducida del embarazo incompleta (trastorno),"","",narrow,P,ELECTTERM,PrA,707207004
 Elective termination,SCTSPA,714812005,terminación del embarazo- inducida,C4049831,Induced termination of pregnancy,narrow,P,ELECTTERM,PrA,714812005
 Elective termination,SCTSPA,74978008,aborto ilegal con complicación,C0269496,Illegal termination of pregnancy with complication,narrow,P,ELECTTERM,PrA,74978008
-Elective termination,SCTSPA,75320001,Placental site trophoblastic tumor,"","",narrow,P,ELECTTERM,PrA,75320001
 Elective termination,SCTSPA,7802000,aborto ilegal sin complicación,C0260335,Illegal termination of pregnancy without complication,narrow,P,ELECTTERM,PrA,7802000
 Elective termination,SCTSPA,7822001,intento fallido de aborto complicado por lesión de tejidos Y-U órganos pélvicos,C0269561,Failed attempted termination of pregnancy complicated by damage to pelvic organ and-or tissues,possible,P,ELECTTERM,PrA,7822001
 Elective termination,SCTSPA,785867009,hemorragia excesiva debida a interrupción inducida de embarazo y posterior a ella (trastorno),C0269450,Legally induced abortion- complicated by delayed or excessive hemorrhage- unspecified,narrow,P,ELECTTERM,PrA,785867009
 Elective termination,SCTSPA,86891002,aborto ilegal complicado por hemorragia tardía o excesiva,C0269505,Illegally induced abortion- complicated by delayed or excessive hemorrhage- unspecified,narrow,P,ELECTTERM,PrA,86891002
-Elective termination,SCTSPA,8734000,Choriocarcinoma combined with other germ cell elements,"","",narrow,P,ELECTTERM,PrA,8734000
 Elective termination,SCTSPA,8996006,aborto ilegal complicado por insuficiencia renal,C0269524,Illegal termination of pregnancy complicated by renal failure,narrow,P,ELECTTERM,PrA,8996006
 Elective termination,SCTSPA,90645002,Failed attempted abortion without complication (disorder),C0269549,Failed attempted termination of pregnancy without complication,narrow,P,ELECTTERM,PrA,90645002
 Elective termination,SCTSPA,90645002,intento fallido de aborto sin complicación,C0269549,Failed attempted termination of pregnancy without complication,possible,P,ELECTTERM,PrA,90645002
@@ -2375,9 +2334,6 @@ Elective termination,SNM,U000205,Abortion,C0156543,Unspecified Abortion,possible
 Elective termination,SNOMEDCT_US,10455003,Removal of ectopic cervical pregnancy by evacuation,C0195635,Removal of ectopic cervical pregnancy by evacuation,narrow,P,ELECTTERM,PrA,10455003
 Elective termination,SNOMEDCT_US,111431001,Legal termination of pregnancy complicated by damage to pelvic organ and-or tissues,C0156472,Legal termination of pregnancy complicated by damage to pelvic organ and-or tissues,narrow,P,ELECTTERM,PrA,111431001
 Elective termination,SNOMEDCT_US,111432008,Legal termination of pregnancy with air embolism,C0269480,Legal termination of pregnancy with air embolism,narrow,P,ELECTTERM,PrA,111432008
-Elective termination,SNOMEDCT_US,115234004,Trophoblastic neoplasm,"","",narrow,P,ELECTTERM,PrA,115234004
-Elective termination,SNOMEDCT_US,1156971005,Choriocarcinoma,"","",narrow,P,ELECTTERM,PrA,1156971005
-Elective termination,SNOMEDCT_US,1156973008,Benign complete hydatidiform mole,"","",narrow,P,ELECTTERM,PrA,1156973008
 Elective termination,SNOMEDCT_US,1204036002,Disorder following induced termination of pregnancy (disorder),"","",narrow,P,ELECTTERM,PrA,1204036002
 Elective termination,SNOMEDCT_US,1204036002,Disorder following induced termination of pregnancy (disorder),C0269474,Legal termination of pregnancy complicated by metabolic disorder,narrow,P,ELECTTERM,PrA,1204036002
 Elective termination,SNOMEDCT_US,1204037006,Sepsis following induced termination of pregnancy (disorder),"","",narrow,P,ELECTTERM,PrA,1204037006
@@ -2395,7 +2351,6 @@ Elective termination,SNOMEDCT_US,1220652003,Complete induced termination of preg
 Elective termination,SNOMEDCT_US,1220653008,Complete induced termination of pregnancy complicated by excessive hemorrhage (disorder),C0156470,Complete legal termination of pregnancy with delayed or excessive hemorrhage,narrow,P,ELECTTERM,PrA,1220653008
 Elective termination,SNOMEDCT_US,1220656000,Complete induced termination of pregnancy complicated by genital-pelvic infection (disorder),C0156466,Complete legal termination of pregnancy with genital tract or pelvic infection,narrow,P,ELECTTERM,PrA,1220656000
 Elective termination,SNOMEDCT_US,1220657009,Complete induced termination of pregnancy complicated by damage to pelvic organs and-or tissues (disorder),C0156474,Complete legal termination of pregnancy with damage to pelvic organs or tissues,narrow,P,ELECTTERM,PrA,1220657009
-Elective termination,SNOMEDCT_US,128767001,Trophoblastic tumor- epithelioid,"","",narrow,P,ELECTTERM,PrA,128767001
 Elective termination,SNOMEDCT_US,13943000,Failed attempted termination of pregnancy complicated by embolism,C0156590,Failed attempted termination of pregnancy complicated by embolism,narrow,P,ELECTTERM,PrA,13943000
 Elective termination,SNOMEDCT_US,149995009,Operative termination of pregnancy,C0404068,Operative termination of pregnancy,narrow,P,ELECTTERM,PrA,149995009
 Elective termination,SNOMEDCT_US,149997001,Suction termination of pregnancy,C0004050,Aspiration curettage of uterus for termination of pregnancy,narrow,P,ELECTTERM,PrA,149997001
@@ -2412,8 +2367,6 @@ Elective termination,SNOMEDCT_US,18302006,Hysterotomy and termination of pregnan
 Elective termination,SNOMEDCT_US,18391007,Elective termination of pregnancy,C0269439,Elective abortion,narrow,P,ELECTTERM,PrA,18391007
 Elective termination,SNOMEDCT_US,184005004,Requests pregnancy termination,C0581121,Requests pregnancy termination,possible,P,ELECTTERM,PrA,184005004
 Elective termination,SNOMEDCT_US,18684002,Illegal termination of pregnancy complicated by metabolic disorder,C0269529,Illegal termination of pregnancy complicated by metabolic disorder,narrow,P,ELECTTERM,PrA,18684002
-Elective termination,SNOMEDCT_US,18799007,Invasive hydatidiform mole,"","",narrow,P,ELECTTERM,PrA,18799007
-Elective termination,SNOMEDCT_US,189857001,Choriocarcinoma combined with teratoma,"","",narrow,P,ELECTTERM,PrA,189857001
 Elective termination,SNOMEDCT_US,198690009,Elective abortion,C0269439,Elective abortion,narrow,P,ELECTTERM,PrA,198690009
 Elective termination,SNOMEDCT_US,198691008,Legal abortion unspecified,C1456876,Legal abortion (finding),narrow,P,ELECTTERM,PrA,198691008
 Elective termination,SNOMEDCT_US,198692001,Unspecified legal abortion with genital tract or pelvic infection,C0404925,Unspecified legal abortion with genital tract or pelvic infection,narrow,P,ELECTTERM,PrA,198692001
@@ -2487,9 +2440,6 @@ Elective termination,SNOMEDCT_US,200483009,[X]Other abortion,C0477801,Other abor
 Elective termination,SNOMEDCT_US,200485002,[X]Failed medical abortion- with other and unspecified complications,C0477802,Failed medical abortion- with other and unspecified complications,possible,P,ELECTTERM,PrA,200485002
 Elective termination,SNOMEDCT_US,21280005,Legal termination of pregnancy with postoperative shock,C0269477,Legal termination of pregnancy with postoperative shock,narrow,P,ELECTTERM,PrA,21280005
 Elective termination,SNOMEDCT_US,237013006,Embryotomy,C0013951,Embryotomy,narrow,P,ELECTTERM,PrA,237013006
-Elective termination,SNOMEDCT_US,237249000,Complete hydatidiform mole,"","",narrow,P,ELECTTERM,PrA,237249000
-Elective termination,SNOMEDCT_US,237250000,incomplete hydatidiform mole,"","",narrow,P,ELECTTERM,PrA,237250000
-Elective termination,SNOMEDCT_US,237252008,Placental site trophoblastic tumor,"","",narrow,P,ELECTTERM,PrA,237252008
 Elective termination,SNOMEDCT_US,26623000,Failed attempted termination of pregnancy complicated by delayed and-or excessive hemorrhage,C0156585,Failed attempted termination of pregnancy complicated by delayed and-or excessive hemorrhage,narrow,P,ELECTTERM,PrA,26623000
 Elective termination,SNOMEDCT_US,267192009,Legal abortion,C1456876,Legal abortion (finding),narrow,P,ELECTTERM,PrA,267192009
 Elective termination,SNOMEDCT_US,267194005,Complete legal abortion (disorder),C1261319,Legally induced abortion- without mention of complication- complete,narrow,P,ELECTTERM,PrA,267194005
@@ -2508,33 +2458,18 @@ Elective termination,SNOMEDCT_US,302375005,Operative termination of pregnancy,C0
 Elective termination,SNOMEDCT_US,34500003,Legal termination of pregnancy without complication,C0269440,Legal termination of pregnancy without complication,narrow,P,ELECTTERM,PrA,34500003
 Elective termination,SNOMEDCT_US,3634007,Legal termination of pregnancy complicated by metabolic disorder,C0269474,Legal termination of pregnancy complicated by metabolic disorder,narrow,P,ELECTTERM,PrA,3634007
 Elective termination,SNOMEDCT_US,363681007,Pregnancy with abortive outcome,C0156543,Unspecified Abortion,possible,P,ELECTTERM,PrA,363681007
-Elective termination,SNOMEDCT_US,370079006,Choriocarcinoma- metastatic,"","",narrow,P,ELECTTERM,PrA,370079006
 Elective termination,SNOMEDCT_US,386639001,Abortion,C0156543,Unspecified Abortion,possible,P,ELECTTERM,PrA,386639001
 Elective termination,SNOMEDCT_US,386641000,Therapeutic abortion (procedure),C1456876,Legal abortion (finding),narrow,P,ELECTTERM,PrA,386641000
 Elective termination,SNOMEDCT_US,386641000,Therapeutic abortion procedure,C0269439,Elective abortion,narrow,P,ELECTTERM,PrA,386641000
 Elective termination,SNOMEDCT_US,38784004,Illegal termination of pregnancy complicated by damage to pelvic organs and-or tissues,C0269509,Illegal termination of pregnancy complicated by damage to pelvic organs and-or tissues,narrow,P,ELECTTERM,PrA,38784004
 Elective termination,SNOMEDCT_US,391897002,Aspiration curettage of uterus for termination of pregnancy,C0004050,Aspiration curettage of uterus for termination of pregnancy,narrow,P,ELECTTERM,PrA,391897002
 Elective termination,SNOMEDCT_US,39406005,Legal termination of pregnancy,C1456876,Legal abortion (finding),narrow,P,ELECTTERM,PrA,39406005
-Elective termination,SNOMEDCT_US,399380001,Choriocarcinoma- biphasic,"","",narrow,P,ELECTTERM,PrA,399380001
-Elective termination,SNOMEDCT_US,399479003,Malignant trophoblastic tumor- type cannot be determined,"","",narrow,P,ELECTTERM,PrA,399479003
-Elective termination,SNOMEDCT_US,399669007,Choriocarcinoma- monophasic,"","",narrow,P,ELECTTERM,PrA,399669007
-Elective termination,SNOMEDCT_US,416402001,Gestational trophoblastic disease,"","",narrow,P,ELECTTERM,PrA,416402001
-Elective termination,SNOMEDCT_US,416669000,Invasive hydatidiform mole,"","",narrow,P,ELECTTERM,PrA,416669000
-Elective termination,SNOMEDCT_US,417044008,Hydatidiform mole,"","",narrow,P,ELECTTERM,PrA,417044008
-Elective termination,SNOMEDCT_US,417044008,Hydatidiform mole- benign,"","",narrow,P,ELECTTERM,PrA,417044008
-Elective termination,SNOMEDCT_US,417057000,Gestational choriocarcinoma,"","",narrow,P,ELECTTERM,PrA,417057000
-Elective termination,SNOMEDCT_US,417271000,Hydatidiform mole- benign,"","",narrow,P,ELECTTERM,PrA,417271000
-Elective termination,SNOMEDCT_US,417570003,Gestational choriocarcinoma,"","",narrow,P,ELECTTERM,PrA,417570003
-Elective termination,SNOMEDCT_US,445149007,Residual trophoblastic disease,"","",narrow,P,ELECTTERM,PrA,445149007
-Elective termination,SNOMEDCT_US,44979007,Carneous mole,"","",narrow,P,ELECTTERM,PrA,44979007
 Elective termination,SNOMEDCT_US,4576001,Legal termination of pregnancy complicated by renal failure,C0269469,Legal termination of pregnancy complicated by renal failure,narrow,P,ELECTTERM,PrA,4576001
 Elective termination,SNOMEDCT_US,46101000119101,Counseling for termination of pregnancy done,C3839599,Counseling for termination of pregnancy done,possible,P,ELECTTERM,PrA,46101000119101
 Elective termination,SNOMEDCT_US,48433002,Legal termination of pregnancy with complication,C0269441,Legal termination of pregnancy with complication,narrow,P,ELECTTERM,PrA,48433002
 Elective termination,SNOMEDCT_US,49416000,Failed attempted abortion (disorder),C0392536,Failed attempted abortion,narrow,P,ELECTTERM,PrA,49416000
 Elective termination,SNOMEDCT_US,49416000,Failed attempted termination of pregnancy,C0392536,Failed attempted abortion,narrow,P,ELECTTERM,PrA,49416000
 Elective termination,SNOMEDCT_US,49632008,Illegal termination of pregnancy,C0000804,Abortion- Criminal,narrow,P,ELECTTERM,PrA,49632008
-Elective termination,SNOMEDCT_US,51793002,Partial hydatidiform mole,"","",narrow,P,ELECTTERM,PrA,51793002
-Elective termination,SNOMEDCT_US,51793002,partial hydatidiform mole,"","",narrow,P,ELECTTERM,PrA,51793002
 Elective termination,SNOMEDCT_US,52660002,Induced termination of pregnancy following intra-amniotic injection with hysterotomy,C0195644,Induced termination of pregnancy following intra-amniotic injection with hysterotomy,narrow,P,ELECTTERM,PrA,52660002
 Elective termination,SNOMEDCT_US,53638009,Therapeutic termination of pregnancy,C3146284,Therapeutic abortion (finding),narrow,P,ELECTTERM,PrA,53638009
 Elective termination,SNOMEDCT_US,57734001,Legal termination of pregnancy complicated by embolism,C0269479,Legal termination of pregnancy complicated by embolism,narrow,P,ELECTTERM,PrA,57734001
@@ -2552,12 +2487,7 @@ Elective termination,SNOMEDCT_US,609450004,Induced termination of pregnancy comp
 Elective termination,SNOMEDCT_US,609452007,Induced termination of pregnancy complicated by renal failure (disorder),C0269469,Legal termination of pregnancy complicated by renal failure,narrow,P,ELECTTERM,PrA,609452007
 Elective termination,SNOMEDCT_US,609453002,Induced termination of pregnancy complicated by shock (disorder),C0269476,Legal termination of pregnancy complicated by shock,narrow,P,ELECTTERM,PrA,609453002
 Elective termination,SNOMEDCT_US,609485004,Induced termination of pregnancy complicated by sepsis,C3662156,Induced termination of pregnancy complicated by sepsis,narrow,P,ELECTTERM,PrA,609485004
-Elective termination,SNOMEDCT_US,609515005,Epithelioid trophoblastic tumor,"","",narrow,P,ELECTTERM,PrA,609515005
-Elective termination,SNOMEDCT_US,609517002,Gestational trophoblastic neoplasia,"","",narrow,P,ELECTTERM,PrA,609517002
-Elective termination,SNOMEDCT_US,609518007,Gestational trophoblastic disease,"","",narrow,P,ELECTTERM,PrA,609518007
-Elective termination,SNOMEDCT_US,609519004,Gestational trophoblastic neoplasia,"","",narrow,P,ELECTTERM,PrA,609519004
 Elective termination,SNOMEDCT_US,61752008,Illegal termination of pregnancy complicated by shock,C0269531,Illegal termination of pregnancy complicated by shock,narrow,P,ELECTTERM,PrA,61752008
-Elective termination,SNOMEDCT_US,65646006,Malignant teratoma- trophoblastic,"","",narrow,P,ELECTTERM,PrA,65646006
 Elective termination,SNOMEDCT_US,67042008,Failed attempted termination of pregnancy complicated by shock,C0156589,Failed attempted termination of pregnancy complicated by shock,narrow,P,ELECTTERM,PrA,67042008
 Elective termination,SNOMEDCT_US,69302000,Termination of pregnancy on demand,C0000793,Abortion on Demand,possible,P,ELECTTERM,PrA,69302000
 Elective termination,SNOMEDCT_US,698636009,Complete legal abortion with complication,C3697208,Complete legal abortion with complication,narrow,P,ELECTTERM,PrA,698636009
@@ -2567,12 +2497,10 @@ Elective termination,SNOMEDCT_US,707207004,Incomplete induced termination of pre
 Elective termination,SNOMEDCT_US,707207004,Incomplete induced termination of pregnancy (disorder),C0600043,Legally induced abortion- without mention of complication- incomplete,narrow,P,ELECTTERM,PrA,707207004
 Elective termination,SNOMEDCT_US,714812005,Induced termination of pregnancy,C4049831,Induced termination of pregnancy,narrow,P,ELECTTERM,PrA,714812005
 Elective termination,SNOMEDCT_US,74978008,Illegal termination of pregnancy with complication,C0269496,Illegal termination of pregnancy with complication,narrow,P,ELECTTERM,PrA,74978008
-Elective termination,SNOMEDCT_US,75320001,Placental site trophoblastic tumor,"","",narrow,P,ELECTTERM,PrA,75320001
 Elective termination,SNOMEDCT_US,7802000,Illegal termination of pregnancy without complication,C0260335,Illegal termination of pregnancy without complication,narrow,P,ELECTTERM,PrA,7802000
 Elective termination,SNOMEDCT_US,7822001,Failed attempted termination of pregnancy complicated by damage to pelvic organ and-or tissues,C0269561,Failed attempted termination of pregnancy complicated by damage to pelvic organ and-or tissues,narrow,P,ELECTTERM,PrA,7822001
 Elective termination,SNOMEDCT_US,785867009,Excessive hemorrhage due to and following induced termination of pregnancy (disorder),C0269450,Legally induced abortion- complicated by delayed or excessive hemorrhage- unspecified,narrow,P,ELECTTERM,PrA,785867009
 Elective termination,SNOMEDCT_US,86891002,Illegal abortion complicated by delayed AND-OR excessive haemorrhage,C0269505,Illegally induced abortion- complicated by delayed or excessive hemorrhage- unspecified,narrow,P,ELECTTERM,PrA,86891002
-Elective termination,SNOMEDCT_US,8734000,Choriocarcinoma combined with other germ cell elements,"","",narrow,P,ELECTTERM,PrA,8734000
 Elective termination,SNOMEDCT_US,8996006,Illegal termination of pregnancy complicated by renal failure,C0269524,Illegal termination of pregnancy complicated by renal failure,narrow,P,ELECTTERM,PrA,8996006
 Elective termination,SNOMEDCT_US,90645002,Failed attempted abortion without complication (disorder),C0269549,Failed attempted termination of pregnancy without complication,narrow,P,ELECTTERM,PrA,90645002
 Elective termination,SNOMEDCT_US,90645002,Failed attempted termination of pregnancy without complication,C0269549,Failed attempted termination of pregnancy without complication,narrow,P,ELECTTERM,PrA,90645002
@@ -7025,6 +6953,78 @@ Stillbirth,SNOMEDCT_US,77714001,Apgar score 0,C0233242,Apgar score 0,narrow,P,St
 Stillbirth,SNOMEDCT_US,7860005,Stillbirth of mature male (2500 gms. or more),C0233333,Stillbirth of mature male (2500 gms. or more),narrow,P,StillBirth,PrA,7860005
 Stillbirth,SNOMEDCT_US,84122000,Fetal death,C0015927,Fetal Death,narrow,P,StillBirth,PrA,84122000
 Stillbirth,SNOMEDCT_US,90127001,Fetus papyraceous,C0156724,Fetus papyraceous,possible,P,StillBirth,PrA,90127001
+molar pregnancy,ICD10,O01,Hydatidiform mole,"","",narrow,P,MolarPregnancy,PrA,O01
+molar pregnancy,ICD10,O01.0,Classical hydatidiform mole,"","",narrow,P,MolarPregnancy,PrA,O01.0
+molar pregnancy,ICD10,O01.1,Incomplete and partial hydatidiform mole,"","",narrow,P,MolarPregnancy,PrA,O01.1
+molar pregnancy,ICD10,O01.9,Hydatidiform mole- unspecified,"","",narrow,P,MolarPregnancy,PrA,O01.9
+molar pregnancy,ICD10CM,O01,Hydatidiform mole,"","",narrow,P,MolarPregnancy,PrA,O01
+molar pregnancy,ICD10CM,O01.0,Classical hydatidiform mole,"","",narrow,P,MolarPregnancy,PrA,O01.0
+molar pregnancy,ICD10CM,O01.1,Incomplete and partial hydatidiform mole,"","",narrow,P,MolarPregnancy,PrA,O01.1
+molar pregnancy,ICD10CM,O01.9,Hydatidiform mole- unspecified,"","",narrow,P,MolarPregnancy,PrA,O01.9
+molar pregnancy,ICD9CM,630,Hydatidiform mole,"","",narrow,P,MolarPregnancy,PrA,630
+molar pregnancy,ICDPC2P,S77010,Mole-malignant,"","",narrow,P,MolarPregnancy,PrA,S77.010
+molar pregnancy,ICDPC2P,W73002,Hydatidiform mole,"","",narrow,P,MolarPregnancy,PrA,W73.002
+molar pregnancy,MTHICD9,630,vescicular mole,"","",narrow,P,MolarPregnancy,PrA,630
+molar pregnancy,RCD2,L000.,Hydatidiform mole,"","",narrow,P,MolarPregnancy,PrA,L000.
+molar pregnancy,SCTSPA,115234004,neoplasia trofoblástica,"","",narrow,P,MolarPregnancy,PrA,115234004
+molar pregnancy,SCTSPA,1156971005,Choriocarcinoma,"","",narrow,P,MolarPregnancy,PrA,1156971005
+molar pregnancy,SCTSPA,1156973008,Benign complete hydatidiform mole,"","",narrow,P,MolarPregnancy,PrA,1156973008
+molar pregnancy,SCTSPA,128767001,Trophoblastic tumor- epithelioid,"","",narrow,P,MolarPregnancy,PrA,128767001
+molar pregnancy,SCTSPA,18799007,Invasive hydatidiform mole,"","",narrow,P,MolarPregnancy,PrA,18799007
+molar pregnancy,SCTSPA,189857001,Choriocarcinoma combined with teratoma,"","",narrow,P,MolarPregnancy,PrA,189857001
+molar pregnancy,SCTSPA,237249000,mola hidatídica completa,"","",narrow,P,MolarPregnancy,PrA,237249000
+molar pregnancy,SCTSPA,237250000,mola hidatiforme incompleta,"","",narrow,P,MolarPregnancy,PrA,237250000
+molar pregnancy,SCTSPA,237252008,Placental site trophoblastic tumor,"","",narrow,P,MolarPregnancy,PrA,237252008
+molar pregnancy,SCTSPA,370079006,Choriocarcinoma- metastatic,"","",narrow,P,MolarPregnancy,PrA,370079006
+molar pregnancy,SCTSPA,399380001,Choriocarcinoma- biphasic,"","",narrow,P,MolarPregnancy,PrA,399380001
+molar pregnancy,SCTSPA,399479003,tumor maligno trofoblástico- no se puede determinar el tipo,"","",narrow,P,MolarPregnancy,PrA,399479003
+molar pregnancy,SCTSPA,399669007,Choriocarcinoma- monophasic,"","",narrow,P,MolarPregnancy,PrA,399669007
+molar pregnancy,SCTSPA,416402001,enfermedad trofoblástica gestacional,"","",narrow,P,MolarPregnancy,PrA,416402001
+molar pregnancy,SCTSPA,416669000,Invasive hydatidiform mole,"","",narrow,P,MolarPregnancy,PrA,416669000
+molar pregnancy,SCTSPA,417044008,mola hidatiforme- benigna,"","",narrow,P,MolarPregnancy,PrA,417044008
+molar pregnancy,SCTSPA,417271000,mola hidatiforme benigna,"","",narrow,P,MolarPregnancy,PrA,417271000
+molar pregnancy,SCTSPA,417570003,Gestational choriocarcinoma,"","",narrow,P,MolarPregnancy,PrA,417570003
+molar pregnancy,SCTSPA,445149007,Residual trophoblastic disease,"","",narrow,P,MolarPregnancy,PrA,445149007
+molar pregnancy,SCTSPA,44979007,Mola carnosa,"","",narrow,P,MolarPregnancy,PrA,44979007
+molar pregnancy,SCTSPA,51793002,mola hidatiforme parcial,"","",narrow,P,MolarPregnancy,PrA,51793002
+molar pregnancy,SCTSPA,609515005,Epithelioid trophoblastic tumor,"","",narrow,P,MolarPregnancy,PrA,609515005
+molar pregnancy,SCTSPA,609517002,Gestational trophoblastic neoplasia,"","",narrow,P,MolarPregnancy,PrA,609517002
+molar pregnancy,SCTSPA,609518007,enfermedad trofoblática gestacional,"","",narrow,P,MolarPregnancy,PrA,609518007
+molar pregnancy,SCTSPA,609519004,Gestational trophoblastic neoplasia,"","",narrow,P,MolarPregnancy,PrA,609519004
+molar pregnancy,SCTSPA,65646006,Malignant teratoma- trophoblastic,"","",narrow,P,MolarPregnancy,PrA,65646006
+molar pregnancy,SCTSPA,75320001,Placental site trophoblastic tumor,"","",narrow,P,MolarPregnancy,PrA,75320001
+molar pregnancy,SCTSPA,8734000,Choriocarcinoma combined with other germ cell elements,"","",narrow,P,MolarPregnancy,PrA,8734000
+molar pregnancy,SNOMEDCT_US,115234004,Trophoblastic neoplasm,"","",narrow,P,MolarPregnancy,PrA,115234004
+molar pregnancy,SNOMEDCT_US,1156971005,Choriocarcinoma,"","",narrow,P,MolarPregnancy,PrA,1156971005
+molar pregnancy,SNOMEDCT_US,1156973008,Benign complete hydatidiform mole,"","",narrow,P,MolarPregnancy,PrA,1156973008
+molar pregnancy,SNOMEDCT_US,128767001,Trophoblastic tumor- epithelioid,"","",narrow,P,MolarPregnancy,PrA,128767001
+molar pregnancy,SNOMEDCT_US,18799007,Invasive hydatidiform mole,"","",narrow,P,MolarPregnancy,PrA,18799007
+molar pregnancy,SNOMEDCT_US,189857001,Choriocarcinoma combined with teratoma,"","",narrow,P,MolarPregnancy,PrA,189857001
+molar pregnancy,SNOMEDCT_US,237249000,Complete hydatidiform mole,"","",narrow,P,MolarPregnancy,PrA,237249000
+molar pregnancy,SNOMEDCT_US,237250000,incomplete hydatidiform mole,"","",narrow,P,MolarPregnancy,PrA,237250000
+molar pregnancy,SNOMEDCT_US,237252008,Placental site trophoblastic tumor,"","",narrow,P,MolarPregnancy,PrA,237252008
+molar pregnancy,SNOMEDCT_US,370079006,Choriocarcinoma- metastatic,"","",narrow,P,MolarPregnancy,PrA,370079006
+molar pregnancy,SNOMEDCT_US,399380001,Choriocarcinoma- biphasic,"","",narrow,P,MolarPregnancy,PrA,399380001
+molar pregnancy,SNOMEDCT_US,399479003,Malignant trophoblastic tumor- type cannot be determined,"","",narrow,P,MolarPregnancy,PrA,399479003
+molar pregnancy,SNOMEDCT_US,399669007,Choriocarcinoma- monophasic,"","",narrow,P,MolarPregnancy,PrA,399669007
+molar pregnancy,SNOMEDCT_US,416402001,Gestational trophoblastic disease,"","",narrow,P,MolarPregnancy,PrA,416402001
+molar pregnancy,SNOMEDCT_US,416669000,Invasive hydatidiform mole,"","",narrow,P,MolarPregnancy,PrA,416669000
+molar pregnancy,SNOMEDCT_US,417044008,Hydatidiform mole,"","",narrow,P,MolarPregnancy,PrA,417044008
+molar pregnancy,SNOMEDCT_US,417044008,Hydatidiform mole- benign,"","",narrow,P,MolarPregnancy,PrA,417044008
+molar pregnancy,SNOMEDCT_US,417057000,Gestational choriocarcinoma,"","",narrow,P,MolarPregnancy,PrA,417057000
+molar pregnancy,SNOMEDCT_US,417271000,Hydatidiform mole- benign,"","",narrow,P,MolarPregnancy,PrA,417271000
+molar pregnancy,SNOMEDCT_US,417570003,Gestational choriocarcinoma,"","",narrow,P,MolarPregnancy,PrA,417570003
+molar pregnancy,SNOMEDCT_US,445149007,Residual trophoblastic disease,"","",narrow,P,MolarPregnancy,PrA,445149007
+molar pregnancy,SNOMEDCT_US,44979007,Carneous mole,"","",narrow,P,MolarPregnancy,PrA,44979007
+molar pregnancy,SNOMEDCT_US,51793002,Partial hydatidiform mole,"","",narrow,P,MolarPregnancy,PrA,51793002
+molar pregnancy,SNOMEDCT_US,51793002,partial hydatidiform mole,"","",narrow,P,MolarPregnancy,PrA,51793002
+molar pregnancy,SNOMEDCT_US,609515005,Epithelioid trophoblastic tumor,"","",narrow,P,MolarPregnancy,PrA,609515005
+molar pregnancy,SNOMEDCT_US,609517002,Gestational trophoblastic neoplasia,"","",narrow,P,MolarPregnancy,PrA,609517002
+molar pregnancy,SNOMEDCT_US,609518007,Gestational trophoblastic disease,"","",narrow,P,MolarPregnancy,PrA,609518007
+molar pregnancy,SNOMEDCT_US,609519004,Gestational trophoblastic neoplasia,"","",narrow,P,MolarPregnancy,PrA,609519004
+molar pregnancy,SNOMEDCT_US,65646006,Malignant teratoma- trophoblastic,"","",narrow,P,MolarPregnancy,PrA,65646006
+molar pregnancy,SNOMEDCT_US,75320001,Placental site trophoblastic tumor,"","",narrow,P,MolarPregnancy,PrA,75320001
+molar pregnancy,SNOMEDCT_US,8734000,Choriocarcinoma combined with other germ cell elements,"","",narrow,P,MolarPregnancy,PrA,8734000
 post term delivery,ICD9CM,645.11,Post term pregnancy- delivered- with or without mention of antepartum condition,C1176344,Post term pregnancy- delivered- with or without mention of antepartum condition,narrow,P,PostTerm,PrA,645.11
 post term delivery,ICD9CM,645.21,Prolonged pregnancy- delivered- with or without mention of antepartum condition,C1176347,Prolonged pregnancy- delivered- with or without mention of antepartum condition,narrow,P,PostTerm,PrA,645.21
 post term delivery,ICD9CM,766,Disorders relating to long gestation and high birthweight,C0158914,Disorder relating to long gestation AND-OR high birthweight,narrow,P,PostTerm,PrA,766
@@ -7433,7 +7433,6 @@ Ectopic Pregnancy,ICD9CMP,633.8,Other ectopic pregnancy,C0029604,Other ectopic p
 Ectopic Pregnancy,ICD9CMP,633.80,Other ectopic pregnancy without intrauterine pregnancy,"","",narrow,P,EctopicPregnancy,PrA,633.80
 Ectopic Pregnancy,ICD9CMP,633.9,Unspecified ectopic pregnancy,C0032987,Ectopic Pregnancy,narrow,P,EctopicPregnancy,PrA,633.9
 Ectopic Pregnancy,ICD9CMP,633.90,Unspecified ectopic pregnancy without intrauterine pregnancy,C1135239,Unspecified ectopic pregnancy without intrauterine pregnancy,narrow,P,EctopicPregnancy,PrA,633.90
-Elective termination,ICD9CMP,630,Hydatidiform mole,"","",narrow,P,ELECTTERM,PrA,630
 Elective termination,ICD9CMP,631,Other abnormal product of conception,"","",possible,P,ELECTTERM,PrA,631
 Elective termination,ICD9CMP,635,Legally induced abortion,C1456876,Legal abortion (finding),narrow,P,ELECTTERM,PrA,635
 Elective termination,ICD9CMP,635.0,Legally induced abortion complicated by genital tract and pelvic infection,C0156464,Legally induced abortion- complicated by genital tract and pelvic infection- unspecified,narrow,P,ELECTTERM,PrA,635.0
@@ -8243,6 +8242,7 @@ Stillbirth,ICD9CMP,V27.1,Outcome of delivery- single stillborn,C1313896,Encounte
 Stillbirth,ICD9CMP,V27.3,Outcome of delivery- twins- one liveborn and one stillborn,C0481466,Encounter due to birth of twins- one live born and one stillborn,narrow,P,StillBirth,PrA,V27.3
 Stillbirth,ICD9CMP,V27.4,Outcome of delivery- twins- both stillborn,C0419377,Encounter due to birth of twins- both stillborn,narrow,P,StillBirth,PrA,V27.4
 Stillbirth,ICD9CMP,V27.7,Outcome of delivery- other multiple birth- all stillborn,C0481671,Other multiple births- all stillborn,narrow,P,StillBirth,PrA,V27.7
+molar pregnancy,ICD9CMP,630,Hydatidiform mole,"","",narrow,P,MolarPregnancy,PrA,630
 post term delivery,ICD9CMP,645.11,Post term pregnancy- delivered- with or without mention of antepartum condition,C1176344,Post term pregnancy- delivered- with or without mention of antepartum condition,narrow,P,PostTerm,PrA,645.11
 post term delivery,ICD9CMP,645.21,Prolonged pregnancy- delivered- with or without mention of antepartum condition,C1176347,Prolonged pregnancy- delivered- with or without mention of antepartum condition,narrow,P,PostTerm,PrA,645.21
 post term delivery,ICD9CMP,766,Disorders relating to long gestation and high birthweight,C0158914,Disorder relating to long gestation AND-OR high birthweight,narrow,P,PostTerm,PrA,766

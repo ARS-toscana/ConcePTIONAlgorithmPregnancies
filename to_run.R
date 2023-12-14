@@ -45,7 +45,8 @@
 # - fixed flowchart bug (due to missing years)
 # - fixed bug due to identical rmse of predictive model
 # - ECT -> ECT-MOL
-# - updated codelist
+# - updated codelist to 20231214
+# - removed correction for ICD9CM and ICD10CM
 #------------------------------------------------------------------------------------------
 
 
