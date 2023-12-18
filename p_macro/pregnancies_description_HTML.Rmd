@@ -124,6 +124,8 @@ As reported in the sap, some records have both pregnancy start date and pregnanc
 
 - **15**  CONCEPSETS: spontaneous abortion possible, meaning non primary care,  pregnancy_start_date not available and imputed
 
+- **16**  CONCEPSETS: UNK end, meaning non primary care, pregnancy_end_date recorded and pregnancy_start_date not available and imputed
+
 - **20**  CONCEPTSETS: meaning implying primary care, pregnancy_start_date not available and imputed, end date estimated with record date 
  
 - **25**  all Streams: ongoing pregnancy and pregnancy_start_date recorded
@@ -161,6 +163,7 @@ quality_DF[order_quality == 12, order_quality :=  "CONCEPTSETS: ectopic-molar pr
 quality_DF[order_quality == 13, order_quality :=  "CONCEPSETS: still birth possible"]
 quality_DF[order_quality == 14, order_quality :=  "CONCEPSETS: interruption possible"]
 quality_DF[order_quality == 15, order_quality :=  "CONCEPSETS: spontaneous abortion possible"]
+quality_DF[order_quality == 16, order_quality :=  "CONCEPSETS: end date recorded, type UNK"]
 quality_DF[order_quality == 20, order_quality :=  "CONCEPTSETS: meaning implying primary care"]
 quality_DF[order_quality == 25, order_quality :=  "all Streams: blue"]
 quality_DF[order_quality == 50, order_quality :=  "all Streams: red"]

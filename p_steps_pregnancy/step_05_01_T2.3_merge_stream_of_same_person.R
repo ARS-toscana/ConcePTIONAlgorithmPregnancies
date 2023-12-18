@@ -173,43 +173,44 @@ table(groups_of_pregnancies[,coloured_order], useNA = "ifany")
 # 50)	all Streams: ongoing pregnancy having pregnancy_start_date not available and imputed 
 
 
-groups_of_pregnancies<-groups_of_pregnancies[EUROCAT=="yes" & coloured_order=="1_green",order_quality:=1]
-groups_of_pregnancies<-groups_of_pregnancies[PROMPT=="yes" & coloured_order=="1_green",order_quality:=2]
-groups_of_pregnancies<-groups_of_pregnancies[ITEMSETS=="yes" & coloured_order=="1_green",order_quality:=3]
-groups_of_pregnancies<-groups_of_pregnancies[CONCEPTSETS=="yes" & coloured_order=="1_green",order_quality:=4] 
+groups_of_pregnancies[EUROCAT=="yes" & coloured_order=="1_green",order_quality:=1]
+groups_of_pregnancies[PROMPT=="yes" & coloured_order=="1_green",order_quality:=2]
+groups_of_pregnancies[ITEMSETS=="yes" & coloured_order=="1_green",order_quality:=3]
+groups_of_pregnancies[CONCEPTSETS=="yes" & coloured_order=="1_green",order_quality:=4] 
 
-groups_of_pregnancies<-groups_of_pregnancies[PROMPT=="yes" & coloured_order=="2_yellow",order_quality:=5] 
-groups_of_pregnancies<-groups_of_pregnancies[ITEMSETS=="yes" & coloured_order=="2_yellow",order_quality:=6] 
+groups_of_pregnancies[PROMPT=="yes" & coloured_order=="2_yellow",order_quality:=5] 
+groups_of_pregnancies[ITEMSETS=="yes" & coloured_order=="2_yellow",order_quality:=6] 
 
-groups_of_pregnancies<-groups_of_pregnancies[CONCEPTSETS=="yes" & CONCEPTSET=="Atterm" & coloured_order=="2_yellow" & !eval(parse(text = condmeaning$PC)), order_quality:=7] #
-groups_of_pregnancies<-groups_of_pregnancies[CONCEPTSETS=="yes" & CONCEPTSET=="Preterm" & coloured_order=="2_yellow" & !eval(parse(text = condmeaning$PC)),order_quality:=7]
-groups_of_pregnancies<-groups_of_pregnancies[CONCEPTSETS=="yes" & CONCEPTSET=="Postterm" & coloured_order=="2_yellow" & !eval(parse(text = condmeaning$PC)),order_quality:=7]
+groups_of_pregnancies[CONCEPTSET=="Atterm", order_quality:=7] 
+groups_of_pregnancies[CONCEPTSET=="Preterm", order_quality:=7]
+groups_of_pregnancies[CONCEPTSET=="Postterm", order_quality:=7]
 
-groups_of_pregnancies<-groups_of_pregnancies[CONCEPTSETS=="yes" & CONCEPTSET=="Birth_narrow" & coloured_order=="2_yellow" & !eval(parse(text = condmeaning$PC)),order_quality:=8] #
-groups_of_pregnancies<-groups_of_pregnancies[CONCEPTSETS=="yes" & CONCEPTSET=="Livebirth" & coloured_order=="2_yellow" & !eval(parse(text = condmeaning$PC)), order_quality:=8] #
-groups_of_pregnancies<-groups_of_pregnancies[CONCEPTSETS=="yes" & CONCEPTSET=="procedures_livebirth" & coloured_order=="2_yellow" & !eval(parse(text = condmeaning$PC)), order_quality:=8] #
-groups_of_pregnancies<-groups_of_pregnancies[CONCEPTSETS=="yes" & CONCEPTSET=="procedures_delivery" & coloured_order=="2_yellow" & !eval(parse(text = condmeaning$PC)), order_quality:=8] #
+groups_of_pregnancies[CONCEPTSET=="Birth_narrow", order_quality:=8] 
+groups_of_pregnancies[CONCEPTSET=="Livebirth", order_quality:=8] 
+groups_of_pregnancies[CONCEPTSET=="procedures_livebirth", order_quality:=8] 
+groups_of_pregnancies[CONCEPTSET=="procedures_delivery", order_quality:=8] 
 
-groups_of_pregnancies<-groups_of_pregnancies[CONCEPTSETS=="yes" & CONCEPTSET=="Stillbirth_narrow" & coloured_order=="2_yellow" & !eval(parse(text = condmeaning$PC)),order_quality:=9]
-groups_of_pregnancies<-groups_of_pregnancies[CONCEPTSETS=="yes" & CONCEPTSET=="Interruption_narrow" & coloured_order=="2_yellow" & !eval(parse(text = condmeaning$PC)),order_quality:=10]
-groups_of_pregnancies<-groups_of_pregnancies[CONCEPTSETS=="yes" & CONCEPTSET=="procedures_termination" & coloured_order=="2_yellow" & !eval(parse(text = condmeaning$PC)),order_quality:=10]
-groups_of_pregnancies<-groups_of_pregnancies[CONCEPTSETS=="yes" & CONCEPTSET=="Spontaneousabortion_narrow" & coloured_order=="2_yellow" & !eval(parse(text = condmeaning$PC)),order_quality:=11]
-groups_of_pregnancies<-groups_of_pregnancies[CONCEPTSETS=="yes" & CONCEPTSET=="procedures_spontaneous_abortion" & coloured_order=="2_yellow" & !eval(parse(text = condmeaning$PC)),order_quality:=11]
-groups_of_pregnancies<-groups_of_pregnancies[CONCEPTSETS=="yes" & CONCEPTSET=="Ectopicpregnancy" & coloured_order=="2_yellow" & !eval(parse(text = condmeaning$PC)),order_quality:=12]
-groups_of_pregnancies<-groups_of_pregnancies[CONCEPTSETS=="yes" & CONCEPTSET=="procedures_ectopic" & coloured_order=="2_yellow" & !eval(parse(text = condmeaning$PC)),order_quality:=12]
+groups_of_pregnancies[CONCEPTSET=="Stillbirth_narrow", order_quality:=9]
+groups_of_pregnancies[CONCEPTSET=="Interruption_narrow", order_quality:=10]
+groups_of_pregnancies[CONCEPTSET=="procedures_termination", order_quality:=10]
+groups_of_pregnancies[CONCEPTSET=="Spontaneousabortion_narrow", order_quality:=11]
+groups_of_pregnancies[CONCEPTSET=="procedures_spontaneous_abortion", order_quality:=11]
+groups_of_pregnancies[CONCEPTSET=="Ectopicpregnancy", order_quality:=12]
+groups_of_pregnancies[CONCEPTSET=="procedures_ectopic", order_quality:=12]
 
-groups_of_pregnancies<-groups_of_pregnancies[CONCEPTSETS=="yes" & CONCEPTSET=="Stillbirth_possible" & coloured_order=="2_yellow" & !eval(parse(text = condmeaning$PC)),order_quality:=13]
-groups_of_pregnancies<-groups_of_pregnancies[CONCEPTSETS=="yes" & CONCEPTSET=="Interruption_possible" & coloured_order=="2_yellow" & !eval(parse(text = condmeaning$PC)),order_quality:=14]
-groups_of_pregnancies<-groups_of_pregnancies[CONCEPTSETS=="yes" & CONCEPTSET=="Spontaneousabortion_possible" & coloured_order=="2_yellow" & !eval(parse(text = condmeaning$PC)),order_quality:=15]
+groups_of_pregnancies[CONCEPTSET=="Stillbirth_possible", order_quality:=13]
+groups_of_pregnancies[CONCEPTSET=="Interruption_possible", order_quality:=14]
+groups_of_pregnancies[CONCEPTSET=="Spontaneousabortion_possible", order_quality:=15]
+groups_of_pregnancies[CONCEPTSET=="procedures_end_UNK", order_quality:=16]
 
 
-groups_of_pregnancies<-groups_of_pregnancies[CONCEPTSETS=="yes" & coloured_order=="2_yellow" & eval(parse(text = condmeaning$PC)), order_quality:=20]
+groups_of_pregnancies[CONCEPTSETS=="yes" & coloured_order=="2_yellow" & eval(parse(text = condmeaning$PC)), order_quality:=20]
 
-groups_of_pregnancies<-groups_of_pregnancies[coloured_order=="3_blue", order_quality:=25]
+groups_of_pregnancies[coloured_order=="3_blue", order_quality:=25]
 
-groups_of_pregnancies<-groups_of_pregnancies[coloured_order=="4_red", order_quality:=50]
+groups_of_pregnancies[coloured_order=="4_red", order_quality:=50]
 
-groups_of_pregnancies<-groups_of_pregnancies[meaning_start_date %in% meaning_start_not_implying_pregnancy, order_quality:=99]
+groups_of_pregnancies[meaning_start_date %in% meaning_start_not_implying_pregnancy, order_quality:=99]
 
 # table(groups_of_pregnancies[,order_quality], useNA = "ifany")
 # table(groups_of_pregnancies[,.(order_quality, coloured_order)], useNA = "ifany")

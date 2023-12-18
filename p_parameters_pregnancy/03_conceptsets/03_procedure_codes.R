@@ -1,7 +1,12 @@
 #######################################################################################
 ################################# PROCEDURE CODES #####################################
 #######################################################################################
-concept_sets_of_pregnancy_pro <- c("procedures_livebirth", "procedures_termination", "procedures_spontaneous_abortion", "procedures_ongoing", "procedures_ectopic")
+concept_sets_of_pregnancy_pro <- c("procedures_livebirth", 
+                                   "procedures_termination", 
+                                   "procedures_spontaneous_abortion", 
+                                   "procedures_ongoing", 
+                                   "procedures_ectopic",
+                                   "procedures_end_UNK")
 
 for (conceptset in concept_sets_of_pregnancy_pro){
   concept_set_domains[[conceptset]] = "Procedures"
@@ -36,14 +41,14 @@ concept_set_codes_pregnancy[["procedures_termination"]][["ICD10ES"]] <- c("10A00
 
 
 # procedure spontaneous abortion in various coding system
-concept_set_codes_pregnancy[["procedures_spontaneous_abortion"]][["ICD9PROC"]] <- c("69.52",  "74.3") 
+concept_set_codes_pregnancy[["procedures_spontaneous_abortion"]][["ICD9PROC"]] <- c() # code "69.52" is no longer used as it could be both a LB or SA, v5.2
 concept_set_codes_pregnancy[["procedures_spontaneous_abortion"]][["ICD10"]] <- c()
 concept_set_codes_pregnancy[["procedures_spontaneous_abortion"]][["READ"]] <- c()
 concept_set_codes_pregnancy[["procedures_spontaneous_abortion"]][["ICPC2P"]] <- c()
 concept_set_codes_pregnancy[["procedures_spontaneous_abortion"]][["SNOMED"]] <- c()
 
 # procedures ectopic in various coding system
-concept_set_codes_pregnancy[["procedures_ectopic"]][["ICD9PROC"]] <- c("66.62")
+concept_set_codes_pregnancy[["procedures_ectopic"]][["ICD9PROC"]] <- c("66.62", "74.3")
 concept_set_codes_pregnancy[["procedures_ectopic"]][["ICD10"]] <- c()
 concept_set_codes_pregnancy[["procedures_ectopic"]][["READ"]] <- c()
 concept_set_codes_pregnancy[["procedures_ectopic"]][["ICPC2P"]] <- c()
@@ -61,6 +66,25 @@ concept_set_codes_pregnancy[["procedures_ongoing"]][["SNOMED"]] <- c()
 concept_set_codes_pregnancy[["procedures_ongoing"]][["ICD10ES"]] <- c("10900Z9","10900ZB","10903Z9","10903ZA","10903ZB","10904Z9","10904ZB","10907Z9","10907ZA","10907ZB","10908Z9","10908ZA","BY30Y0Z","BY30ZZZ","BY31Y0Z","BY31YZZ","BY31ZZZ","BY32ZZZ","BY47ZZZ","BY48ZZZ","BY49ZZZ","BY4BZZZ","BY4CZZZ","BY4DZZZ","BY4FZZZ","BY4GZZZ","BY36ZZZ","4A0H7CZ","4A0H7FZ","4A0H7HZ","4A0HX4Z","4A0HXCZ","4A0HXFZ","4A0JXBZ","10J07ZZ","10S0XZZ","10Q04ZY","10903ZU","10H073Z","10J18ZZ","10H07YZ","10904ZC","10Q04YF","10J0XZZ","10904ZU","10903ZC","10J08ZZ","10J28ZZ","10J20ZZ","10Q07ZR","10907ZU","10900ZU","10J17ZZ","10J1XZZ","10908ZU","10P07YZ","10J00ZZ","10904ZD","10908ZC","10P073Z","10J04ZZ","10Q08ZJ")
 
 # based on FISABIO's input
+
+
+
+
+
+
+# procedures end UNK
+
+# procedures with unk end in various coding system
+concept_set_codes_pregnancy[["procedures_end_UNK"]][["ICD9PROC"]] <- c("69.52")
+concept_set_codes_pregnancy[["procedures_end_UNK"]][["ICD10"]] <- c()
+concept_set_codes_pregnancy[["procedures_end_UNK"]][["READ"]] <- c()
+concept_set_codes_pregnancy[["procedures_end_UNK"]][["ICPC2P"]] <- c()
+concept_set_codes_pregnancy[["procedures_end_UNK"]][["SNOMED"]] <- c()
+concept_set_codes_pregnancy[["procedures_end_UNK"]][["ICD10ES"]] <- c()
+  
+
+
+
 
 
 # -itemset_AVpair_pregnancy- is a nested list, with 3 levels: foreach study variable, for each coding system of its data domain, the list of AVpair is recorded

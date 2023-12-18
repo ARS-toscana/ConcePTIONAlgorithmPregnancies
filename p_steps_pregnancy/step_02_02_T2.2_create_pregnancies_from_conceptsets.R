@@ -231,7 +231,6 @@ if(this_datasource_has_conceptsets){
   #   LB ending Pregnancy
   #-----------------------------------
   
-  
   if (this_datasource_has_procedures) {
     concept_sets_of_end_of_pregnancy_LB_final <- c(concept_sets_of_end_of_pregnancy_LB, 
                                                    concept_sets_of_end_of_pregnancy_LB_procedures)
@@ -316,14 +315,22 @@ if(this_datasource_has_conceptsets){
     dataset_LB_concept_sets <- dataset_LB_concept_sets[is.na(meaning), meaning := so_meaning]
   }
   
-  #-----------------------------------
-  #   Birth Possible Pregnancy
-  #-----------------------------------
+  #------------------------------------------------
+  #   Birth Possible Pregnancy - Procedures END unk
+  #------------------------------------------------
+  
+  if (this_datasource_has_procedures) {
+    concept_sets_of_end_of_pregnancy_UNK_final <- c(concept_sets_of_end_of_pregnancy_UNK, 
+                                                    concept_sets_of_end_of_pregnancy_UNK_procedures)
+  }else{
+    concept_sets_of_end_of_pregnancy_UNK_final <- concept_sets_of_end_of_pregnancy_UNK
+  }
+  
   
   # put together concept_set of ongoing
   dataset_end_UNK_concept_sets <- c()
   
-  for (conceptvar in concept_sets_of_end_of_pregnancy_UNK  ){ 
+  for (conceptvar in concept_sets_of_end_of_pregnancy_UNK_final){ 
     cat(paste0(conceptvar, "\n"))
     studyvardataset <- get(conceptvar)[!is.na(date),][,concept_set:=conceptvar]
     #studyvardataset <- unique(studyvardataset,by=c("person_id","codvar","date"))
@@ -370,8 +377,12 @@ if(this_datasource_has_conceptsets){
                                                                       origin = NA,
                                                                       meaning = NA,
                                                                       imputed_start_of_pregnancy = 1,
-                                                                      imputed_end_of_pregnancy = 1,
                                                                       CONCEPTSETS = "yes")]
+  
+  
+  # end imputation
+  dataset_end_UNK_concept_sets[concept_set == "Birth_possible", imputed_end_of_pregnancy := 1]
+  dataset_end_UNK_concept_sets[concept_set == "procedures_end_UNK", imputed_end_of_pregnancy := 0]
   
   
   if ("origin_of_event" %in% names(dataset_end_UNK_concept_sets)) {

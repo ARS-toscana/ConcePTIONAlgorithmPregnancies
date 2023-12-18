@@ -47,6 +47,8 @@
 # - ECT -> ECT-MOL
 # - updated codelist to 20231214
 # - removed correction for ICD9CM and ICD10CM
+# - copied ICD9CM as ICD9
+# - added conceptset whit type UNK, but with recorded end date
 #------------------------------------------------------------------------------------------
 
 

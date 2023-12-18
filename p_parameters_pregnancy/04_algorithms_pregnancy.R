@@ -44,6 +44,15 @@ if(this_datasource_has_conceptsets){
 }
 ## FIXING FOR CODING SYSTEMS
 
+if(this_datasource_has_conceptsets){
+  for (conceptset in concept_set_pregnancy){
+    #print(conceptset)
+    if (concept_set_domains[[conceptset]] == "Diagnosis"){
+      concept_set_codes_pregnancy[[conceptset]][["ICD9"]] <- unique(c(concept_set_codes_pregnancy[[conceptset]][["ICD9CM"]]))
+    }
+  }
+}
+
 # fix for ICPC2P
 # for (conceptset in concept_set_pregnancy){
 #   if (length(concept_set_codes_pregnancy[[conceptset]][["ICPC2P"]]) >0 ){
@@ -52,59 +61,59 @@ if(this_datasource_has_conceptsets){
 # }
 
 # fix for ICD10GM
-if(this_datasource_has_conceptsets){
-  for (conceptset in concept_set_pregnancy){
-    #print(conceptset)
-    if (concept_set_domains[[conceptset]] == "Diagnosis"){
-      concept_set_codes_pregnancy[[conceptset]][["ICD10GM"]] <- unique(c(concept_set_codes_pregnancy[[conceptset]][["ICD10"]]  ,concept_set_codes_pregnancy[[conceptset]][["ICD10GM"]]))
-    }
-  }
-  
-  # fix for ICD10CM
-  # for (conceptset in concept_set_pregnancy){
-  #   if (concept_set_domains[[conceptset]] == "Diagnosis"){
-  #     concept_set_codes_pregnancy[[conceptset]][["ICD10CM"]] <- concept_set_codes_pregnancy[[conceptset]][["ICD10"]]
-  #   }
-  # }
-  
-  # fix for ICD10ES
-  for (conceptset in concept_set_pregnancy){
-    if (concept_set_domains[[conceptset]] == "Diagnosis"){
-      concept_set_codes_pregnancy[[conceptset]][["ICD10ES"]] <- concept_set_codes_pregnancy[[conceptset]][["ICD10"]]
-    }
-  }
-  
-  # fix for CIM10
-  for (conceptset in concept_set_pregnancy){
-    if (concept_set_domains[[conceptset]] == "Diagnosis"){
-      concept_set_codes_pregnancy[[conceptset]][["CIM10"]] <- concept_set_codes_pregnancy[[conceptset]][["ICD10"]]
-    }
-  }
-  
-  # fix for SNOMED3
-  for (conceptset in concept_set_pregnancy){
-    if (concept_set_domains[[conceptset]] == "Diagnosis"){
-      concept_set_codes_pregnancy[[conceptset]][["SNOMED3"]] <- concept_set_codes_pregnancy[[conceptset]][["SNOMED"]]
-    }
-  }
-  
-  
-  # fix for ICD9CM
-  # for (conceptset in concept_set_pregnancy){
-  #   if (concept_set_domains[[conceptset]] == "Diagnosis"){
-  #     concept_set_codes_pregnancy[[conceptset]][["ICD9CM"]] <- concept_set_codes_pregnancy[[conceptset]][["ICD9"]]
-  #   }
-  # }
-  
-  # fix for ICD9CMPROC
-  for (conceptset in concept_set_pregnancy){
-    if (concept_set_domains[[conceptset]] == "Procedures"){
-      concept_set_codes_pregnancy[[conceptset]][["ICD9CMPROC"]] <- concept_set_codes_pregnancy[[conceptset]][["ICD9PROC"]]
-    }
-  }
-  
-  
-}
+# if(this_datasource_has_conceptsets){
+#   for (conceptset in concept_set_pregnancy){
+#     #print(conceptset)
+#     if (concept_set_domains[[conceptset]] == "Diagnosis"){
+#       concept_set_codes_pregnancy[[conceptset]][["ICD10GM"]] <- unique(c(concept_set_codes_pregnancy[[conceptset]][["ICD10"]]  ,concept_set_codes_pregnancy[[conceptset]][["ICD10GM"]]))
+#     }
+#   }
+#   
+#   # fix for ICD10CM
+#   for (conceptset in concept_set_pregnancy){
+#     if (concept_set_domains[[conceptset]] == "Diagnosis"){
+#       concept_set_codes_pregnancy[[conceptset]][["ICD10CM"]] <- concept_set_codes_pregnancy[[conceptset]][["ICD10"]]
+#     }
+#   }
+#   
+#   # fix for ICD10ES
+#   for (conceptset in concept_set_pregnancy){
+#     if (concept_set_domains[[conceptset]] == "Diagnosis"){
+#       concept_set_codes_pregnancy[[conceptset]][["ICD10ES"]] <- concept_set_codes_pregnancy[[conceptset]][["ICD10"]]
+#     }
+#   }
+#   
+#   # fix for CIM10
+#   for (conceptset in concept_set_pregnancy){
+#     if (concept_set_domains[[conceptset]] == "Diagnosis"){
+#       concept_set_codes_pregnancy[[conceptset]][["CIM10"]] <- concept_set_codes_pregnancy[[conceptset]][["ICD10"]]
+#     }
+#   }
+#   
+#   # fix for SNOMED3
+#   for (conceptset in concept_set_pregnancy){
+#     if (concept_set_domains[[conceptset]] == "Diagnosis"){
+#       concept_set_codes_pregnancy[[conceptset]][["SNOMED3"]] <- concept_set_codes_pregnancy[[conceptset]][["SNOMED"]]
+#     }
+#   }
+#   
+#   
+#   # fix for ICD9CM
+#   for (conceptset in concept_set_pregnancy){
+#     if (concept_set_domains[[conceptset]] == "Diagnosis"){
+#       concept_set_codes_pregnancy[[conceptset]][["ICD9CM"]] <- concept_set_codes_pregnancy[[conceptset]][["ICD9"]]
+#     }
+#   }
+#   
+#   # fix for ICD9CMPROC
+#   for (conceptset in concept_set_pregnancy){
+#     if (concept_set_domains[[conceptset]] == "Procedures"){
+#       concept_set_codes_pregnancy[[conceptset]][["ICD9CMPROC"]] <- concept_set_codes_pregnancy[[conceptset]][["ICD9PROC"]]
+#     }
+#   }
+#   
+#   
+# }
 
 # Legally included 
 
