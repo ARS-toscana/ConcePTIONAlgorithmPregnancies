@@ -273,7 +273,100 @@ plot
 
 <br/><br/><br/><br/>
 
+## LB and SB pregnancies: green and yellow from PROMPT
 
+```{r LBSB_PROMPT}
+LBSB_PROMPT <- D3_pregnancy_reconciled[, order_quality := as.factor(order_quality)]
+
+LBSB_PROMPT <- LBSB_PROMPT[type_of_pregnancy_end %in% c("LB", "SB") &
+                             highest_quality %in% c("1_green", "2_yellow") &
+                             PROMPT == "yes"]
+
+LBSB_PROMPT <- LBSB_PROMPT[, .N, by = .(year_start_of_pregnancy, order_quality)]
+
+
+LBSB_PROMPT[order_quality == 1, order_quality := "EUROCAT: start/end recorded"]
+LBSB_PROMPT[order_quality == 2, order_quality := "PROMPT: start/end recorded"]
+LBSB_PROMPT[order_quality == 3, order_quality :=	"PROMPT: start/end recorded in linked data"]
+LBSB_PROMPT[order_quality == 4, order_quality :=	"CONCEPSETS: start/end recorded"]
+LBSB_PROMPT[order_quality == 5, order_quality :=	"PROMPT: only end recorded"]
+LBSB_PROMPT[order_quality == 6, order_quality :=	"PROMPT:  only end recorded in linked data"]
+LBSB_PROMPT[order_quality == 7, order_quality :=	"CONCEPSETS: pre-term birth"]
+LBSB_PROMPT[order_quality == 7, order_quality :=	"CONCEPSETS: at-term birth"]
+LBSB_PROMPT[order_quality == 7, order_quality := "CONCEPSETS: post-term birth"]
+LBSB_PROMPT[order_quality == 8, order_quality :=	"CONCEPSETS: live birth"]
+LBSB_PROMPT[order_quality == 9, order_quality :=	"CONCEPSETS: still birth"]
+LBSB_PROMPT[order_quality == 10, order_quality :=  "CONCEPSETS: interruption"]
+LBSB_PROMPT[order_quality == 11, order_quality :=  "CONCEPTSETS: spontaneous abortion"]
+LBSB_PROMPT[order_quality == 12, order_quality :=  "CONCEPTSETS: ectopic-molar pregnancy"]
+LBSB_PROMPT[order_quality == 13, order_quality :=  "CONCEPSETS: still birth possible"]
+LBSB_PROMPT[order_quality == 14, order_quality :=  "CONCEPSETS: interruption possible"]
+LBSB_PROMPT[order_quality == 15, order_quality :=  "CONCEPSETS: spontaneous abortion possible"]
+LBSB_PROMPT[order_quality == 16, order_quality :=  "CONCEPSETS: end date recorded, type UNK"]
+LBSB_PROMPT[order_quality == 20, order_quality :=  "CONCEPTSETS: meaning implying primary care"]
+LBSB_PROMPT[order_quality == 25, order_quality :=  "all Streams: blue"]
+LBSB_PROMPT[order_quality == 50, order_quality :=  "all Streams: red"]
+           
+if(LBSB_PROMPT[, .N] > 0){
+  p <- ggplot(LBSB_PROMPT, aes(year_start_of_pregnancy, N, fill= order_quality))+
+  geom_col()+
+  theme_hc()
+
+plot <- ggplotly(p)
+plot
+}else{
+  print('"LB" or "SB" are not present in the PROMPT stream')
+}
+
+```
+<br/><br/><br/><br/>
+
+## SA, T: green, yellow, blue
+
+```{r SAT_PROMPTCONC}
+SAT_GYB <- D3_pregnancy_reconciled[, order_quality := as.factor(order_quality)]
+
+SAT_GYB <- SAT_GYB[type_of_pregnancy_end %in% c("SA", "T") &
+                             highest_quality %in% c("1_green", "2_yellow", "3_BLUE")]
+
+SAT_GYB <- SAT_GYB[, .N, by = .(year_start_of_pregnancy, order_quality)]
+
+
+SAT_GYB[order_quality == 1, order_quality := "EUROCAT: start/end recorded"]
+SAT_GYB[order_quality == 2, order_quality := "PROMPT: start/end recorded"]
+SAT_GYB[order_quality == 3, order_quality :=	"PROMPT: start/end recorded in linked data"]
+SAT_GYB[order_quality == 4, order_quality :=	"CONCEPSETS: start/end recorded"]
+SAT_GYB[order_quality == 5, order_quality :=	"PROMPT: only end recorded"]
+SAT_GYB[order_quality == 6, order_quality :=	"PROMPT:  only end recorded in linked data"]
+SAT_GYB[order_quality == 7, order_quality :=	"CONCEPSETS: pre-term birth"]
+SAT_GYB[order_quality == 7, order_quality :=	"CONCEPSETS: at-term birth"]
+SAT_GYB[order_quality == 7, order_quality := "CONCEPSETS: post-term birth"]
+SAT_GYB[order_quality == 8, order_quality :=	"CONCEPSETS: live birth"]
+SAT_GYB[order_quality == 9, order_quality :=	"CONCEPSETS: still birth"]
+SAT_GYB[order_quality == 10, order_quality :=  "CONCEPSETS: interruption"]
+SAT_GYB[order_quality == 11, order_quality :=  "CONCEPTSETS: spontaneous abortion"]
+SAT_GYB[order_quality == 12, order_quality :=  "CONCEPTSETS: ectopic-molar pregnancy"]
+SAT_GYB[order_quality == 13, order_quality :=  "CONCEPSETS: still birth possible"]
+SAT_GYB[order_quality == 14, order_quality :=  "CONCEPSETS: interruption possible"]
+SAT_GYB[order_quality == 15, order_quality :=  "CONCEPSETS: spontaneous abortion possible"]
+SAT_GYB[order_quality == 16, order_quality :=  "CONCEPSETS: end date recorded, type UNK"]
+SAT_GYB[order_quality == 20, order_quality :=  "CONCEPTSETS: meaning implying primary care"]
+SAT_GYB[order_quality == 25, order_quality :=  "all Streams: blue"]
+SAT_GYB[order_quality == 50, order_quality :=  "all Streams: red"]
+           
+if(SAT_GYB[, .N] > 0){
+  p <- ggplot(SAT_GYB, aes(year_start_of_pregnancy, N, fill= order_quality))+
+  geom_col()+
+  theme_hc()
+
+plot <- ggplotly(p)
+plot
+}else{
+  print('"SA" or "T" with quality "green", "yellow" or "blue" are not present in the PROMPT stream')
+}
+```
+
+<br/><br/><br/><br/>
 
 
 ## Quality by type of pregnancies end 
@@ -328,6 +421,7 @@ LB[order_quality == 12, order_quality :=  "CONCEPTSETS: ectopic-molar pregnancy"
 LB[order_quality == 13, order_quality :=  "CONCEPSETS: still birth possible"]
 LB[order_quality == 14, order_quality :=  "CONCEPSETS: interruption possible"]
 LB[order_quality == 15, order_quality :=  "CONCEPSETS: spontaneous abortion possible"]
+LB[order_quality == 16, order_quality :=  "CONCEPSETS: end date recorded, type UNK"]
 LB[order_quality == 20, order_quality :=  "CONCEPTSETS: meaning implying primary care"]
 LB[order_quality == 25, order_quality :=  "all Streams: blue"]
 LB[order_quality == 50, order_quality :=  "all Streams: red"]
@@ -371,6 +465,7 @@ SB[order_quality == 12, order_quality :=  "CONCEPTSETS: ectopic-molar pregnancy"
 SB[order_quality == 13, order_quality :=  "CONCEPSETS: still birth possible"]
 SB[order_quality == 14, order_quality :=  "CONCEPSETS: interruption possible"]
 SB[order_quality == 15, order_quality :=  "CONCEPSETS: spontaneous abortion possible"]
+SB[order_quality == 16, order_quality :=  "CONCEPSETS: end date recorded, type UNK"]
 SB[order_quality == 20, order_quality :=  "CONCEPTSETS: meaning implying primary care"]
 SB[order_quality == 25, order_quality :=  "all Streams: blue"]
 SB[order_quality == 50, order_quality :=  "all Streams: red"]
@@ -417,6 +512,7 @@ TE[order_quality == 12, order_quality :=  "CONCEPTSETS: ectopic-molar pregnancy"
 TE[order_quality == 13, order_quality :=  "CONCEPSETS: still birth possible"]
 TE[order_quality == 14, order_quality :=  "CONCEPSETS: interruption possible"]
 TE[order_quality == 15, order_quality :=  "CONCEPSETS: spontaneous abortion possible"]
+TE[order_quality == 16, order_quality :=  "CONCEPSETS: end date recorded, type UNK"]
 TE[order_quality == 20, order_quality :=  "CONCEPTSETS: meaning implying primary care"]
 TE[order_quality == 25, order_quality :=  "all Streams: blue"]
 TE[order_quality == 50, order_quality :=  "all Streams: red"]
@@ -461,6 +557,7 @@ SA[order_quality == 12, order_quality :=  "CONCEPTSETS: ectopic-molar pregnancy"
 SA[order_quality == 13, order_quality :=  "CONCEPSETS: still birth possible"]
 SA[order_quality == 14, order_quality :=  "CONCEPSETS: interruption possible"]
 SA[order_quality == 15, order_quality :=  "CONCEPSETS: spontaneous abortion possible"]
+SA[order_quality == 16, order_quality :=  "CONCEPSETS: end date recorded, type UNK"]
 SA[order_quality == 20, order_quality :=  "CONCEPTSETS: meaning implying primary care"]
 SA[order_quality == 25, order_quality :=  "all Streams: blue"]
 SA[order_quality == 50, order_quality :=  "all Streams: red"]
@@ -504,6 +601,7 @@ ECT[order_quality == 12, order_quality :=  "CONCEPTSETS: ectopic-molar pregnancy
 ECT[order_quality == 13, order_quality :=  "CONCEPSETS: still birth possible"]
 ECT[order_quality == 14, order_quality :=  "CONCEPSETS: interruption possible"]
 ECT[order_quality == 15, order_quality :=  "CONCEPSETS: spontaneous abortion possible"]
+ECT[order_quality == 16, order_quality :=  "CONCEPSETS: end date recorded, type UNK"]
 ECT[order_quality == 20, order_quality :=  "CONCEPTSETS: meaning implying primary care"]
 ECT[order_quality == 25, order_quality :=  "all Streams: blue"]
 ECT[order_quality == 50, order_quality :=  "all Streams: red"]
@@ -549,6 +647,7 @@ ONGOING[order_quality == 12, order_quality :=  "CONCEPTSETS: ectopic-molar pregn
 ONGOING[order_quality == 13, order_quality :=  "CONCEPSETS: still birth possible"]
 ONGOING[order_quality == 14, order_quality :=  "CONCEPSETS: interruption possible"]
 ONGOING[order_quality == 15, order_quality :=  "CONCEPSETS: spontaneous abortion possible"]
+ONGOING[order_quality == 16, order_quality :=  "CONCEPSETS: end date recorded, type UNK"]
 ONGOING[order_quality == 20, order_quality :=  "CONCEPTSETS: meaning implying primary care"]
 ONGOING[order_quality == 25, order_quality :=  "all Streams: blue"]
 ONGOING[order_quality == 50, order_quality :=  "all Streams: red"]
@@ -596,6 +695,7 @@ UNK[order_quality == 12, order_quality :=  "CONCEPTSETS: ectopic-molar pregnancy
 UNK[order_quality == 13, order_quality :=  "CONCEPSETS: still birth possible"]
 UNK[order_quality == 14, order_quality :=  "CONCEPSETS: interruption possible"]
 UNK[order_quality == 15, order_quality :=  "CONCEPSETS: spontaneous abortion possible"]
+UNK[order_quality == 16, order_quality :=  "CONCEPSETS: end date recorded, type UNK"]
 UNK[order_quality == 20, order_quality :=  "CONCEPTSETS: meaning implying primary care"]
 UNK[order_quality == 25, order_quality :=  "all Streams: blue"]
 UNK[order_quality == 50, order_quality :=  "all Streams: red"]
@@ -639,6 +739,7 @@ UNF[order_quality == 12, order_quality :=  "CONCEPTSETS: ectopic-molar pregnancy
 UNF[order_quality == 13, order_quality :=  "CONCEPSETS: still birth possible"]
 UNF[order_quality == 14, order_quality :=  "CONCEPSETS: interruption possible"]
 UNF[order_quality == 15, order_quality :=  "CONCEPSETS: spontaneous abortion possible"]
+UNF[order_quality == 16, order_quality :=  "CONCEPSETS: end date recorded, type UNK"]
 UNF[order_quality == 20, order_quality :=  "CONCEPTSETS: meaning implying primary care"]
 UNF[order_quality == 25, order_quality :=  "all Streams: blue"]
 UNF[order_quality == 50, order_quality :=  "all Streams: red"]
@@ -684,6 +785,7 @@ LOSTFU[order_quality == 12, order_quality :=  "CONCEPTSETS: ectopic-molar pregna
 LOSTFU[order_quality == 13, order_quality :=  "CONCEPSETS: still birth possible"]
 LOSTFU[order_quality == 14, order_quality :=  "CONCEPSETS: interruption possible"]
 LOSTFU[order_quality == 15, order_quality :=  "CONCEPSETS: spontaneous abortion possible"]
+LOSTFU[order_quality == 16, order_quality :=  "CONCEPSETS: end date recorded, type UNK"]
 LOSTFU[order_quality == 20, order_quality :=  "CONCEPTSETS: meaning implying primary care"]
 LOSTFU[order_quality == 25, order_quality :=  "all Streams: blue"]
 LOSTFU[order_quality == 50, order_quality :=  "all Streams: red"]

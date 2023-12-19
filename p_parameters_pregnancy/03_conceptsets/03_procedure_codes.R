@@ -20,13 +20,14 @@ concept_set_codes_pregnancy[["procedures_ectopic"]] <- list()
 concept_set_codes_pregnancy[["procedures_ongoing"]] <- list()
 
 
-# procedures livebirth in various coding system
-concept_set_codes_pregnancy[["procedures_livebirth"]][["ICD9PROC"]] <- c("72.0", "72.1", "72.2", "72.21", "72.29", "72.3", "72.31", "72.39", "72.4", "72.51", "72.53", "72.6", "72.7", "72.71", "72.79", "72.8", "72.9", "73.01", "73.1", "73.3", "73.4", "73.5", "73.59", "73.8", "73.9", "73.93", "73.94", "73.99", "74.0", "74.1", "74.2", "74.4", "74.9", "74.99", "72.5", "72.52", "72.54", "73.0", "73.09", "73.2", "73.22", "73.51", "73.91", "73.92", "84.92", "84.93")# "75.7","89.16",
-concept_set_codes_pregnancy[["procedures_livebirth"]][["ICD10"]] <- c()
-concept_set_codes_pregnancy[["procedures_livebirth"]][["READ"]] <- c()
-concept_set_codes_pregnancy[["procedures_livebirth"]][["ICPC2P"]] <- c()
-concept_set_codes_pregnancy[["procedures_livebirth"]][["SNOMED"]] <- c()
-concept_set_codes_pregnancy[["procedures_livebirth"]][["ICD10ES"]] <- c("10E0XZZ","10D07Z3","10D07Z4","10D07Z5","10S07ZZ","10D07Z6","10D07Z8","10D00Z0","10D00Z1","10D00Z2","10907ZC","10907ZD","10D07Z7") # based on FISABIO's input
+# procedures with unk end in various coding system
+concept_set_codes_pregnancy[["procedures_end_UNK"]][["ICD9PROC"]] <- c("72.0", "72.1", "72.2", "72.21", "72.29", "72.3", "72.31", "72.39", "72.4", "72.51", "72.53", "72.6", "72.7", "72.71", "72.79", "72.8", "72.9", "73.01", "73.1", "73.3", "73.4", "73.5", "73.59", "73.8", "73.9", "73.93", "73.94", "73.99", "74.0", "74.1", "74.2", "74.4", "74.9", "74.99", "72.5", "72.52", "72.54", "73.0", "73.09", "73.2", "73.22", "73.51", "73.91", "73.92", "69.52")# "75.7","89.16"
+# remuved on 20231219: "84.92", "84.93",
+concept_set_codes_pregnancy[["procedures_end_UNK"]][["ICD10"]] <- c()
+concept_set_codes_pregnancy[["procedures_end_UNK"]][["READ"]] <- c()
+concept_set_codes_pregnancy[["procedures_end_UNK"]][["ICPC2P"]] <- c()
+concept_set_codes_pregnancy[["procedures_end_UNK"]][["SNOMED"]] <- c()
+concept_set_codes_pregnancy[["procedures_end_UNK"]][["ICD10ES"]] <- c("10E0XZZ","10D07Z3","10D07Z4","10D07Z5","10S07ZZ","10D07Z6","10D07Z8","10D00Z0","10D00Z1","10D00Z2","10907ZC","10907ZD","10D07Z7") # based on FISABIO's input
 
 
 # procedure termination in various coding system
@@ -69,18 +70,13 @@ concept_set_codes_pregnancy[["procedures_ongoing"]][["ICD10ES"]] <- c("10900Z9",
 
 
 
-
-
-
-# procedures end UNK
-
-# procedures with unk end in various coding system
-concept_set_codes_pregnancy[["procedures_end_UNK"]][["ICD9PROC"]] <- c("69.52")
-concept_set_codes_pregnancy[["procedures_end_UNK"]][["ICD10"]] <- c()
-concept_set_codes_pregnancy[["procedures_end_UNK"]][["READ"]] <- c()
-concept_set_codes_pregnancy[["procedures_end_UNK"]][["ICPC2P"]] <- c()
-concept_set_codes_pregnancy[["procedures_end_UNK"]][["SNOMED"]] <- c()
-concept_set_codes_pregnancy[["procedures_end_UNK"]][["ICD10ES"]] <- c()
+# procedures livebirth in various coding system
+concept_set_codes_pregnancy[["procedures_livebirth"]][["ICD9PROC"]] <- c()
+concept_set_codes_pregnancy[["procedures_livebirth"]][["ICD10"]] <- c()
+concept_set_codes_pregnancy[["procedures_livebirth"]][["READ"]] <- c()
+concept_set_codes_pregnancy[["procedures_livebirth"]][["ICPC2P"]] <- c()
+concept_set_codes_pregnancy[["procedures_livebirth"]][["SNOMED"]] <- c()
+concept_set_codes_pregnancy[["procedures_livebirth"]][["ICD10ES"]] <- c()
   
 
 
