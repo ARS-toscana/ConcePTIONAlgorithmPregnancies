@@ -289,39 +289,55 @@ concept_set_codes_pregnancy_excl[["Spontaneousabortion_possible"]] <- concept_se
 
 
 
+# adding wrong formatted codes
+
+if("655.00" %notin% unlist(concept_set_codes_pregnancy[["Ongoingpregnancy"]][["ICD9CM"]])){
+  concept_set_codes_pregnancy[["Ongoingpregnancy"]][["ICD9CM"]] <- c(
+    concept_set_codes_pregnancy[["Ongoingpregnancy"]][["ICD9CM"]], 
+    "655.00"
+  )
+}
 
 
+if("651.00" %notin% unlist(concept_set_codes_pregnancy[["Ongoingpregnancy"]][["ICD9CM"]])){
+  concept_set_codes_pregnancy[["Ongoingpregnancy"]][["ICD9CM"]] <- c(
+    concept_set_codes_pregnancy[["Ongoingpregnancy"]][["ICD9CM"]], 
+    "651.00"
+  )
+}
 
 
+if("663.00" %notin% unlist(concept_set_codes_pregnancy[["Stillbirth_narrow"]][["ICD9CM"]])){
+  concept_set_codes_pregnancy[["Stillbirth_narrow"]][["ICD9CM"]] <- c(
+    concept_set_codes_pregnancy[["Stillbirth_narrow"]][["ICD9CM"]], 
+    "663.00"
+    )
+}
 
 
+# ICD9CMP
+if("655.00" %notin% unlist(concept_set_codes_pregnancy[["Ongoingpregnancy"]][["ICD9CMP"]])){
+  concept_set_codes_pregnancy[["Ongoingpregnancy"]][["ICD9CMP"]] <- c(
+    concept_set_codes_pregnancy[["Ongoingpregnancy"]][["ICD9CMP"]], 
+    "655.00"
+  )
+}
 
 
+if("651.00" %notin% unlist(concept_set_codes_pregnancy[["Ongoingpregnancy"]][["ICD9CMP"]])){
+  concept_set_codes_pregnancy[["Ongoingpregnancy"]][["ICD9CMP"]] <- c(
+    concept_set_codes_pregnancy[["Ongoingpregnancy"]][["ICD9CMP"]], 
+    "651.00"
+  )
+}
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+if("663.00" %notin% unlist(concept_set_codes_pregnancy[["Stillbirth_narrow"]][["ICD9CMP"]])){
+  concept_set_codes_pregnancy[["Stillbirth_narrow"]][["ICD9CMP"]] <- c(
+    concept_set_codes_pregnancy[["Stillbirth_narrow"]][["ICD9CMP"]], 
+    "663.00"
+  )
+}
 
 
 

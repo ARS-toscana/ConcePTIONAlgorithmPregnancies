@@ -282,7 +282,7 @@ LBSB_PROMPT <- LBSB_PROMPT[type_of_pregnancy_end %in% c("LB", "SB") &
                              highest_quality %in% c("1_green", "2_yellow") &
                              PROMPT == "yes"]
 
-LBSB_PROMPT <- LBSB_PROMPT[, .N, by = .(year_start_of_pregnancy, order_quality)]
+LBSB_PROMPT <- LBSB_PROMPT[, .N, by = .(year_start_of_pregnancy, order_quality, type_of_pregnancy_end)]
 
 
 LBSB_PROMPT[order_quality == 1, order_quality := "EUROCAT: start/end recorded"]
@@ -306,17 +306,34 @@ LBSB_PROMPT[order_quality == 16, order_quality :=  "CONCEPSETS: end date recorde
 LBSB_PROMPT[order_quality == 20, order_quality :=  "CONCEPTSETS: meaning implying primary care"]
 LBSB_PROMPT[order_quality == 25, order_quality :=  "all Streams: blue"]
 LBSB_PROMPT[order_quality == 50, order_quality :=  "all Streams: red"]
-           
-if(LBSB_PROMPT[, .N] > 0){
-  p <- ggplot(LBSB_PROMPT, aes(year_start_of_pregnancy, N, fill= order_quality))+
+
+LB_PROMPT <- LBSB_PROMPT[type_of_pregnancy_end == "LB"]
+SB_PROMPT <- LBSB_PROMPT[type_of_pregnancy_end == "SB"]
+
+if(LB_PROMPT[, .N] > 0){
+  p <- ggplot(LB_PROMPT, aes(year_start_of_pregnancy, N, fill= order_quality))+
+  ggtitle("LB")+
   geom_col()+
   theme_hc()
 
 plot <- ggplotly(p)
 plot
 }else{
-  print('"LB" or "SB" are not present in the PROMPT stream')
+  print('"LB" are not present in the PROMPT stream')
 }
+
+if(SB_PROMPT[, .N] > 0){
+  p <- ggplot(SB_PROMPT, aes(year_start_of_pregnancy, N, fill= order_quality))+
+    ggtitle("SB")+
+  geom_col()+
+  theme_hc()
+
+plot <- ggplotly(p)
+plot
+}else{
+  print('"SB" are not present in the PROMPT stream')
+}
+
 
 ```
 <br/><br/><br/><br/>
@@ -329,7 +346,7 @@ SAT_GYB <- D3_pregnancy_reconciled[, order_quality := as.factor(order_quality)]
 SAT_GYB <- SAT_GYB[type_of_pregnancy_end %in% c("SA", "T") &
                              highest_quality %in% c("1_green", "2_yellow", "3_BLUE")]
 
-SAT_GYB <- SAT_GYB[, .N, by = .(year_start_of_pregnancy, order_quality)]
+SAT_GYB <- SAT_GYB[, .N, by = .(year_start_of_pregnancy, order_quality, type_of_pregnancy_end)]
 
 
 SAT_GYB[order_quality == 1, order_quality := "EUROCAT: start/end recorded"]
@@ -353,16 +370,32 @@ SAT_GYB[order_quality == 16, order_quality :=  "CONCEPSETS: end date recorded, t
 SAT_GYB[order_quality == 20, order_quality :=  "CONCEPTSETS: meaning implying primary care"]
 SAT_GYB[order_quality == 25, order_quality :=  "all Streams: blue"]
 SAT_GYB[order_quality == 50, order_quality :=  "all Streams: red"]
-           
-if(SAT_GYB[, .N] > 0){
+
+SA_GYB <- SAT_GYB[type_of_pregnancy_end == "SA"]         
+T_GYB <- SAT_GYB[type_of_pregnancy_end == "T"]         
+
+if(SA_GYB[, .N] > 0){
   p <- ggplot(SAT_GYB, aes(year_start_of_pregnancy, N, fill= order_quality))+
+    ggtitle("SA")+
   geom_col()+
   theme_hc()
 
 plot <- ggplotly(p)
 plot
 }else{
-  print('"SA" or "T" with quality "green", "yellow" or "blue" are not present in the PROMPT stream')
+  print('"SA" with quality "green", "yellow" or "blue" are not present')
+}
+
+if(T_GYB[, .N] > 0){
+  p <- ggplot(T_GYB, aes(year_start_of_pregnancy, N, fill= order_quality))+
+    ggtitle("T")+
+  geom_col()+
+  theme_hc()
+
+plot <- ggplotly(p)
+plot
+}else{
+  print(' "T" with quality "green", "yellow" or "blue" are not present')
 }
 ```
 
