@@ -52,6 +52,7 @@
 # - updated procedures codes: procedures_end_LB -> procedures_end_UNK
 # - added graphs in the HTML files
 # - added missing ICD9CM codes (655.00, 651.00, 663.00)
+# - optimized ram usage in step 01_03, 06_01
 #------------------------------------------------------------------------------------------
 
 

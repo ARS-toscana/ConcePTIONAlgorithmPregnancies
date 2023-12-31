@@ -218,6 +218,8 @@ if (this_datasource_has_prompt) {
       list_of_records[[studyvar]] <- study_var_temp
     }
   }
+  
+  rm(list = study_variables_pregnancy)
 }
 
 if (this_datasource_has_itemsets_stream_from_medical_obs ) { # | this_datasource_has_medical_observations_prompt
@@ -262,6 +264,7 @@ if (this_datasource_has_itemsets_stream_from_medical_obs ) { # | this_datasource
       
         list_of_records[[studyvar]] <- study_var_temp
       }
+      rm(list = studyvar)
     }
   }
 }
@@ -319,6 +322,7 @@ if (this_datasource_has_conceptsets){
   
         list_of_records[[concept]] <- concept_temp
       }
+      rm(list = concept)
     }
   }
 
@@ -329,6 +333,7 @@ if (this_datasource_has_conceptsets){
     concept_set_list_2 <- c(concept_sets_of_ongoing_of_pregnancy_procedures_DAP_specific,
                             concept_sets_of_ongoing_of_pregnancy_procedures,
                             concept_sets_of_end_of_pregnancy_LB_procedures,
+                            concept_sets_of_end_of_pregnancy_UNK_procedures,
                             concept_sets_of_end_of_pregnancy_T_SA_SB_ECT_procedures)
     
     for (concept in concept_set_list_2){
@@ -372,6 +377,7 @@ if (this_datasource_has_conceptsets){
           
          list_of_records[[concept]] <- concept_temp
         }
+        rm(list = concept)
       }
     }
   }
@@ -556,12 +562,12 @@ fwrite(sample_from_pregnancies_anon, paste0(dirvalidation, "/sample_from_pregnan
 rm(D3_pregnancy_reconciled_valid, D3_groups_of_pregnancies_reconciled, 
    sample_id, sample_from_pregnancies, list_of_records, sample_from_pregnancies_anon)
 
-if (this_datasource_has_conceptsets){
-  rm(list = concept_set_list_1)
-  if (this_datasource_has_procedures){
-    rm(list = concept_set_list_2)
-  } 
-} 
+# if (this_datasource_has_conceptsets){
+#   rm(list = concept_set_list_1)
+#   if (this_datasource_has_procedures){
+#     rm(list = concept_set_list_2)
+#   } 
+# } 
 
 
 

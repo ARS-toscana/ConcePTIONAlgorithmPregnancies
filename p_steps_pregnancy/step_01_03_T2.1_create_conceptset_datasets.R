@@ -21,7 +21,7 @@ if(this_datasource_has_conceptsets){
                            concept_set_domains = concept_set_domains,
                            concept_set_codes =	concept_set_codes_pregnancy,
                            concept_set_codes_excl = concept_set_codes_pregnancy_excl,
-                           discard_from_environment = F,
+                           discard_from_environment = TRUE,
                            dirinput = dirinput,
                            diroutput = dirtemp,
                            extension = c("csv"),
@@ -30,11 +30,11 @@ if(this_datasource_has_conceptsets){
                                                                       "ICD9", "ICPC", "ICPC2P", "SNOMED", "MEDCODEID", "ICD9PROC"))
 
   
-  
-  
-
   ### Creating visit occurrence id if missing
   for (concept in concept_set_pregnancy) {
+    
+    load(paste0(dirtemp, concept, ".RData"))
+    
     if( nrow(get(concept)) > 0){
       assign("concept_temp", get(concept))
       
@@ -54,21 +54,17 @@ if(this_datasource_has_conceptsets){
       assign(concept, concept_temp)
       save(list=concept, file=paste0(dirtemp, concept,".RData"))
     }
-  }
-  
-  
-  ## Selected meaning if necessary
-  if (this_datasources_with_specific_algorithms){
     
-    for (concept in concept_set_pregnancy) {
+    ## Selected meaning if necessary
+    if (this_datasources_with_specific_algorithms){
       if( nrow(get(concept)) > 0 & concept_set_domains[[concept]]=="Diagnosis"){
-        
         assign("concept_temp", get(concept))
         concept_temp <- concept_temp[eval(parse(text = select)),]
         assign(concept, concept_temp)
         save(list=concept, file=paste0(dirtemp, concept,".RData"))
       }
-    } 
+    }
+    rm(list = concept)
   }
   
   
@@ -95,6 +91,8 @@ if(this_datasource_has_conceptsets){
     for (concept in concept_set_pregnancy) {
       
       if (endsWith(concept, '_CHILD')){
+        
+        load(paste0(dirtemp, concept, ".RData"))
         
         name_concept_mother <- paste0(substring(concept, 1,  nchar(concept) - nchar('_CHILD')), 
                                       "_LB")
@@ -127,6 +125,8 @@ if(this_datasource_has_conceptsets){
         save(list=name_concept_mother, 
              file=paste0(dirtemp, concept,".RData"))
         
+        rm(list = concept)
+        
       }
     }
   }
@@ -142,6 +142,7 @@ if(this_datasource_has_conceptsets){
   if(HTML_files_creation){
     for (concept in concept_set_pregnancy) {
       
+      load(paste0(dirtemp, concept, ".RData"))
       if( nrow(get(concept)) > 0){
         
         if(concept_set_domains[[concept]]=="Diagnosis"){
@@ -189,12 +190,7 @@ if(this_datasource_has_conceptsets){
                               PathOutputFolder= dirdescribe01_concepts)
         }
       }
+      rm(list = concept)
     }
   }
-  
-  
-  
-  
-  rm(list = concept_set_pregnancy)
-  
 }
