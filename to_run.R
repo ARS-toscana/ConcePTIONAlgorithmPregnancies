@@ -1,60 +1,11 @@
 #------------------------------------------------------------------------------------------
 # ConcePTION_Algorithm_Pregnancies script
 #
-# v5.1.0 - 5 October 2022
+# v5.2 - 22 December 2023
 # authors: Claudia Bartolini, Rosa Gini, Giorgio Limoncella, Olga Paoletti, Davide Messina
 # 
 # link: https://github.com/ARS-toscana/ConcePTIONAlgorithmPregnancies
-#
-# changelog 5.1.1:
-# - fixed description for DAPs without person_rel table
-# - fixed bug related to library(forcats)
-# - fixed ".N" typo in post verification script
-# - added hierarchy for RDRU_FISABIO
-#
-# changelog 5.1.2:
-# - updated parameters for SAIL 
-#
-# changelog 5.1.3:
-# - removed "unique" for record with same date, code and conceptsets
-# - fix bug on predictive model
-# - added parameter: maxgap_specific_meanings
-# - fixed directories BIFAP
-# - added description of gestational age in html files
-# - fix gestational age values for SAIL (0, 99 -> NA)
-# - updated SAIL condition for legally included pregnancies
-# - added parameters for DANREG
-#
-# changelog 5.1.4:
-# - fixed bug blue record
-#
-# changelog 5.1.5:
-# - updated parameters for CASERTA
-# - added itemset ONGOING_COVID_REG for CASERTA
-# - updated SAIL's condition for legally included pregnancies
-# - added parameter for seed in predictive model 
-# - added code "997M50", "M50" for CASERTA
-# - fix for ICD9CMPROC
-# - fixed bug for missing predicted end of pregnancy
-# - fixed bug for GG:discordant pregnancies not detected in FISABIO 
-# - updated procedures codes for CASERTA
-# - updated meaning of relationship child for UOSL
-# - fixed id loaded as numeric (SIDIAP)
-# - fixed wrong prediction of gestational age 
-# - saved predictive model results on g_export manuscript
-# - fixed flowchart bug (due to missing years)
-# - fixed bug due to identical rmse of predictive model
-# - ECT -> ECT-MOL
-# - updated codelist to 20231214
-# - removed correction for ICD9CM and ICD10CM
-# - copied ICD9CM as ICD9
-# - added conceptset whit type UNK, but with recorded end date
-# - updated procedures codes: procedures_end_LB -> procedures_end_UNK
-# - added graphs in the HTML files
-# - added missing ICD9CM codes (655.00, 651.00, 663.00)
-# - optimized ram usage in step 01_03, 06_01
 #------------------------------------------------------------------------------------------
-
 
 rm(list=ls(all.names=TRUE))
 
