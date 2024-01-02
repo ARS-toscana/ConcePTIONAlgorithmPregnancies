@@ -120,7 +120,7 @@ if (this_datasource_has_itemsets_stream_from_medical_obs){
   # }
   
   
-  if (thisdatasource=="PHARMO" | thisdatasource== "CASERTA"){
+  if ( thisdatasource=="HSD" | thisdatasource=="PHARMO" | thisdatasource== "CASERTA"){
     
     # select only POSITIVE records
     dataset_item_sets<-dataset_item_sets[item_set=="PregnancyTest" & 
