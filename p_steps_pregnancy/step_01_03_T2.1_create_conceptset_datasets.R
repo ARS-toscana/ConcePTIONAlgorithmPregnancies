@@ -57,7 +57,7 @@ if(this_datasource_has_conceptsets){
     
     ## Selected meaning if necessary
     if (this_datasources_with_specific_algorithms){
-      if( nrow(get(concept)) > 0 & concept_set_domains[[concept]]=="Diagnosis"){
+      if(nrow(get(concept)) > 0 & concept_set_domains[[concept]]=="Diagnosis"){
         assign("concept_temp", get(concept))
         concept_temp <- concept_temp[eval(parse(text = select)),]
         assign(concept, concept_temp)
@@ -122,11 +122,18 @@ if(this_datasource_has_conceptsets){
           assign(name_concept_mother, tmp_child)
         }
         
+        # save(list=name_concept_mother, 
+        #      file=paste0(dirtemp, concept,".RData"))
+        
         save(list=name_concept_mother, 
-             file=paste0(dirtemp, concept,".RData"))
+             file=paste0(dirtemp, name_concept_mother,".RData"))
+        
+        if(name_concept_mother %notin% concept_set_pregnancy){
+          concept_set_pregnancy <- c(concept_set_pregnancy, name_concept_mother)
+        }
         
         rm(list = concept)
-        
+        rm(list = name_concept_mother)
       }
     }
   }

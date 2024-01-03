@@ -5,6 +5,12 @@
 # authors: Claudia Bartolini, Rosa Gini, Giorgio Limoncella, Olga Paoletti, Davide Messina
 # 
 # link: https://github.com/ARS-toscana/ConcePTIONAlgorithmPregnancies
+#
+# changelog 5.2.1:
+# - updated HSD parameters
+#
+# changelog 5.2.2:
+# - fixed bug related to step 01_03
 #------------------------------------------------------------------------------------------
 
 rm(list=ls(all.names=TRUE))
