@@ -8,9 +8,12 @@
 #
 # changelog 5.2.1:
 # - updated HSD parameters
+# - fixed bug related to step 01_03
 #
 # changelog 5.2.2:
-# - fixed bug related to step 01_03
+# - fixed bug related to description period
+# - updated CASERTA parameters
+# - fixed sampling years for DANREG
 #------------------------------------------------------------------------------------------
 
 rm(list=ls(all.names=TRUE))

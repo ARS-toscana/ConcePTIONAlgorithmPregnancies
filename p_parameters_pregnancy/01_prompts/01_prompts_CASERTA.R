@@ -13,7 +13,7 @@ meaning_of_survey_pregnancy[["CASERTA"]][["livebirth_or_stillbirth"]]<-list()
 meaning_of_survey_pregnancy[["CASERTA"]][["ongoing_pregnancy"]]<-list()
 meaning_of_survey_pregnancy[["CASERTA"]][["spontaneous_abortion"]]<-list() 
 meaning_of_survey_pregnancy[["CASERTA"]][["induced_termination"]]<-list() 
-meaning_of_survey_pregnancy[["CASERTA"]][["other"]]<-list("covid_registry")
+meaning_of_survey_pregnancy[["CASERTA"]][["other"]]<-list("covid19_registry")
 
 
 meaning_of_survey_pregnancy_child <- vector(mode="list")

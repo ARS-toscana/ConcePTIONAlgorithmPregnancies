@@ -135,35 +135,14 @@ year_end_manuscript <- 2019
 # description_period indicates the period for an extra html file 
 description_period <- vector(mode="list")
 
-description_period[["UOSL"]][["start"]] <- c(2008)
-description_period[["UOSL"]][["end"]] <-   c(2020)
+description_period[["UOSL"]][["period_1"]] <- c(2008, 2020)
+#description_period[["UOSL"]][["period_2"]] <- c(2018, 2022) ...
 
-
-if(!is.null(description_period[[thisdatasource]])){
-  description_period_this_datasource <- vector(mode="list")
-  i <-1
-  for (period in description_period[[thisdatasource]][["start"]]) {
-    description_period_this_datasource[[as.character(i)]][["start"]] <- c(
-      description_period_this_datasource[["start"]], 
-      period
-      )
-    i <- i+1
-  }
-  
-  i <-1
-  for (period in description_period[[thisdatasource]][["end"]]) {
-    
-    description_period_this_datasource[[as.character(i)]][["end"]] <- c(
-      description_period_this_datasource[["end"]], 
-      period
-      )
-    i <- i+1
-  }
+if(thisdatasource %in% names(description_period)){
+  description_period_this_datasource <- description_period[thisdatasource]
 }else{
   description_period_this_datasource <- NULL
 }
-
-
 
 
 ################################################################################

@@ -157,7 +157,7 @@ gap_allowed[["TEST"]] <- 365
 gap_allowed_thisdatasource = ifelse(is.null(gap_allowed[[thisdatasource]]), 1,gap_allowed[[thisdatasource]])
 
 # datasources with prescriptions instead of dispensations
-datasources_prescriptions <- c("TO_ADD","CPRD","PHARMO") #@ use "TO_ADD" as example
+datasources_prescriptions <- c("TO_ADD","CPRD","PHARMO","SAIL Databank") #@ use "TO_ADD" as example
 thisdatasource_has_prescriptions <- ifelse(thisdatasource %in% datasources_prescriptions,TRUE,FALSE)
 
 # datasources with multiple observation period 

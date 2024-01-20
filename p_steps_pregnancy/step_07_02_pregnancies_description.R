@@ -39,12 +39,10 @@ if(D3_pregnancy_reconciled_valid_tmp[,.N] > 0 & D3_groups_of_pregnancies_reconci
 
 
 # Specific years
-
-i <- 1
-for (time in names(description_period_this_datasource)) {
+for (time in description_period_this_datasource[[1]]) {
   
-  start <- description_period_this_datasource[[as.character(i)]][["start"]]
-  end <- description_period_this_datasource[[as.character(i)]][["end"]]
+  start <- time[1]
+  end <- time[2]
   
   D3_pregnancy_reconciled_valid_tmp <- D3_pregnancy_reconciled_valid[year(pregnancy_start_date) >=  start & 
                                                                    year(pregnancy_start_date) <= end]
@@ -61,8 +59,6 @@ for (time in names(description_period_this_datasource)) {
                        thisdatasource = thisdatasource,
                        D3_mother_child_ids = D3_mother_child_ids))
   }
-  
-  i <- i+1
 }
 
 
