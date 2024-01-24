@@ -192,6 +192,9 @@ if (this_datasource_has_prompt) {
       assign("study_var_temp", get(studyvar))
       if(!(nrow(study_var_temp) == 1 & is.na(study_var_temp[1, person_id])) | nrow(study_var_temp) !=0 ){
         print(studyvar)
+        if(studyvar == 'COVID_REGISTRY'){
+          study_var_temp = study_var_temp[so_source_value %in% unlist(dictonary_of_itemset_pregnancy_this_datasource[["ONGOING_COVID_REG"]])]
+        }
         study_var_temp <- study_var_temp[survey_id %in% record_sample[!is.na(survey_visit_id), survey_visit_id], 
                                          .(preg_id = NA,
                                            person_id = NA,

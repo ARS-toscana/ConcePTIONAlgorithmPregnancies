@@ -30,7 +30,12 @@ if(this_datasource_has_conceptsets){
     data_min<-as.Date(as.character(unlist(date_range[[thisdatasource]][[tab]][["since_when_data_complete"]])), date_format)
     data_max<-as.Date(as.character(unlist(date_range[[thisdatasource]][[tab]][["up_to_when_data_complete"]])), date_format)
     
-    temp <- temp2[origin==tab,] 
+    if(thisdatasource == "CASERTA"){
+      temp <- temp2[tolower(origin)==tolower(tab),] 
+    }else{
+      temp <- temp2[origin==tab,] 
+    }
+    
     temp <- temp[record_date<data_min | record_date>data_max, pregnancy_with_dates_out_of_range:=1]
     temp <- temp[is.na(pregnancy_with_dates_out_of_range), pregnancy_with_dates_out_of_range:=0]
     

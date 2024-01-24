@@ -14,6 +14,7 @@
 # - fixed bug related to description period
 # - updated CASERTA parameters
 # - fixed sampling years for DANREG
+# - fix bug CASERTA: 'sampling from preg' & 'internal consistency'
 #------------------------------------------------------------------------------------------
 
 rm(list=ls(all.names=TRUE))
