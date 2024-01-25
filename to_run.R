@@ -15,6 +15,8 @@
 # - updated CASERTA parameters
 # - fixed sampling years for DANREG
 # - fix bug CASERTA: 'sampling from preg' & 'internal consistency'
+# - Updated parameter for VID: included person_rel and EUROCAT
+# - fixed bug related to FERR data domain
 #------------------------------------------------------------------------------------------
 
 rm(list=ls(all.names=TRUE))

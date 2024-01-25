@@ -192,8 +192,8 @@ if (this_datasource_has_prompt) {
       assign("study_var_temp", get(studyvar))
       if(!(nrow(study_var_temp) == 1 & is.na(study_var_temp[1, person_id])) | nrow(study_var_temp) !=0 ){
         print(studyvar)
-        if(studyvar == 'COVID_REGISTRY'){
-          study_var_temp = study_var_temp[so_source_value %in% unlist(dictonary_of_itemset_pregnancy_this_datasource[["ONGOING_COVID_REG"]])]
+        if(studyvar == 'ONGOING_COVID_REG'){
+          study_var_temp = study_var_temp[so_source_value %in% unlist(dictonary_of_itemset_pregnancy_this_datasource)]
         }
         study_var_temp <- study_var_temp[survey_id %in% record_sample[!is.na(survey_visit_id), survey_visit_id], 
                                          .(preg_id = NA,
@@ -278,7 +278,7 @@ if (this_datasource_has_itemsets_stream_from_medical_obs ) { # | this_datasource
                                            from_algorithm = 0,
                                            link = NA,
                                            sample = NA)]
-      
+        
         list_of_records[[studyvar]] <- study_var_temp
       }
       rm(list = studyvar)
@@ -296,8 +296,8 @@ if (this_datasource_has_conceptsets){
                           concept_sets_of_end_of_pregnancy_UNK,
                           concept_sets_of_end_of_pregnancy_UNF,
                           concept_sets_of_end_of_pregnancy_T_SA_SB_ECT)
-
-
+  
+  
   for (concept in concept_set_list_1){
     if (concept %in% files_temp) {
       load(paste0(dirtemp, concept, ".RData"))
@@ -336,15 +336,15 @@ if (this_datasource_has_conceptsets){
                                        from_algorithm = 0,
                                        link = NA,
                                        sample = NA)]
-  
+        
         list_of_records[[concept]] <- concept_temp
       }
       rm(list = concept)
     }
   }
-
-
-
+  
+  
+  
   if(this_datasource_has_procedures){
     
     concept_set_list_2 <- c(concept_sets_of_ongoing_of_pregnancy_procedures_DAP_specific,
@@ -392,7 +392,7 @@ if (this_datasource_has_conceptsets){
                                          link = NA,
                                          sample = NA)]
           
-         list_of_records[[concept]] <- concept_temp
+          list_of_records[[concept]] <- concept_temp
         }
         rm(list = concept)
       }
@@ -480,8 +480,8 @@ for (i in 1:length(files_temp)) {
                                                        from_algorithm = 0,
                                                        link = NA,
                                                        sample = NA)]
-
-     list_of_records[["VISIT_OCCURRENCE_PREG"]] <- VISIT_OCCURRENCE_PREG
+      
+      list_of_records[["VISIT_OCCURRENCE_PREG"]] <- VISIT_OCCURRENCE_PREG
     }
   }
 }
@@ -496,37 +496,37 @@ for (i in 1:length(files_temp)) {
     load(paste0(dirtemp,"Person_rel_PROMPT_dataset.RData"))
     if(nrow(Person_rel_PROMPT_dataset)>0){
       Person_rel_PROMPT_dataset <- Person_rel_PROMPT_dataset[child_id %in% record_sample[, survey_visit_id] &
-                                                       person_id %in% record_sample[, person_id],
-                                                     .(preg_id = NA,
-                                                       person_id,
-                                                       survey_id = NA,
-                                                       visit_occurrence_id = NA,
-                                                       child_id,
-                                                       n = as.integer(2),
-                                                       pregnancy_start_date = NA,
-                                                       pregnancy_end_date = NA,
-                                                       type_of_pregnancy_end = NA,
-                                                       #####################################
-                                                       pregnancy_start_date_correct = NA, 
-                                                       pregnancy_start_date_difference = NA,
-                                                       pregnancy_end_date_correct = NA,
-                                                       pregnancy_end_date_difference = NA,
-                                                       type_of_pregnancy_end_correct = NA,
-                                                       records_belong_to_multiple_pregnancy = NA,
-                                                       comments = NA,
-                                                       #####################################
-                                                       record_date = as.character(ymd(birth_date)),
-                                                       origin = "PERSON_RELATIONSHIP",
-                                                       meaning= meaning_of_relationship,
-                                                       codvar = NA,
-                                                       coding_system = NA,
-                                                       conceptset = NA,
-                                                       source_column  = NA,
-                                                       source_value  = NA,
-                                                       itemsets = NA,
-                                                       from_algorithm = 0,
-                                                       link = NA,
-                                                       sample = NA)]
+                                                               person_id %in% record_sample[, person_id],
+                                                             .(preg_id = NA,
+                                                               person_id,
+                                                               survey_id = NA,
+                                                               visit_occurrence_id = NA,
+                                                               child_id,
+                                                               n = as.integer(2),
+                                                               pregnancy_start_date = NA,
+                                                               pregnancy_end_date = NA,
+                                                               type_of_pregnancy_end = NA,
+                                                               #####################################
+                                                               pregnancy_start_date_correct = NA, 
+                                                               pregnancy_start_date_difference = NA,
+                                                               pregnancy_end_date_correct = NA,
+                                                               pregnancy_end_date_difference = NA,
+                                                               type_of_pregnancy_end_correct = NA,
+                                                               records_belong_to_multiple_pregnancy = NA,
+                                                               comments = NA,
+                                                               #####################################
+                                                               record_date = as.character(ymd(birth_date)),
+                                                               origin = "PERSON_RELATIONSHIP",
+                                                               meaning= meaning_of_relationship,
+                                                               codvar = NA,
+                                                               coding_system = NA,
+                                                               conceptset = NA,
+                                                               source_column  = NA,
+                                                               source_value  = NA,
+                                                               itemsets = NA,
+                                                               from_algorithm = 0,
+                                                               link = NA,
+                                                               sample = NA)]
       
       list_of_records[["Person_rel_PROMPT_dataset"]] <- Person_rel_PROMPT_dataset
     }

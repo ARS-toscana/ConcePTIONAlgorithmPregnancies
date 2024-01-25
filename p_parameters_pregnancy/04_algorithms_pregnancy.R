@@ -3,7 +3,7 @@
 #--------------------------------------------------------
 
 # list of datasources for which pregnancies consisting only of red records end on the date of the most recent record
-datasources_that_end_red_pregnancies <- c("TO_ADD", "ARS") #@ use "TO_ADD" as example
+datasources_that_end_red_pregnancies <- c("TO_ADD", "ARS", "FERR") #@ use "TO_ADD" as example
 this_datasource_ends_red_pregnancies  <- ifelse(thisdatasource %in% datasources_that_end_red_pregnancies,TRUE,FALSE) 
 
 # list of datasources that do not modify information from PROMPT

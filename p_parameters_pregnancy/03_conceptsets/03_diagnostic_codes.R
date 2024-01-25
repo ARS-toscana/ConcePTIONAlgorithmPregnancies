@@ -55,7 +55,16 @@ concept_sets_of_pregnancy_eve <- c("Gestation_less24_UNK",
 
 
 concept_set_domains<- vector(mode="list")
-for (conceptset in concept_sets_of_pregnancy_eve){
+
+for (conceptset in c(concept_sets_of_pregnancy_eve, 
+                     "Gestation_24_LB",
+                     "Gestation_25_26_LB",
+                     "Gestation_27_28_LB",
+                     "Gestation_29_30_LB",
+                     "Gestation_31_32_LB",
+                     "Gestation_33_34_LB",
+                     "Gestation_35_36_LB",
+                     "Gestation_more37_LB")){
   concept_set_domains[[conceptset]] = "Diagnosis"
 }
 
