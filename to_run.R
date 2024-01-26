@@ -17,6 +17,7 @@
 # - fix bug CASERTA: 'sampling from preg' & 'internal consistency'
 # - Updated parameter for VID: included person_rel and EUROCAT
 # - fixed bug related to FERR data domain
+# - fixed BIFAP bug related to SNOMED: SNOMEDCT_US --> SNOMED
 #------------------------------------------------------------------------------------------
 
 rm(list=ls(all.names=TRUE))
