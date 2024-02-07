@@ -57,9 +57,22 @@ if(this_datasource_has_conceptsets){
 # Temporary fix for SNOMEDCT_US --> SNOMED
 if(this_datasource_has_conceptsets){
   for (conceptset in concept_set_pregnancy){
-      concept_set_codes_pregnancy[[conceptset]][["SNOMED"]] <- concept_set_codes_pregnancy[[conceptset]][["SNOMEDCT_US"]]
+      concept_set_codes_pregnancy[[conceptset]][["SNOMED"]] <- unique(c(concept_set_codes_pregnancy[[conceptset]][["SNOMEDCT_US"]],
+                                                                 concept_set_codes_pregnancy[[conceptset]][["SCTSPA"]],
+                                                                 concept_set_codes_pregnancy[[conceptset]][["SCTSPA_SNS"]]))
+                                                                 
   }
 }
+
+# Temporary fix for ICD10 --> ICD10CM
+if(this_datasource_has_conceptsets){
+  for (conceptset in concept_set_pregnancy){
+    concept_set_codes_pregnancy[[conceptset]][["ICD10"]] <- unique(c(concept_set_codes_pregnancy[[conceptset]][["ICD10"]], 
+                                                                     concept_set_codes_pregnancy[[conceptset]][["ICD10CM"]]))
+    
+  }
+}
+
 
 # fix for ICPC2P
 # for (conceptset in concept_set_pregnancy){

@@ -18,6 +18,10 @@
 # - Updated parameter for VID: included person_rel and EUROCAT
 # - fixed bug related to FERR data domain
 # - fixed BIFAP bug related to SNOMED: SNOMEDCT_US --> SNOMED
+#
+# changelog 5.2.3:
+# - updated parameter documentation
+# - fix ICD10CM for BIFAP
 #------------------------------------------------------------------------------------------
 
 rm(list=ls(all.names=TRUE))
@@ -49,7 +53,7 @@ source(paste0(thisdir,"/p_parameters_pregnancy/03_concept_sets.R"))
 source(paste0(thisdir,"/p_parameters_pregnancy/04_algorithms_pregnancy.R"))
 source(paste0(thisdir,"/p_parameters_pregnancy/05_check_coding_system.R"))
 source(paste0(thisdir,"/p_parameters_pregnancy/06_documentation_all_datasources.R"))
-
+source(paste0(thisdir,"/p_parameters_pregnancy/step_07_create_documentation.R")) 
 
 #run scripts
 
@@ -94,3 +98,5 @@ source(paste0(thisdir,"/p_steps_pregnancy/step_06_01_sample_from_pregnancies.R")
 source(paste0(thisdir,"/p_steps_pregnancy/step_07_01_create_aggregated_tables.R")) 
 source(paste0(thisdir,"/p_steps_pregnancy/step_07_02_pregnancies_description.R")) 
 source(paste0(thisdir,"/p_steps_pregnancy/step_07_04_create_aggregated_tables_for_manuscript.R")) 
+
+
