@@ -321,7 +321,7 @@ if (this_datasource_has_prompt) {
                            ,type_of_pregnancy_end:="SA"]
      
     } else {
-      for (i in c("LB", "SB", "SA", "T", "MD", "ECT", "UNK")) {
+      for (i in c("LB", "SB", "SA", "T", "MD", "ECT", "UNK", "UNF")) {
         for (t in 1:(length(unlist(dictonary_of_itemset_pregnancy_this_datasource[[i]]))/2)) {
           if (length(unlist(dictonary_of_itemset_pregnancy_this_datasource[[i]]))/2 > 0){
             dataset_pregnancies2[#pregnancy_end_date==DATEENDPREGNANCY & 

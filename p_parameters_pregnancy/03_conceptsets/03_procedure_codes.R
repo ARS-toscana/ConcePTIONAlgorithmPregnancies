@@ -6,7 +6,8 @@ concept_sets_of_pregnancy_pro <- c("procedures_livebirth",
                                    "procedures_spontaneous_abortion", 
                                    "procedures_ongoing", 
                                    "procedures_ectopic",
-                                   "procedures_end_UNK")
+                                   "procedures_end_UNK", 
+                                   "procedures_end_UNF")
 
 for (conceptset in concept_sets_of_pregnancy_pro){
   concept_set_domains[[conceptset]] = "Procedures"

@@ -74,5 +74,9 @@ for (dap in names(max_gestage_yellow_no_LB)) {
          max_gestage_yellow_no_LB := mxgpynLN.tmp]
 }
 
+DT_out <- DT_out[datasources == dap]
+
 fwrite(DT_out, paste0(direxp, "Parameter.csv"))
 fwrite(DT_out, paste0(direxpmanuscript, "Parameter.csv"))
+
+# crea tabella in gh dove spieghi tutti i parametri

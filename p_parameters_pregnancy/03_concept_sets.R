@@ -197,6 +197,8 @@ if(this_datasource_has_conceptsets){
   
   concept_sets_of_end_of_pregnancy_UNK_procedures <- c("procedures_end_UNK")
   
+  concept_sets_of_end_of_pregnancy_UNF_procedures <- c("procedures_end_UNF")
+  
   concept_sets_of_end_of_pregnancy_UNF <- c("Interruption_possible",
                                             "Stillbirth_possible",
                                             "Spontaneousabortion_possible")
@@ -226,6 +228,7 @@ if(this_datasource_has_conceptsets){
                                concept_sets_of_ongoing_of_pregnancy_procedures,
                                concept_sets_of_end_of_pregnancy_LB_procedures,
                                concept_sets_of_end_of_pregnancy_UNK_procedures,
+                               concept_sets_of_end_of_pregnancy_UNF_procedures,
                                concept_sets_of_end_of_pregnancy_T_SA_SB_ECT_procedures)
   }
   

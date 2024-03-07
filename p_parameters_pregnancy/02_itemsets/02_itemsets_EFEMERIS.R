@@ -55,7 +55,6 @@ itemset_AVpair_pregnancy[["TYPE"]][[files[i]]][["EFEMERIS"]] <- list()
 
 
 
-
 #-------------------------------------------------------------------------------
 # To be filled if "person_id" is related to the child
 #-------------------------------------------------------------------------------
@@ -114,7 +113,6 @@ dictonary_of_itemset_pregnancy[["TYPE"]][["EFEMERIS"]][["SA"]]<-list(list("EFEME
 dictonary_of_itemset_pregnancy[["TYPE"]][["EFEMERIS"]][["T"]]<-list(list("EFEMERIS_ISSUE", "IMG"), list("EFEMERIS_ISSUE", "IVG"))
 dictonary_of_itemset_pregnancy[["TYPE"]][["EFEMERIS"]][["MD"]]<-list()
 dictonary_of_itemset_pregnancy[["TYPE"]][["EFEMERIS"]][["ECT"]]<-list(list("EFEMERIS_ISSUE", "GEU"))
-dictonary_of_itemset_pregnancy[["TYPE"]][["EFEMERIS"]][["UNK"]]<-list(list("EFEMERIS_ISSUE", "UNKNOWN"))
-
-
+dictonary_of_itemset_pregnancy[["TYPE"]][["EFEMERIS"]][["UNK"]]<-list()
+dictonary_of_itemset_pregnancy[["TYPE"]][["EFEMERIS"]][["UNF"]]<-list(list("EFEMERIS_ISSUE", "UNKNOWN"))
 

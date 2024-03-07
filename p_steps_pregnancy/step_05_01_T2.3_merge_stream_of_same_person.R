@@ -207,7 +207,9 @@ groups_of_pregnancies[CONCEPTSET=="procedures_ectopic", order_quality:=12]
 groups_of_pregnancies[CONCEPTSET=="Stillbirth_possible", order_quality:=13]
 groups_of_pregnancies[CONCEPTSET=="Interruption_possible", order_quality:=14]
 groups_of_pregnancies[CONCEPTSET=="Spontaneousabortion_possible", order_quality:=15]
-groups_of_pregnancies[CONCEPTSET=="procedures_end_UNK", order_quality:=16]
+
+groups_of_pregnancies[CONCEPTSET=="procedures_end_UNF", order_quality:=16]
+groups_of_pregnancies[CONCEPTSET=="procedures_end_UNK", order_quality:=17]
 
 
 groups_of_pregnancies[CONCEPTSETS=="yes" & coloured_order=="2_yellow" & eval(parse(text = condmeaning$PC)), order_quality:=20]

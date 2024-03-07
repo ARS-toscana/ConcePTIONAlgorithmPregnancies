@@ -95,7 +95,10 @@ TablePersonYearFertile <- TablePersonYearFertile[order(in_2015,
                                                        in_2018,
                                                        in_2019)]
 
-fwrite(TablePersonYearFertile, paste0(direxp, "TablePersonYearFertile.csv"))
+TablePersonYearFertileMasked <- copy(TablePersonYearFertile)
+TablePersonYearFertileMasked <- TablePersonYearFertileMasked[N<5, N:=0][, N:= as.character(N)]
+TablePersonYearFertileMasked[N=="0", N:="<5"]
+fwrite(TablePersonYearFertileMasked, paste0(direxp, "TablePersonYearFertile.csv"))
 
 # Followup
 FollowUp2015 <- D3_PERSONS_spells[, .(fup_from_2015)]

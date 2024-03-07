@@ -307,7 +307,8 @@ cat("11. Table gender \n ")
 
 TablePregSex <- D3_pregnancy_reconciled_valid[, year := year(pregnancy_start_date)]
 TablePregSex <- TablePregSex[, .N, by = c("year", "sex_at_instance_creation")][order(year, sex_at_instance_creation)]
-
+TablePregSex[N<5, N := 0][, N:= as.character(N)]
+TablePregSex[N == "0", N:= "<5"]
 fwrite(TablePregSex, paste0(direxp, "TablePregSex.csv"))
 
 
@@ -344,21 +345,37 @@ setnames(N_record, "V1", "value")
 
 
 N_colour <- D3_pregnancy_reconciled_valid[, .N, highest_quality ][order(highest_quality)]
+N_colour[N<5, N:=0]
 N_colour <- N_colour[, value := paste0(N, " (", round(N/N_preg, 2) * 100, "%)")][, -c("N")]
+N_colour[value == "0 (0%)", value := "<5"]
 N_colour <- N_colour[, var:= "highest_quality"]
 setnames(N_colour, "highest_quality", "subvar")
 
 
 N_quality <- D3_pregnancy_reconciled_valid[, .N, order_quality  ][order(order_quality )]
+N_quality[N<5, N:=0]
 N_quality <- N_quality[, value := paste0(N, " (", round(N/N_preg, 2) * 100, "%)")][, -c("N")]
+N_quality[value == "0 (0%)", value := "<5"]
 N_quality <- N_quality[, var:= "order_quality"]
 setnames(N_quality, "order_quality", "subvar")
 
 
 N_type_of_end <- D3_pregnancy_reconciled_valid[, .N, type_of_pregnancy_end  ][order(-N)]
+N_type_of_end[N<5, N:=0]
 N_type_of_end <- N_type_of_end[, value := paste0(N, " (", round(N/N_preg, 2) * 100, "%)")][, -c("N")]
+N_type_of_end[value == "0 (0%)", value := "<5"]
 N_type_of_end <- N_type_of_end[, var:= "type_of_pregnancy_end"]
 setnames(N_type_of_end, "type_of_pregnancy_end", "subvar")
+
+
+
+
+
+
+
+
+
+
 
 
 Gestage <- D3_pregnancy_reconciled_valid[,.(gestage_at_first_record)]
@@ -779,19 +796,25 @@ if(D3_pregnancy_reconciled_valid_specific_year[, .N] > 0){
   
   
   N_colour <- D3_pregnancy_reconciled_valid_specific_year[, .N, highest_quality ][order(highest_quality)]
+  N_colour[N<5, N:=0]
   N_colour <- N_colour[, value := paste0(N, " (", round(N/N_preg, 2) * 100, "%)")][, -c("N")]
+  N_colour[value == "0 (0%)", value := "<5"]
   N_colour <- N_colour[, var:= "highest_quality"]
   setnames(N_colour, "highest_quality", "subvar")
   
   
   N_quality <- D3_pregnancy_reconciled_valid_specific_year[, .N, order_quality  ][order(order_quality )]
+  N_quality[N<5, N:=0]
   N_quality <- N_quality[, value := paste0(N, " (", round(N/N_preg, 2) * 100, "%)")][, -c("N")]
+  N_quality[value == "0 (0%)", value := "<5"]
   N_quality <- N_quality[, var:= "order_quality"]
   setnames(N_quality, "order_quality", "subvar")
   
   
   N_type_of_end <- D3_pregnancy_reconciled_valid_specific_year[, .N, type_of_pregnancy_end  ][order(-N)]
+  N_type_of_end[N<5, N:=0]
   N_type_of_end <- N_type_of_end[, value := paste0(N, " (", round(N/N_preg, 2) * 100, "%)")][, -c("N")]
+  N_type_of_end[value == "0 (0%)", value := "<5"]
   N_type_of_end <- N_type_of_end[, var:= "type_of_pregnancy_end"]
   setnames(N_type_of_end, "type_of_pregnancy_end", "subvar")
   
@@ -850,19 +873,25 @@ if(D3_pregnancy_reconciled_valid_specific_year[, .N] > 0){
     
     
     N_colour <- DT_tmp[, .N, highest_quality ][order(highest_quality)]
+    N_colour[N<5, N:=0]
     N_colour <- N_colour[, value := paste0(N, " (", round(N/N_preg, 2) * 100, "%)")][, -c("N")]
+    N_colour[value == "0 (0%)", value := "<5"]
     N_colour <- N_colour[, var:= "highest_quality"]
     setnames(N_colour, "highest_quality", "subvar")
     
     
     N_quality <- DT_tmp[, .N, order_quality  ][order(order_quality )]
+    N_quality[N<5, N:=0]
     N_quality <- N_quality[, value := paste0(N, " (", round(N/N_preg, 2) * 100, "%)")][, -c("N")]
+    N_quality[value == "0 (0%)", value := "<5"]
     N_quality <- N_quality[, var:= "order_quality"]
     setnames(N_quality, "order_quality", "subvar")
     
     
     N_type_of_end <- DT_tmp[, .N, type_of_pregnancy_end  ][order(-N)]
+    N_type_of_end[N<5, N:=0]
     N_type_of_end <- N_type_of_end[, value := paste0(N, " (", round(N/N_preg, 2) * 100, "%)")][, -c("N")]
+    N_type_of_end[value == "0 (0%)", value := "<5"]
     N_type_of_end <- N_type_of_end[, var:= "type_of_pregnancy_end"]
     setnames(N_type_of_end, "type_of_pregnancy_end", "subvar")
     

@@ -22,6 +22,10 @@
 # changelog 5.2.3:
 # - updated parameter documentation
 # - fix ICD10CM for BIFAP
+#
+# changelog 5.2.4: 
+# - added UNF itemset
+# - CCNAM codes of procedures_termination became procedures_end_UNF
 #------------------------------------------------------------------------------------------
 
 rm(list=ls(all.names=TRUE))

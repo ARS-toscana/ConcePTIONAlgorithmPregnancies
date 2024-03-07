@@ -407,10 +407,18 @@ if(this_datasource_has_conceptsets){
   #   Unfavorable unspecified Pregnancy: UNF
   #-------------------------------------------
   
+  if (this_datasource_has_procedures) {
+    concept_sets_of_end_of_pregnancy_UNF_final <- c(concept_sets_of_end_of_pregnancy_UNF, 
+                                                    concept_sets_of_end_of_pregnancy_UNF_procedures)
+  }else{
+    concept_sets_of_end_of_pregnancy_UNF_final <- concept_sets_of_end_of_pregnancy_UNF
+  }
+  
+  
   # put together concept_set of ongoing
   dataset_UNF_concept_sets <- c()
   
-  for (conceptvar in concept_sets_of_end_of_pregnancy_UNF){ 
+  for (conceptvar in concept_sets_of_end_of_pregnancy_UNF_final){ 
     cat(paste0(conceptvar, "\n"))
     studyvardataset <- get(conceptvar)[!is.na(date),][,concept_set:=conceptvar]
     #studyvardataset <- unique(studyvardataset,by=c("person_id","codvar","date"))
@@ -449,6 +457,7 @@ if(this_datasource_has_conceptsets){
   
   dataset_UNF_concept_sets <- dataset_UNF_concept_sets[concept_set == "Interruption_possible" , pregnancy_start_date := pregnancy_end_date   - 70]
   dataset_UNF_concept_sets <- dataset_UNF_concept_sets[concept_set == "Spontaneousabortion_possible", pregnancy_start_date :=   pregnancy_end_date - 70]
+  dataset_UNF_concept_sets <- dataset_UNF_concept_sets[concept_set == "procedures_end_UNF", pregnancy_start_date :=   pregnancy_end_date - 70]
   dataset_UNF_concept_sets <- dataset_UNF_concept_sets[concept_set == "Stillbirth_possible", pregnancy_start_date := pregnancy_end_date -   280]
   
   
