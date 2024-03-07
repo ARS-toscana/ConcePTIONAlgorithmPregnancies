@@ -1,0 +1,2 @@
+person_id,so_date,so_source_table,so_source_column,so_source_value,so_unit,so_origin,so_meaning,survey_id
+40348529,20120305,vaccino_covid,gravidanza,GRAVIDA,,vaccino_covid,covid_registry,COVID_1
