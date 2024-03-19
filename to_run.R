@@ -26,6 +26,9 @@
 # changelog 5.2.4: 
 # - added UNF itemset
 # - CCNAM codes of procedures_termination became procedures_end_UNF
+#
+# changelog 5.2.4: 
+# - fix BIFAP error on start dates
 #------------------------------------------------------------------------------------------
 
 rm(list=ls(all.names=TRUE))
