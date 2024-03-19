@@ -226,11 +226,6 @@ if(model_condition){
     }
     
     
-    
-    
-    
-    
-    
     #grid[i, 5] <- mean(rmse.cv.vector)
     fold_prop.y <- fold_size.y / sum(fold_size.y)
     grid[i, 4] <- round(sum(rmse.cv.vector.y*fold_prop.y), 5)
@@ -420,11 +415,11 @@ if(model_condition){
   
   D3_group_model[, start_integer := as.integer(pregnancy_start_date_predicted - as.Date.character("1970-01-01"))]
   
-  D3_group_model[highest_quality == "4_red" , 
+  D3_group_model[train_set == 0, 
                  weighted_start := as.Date("1970-01-01") + weighted.mean(start_integer, sd), 
                  pregnancy_id] 
   
-  D3_group_model[highest_quality == "4_red" & n == 1, pregnancy_start_date := weighted_start]
+  D3_group_model[train_set == 0 & n == 1, pregnancy_start_date := weighted_start]
 }
 
 D3_pregnancy_model <- D3_group_model[n==1]
@@ -444,7 +439,8 @@ if(!this_datasource_do_not_use_prediction_on_red){
                      pregnancy_id]
   
   D3_pregnancy_model[(highest_quality == "2_yellow") &
-                       !is.na(pregnancy_start_date_predicted),  
+                       !is.na(pregnancy_start_date_predicted) &
+                       imputed_start_of_pregnancy == 1,  
                      pregnancy_start_date := max(pregnancy_start_date_predicted, 
                                                  date_of_principal_record - 300), 
                      pregnancy_id]
@@ -462,7 +458,8 @@ if(!this_datasource_do_not_use_prediction_on_red){
 # check start/end red records
 #------------------------------
 
-D3_pregnancy_model[highest_quality == "4_red" | highest_quality == "2_yellow", 
+D3_pregnancy_model[(highest_quality == "4_red" | highest_quality == "2_yellow") &
+                     imputed_start_of_pregnancy == 1, 
                        pregnancy_start_date := min(date_of_oldest_record - 14, 
                                                    pregnancy_start_date), 
                    pregnancy_id]
@@ -642,7 +639,6 @@ if("UNK" %in% vec.type.of.end){
                      pregnancy_id]
   
 }
-
 
 #--------------
 # Saving and rm

@@ -18,6 +18,12 @@ for (i in 1:length(files)) {
 D3_pregnancy_reconciled_valid <- D3_pregnancy_reconciled_before_excl
 D3_groups_of_pregnancies_reconciled <- D3_groups_of_pregnancies_reconciled_before_excl 
 
+#--------------------
+# Fix meaning 99
+#--------------------
+D3_pregnancy_reconciled_valid = D3_pregnancy_reconciled_valid[order_quality==99, order_quality := 50]
+
+
 ## D3_pregnancy_reconciled
 D3_pregnancy_reconciled_valid <- D3_pregnancy_reconciled_valid[like(algorithm_for_reconciliation, "GG:DiscordantEnd") , GGDE:=1]
 D3_pregnancy_reconciled_valid <- D3_pregnancy_reconciled_valid[like(algorithm_for_reconciliation, "GG:DiscordantStart") , GGDS:=1]
