@@ -51,23 +51,21 @@ itemset_AVpair_pregnancy[["END_ABORTION"]][[files[i]]][["PHARMO"]] <- list()
 
 ########################################### TYPE #######################################
 
-itemset_AVpair_pregnancy[["TYPE"]][[files[i]]][["PHARMO"]] <- list(list("perined", "sterfte")) # this variable document perinatal death
+itemset_AVpair_pregnancy[["TYPE"]][[files[i]]][["PHARMO"]] <- list(list("perined", "birth_status")) 
+
 
 ################################ DICTINARY OF TYPE ##################################
 
-dictonary_of_itemset_pregnancy[["TYPE"]][["PHARMO"]][["LB"]]<-list(list("perined", "0"), # no death
-                                                                   list("perined", "3"), # 0-7 days death
-                                                                   list("perined", "4"), # ...
-                                                                   list("perined", "5"), 
-                                                                   list("perined", "6")) 
+dictonary_of_itemset_pregnancy[["TYPE"]][["PHARMO"]][["LB"]]<-list(list("perined", "1"), 
+                                                                   list("perined", "2")) 
 
-dictonary_of_itemset_pregnancy[["TYPE"]][["PHARMO"]][["SB"]]<-list(list("perined", "2")) # death at delivery
+dictonary_of_itemset_pregnancy[["TYPE"]][["PHARMO"]][["SB"]]<-list(list("perined", "3")) 
 
-dictonary_of_itemset_pregnancy[["TYPE"]][["PHARMO"]][["SA"]]<-list()
+dictonary_of_itemset_pregnancy[["TYPE"]][["PHARMO"]][["SA"]]<-list(list("perined", "0"))
 dictonary_of_itemset_pregnancy[["TYPE"]][["PHARMO"]][["T"]]<-list()
 dictonary_of_itemset_pregnancy[["TYPE"]][["PHARMO"]][["MD"]]<-list()
 dictonary_of_itemset_pregnancy[["TYPE"]][["PHARMO"]][["ECT"]]<-list()
-dictonary_of_itemset_pregnancy[["TYPE"]][["PHARMO"]][["UNK"]]<-list(list("perined", "1")) # death before delivery
+dictonary_of_itemset_pregnancy[["TYPE"]][["PHARMO"]][["UNK"]]<-list(list("perined", "4"))
 
 
 

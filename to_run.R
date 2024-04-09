@@ -27,8 +27,10 @@
 # - added UNF itemset
 # - CCNAM codes of procedures_termination became procedures_end_UNF
 #
-# changelog 5.2.4: 
-# - fix BIFAP error on start dates
+# changelog 5.2.5: 
+# - fix error on start dates (BIFAP blue records)
+# - fix for incorrect gestational age
+# - updated PHARMO parameters
 #------------------------------------------------------------------------------------------
 
 rm(list=ls(all.names=TRUE))
@@ -60,7 +62,7 @@ source(paste0(thisdir,"/p_parameters_pregnancy/03_concept_sets.R"))
 source(paste0(thisdir,"/p_parameters_pregnancy/04_algorithms_pregnancy.R"))
 source(paste0(thisdir,"/p_parameters_pregnancy/05_check_coding_system.R"))
 source(paste0(thisdir,"/p_parameters_pregnancy/06_documentation_all_datasources.R"))
-source(paste0(thisdir,"/p_parameters_pregnancy/step_07_create_documentation.R")) 
+#source(paste0(thisdir,"/p_parameters_pregnancy/step_07_create_documentation.R")) 
 
 #run scripts
 

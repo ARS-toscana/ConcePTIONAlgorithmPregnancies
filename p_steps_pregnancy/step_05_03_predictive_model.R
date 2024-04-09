@@ -527,7 +527,7 @@ vec.type.of.end = unique(D3_pregnancy_model[, type_of_pregnancy_end])
 
 # check LB gestage
 if("LB" %in% vec.type.of.end){
-  mean.gestage.LB = as.integer(D3_pregnancy_model[type_of_pregnancy_end == "LB" & (gestage > 310 | gestage < 147), 
+  mean.gestage.LB = as.integer(D3_pregnancy_model[type_of_pregnancy_end == "LB" & (gestage < 310 & gestage > 147), 
                                                   mean(gestage)])
   
   D3_pregnancy_model[type_of_pregnancy_end == 'LB' & (gestage > 310 | gestage < 147),
@@ -538,7 +538,7 @@ if("LB" %in% vec.type.of.end){
 
 # check T gestage
 if("T" %in% vec.type.of.end){
-  mean.gestage.T = as.integer(D3_pregnancy_model[type_of_pregnancy_end == "T"  & (gestage > 154| gestage < 14), 
+  mean.gestage.T = as.integer(D3_pregnancy_model[type_of_pregnancy_end == "T"  & (gestage < 154 & gestage > 14), 
                                                   mean(gestage)])
   
   D3_pregnancy_model[type_of_pregnancy_end == 'T' & (gestage > 154| gestage < 14),
@@ -549,10 +549,10 @@ if("T" %in% vec.type.of.end){
 
 # check SA gestage
 if("SA" %in% vec.type.of.end){
-  mean.gestage.SA = as.integer(D3_pregnancy_model[type_of_pregnancy_end == "SA" & (gestage > 154| gestage < 14), 
+  mean.gestage.SA = as.integer(D3_pregnancy_model[type_of_pregnancy_end == "SA" & (gestage < 154 & gestage > 14), 
                                                   mean(gestage)])
   
-  D3_pregnancy_model[type_of_pregnancy_end == 'SA' & (gestage > 154| gestage < 14),
+  D3_pregnancy_model[type_of_pregnancy_end == 'SA' & (gestage > 154 | gestage < 14),
                      `:=`(pregnancy_start_date = pregnancy_end_date - mean.gestage.SA, 
                           algorithm_for_reconciliation = paste0(algorithm_for_reconciliation,
                                                                 "/gestageAdjusted"))]
@@ -560,7 +560,7 @@ if("SA" %in% vec.type.of.end){
 
 # check UNF gestage
 if("UNF" %in% vec.type.of.end){
-  mean.gestage.UNF = as.integer(D3_pregnancy_model[type_of_pregnancy_end == "UNF" & (gestage > 310 | gestage < 14), 
+  mean.gestage.UNF = as.integer(D3_pregnancy_model[type_of_pregnancy_end == "UNF" & (gestage < 310 & gestage > 14), 
                                                   mean(gestage)])
   
   D3_pregnancy_model[type_of_pregnancy_end == 'UNF' & (gestage > 310 | gestage < 14),
@@ -572,7 +572,7 @@ if("UNF" %in% vec.type.of.end){
 
 # check SB gestage
 if("SB" %in% vec.type.of.end){
-  mean.gestage.SB = as.integer(D3_pregnancy_model[type_of_pregnancy_end == "SB" & (gestage > 310 | gestage < 14), 
+  mean.gestage.SB = as.integer(D3_pregnancy_model[type_of_pregnancy_end == "SB" & (gestage < 310 & gestage > 14), 
                                                    mean(gestage)])
   
   D3_pregnancy_model[type_of_pregnancy_end == 'SB' & (gestage > 310 | gestage < 14),
@@ -583,7 +583,7 @@ if("SB" %in% vec.type.of.end){
 
 # check ECT gestage
 if("ECT" %in% vec.type.of.end){
-  mean.gestage.ECT = as.integer(D3_pregnancy_model[type_of_pregnancy_end == "ECT" & (gestage > 154 | gestage < 14), 
+  mean.gestage.ECT = as.integer(D3_pregnancy_model[type_of_pregnancy_end == "ECT" & (gestage < 154 & gestage > 14), 
                                                   mean(gestage)])
   
   D3_pregnancy_model[type_of_pregnancy_end == 'ECT' & (gestage > 154 | gestage < 14),
@@ -594,7 +594,7 @@ if("ECT" %in% vec.type.of.end){
 
 # check LOSTFU gestage
 if("LOSTFU" %in% vec.type.of.end){
-  mean.gestage.LOSTFU = as.integer(D3_pregnancy_model[type_of_pregnancy_end == "LOSTFU" & (gestage > 310 | gestage < 14), 
+  mean.gestage.LOSTFU = as.integer(D3_pregnancy_model[type_of_pregnancy_end == "LOSTFU" & (gestage < 310 & gestage > 14), 
                                                    mean(gestage)])
   
   D3_pregnancy_model[type_of_pregnancy_end == 'LOSTFU' & (gestage > 310 | gestage < 14),
@@ -610,7 +610,7 @@ if("LOSTFU" %in% vec.type.of.end){
 
 # check ONGOING gestage
 if("ONGOING" %in% vec.type.of.end){
-  mean.gestage.ONGOING = as.integer(D3_pregnancy_model[type_of_pregnancy_end == "ONGOING" & (gestage > 310 | gestage < 14), 
+  mean.gestage.ONGOING = as.integer(D3_pregnancy_model[type_of_pregnancy_end == "ONGOING" & (gestage < 310 & gestage > 14), 
                                                       mean(gestage)])
   
   D3_pregnancy_model[type_of_pregnancy_end == 'ONGOING' & (gestage > 310 | gestage < 14),
@@ -626,7 +626,7 @@ if("ONGOING" %in% vec.type.of.end){
 
 # check UNK gestage
 if("UNK" %in% vec.type.of.end){
-  mean.gestage.UNK = as.integer(D3_pregnancy_model[type_of_pregnancy_end == "UNK" & (gestage > 310 | gestage < 14), 
+  mean.gestage.UNK = as.integer(D3_pregnancy_model[type_of_pregnancy_end == "UNK" & (gestage < 310 & gestage > 14), 
                                                       mean(gestage)])
   
   D3_pregnancy_model[type_of_pregnancy_end == 'UNK' & (gestage > 310 | gestage < 14),

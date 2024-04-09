@@ -274,6 +274,9 @@ if (this_datasource_has_prompt) {
       dataset_pregnancies2[pregnancy_end_date==DATEENDPREGNANCY & TYPE%in%unlist(dictonary_of_itemset_pregnancy_this_datasource[["LB"]]),type_of_pregnancy_end:="LB"]
       dataset_pregnancies2[pregnancy_end_date==DATEENDPREGNANCY & TYPE%in%unlist(dictonary_of_itemset_pregnancy_this_datasource[["SA"]]) ,type_of_pregnancy_end:="SA"]
       
+      dataset_pregnancies2[pregnancy_end_date==DATEENDPREGNANCY & TYPE%in%unlist(dictonary_of_itemset_pregnancy_this_datasource[["SB"]]) ,type_of_pregnancy_end:="SB"]
+      dataset_pregnancies2[pregnancy_end_date==DATEENDPREGNANCY & TYPE%in%unlist(dictonary_of_itemset_pregnancy_this_datasource[["T"]]) ,type_of_pregnancy_end:="T"]
+      
       dataset_pregnancies2[pregnancy_end_date==DATEENDPREGNANCY & 
                              TYPE%in%unlist(dictonary_of_itemset_pregnancy_this_datasource[["UNK"]]) & 
                              (as.integer(DATEENDPREGNANCY - DATESTARTPREGNANCY)/7)>22 
