@@ -41,15 +41,24 @@ if(this_datasource_has_conceptsets){
       concept_temp <- concept_temp[, visit_occurrence_id := as.character(visit_occurrence_id)]
       
       if(concept_set_domains[[concept]]=="Diagnosis"){
-        concept_temp <- concept_temp[is.na(visit_occurrence_id), visit_occurrence_id := paste0(origin_of_event, "_", concept,   "_dummy_visit_occ_id_", seq_along(.I))]
+        concept_temp <- concept_temp[is.na(visit_occurrence_id), 
+                                     visit_occurrence_id := paste0(origin_of_event, "_", 
+                                                                   concept,   "_dummy_visit_occ_id_",
+                                                                   seq_along(.I))]
       }
       
       if(concept_set_domains[[concept]]=="Medicines"){
-        concept_temp <- concept_temp[is.na(visit_occurrence_id), visit_occurrence_id := paste0(origin_of_drug_record, "_", concept  ,"_dummy_visit_occ_id_", seq_along(.I))]
+        concept_temp <- concept_temp[is.na(visit_occurrence_id), 
+                                     visit_occurrence_id := paste0(origin_of_drug_record, "_", 
+                                                                   concept  ,"_dummy_visit_occ_id_",
+                                                                   seq_along(.I))]
       }
       
       if(concept_set_domains[[concept]]=="Procedures"){
-        concept_temp <- concept_temp[is.na(visit_occurrence_id), visit_occurrence_id := paste0(origin_of_procedure, "_", concept,   "_dummy_visit_occ_id_", seq_along(.I))]
+        concept_temp <- concept_temp[is.na(visit_occurrence_id), 
+                                     visit_occurrence_id := paste0(origin_of_procedure, "_", 
+                                                                   concept,   "_dummy_visit_occ_id_",
+                                                                   seq_along(.I))]
       }
       assign(concept, concept_temp)
       save(list=concept, file=paste0(dirtemp, concept,".RData"))

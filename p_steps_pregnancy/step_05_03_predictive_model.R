@@ -36,6 +36,11 @@ D3_group_model[is.na(train_set),  train_set := 0]
 D3_group_model[,  train_set := max(train_set), pregnancy_id]
 
 model_condition <- !this_datasource_do_not_use_prediction_on_red & D3_group_model[train_set == 1, .N] > 0
+
+#--------------
+# Running model
+#--------------
+
 if(model_condition){
   # creating variable for record type
   #D3_group_model[!is.na(origin), record_type := paste0(CONCEPTSET, "_", origin, "_", codvar)]
@@ -59,24 +64,35 @@ if(model_condition){
   
   record_type_to_keep <- intersect(record_type_training, record_type_red)
   
-  train_sample_list <- vector(mode = "list")
+  SmallSample = TRUE
   
-  sample_size_vector <- c()
-  
-  max_sample_size_for_record_type <- 5000
-  
-  for (type in record_type_to_keep) {
-    n_type <- DT_green_blue[record_type == type, .N]
-    sample_size <- min(max_sample_size_for_record_type, n_type)
+  if(SmallSample){
+    train_sample_list <- vector(mode = "list")
     
-    sample_size_vector <- c(sample_size_vector, sample_size)
-    train_sample_list[[type]] <- sample(DT_green_blue[record_type == type, record_id], 
-                                        size = sample_size, 
-                                        replace = FALSE)
+    sample_size_vector <- c()
+    
+    max_sample_size_for_record_type <- 5000
+    
+    for (type in record_type_to_keep) {
+      n_type <- DT_green_blue[record_type == type, .N]
+      sample_size <- min(max_sample_size_for_record_type, n_type)
+      
+      sample_size_vector <- c(sample_size_vector, sample_size)
+      train_sample_list[[type]] <- sample(DT_green_blue[record_type == type, record_id], 
+                                          size = sample_size, 
+                                          replace = FALSE)
+    }
+    
+    
+    DT_green_blue_model <- DT_green_blue[record_id %in% unlist(train_sample_list)]
+    
+    
+  }else{
+    DT_green_blue_model = DT_green_blue
   }
- 
+
   
-  DT_green_blue_model <- DT_green_blue[record_id %in% unlist(train_sample_list)]
+  
   DT_green_blue_model <- DT_green_blue_model[days_from_start > 0]
   DT_red_yellow_model <- DT_red_yellow[record_type %in% record_type_to_keep]
   DT_red_yellow_not_model <- DT_red_yellow[record_type %notin% record_type_to_keep]
