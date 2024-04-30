@@ -8,17 +8,17 @@ concept_sets_of_pregnancy_eve <- c("Gestation_less24_UNK",
                                    "Gestation_29_30_UNK",
                                    "Gestation_31_32_UNK",
                                    "Gestation_33_34_UNK",
-                                   #"Gestation_35_36_UNK",
-                                   #"Gestation_more37_UNK",
+                                   "Gestation_35_36_UNK",
+                                   "Gestation_more37_UNK",
                                    
-                                   #"Gestation_less24_LB",
-                                   #"Gestation_24_LB",
-                                   #"Gestation_25_26_LB",
+                                   "Gestation_less24_LB",
+                                   "Gestation_24_LB",
+                                   "Gestation_25_26_LB",
                                    "Gestation_27_28_LB",
-                                   #"Gestation_29_30_LB",
-                                   #"Gestation_31_32_LB",
-                                   #"Gestation_33_34_LB",
-                                   #"Gestation_35_36_LB",
+                                   "Gestation_29_30_LB",
+                                   "Gestation_31_32_LB",
+                                   "Gestation_33_34_LB",
+                                   "Gestation_35_36_LB",
                                    "Gestation_more37_LB",
                                    
                                    "Gestation_24_CHILD",
@@ -76,6 +76,26 @@ concept_set_codes_pregnancy_excl[["birth_narrow"]][["ICD9"]] = c("74", "74.99", 
 
 
 ################# Old R version fix
+# concept_set_codes_pregnancy[["Gestation_less24_UNK"]] <- list()
+# concept_set_codes_pregnancy[["Gestation_24_UNK"]] <- list()
+# concept_set_codes_pregnancy[["Gestation_25_26_UNK"]] <- list()
+# concept_set_codes_pregnancy[["Gestation_27_28_UNK"]] <- list()
+# concept_set_codes_pregnancy[["Gestation_29_30_UNK"]] <- list()
+# concept_set_codes_pregnancy[["Gestation_31_32_UNK"]] <- list()
+# concept_set_codes_pregnancy[["Gestation_33_34_UNK"]] <- list()
+# 
+# concept_set_codes_pregnancy[["Gestation_27_28_LB"]] <- list()
+# concept_set_codes_pregnancy[["Gestation_more37_LB"]] <- list()
+# 
+# concept_set_codes_pregnancy[["Gestation_24_CHILD"]] <- list()
+# concept_set_codes_pregnancy[["Gestation_25_26_CHILD"]] <- list()
+# concept_set_codes_pregnancy[["Gestation_27_28_CHILD"]] <- list()
+# concept_set_codes_pregnancy[["Gestation_29_30_CHILD"]] <- list()
+# concept_set_codes_pregnancy[["Gestation_31_32_CHILD"]] <- list()
+# concept_set_codes_pregnancy[["Gestation_33_34_CHILD"]] <- list()
+# concept_set_codes_pregnancy[["Gestation_35_36_CHILD"]] <- list()
+# concept_set_codes_pregnancy[["Gestation_more37_CHILD"]] <- list()
+
 concept_set_codes_pregnancy[["Gestation_less24_UNK"]] <- list()
 concept_set_codes_pregnancy[["Gestation_24_UNK"]] <- list()
 concept_set_codes_pregnancy[["Gestation_25_26_UNK"]] <- list()
@@ -83,9 +103,20 @@ concept_set_codes_pregnancy[["Gestation_27_28_UNK"]] <- list()
 concept_set_codes_pregnancy[["Gestation_29_30_UNK"]] <- list()
 concept_set_codes_pregnancy[["Gestation_31_32_UNK"]] <- list()
 concept_set_codes_pregnancy[["Gestation_33_34_UNK"]] <- list()
+concept_set_codes_pregnancy[["Gestation_35_36_UNK"]] <- list()
+concept_set_codes_pregnancy[["Gestation_more37_UNK"]] <- list()
 
+
+concept_set_codes_pregnancy[["Gestation_less24_LB"]] <- list()
+concept_set_codes_pregnancy[["Gestation_24_LB"]] <- list()
+concept_set_codes_pregnancy[["Gestation_25_26_LB"]] <- list()
 concept_set_codes_pregnancy[["Gestation_27_28_LB"]] <- list()
+concept_set_codes_pregnancy[["Gestation_29_30_LB"]] <- list()
+concept_set_codes_pregnancy[["Gestation_31_32_LB"]] <- list()
+concept_set_codes_pregnancy[["Gestation_33_34_LB"]] <- list()
+concept_set_codes_pregnancy[["Gestation_35_36_LB"]] <- list()
 concept_set_codes_pregnancy[["Gestation_more37_LB"]] <- list()
+
 
 concept_set_codes_pregnancy[["Gestation_24_CHILD"]] <- list()
 concept_set_codes_pregnancy[["Gestation_25_26_CHILD"]] <- list()
@@ -96,6 +127,7 @@ concept_set_codes_pregnancy[["Gestation_33_34_CHILD"]] <- list()
 concept_set_codes_pregnancy[["Gestation_35_36_CHILD"]] <- list()
 concept_set_codes_pregnancy[["Gestation_more37_CHILD"]] <- list()
 
+##############
 concept_set_codes_pregnancy[["FGR"]] <- list()
 concept_set_codes_pregnancy[["GESTDIAB"]] <- list()
 concept_set_codes_pregnancy[["PREECLAMP"]] <- list()

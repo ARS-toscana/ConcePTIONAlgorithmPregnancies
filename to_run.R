@@ -1,36 +1,13 @@
 #------------------------------------------------------------------------------------------
 # ConcePTION_Algorithm_Pregnancies script
 #
-# v5.2 - 22 December 2023
+# v5.3 - 30 April 2024
 # authors: Claudia Bartolini, Rosa Gini, Giorgio Limoncella, Olga Paoletti, Davide Messina
 # 
 # link: https://github.com/ARS-toscana/ConcePTIONAlgorithmPregnancies
 #
-# changelog 5.2.1:
-# - updated HSD parameters
-# - fixed bug related to step 01_03
-#
-# changelog 5.2.2:
-# - fixed bug related to description period
-# - updated CASERTA parameters
-# - fixed sampling years for DANREG
-# - fix bug CASERTA: 'sampling from preg' & 'internal consistency'
-# - Updated parameter for VID: included person_rel and EUROCAT
-# - fixed bug related to FERR data domain
-# - fixed BIFAP bug related to SNOMED: SNOMEDCT_US --> SNOMED
-#
-# changelog 5.2.3:
-# - updated parameter documentation
-# - fix ICD10CM for BIFAP
-#
-# changelog 5.2.4: 
-# - added UNF itemset
-# - CCNAM codes of procedures_termination became procedures_end_UNF
-#
-# changelog 5.2.5: 
-# - fix error on start dates (BIFAP blue records)
-# - fix for incorrect gestational age
-# - updated PHARMO parameters
+# changelog 5.3.1:
+# - child code search added
 #------------------------------------------------------------------------------------------
 
 rm(list=ls(all.names=TRUE))
@@ -74,7 +51,8 @@ system.time(source(paste0(thisdir,"/p_steps/step_01_3_T2.2_population_descriptio
 # 01 RETRIEVE RECORDS FRM CDM FOR PREGNANCY
 system.time(source(paste0(thisdir,"/p_steps_pregnancy/step_01_01_T2.1_create_prompt_datasets.R")))
 system.time(source(paste0(thisdir,"/p_steps_pregnancy/step_01_02_T2.1_create_itemsets_datasets.R")))
-system.time(source(paste0(thisdir,"/p_steps_pregnancy/step_01_03_T2.1_create_conceptset_datasets.R")))
+system.time(source(paste0(thisdir,"/p_steps_pregnancy/step_01_03_T2.1_create_descendant_conceptset_datasets.R")))
+system.time(source(paste0(thisdir,"/p_steps_pregnancy/step_01_04_T2.1_create_conceptset_datasets.R")))
 
 
 # 02 CREATE PREGNANCIES 

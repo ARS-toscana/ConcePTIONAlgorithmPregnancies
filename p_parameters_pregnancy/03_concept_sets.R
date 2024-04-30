@@ -142,23 +142,23 @@ if(this_datasource_has_conceptsets){
   # concept_sets_of_end_of_pregnancy_UNK <- c("Birth_possible")
   
   concept_sets_of_start_of_pregnancy_UNK <- c("Gestation_less24_UNK",
-                                              #"Gestation_24_UNK",
+                                              "Gestation_24_UNK",
                                               "Gestation_25_26_UNK",
                                               "Gestation_27_28_UNK",
                                               "Gestation_29_30_UNK",
                                               "Gestation_31_32_UNK",
-                                              "Gestation_33_34_UNK")#,
-                                              #"Gestation_35_36_UNK",
-                                              #"Gestation_more37_UNK") 
+                                              "Gestation_33_34_UNK",
+                                              "Gestation_35_36_UNK",
+                                              "Gestation_more37_UNK") 
   
-  concept_sets_of_start_of_pregnancy_LB <- c(#"Gestation_less24_LB",
-                                             #"Gestation_24_LB",
-                                             #"Gestation_25_26_LB",
+  concept_sets_of_start_of_pregnancy_LB <- c("Gestation_less24_LB",
+                                             "Gestation_24_LB",
+                                             "Gestation_25_26_LB",
                                              "Gestation_27_28_LB",
-                                             #"Gestation_29_30_LB",
-                                             #"Gestation_31_32_LB",
-                                             #"Gestation_33_34_LB",
-                                             #"Gestation_35_36_LB",
+                                             "Gestation_29_30_LB",
+                                             "Gestation_31_32_LB",
+                                             "Gestation_33_34_LB",
+                                             "Gestation_35_36_LB",
                                              "Gestation_more37_LB")
   
   
@@ -231,6 +231,10 @@ if(this_datasource_has_conceptsets){
                                concept_sets_of_end_of_pregnancy_UNF_procedures,
                                concept_sets_of_end_of_pregnancy_T_SA_SB_ECT_procedures)
   }
+  
+  # conceptset descendants 
+  
+  concept_set_pregnancy_descendant <- paste0("descendant_", concept_set_pregnancy)
   
   codes_used_in_this_run <- list_of_list_to_df(concept_set_codes_pregnancy)
   fwrite(codes_used_in_this_run, file = paste0(direxp, "concept_set_codes_pregnancy.csv"))
