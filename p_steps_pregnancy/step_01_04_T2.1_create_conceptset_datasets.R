@@ -2,7 +2,7 @@
 
 if(this_datasource_has_conceptsets){
   
-  DT_code_descendant_not_included <- data.table(coceptset = character(),
+  DT_descendant_code_not_included <- data.table(coceptset = character(),
                                                 code = character(), 
                                                 coding_system = character())
   
@@ -34,7 +34,7 @@ if(this_datasource_has_conceptsets){
       concept_filtered <- rbind(concept_filtered, concept_tmp_filtered)
 
       if(length(code_descendent)>0){
-        DT_code_descendant_not_included <- rbind(DT_code_descendant_not_included,
+        DT_descendant_code_not_included <- rbind(DT_descendant_code_not_included,
                                                  data.table(coceptset = new_concept_name, 
                                                             code = code_descendent,
                                                             coding_system = coding_sys))
@@ -47,7 +47,7 @@ if(this_datasource_has_conceptsets){
     
   }
   
-  fwrite(DT_code_descendant_not_included, paste0(direxp, "DT_code_descendant_not_included.csv"))
+  fwrite(DT_descendant_code_not_included, paste0(direxp, "DT_descendant_code_not_included.csv"))
   
   
   

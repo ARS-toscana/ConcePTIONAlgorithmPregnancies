@@ -18,9 +18,9 @@ thisdir<-setwd(dirname(rstudioapi::getSourceEditorContext()$path))
 thisdir<-setwd(dirname(rstudioapi::getSourceEditorContext()$path))
 setwd(thisdir)
 
-###################################################################
-##############        SET INPUT DIRECTORY     #####################
-###################################################################
+#---------------------
+# SET INPUT DIRECTORY    
+#---------------------
 
 #@ use this below if you want to set different INPUT DIRECTORY
 dirinput <- c(paste0(thisdir,"/i_input/")) # remember to use / instead of \
