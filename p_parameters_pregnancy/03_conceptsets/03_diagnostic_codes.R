@@ -41,8 +41,11 @@ concept_sets_of_pregnancy_eve <- c("Gestation_less24_UNK",
                                    "Birth_narrow", 
                                    "Preterm",
                                    "Atterm",
-                                   "Postterm",  
-                                   #"Livebirth",
+                                   "Postterm",
+                                   
+                                   "LiveBirth",
+                                   "BirthUnspecified",
+                                   "BirthUnknown",
                                    
                                    "Stillbirth_narrow",
                                    "Interruption_narrow",
@@ -140,6 +143,11 @@ concept_set_codes_pregnancy[["Birth_narrow"]] <- list()
 concept_set_codes_pregnancy[["Preterm"]] <- list() 
 concept_set_codes_pregnancy[["Atterm"]] <- list()
 concept_set_codes_pregnancy[["Postterm"]] <- list() 
+
+concept_set_codes_pregnancy[["Livebirth"]] <- list()
+concept_set_codes_pregnancy[["BirthUnspecified"]] <- list()
+concept_set_codes_pregnancy[["BirthUnknown"]] <- list()
+
 
 concept_set_codes_pregnancy[["Stillbirth_narrow"]] <- list()
 concept_set_codes_pregnancy[["Interruption_narrow"]] <- list()
@@ -301,6 +309,15 @@ concept_set_codes_pregnancy[["Birth_narrow"]] <- concept_set_codes_pregnancy_not
 concept_set_codes_pregnancy[["Preterm"]] <- concept_set_codes_pregnancy_not_modified[["Preterm"]] 
 concept_set_codes_pregnancy[["Atterm"]] <- concept_set_codes_pregnancy_not_modified[["AtTerm"]] 
 concept_set_codes_pregnancy[["Postterm"]] <- concept_set_codes_pregnancy_not_modified[["PostTerm"]] 
+
+
+#----------------------
+# other end possibly LB
+#----------------------
+concept_set_codes_pregnancy[["Livebirth"]] <- concept_set_codes_pregnancy_not_modified[["Livebirth"]]
+concept_set_codes_pregnancy[["BirthUnspecified"]] <- concept_set_codes_pregnancy_not_modified[["BirthUnspecified"]] 
+concept_set_codes_pregnancy[["BirthUnknown"]] <- concept_set_codes_pregnancy_not_modified[["BirthUnknown"]] 
+
 
 #------------
 # End T SA SB 

@@ -184,14 +184,19 @@ if(this_datasource_has_conceptsets){
                                                                     "Chorionic_Villus_Sampling",
                                                                     "others")
   
-  concept_sets_of_end_of_pregnancy_LB <- c("Birth_narrow",
-                                           "Preterm",
+  concept_sets_of_end_of_pregnancy_LB <- c("Preterm",
                                            "Atterm",
-                                           "Postterm")
-                                           #"Livebirth") 
+                                           "Postterm",
+                                           "LiveBirth") 
+
   
-  concept_sets_of_end_of_pregnancy_LB_procedures <- c("procedures_livebirth", 
-                                                      "procedures_delivery")
+  concept_sets_of_end_of_pregnancy_LB_procedures <- c("procedures_livebirth")
+  
+  concept_sets_of_end_of_pregnancy_birth <- c("Birth_narrow",
+                                              "BirthUnspecified",
+                                              "BirthUnknown")
+  
+  concept_sets_of_end_of_pregnancy_birth_procedures <- c("procedures_delivery")
   
   concept_sets_of_end_of_pregnancy_UNK <- c("Birth_possible")
   
@@ -218,6 +223,7 @@ if(this_datasource_has_conceptsets){
                              concept_sets_of_start_of_pregnancy_CHILD,
                              concept_sets_of_ongoing_of_pregnancy,
                              concept_sets_of_end_of_pregnancy_LB,
+                             concept_sets_of_end_of_pregnancy_birth,
                              concept_sets_of_end_of_pregnancy_UNK,
                              concept_sets_of_end_of_pregnancy_UNF,
                              concept_sets_of_end_of_pregnancy_T_SA_SB_ECT)
@@ -227,6 +233,7 @@ if(this_datasource_has_conceptsets){
                                concept_sets_of_ongoing_of_pregnancy_procedures_DAP_specific,
                                concept_sets_of_ongoing_of_pregnancy_procedures,
                                concept_sets_of_end_of_pregnancy_LB_procedures,
+                               concept_sets_of_end_of_pregnancy_birth_procedures,
                                concept_sets_of_end_of_pregnancy_UNK_procedures,
                                concept_sets_of_end_of_pregnancy_UNF_procedures,
                                concept_sets_of_end_of_pregnancy_T_SA_SB_ECT_procedures)
