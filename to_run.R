@@ -31,6 +31,9 @@
 # - fix error on start dates (BIFAP blue records)
 # - fix for incorrect gestational age
 # - updated PHARMO parameters
+#
+# changelog 5.2.5:
+# - added red-blue reconciliation
 #------------------------------------------------------------------------------------------
 
 rm(list=ls(all.names=TRUE))
