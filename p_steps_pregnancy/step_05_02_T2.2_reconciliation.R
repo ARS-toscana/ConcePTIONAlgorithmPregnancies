@@ -311,16 +311,40 @@ while (D3_gop[,.N]!=0) {
     D3_gop <- D3_gop[n == 1 & recon == 0 & !is.na(record_date_next_record) & 
                        coloured_order == "3_blue" & coloured_order_next_record == "4_red" &
                        meaning_next_record %in% list_of_meanings_with_specific_maxgap_thisdatasource &  
-                       (pregnancy_start_date - maxgap > record_date_next_record |
+                       (pregnancy_start_date - maxgap_specific_meanings > record_date_next_record |
                           record_date + gapallowed < record_date_next_record), 
                      `:=`(new_pregnancy_group = 1)]
     
     D3_gop <- D3_gop[n == 1 & recon == 0 & !is.na(record_date_next_record) & 
                        coloured_order == "3_blue" & coloured_order_next_record == "4_red" &
                        meaning_next_record %notin% list_of_meanings_with_specific_maxgap_thisdatasource &  
+                       (pregnancy_start_date - maxgap > record_date_next_record |
+                          record_date + gapallowed < record_date_next_record), 
+                     `:=`(new_pregnancy_group = 1)]
+    
+    
+    #--------------------------
+    # Red - Blue
+    # Rule 14: B-R 
+    #--------------------------
+    D3_gop <- D3_gop[n == 1 & recon == 0 & !is.na(record_date_next_record) & 
+                       coloured_order == "4_red" & coloured_order_next_record == "3_blue" &
+                       meaning_next_record %in% list_of_meanings_with_specific_maxgap_thisdatasource &  
                        (pregnancy_start_date - maxgap_specific_meanings > record_date_next_record |
                           record_date + gapallowed < record_date_next_record), 
                      `:=`(new_pregnancy_group = 1)]
+    
+    D3_gop <- D3_gop[n == 1 & recon == 0 & !is.na(record_date_next_record) & 
+                       coloured_order == "4_red" & coloured_order_next_record == "3_blue" &
+                       meaning_next_record %notin% list_of_meanings_with_specific_maxgap_thisdatasource &  
+                       (pregnancy_start_date - maxgap > record_date_next_record |
+                          record_date + gapallowed < record_date_next_record), 
+                     `:=`(new_pregnancy_group = 1)]
+    
+    
+    
+    
+    
     
     #--------------------------
     # Red - Red
@@ -587,6 +611,15 @@ while (D3_gop[,.N]!=0) {
     D3_gop <- D3_gop[n == 1 & new_group_next_record != 1 &  recon == 0 & coloured_order == "3_blue" & coloured_order_next_record == "4_red" &
                        !(pregnancy_start_date <= record_date_next_record & record_date_next_record <= pregnancy_end_date),
                      `:=`( algorithm_for_reconciliation = paste0(algorithm_for_reconciliation, "BR:Inconsistency_"))]
+    
+    #### Red - Blue
+    D3_gop <- D3_gop[n == 1 & new_group_next_record != 1 &  recon == 0 & coloured_order == "4_red" & coloured_order_next_record == "3_blue" &
+                       start_diff == 0,
+                     `:=`( pregnancy_start_date = pregnancy_start_date_next_record,
+                           algorithm_for_reconciliation = paste0(algorithm_for_reconciliation, "RB:StartUpdated_"),
+                           imputed_start_of_pregnancy = 0,
+                           meaning_start_date = shift(meaning_start_date, n = i,  fill = "updated_from_blue_record", type=c("lead")))]
+    
     
     # #### Red - Red
     # D3_gop <- D3_gop[n == 1 & new_group_next_record != 1 &  recon == 0 & coloured_order == "4_red" & coloured_order_next_record == "4_red" & 

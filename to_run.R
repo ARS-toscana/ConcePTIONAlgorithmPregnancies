@@ -6,8 +6,6 @@
 # 
 # link: https://github.com/ARS-toscana/ConcePTIONAlgorithmPregnancies
 #
-# changelog 5.3.1:
-# - child code search added
 #------------------------------------------------------------------------------------------
 
 rm(list=ls(all.names=TRUE))
