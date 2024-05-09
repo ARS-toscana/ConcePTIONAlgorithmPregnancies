@@ -1,6 +1,7 @@
 ##################################################################################################################
 # In this step we associate with each record retrieved from conceptsets its start date, end date and type of end #
 ##################################################################################################################
+
 if(this_datasource_has_conceptsets){
   # loading concepsets
   for (conceptvar in concept_set_pregnancy){ 
@@ -403,6 +404,168 @@ if(this_datasource_has_conceptsets){
   
   
   
+  
+  
+  
+  
+  
+  
+  #-------------------------------
+  #   Birth not Specified UNK/BUNK
+  #-------------------------------
+  
+  if (this_datasource_has_procedures) {
+    concept_sets_of_end_of_pregnancy_birth_final <- c(concept_sets_of_end_of_pregnancy_birth, 
+                                                      concept_sets_of_end_of_pregnancy_birth_procedures)
+  }else{
+    concept_sets_of_end_of_pregnancy_birth_final <- concept_sets_of_end_of_pregnancy_birth
+  }
+  
+  
+  # put together concept_set of ongoing
+  dataset_end_birth_concept_sets <- c()
+  
+  for (conceptvar in concept_sets_of_end_of_pregnancy_birth_final){ 
+    cat(paste0(conceptvar, "\n"))
+    studyvardataset <- get(conceptvar)[!is.na(date),][,concept_set:=conceptvar]
+    #studyvardataset <- unique(studyvardataset,by=c("person_id","codvar","date"))
+    
+    if(concept_set_domains[[conceptvar]] == "Diagnosis"){
+      dataset_end_birth_concept_sets <- rbind(dataset_end_birth_concept_sets,
+                                            studyvardataset[,.(person_id,
+                                                               date, 
+                                                               codvar,
+                                                               concept_set,
+                                                               visit_occurrence_id,
+                                                               meaning_of_event,
+                                                               origin_of_event, 
+                                                               event_record_vocabulary)], fill=TRUE) 
+    }
+    if(concept_set_domains[[conceptvar]] == "Procedures"){
+      dataset_end_birth_concept_sets <- rbind(dataset_end_birth_concept_sets,
+                                            studyvardataset[,.(person_id,
+                                                               date, 
+                                                               codvar,
+                                                               concept_set,
+                                                               visit_occurrence_id, 
+                                                               origin_of_procedure, 
+                                                               procedure_code_vocabulary, 
+                                                               meaning_of_procedure)], fill=TRUE)
+    }
+  }
+  
+  
+  
+  # defining end dates
+  dataset_end_birth_concept_sets <- dataset_end_birth_concept_sets[, pregnancy_end_date := date]
+  
+  # defining start dates
+  dataset_end_birth_concept_sets <- dataset_end_birth_concept_sets[, pregnancy_start_date := pregnancy_end_date - 280]
+  
+  # Defining imputation, type and meaning
+  dataset_end_birth_concept_sets <-  dataset_end_birth_concept_sets[,`:=`(pregnancy_ongoing_date = as.Date(character(0)),
+                                                                      meaning_start_date = paste0("imputed_from_", concept_set),
+                                                                      meaning_ongoing_date = NA,
+                                                                      meaning_end_date = paste0("from_", concept_set),
+                                                                      type_of_pregnancy_end = NA,
+                                                                      origin = NA,
+                                                                      meaning = NA,
+                                                                      imputed_start_of_pregnancy = 1,
+                                                                      CONCEPTSETS = "yes")]
+  
+  
+  
+  # end imputation
+  dataset_end_birth_concept_sets[concept_set == "Birth_narrow", imputed_end_of_pregnancy := 0]
+  dataset_end_birth_concept_sets[concept_set == "BirthUnspecified", imputed_end_of_pregnancy := 0]
+  dataset_end_birth_concept_sets[concept_set == "BirthUnknown", imputed_end_of_pregnancy := 0]
+  
+  # end imputation
+  dataset_end_birth_concept_sets[concept_set == "Birth_narrow", type_of_pregnancy_end := "UNK"]
+  dataset_end_birth_concept_sets[concept_set == "BirthUnspecified", type_of_pregnancy_end := "BUNK"]
+  dataset_end_birth_concept_sets[concept_set == "BirthUnknown", type_of_pregnancy_end := "UNK"]
+  
+  
+  if ("origin_of_event" %in% names(dataset_end_birth_concept_sets)) {
+    dataset_end_birth_concept_sets <- dataset_end_birth_concept_sets[, `:=`(origin = origin_of_event,
+                                                                        meaning = meaning_of_event)]
+  }
+  
+  if ("origin_of_procedure" %in% names(dataset_end_birth_concept_sets)) {
+    dataset_end_birth_concept_sets <- dataset_end_birth_concept_sets[is.na(origin), origin := origin_of_procedure]
+    dataset_end_birth_concept_sets <- dataset_end_birth_concept_sets[is.na(meaning), meaning := meaning_of_procedure]
+  }
+  
+  
+  if ("so_origin" %in% names(dataset_end_birth_concept_sets)) {
+    dataset_end_birth_concept_sets <- dataset_end_birth_concept_sets[is.na(origin), origin := so_origin]
+    dataset_end_birth_concept_sets <- dataset_end_birth_concept_sets[is.na(meaning), meaning := so_meaning]
+  }
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
   #-------------------------------------------
   #   Unfavorable unspecified Pregnancy: UNF
   #-------------------------------------------
@@ -613,6 +776,7 @@ if(this_datasource_has_conceptsets){
                                              dataset_ongoing_concept_sets,
                                              dataset_LB_concept_sets,
                                              dataset_end_UNK_concept_sets,
+                                             dataset_end_birth_concept_sets,
                                              dataset_UNF_concept_sets,
                                              dataset_SB_T_SA_ECT_concept_sets), 
                                         fill = T)
@@ -686,6 +850,7 @@ if(this_datasource_has_conceptsets){
      dataset_ongoing_concept_sets,
      dataset_LB_concept_sets,
      dataset_end_UNK_concept_sets,
+     dataset_end_birth_concept_sets,
      dataset_UNF_concept_sets,
      dataset_SB_T_SA_ECT_concept_sets,
      dataset_concept_sets_all,
@@ -696,6 +861,7 @@ if(this_datasource_has_conceptsets){
               concept_sets_of_ongoing_of_pregnancy_final,
               concept_sets_of_end_of_pregnancy_LB_final,
               concept_sets_of_end_of_pregnancy_UNK,
+              concept_sets_of_end_of_pregnancy_birth_final,
               concept_sets_of_end_of_pregnancy_UNF,
               concept_sets_of_end_of_pregnancy_T_SA_SB_ECT_final))
 }
