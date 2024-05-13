@@ -207,6 +207,14 @@ D3_pregnancy_reconciled[type_of_pregnancy_end == "ECT", type_of_pregnancy_end :=
 D3_pregnancy_final[type_of_pregnancy_end == "ECT", type_of_pregnancy_end := "ECT-MOL"]
 
 
+#-----------------------
+# Convert UNSP to LB
+#-----------------------
+D3_pregnancy_reconciled_valid[type_of_pregnancy_end == "UNSP", type_of_pregnancy_end := "LB"]
+D3_pregnancy_reconciled[type_of_pregnancy_end == "UNSP", type_of_pregnancy_end := "LB"]
+D3_pregnancy_final[type_of_pregnancy_end == "UNSP", type_of_pregnancy_end := "LB"]
+
+
 save(D3_groups_of_pregnancies_reconciled, file=paste0(dirtemp,"D3_groups_of_pregnancies_reconciled.RData"))
 save(D3_pregnancy_reconciled_valid, file=paste0(dirtemp,"D3_pregnancy_reconciled_valid.RData"))
 save(D3_pregnancy_reconciled, file=paste0(dirtemp,"D3_pregnancy_reconciled.RData"))

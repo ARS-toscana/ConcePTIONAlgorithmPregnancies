@@ -38,15 +38,27 @@ concept_sets_of_pregnancy_eve <- c("Gestation_less24_UNK",
                                    
                                    "Birth_possible",
                                    
-                                   "Birth_narrow", 
-                                   "Preterm",
-                                   "Atterm",
-                                   "Postterm",
+                                   # "Birth_narrow", 
+                                   # "Preterm",
+                                   # "Atterm",
+                                   # "Postterm",
+                                   # 
+                                   # "LiveBirth",
+                                   # "BirthUnspecified",
+                                   # "BirthUnknown",
                                    
-                                   "LiveBirth",
-                                   "BirthUnspecified",
-                                   "BirthUnknown",
+                                   "AtTermBUNSP",
+                                   "AtTermLB",
                                    
+                                   "BirthNarrowBUNK",
+                                   "BirthNarrowBUNSP",
+                                   "BirthNarrowLB",
+                                   
+                                   "PostTermBUNSP",
+                                   
+                                   "PretermBUNSP",
+                                   "PretermLB",
+                                  
                                    "Stillbirth_narrow",
                                    "Interruption_narrow",
                                    "Spontaneousabortion_narrow",
@@ -75,7 +87,7 @@ concept_set_codes_pregnancy<-vector(mode="list")
 concept_set_codes_pregnancy_excl<-vector(mode="list")
 
 concept_set_codes_pregnancy_excl[["others"]][["ITA_procedures_coding_system"]] = c("88782", "88781","8878A") #c("88682 ???", senza punti )
-concept_set_codes_pregnancy_excl[["birth_narrow"]][["ICD9"]] = c("74", "74.99", "74.1", "74.2", "74.4")
+#concept_set_codes_pregnancy_excl[["birth_narrow"]][["ICD9"]] = c("74", "74.99", "74.1", "74.2", "74.4")
 
 
 ################# Old R version fix
@@ -139,16 +151,28 @@ concept_set_codes_pregnancy[["Ongoingpregnancy"]] <- list()
 
 concept_set_codes_pregnancy[["Birth_possible"]] <- list()
 
-concept_set_codes_pregnancy[["Birth_narrow"]] <- list()
-concept_set_codes_pregnancy[["Preterm"]] <- list() 
-concept_set_codes_pregnancy[["Atterm"]] <- list()
-concept_set_codes_pregnancy[["Postterm"]] <- list() 
+# concept_set_codes_pregnancy[["Birth_narrow"]] <- list()
+# concept_set_codes_pregnancy[["Preterm"]] <- list() 
+# concept_set_codes_pregnancy[["Atterm"]] <- list()
+# concept_set_codes_pregnancy[["Postterm"]] <- list() 
+# 
+# concept_set_codes_pregnancy[["Livebirth"]] <- list()
+# concept_set_codes_pregnancy[["BirthUnspecified"]] <- list()
+# concept_set_codes_pregnancy[["BirthUnknown"]] <- list()
 
-concept_set_codes_pregnancy[["Livebirth"]] <- list()
-concept_set_codes_pregnancy[["BirthUnspecified"]] <- list()
-concept_set_codes_pregnancy[["BirthUnknown"]] <- list()
+concept_set_codes_pregnancy[[ "AtTermBUNSP"]] <- list()
+concept_set_codes_pregnancy[["AtTermLB"]] <- list()
+    
+concept_set_codes_pregnancy[["BirthNarrowBUNK"]] <- list()
+concept_set_codes_pregnancy[["BirthNarrowBUNSP"]] <- list()
+concept_set_codes_pregnancy[["BirthNarrowLB"]] <- list()
+          
+concept_set_codes_pregnancy[["PostTermBUNSP"]] <- list()
+            
+concept_set_codes_pregnancy[["PretermBUNSP"]] <- list()
+concept_set_codes_pregnancy[["PretermLB"]] <- list()
 
-
+  
 concept_set_codes_pregnancy[["Stillbirth_narrow"]] <- list()
 concept_set_codes_pregnancy[["Interruption_narrow"]] <- list()
 concept_set_codes_pregnancy[["Spontaneousabortion_narrow"]] <- list()
@@ -302,21 +326,42 @@ for(coding_system in list_of_coding_syst){
   
 
 
+# #-------
+# # End LB
+# #-------
+# concept_set_codes_pregnancy[["Birth_narrow"]] <- concept_set_codes_pregnancy_not_modified[["BirthNarrow"]]
+# concept_set_codes_pregnancy[["Preterm"]] <- concept_set_codes_pregnancy_not_modified[["Preterm"]] 
+# concept_set_codes_pregnancy[["Atterm"]] <- concept_set_codes_pregnancy_not_modified[["AtTerm"]] 
+# concept_set_codes_pregnancy[["Postterm"]] <- concept_set_codes_pregnancy_not_modified[["PostTerm"]] 
+# 
+# 
+# #----------------------
+# # other end possibly LB
+# #----------------------
+# concept_set_codes_pregnancy[["Livebirth"]] <- concept_set_codes_pregnancy_not_modified[["Livebirth"]]
+# concept_set_codes_pregnancy[["BirthUnspecified"]] <- concept_set_codes_pregnancy_not_modified[["BirthUnspecified"]] 
+# concept_set_codes_pregnancy[["BirthUnknown"]] <- concept_set_codes_pregnancy_not_modified[["BirthUnknown"]] 
+
+
 #-------
 # End LB
 #-------
-concept_set_codes_pregnancy[["Birth_narrow"]] <- concept_set_codes_pregnancy_not_modified[["BirthNarrow"]]
-concept_set_codes_pregnancy[["Preterm"]] <- concept_set_codes_pregnancy_not_modified[["Preterm"]] 
-concept_set_codes_pregnancy[["Atterm"]] <- concept_set_codes_pregnancy_not_modified[["AtTerm"]] 
-concept_set_codes_pregnancy[["Postterm"]] <- concept_set_codes_pregnancy_not_modified[["PostTerm"]] 
+concept_set_codes_pregnancy[["AtTermLB"]] <- list()
+concept_set_codes_pregnancy[["BirthNarrowLB"]] <- list()
+concept_set_codes_pregnancy[["PretermLB"]] <- list()
 
+#---------
+# End BUNK
+#---------
+concept_set_codes_pregnancy[["BirthNarrowBUNK"]] <- list()
 
-#----------------------
-# other end possibly LB
-#----------------------
-concept_set_codes_pregnancy[["Livebirth"]] <- concept_set_codes_pregnancy_not_modified[["Livebirth"]]
-concept_set_codes_pregnancy[["BirthUnspecified"]] <- concept_set_codes_pregnancy_not_modified[["BirthUnspecified"]] 
-concept_set_codes_pregnancy[["BirthUnknown"]] <- concept_set_codes_pregnancy_not_modified[["BirthUnknown"]] 
+#---------
+# End UNSP
+#---------
+concept_set_codes_pregnancy[["AtTermBUNSP"]] <- list()
+concept_set_codes_pregnancy[["BirthNarrowBUNSP"]] <- list()
+concept_set_codes_pregnancy[["PostTermBUNSP"]] <- list()
+concept_set_codes_pregnancy[["PretermBUNSP"]] <- list()
 
 
 #------------

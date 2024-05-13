@@ -1,17 +1,18 @@
-##################################################################################################################
-# In this step we associate with each record retrieved from conceptsets its start date, end date and type of end #
-##################################################################################################################
+#------------------------------------------------------------------------------
+#' In this step we associate with each record retrieved from conceptsets its 
+#' start date, end date and type of end 
+#------------------------------------------------------------------------------
 
 if(this_datasource_has_conceptsets){
-  # loading concepsets
-  for (conceptvar in concept_set_pregnancy){ 
+  
+  
+  
+  #-------------------------
+  #   Start of Pregnancy UNK
+  #-------------------------
+  for (conceptvar in concept_sets_of_start_of_pregnancy_UNK){ 
     load(paste0(dirtemp,conceptvar,".RData"))
   }
-  
-  
-  #-----------------------------------
-  #   Start of Pregnancy
-  #-----------------------------------
   
   # put together concept_set of start
   dataset_start_concept_sets <- c()
@@ -61,7 +62,7 @@ if(this_datasource_has_conceptsets){
   
   if ("origin_of_event" %in% names(dataset_start_concept_sets)) {
     dataset_start_concept_sets <- dataset_start_concept_sets[, `:=`(origin = origin_of_event,
-                                                                                meaning = meaning_of_event)]
+                                                                    meaning = meaning_of_event)]
   }
   
   if ("origin_of_procedure" %in% names(dataset_start_concept_sets)) {
@@ -76,10 +77,27 @@ if(this_datasource_has_conceptsets){
   }
   
   
+  ##########
+  dataset_concept_sets_all <- dataset_start_concept_sets
+  
+  rm(dataset_start_concept_sets)
+  rm(list = concept_sets_of_start_of_pregnancy_UNK)
+  
+  
+  
+  
+  
+  
+  
+  
+  
   
   #-----------------------------------
   #   Start of Pregnancy birth
   #-----------------------------------
+  for (conceptvar in concept_sets_of_start_of_pregnancy_LB){ 
+    load(paste0(dirtemp,conceptvar,".RData"))
+  }
   
   # put together concept_set of start
   dataset_start_LB_concept_sets <- c()
@@ -88,14 +106,14 @@ if(this_datasource_has_conceptsets){
     studyvardataset <- get(conceptvar)[!is.na(date),][,concept_set:=conceptvar]
     #studyvardataset <- unique(studyvardataset,by=c("person_id","codvar","date"))
     dataset_start_LB_concept_sets <- rbind(dataset_start_LB_concept_sets,
-                                        studyvardataset[,.(person_id,
-                                                           date,
-                                                           codvar,
-                                                           concept_set,
-                                                           visit_occurrence_id,
-                                                           meaning_of_event,
-                                                           origin_of_event,
-                                                           event_record_vocabulary)], fill=TRUE)
+                                           studyvardataset[,.(person_id,
+                                                              date,
+                                                              codvar,
+                                                              concept_set,
+                                                              visit_occurrence_id,
+                                                              meaning_of_event,
+                                                              origin_of_event,
+                                                              event_record_vocabulary)], fill=TRUE)
   }
   
   # check if dataset is unique for person_id, survey_id and survey_date
@@ -117,19 +135,19 @@ if(this_datasource_has_conceptsets){
   
   # Defining imputation, type and meaning
   dataset_start_LB_concept_sets <- dataset_start_LB_concept_sets[,`:=`(pregnancy_ongoing_date = as.Date(character(0)),
-                                                                             meaning_start_date = paste0("from_", concept_set),
-                                                                             meaning_ongoing_date = paste0("record_date_", concept_set),
-                                                                             meaning_end_date = paste0("from_", concept_set),
-                                                                             type_of_pregnancy_end = "LB",
-                                                                             origin = origin_of_event,
-                                                                             meaning = meaning_of_event,
-                                                                             imputed_start_of_pregnancy = 0,
-                                                                             imputed_end_of_pregnancy = 0,
-                                                                             CONCEPTSETS = "yes")]
+                                                                       meaning_start_date = paste0("from_", concept_set),
+                                                                       meaning_ongoing_date = paste0("record_date_", concept_set),
+                                                                       meaning_end_date = paste0("from_", concept_set),
+                                                                       type_of_pregnancy_end = "LB",
+                                                                       origin = origin_of_event,
+                                                                       meaning = meaning_of_event,
+                                                                       imputed_start_of_pregnancy = 0,
+                                                                       imputed_end_of_pregnancy = 0,
+                                                                       CONCEPTSETS = "yes")]
   
   if ("origin_of_event" %in% names(dataset_start_LB_concept_sets)) {
     dataset_start_LB_concept_sets <- dataset_start_LB_concept_sets[, `:=`(origin = origin_of_event,
-                                                                    meaning = meaning_of_event)]
+                                                                          meaning = meaning_of_event)]
   }
   
   if ("origin_of_procedure" %in% names(dataset_start_LB_concept_sets)) {
@@ -144,10 +162,27 @@ if(this_datasource_has_conceptsets){
   }
   
   
+  ##########
+  dataset_concept_sets_all <- rbindlist(list(dataset_concept_sets_all, 
+                                             dataset_start_LB_concept_sets), 
+                                        fill = T)
+  
+  
+  rm(dataset_start_LB_concept_sets)
+  rm(list = concept_sets_of_start_of_pregnancy_LB)
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
   #-----------------------------------
   #   Ongoing Pregnancy
   #-----------------------------------
-  
   if (this_datasource_has_procedures) {
     concept_sets_of_ongoing_of_pregnancy_final <- c(concept_sets_of_ongoing_of_pregnancy, 
                                                     concept_sets_of_ongoing_of_pregnancy_procedures_DAP_specific,
@@ -155,11 +190,15 @@ if(this_datasource_has_conceptsets){
   }else{
     concept_sets_of_ongoing_of_pregnancy_final <- concept_sets_of_ongoing_of_pregnancy
   }
-   
+  
+  
+  # loading concepsets
+  for (conceptvar in concept_sets_of_ongoing_of_pregnancy_final){ 
+    load(paste0(dirtemp,conceptvar,".RData"))
+  }
   
   # put together concept_set of ongoing
   dataset_ongoing_concept_sets <- c()
-  
   for (conceptvar in concept_sets_of_ongoing_of_pregnancy_final){ 
     cat(paste0(conceptvar, "\n"))
     studyvardataset <- get(conceptvar)[!is.na(date),][,concept_set:=conceptvar]
@@ -226,6 +265,22 @@ if(this_datasource_has_conceptsets){
     dataset_ongoing_concept_sets <- dataset_ongoing_concept_sets[is.na(meaning), meaning := so_meaning]
   }
   
+  ##########
+  dataset_concept_sets_all <- rbindlist(list(dataset_concept_sets_all, 
+                                             dataset_ongoing_concept_sets), 
+                                        fill = T)
+  
+  
+  rm(dataset_ongoing_concept_sets)
+  rm(list = concept_sets_of_ongoing_of_pregnancy_final)
+  
+  
+  
+  
+  
+  
+  
+  
   
   
   #-----------------------------------
@@ -240,6 +295,11 @@ if(this_datasource_has_conceptsets){
   }
   
   
+  # loading concepsets
+  for (conceptvar in concept_sets_of_end_of_pregnancy_LB_final){ 
+    load(paste0(dirtemp,conceptvar,".RData"))
+  }
+  
   # put together concept_set of ongoing
   dataset_LB_concept_sets <- c()
   
@@ -250,25 +310,25 @@ if(this_datasource_has_conceptsets){
     
     if(concept_set_domains[[conceptvar]] == "Diagnosis"){
       dataset_LB_concept_sets <- rbind(dataset_LB_concept_sets,
-                                            studyvardataset[,.(person_id,
-                                                               date, 
-                                                               codvar,
-                                                               concept_set,
-                                                               visit_occurrence_id,
-                                                               meaning_of_event,
-                                                               origin_of_event, 
-                                                               event_record_vocabulary)], fill=TRUE) 
+                                       studyvardataset[,.(person_id,
+                                                          date, 
+                                                          codvar,
+                                                          concept_set,
+                                                          visit_occurrence_id,
+                                                          meaning_of_event,
+                                                          origin_of_event, 
+                                                          event_record_vocabulary)], fill=TRUE) 
     }
     if(concept_set_domains[[conceptvar]] == "Procedures"){
       dataset_LB_concept_sets <- rbind(dataset_LB_concept_sets,
-                                            studyvardataset[,.(person_id,
-                                                               date, 
-                                                               codvar,
-                                                               concept_set,
-                                                               visit_occurrence_id, 
-                                                               origin_of_procedure, 
-                                                               procedure_code_vocabulary, 
-                                                               meaning_of_procedure)], fill=TRUE)
+                                       studyvardataset[,.(person_id,
+                                                          date, 
+                                                          codvar,
+                                                          concept_set,
+                                                          visit_occurrence_id, 
+                                                          origin_of_procedure, 
+                                                          procedure_code_vocabulary, 
+                                                          meaning_of_procedure)], fill=TRUE)
     }
   }
   
@@ -279,13 +339,10 @@ if(this_datasource_has_conceptsets){
   dataset_LB_concept_sets <- dataset_LB_concept_sets[, pregnancy_end_date := date]
   
   # defining start dates
-  dataset_LB_concept_sets <- dataset_LB_concept_sets[concept_set == "Birth_narrow", pregnancy_start_date := pregnancy_end_date - 280]
-  dataset_LB_concept_sets <- dataset_LB_concept_sets[concept_set == "Preterm", pregnancy_start_date := pregnancy_end_date - 250]
-  dataset_LB_concept_sets <- dataset_LB_concept_sets[concept_set == "Atterm", pregnancy_start_date := pregnancy_end_date - 280]
-  dataset_LB_concept_sets <- dataset_LB_concept_sets[concept_set == "Postterm", pregnancy_start_date := pregnancy_end_date - 300]
-  dataset_LB_concept_sets <- dataset_LB_concept_sets[concept_set == "Livebirth", pregnancy_start_date := pregnancy_end_date - 280]
+  dataset_LB_concept_sets <- dataset_LB_concept_sets[concept_set == "BirthNarrowLB", pregnancy_start_date := pregnancy_end_date - 280]
+  dataset_LB_concept_sets <- dataset_LB_concept_sets[concept_set == "PretermLB", pregnancy_start_date := pregnancy_end_date - 250]
+  dataset_LB_concept_sets <- dataset_LB_concept_sets[concept_set == "AtTermLB", pregnancy_start_date := pregnancy_end_date - 280]
   dataset_LB_concept_sets <- dataset_LB_concept_sets[concept_set == "procedures_livebirth", pregnancy_start_date := pregnancy_end_date -   280]
-  dataset_LB_concept_sets <- dataset_LB_concept_sets[concept_set == "procedures_delivery", pregnancy_start_date := pregnancy_end_date -   280]
   
   
   # Defining imputation, type and meaning
@@ -316,8 +373,139 @@ if(this_datasource_has_conceptsets){
     dataset_LB_concept_sets <- dataset_LB_concept_sets[is.na(meaning), meaning := so_meaning]
   }
   
+  
+  
+  ##########
+  dataset_concept_sets_all <- rbindlist(list(dataset_concept_sets_all, 
+                                             dataset_LB_concept_sets), 
+                                        fill = T)
+  
+  
+  rm(dataset_LB_concept_sets)
+  rm(list = concept_sets_of_end_of_pregnancy_LB_final)
+  
+  
+  
+  
+  
+
+  
+ 
+  
+  
+  #-----------------------------------
+  #  UNSP ending Pregnancy
+  #-----------------------------------
+  
+  if (this_datasource_has_procedures) {
+    concept_sets_of_end_of_pregnancy_UNSP_final <- c(concept_sets_of_end_of_pregnancy_UNSP, 
+                                                   concept_sets_of_end_of_pregnancy_UNSP_procedures)
+  }else{
+    concept_sets_of_end_of_pregnancy_UNSP_final <- concept_sets_of_end_of_pregnancy_UNSP
+  }
+  
+  
+  # loading concepsets
+  for (conceptvar in concept_sets_of_end_of_pregnancy_UNSP_final){ 
+    load(paste0(dirtemp,conceptvar,".RData"))
+  }
+  
+  # put together concept_set of ongoing
+  dataset_UNSP_concept_sets <- c()
+  
+  for (conceptvar in concept_sets_of_end_of_pregnancy_UNSP_final){ 
+    cat(paste0(conceptvar, "\n"))
+    studyvardataset <- get(conceptvar)[!is.na(date),][,concept_set:=conceptvar]
+    #studyvardataset <- unique(studyvardataset,by=c("person_id","codvar","date"))
+    
+    if(concept_set_domains[[conceptvar]] == "Diagnosis"){
+      dataset_UNSP_concept_sets <- rbind(dataset_UNSP_concept_sets,
+                                       studyvardataset[,.(person_id,
+                                                          date, 
+                                                          codvar,
+                                                          concept_set,
+                                                          visit_occurrence_id,
+                                                          meaning_of_event,
+                                                          origin_of_event, 
+                                                          event_record_vocabulary)], fill=TRUE) 
+    }
+    if(concept_set_domains[[conceptvar]] == "Procedures"){
+      dataset_UNSP_concept_sets <- rbind(dataset_UNSP_concept_sets,
+                                       studyvardataset[,.(person_id,
+                                                          date, 
+                                                          codvar,
+                                                          concept_set,
+                                                          visit_occurrence_id, 
+                                                          origin_of_procedure, 
+                                                          procedure_code_vocabulary, 
+                                                          meaning_of_procedure)], fill=TRUE)
+    }
+  }
+  
+  # check if dataset is unique for person_id, survey_id and survey_date
+  #dataset_UNSP_concept_sets <-unique( dataset_UNSP_concept_sets, by=c("person_id","visit_occurrence_id","date","concept_set")) 
+  
+  # defining end dates
+  dataset_UNSP_concept_sets <- dataset_UNSP_concept_sets[, pregnancy_end_date := date]
+  
+  # defining start dates
+  dataset_UNSP_concept_sets <- dataset_UNSP_concept_sets[concept_set == "BirthNarrowBUNSP", pregnancy_start_date := pregnancy_end_date - 280]
+  dataset_UNSP_concept_sets <- dataset_UNSP_concept_sets[concept_set == "PretermBUNSP", pregnancy_start_date := pregnancy_end_date - 250]
+  dataset_UNSP_concept_sets <- dataset_UNSP_concept_sets[concept_set == "AtTermBUNSP", pregnancy_start_date := pregnancy_end_date - 280]
+  dataset_UNSP_concept_sets <- dataset_UNSP_concept_sets[concept_set == "PostTermBUNSP", pregnancy_start_date := pregnancy_end_date - 300]
+  dataset_UNSP_concept_sets <- dataset_UNSP_concept_sets[concept_set == "procedures_delivery", pregnancy_start_date := pregnancy_end_date -   280]
+  
+  
+  # Defining imputation, type and meaning
+  dataset_UNSP_concept_sets <-  dataset_UNSP_concept_sets[,`:=`(pregnancy_ongoing_date = as.Date(character(0)),
+                                                            meaning_start_date = paste0("imputed_from_", concept_set),
+                                                            meaning_ongoing_date = NA,
+                                                            meaning_end_date = paste0("from_", concept_set),
+                                                            type_of_pregnancy_end = "UNSP",
+                                                            origin = NA,
+                                                            meaning = NA,
+                                                            imputed_start_of_pregnancy = 1,
+                                                            imputed_end_of_pregnancy = 0,
+                                                            CONCEPTSETS = "yes")]
+  
+  
+  if ("origin_of_event" %in% names(dataset_UNSP_concept_sets)) {
+    dataset_UNSP_concept_sets <- dataset_UNSP_concept_sets[, `:=`(origin = origin_of_event,
+                                                              meaning = meaning_of_event)]
+  }
+  
+  if ("origin_of_procedure" %in% names(dataset_UNSP_concept_sets)) {
+    dataset_UNSP_concept_sets <- dataset_UNSP_concept_sets[is.na(origin), origin := origin_of_procedure]
+    dataset_UNSP_concept_sets <- dataset_UNSP_concept_sets[is.na(meaning), meaning := meaning_of_procedure]
+  }
+  
+  if ("so_origin" %in% names(dataset_UNSP_concept_sets)) {
+    dataset_UNSP_concept_sets <- dataset_UNSP_concept_sets[is.na(origin), origin := so_origin]
+    dataset_UNSP_concept_sets <- dataset_UNSP_concept_sets[is.na(meaning), meaning := so_meaning]
+  }
+  
+  
+  
+  ##########
+  dataset_concept_sets_all <- rbindlist(list(dataset_concept_sets_all, 
+                                             dataset_UNSP_concept_sets), 
+                                        fill = T)
+  
+  
+  rm(dataset_UNSP_concept_sets)
+  rm(list = concept_sets_of_end_of_pregnancy_UNSP_final)
+
+  
+  
+  
+  
+  
+  
+  
+  
+  
   #------------------------------------------------
-  #   Birth Possible Pregnancy - Procedures END unk
+  #   UNK ending Pregnancy
   #------------------------------------------------
   
   if (this_datasource_has_procedures) {
@@ -327,6 +515,10 @@ if(this_datasource_has_conceptsets){
     concept_sets_of_end_of_pregnancy_UNK_final <- concept_sets_of_end_of_pregnancy_UNK
   }
   
+  # loading concepsets
+  for (conceptvar in concept_sets_of_end_of_pregnancy_UNK_final){ 
+    load(paste0(dirtemp,conceptvar,".RData"))
+  }
   
   # put together concept_set of ongoing
   dataset_end_UNK_concept_sets <- c()
@@ -383,6 +575,7 @@ if(this_datasource_has_conceptsets){
   
   # end imputation
   dataset_end_UNK_concept_sets[concept_set == "Birth_possible", imputed_end_of_pregnancy := 1]
+  dataset_end_UNK_concept_sets[concept_set == "BirthNarrowBUNK", imputed_end_of_pregnancy := 0]
   dataset_end_UNK_concept_sets[concept_set == "procedures_end_UNK", imputed_end_of_pregnancy := 0]
   
   
@@ -403,159 +596,14 @@ if(this_datasource_has_conceptsets){
   }
   
   
+  ##########
+  dataset_concept_sets_all <- rbindlist(list(dataset_concept_sets_all, 
+                                             dataset_end_UNK_concept_sets), 
+                                        fill = T)
   
   
-  
-  
-  
-  
-  
-  #-------------------------------
-  #   Birth not Specified UNK/BUNK
-  #-------------------------------
-  
-  if (this_datasource_has_procedures) {
-    concept_sets_of_end_of_pregnancy_birth_final <- c(concept_sets_of_end_of_pregnancy_birth, 
-                                                      concept_sets_of_end_of_pregnancy_birth_procedures)
-  }else{
-    concept_sets_of_end_of_pregnancy_birth_final <- concept_sets_of_end_of_pregnancy_birth
-  }
-  
-  
-  # put together concept_set of ongoing
-  dataset_end_birth_concept_sets <- c()
-  
-  for (conceptvar in concept_sets_of_end_of_pregnancy_birth_final){ 
-    cat(paste0(conceptvar, "\n"))
-    studyvardataset <- get(conceptvar)[!is.na(date),][,concept_set:=conceptvar]
-    #studyvardataset <- unique(studyvardataset,by=c("person_id","codvar","date"))
-    
-    if(concept_set_domains[[conceptvar]] == "Diagnosis"){
-      dataset_end_birth_concept_sets <- rbind(dataset_end_birth_concept_sets,
-                                            studyvardataset[,.(person_id,
-                                                               date, 
-                                                               codvar,
-                                                               concept_set,
-                                                               visit_occurrence_id,
-                                                               meaning_of_event,
-                                                               origin_of_event, 
-                                                               event_record_vocabulary)], fill=TRUE) 
-    }
-    if(concept_set_domains[[conceptvar]] == "Procedures"){
-      dataset_end_birth_concept_sets <- rbind(dataset_end_birth_concept_sets,
-                                            studyvardataset[,.(person_id,
-                                                               date, 
-                                                               codvar,
-                                                               concept_set,
-                                                               visit_occurrence_id, 
-                                                               origin_of_procedure, 
-                                                               procedure_code_vocabulary, 
-                                                               meaning_of_procedure)], fill=TRUE)
-    }
-  }
-  
-  
-  
-  # defining end dates
-  dataset_end_birth_concept_sets <- dataset_end_birth_concept_sets[, pregnancy_end_date := date]
-  
-  # defining start dates
-  dataset_end_birth_concept_sets <- dataset_end_birth_concept_sets[, pregnancy_start_date := pregnancy_end_date - 280]
-  
-  # Defining imputation, type and meaning
-  dataset_end_birth_concept_sets <-  dataset_end_birth_concept_sets[,`:=`(pregnancy_ongoing_date = as.Date(character(0)),
-                                                                      meaning_start_date = paste0("imputed_from_", concept_set),
-                                                                      meaning_ongoing_date = NA,
-                                                                      meaning_end_date = paste0("from_", concept_set),
-                                                                      type_of_pregnancy_end = NA,
-                                                                      origin = NA,
-                                                                      meaning = NA,
-                                                                      imputed_start_of_pregnancy = 1,
-                                                                      CONCEPTSETS = "yes")]
-  
-  
-  
-  # end imputation
-  dataset_end_birth_concept_sets[concept_set == "Birth_narrow", imputed_end_of_pregnancy := 0]
-  dataset_end_birth_concept_sets[concept_set == "BirthUnspecified", imputed_end_of_pregnancy := 0]
-  dataset_end_birth_concept_sets[concept_set == "BirthUnknown", imputed_end_of_pregnancy := 0]
-  
-  # end imputation
-  dataset_end_birth_concept_sets[concept_set == "Birth_narrow", type_of_pregnancy_end := "UNK"]
-  dataset_end_birth_concept_sets[concept_set == "BirthUnspecified", type_of_pregnancy_end := "BUNK"]
-  dataset_end_birth_concept_sets[concept_set == "BirthUnknown", type_of_pregnancy_end := "UNK"]
-  
-  
-  if ("origin_of_event" %in% names(dataset_end_birth_concept_sets)) {
-    dataset_end_birth_concept_sets <- dataset_end_birth_concept_sets[, `:=`(origin = origin_of_event,
-                                                                        meaning = meaning_of_event)]
-  }
-  
-  if ("origin_of_procedure" %in% names(dataset_end_birth_concept_sets)) {
-    dataset_end_birth_concept_sets <- dataset_end_birth_concept_sets[is.na(origin), origin := origin_of_procedure]
-    dataset_end_birth_concept_sets <- dataset_end_birth_concept_sets[is.na(meaning), meaning := meaning_of_procedure]
-  }
-  
-  
-  if ("so_origin" %in% names(dataset_end_birth_concept_sets)) {
-    dataset_end_birth_concept_sets <- dataset_end_birth_concept_sets[is.na(origin), origin := so_origin]
-    dataset_end_birth_concept_sets <- dataset_end_birth_concept_sets[is.na(meaning), meaning := so_meaning]
-  }
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
+  rm(dataset_end_UNK_concept_sets)
+  rm(list = concept_sets_of_end_of_pregnancy_UNK_final)
   
   
   
@@ -577,6 +625,10 @@ if(this_datasource_has_conceptsets){
     concept_sets_of_end_of_pregnancy_UNF_final <- concept_sets_of_end_of_pregnancy_UNF
   }
   
+  # loading concepsets
+  for (conceptvar in concept_sets_of_end_of_pregnancy_UNF_final){ 
+    load(paste0(dirtemp,conceptvar,".RData"))
+  }
   
   # put together concept_set of ongoing
   dataset_UNF_concept_sets <- c()
@@ -651,6 +703,23 @@ if(this_datasource_has_conceptsets){
     dataset_UNF_concept_sets <- dataset_UNF_concept_sets[is.na(meaning), meaning := so_meaning]
   }
   
+  ##########
+  dataset_concept_sets_all <- rbindlist(list(dataset_concept_sets_all, 
+                                             dataset_UNF_concept_sets), 
+                                        fill = T)
+  
+  
+  rm(dataset_UNF_concept_sets)
+  rm(list = concept_sets_of_end_of_pregnancy_UNF_final)
+  
+  
+  
+  
+  
+  
+  
+  
+  
   
   #-------------------------------------------
   #   Pregnancy ending in SB, T, SA, or ECT
@@ -663,6 +732,11 @@ if(this_datasource_has_conceptsets){
     concept_sets_of_end_of_pregnancy_T_SA_SB_ECT_final <- concept_sets_of_end_of_pregnancy_T_SA_SB_ECT
   }
   
+  
+  # loading concepsets
+  for (conceptvar in concept_sets_of_end_of_pregnancy_T_SA_SB_ECT_final){ 
+    load(paste0(dirtemp,conceptvar,".RData"))
+  }
   
   # put together concept_set of ongoing
   dataset_SB_T_SA_ECT_concept_sets <- c()
@@ -766,21 +840,23 @@ if(this_datasource_has_conceptsets){
   
   
   
-  ################################################################################
-  ###############   All concept set: D3_stream_CONCEPTSETS    ####################
-  ################################################################################
-  
-  
-  dataset_concept_sets_all <- rbindlist(list(dataset_start_concept_sets,
-                                             dataset_start_LB_concept_sets,
-                                             dataset_ongoing_concept_sets,
-                                             dataset_LB_concept_sets,
-                                             dataset_end_UNK_concept_sets,
-                                             dataset_end_birth_concept_sets,
-                                             dataset_UNF_concept_sets,
+  ##########
+  dataset_concept_sets_all <- rbindlist(list(dataset_concept_sets_all, 
                                              dataset_SB_T_SA_ECT_concept_sets), 
                                         fill = T)
   
+  
+  rm(dataset_SB_T_SA_ECT_concept_sets)
+  rm(list = concept_sets_of_end_of_pregnancy_T_SA_SB_ECT_final)
+  
+  
+  
+  
+  
+  
+  ################################################################################
+  ###############   All concept set: D3_stream_CONCEPTSETS    ####################
+  ################################################################################
   
   setnames(dataset_concept_sets_all,"concept_set","CONCEPTSET")
   setnames(dataset_concept_sets_all,"date","record_date")
@@ -845,23 +921,6 @@ if(this_datasource_has_conceptsets){
   }
   
   
-  rm(dataset_start_concept_sets,
-     dataset_start_LB_concept_sets,
-     dataset_ongoing_concept_sets,
-     dataset_LB_concept_sets,
-     dataset_end_UNK_concept_sets,
-     dataset_end_birth_concept_sets,
-     dataset_UNF_concept_sets,
-     dataset_SB_T_SA_ECT_concept_sets,
-     dataset_concept_sets_all,
+  rm(dataset_concept_sets_all,
      D3_Stream_CONCEPTSETS)
-  
-  rm(list = c(concept_sets_of_start_of_pregnancy_UNK,
-              concept_sets_of_start_of_pregnancy_LB,
-              concept_sets_of_ongoing_of_pregnancy_final,
-              concept_sets_of_end_of_pregnancy_LB_final,
-              concept_sets_of_end_of_pregnancy_UNK,
-              concept_sets_of_end_of_pregnancy_birth_final,
-              concept_sets_of_end_of_pregnancy_UNF,
-              concept_sets_of_end_of_pregnancy_T_SA_SB_ECT_final))
 }
