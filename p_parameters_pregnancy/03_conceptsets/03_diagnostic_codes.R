@@ -185,7 +185,7 @@ concept_set_codes_pregnancy[["Spontaneousabortion_possible"]] <- list()
 
 
 # loading concepsets from csv 
-concept_set_codes_pregnancy_data_table <- fread(paste0(thisdir, "/p_parameters_pregnancy/03_conceptsets/20231214_ALL_pregnancy_algorithm_codelist_corrected.csv"))
+concept_set_codes_pregnancy_data_table <- fread(paste0(thisdir, "/p_parameters_pregnancy/03_conceptsets/20240513_V2_ALL_pregnancy_algorithm_codelist.csv"))
 
 ###--------------------------------------------------------------------
 # Concept in the FULL codelist ..........Concept used in the algorithm
@@ -228,11 +228,16 @@ concept_set_codes_pregnancy_data_table <- fread(paste0(thisdir, "/p_parameters_p
 # "BirthPossible1"..................Birth_possible
 # "BirthPossible2"..................Birth_possible
 # "BirthPossible3"..................Birth_possible
+# "BirthNarrowBUNK".................BirthNarrowBUNK
 #--------------------------------.-------------------------------------end_LB
-# "BirthNarrow".....................Birth_narrow
-# "AtTerm"..........................Atterm
-# "Preterm".........................Preterm
-# "PostTerm"........................Postterm
+#"AtTermLB".........................AtTermLB
+#"BirthNarrowLB"....................BirthNarrowLB
+#"PretermLB"........................PretermLB
+#--------------------------------.-------------------------------------end_UNSP
+#"AtTermBUNSP"......................AtTermBUNSP
+#"BirthNarrowBUNSP".................BirthNarrowBUNSP
+#"PostTermBUNSP"....................PostTermBUNSP
+#"PretermBUNSP".....................PretermBUNSP
 #--------------------------------.------------------------------end_T_SA_SB_ECT
 # "ELECTTERM_narrow" ...............Interruption_narrow
 # "SpontaneousAbortion_narrow"......Spontaneousabortion_narrow
@@ -346,22 +351,22 @@ for(coding_system in list_of_coding_syst){
 #-------
 # End LB
 #-------
-concept_set_codes_pregnancy[["AtTermLB"]] <- list()
-concept_set_codes_pregnancy[["BirthNarrowLB"]] <- list()
-concept_set_codes_pregnancy[["PretermLB"]] <- list()
+concept_set_codes_pregnancy[["AtTermLB"]] <- concept_set_codes_pregnancy_not_modified[["AtTermLB"]]
+concept_set_codes_pregnancy[["BirthNarrowLB"]] <- concept_set_codes_pregnancy_not_modified[["BirthNarrowLB"]]
+concept_set_codes_pregnancy[["PretermLB"]] <-  concept_set_codes_pregnancy_not_modified[["PretermLB"]]
 
 #---------
 # End BUNK
 #---------
-concept_set_codes_pregnancy[["BirthNarrowBUNK"]] <- list()
+concept_set_codes_pregnancy[["BirthNarrowBUNK"]] <-  concept_set_codes_pregnancy_not_modified[["BirthNarrowBUNK"]]
 
 #---------
 # End UNSP
 #---------
-concept_set_codes_pregnancy[["AtTermBUNSP"]] <- list()
-concept_set_codes_pregnancy[["BirthNarrowBUNSP"]] <- list()
-concept_set_codes_pregnancy[["PostTermBUNSP"]] <- list()
-concept_set_codes_pregnancy[["PretermBUNSP"]] <- list()
+concept_set_codes_pregnancy[["AtTermBUNSP"]] <-  concept_set_codes_pregnancy_not_modified[["AtTermBUNSP"]]
+concept_set_codes_pregnancy[["BirthNarrowBUNSP"]] <-  concept_set_codes_pregnancy_not_modified[["BirthNarrowBUNSP"]] 
+concept_set_codes_pregnancy[["PostTermBUNSP"]] <- concept_set_codes_pregnancy_not_modified[["PostTermBUNSP"]] 
+concept_set_codes_pregnancy[["PretermBUNSP"]] <-  concept_set_codes_pregnancy_not_modified[["PretermBUNSP"]] 
 
 
 #------------
