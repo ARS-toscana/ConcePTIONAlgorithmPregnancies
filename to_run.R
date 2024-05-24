@@ -32,10 +32,10 @@
 # - fix for incorrect gestational age
 # - updated PHARMO parameters
 #
-# changelog 5.2.5:
+# changelog 5.2.6:
 # - added red-blue reconciliation
 #
-# changelog 5.2.6:
+# changelog 5.2.7:
 # - added missing descendant codes: SNDS
 #------------------------------------------------------------------------------------------
 
