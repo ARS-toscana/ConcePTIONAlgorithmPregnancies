@@ -34,6 +34,9 @@
 #
 # changelog 5.2.5:
 # - added red-blue reconciliation
+#
+# changelog 5.2.6:
+# - added missing descendant codes: SNDS
 #------------------------------------------------------------------------------------------
 
 rm(list=ls(all.names=TRUE))
