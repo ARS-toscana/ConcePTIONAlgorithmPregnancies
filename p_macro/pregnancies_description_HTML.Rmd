@@ -172,26 +172,22 @@ D3_pregnancy_reconciled[order_quality == 10, order_quality_desc :=	"CONCEPSETS: 
 
 D3_pregnancy_reconciled[order_quality == 11, order_quality_desc :=	"CONCEPSETS: stll birth"]
 
-D3_pregnancy_reconciled[order_quality == 12, order_quality_desc :=	"CONCEPSETS: interruption"]
-D3_pregnancy_reconciled[order_quality == 13, order_quality_desc :=	"CONCEPSETS: procedure interruption"]
-
-D3_pregnancy_reconciled[order_quality == 14, order_quality_desc :=  "CONCEPTSETS: spontaneous abortion"]
-D3_pregnancy_reconciled[order_quality == 15, order_quality_desc :=  "CONCEPTSETS: procedure spontaneous abortion"]
+D3_pregnancy_reconciled[order_quality == 12, order_quality_desc :=  "CONCEPTSETS: pre-term/at-term/post-term birth"]
+D3_pregnancy_reconciled[order_quality == 13, order_quality_desc :=  "CONCEPTSETS: birth"]
+D3_pregnancy_reconciled[order_quality == 14, order_quality_desc :=  "CONCEPTSETS: procedure birth"]
 
 
-D3_pregnancy_reconciled[order_quality == 16, order_quality_desc :=  "CONCEPTSETS: ectopic-molar pregnancy"]
-D3_pregnancy_reconciled[order_quality == 17, order_quality_desc :=  "CONCEPTSETS: procedure ectopic-molar pregnancy"]
+D3_pregnancy_reconciled[order_quality == 15, order_quality_desc :=	"CONCEPSETS: interruption"]
+D3_pregnancy_reconciled[order_quality == 16, order_quality_desc :=	"CONCEPSETS: procedure interruption"]
 
-D3_pregnancy_reconciled[order_quality == 18, order_quality_desc :=  "CONCEPTSETS: pre-term/at-term/post-term birth"]
-D3_pregnancy_reconciled[order_quality == 19, order_quality_desc :=  "CONCEPTSETS: birth"]
-D3_pregnancy_reconciled[order_quality == 20, order_quality_desc :=  "CONCEPTSETS: procedure birth"]
+D3_pregnancy_reconciled[order_quality == 17, order_quality_desc :=  "CONCEPTSETS: spontaneous abortion"]
+D3_pregnancy_reconciled[order_quality == 18, order_quality_desc :=  "CONCEPTSETS: procedure spontaneous abortion"]
 
-
+D3_pregnancy_reconciled[order_quality == 19, order_quality_desc :=  "CONCEPTSETS: ectopic-molar pregnancy"]
+D3_pregnancy_reconciled[order_quality == 20, order_quality_desc :=  "CONCEPTSETS: procedure ectopic-molar pregnancy"]
 
 D3_pregnancy_reconciled[order_quality == 21, order_quality_desc :=  "CONCEPSETS: unspecified unfavorable outcome"]
 D3_pregnancy_reconciled[order_quality == 22, order_quality_desc :=  "CONCEPSETS: procedure unspecified unfavorable outcome"]
-
-
 
 D3_pregnancy_reconciled[order_quality == 23, order_quality_desc :=  "CONCEPSETS: end date recorded, type UNK"]
 D3_pregnancy_reconciled[order_quality == 24, order_quality_desc :=  "CONCEPSETS: procedure with end date recorded, type UNK"]

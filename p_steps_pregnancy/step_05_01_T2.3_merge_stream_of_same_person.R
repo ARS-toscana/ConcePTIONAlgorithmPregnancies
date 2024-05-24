@@ -162,21 +162,22 @@ table(groups_of_pregnancies[,coloured_order], useNA = "ifany")
 
 # 11)	CONCEPSETS: still birth, meaning non primary care,  pregnancy_start_date not available and imputed
 
-# 12)	CONCEPSETS: interruption, meaning non primary care,  pregnancy_start_date not available and imputed
-# 13)	CONCEPSETS: interruption procedure, meaning non primary care,  pregnancy_start_date not available and imputed
+# 12)	CONCEPSETS: pre-term unspecified delivery, meaning non primary care,  pregnancy_start_date not available and imputed
+# 12)	CONCEPSETS: at-term unspecified delivery, meaning non primary care,  pregnancy_start_date not available and imputed
+# 12)	CONCEPSETS: post-term unspecified delivery, meaning non primary care,  pregnancy_start_date not available and imputed
 
-# 14)	CONCEPTSETS: spontaneous abortion, meaning non primary care, pregnancy_start_date not available and imputed
-# 15)	CONCEPTSETS: spontaneous abortion procedures, meaning non primary care, pregnancy_start_date not available and imputed
+# 13)	CONCEPSETS: unspecified delivery, meaning non primary care, pregnancy_start_date not available and imputed 
+# 14)	CONCEPSETS: unspecified delivery procedures, meaning non primary care, pregnancy_start_date not available and imputed 
 
-# 16)	CONCEPTSETS: ectopic pregnancy, meaning non primary care, pregnancy_start_date not available and imputed
-# 17)	CONCEPTSETS: ectopic pregnancy procedures, meaning non primary care, pregnancy_start_date not available and imputed
+# 15)	CONCEPSETS: interruption, meaning non primary care,  pregnancy_start_date not available and imputed
+# 16)	CONCEPSETS: interruption procedure, meaning non primary care,  pregnancy_start_date not available and imputed
 
-# 18)	CONCEPSETS: pre-term unspecified delivery, meaning non primary care,  pregnancy_start_date not available and imputed
-# 18)	CONCEPSETS: at-term unspecified delivery, meaning non primary care,  pregnancy_start_date not available and imputed
-# 18)	CONCEPSETS: post-term unspecified delivery, meaning non primary care,  pregnancy_start_date not available and imputed
+# 17)	CONCEPTSETS: spontaneous abortion, meaning non primary care, pregnancy_start_date not available and imputed
+# 18)	CONCEPTSETS: spontaneous abortion procedures, meaning non primary care, pregnancy_start_date not available and imputed
 
-# 19)	CONCEPSETS: unspecified delivery, meaning non primary care, pregnancy_start_date not available and imputed 
-# 20)	CONCEPSETS: unspecified delivery procedures, meaning non primary care, pregnancy_start_date not available and imputed 
+# 19)	CONCEPTSETS: ectopic pregnancy, meaning non primary care, pregnancy_start_date not available and imputed
+# 20)	CONCEPTSETS: ectopic pregnancy procedures, meaning non primary care, pregnancy_start_date not available and imputed
+
 
 # 21) CONCEPSETS: still birth possible, meaning non primary care,  pregnancy_start_date not available and imputed
 # 21) CONCEPSETS: interruption possible, meaning non primary care,  pregnancy_start_date not available and imputed
@@ -213,8 +214,6 @@ if(thisdatasource == "THL"){
 }
 
 
-
-
 groups_of_pregnancies[CONCEPTSET=="AtTermLB", order_quality:=8] 
 groups_of_pregnancies[CONCEPTSET=="PretermLB", order_quality:=8]
 groups_of_pregnancies[CONCEPTSET=="BirthNarrowLB", order_quality:=9]
@@ -222,21 +221,21 @@ groups_of_pregnancies[CONCEPTSET=="procedures_livebirth", order_quality:=10]
 
 groups_of_pregnancies[CONCEPTSET=="Stillbirth_narrow", order_quality:=11]
 
-groups_of_pregnancies[CONCEPTSET=="Interruption_narrow", order_quality:=12]
-groups_of_pregnancies[CONCEPTSET=="Medicated_VTP", order_quality:=13]
-groups_of_pregnancies[CONCEPTSET=="procedures_termination", order_quality:=13]
+groups_of_pregnancies[CONCEPTSET=="AtTermBUNSP", order_quality:=12] 
+groups_of_pregnancies[CONCEPTSET=="PostTermBUNSP", order_quality:=12] 
+groups_of_pregnancies[CONCEPTSET=="PretermBUNSP", order_quality:=12] 
+groups_of_pregnancies[CONCEPTSET=="BirthNarrowBUNSP", order_quality:=13] 
+groups_of_pregnancies[CONCEPTSET=="procedures_delivery", order_quality:=14] 
 
-groups_of_pregnancies[CONCEPTSET=="Spontaneousabortion_narrow", order_quality:=14]
-groups_of_pregnancies[CONCEPTSET=="procedures_spontaneous_abortion", order_quality:=15]
+groups_of_pregnancies[CONCEPTSET=="Interruption_narrow", order_quality:=15]
+groups_of_pregnancies[CONCEPTSET=="Medicated_VTP", order_quality:=16]
+groups_of_pregnancies[CONCEPTSET=="procedures_termination", order_quality:=16]
 
-groups_of_pregnancies[CONCEPTSET=="Ectopicpregnancy", order_quality:=16]
-groups_of_pregnancies[CONCEPTSET=="procedures_ectopic", order_quality:=17]
+groups_of_pregnancies[CONCEPTSET=="Spontaneousabortion_narrow", order_quality:=17]
+groups_of_pregnancies[CONCEPTSET=="procedures_spontaneous_abortion", order_quality:=18]
 
-groups_of_pregnancies[CONCEPTSET=="AtTermBUNSP", order_quality:=18] 
-groups_of_pregnancies[CONCEPTSET=="PostTermBUNSP", order_quality:=18] 
-groups_of_pregnancies[CONCEPTSET=="PretermBUNSP", order_quality:=18] 
-groups_of_pregnancies[CONCEPTSET=="BirthNarrowBUNSP", order_quality:=19] 
-groups_of_pregnancies[CONCEPTSET=="procedures_delivery", order_quality:=20] 
+groups_of_pregnancies[CONCEPTSET=="Ectopicpregnancy", order_quality:=19]
+groups_of_pregnancies[CONCEPTSET=="procedures_ectopic", order_quality:=20]
 
 groups_of_pregnancies[CONCEPTSET=="Stillbirth_possible", order_quality:=21]
 groups_of_pregnancies[CONCEPTSET=="Interruption_possible", order_quality:=21]
