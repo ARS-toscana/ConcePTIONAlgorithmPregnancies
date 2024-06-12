@@ -28,10 +28,8 @@ Subjects are first selected as experiencing the end of a pregnancy or an ongoing
 - stream **ITEMSETS**: variables from ordinary healthcare that are only populated when a woman is pregnant
 The resulting sets of pregnancies of a same person are then compared with each other, to identify which pregnancies are in fact the same, recorded oin multiple occasions. 
 
-## Predictive model 
-A predictive model aims to improve imputations for pregnancy start of every records by leveraging groups of records that contain both records with information on the start date and those without.
-The selected model for prediction is a random forest. A subset of pregnancies will be chosen that contains at least one record with information about the start (e.g., pregnancies that have at least one record in the birth registry indicating gestational age). This subset will be used to train two different random forest, one for red record prediction and one for yellow record prediction.
-Subsequently, the pregnancy's start date is defined as a weighted average of the start dates of all records composing the pregnancy, where the weights correspond to the inverse of the variance of gestational age at the record date.
+#### Predictive model 
+In data sources that have very high-quality data banks with information on the start of pregnancy (e.g. birth registry), a predictive model was estimated that predicts the start date of pregnancy record wise, and a new start date of pregnancy was imputed using a weighted average of the prediction across records of the pregnancy.
 
 
 Finally, all records belonging to the same pregnancy will be reconciled. The dataset D3_pregnancy_reconciled will be generated, where the unit of observation is no longer the record but the pregnancy. 
