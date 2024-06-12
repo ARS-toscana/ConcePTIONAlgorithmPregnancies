@@ -26,10 +26,9 @@ Subjects are first selected as experiencing the end of a pregnancy or an ongoing
 - stream **EUROCAT**: records of the EUROCAT table
 - stream **CONCEPTSETS**: diagnostic codes from the EVENTS or procedure codes from the PROCEDURES or codes from the MEDICAL_RECORDS file referring to an end or an ongoing pregnancy 
 - stream **ITEMSETS**: variables from ordinary healthcare that are only populated when a woman is pregnant
-The resulting sets of pregnancies of a same person are then compared with each other, to identify which pregnancies are in fact the same, recorded oin multiple occasions. 
+The resulting sets of pregnancies of a same person are then compared with each other, to identify which pregnancies are in fact the same, recorded in multiple occasions. 
 
-#### Predictive model 
-In data sources that have very high-quality data banks with information on the start of pregnancy (e.g. birth registry), a predictive model was estimated that predicts the start date of pregnancy record wise, and a new start date of pregnancy was imputed using a weighted average of the prediction across records of the pregnancy.
+**Predictive model**: In data sources that have very high-quality data banks with information on the start of pregnancy (e.g. birth registry), a predictive model was estimated that predicts the start date of pregnancy record wise, and a new start date of pregnancy was imputed using a weighted average of the prediction across records of the pregnancy.
 
 
 Finally, all records belonging to the same pregnancy will be reconciled. The dataset D3_pregnancy_reconciled will be generated, where the unit of observation is no longer the record but the pregnancy. 
