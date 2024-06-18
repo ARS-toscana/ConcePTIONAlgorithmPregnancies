@@ -193,10 +193,17 @@ groups_of_pregnancies[CONCEPTSET=="Postterm", order_quality:=7]
 
 groups_of_pregnancies[CONCEPTSET=="Birth_narrow", order_quality:=8] 
 groups_of_pregnancies[CONCEPTSET=="Livebirth", order_quality:=8] 
-groups_of_pregnancies[CONCEPTSET=="procedures_livebirth", order_quality:=8] 
-groups_of_pregnancies[CONCEPTSET=="procedures_delivery", order_quality:=8] 
 
-groups_of_pregnancies[CONCEPTSET=="Stillbirth_narrow", order_quality:=9]
+if(thisdatasource == "SNDS") {
+  groups_of_pregnancies[CONCEPTSET=="Stillbirth_narrow", order_quality:=8] 
+  groups_of_pregnancies[CONCEPTSET=="procedures_livebirth", order_quality:=9] 
+  groups_of_pregnancies[CONCEPTSET=="procedures_delivery", order_quality:=9] 
+}else{
+  groups_of_pregnancies[CONCEPTSET=="procedures_livebirth", order_quality:=8] 
+  groups_of_pregnancies[CONCEPTSET=="procedures_delivery", order_quality:=8] 
+  groups_of_pregnancies[CONCEPTSET=="Stillbirth_narrow", order_quality:=9]
+}
+
 groups_of_pregnancies[CONCEPTSET=="Interruption_narrow", order_quality:=10]
 groups_of_pregnancies[CONCEPTSET=="procedures_termination", order_quality:=10]
 groups_of_pregnancies[CONCEPTSET=="Spontaneousabortion_narrow", order_quality:=11]
