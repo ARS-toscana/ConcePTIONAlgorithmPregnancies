@@ -29,12 +29,12 @@ itemset_AVpair_pregnancy[["GESTAGE_FROM_USOUNDS_DAYS"]][[files[i]]][["PHARMO"]] 
 itemset_AVpair_pregnancy[["GESTAGE_FROM_USOUNDS_WEEKS"]][[files[i]]][["PHARMO"]]  <- list()
 
 # specification DATESTARTPREGNANCY
-itemset_AVpair_pregnancy[["DATESTARTPREGNANCY"]][[files[i]]][["PHARMO"]] <- list(list("perined", "start_zw"))
+itemset_AVpair_pregnancy[["DATESTARTPREGNANCY"]][[files[i]]][["PHARMO"]] <- list(list("Perined", "start_zw"))
 
 
 ########################################## END ###################################################### 
 
-itemset_AVpair_pregnancy[["DATEENDPREGNANCY"]][[files[i]]][["PHARMO"]] <- list(list("perined", "eind_zw"))
+itemset_AVpair_pregnancy[["DATEENDPREGNANCY"]][[files[i]]][["PHARMO"]] <- list(list("Perined", "eind_zw"))
 
 ### specification END_LIVEBIRTH
 itemset_AVpair_pregnancy[["END_LIVEBIRTH"]][[files[i]]][["PHARMO"]] <- list()
@@ -51,25 +51,23 @@ itemset_AVpair_pregnancy[["END_ABORTION"]][[files[i]]][["PHARMO"]] <- list()
 
 ########################################### TYPE #######################################
 
-itemset_AVpair_pregnancy[["TYPE"]][[files[i]]][["PHARMO"]] <- list(list("perined", "birth_status")) 
-
+itemset_AVpair_pregnancy[["TYPE"]][[files[i]]][["PHARMO"]] <- list(list("Perined", "sterfte")) # this variable document perinatal death
 
 ################################ DICTINARY OF TYPE ##################################
 
-dictonary_of_itemset_pregnancy[["TYPE"]][["PHARMO"]][["LB"]]<-list(list("perined", "1"), 
-                                                                   list("perined", "2")) 
+dictonary_of_itemset_pregnancy[["TYPE"]][["PHARMO"]][["LB"]]<-list(list("Perined", "0"), # no death
+                                                                   list("Perined", "3"), # 0-7 days death
+                                                                   list("Perined", "4"), # ...
+                                                                   list("Perined", "5"), 
+                                                                   list("Perined", "6")) 
 
-dictonary_of_itemset_pregnancy[["TYPE"]][["PHARMO"]][["SB"]]<-list(list("perined", "3")) 
+dictonary_of_itemset_pregnancy[["TYPE"]][["PHARMO"]][["SB"]]<-list(list("Perined", "2")) # death at delivery
 
-dictonary_of_itemset_pregnancy[["TYPE"]][["PHARMO"]][["SA"]]<-list(list("perined", "0"))
+dictonary_of_itemset_pregnancy[["TYPE"]][["PHARMO"]][["SA"]]<-list()
 dictonary_of_itemset_pregnancy[["TYPE"]][["PHARMO"]][["T"]]<-list()
 dictonary_of_itemset_pregnancy[["TYPE"]][["PHARMO"]][["MD"]]<-list()
 dictonary_of_itemset_pregnancy[["TYPE"]][["PHARMO"]][["ECT"]]<-list()
-dictonary_of_itemset_pregnancy[["TYPE"]][["PHARMO"]][["UNK"]]<-list(list("perined", "4"))
-
-
-
-
+dictonary_of_itemset_pregnancy[["TYPE"]][["PHARMO"]][["UNK"]]<-list(list("Perined", "1")) # death before delivery, term unknown (determine SB versus SA by term)
 
 ##### FROM MEDICAL_OBSERVATION
 
@@ -80,16 +78,13 @@ itemsetMED_AVpair_pregnancy[["LastMestrualPeriod"]][[files[i]]][["PHARMO"]] <- l
 itemsetMED_AVpair_pregnancy[["GestationalAge"]][[files[i]]][["PHARMO"]] <- list()
 
 ### specification PregnancyTest
-itemsetMED_AVpair_pregnancy[["PregnancyTest"]][[files[i]]][["PHARMO"]] <- list(list("gp","gp_exaval1")) #list("mo_source_table","mo_source_column")
+itemsetMED_AVpair_pregnancy[["PregnancyTest"]][[files[i]]][["PHARMO"]] <- list(list("GP_examination","pregnancy_test")) #list("mo_source_table","mo_source_column")
 
 ### specification LastMestrualPeriodImplyingPregnancy
 itemsetMED_AVpair_pregnancy[["LastMestrualPeriodImplyingPregnancy"]][[files[i]]][["PHARMO"]] <- list()
 
-
 ################################ DICTINARY OF PregnancyTest ##################################
 dictonary_of_itemset_PregnancyTest[["PregnancyTest"]][["positive"]]<-list(list("positive")) 
-
-
 
 ################################ PARAMETERS for PregnancyTest ##################################
 days_from_start_PregnancyTest <- 30
