@@ -1,12 +1,12 @@
 #------------------------------------------------------------------------------------------
 # ConcePTION_Algorithm_Pregnancies script
 #
-# v5.3 - 30 April 2024
+# v6 - 13 01 2025
 # authors: Claudia Bartolini, Rosa Gini, Giorgio Limoncella, Olga Paoletti, Davide Messina
 # 
 # link: https://github.com/ARS-toscana/ConcePTIONAlgorithmPregnancies
-#
 #------------------------------------------------------------------------------------------
+
 
 rm(list=ls(all.names=TRUE))
 

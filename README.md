@@ -14,21 +14,28 @@ The algorithm will comprise standard components: for instance, pregnancy retriev
 
 
 ## Overall design 
-Subjects are first selected as experiencing the end of a pregnancy or an ongoing pregnancy. The selection is done in parallel from four streams.
+
+#### Record selection
+Subjects are first selected as experiencing the end of a pregnancy or an ongoing pregnancy. The selection is done in parallel from four streams:
+
+- stream **PROMPTS**: prompts of birth registries, terminations registries, and spontaneous abortion registries in SURVEY_ID: the existence of one of such record implies readily that a pregnancy has ended 
+- stream **EUROCAT**: records of the EUROCAT table
+- stream **CONCEPTSETS**: diagnostic codes from the EVENTS or procedure codes from the PROCEDURES or codes from the MEDICAL_RECORDS file referring to an end or an ongoing pregnancy 
+- stream **ITEMSETS**: variables from ordinary healthcare that are only populated when a woman is pregnant
+The resulting sets of pregnancies of a same person are then compared with each other, to identify which pregnancies are in fact the same, recorded in multiple occasions. 
+
 
 | ![img](https://github.com/ARS-toscana/ConcePTIONAlgorithmPregnancies/blob/documentation/readme/streams.PNG) | 
 |:--:| 
 | *Figure 1. Flow of the overall design. In the graphical representation, a diamond represents the date of the record, a circle represents a record of a date of start of pregnancy, and the bar represents the interval between start and end.*|
 
 
+All retrieved records were labelled with tentative information on when that pregnancy started, when it ended and which type of end that pregnancy had. Such information can be either found in the record itself or imputed by the algorithm. Finally, all records belonging to the same pregnancy will be reconciled. 
 
-- stream **PROMPTS**: prompts of birth registries, terminations registries, and spontaneous abortion registries in SURVEY_ID: the existence of one of such record implies readily that a pregnancy has ended 
-- stream **EUROCAT**: records of the EUROCAT table
-- stream **CONCEPTSETS**: diagnostic codes from the EVENTS or procedure codes from the PROCEDURES or codes from the MEDICAL_RECORDS file referring to an end or an ongoing pregnancy 
-- stream **ITEMSETS**: variables from ordinary healthcare that are only populated when a woman is pregnant
-The resulting sets of pregnancies of a same person are then compared with each other, to identify which pregnancies are in fact the same, recorded oin multiple occasions. 
+#### Predictive model
+In data sources that have very high-quality data banks with information on the start of pregnancy (e.g. birth registry), a predictive model was estimated that predicts the start date of pregnancy record wise, and a new start date of pregnancy was imputed using a weighted average of the prediction across records of the pregnancy.
 
+#### Output of the algorithm
+The dataset D3_pregnancy_reconciled will be generated, where the unit of observation is no longer the record but the pregnancy. 
 
-Finally, all records belonging to the same pregnancy will be reconciled. The dataset D3_pregnancy_reconciled will be generated, where the unit of observation is no longer the record but the pregnancy. 
-
- The datamodel of the final output can be found at the following [link](https://docs.google.com/spreadsheets/d/1MIXsyoahWilwsWFELRz0ZOscJCBSha5qySMu9unxObI/edit#gid=0)
+The datamodel of the final output can be found at the following [link](https://docs.google.com/spreadsheets/d/1MIXsyoahWilwsWFELRz0ZOscJCBSha5qySMu9unxObI/edit#gid=0)

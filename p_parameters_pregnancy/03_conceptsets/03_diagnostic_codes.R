@@ -451,6 +451,30 @@ if("663.00" %notin% unlist(concept_set_codes_pregnancy[["Stillbirth_narrow"]][["
 
 
 
+#-----------------------------
+# Adding codes for SNDS: ICD10
+#-----------------------------
+concept_set_codes_pregnancy[["Interruption_narrow"]][["ICD10"]] <- c(concept_set_codes_pregnancy[["Interruption_narrow"]][["ICD10"]],
+                                                                     "O0400", "O0401", "O0402", "O0403", "O0410", "O0411",
+                                                                     "O0412", "O0413", "O0420", "O0421", "O0422", "O0423",
+                                                                     "O0430", "O0431", "O0432", "O0433", "O0440", "O0441",
+                                                                     "O0442", "O0443", "O0450", "O0451", "O0452", "O0453",
+                                                                     "O0460", "O0461", "O0462", "O0463", "O0470", "O0471",
+                                                                     "O0472", "O0473", "O0490", "O0491", "O0492", "O0493")
+
+concept_set_codes_pregnancy[["Ongoingpregnancy"]][["ICD10"]] <- c(concept_set_codes_pregnancy[["Ongoingpregnancy"]][["ICD10"]],
+                                                                  "O240", "O241", "O243")
+
+concept_set_codes_pregnancy[["Birth_narrow"]][["ICD10"]] <- c(concept_set_codes_pregnancy[["Birth_narrow"]][["ICD10"]],
+                                                              "O800", "O801", "O808", "O809", "O810", "O811",
+                                                              "O812", "O813", "O814", "O815", "O830", "O831",
+                                                              "O832", "O833", "O834", "O838", "O839", "O840",
+                                                              "O841", "O842", "O848", "O849")
+
+concept_set_codes_pregnancy[["Stillbirth_narrow"]][["ICD10"]] <- c(concept_set_codes_pregnancy[["Stillbirth_narrow"]][["ICD10"]],
+                                                                   "Z3710", "Z3730", "Z3731", "Z3740",
+                                                                   "Z3741", "Z3770", "Z3771")
+
 #----------------------------------------------
 # Old manual assignement, before 11 July 2022
 #----------------------------------------------

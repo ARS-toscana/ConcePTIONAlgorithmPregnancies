@@ -217,9 +217,14 @@ if(thisdatasource == "THL"){
 groups_of_pregnancies[CONCEPTSET=="AtTermLB", order_quality:=8] 
 groups_of_pregnancies[CONCEPTSET=="PretermLB", order_quality:=8]
 groups_of_pregnancies[CONCEPTSET=="BirthNarrowLB", order_quality:=9]
-groups_of_pregnancies[CONCEPTSET=="procedures_livebirth", order_quality:=10] 
 
-groups_of_pregnancies[CONCEPTSET=="Stillbirth_narrow", order_quality:=11]
+if(thisdatasource == "SNDS") {
+  groups_of_pregnancies[CONCEPTSET=="Stillbirth_narrow", order_quality:=10] 
+  groups_of_pregnancies[CONCEPTSET=="procedures_livebirth", order_quality:=11] 
+}else{
+  groups_of_pregnancies[CONCEPTSET=="procedures_livebirth", order_quality:=10] 
+  groups_of_pregnancies[CONCEPTSET=="Stillbirth_narrow", order_quality:=11]
+}
 
 groups_of_pregnancies[CONCEPTSET=="AtTermBUNSP", order_quality:=12] 
 groups_of_pregnancies[CONCEPTSET=="PostTermBUNSP", order_quality:=12] 
