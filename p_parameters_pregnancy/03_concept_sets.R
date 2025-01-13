@@ -142,27 +142,28 @@ if(this_datasource_has_conceptsets){
   # concept_sets_of_end_of_pregnancy_UNK <- c("Birth_possible")
   
   concept_sets_of_start_of_pregnancy_UNK <- c("Gestation_less24_UNK",
-                                              #"Gestation_24_UNK",
+                                              "Gestation_24_UNK",
                                               "Gestation_25_26_UNK",
                                               "Gestation_27_28_UNK",
                                               "Gestation_29_30_UNK",
                                               "Gestation_31_32_UNK",
-                                              "Gestation_33_34_UNK")#,
-                                              #"Gestation_35_36_UNK",
-                                              #"Gestation_more37_UNK") 
+                                              "Gestation_33_34_UNK",
+                                              "Gestation_35_36_UNK",
+                                              "Gestation_more37_UNK") 
   
-  concept_sets_of_start_of_pregnancy_LB <- c(#"Gestation_less24_LB",
-                                             #"Gestation_24_LB",
-                                             #"Gestation_25_26_LB",
+  concept_sets_of_start_of_pregnancy_LB <- c("Gestation_less24_LB",
+                                             "Gestation_24_LB",
+                                             "Gestation_25_26_LB",
                                              "Gestation_27_28_LB",
-                                             #"Gestation_29_30_LB",
-                                             #"Gestation_31_32_LB",
-                                             #"Gestation_33_34_LB",
-                                             #"Gestation_35_36_LB",
+                                             "Gestation_29_30_LB",
+                                             "Gestation_31_32_LB",
+                                             "Gestation_33_34_LB",
+                                             "Gestation_35_36_LB",
                                              "Gestation_more37_LB")
   
   
-  concept_sets_of_start_of_pregnancy_CHILD <- c("Gestation_25_26_CHILD",
+  concept_sets_of_start_of_pregnancy_CHILD <- c("Gestation_24_CHILD",
+                                                "Gestation_25_26_CHILD",
                                                 "Gestation_27_28_CHILD",
                                                 "Gestation_29_30_CHILD",
                                                 "Gestation_31_32_CHILD",
@@ -184,18 +185,40 @@ if(this_datasource_has_conceptsets){
                                                                     "Chorionic_Villus_Sampling",
                                                                     "others")
   
-  concept_sets_of_end_of_pregnancy_LB <- c("Birth_narrow",
-                                           "Preterm",
-                                           "Atterm",
-                                           "Postterm")
-                                           #"Livebirth") 
+  # concept_sets_of_end_of_pregnancy_LB <- c("Preterm",
+  #                                          "Atterm",
+  #                                          "Postterm",
+  #                                          "LiveBirth") 
+  # concept_sets_of_end_of_pregnancy_LB_procedures <- c("procedures_livebirth")
+  # concept_sets_of_end_of_pregnancy_birth <- c("Birth_narrow",
+  #                                             "BirthUnspecified",
+  #                                             "BirthUnknown")
+  # concept_sets_of_end_of_pregnancy_birth_procedures <- c("procedures_delivery")
+  # concept_sets_of_end_of_pregnancy_UNK_procedures <- c("procedures_end_UNK")
+  #   concept_sets_of_end_of_pregnancy_UNK <- c("Birth_possible")
+ 
   
-  concept_sets_of_end_of_pregnancy_LB_procedures <- c("procedures_livebirth", 
-                                                      "procedures_delivery")
+  #-----------
+  concept_sets_of_end_of_pregnancy_LB <- c("AtTermLB",
+                                           "BirthNarrowLB",
+                                           "PretermLB")
   
-  concept_sets_of_end_of_pregnancy_UNK <- c("Birth_possible")
+  concept_sets_of_end_of_pregnancy_LB_procedures <- c("procedures_livebirth")
+  
+  
+  concept_sets_of_end_of_pregnancy_UNSP <- c("AtTermBUNSP",
+                                             "BirthNarrowBUNSP",
+                                             "PostTermBUNSP",
+                                             "PretermBUNSP")
+  
+  concept_sets_of_end_of_pregnancy_UNSP_procedures <- c("procedures_delivery")
+  
+  concept_sets_of_end_of_pregnancy_UNK <- c("BirthNarrowBUNK", 
+                                            "Birth_possible")
   
   concept_sets_of_end_of_pregnancy_UNK_procedures <- c("procedures_end_UNK")
+  #------------
+
   
   concept_sets_of_end_of_pregnancy_UNF_procedures <- c("procedures_end_UNF")
   
@@ -218,6 +241,7 @@ if(this_datasource_has_conceptsets){
                              concept_sets_of_start_of_pregnancy_CHILD,
                              concept_sets_of_ongoing_of_pregnancy,
                              concept_sets_of_end_of_pregnancy_LB,
+                             concept_sets_of_end_of_pregnancy_UNSP,
                              concept_sets_of_end_of_pregnancy_UNK,
                              concept_sets_of_end_of_pregnancy_UNF,
                              concept_sets_of_end_of_pregnancy_T_SA_SB_ECT)
@@ -227,10 +251,15 @@ if(this_datasource_has_conceptsets){
                                concept_sets_of_ongoing_of_pregnancy_procedures_DAP_specific,
                                concept_sets_of_ongoing_of_pregnancy_procedures,
                                concept_sets_of_end_of_pregnancy_LB_procedures,
+                               concept_sets_of_end_of_pregnancy_UNSP_procedures,
                                concept_sets_of_end_of_pregnancy_UNK_procedures,
                                concept_sets_of_end_of_pregnancy_UNF_procedures,
                                concept_sets_of_end_of_pregnancy_T_SA_SB_ECT_procedures)
   }
+  
+  # conceptset descendants 
+  
+  concept_set_pregnancy_descendant <- paste0("descendant_", concept_set_pregnancy)
   
   codes_used_in_this_run <- list_of_list_to_df(concept_set_codes_pregnancy)
   fwrite(codes_used_in_this_run, file = paste0(direxp, "concept_set_codes_pregnancy.csv"))

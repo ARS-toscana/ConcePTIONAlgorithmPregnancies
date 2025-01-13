@@ -196,6 +196,6 @@ file.copy(paste0(dirinput,'/INSTANCE.csv'), dirvalidation)
 #HTML files: creation 
 #############################################
 
-HTML_files_creation <- TRUE
+HTML_files_creation <- FALSE
 
 

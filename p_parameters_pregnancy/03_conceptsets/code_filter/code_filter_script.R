@@ -1,46 +1,51 @@
-concept_set_codes_all_VAC4EU <- fread(paste0(thisdir, "/p_parameters_pregnancy/03_conceptsets/code_filter/20221017_V2_ALL_full_codelist.csv"))
+library(data.table)
+concept_set_codes_all_VAC4EU <- fread(paste0(thisdir, "/p_parameters_pregnancy/03_conceptsets/20240513_V2_ALL_full_codelist.csv"))
+#20231214_
+ALL_pregnancy_algorithm_codelist <- concept_set_codes_all_VAC4EU[type == "PrA"]
+
+fwrite(ALL_pregnancy_algorithm_codelist, file = paste0(thisdir, "/p_parameters_pregnancy/03_conceptsets/20240513_V2_ALL_pregnancy_algorithm_codelist.csv"))
 
 
-event_definition_for_filter <- c("At term delivery",
-                                 "Birth classified as narrow",
-                                 "Birth classified as possible",
-                                 "Ectopic pregnancy",
-                                 "Elective Termination Pregnancy",
-                                 "Fetal growth restriction",
-                                 
-                                 #UNK
-                                 "24 weeks pregnancy unknown",
-                                 "Gestation 25 26 weeks unknown",
-                                 "Gestation 27 28 unknown",
-                                 "Gestation 29 30 weeks Unknown",
-                                 "Gestation 31 32 weeks Unknown",
-                                 "Gestation 33 34 Unknown",
-                                 "Gestation 35 36 UNK",
-                                 "Gestation 37 UNK",
-                                 "Gestation less than 24 weeks UNK",
-                                  
-                                 #LB
-                                 "24 weeks pregnancy",   
-                                 "Gestation 25 26 weeks",
-                                 "Gestation 27 28 weeks LB",
-                                 "Gestation 29 30 weeks LB",
-                                 "Gestation 31 32 weeks LB",
-                                 "Gestation 33 34 weeks",
-                                 "Gestation 35 36 weeks LB",
-                                 "Gestation 37 weeks LB",
-                                 "Gestation less than 24 weeks LB",
-                                 
-                                 
-                                 "Gestational diabetes",
-                                 "Livebirth",
-                                 "Ongoing Pregnancy",
-                                 "post term delivery", 
-                                 "Preeclampsia",
-                                 "Pregnancy Bleeding",
-                                 "Preterm delivery",
-                                 "Start of Pregnancy",
-                                 "Spontaneous abortion",
-                                 "Stillbirth")
+# event_definition_for_filter <- c("At term delivery",
+#                                  "Birth classified as narrow",
+#                                  "Birth classified as possible",
+#                                  "Ectopic pregnancy",
+#                                  "Elective Termination Pregnancy",
+#                                  "Fetal growth restriction",
+#                                  
+#                                  #UNK
+#                                  "24 weeks pregnancy unknown",
+#                                  "Gestation 25 26 weeks unknown",
+#                                  "Gestation 27 28 unknown",
+#                                  "Gestation 29 30 weeks Unknown",
+#                                  "Gestation 31 32 weeks Unknown",
+#                                  "Gestation 33 34 Unknown",
+#                                  "Gestation 35 36 UNK",
+#                                  "Gestation 37 UNK",
+#                                  "Gestation less than 24 weeks UNK",
+#                                   
+#                                  #LB
+#                                  "24 weeks pregnancy",   
+#                                  "Gestation 25 26 weeks",
+#                                  "Gestation 27 28 weeks LB",
+#                                  "Gestation 29 30 weeks LB",
+#                                  "Gestation 31 32 weeks LB",
+#                                  "Gestation 33 34 weeks",
+#                                  "Gestation 35 36 weeks LB",
+#                                  "Gestation 37 weeks LB",
+#                                  "Gestation less than 24 weeks LB",
+#                                  
+#                                  
+#                                  "Gestational diabetes",
+#                                  "Livebirth",
+#                                  "Ongoing Pregnancy",
+#                                  "post term delivery", 
+#                                  "Preeclampsia",
+#                                  "Pregnancy Bleeding",
+#                                  "Preterm delivery",
+#                                  "Start of Pregnancy",
+#                                  "Spontaneous abortion",
+#                                  "Stillbirth")
 
 # checks
 
@@ -62,10 +67,10 @@ event_definition_for_filter <- c("At term delivery",
 #   }
 # }
 
-concept_set_codes_preg <- concept_set_codes_all_VAC4EU[event_definition %in% event_definition_for_filter]
-
-fwrite(concept_set_codes_preg, paste0(thisdir, "/p_parameters_pregnancy/03_conceptsets/20221017_V2_ALL_full_codelist_pregnancy.csv"))
-
+# concept_set_codes_preg <- concept_set_codes_all_VAC4EU[event_definition %in% event_definition_for_filter]
+# 
+# fwrite(concept_set_codes_preg, paste0(thisdir, "/p_parameters_pregnancy/03_conceptsets/20221017_V2_ALL_full_codelist_pregnancy.csv"))
+# 
 
 
 

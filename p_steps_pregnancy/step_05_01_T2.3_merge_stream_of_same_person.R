@@ -148,29 +148,54 @@ table(groups_of_pregnancies[,coloured_order], useNA = "ifany")
 # 3)	ITEMSETS
 # 4)	CONCEPSETS, pregnancy completed and pregnancy_start_date recorded
 
-# 5)	PROMPT, pregnancy completed and pregnancy_start_date not available and imputed
-# 6)	ITEMSETS, pregnancy completed and pregnancy_start_date not available and imputed
+# 5) EUROCAT, pregnancy completed and pregnancy_start_date not available and imputed
+# 6)	PROMPT, pregnancy completed and pregnancy_start_date not available and imputed
+# 7)	ITEMSETS, pregnancy completed and pregnancy_start_date not available and imputed
 
-# 7)	CONCEPSETS: pre-term birth, meaning non primary care,  pregnancy_start_date not available and imputed
-# 7)	CONCEPSETS: at-term birth, meaning non primary care,  pregnancy_start_date not available and imputed
-# 7)	CONCEPSETS: post-term birth, meaning non primary care,  pregnancy_start_date not available and imputed
+# 8)	CONCEPSETS: pre-term birth live birth, meaning non primary care,  pregnancy_start_date not available and imputed
+# 8)	CONCEPSETS: at-term birth live birth, meaning non primary care,  pregnancy_start_date not available and imputed
+# 8)	CONCEPSETS: post-term birth live birth, meaning non primary care,  pregnancy_start_date not available and imputed
 
 
-# 8)	CONCEPSETS: live birth, meaning non primary care, pregnancy_start_date not available and imputed 
-# 9)	CONCEPSETS: still birth, meaning non primary care,  pregnancy_start_date not available and imputed
-# 10)	CONCEPSETS: interruption, meaning non primary care,  pregnancy_start_date not available and imputed
-# 11)	CONCEPTSETS: spontaneous abortion, meaning non primary care, pregnancy_start_date not available and imputed
-# 12)	CONCEPTSETS: ectopic pregnancy, meaning non primary care, pregnancy_start_date not available and imputed
+# 9)	CONCEPSETS: live birth, meaning non primary care, pregnancy_start_date not available and imputed 
+# 10)	CONCEPSETS: live birth procedure, meaning non primary care, pregnancy_start_date not available and imputed 
 
-# 13)	CONCEPTSETS: meaning implying primary care, pregnancy_start_date not available and imputed, end date estimated with record date 
+# 11)	CONCEPSETS: still birth, meaning non primary care,  pregnancy_start_date not available and imputed
 
-# 14) CONCEPSETS: still birth possible, meaning non primary care,  pregnancy_start_date not available and imputed
-# 15) CONCEPSETS: interruption possible, meaning non primary care,  pregnancy_start_date not available and imputed
-# 16) CONCEPSETS: spontaneous abortion possible, meaning non primary care,  pregnancy_start_date not available and imputed
+# 12)	CONCEPSETS: pre-term unspecified delivery, meaning non primary care,  pregnancy_start_date not available and imputed
+# 12)	CONCEPSETS: at-term unspecified delivery, meaning non primary care,  pregnancy_start_date not available and imputed
+# 12)	CONCEPSETS: post-term unspecified delivery, meaning non primary care,  pregnancy_start_date not available and imputed
 
-# 25)	all Streams: ongoing pregnancy and pregnancy_start_date recorded
+# 13)	CONCEPSETS: unspecified delivery, meaning non primary care, pregnancy_start_date not available and imputed 
+# 14)	CONCEPSETS: unspecified delivery procedures, meaning non primary care, pregnancy_start_date not available and imputed 
+
+# 15)	CONCEPSETS: interruption, meaning non primary care,  pregnancy_start_date not available and imputed
+# 16)	CONCEPSETS: interruption procedure, meaning non primary care,  pregnancy_start_date not available and imputed
+
+# 17)	CONCEPTSETS: spontaneous abortion, meaning non primary care, pregnancy_start_date not available and imputed
+# 18)	CONCEPTSETS: spontaneous abortion procedures, meaning non primary care, pregnancy_start_date not available and imputed
+
+# 19)	CONCEPTSETS: ectopic pregnancy, meaning non primary care, pregnancy_start_date not available and imputed
+# 20)	CONCEPTSETS: ectopic pregnancy procedures, meaning non primary care, pregnancy_start_date not available and imputed
+
+
+# 21) CONCEPSETS: still birth possible, meaning non primary care,  pregnancy_start_date not available and imputed
+# 21) CONCEPSETS: interruption possible, meaning non primary care,  pregnancy_start_date not available and imputed
+# 21) CONCEPSETS: spontaneous abortion possible, meaning non primary care,  pregnancy_start_date not available and imputed
+# 22) CONCEPSETS: unfavorable and unspecified procedures, meaning non primary care,  pregnancy_start_date not available and imputed
+
+# 23)	CONCEPSETS: unknown end of pregnancy, meaning non primary care, pregnancy_start_date not available and imputed 
+# 24)	CONCEPSETS: unknown end of pregnancy procedures, meaning non primary care, pregnancy_start_date not available and imputed 
+
+# 25)	CONCEPSETS: possible end of pregnancy, meaning non primary care, pregnancy_start_date not available and imputed 
+
+# 30)	CONCEPTSETS: meaning implying primary care, pregnancy_start_date not available and imputed, end date estimated with record date 
+
+# 40)	all Streams: ongoing pregnancy and pregnancy_start_date recorded
 
 # 50)	all Streams: ongoing pregnancy having pregnancy_start_date not available and imputed 
+
+# 99)	all Streams: meaning of record not implying pregnancy
 
 
 groups_of_pregnancies[EUROCAT=="yes" & coloured_order=="1_green",order_quality:=1]
@@ -178,50 +203,59 @@ groups_of_pregnancies[PROMPT=="yes" & coloured_order=="1_green",order_quality:=2
 groups_of_pregnancies[ITEMSETS=="yes" & coloured_order=="1_green",order_quality:=3]
 groups_of_pregnancies[CONCEPTSETS=="yes" & coloured_order=="1_green",order_quality:=4] 
 
+groups_of_pregnancies[EUROCAT=="yes" & coloured_order=="1_green",order_quality:=5]
+
 if(thisdatasource == "THL"){
-  groups_of_pregnancies[PROMPT=="yes" & coloured_order=="2_yellow",order_quality:=6] 
-  groups_of_pregnancies[ITEMSETS=="yes" & coloured_order=="2_yellow",order_quality:=5] 
-}else{
-  groups_of_pregnancies[PROMPT=="yes" & coloured_order=="2_yellow",order_quality:=5] 
+  groups_of_pregnancies[PROMPT=="yes" & coloured_order=="2_yellow",order_quality:=7] 
   groups_of_pregnancies[ITEMSETS=="yes" & coloured_order=="2_yellow",order_quality:=6] 
+}else{
+  groups_of_pregnancies[PROMPT=="yes" & coloured_order=="2_yellow",order_quality:=6] 
+  groups_of_pregnancies[ITEMSETS=="yes" & coloured_order=="2_yellow",order_quality:=7] 
 }
 
 
-groups_of_pregnancies[CONCEPTSET=="Atterm", order_quality:=7] 
-groups_of_pregnancies[CONCEPTSET=="Preterm", order_quality:=7]
-groups_of_pregnancies[CONCEPTSET=="Postterm", order_quality:=7]
-
-groups_of_pregnancies[CONCEPTSET=="Birth_narrow", order_quality:=8] 
-groups_of_pregnancies[CONCEPTSET=="Livebirth", order_quality:=8] 
+groups_of_pregnancies[CONCEPTSET=="AtTermLB", order_quality:=8] 
+groups_of_pregnancies[CONCEPTSET=="PretermLB", order_quality:=8]
+groups_of_pregnancies[CONCEPTSET=="BirthNarrowLB", order_quality:=9]
 
 if(thisdatasource == "SNDS") {
-  groups_of_pregnancies[CONCEPTSET=="Stillbirth_narrow", order_quality:=8] 
-  groups_of_pregnancies[CONCEPTSET=="procedures_livebirth", order_quality:=9] 
-  groups_of_pregnancies[CONCEPTSET=="procedures_delivery", order_quality:=9] 
+  groups_of_pregnancies[CONCEPTSET=="Stillbirth_narrow", order_quality:=10] 
+  groups_of_pregnancies[CONCEPTSET=="procedures_livebirth", order_quality:=11] 
 }else{
-  groups_of_pregnancies[CONCEPTSET=="procedures_livebirth", order_quality:=8] 
-  groups_of_pregnancies[CONCEPTSET=="procedures_delivery", order_quality:=8] 
-  groups_of_pregnancies[CONCEPTSET=="Stillbirth_narrow", order_quality:=9]
+  groups_of_pregnancies[CONCEPTSET=="procedures_livebirth", order_quality:=10] 
+  groups_of_pregnancies[CONCEPTSET=="Stillbirth_narrow", order_quality:=11]
 }
 
-groups_of_pregnancies[CONCEPTSET=="Interruption_narrow", order_quality:=10]
-groups_of_pregnancies[CONCEPTSET=="procedures_termination", order_quality:=10]
-groups_of_pregnancies[CONCEPTSET=="Spontaneousabortion_narrow", order_quality:=11]
-groups_of_pregnancies[CONCEPTSET=="procedures_spontaneous_abortion", order_quality:=11]
-groups_of_pregnancies[CONCEPTSET=="Ectopicpregnancy", order_quality:=12]
-groups_of_pregnancies[CONCEPTSET=="procedures_ectopic", order_quality:=12]
+groups_of_pregnancies[CONCEPTSET=="AtTermBUNSP", order_quality:=12] 
+groups_of_pregnancies[CONCEPTSET=="PostTermBUNSP", order_quality:=12] 
+groups_of_pregnancies[CONCEPTSET=="PretermBUNSP", order_quality:=12] 
+groups_of_pregnancies[CONCEPTSET=="BirthNarrowBUNSP", order_quality:=13] 
+groups_of_pregnancies[CONCEPTSET=="procedures_delivery", order_quality:=14] 
 
-groups_of_pregnancies[CONCEPTSET=="Stillbirth_possible", order_quality:=13]
-groups_of_pregnancies[CONCEPTSET=="Interruption_possible", order_quality:=14]
-groups_of_pregnancies[CONCEPTSET=="Spontaneousabortion_possible", order_quality:=15]
+groups_of_pregnancies[CONCEPTSET=="Interruption_narrow", order_quality:=15]
+groups_of_pregnancies[CONCEPTSET=="Medicated_VTP", order_quality:=16]
+groups_of_pregnancies[CONCEPTSET=="procedures_termination", order_quality:=16]
 
-groups_of_pregnancies[CONCEPTSET=="procedures_end_UNF", order_quality:=16]
-groups_of_pregnancies[CONCEPTSET=="procedures_end_UNK", order_quality:=17]
+groups_of_pregnancies[CONCEPTSET=="Spontaneousabortion_narrow", order_quality:=17]
+groups_of_pregnancies[CONCEPTSET=="procedures_spontaneous_abortion", order_quality:=18]
 
+groups_of_pregnancies[CONCEPTSET=="Ectopicpregnancy", order_quality:=19]
+groups_of_pregnancies[CONCEPTSET=="procedures_ectopic", order_quality:=20]
 
-groups_of_pregnancies[CONCEPTSETS=="yes" & coloured_order=="2_yellow" & eval(parse(text = condmeaning$PC)), order_quality:=20]
+groups_of_pregnancies[CONCEPTSET=="Stillbirth_possible", order_quality:=21]
+groups_of_pregnancies[CONCEPTSET=="Interruption_possible", order_quality:=21]
+groups_of_pregnancies[CONCEPTSET=="Spontaneousabortion_possible", order_quality:=21]
 
-groups_of_pregnancies[coloured_order=="3_blue", order_quality:=25]
+groups_of_pregnancies[CONCEPTSET=="procedures_end_UNF", order_quality:=22]
+
+groups_of_pregnancies[CONCEPTSET=="BirthNarrowBUNK", order_quality:=23] 
+groups_of_pregnancies[CONCEPTSET=="procedures_end_UNK", order_quality:=24]
+
+groups_of_pregnancies[CONCEPTSET=="Birth_possible", order_quality:=25]
+
+groups_of_pregnancies[CONCEPTSETS=="yes" & coloured_order=="2_yellow" & eval(parse(text = condmeaning$PC)), order_quality:=30]
+
+groups_of_pregnancies[coloured_order=="3_blue", order_quality:=40]
 
 groups_of_pregnancies[coloured_order=="4_red", order_quality:=50]
 
@@ -277,10 +311,6 @@ if(HTML_files_creation){
   
 }
 ### end description
-
-
-
 save(groups_of_pregnancies, file=paste0(dirtemp,"groups_of_pregnancies.RData"))
-
 rm(groups_of_pregnancies,D3_Stream_ITEMSETS_check,D3_Stream_PROMPTS_check, D3_Stream_CONCEPTSETS_check,D3_Stream_EUROCAT_check)
 

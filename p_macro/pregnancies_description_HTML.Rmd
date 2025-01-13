@@ -90,47 +90,60 @@ As reported in the sap, some records have both pregnancy start date and pregnanc
   <body>
     <div class="boxed">
 
-- **1**  EUROCAT: both pregnancy_start_date and pregnancy_end_date are recorded
+- **1** EUROCAT: start/end recorded
 
-- **2**  PROMPT: both pregnancy_start_date and pregnancy_end_date are recorded
- 
-- **3**	ITEMSETS: both pregnancy_start_date and pregnancy_end_date are recorded
+- **2** PROMPT: start/end recorded
 
-- **4**	CONCEPSETS: pregnancy completed and pregnancy_start_date recorded
- 
-- **5**	PROMPT: pregnancy completed and pregnancy_start_date not available and imputed
- 
-- **6**	ITEMSETS: pregnancy completed and pregnancy_start_date not available and imputed
+- **3** PROMPT: start/end recorded in linked data
 
-- **7**	CONCEPSETS: pre-term birth, meaning non primary care,  pregnancy_start_date not available and imputed
+- **4** CONCEPSETS: start/end recorded
 
-- **7**	CONCEPSETS: at-term birth, meaning non primary care,  pregnancy_start_date not available and imputed
+- **5** EUROCAT: only end recorded
 
-- **7** CONCEPSETS: post-term birth, meaning non primary care,  pregnancy_start_date not available and imputed
+- **6** PROMPT: only end recorded
 
-- **8**	CONCEPSETS: live birth, meaning non primary care, pregnancy_start_date not available and imputed 
+- **7** PROMPT:  only end recorded in linked data
 
-- **9**	CONCEPSETS: still birth, meaning non primary care,  pregnancy_start_date not available and imputed
- 
-- **10**  CONCEPSETS: interruption, meaning non primary care,  pregnancy_start_date not available and imputed
- 
-- **11**  CONCEPTSETS: spontaneous abortion, meaning non primary care, pregnancy_start_date not available and imputed
- 
-- **12**  CONCEPTSETS: ectopic-molar pregnancy, meaning non primary care, pregnancy_start_date not available and imputed
- 
-- **13**  CONCEPSETS: still birth possible, meaning non primary care,  pregnancy_start_date not available and imputed
+- **8** CONCEPSETS: pre-term/at-term live birth
 
-- **14**  CONCEPSETS: interruption possible, meaning non primary care,  pregnancy_start_date not available and imputed
+- **9** CONCEPSETS: live birth
 
-- **15**  CONCEPSETS: spontaneous abortion possible, meaning non primary care,  pregnancy_start_date not available and imputed
+- **10**  CONCEPSETS: procedure live birth
 
-- **16**  CONCEPSETS: UNK end, meaning non primary care, pregnancy_end_date recorded and pregnancy_start_date not available and imputed
+- **11**  CONCEPSETS: stll birth
 
-- **20**  CONCEPTSETS: meaning implying primary care, pregnancy_start_date not available and imputed, end date estimated with record date 
- 
-- **25**  all Streams: ongoing pregnancy and pregnancy_start_date recorded
- 
-- **50**  all Streams: ongoing pregnancy having pregnancy_start_date not available and imputed 
+- **12**  CONCEPSETS: interruption
+
+- **13**  CONCEPSETS: procedure interruption
+
+- **14**  CONCEPTSETS: spontaneous abortion
+
+- **15**  CONCEPTSETS: procedure spontaneous abortion
+
+- **16**  CONCEPTSETS: ectopic-molar pregnancy
+
+- **17**  CONCEPTSETS: procedure ectopic-molar pregnancy
+
+- **18**  CONCEPTSETS: pre-term/at-term/post-term birth
+
+- **19**  CONCEPTSETS: birth
+
+- **20**  CONCEPTSETS: procedure birth
+
+- **21**  CONCEPSETS: unspecified unfavorable outcome
+
+- **22**  CONCEPSETS: procedure unspecified unfavorable outcome
+
+- **23**  CONCEPSETS: end date recorded, type UNK
+
+- **24**  CONCEPSETS: procedure with end date recorded, type UNK
+
+- **30**  CONCEPTSETS: meaning implying primary care
+
+- **40**  all Streams: blue
+
+- **50**  all Streams: red
+
 
 
     </div>
@@ -142,33 +155,56 @@ As reported in the sap, some records have both pregnancy start date and pregnanc
 The subsequent figure shows the number of absolute pregnancies retrieved, stratified by the highest record quality in the pregnancy, and anchored to the pregnancy start year.
 
 ```{r quality_graph}
-quality_DF <- D3_pregnancy_reconciled[, order_quality := as.factor(order_quality)]
-quality_DF <- quality_DF[, .N, by = .(year_start_of_pregnancy, order_quality)]
+
+D3_pregnancy_reconciled[order_quality == 1, order_quality_desc := "EUROCAT: start/end recorded"]
+D3_pregnancy_reconciled[order_quality == 2, order_quality_desc := "PROMPT: start/end recorded"]
+D3_pregnancy_reconciled[order_quality == 3, order_quality_desc :=	"PROMPT: start/end recorded in linked data"]
+D3_pregnancy_reconciled[order_quality == 4, order_quality_desc :=	"CONCEPSETS: start/end recorded"]
+
+D3_pregnancy_reconciled[order_quality == 5, order_quality_desc := "EUROCAT: only end recorded"]
+D3_pregnancy_reconciled[order_quality == 6, order_quality_desc :=	"PROMPT: only end recorded"]
+D3_pregnancy_reconciled[order_quality == 7, order_quality_desc :=	"PROMPT:  only end recorded in linked data"]
+
+D3_pregnancy_reconciled[order_quality == 8, order_quality_desc :=	"CONCEPSETS: pre-term/at-term live birth"]
+D3_pregnancy_reconciled[order_quality == 9, order_quality_desc :=	"CONCEPSETS: live birth"]
+
+D3_pregnancy_reconciled[order_quality == 10, order_quality_desc :=	"CONCEPSETS: procedure live birth"]
+
+D3_pregnancy_reconciled[order_quality == 11, order_quality_desc :=	"CONCEPSETS: stll birth"]
+
+D3_pregnancy_reconciled[order_quality == 12, order_quality_desc :=  "CONCEPTSETS: pre-term/at-term/post-term birth"]
+D3_pregnancy_reconciled[order_quality == 13, order_quality_desc :=  "CONCEPTSETS: birth"]
+D3_pregnancy_reconciled[order_quality == 14, order_quality_desc :=  "CONCEPTSETS: procedure birth"]
 
 
-quality_DF[order_quality == 1, order_quality := "EUROCAT: start/end recorded"]
-quality_DF[order_quality == 2, order_quality := "PROMPT: start/end recorded"]
-quality_DF[order_quality == 3, order_quality :=	"PROMPT: start/end recorded in linked data"]
-quality_DF[order_quality == 4, order_quality :=	"CONCEPSETS: start/end recorded"]
-quality_DF[order_quality == 5, order_quality :=	"PROMPT: only end recorded"]
-quality_DF[order_quality == 6, order_quality :=	"PROMPT:  only end recorded in linked data"]
-quality_DF[order_quality == 7, order_quality :=	"CONCEPSETS: pre-term birth"]
-quality_DF[order_quality == 7, order_quality :=	"CONCEPSETS: at-term birth"]
-quality_DF[order_quality == 7, order_quality := "CONCEPSETS: post-term birth"]
-quality_DF[order_quality == 8, order_quality :=	"CONCEPSETS: live birth"]
-quality_DF[order_quality == 9, order_quality :=	"CONCEPSETS: still birth"]
-quality_DF[order_quality == 10, order_quality :=  "CONCEPSETS: interruption"]
-quality_DF[order_quality == 11, order_quality :=  "CONCEPTSETS: spontaneous abortion"]
-quality_DF[order_quality == 12, order_quality :=  "CONCEPTSETS: ectopic-molar pregnancy"]
-quality_DF[order_quality == 13, order_quality :=  "CONCEPSETS: still birth possible"]
-quality_DF[order_quality == 14, order_quality :=  "CONCEPSETS: interruption possible"]
-quality_DF[order_quality == 15, order_quality :=  "CONCEPSETS: spontaneous abortion possible"]
-quality_DF[order_quality == 16, order_quality :=  "CONCEPSETS: end date recorded, type UNK"]
-quality_DF[order_quality == 20, order_quality :=  "CONCEPTSETS: meaning implying primary care"]
-quality_DF[order_quality == 25, order_quality :=  "all Streams: blue"]
-quality_DF[order_quality == 50, order_quality :=  "all Streams: red"]
+D3_pregnancy_reconciled[order_quality == 15, order_quality_desc :=	"CONCEPSETS: interruption"]
+D3_pregnancy_reconciled[order_quality == 16, order_quality_desc :=	"CONCEPSETS: procedure interruption"]
+
+D3_pregnancy_reconciled[order_quality == 17, order_quality_desc :=  "CONCEPTSETS: spontaneous abortion"]
+D3_pregnancy_reconciled[order_quality == 18, order_quality_desc :=  "CONCEPTSETS: procedure spontaneous abortion"]
+
+D3_pregnancy_reconciled[order_quality == 19, order_quality_desc :=  "CONCEPTSETS: ectopic-molar pregnancy"]
+D3_pregnancy_reconciled[order_quality == 20, order_quality_desc :=  "CONCEPTSETS: procedure ectopic-molar pregnancy"]
+
+D3_pregnancy_reconciled[order_quality == 21, order_quality_desc :=  "CONCEPSETS: unspecified unfavorable outcome"]
+D3_pregnancy_reconciled[order_quality == 22, order_quality_desc :=  "CONCEPSETS: procedure unspecified unfavorable outcome"]
+
+D3_pregnancy_reconciled[order_quality == 23, order_quality_desc :=  "CONCEPSETS: end date recorded, type UNK"]
+D3_pregnancy_reconciled[order_quality == 24, order_quality_desc :=  "CONCEPSETS: procedure with end date recorded, type UNK"]
+
+D3_pregnancy_reconciled[order_quality == 30, order_quality_desc :=  "CONCEPTSETS: meaning implying primary care"]
+D3_pregnancy_reconciled[order_quality == 40, order_quality_desc :=  "all Streams: blue"]
+D3_pregnancy_reconciled[order_quality == 50, order_quality_desc :=  "all Streams: red"]
+
+
+
+quality_DF <- D3_pregnancy_reconciled[, order_quality_desc := as.factor(order_quality_desc)]
+quality_DF <- quality_DF[, .N, by = .(year_start_of_pregnancy, order_quality_desc)]
+
+
+
            
-p <- ggplot(quality_DF, aes(year_start_of_pregnancy, N, fill= order_quality))+
+p <- ggplot(quality_DF, aes(year_start_of_pregnancy, N, fill= order_quality_desc))+
   geom_col()+
   theme_hc()
 plot <- ggplotly(p)
@@ -276,42 +312,20 @@ plot
 ## LB and SB pregnancies: green and yellow from PROMPT
 
 ```{r LBSB_PROMPT}
-LBSB_PROMPT <- D3_pregnancy_reconciled[, order_quality := as.factor(order_quality)]
+LBSB_PROMPT <- D3_pregnancy_reconciled[, order_quality_desc := as.factor(order_quality_desc)]
 
 LBSB_PROMPT <- LBSB_PROMPT[type_of_pregnancy_end %in% c("LB", "SB") &
                              highest_quality %in% c("1_green", "2_yellow") &
                              PROMPT == "yes"]
 
-LBSB_PROMPT <- LBSB_PROMPT[, .N, by = .(year_start_of_pregnancy, order_quality, type_of_pregnancy_end)]
+LBSB_PROMPT <- LBSB_PROMPT[, .N, by = .(year_start_of_pregnancy, order_quality_desc, type_of_pregnancy_end)]
 
-
-LBSB_PROMPT[order_quality == 1, order_quality := "EUROCAT: start/end recorded"]
-LBSB_PROMPT[order_quality == 2, order_quality := "PROMPT: start/end recorded"]
-LBSB_PROMPT[order_quality == 3, order_quality :=	"PROMPT: start/end recorded in linked data"]
-LBSB_PROMPT[order_quality == 4, order_quality :=	"CONCEPSETS: start/end recorded"]
-LBSB_PROMPT[order_quality == 5, order_quality :=	"PROMPT: only end recorded"]
-LBSB_PROMPT[order_quality == 6, order_quality :=	"PROMPT:  only end recorded in linked data"]
-LBSB_PROMPT[order_quality == 7, order_quality :=	"CONCEPSETS: pre-term birth"]
-LBSB_PROMPT[order_quality == 7, order_quality :=	"CONCEPSETS: at-term birth"]
-LBSB_PROMPT[order_quality == 7, order_quality := "CONCEPSETS: post-term birth"]
-LBSB_PROMPT[order_quality == 8, order_quality :=	"CONCEPSETS: live birth"]
-LBSB_PROMPT[order_quality == 9, order_quality :=	"CONCEPSETS: still birth"]
-LBSB_PROMPT[order_quality == 10, order_quality :=  "CONCEPSETS: interruption"]
-LBSB_PROMPT[order_quality == 11, order_quality :=  "CONCEPTSETS: spontaneous abortion"]
-LBSB_PROMPT[order_quality == 12, order_quality :=  "CONCEPTSETS: ectopic-molar pregnancy"]
-LBSB_PROMPT[order_quality == 13, order_quality :=  "CONCEPSETS: still birth possible"]
-LBSB_PROMPT[order_quality == 14, order_quality :=  "CONCEPSETS: interruption possible"]
-LBSB_PROMPT[order_quality == 15, order_quality :=  "CONCEPSETS: spontaneous abortion possible"]
-LBSB_PROMPT[order_quality == 16, order_quality :=  "CONCEPSETS: end date recorded, type UNK"]
-LBSB_PROMPT[order_quality == 20, order_quality :=  "CONCEPTSETS: meaning implying primary care"]
-LBSB_PROMPT[order_quality == 25, order_quality :=  "all Streams: blue"]
-LBSB_PROMPT[order_quality == 50, order_quality :=  "all Streams: red"]
 
 LB_PROMPT <- LBSB_PROMPT[type_of_pregnancy_end == "LB"]
 SB_PROMPT <- LBSB_PROMPT[type_of_pregnancy_end == "SB"]
 
 if(LB_PROMPT[, .N] > 0){
-  p <- ggplot(LB_PROMPT, aes(year_start_of_pregnancy, N, fill= order_quality))+
+  p <- ggplot(LB_PROMPT, aes(year_start_of_pregnancy, N, fill= order_quality_desc))+
   ggtitle("LB")+
   geom_col()+
   theme_hc()
@@ -323,7 +337,7 @@ plot
 }
 
 if(SB_PROMPT[, .N] > 0){
-  p <- ggplot(SB_PROMPT, aes(year_start_of_pregnancy, N, fill= order_quality))+
+  p <- ggplot(SB_PROMPT, aes(year_start_of_pregnancy, N, fill= order_quality_desc))+
     ggtitle("SB")+
   geom_col()+
   theme_hc()
@@ -341,41 +355,19 @@ plot
 ## SA, T: green, yellow, blue
 
 ```{r SAT_PROMPTCONC}
-SAT_GYB <- D3_pregnancy_reconciled[, order_quality := as.factor(order_quality)]
+SAT_GYB <- D3_pregnancy_reconciled[, order_quality_desc := as.factor(order_quality_desc)]
 
 SAT_GYB <- SAT_GYB[type_of_pregnancy_end %in% c("SA", "T") &
                              highest_quality %in% c("1_green", "2_yellow", "3_BLUE")]
 
-SAT_GYB <- SAT_GYB[, .N, by = .(year_start_of_pregnancy, order_quality, type_of_pregnancy_end)]
+SAT_GYB <- SAT_GYB[, .N, by = .(year_start_of_pregnancy, order_quality_desc, type_of_pregnancy_end)]
 
-
-SAT_GYB[order_quality == 1, order_quality := "EUROCAT: start/end recorded"]
-SAT_GYB[order_quality == 2, order_quality := "PROMPT: start/end recorded"]
-SAT_GYB[order_quality == 3, order_quality :=	"PROMPT: start/end recorded in linked data"]
-SAT_GYB[order_quality == 4, order_quality :=	"CONCEPSETS: start/end recorded"]
-SAT_GYB[order_quality == 5, order_quality :=	"PROMPT: only end recorded"]
-SAT_GYB[order_quality == 6, order_quality :=	"PROMPT:  only end recorded in linked data"]
-SAT_GYB[order_quality == 7, order_quality :=	"CONCEPSETS: pre-term birth"]
-SAT_GYB[order_quality == 7, order_quality :=	"CONCEPSETS: at-term birth"]
-SAT_GYB[order_quality == 7, order_quality := "CONCEPSETS: post-term birth"]
-SAT_GYB[order_quality == 8, order_quality :=	"CONCEPSETS: live birth"]
-SAT_GYB[order_quality == 9, order_quality :=	"CONCEPSETS: still birth"]
-SAT_GYB[order_quality == 10, order_quality :=  "CONCEPSETS: interruption"]
-SAT_GYB[order_quality == 11, order_quality :=  "CONCEPTSETS: spontaneous abortion"]
-SAT_GYB[order_quality == 12, order_quality :=  "CONCEPTSETS: ectopic-molar pregnancy"]
-SAT_GYB[order_quality == 13, order_quality :=  "CONCEPSETS: still birth possible"]
-SAT_GYB[order_quality == 14, order_quality :=  "CONCEPSETS: interruption possible"]
-SAT_GYB[order_quality == 15, order_quality :=  "CONCEPSETS: spontaneous abortion possible"]
-SAT_GYB[order_quality == 16, order_quality :=  "CONCEPSETS: end date recorded, type UNK"]
-SAT_GYB[order_quality == 20, order_quality :=  "CONCEPTSETS: meaning implying primary care"]
-SAT_GYB[order_quality == 25, order_quality :=  "all Streams: blue"]
-SAT_GYB[order_quality == 50, order_quality :=  "all Streams: red"]
 
 SA_GYB <- SAT_GYB[type_of_pregnancy_end == "SA"]         
 T_GYB <- SAT_GYB[type_of_pregnancy_end == "T"]         
 
 if(SA_GYB[, .N] > 0){
-  p <- ggplot(SA_GYB, aes(year_start_of_pregnancy, N, fill= order_quality))+
+  p <- ggplot(SA_GYB, aes(year_start_of_pregnancy, N, fill= order_quality_desc))+
     ggtitle("SA")+
   geom_col()+
   theme_hc()
@@ -387,7 +379,7 @@ plot
 }
 
 if(T_GYB[, .N] > 0){
-  p <- ggplot(T_GYB, aes(year_start_of_pregnancy, N, fill= order_quality))+
+  p <- ggplot(T_GYB, aes(year_start_of_pregnancy, N, fill= order_quality_desc))+
     ggtitle("T")+
   geom_col()+
   theme_hc()
@@ -435,35 +427,14 @@ ___
 ```{r lb_graph}
 
 LB <- D3_pregnancy_reconciled[type_of_pregnancy_end == "LB"]
-LB <- LB[, order_quality := as.factor(order_quality)]
+LB <- LB[, order_quality_desc := as.factor(order_quality_desc)]
 
-LB[order_quality == 1, order_quality := "EUROCAT: start/end recorded"]
-LB[order_quality == 2, order_quality := "PROMPT: start/end recorded"]
-LB[order_quality == 3, order_quality :=	"PROMPT: start/end recorded in linked data"]
-LB[order_quality == 4, order_quality :=	"CONCEPSETS: start/end recorded"]
-LB[order_quality == 5, order_quality :=	"PROMPT: only end recorded"]
-LB[order_quality == 6, order_quality :=	"PROMPT:  only end recorded in linked data"]
-LB[order_quality == 7, order_quality :=	"CONCEPSETS: pre-term birth"]
-LB[order_quality == 7, order_quality :=	"CONCEPSETS: at-term birth"]
-LB[order_quality == 7, order_quality := "CONCEPSETS: post-term birth"]
-LB[order_quality == 8, order_quality :=	"CONCEPSETS: live birth"]
-LB[order_quality == 9, order_quality :=	"CONCEPSETS: still birth"]
-LB[order_quality == 10, order_quality :=  "CONCEPSETS: interruption"]
-LB[order_quality == 11, order_quality :=  "CONCEPTSETS: spontaneous abortion"]
-LB[order_quality == 12, order_quality :=  "CONCEPTSETS: ectopic-molar pregnancy"]
-LB[order_quality == 13, order_quality :=  "CONCEPSETS: still birth possible"]
-LB[order_quality == 14, order_quality :=  "CONCEPSETS: interruption possible"]
-LB[order_quality == 15, order_quality :=  "CONCEPSETS: spontaneous abortion possible"]
-LB[order_quality == 16, order_quality :=  "CONCEPSETS: end date recorded, type UNK"]
-LB[order_quality == 20, order_quality :=  "CONCEPTSETS: meaning implying primary care"]
-LB[order_quality == 25, order_quality :=  "all Streams: blue"]
-LB[order_quality == 50, order_quality :=  "all Streams: red"]
 
 if (LB[, .N]==0){
   print("there is no LB among the types of end of pregnancy" )
 }else{
-LB <- LB[, .N, .(order_quality, year_start_of_pregnancy)]
-p <- ggplot(LB, aes(x = year_start_of_pregnancy, y = N, fill= order_quality))+
+LB <- LB[, .N, .(order_quality_desc, year_start_of_pregnancy)]
+p <- ggplot(LB, aes(x = year_start_of_pregnancy, y = N, fill= order_quality_desc))+
   geom_col()+
   theme_hc()
 plot <- ggplotly(p)
@@ -479,35 +450,13 @@ ___
 
 ```{r sb_graph}
 SB <- D3_pregnancy_reconciled[type_of_pregnancy_end == "SB"]
-SB <- SB[, order_quality := as.factor(order_quality)]
+SB <- SB[, order_quality_desc := as.factor(order_quality_desc)]
 
-SB[order_quality == 1, order_quality := "EUROCAT: start/end recorded"]
-SB[order_quality == 2, order_quality := "PROMPT: start/end recorded"]
-SB[order_quality == 3, order_quality :=	"PROMPT: start/end recorded in linked data"]
-SB[order_quality == 4, order_quality :=	"CONCEPSETS: start/end recorded"]
-SB[order_quality == 5, order_quality :=	"PROMPT: only end recorded"]
-SB[order_quality == 6, order_quality :=	"PROMPT:  only end recorded in linked data"]
-SB[order_quality == 7, order_quality :=	"CONCEPSETS: pre-term birth"]
-SB[order_quality == 7, order_quality :=	"CONCEPSETS: at-term birth"]
-SB[order_quality == 7, order_quality := "CONCEPSETS: post-term birth"]
-SB[order_quality == 8, order_quality :=	"CONCEPSETS: live birth"]
-SB[order_quality == 9, order_quality :=	"CONCEPSETS: still birth"]
-SB[order_quality == 10, order_quality :=  "CONCEPSETS: interruption"]
-SB[order_quality == 11, order_quality :=  "CONCEPTSETS: spontaneous abortion"]
-SB[order_quality == 12, order_quality :=  "CONCEPTSETS: ectopic-molar pregnancy"]
-SB[order_quality == 13, order_quality :=  "CONCEPSETS: still birth possible"]
-SB[order_quality == 14, order_quality :=  "CONCEPSETS: interruption possible"]
-SB[order_quality == 15, order_quality :=  "CONCEPSETS: spontaneous abortion possible"]
-SB[order_quality == 16, order_quality :=  "CONCEPSETS: end date recorded, type UNK"]
-SB[order_quality == 20, order_quality :=  "CONCEPTSETS: meaning implying primary care"]
-SB[order_quality == 25, order_quality :=  "all Streams: blue"]
-SB[order_quality == 50, order_quality :=  "all Streams: red"]
-
-SB <- SB[, .N, .(order_quality, year_start_of_pregnancy)]
+SB <- SB[, .N, .(order_quality_desc, year_start_of_pregnancy)]
 if (SB[, .N]==0){
   print("there is no SB among the types of end of pregnancy" )
 }else{
-p <- ggplot(SB, aes(x = year_start_of_pregnancy, y = N, fill= order_quality))+
+p <- ggplot(SB, aes(x = year_start_of_pregnancy, y = N, fill= order_quality_desc))+
   geom_col()+
   theme_hc()
 plot <- ggplotly(p)
@@ -526,35 +475,13 @@ ___
 
 ```{r t_graph}
 TE <- D3_pregnancy_reconciled[type_of_pregnancy_end == "T"]
-TE <- TE[, order_quality := as.factor(order_quality)]
+TE <- TE[, order_quality_desc := as.factor(order_quality_desc)]
 
-TE[order_quality == 1, order_quality := "EUROCAT: start/end recorded"]
-TE[order_quality == 2, order_quality := "PROMPT: start/end recorded"]
-TE[order_quality == 3, order_quality :=	"PROMPT: start/end recorded in linked data"]
-TE[order_quality == 4, order_quality :=	"CONCEPSETS: start/end recorded"]
-TE[order_quality == 5, order_quality :=	"PROMPT: only end recorded"]
-TE[order_quality == 6, order_quality :=	"PROMPT:  only end recorded in linked data"]
-TE[order_quality == 7, order_quality :=	"CONCEPSETS: pre-term birth"]
-TE[order_quality == 7, order_quality :=	"CONCEPSETS: at-term birth"]
-TE[order_quality == 7, order_quality := "CONCEPSETS: post-term birth"]
-TE[order_quality == 8, order_quality :=	"CONCEPSETS: live birth"]
-TE[order_quality == 9, order_quality :=	"CONCEPSETS: still birth"]
-TE[order_quality == 10, order_quality :=  "CONCEPSETS: interruption"]
-TE[order_quality == 11, order_quality :=  "CONCEPTSETS: spontaneous abortion"]
-TE[order_quality == 12, order_quality :=  "CONCEPTSETS: ectopic-molar pregnancy"]
-TE[order_quality == 13, order_quality :=  "CONCEPSETS: still birth possible"]
-TE[order_quality == 14, order_quality :=  "CONCEPSETS: interruption possible"]
-TE[order_quality == 15, order_quality :=  "CONCEPSETS: spontaneous abortion possible"]
-TE[order_quality == 16, order_quality :=  "CONCEPSETS: end date recorded, type UNK"]
-TE[order_quality == 20, order_quality :=  "CONCEPTSETS: meaning implying primary care"]
-TE[order_quality == 25, order_quality :=  "all Streams: blue"]
-TE[order_quality == 50, order_quality :=  "all Streams: red"]
-
-TE <- TE[, .N, .(order_quality, year_start_of_pregnancy)]
+TE <- TE[, .N, .(order_quality_desc, year_start_of_pregnancy)]
 if (TE[, .N]==0){
   print("there is no T among the types of end of pregnancy" )
 }else{
-p <- ggplot(TE, aes(x = year_start_of_pregnancy, y = N,  fill= order_quality))+
+p <- ggplot(TE, aes(x = year_start_of_pregnancy, y = N,  fill= order_quality_desc))+
   geom_col()+
   theme_hc()
 plot <- ggplotly(p)
@@ -571,35 +498,13 @@ ___
 
 ```{r sa_graph}
 SA <- D3_pregnancy_reconciled[type_of_pregnancy_end == "SA"]
-SA <-SA[, order_quality := as.factor(order_quality)]
+SA <-SA[, order_quality_desc := as.factor(order_quality_desc)]
 
-SA[order_quality == 1, order_quality := "EUROCAT: start/end recorded"]
-SA[order_quality == 2, order_quality := "PROMPT: start/end recorded"]
-SA[order_quality == 3, order_quality :=	"PROMPT: start/end recorded in linked data"]
-SA[order_quality == 4, order_quality :=	"CONCEPSETS: start/end recorded"]
-SA[order_quality == 5, order_quality :=	"PROMPT: only end recorded"]
-SA[order_quality == 6, order_quality :=	"PROMPT:  only end recorded in linked data"]
-SA[order_quality == 7, order_quality :=	"CONCEPSETS: pre-term birth"]
-SA[order_quality == 7, order_quality :=	"CONCEPSETS: at-term birth"]
-SA[order_quality == 7, order_quality := "CONCEPSETS: post-term birth"]
-SA[order_quality == 8, order_quality :=	"CONCEPSETS: live birth"]
-SA[order_quality == 9, order_quality :=	"CONCEPSETS: still birth"]
-SA[order_quality == 10, order_quality :=  "CONCEPSETS: interruption"]
-SA[order_quality == 11, order_quality :=  "CONCEPTSETS: spontaneous abortion"]
-SA[order_quality == 12, order_quality :=  "CONCEPTSETS: ectopic-molar pregnancy"]
-SA[order_quality == 13, order_quality :=  "CONCEPSETS: still birth possible"]
-SA[order_quality == 14, order_quality :=  "CONCEPSETS: interruption possible"]
-SA[order_quality == 15, order_quality :=  "CONCEPSETS: spontaneous abortion possible"]
-SA[order_quality == 16, order_quality :=  "CONCEPSETS: end date recorded, type UNK"]
-SA[order_quality == 20, order_quality :=  "CONCEPTSETS: meaning implying primary care"]
-SA[order_quality == 25, order_quality :=  "all Streams: blue"]
-SA[order_quality == 50, order_quality :=  "all Streams: red"]
-
-SA <-SA[, .N, .(order_quality, year_start_of_pregnancy)]
+SA <-SA[, .N, .(order_quality_desc, year_start_of_pregnancy)]
 if (SA[, .N]==0){
   print("there is no SA among the types of end of pregnancy" )
 }else{
-p <- ggplot(SA, aes(x = year_start_of_pregnancy, y = N, fill= order_quality))+
+p <- ggplot(SA, aes(x = year_start_of_pregnancy, y = N, fill= order_quality_desc))+
   geom_col()+
   theme_hc()
 plot <- ggplotly(p)
@@ -615,35 +520,13 @@ ___
 
 ```{r ectgraph}
 ECT <- D3_pregnancy_reconciled[type_of_pregnancy_end == "ECT-MOL"]
-ECT <-ECT[, order_quality := as.factor(order_quality)]
+ECT <-ECT[, order_quality_desc := as.factor(order_quality_desc)]
 
-ECT[order_quality == 1, order_quality := "EUROCAT: start/end recorded"]
-ECT[order_quality == 2, order_quality := "PROMPT: start/end recorded"]
-ECT[order_quality == 3, order_quality :=	"PROMPT: start/end recorded in linked data"]
-ECT[order_quality == 4, order_quality :=	"CONCEPSETS: start/end recorded"]
-ECT[order_quality == 5, order_quality :=	"PROMPT: only end recorded"]
-ECT[order_quality == 6, order_quality :=	"PROMPT:  only end recorded in linked data"]
-ECT[order_quality == 7, order_quality :=	"CONCEPSETS: pre-term birth"]
-ECT[order_quality == 7, order_quality :=	"CONCEPSETS: at-term birth"]
-ECT[order_quality == 7, order_quality := "CONCEPSETS: post-term birth"]
-ECT[order_quality == 8, order_quality :=	"CONCEPSETS: live birth"]
-ECT[order_quality == 9, order_quality :=	"CONCEPSETS: still birth"]
-ECT[order_quality == 10, order_quality :=  "CONCEPSETS: interruption"]
-ECT[order_quality == 11, order_quality :=  "CONCEPTSETS: spontaneous abortion"]
-ECT[order_quality == 12, order_quality :=  "CONCEPTSETS: ectopic-molar pregnancy"]
-ECT[order_quality == 13, order_quality :=  "CONCEPSETS: still birth possible"]
-ECT[order_quality == 14, order_quality :=  "CONCEPSETS: interruption possible"]
-ECT[order_quality == 15, order_quality :=  "CONCEPSETS: spontaneous abortion possible"]
-ECT[order_quality == 16, order_quality :=  "CONCEPSETS: end date recorded, type UNK"]
-ECT[order_quality == 20, order_quality :=  "CONCEPTSETS: meaning implying primary care"]
-ECT[order_quality == 25, order_quality :=  "all Streams: blue"]
-ECT[order_quality == 50, order_quality :=  "all Streams: red"]
-
-ECT <-ECT[, .N, .(order_quality, year_start_of_pregnancy)]
+ECT <-ECT[, .N, .(order_quality_desc, year_start_of_pregnancy)]
 if (ECT[, .N]==0){
   print("there is no ECT-MOL among the types of end of pregnancy" )
 }else{
-p <- ggplot(ECT, aes(x = year_start_of_pregnancy, y = N, fill= order_quality))+
+p <- ggplot(ECT, aes(x = year_start_of_pregnancy, y = N, fill= order_quality_desc))+
   geom_col()+
   theme_hc()
 
@@ -661,35 +544,14 @@ ___
 
 ```{r ongoinggraph}
 ONGOING <- D3_pregnancy_reconciled[type_of_pregnancy_end == "ONGOING"]
-ONGOING <-ONGOING[, order_quality := as.factor(order_quality)]
+ONGOING <-ONGOING[, order_quality_desc := as.factor(order_quality_desc)]
 
-ONGOING[order_quality == 1, order_quality := "EUROCAT: start/end recorded"]
-ONGOING[order_quality == 2, order_quality := "PROMPT: start/end recorded"]
-ONGOING[order_quality == 3, order_quality :=	"PROMPT: start/end recorded in linked data"]
-ONGOING[order_quality == 4, order_quality :=	"CONCEPSETS: start/end recorded"]
-ONGOING[order_quality == 5, order_quality :=	"PROMPT: only end recorded"]
-ONGOING[order_quality == 6, order_quality :=	"PROMPT:  only end recorded in linked data"]
-ONGOING[order_quality == 7, order_quality :=	"CONCEPSETS: pre-term birth"]
-ONGOING[order_quality == 7, order_quality :=	"CONCEPSETS: at-term birth"]
-ONGOING[order_quality == 7, order_quality := "CONCEPSETS: post-term birth"]
-ONGOING[order_quality == 8, order_quality :=	"CONCEPSETS: live birth"]
-ONGOING[order_quality == 9, order_quality :=	"CONCEPSETS: still birth"]
-ONGOING[order_quality == 10, order_quality :=  "CONCEPSETS: interruption"]
-ONGOING[order_quality == 11, order_quality :=  "CONCEPTSETS: spontaneous abortion"]
-ONGOING[order_quality == 12, order_quality :=  "CONCEPTSETS: ectopic-molar pregnancy"]
-ONGOING[order_quality == 13, order_quality :=  "CONCEPSETS: still birth possible"]
-ONGOING[order_quality == 14, order_quality :=  "CONCEPSETS: interruption possible"]
-ONGOING[order_quality == 15, order_quality :=  "CONCEPSETS: spontaneous abortion possible"]
-ONGOING[order_quality == 16, order_quality :=  "CONCEPSETS: end date recorded, type UNK"]
-ONGOING[order_quality == 20, order_quality :=  "CONCEPTSETS: meaning implying primary care"]
-ONGOING[order_quality == 25, order_quality :=  "all Streams: blue"]
-ONGOING[order_quality == 50, order_quality :=  "all Streams: red"]
 
-ONGOING <-ONGOING[, .N, .(order_quality, year_start_of_pregnancy)]
+ONGOING <-ONGOING[, .N, .(order_quality_desc, year_start_of_pregnancy)]
 if (ONGOING[, .N]==0){
   print("there is no ONGOING among the types of end of pregnancy" )
 }else{
-p <- ggplot(ONGOING, aes(x = year_start_of_pregnancy, y = N, fill= order_quality))+
+p <- ggplot(ONGOING, aes(x = year_start_of_pregnancy, y = N, fill= order_quality_desc))+
   geom_col()+
   theme_hc()
 
@@ -709,35 +571,13 @@ ___
 
 ```{r unk_graph}
 UNK <- D3_pregnancy_reconciled[type_of_pregnancy_end == "UNK" | is.na(type_of_pregnancy_end)]
-UNK <-UNK[, order_quality := as.factor(order_quality)]
+UNK <-UNK[, order_quality_desc := as.factor(order_quality_desc)]
 
-UNK[order_quality == 1, order_quality := "EUROCAT: start/end recorded"]
-UNK[order_quality == 2, order_quality := "PROMPT: start/end recorded"]
-UNK[order_quality == 3, order_quality :=	"PROMPT: start/end recorded in linked data"]
-UNK[order_quality == 4, order_quality :=	"CONCEPSETS: start/end recorded"]
-UNK[order_quality == 5, order_quality :=	"PROMPT: only end recorded"]
-UNK[order_quality == 6, order_quality :=	"PROMPT:  only end recorded in linked data"]
-UNK[order_quality == 7, order_quality :=	"CONCEPSETS: pre-term birth"]
-UNK[order_quality == 7, order_quality :=	"CONCEPSETS: at-term birth"]
-UNK[order_quality == 7, order_quality := "CONCEPSETS: post-term birth"]
-UNK[order_quality == 8, order_quality :=	"CONCEPSETS: live birth"]
-UNK[order_quality == 9, order_quality :=	"CONCEPSETS: still birth"]
-UNK[order_quality == 10, order_quality :=  "CONCEPSETS: interruption"]
-UNK[order_quality == 11, order_quality :=  "CONCEPTSETS: spontaneous abortion"]
-UNK[order_quality == 12, order_quality :=  "CONCEPTSETS: ectopic-molar pregnancy"]
-UNK[order_quality == 13, order_quality :=  "CONCEPSETS: still birth possible"]
-UNK[order_quality == 14, order_quality :=  "CONCEPSETS: interruption possible"]
-UNK[order_quality == 15, order_quality :=  "CONCEPSETS: spontaneous abortion possible"]
-UNK[order_quality == 16, order_quality :=  "CONCEPSETS: end date recorded, type UNK"]
-UNK[order_quality == 20, order_quality :=  "CONCEPTSETS: meaning implying primary care"]
-UNK[order_quality == 25, order_quality :=  "all Streams: blue"]
-UNK[order_quality == 50, order_quality :=  "all Streams: red"]
-
-UNK <-UNK[, .N, .(order_quality, year_start_of_pregnancy)]
+UNK <-UNK[, .N, .(order_quality_desc, year_start_of_pregnancy)]
 if (UNK[, .N]==0){
   print("there is no UNK among the types of end of pregnancy" )
 }else{
-p <- ggplot(UNK, aes(x = year_start_of_pregnancy, y = N, fill= order_quality))+
+p <- ggplot(UNK, aes(x = year_start_of_pregnancy, y = N, fill= order_quality_desc))+
   geom_col()+
   theme_hc()
 plot <- ggplotly(p)
@@ -753,35 +593,13 @@ ___
 
 ```{r unfgraph}
 UNF <- D3_pregnancy_reconciled[type_of_pregnancy_end == "UNF"]
-UNF <-UNF[, order_quality := as.factor(order_quality)]
+UNF <-UNF[, order_quality_desc := as.factor(order_quality_desc)]
 
-UNF[order_quality == 1, order_quality := "EUROCAT: start/end recorded"]
-UNF[order_quality == 2, order_quality := "PROMPT: start/end recorded"]
-UNF[order_quality == 3, order_quality :=	"PROMPT: start/end recorded in linked data"]
-UNF[order_quality == 4, order_quality :=	"CONCEPSETS: start/end recorded"]
-UNF[order_quality == 5, order_quality :=	"PROMPT: only end recorded"]
-UNF[order_quality == 6, order_quality :=	"PROMPT:  only end recorded in linked data"]
-UNF[order_quality == 7, order_quality :=	"CONCEPSETS: pre-term birth"]
-UNF[order_quality == 7, order_quality :=	"CONCEPSETS: at-term birth"]
-UNF[order_quality == 7, order_quality := "CONCEPSETS: post-term birth"]
-UNF[order_quality == 8, order_quality :=	"CONCEPSETS: live birth"]
-UNF[order_quality == 9, order_quality :=	"CONCEPSETS: still birth"]
-UNF[order_quality == 10, order_quality :=  "CONCEPSETS: interruption"]
-UNF[order_quality == 11, order_quality :=  "CONCEPTSETS: spontaneous abortion"]
-UNF[order_quality == 12, order_quality :=  "CONCEPTSETS: ectopic-molar pregnancy"]
-UNF[order_quality == 13, order_quality :=  "CONCEPSETS: still birth possible"]
-UNF[order_quality == 14, order_quality :=  "CONCEPSETS: interruption possible"]
-UNF[order_quality == 15, order_quality :=  "CONCEPSETS: spontaneous abortion possible"]
-UNF[order_quality == 16, order_quality :=  "CONCEPSETS: end date recorded, type UNK"]
-UNF[order_quality == 20, order_quality :=  "CONCEPTSETS: meaning implying primary care"]
-UNF[order_quality == 25, order_quality :=  "all Streams: blue"]
-UNF[order_quality == 50, order_quality :=  "all Streams: red"]
-
-UNF <-UNF[, .N, .(order_quality, year_start_of_pregnancy)]
+UNF <-UNF[, .N, .(order_quality_desc, year_start_of_pregnancy)]
 if (UNF[, .N]==0){
   print("there is no UNF among the types of end of pregnancy" )
 }else{
-p <- ggplot(UNF, aes(x = year_start_of_pregnancy, y = N, fill= order_quality))+
+p <- ggplot(UNF, aes(x = year_start_of_pregnancy, y = N, fill= order_quality_desc))+
   geom_col()+
   theme_hc()
 
@@ -799,35 +617,13 @@ ___
 
 ```{r lostfugraph}
 LOSTFU <- D3_pregnancy_reconciled[type_of_pregnancy_end == "LOSTFU"]
-LOSTFU <-LOSTFU[, order_quality := as.factor(order_quality)]
+LOSTFU <-LOSTFU[, order_quality_desc := as.factor(order_quality_desc)]
 
-LOSTFU[order_quality == 1, order_quality := "EUROCAT: start/end recorded"]
-LOSTFU[order_quality == 2, order_quality := "PROMPT: start/end recorded"]
-LOSTFU[order_quality == 3, order_quality :=	"PROMPT: start/end recorded in linked data"]
-LOSTFU[order_quality == 4, order_quality :=	"CONCEPSETS: start/end recorded"]
-LOSTFU[order_quality == 5, order_quality :=	"PROMPT: only end recorded"]
-LOSTFU[order_quality == 6, order_quality :=	"PROMPT:  only end recorded in linked data"]
-LOSTFU[order_quality == 7, order_quality :=	"CONCEPSETS: pre-term birth"]
-LOSTFU[order_quality == 7, order_quality :=	"CONCEPSETS: at-term birth"]
-LOSTFU[order_quality == 7, order_quality := "CONCEPSETS: post-term birth"]
-LOSTFU[order_quality == 8, order_quality :=	"CONCEPSETS: live birth"]
-LOSTFU[order_quality == 9, order_quality :=	"CONCEPSETS: still birth"]
-LOSTFU[order_quality == 10, order_quality :=  "CONCEPSETS: interruption"]
-LOSTFU[order_quality == 11, order_quality :=  "CONCEPTSETS: spontaneous abortion"]
-LOSTFU[order_quality == 12, order_quality :=  "CONCEPTSETS: ectopic-molar pregnancy"]
-LOSTFU[order_quality == 13, order_quality :=  "CONCEPSETS: still birth possible"]
-LOSTFU[order_quality == 14, order_quality :=  "CONCEPSETS: interruption possible"]
-LOSTFU[order_quality == 15, order_quality :=  "CONCEPSETS: spontaneous abortion possible"]
-LOSTFU[order_quality == 16, order_quality :=  "CONCEPSETS: end date recorded, type UNK"]
-LOSTFU[order_quality == 20, order_quality :=  "CONCEPTSETS: meaning implying primary care"]
-LOSTFU[order_quality == 25, order_quality :=  "all Streams: blue"]
-LOSTFU[order_quality == 50, order_quality :=  "all Streams: red"]
-
-LOSTFU <-LOSTFU[, .N, .(order_quality, year_start_of_pregnancy)]
+LOSTFU <-LOSTFU[, .N, .(order_quality_desc, year_start_of_pregnancy)]
 if (LOSTFU[, .N]==0){
   print("there is no LOSTFU among the types of end of pregnancy" )
 }else{
-p <- ggplot(LOSTFU, aes(x = year_start_of_pregnancy, y = N, fill= order_quality))+
+p <- ggplot(LOSTFU, aes(x = year_start_of_pregnancy, y = N, fill= order_quality_desc))+
   geom_col()+
   theme_hc()
 
@@ -861,7 +657,7 @@ p <- ggplot(gest_DT, aes(x = gestational_age,
                          fill = type_of_pregnancy_end, 
                          col = type_of_pregnancy_end))+
   geom_density(alpha = 0.7, na.rm = TRUE)+
-  scale_x_continuous(name="Gestational Age ", limits=c(0, 300))+
+  scale_x_continuous(name="Gestational Age ")+ #, limits=c(0, 300)
   #facet_grid(type_of_pregnancy_end~.)+
   theme_hc()
 
@@ -907,7 +703,7 @@ if (LB_first_record[, .N]==0){
                                    fill = year_start_of_pregnancy, 
                                    col = year_start_of_pregnancy))+
     geom_density(alpha = 0.7, na.rm = TRUE)+
-    scale_x_continuous(name="Days between pregnancy start date and first observed record ", limits=c(0, 300))+
+    scale_x_continuous(name="Days between pregnancy start date and first observed record ")+ #, limits=c(0, 300)
     #facet_grid(type_of_pregnancy_end~.)+
     theme_hc()
   
@@ -933,7 +729,7 @@ if (SB_first_record[, .N]==0){
                                    fill = year_start_of_pregnancy, 
                                    col = year_start_of_pregnancy))+
     geom_density(alpha = 0.7, na.rm = TRUE)+
-    scale_x_continuous(name="Days between pregnancy start date and first observed record ", limits=c(0, 300))+
+    scale_x_continuous(name="Days between pregnancy start date and first observed record ")+ #, limits=c(0, 300)
     #facet_grid(type_of_pregnancy_end~.)+
     theme_hc()
   
@@ -959,7 +755,7 @@ if (T_first_record[, .N]==0){
                                    fill = year_start_of_pregnancy, 
                                    col = year_start_of_pregnancy))+
     geom_density(alpha = 0.7, na.rm = TRUE)+
-    scale_x_continuous(name="Days between pregnancy start date and first observed record ", limits=c(0, 300))+
+    scale_x_continuous(name="Days between pregnancy start date and first observed record ")+ #, limits=c(0, 300)
     #facet_grid(type_of_pregnancy_end~.)+
     theme_hc()
   
@@ -985,7 +781,7 @@ if (SA_first_record[, .N]==0){
                                    fill = year_start_of_pregnancy, 
                                    col = year_start_of_pregnancy))+
     geom_density(alpha = 0.7, na.rm = TRUE)+
-    scale_x_continuous(name="Days between pregnancy start date and first observed record ", limits=c(0, 300))+
+    scale_x_continuous(name="Days between pregnancy start date and first observed record ")+ #, limits=c(0, 300)
     #facet_grid(type_of_pregnancy_end~.)+
     theme_hc()
   
@@ -1010,7 +806,7 @@ if (ECT_first_record[, .N]==0){
                                    fill = year_start_of_pregnancy, 
                                    col = year_start_of_pregnancy))+
     geom_density(alpha = 0.7, na.rm = TRUE)+
-    scale_x_continuous(name="Days between pregnancy start date and first observed record ", limits=c(0, 300))+
+    scale_x_continuous(name="Days between pregnancy start date and first observed record ")+ #, limits=c(0, 300)
     #facet_grid(type_of_pregnancy_end~.)+
     theme_hc()
   
@@ -1035,8 +831,8 @@ if (UNK_first_record[, .N]==0){
                                    fill = year_start_of_pregnancy, 
                                    col = year_start_of_pregnancy))+
     geom_density(alpha = 0.7, na.rm = TRUE)+
-    scale_x_continuous(name="Days between pregnancy start date and first observed record ", limits=c(0, 300))+
-    #facet_grid(type_of_pregnancy_end~.)+
+    scale_x_continuous(name="Days between pregnancy start date and first observed record ")+ #, limits=c(0, 300)
+    #facet_grid(type_of_pregnancy_end~.)+ 
     theme_hc()
   
   
@@ -1061,7 +857,7 @@ if (UNF_first_record[, .N]==0){
                                    fill = year_start_of_pregnancy, 
                                    col = year_start_of_pregnancy))+
     geom_density(alpha = 0.7, na.rm = TRUE)+
-    scale_x_continuous(name="Days between pregnancy start date and first observed record ", limits=c(0, 300))+
+    scale_x_continuous(name="Days between pregnancy start date and first observed record ")+ #, limits=c(0, 300)
     #facet_grid(type_of_pregnancy_end~.)+
     theme_hc()
   
@@ -1086,7 +882,7 @@ if (LOSTFU_first_record[, .N]==0){
                                    fill = year_start_of_pregnancy, 
                                    col = year_start_of_pregnancy))+
     geom_density(alpha = 0.7, na.rm = TRUE)+
-    scale_x_continuous(name="Days between pregnancy start date and first observed record ", limits=c(0, 300))+
+    scale_x_continuous(name="Days between pregnancy start date and first observed record ")+ # , limits=c(0, 300)
     #facet_grid(type_of_pregnancy_end~.)+
     theme_hc()
   
