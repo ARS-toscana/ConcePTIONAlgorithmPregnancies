@@ -120,15 +120,15 @@ if(this_datasource_has_conceptsets){
   #dataset_start_LB_concept_sets<-unique(dataset_start_LB_concept_sets, by=c("person_id","visit_occurrence_id","date","concept_set"))
   
   # Defining concept specific start dates
-  dataset_start_LB_concept_sets <- dataset_start_LB_concept_sets[concept_set == "Gestation_less24_LB", pregnancy_start_date := date - (154  )]
-  dataset_start_LB_concept_sets <- dataset_start_LB_concept_sets[concept_set == "Gestation_24_LB",     pregnancy_start_date := date - (168  )]
-  dataset_start_LB_concept_sets <- dataset_start_LB_concept_sets[concept_set == "Gestation_25_26_LB",  pregnancy_start_date := date - (178  )]
-  dataset_start_LB_concept_sets <- dataset_start_LB_concept_sets[concept_set == "Gestation_27_28_LB",  pregnancy_start_date := date - (192  )]
-  dataset_start_LB_concept_sets <- dataset_start_LB_concept_sets[concept_set == "Gestation_29_30_LB",  pregnancy_start_date := date - (206  )]
-  dataset_start_LB_concept_sets <- dataset_start_LB_concept_sets[concept_set == "Gestation_31_32_LB",  pregnancy_start_date := date - (220  )]
-  dataset_start_LB_concept_sets <- dataset_start_LB_concept_sets[concept_set == "Gestation_33_34_LB",  pregnancy_start_date := date - (234  )]
-  dataset_start_LB_concept_sets <- dataset_start_LB_concept_sets[concept_set == "Gestation_35_36_LB",  pregnancy_start_date := date - (248  )]
-  dataset_start_LB_concept_sets <- dataset_start_LB_concept_sets[concept_set == "Gestation_more37_LB", pregnancy_start_date := date - (266  )]
+  dataset_start_LB_concept_sets <- dataset_start_LB_concept_sets[concept_set == "Gestation_less24_LB", pregnancy_start_date := date - (154)]
+  dataset_start_LB_concept_sets <- dataset_start_LB_concept_sets[concept_set == "Gestation_24_LB",     pregnancy_start_date := date - (168)]
+  dataset_start_LB_concept_sets <- dataset_start_LB_concept_sets[concept_set == "Gestation_25_26_LB",  pregnancy_start_date := date - (178)]
+  dataset_start_LB_concept_sets <- dataset_start_LB_concept_sets[concept_set == "Gestation_27_28_LB",  pregnancy_start_date := date - (192)]
+  dataset_start_LB_concept_sets <- dataset_start_LB_concept_sets[concept_set == "Gestation_29_30_LB",  pregnancy_start_date := date - (206)]
+  dataset_start_LB_concept_sets <- dataset_start_LB_concept_sets[concept_set == "Gestation_31_32_LB",  pregnancy_start_date := date - (220)]
+  dataset_start_LB_concept_sets <- dataset_start_LB_concept_sets[concept_set == "Gestation_33_34_LB",  pregnancy_start_date := date - (234)]
+  dataset_start_LB_concept_sets <- dataset_start_LB_concept_sets[concept_set == "Gestation_35_36_LB",  pregnancy_start_date := date - (248)]
+  dataset_start_LB_concept_sets <- dataset_start_LB_concept_sets[concept_set == "Gestation_more37_LB", pregnancy_start_date := date - (266)]
   
   # Defining end dates
   dataset_start_LB_concept_sets <- dataset_start_LB_concept_sets[, pregnancy_end_date := date]
@@ -449,7 +449,7 @@ if(this_datasource_has_conceptsets){
   dataset_UNSP_concept_sets <- dataset_UNSP_concept_sets[, pregnancy_end_date := date]
   
   # defining start dates
-  dataset_UNSP_concept_sets <- dataset_UNSP_concept_sets[concept_set == "BirthNarrowBUNSP", pregnancy_start_date := pregnancy_end_date - 280]
+  dataset_UNSP_concept_sets <- dataset_UNSP_concept_sets[concept_set == "EndUnspecified", pregnancy_start_date := pregnancy_end_date - 280]
   dataset_UNSP_concept_sets <- dataset_UNSP_concept_sets[concept_set == "PretermBUNSP", pregnancy_start_date := pregnancy_end_date - 250]
   dataset_UNSP_concept_sets <- dataset_UNSP_concept_sets[concept_set == "AtTermBUNSP", pregnancy_start_date := pregnancy_end_date - 280]
   dataset_UNSP_concept_sets <- dataset_UNSP_concept_sets[concept_set == "PostTermBUNSP", pregnancy_start_date := pregnancy_end_date - 300]
