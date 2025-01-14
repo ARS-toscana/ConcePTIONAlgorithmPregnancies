@@ -21,6 +21,7 @@ concept_sets_of_pregnancy_eve <- c("Gestation_less24_UNK",
                                    "Gestation_35_36_LB",
                                    "Gestation_more37_LB",
                                    
+                                   "Gestation_less24_CHILD",
                                    "Gestation_24_CHILD",
                                    "Gestation_25_26_CHILD",
                                    "Gestation_27_28_CHILD",
@@ -50,8 +51,9 @@ concept_sets_of_pregnancy_eve <- c("Gestation_less24_UNK",
                                    "AtTermBUNSP",
                                    "AtTermLB",
                                    
+                                   "EndUnspecified",
+                                   
                                    "BirthNarrowBUNK",
-                                   "BirthNarrowBUNSP",
                                    "BirthNarrowLB",
                                    
                                    "PostTermBUNSP",
@@ -71,15 +73,7 @@ concept_sets_of_pregnancy_eve <- c("Gestation_less24_UNK",
 
 concept_set_domains<- vector(mode="list")
 
-for (conceptset in c(concept_sets_of_pregnancy_eve, 
-                     "Gestation_24_LB",
-                     "Gestation_25_26_LB",
-                     "Gestation_27_28_LB",
-                     "Gestation_29_30_LB",
-                     "Gestation_31_32_LB",
-                     "Gestation_33_34_LB",
-                     "Gestation_35_36_LB",
-                     "Gestation_more37_LB")){
+for (conceptset in c(concept_sets_of_pregnancy_eve)){
   concept_set_domains[[conceptset]] = "Diagnosis"
 }
 
@@ -132,7 +126,7 @@ concept_set_codes_pregnancy[["Gestation_33_34_LB"]] <- list()
 concept_set_codes_pregnancy[["Gestation_35_36_LB"]] <- list()
 concept_set_codes_pregnancy[["Gestation_more37_LB"]] <- list()
 
-
+concept_set_codes_pregnancy[["Gestation_less24_CHILD"]] <- list()
 concept_set_codes_pregnancy[["Gestation_24_CHILD"]] <- list()
 concept_set_codes_pregnancy[["Gestation_25_26_CHILD"]] <- list()
 concept_set_codes_pregnancy[["Gestation_27_28_CHILD"]] <- list()
@@ -160,11 +154,12 @@ concept_set_codes_pregnancy[["Birth_possible"]] <- list()
 # concept_set_codes_pregnancy[["BirthUnspecified"]] <- list()
 # concept_set_codes_pregnancy[["BirthUnknown"]] <- list()
 
-concept_set_codes_pregnancy[[ "AtTermBUNSP"]] <- list()
+concept_set_codes_pregnancy[["AtTermBUNSP"]] <- list()
 concept_set_codes_pregnancy[["AtTermLB"]] <- list()
     
+concept_set_codes_pregnancy[["EndUnspecified"]] <- list()
+
 concept_set_codes_pregnancy[["BirthNarrowBUNK"]] <- list()
-concept_set_codes_pregnancy[["BirthNarrowBUNSP"]] <- list()
 concept_set_codes_pregnancy[["BirthNarrowLB"]] <- list()
           
 concept_set_codes_pregnancy[["PostTermBUNSP"]] <- list()
@@ -185,7 +180,7 @@ concept_set_codes_pregnancy[["Spontaneousabortion_possible"]] <- list()
 
 
 # loading concepsets from csv 
-concept_set_codes_pregnancy_data_table <- fread(paste0(thisdir, "/p_parameters_pregnancy/03_conceptsets/20240513_V2_ALL_pregnancy_algorithm_codelist.csv"))
+concept_set_codes_pregnancy_data_table <- as.data.table(read_excel(paste0(thisdir, "/p_parameters_pregnancy/03_conceptsets/PrA_Codelist_Zenodo.xlsx")))
 
 ###--------------------------------------------------------------------
 # Concept in the FULL codelist ..........Concept used in the algorithm
@@ -203,6 +198,7 @@ concept_set_codes_pregnancy_data_table <- fread(paste0(thisdir, "/p_parameters_p
 # "Gestation2728weeksLB"............Gestation_27_28_LB
 # "Gestation37weeksLB"     .........Gestation_more37_LB
 #-----------------------------------------------------------------------child
+# "Gestationlessthan24weeksc" ......Gestation_less24_CHILD
 # "24weeksCHILD"....................Gestation_24_CHILD
 # "Gestation2526weeksCHILD".........Gestation_25_26_CHILD
 # "Gestation2728weeksCHILD".........Gestation_27_28_CHILD
@@ -212,6 +208,7 @@ concept_set_codes_pregnancy_data_table <- fread(paste0(thisdir, "/p_parameters_p
 # "Gestation3536weeksCHILD"   ......Gestation_35_36_CHILD
 # "Gestation37weeksCHILD"     ......Gestation_more37_CHILD
 #----------------------------------------------------------------------ongoing
+# "OngoingPregnancy"................Ongoingpregnancy
 # "OngoingPregnancy1"...............Ongoingpregnancy
 # "OngoingPregnancy2"...............Ongoingpregnancy
 # "OngoingPregnancy3"...............Ongoingpregnancy
@@ -225,10 +222,11 @@ concept_set_codes_pregnancy_data_table <- fread(paste0(thisdir, "/p_parameters_p
 # "GESTDIAB_narrow".................GESTDIAB
 # "FGR".............................FGR
 #---------------------------------------------------------------------end_UNK
+# "BirthPossible"...................Birth_possible
 # "BirthPossible1"..................Birth_possible
 # "BirthPossible2"..................Birth_possible
 # "BirthPossible3"..................Birth_possible
-# "BirthNarrowBUNK".................BirthNarrowBUNK
+# "EndUnspecified"..................EndUnspecified
 #--------------------------------.-------------------------------------end_LB
 #"AtTermLB".........................AtTermLB
 #"BirthNarrowLB"....................BirthNarrowLB
@@ -272,6 +270,8 @@ concept_set_codes_pregnancy[["Gestation_27_28_UNK"]] <- concept_set_codes_pregna
 concept_set_codes_pregnancy[["Gestation_29_30_UNK"]] <- concept_set_codes_pregnancy_not_modified[["Gestation2930weeksUNK"]] 
 concept_set_codes_pregnancy[["Gestation_31_32_UNK"]] <- concept_set_codes_pregnancy_not_modified[["Gestation3132weeksUNK"]] 
 concept_set_codes_pregnancy[["Gestation_33_34_UNK"]] <- concept_set_codes_pregnancy_not_modified[["Gestation3334weeksUNK"]] 
+concept_set_codes_pregnancy[["Gestation_35_36_UNK"]] <- concept_set_codes_pregnancy_not_modified[["Gestation3536weeksUNK"]] 
+concept_set_codes_pregnancy[["Gestation_more37_UNK"]] <- concept_set_codes_pregnancy_not_modified[["Gestation37weeksUNK"]] 
 
 #--------------
 # Gestation LB
@@ -305,7 +305,8 @@ for(coding_system in list_of_coding_syst){
   #--------
   # Ongoing
   #--------
-  concept_set_codes_pregnancy[["Ongoingpregnancy"]][[coding_system]] <- c(concept_set_codes_pregnancy_not_modified[["OngoingPregnancy1"]][[coding_system]],
+  concept_set_codes_pregnancy[["Ongoingpregnancy"]][[coding_system]] <- c(concept_set_codes_pregnancy_not_modified[["OngoingPregnancy"]][[coding_system]],
+                                                                          concept_set_codes_pregnancy_not_modified[["OngoingPregnancy1"]][[coding_system]],
                                                                           concept_set_codes_pregnancy_not_modified[["OngoingPregnancy2"]][[coding_system]],
                                                                           concept_set_codes_pregnancy_not_modified[["OngoingPregnancy3"]][[coding_system]],
                                                                           concept_set_codes_pregnancy_not_modified[["OngoingPregnancy4"]][[coding_system]],
@@ -317,7 +318,8 @@ for(coding_system in list_of_coding_syst){
   #--------
   # End UNK
   #--------
-  concept_set_codes_pregnancy[["Birth_possible"]][[coding_system]] <- c(concept_set_codes_pregnancy_not_modified[["BirthPossible1"]][[coding_system]],
+  concept_set_codes_pregnancy[["Birth_possible"]][[coding_system]] <- c(concept_set_codes_pregnancy_not_modified[["BirthPossible"]][[coding_system]],
+                                                                        concept_set_codes_pregnancy_not_modified[["BirthPossible1"]][[coding_system]],
                                                                         concept_set_codes_pregnancy_not_modified[["BirthPossible2"]][[coding_system]],
                                                                         concept_set_codes_pregnancy_not_modified[["BirthPossible3"]][[coding_system]])
   
@@ -327,6 +329,14 @@ for(coding_system in list_of_coding_syst){
   #--------
   concept_set_codes_pregnancy[["Ectopicpregnancy"]][[coding_system]] <- c(concept_set_codes_pregnancy_not_modified[["EctopicPregnancy"]][[coding_system]], 
                                                                           concept_set_codes_pregnancy_not_modified[["MolarPregnancy"]][[coding_system]])
+  
+  #---------
+  # End BUNK
+  #---------
+  concept_set_codes_pregnancy[["EndUnspecified"]][[coding_system]] <-  c(concept_set_codes_pregnancy_not_modified[["EndUnspecified"]][[coding_system]], 
+                                                                         concept_set_codes_pregnancy_not_modified[["EndUspecified"]][[coding_system]])
+  
+  
 }
   
 
@@ -355,10 +365,6 @@ concept_set_codes_pregnancy[["AtTermLB"]] <- concept_set_codes_pregnancy_not_mod
 concept_set_codes_pregnancy[["BirthNarrowLB"]] <- concept_set_codes_pregnancy_not_modified[["BirthNarrowLB"]]
 concept_set_codes_pregnancy[["PretermLB"]] <-  concept_set_codes_pregnancy_not_modified[["PretermLB"]]
 
-#---------
-# End BUNK
-#---------
-concept_set_codes_pregnancy[["BirthNarrowBUNK"]] <-  concept_set_codes_pregnancy_not_modified[["BirthNarrowBUNK"]]
 
 #---------
 # End UNSP

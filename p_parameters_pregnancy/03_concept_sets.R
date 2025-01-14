@@ -162,7 +162,8 @@ if(this_datasource_has_conceptsets){
                                              "Gestation_more37_LB")
   
   
-  concept_sets_of_start_of_pregnancy_CHILD <- c("Gestation_24_CHILD",
+  concept_sets_of_start_of_pregnancy_CHILD <- c("Gestation_less24_CHILD",
+                                                "Gestation_24_CHILD",
                                                 "Gestation_25_26_CHILD",
                                                 "Gestation_27_28_CHILD",
                                                 "Gestation_29_30_CHILD",
@@ -207,7 +208,7 @@ if(this_datasource_has_conceptsets){
   
   
   concept_sets_of_end_of_pregnancy_UNSP <- c("AtTermBUNSP",
-                                             "BirthNarrowBUNSP",
+                                             "EndUnspecified",
                                              "PostTermBUNSP",
                                              "PretermBUNSP")
   
