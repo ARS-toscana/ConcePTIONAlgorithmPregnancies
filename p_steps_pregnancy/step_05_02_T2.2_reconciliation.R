@@ -729,6 +729,14 @@ D3_groups_of_pregnancies_reconciled_before_predict <- D3_gop[, .(person_id,
 setnames(D3_groups_of_pregnancies_reconciled_before_predict, "pers_group_id", "pregnancy_id")
 
 
+#------------
+# UNSP --> LB
+#------------
+
+D3_groups_of_pregnancies_reconciled_before_predict[n == 1 & type_of_pregnancy_end == "UNSP", 
+                                                   type_of_pregnancy_end := "LB"]
+
+
 ################################################################################
 
 ## saving and rm
