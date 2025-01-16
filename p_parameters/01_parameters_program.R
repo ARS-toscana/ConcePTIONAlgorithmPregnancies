@@ -85,7 +85,8 @@ if (!require("DT")) install.packages("DT")
 library(DT)
 if (!require("ranger")) install.packages("ranger")
 library(ranger)
-
+if (!require("readxl")) install.packages("readxl")
+library(readxl)
 ###################################################################
 # LOAD MACRO and FUNCTIONS
 ###################################################################
