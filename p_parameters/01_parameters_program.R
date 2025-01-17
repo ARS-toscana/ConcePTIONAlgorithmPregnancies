@@ -30,6 +30,8 @@ dirdescribe03_06_excluded_pregnancies <- paste0(thisdir, "/g_describe_HTML/04_01
 dirdescribe03_06_groups_of_pregnancies <- paste0(thisdir, "/g_describe_HTML/04_03/")
 dirvalidation <- paste0(thisdir, "/g_verification/")
 
+dirtest <- paste0(thisdir, "/i_test")
+
 ###################################################################
 # CREATE FOLDERS
 ###################################################################
@@ -87,6 +89,7 @@ if (!require("ranger")) install.packages("ranger")
 library(ranger)
 if (!require("readxl")) install.packages("readxl")
 library(readxl)
+
 ###################################################################
 # LOAD MACRO and FUNCTIONS
 ###################################################################

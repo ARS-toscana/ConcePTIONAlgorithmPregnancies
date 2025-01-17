@@ -1,7 +1,31 @@
 #----------------------
 # Record Reconciliation
 #----------------------
-load(paste0(dirtemp,"groups_of_pregnancies.RData"))
+
+TEST = TRUE
+
+if (TEST){
+  # Dir test
+  testname <- "05_02_test_VID_maxgap_70"
+  thisdirinput <- file.path(dirtest,testname)
+  dir.create(thisdirinput, showWarnings = F)
+  
+  dirtestoutput <- file.path(dirtest,testname, "g_output")
+  dir.create(dirtestoutput, showWarnings = F)
+  
+  # Parameters Update
+  thisdirinput <- paste0(thisdirinput, "/")
+  thisdiroutput <-  paste0(dirtestoutput, "/")
+  
+  # source load
+  source(paste0(thisdirinput, "/load.R"))
+  
+}else{
+  thisdirinput <- dirtemp
+  thisdiroutput <- dirtemp
+}
+
+load(paste0(thisdirinput,"groups_of_pregnancies.RData"))
 
 D3_gop <- copy(groups_of_pregnancies)
 D3_gop <- D3_gop[, pers_group_id := person_id] 
@@ -655,7 +679,7 @@ D3_gop <- D3_gop[is.na(MNIP), MNIP:=0]
 D3_gop <- D3_gop[,MNIP_sum:=sum(MNIP), by="pers_group_id"]
 
 D3_groups_of_pregnancies_MNIP <- D3_gop[MNIP_sum == number_of_records_in_the_group,]
-save(D3_groups_of_pregnancies_MNIP, file=paste0(dirtemp,"D3_groups_of_pregnancies_MNIP.RData"))
+save(D3_groups_of_pregnancies_MNIP, file=paste0(thisdiroutput,"D3_groups_of_pregnancies_MNIP.RData"))
 
 D3_gop <- D3_gop[MNIP_sum!=number_of_records_in_the_group,]
 
@@ -679,7 +703,7 @@ D3_gop <- D3_gop[, number_red:= max(number_red),  by = "pers_group_id" ]
 
 
 # Age at start of pregnancy    
-load(paste0(dirtemp, "D3_PERSONS.RData"))
+load(paste0(thisdirinput, "D3_PERSONS.RData"))
 
 D3_PERSONS <- D3_PERSONS[,  birth_date := as.Date(paste0(year_of_birth, "-", 
                                                          month_of_birth, "-", 
@@ -740,7 +764,7 @@ D3_groups_of_pregnancies_reconciled_before_predict[n == 1 & type_of_pregnancy_en
 ################################################################################
 
 ## saving and rm
-save(D3_groups_of_pregnancies_reconciled_before_predict, file=paste0(dirtemp,"D3_groups_of_pregnancies_reconciled_before_predict.RData"))
+save(D3_groups_of_pregnancies_reconciled_before_predict, file=paste0(thisdiroutput,"D3_groups_of_pregnancies_reconciled_before_predict.RData"))
 #save(D3_pregnancy_reconciled_before_excl, file=paste0(dirtemp,"D3_pregnancy_reconciled_before_excl.RData"))
 
 rm(groups_of_pregnancies,
