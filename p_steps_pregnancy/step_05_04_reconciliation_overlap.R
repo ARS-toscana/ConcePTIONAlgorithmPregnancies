@@ -5,7 +5,7 @@ TEST = TRUE
 
 if (TEST){
   # Dir test
-  testname <- "05_04_test_reconciliation"
+  testname <- "05_04_test_reconciliation_2"
   thisdirinput <- file.path(dirtest,testname)
   dir.create(thisdirinput, showWarnings = F)
   
@@ -129,10 +129,9 @@ D3_pregnancy_overlap <- D3_pregnancy_overlap[pregnancy_id %notin% id_included_in
 #-----------------------
 # Applying overlap rules
 #-----------------------
-
 DT <- DT.xy[overlap == 1]
 
-if(DT[, .N]>1){
+if(DT[, .N]>=1){
   
   #----------------
   # Rule 1: G-Y, LB 
@@ -268,10 +267,9 @@ if(DT[, .N]>1){
   #------------
   # Rule 9: R-G 
   #------------
-  
   overlap_R_G <- DT[highest_quality.x == "4_red" &
-                              highest_quality.y == "1_green" ,
-                            pregnancy_id.x]
+                      highest_quality.y == "1_green",
+                    pregnancy_id.x]
   
   D3_pregnancy_overlap[pregnancy_id %in% overlap_R_G, 
                        pregnancy_end_date := date_of_most_recent_record]
