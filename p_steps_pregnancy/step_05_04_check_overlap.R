@@ -1,17 +1,59 @@
-load(paste0(dirtemp,"D3_group_model.RData"))
-load(paste0(dirtemp,"D3_pregnancy_model.RData"))
+#-----------------------
+# Overlap Reconciliation
+#-----------------------
+TEST = FALSE
 
-D3_group_overlap <-  D3_group_model
+if (TEST){
+  # Dir test
+  testname <- "05_04_test_reconciliation_2"
+  thisdirinput <- file.path(dirtest,testname)
+  dir.create(thisdirinput, showWarnings = F)
+  
+  dirtestoutput <- file.path(dirtest,testname, "g_output")
+  dir.create(dirtestoutput, showWarnings = F)
+  
+  # Parameters Update
+  thisdirinput <- paste0(thisdirinput, "/")
+  thisdiroutput <-  paste0(dirtestoutput, "/")
+  
+  # source load
+  source(paste0(thisdirinput, "/load.R"))
+  
+}else{
+  thisdirinput <- dirtemp
+  thisdiroutput <- dirtemp
+}
+
+
+#---------------------
+# LOADING AND RENAMING
+#---------------------
+load(paste0(thisdirinput,"D3_group_model.RData"))
+load(paste0(thisdirinput,"D3_pregnancy_model.RData"))
+
+#D3_group_overlap <-  D3_group_model
 D3_pregnancy_overlap <- D3_pregnancy_model
+D3_group_overlap <- D3_group_model
 
+# Before
+#                           ------<>
+# ---------<>
+#         -----<>
 
-#------------------------------
-# find overlapping pregnancies
-#------------------------------
+# After
+#                           ------<>
+# ---------<>
+#             -<>
+
+  
+#---------------------------
+# Find overlapping pregnancy
+#---------------------------
+
 DT.x <- copy(D3_pregnancy_overlap)
 
 DT.x <- DT.x[, .(person_id, 
-                 pregnancy_id, 
+                 pregnancy_id,
                  pregnancy_start_date, 
                  pregnancy_end_date, 
                  date_of_oldest_record, 
@@ -21,340 +63,316 @@ DT.x <- DT.x[, .(person_id,
 
 DT.y <- copy(DT.x)
 
+# merge with allow.cartesian: all possible comparison between preg
 DT.xy <- merge(DT.x, DT.y, by = "person_id", allow.cartesian=TRUE)
+
+# deleting comparison a preg with itself
 DT.xy <- DT.xy[pregnancy_id.x != pregnancy_id.y]
 
-DT.xy[pregnancy_end_date.x >= pregnancy_start_date.y &
-        pregnancy_end_date.x <= pregnancy_end_date.y,
-      overlapping_right := 1]
+# deleting double comparison
 
-DT.xy[pregnancy_start_date.x >= pregnancy_start_date.y &
-        pregnancy_start_date.x <= pregnancy_end_date.y,
-      overlapping_left := 1]
+# x <>----<>
+# y   <>-----<>
+#   
+# x   <>----<>
+# y <>-----<>
 
-DT.xy[is.na(overlapping_right), overlapping_right := 0]
-DT.xy[is.na(overlapping_left), overlapping_left := 0]
+DT.xy[, ids:= paste0(
+  pmin(pregnancy_id.x, pregnancy_id.y), 
+  pmax(pregnancy_id.x, pregnancy_id.y)
+  )]
 
-
-#-----------------------------------------------
-# fix for pregnancies overlapping right and left
-#-----------------------------------------------
-#
-#    -------------<>
-#     ----<>
-#
-
-preg_doble_overlap <- DT.xy[overlapping_right == 1 & overlapping_left ==1, 
-                            pregnancy_id.x]
-
-D3_pregnancy_overlap <- D3_pregnancy_overlap[pregnancy_id %notin% preg_doble_overlap]
+# keep only the comparison with the pregnancy that starts earlier 
+DT.xy <- DT.xy[order(ids, pregnancy_start_date.x)]
+DT.xy[, n:=seq_along(.I), ids]
+DT.xy <- DT.xy[n ==1]
 
 
-#------------------------------
-# apply rules for overlap
-#------------------------------
 
-if(DT.xy[, .N]>1){
+# Possible overlap to consider after sorting and filtering
 
-  #----------------
-  # Green  - Yellow
-  # Rule 3: G-Y, LB 
-  #----------------
-  overlap_G_Y_LB <- DT.xy[overlapping_right == 1 & 
-                            highest_quality.x == "1_green" &
-                            highest_quality.y == "2_yellow" &
-                            type_of_pregnancy_end.y == "LB",
-                          pregnancy_id.y]
+# x <>------<>|  with:
+#             |
+# y <>--------|-<>
+# y <>--<>    |
+# y   <>--<>  |
+# y         <>|-------<>
+#             |
+#  + 14 days  |
+# y           | <>-------<>
+
+DT.xy[pregnancy_end_date.x > pregnancy_start_date.y - 14, 
+      overlap := 1][is.na(overlap), overlap := 0]
+
+
+# pregnancy included in others
+DT.xy[overlap == 1 &
+      pregnancy_end_date.y < pregnancy_end_date.x + 28, 
+      same_preg := 1][is.na(same_preg), same_preg := 0]
+
+id_included_in_other_preg <- DT.xy[same_preg == 1, pregnancy_id.y]
+
+DT.xy <- DT.xy[pregnancy_id.x %notin% id_included_in_other_preg &
+                pregnancy_id.y %notin%  id_included_in_other_preg]
+
+# save pregnancy excluded 
+D3_pregnancy_overlap_excluded <- D3_pregnancy_overlap[pregnancy_id %in% id_included_in_other_preg]
+save(D3_pregnancy_overlap_excluded, file=paste0(thisdiroutput,"D3_pregnancy_overlap_excluded.RData"))
+
+#  exclude pregnancy that are in the same period of another preg
+D3_pregnancy_overlap <- D3_pregnancy_overlap[pregnancy_id %notin% id_included_in_other_preg]
+
+
+################################################################################
+
+
+#-----------------------
+# Applying overlap rules
+#-----------------------
+DT <- DT.xy[overlap == 1]
+
+if(DT[, .N]>=1){
   
-  D3_pregnancy_overlap[pregnancy_id %in% overlap_G_Y_LB, 
-                       pregnancy_start_date := pregnancy_end_date - 154]
-  
   #----------------
-  # Rule 4: G-Y, SB
+  # Rule 1: G-Y, LB 
   #----------------
-  overlap_G_Y_SB <- DT.xy[overlapping_right == 1 & 
-                            highest_quality.x == "1_green" &
-                            highest_quality.y == "2_yellow" &
-                            type_of_pregnancy_end.y == "SB",
-                          pregnancy_id.y]
+  overlap_G_Y_LB_SB <- DT[highest_quality.x == "1_green" &
+                          highest_quality.y == "2_yellow" &
+                          type_of_pregnancy_end.y %in% c("LB", "SB"),
+                             pregnancy_id.y]
   
-  D3_pregnancy_overlap[pregnancy_id %in% overlap_G_Y_SB, 
-                       pregnancy_start_date := pregnancy_end_date - 154]
+  D3_pregnancy_overlap[pregnancy_id %in% overlap_G_Y_LB_SB, 
+                       `:=`(pregnancy_start_date = pregnancy_end_date - 154, 
+                            algorithm_for_reconciliation = paste0(algorithm_for_reconciliation, 
+                                                 "_overlap:GY"))]
   
   #--------------------------
-  # Rule 5: G-Y, not LB or SB 
+  # Rule 1: G-Y, not LB or SB 
   #--------------------------
-  overlap_G_Y_not_LBSB <- DT.xy[overlapping_right == 1 & 
-                            highest_quality.x == "1_green" &
-                            highest_quality.y == "2_yellow" &
-                            type_of_pregnancy_end.y %notin% c("SB", "LB"),
-                          pregnancy_id.y]
+  overlap_G_Y_not_LBSB <- DT[highest_quality.x == "1_green" &
+                             highest_quality.y == "2_yellow" &
+                             type_of_pregnancy_end.y %notin% c("SB", "LB"),
+                                pregnancy_id.y]
   
   D3_pregnancy_overlap[pregnancy_id %in% overlap_G_Y_not_LBSB, 
-                       pregnancy_start_date := pregnancy_end_date - 42]
+                       `:=`(pregnancy_start_date=pregnancy_end_date - 42, 
+                            algorithm_for_reconciliation = paste0(algorithm_for_reconciliation, 
+                                                                  "_overlap:GY"))]
+  
+  #------------
+  # Rule 2: G-R
+  #------------
+  overlap_G_R <- DT[highest_quality.x == "1_green" &
+                          highest_quality.y == "4_red" ,
+                            pregnancy_id.y]
+  
+  D3_pregnancy_overlap[pregnancy_id %in% overlap_G_R, 
+                       `:=`(pregnancy_start_date=(date_of_oldest_record - maxgap/2), 
+                            algorithm_for_reconciliation = paste0(algorithm_for_reconciliation, 
+                                                                  "_overlap:GR"))]
   
   #--------------------------
-  # Green - Blue
-  # Rule 6: G-B 
+  # Rule 3: Y-Y, LB-SB
   #--------------------------
-  overlap_G_B <- DT.xy[overlapping_left == 1 & 
-                         highest_quality.x == "1_green" &
-                         highest_quality.y == "3_blue" ,
-                       pregnancy_id.y]
-  
-  D3_pregnancy_overlap[pregnancy_id %in% overlap_G_B, 
-                       pregnancy_end_date := date_of_most_recent_record]
-  #--------------------------
-  # Green - Red
-  # Rule 7: G-R
-  #--------------------------
-  #overlap on right
-  overlap_G_R_right <- DT.xy[overlapping_right == 1 & 
-                               highest_quality.x == "1_green" &
-                               highest_quality.y == "4_red" ,
-                             pregnancy_id.y]
-  
-  D3_pregnancy_overlap[pregnancy_id %in% overlap_G_R_right, 
-                       pregnancy_start_date := (date_of_oldest_record - maxgap/2)]
-  
-  #overlap on left
-  overlap_G_R_left <- DT.xy[overlapping_left == 1 & 
-                               highest_quality.x == "1_green" &
-                               highest_quality.y == "4_red" ,
-                             pregnancy_id.y]
-  
-  D3_pregnancy_overlap[pregnancy_id %in% overlap_G_R_left, 
-                       pregnancy_end_date := date_of_most_recent_record]
-  
-  #--------------------------
-  # Yellow-Yellow
-  # Rule 8: Y-Y, LB
-  #--------------------------
-  overlap_Y_Y_LB <- DT.xy[overlapping_right == 1 & 
-                            highest_quality.x == "2_yellow" &
-                            highest_quality.y == "2_yellow" &
-                            type_of_pregnancy_end.y == "LB",
+  overlap_Y_Y_LB <- DT[highest_quality.x == "2_yellow" &
+                       highest_quality.y == "2_yellow" &
+                       type_of_pregnancy_end.y %in% c("SB", "LB"),
                           pregnancy_id.y]
   
   D3_pregnancy_overlap[pregnancy_id %in% overlap_Y_Y_LB, 
-                       pregnancy_start_date := pregnancy_end_date - 154]
-  
-  #----------------
-  # Rule 9: Y-Y, SB
-  #----------------
-  overlap_Y_Y_SB <- DT.xy[overlapping_right == 1 & 
-                            highest_quality.x == "2_yellow" &
-                            highest_quality.y == "2_yellow" &
-                            type_of_pregnancy_end.y == "SB",
-                          pregnancy_id.y]
-  
-  D3_pregnancy_overlap[pregnancy_id %in% overlap_Y_Y_SB, 
-                       pregnancy_start_date := pregnancy_end_date - 154]
+                       `:=`(pregnancy_start_date=pregnancy_end_date - 154, 
+                            algorithm_for_reconciliation = paste0(algorithm_for_reconciliation, 
+                                                                  "_overlap:YY"))]
   
   #--------------------------
-  # Rule 10: Y-Y, not LB or SB 
+  # Rule 3: Y-Y, not LB or SB 
   #--------------------------
-  overlap_Y_Y_not_LBSB <- DT.xy[overlapping_right == 1 & 
-                                  highest_quality.x == "2_yellow" &
-                                  highest_quality.y == "2_yellow" &
-                                  type_of_pregnancy_end.y %notin% c("SB", "LB"),
-                                pregnancy_id.y]
+  overlap_Y_Y_not_LBSB <- DT[highest_quality.x == "2_yellow" &
+                               highest_quality.y == "2_yellow" &
+                               type_of_pregnancy_end.y %notin% c("SB", "LB"),
+                             pregnancy_id.y]
   
   D3_pregnancy_overlap[pregnancy_id %in% overlap_Y_Y_not_LBSB, 
-                       pregnancy_start_date := pregnancy_end_date - 42]
+                       `:=`(pregnancy_start_date=pregnancy_end_date - 42, 
+                            algorithm_for_reconciliation = paste0(algorithm_for_reconciliation, 
+                                                                  "_overlap:YY"))]
+  
+  #-------------
+  # Rule 4: Y-R
+  #-------------
+  overlap_Y_R <- DT[highest_quality.x == "2_yellow" &
+                    highest_quality.y == "4_red" ,
+                       pregnancy_id.y]
+  
+  D3_pregnancy_overlap[pregnancy_id %in% overlap_Y_R, 
+                       `:=`(pregnancy_start_date=(date_of_oldest_record - maxgap/2), 
+                            algorithm_for_reconciliation = paste0(algorithm_for_reconciliation, 
+                                                                  "_overlap:YR"))]
+  
+  #-------------
+  # Rule 5: B-G
+  #-------------
+  overlap_B_G <- DT[highest_quality.x == "3_blue" &
+                      highest_quality.y == "1_green",
+                    pregnancy_id.x]
+  
+  D3_pregnancy_overlap[pregnancy_id %in% overlap_B_G, 
+                       `:=`(pregnancy_end_date=date_of_most_recent_record, 
+                            algorithm_for_reconciliation = paste0(algorithm_for_reconciliation, 
+                                                                  "_overlap:BG"))]
+  
+  #-------------
+  # Rule 6: B-Y
+  #-------------
+  overlap_B_Y_LB_SB_yellow_id <- DT[highest_quality.x == "3_blue" &
+                                      highest_quality.y == "2_yellow" &
+                                      type_of_pregnancy_end.y %in% c("SB", "LB"),
+                                   pregnancy_id.y]
+  
+  D3_pregnancy_overlap[pregnancy_id %in% overlap_B_Y_LB_SB_yellow_id, 
+                       `:=`(pregnancy_start_date=pregnancy_end_date - 154, 
+                            algorithm_for_reconciliation = paste0(algorithm_for_reconciliation, 
+                                                                  "_overlap:BY"))]
   
   
-  #--------------------------
-  # Yellow - Blue
-  # Rule 11: Y-B 
-  #--------------------------
   
-  #LB
-  overlap_Y_B_LB_yellow_id <- DT.xy[overlapping_right == 1 & 
-                                      highest_quality.x == "2_yellow" &
-                                      highest_quality.y == "3_blue" &
-                                    type_of_pregnancy_end.y == "LB",
-                                   pregnancy_id.x]
+  overlap_B_Y_not_LB_SB_yellow_id <- DT[highest_quality.x == "3_blue" &
+                                          highest_quality.y == "2_yellow" &
+                                          type_of_pregnancy_end.y %notin% c("SB", "LB"),
+                                        pregnancy_id.y]
   
-  overlap_Y_B_LB_blue_id <- DT.xy[overlapping_right == 1 & 
-                                    highest_quality.x == "2_yellow" &
-                                    highest_quality.y == "3_blue" &
-                                    type_of_pregnancy_end.y == "LB",
-                                  pregnancy_id.y]
+  D3_pregnancy_overlap[pregnancy_id %in% overlap_B_Y_not_LB_SB_yellow_id, 
+                       `:=`(pregnancy_start_date=pregnancy_end_date - 42, 
+                            algorithm_for_reconciliation = paste0(algorithm_for_reconciliation, 
+                                                                  "_overlap:BY"))]
   
   
-  D3_pregnancy_overlap[pregnancy_id %in% overlap_Y_B_LB_yellow_id, 
-                       pregnancy_start_date := pregnancy_end_date - 154]
   
-  D3_pregnancy_overlap[pregnancy_id %in% overlap_Y_B_LB_blue_id, 
-                       pregnancy_end_date := date_of_most_recent_record]
+  overlap_B_Y_LB_SB_blue_id <- DT[highest_quality.x == "3_blue" &
+                                    highest_quality.y == "2_yellow",
+                                  pregnancy_id.x]
   
-  
-  #SB
-  overlap_Y_B_SB_yellow_id <- DT.xy[overlapping_right == 1 & 
-                                      highest_quality.x == "2_yellow" &
-                                      highest_quality.y == "3_blue" &
-                                      type_of_pregnancy_end.y == "SB",
-                                    pregnancy_id.x]
-  
-  overlap_Y_B_SB_blue_id <- DT.xy[overlapping_right == 1 & 
-                                    highest_quality.x == "2_yellow" &
-                                    highest_quality.y == "3_blue" &
-                                    type_of_pregnancy_end.y == "SB",
-                                  pregnancy_id.y]
-  
-  
-  D3_pregnancy_overlap[pregnancy_id %in% overlap_Y_B_SB_yellow_id, 
-                       pregnancy_start_date := pregnancy_end_date - 154]
-  
-  D3_pregnancy_overlap[pregnancy_id %in% overlap_Y_B_SB_blue_id, 
-                       pregnancy_end_date := date_of_most_recent_record]
-  
-  
-  #not LB/SB
-  overlap_Y_B_not_LBSB_yellow_id <- DT.xy[overlapping_right == 1 & 
-                                      highest_quality.x == "2_yellow" &
-                                      highest_quality.y == "3_blue" &
-                                      type_of_pregnancy_end.y %notin% c("SB", "LB"),
-                                    pregnancy_id.x]
-  
-  overlap_Y_B_not_LBSB_blue_id <- DT.xy[overlapping_right == 1 & 
-                                    highest_quality.x == "2_yellow" &
-                                    highest_quality.y == "3_blue" &
-                                    type_of_pregnancy_end.y %notin% c("SB", "LB"),
-                                  pregnancy_id.y]
-  
-  
-  D3_pregnancy_overlap[pregnancy_id %in% overlap_Y_B_not_LBSB_yellow_id, 
-                       pregnancy_start_date := pregnancy_end_date - gapallowed/2]
-  
-  D3_pregnancy_overlap[pregnancy_id %in% overlap_Y_B_not_LBSB_blue_id, 
-                       pregnancy_end_date := date_of_most_recent_record]
-  
-  #--------------------------
-  # Yellow - Red
-  # Rule 12: Y-R
-  #--------------------------
-  #overlap on right
-  overlap_Y_R_right <- DT.xy[overlapping_right == 1 & 
-                               highest_quality.x == "2_yellow" &
-                               highest_quality.y == "4_red" ,
-                             pregnancy_id.y]
-  
-  D3_pregnancy_overlap[pregnancy_id %in% overlap_Y_R_right, 
-                       pregnancy_start_date := (date_of_oldest_record - maxgap/2)]
-  
-  #overlap on left
-  overlap_Y_R_left <- DT.xy[overlapping_left == 1 & 
-                              highest_quality.x == "2_yellow" &
-                              highest_quality.y == "4_red" ,
-                            pregnancy_id.y]
-  
-  D3_pregnancy_overlap[pregnancy_id %in% overlap_Y_R_left, 
-                       pregnancy_end_date := date_of_most_recent_record]
-  
-  #--------------------------
-  # Blue - Blue
-  # Rule 13: B-B 
-  #--------------------------
-  overlap_B_B <- DT.xy[(overlapping_left == 1| overlapping_right==1) & 
-                            highest_quality.x == "3_blue" &
-                            highest_quality.y == "3_blue" ,
-                        pregnancy_id.y]
+  D3_pregnancy_overlap[pregnancy_id %in% overlap_B_Y_LB_SB_blue_id, 
+                       `:=`(pregnancy_end_date=date_of_most_recent_record, 
+                            algorithm_for_reconciliation = paste0(algorithm_for_reconciliation, 
+                                                                  "_overlap:BY"))]
+
+  #-------------
+  # Rule 7: B-B
+  #-------------
+  overlap_B_B <- DT[highest_quality.x == "3_blue" &
+                    highest_quality.y == "3_blue" ,
+                       pregnancy_id.x]
   
   D3_pregnancy_overlap[pregnancy_id %in% overlap_B_B, 
-                       pregnancy_end_date := date_of_most_recent_record]
+                       `:=`(pregnancy_end_date=date_of_most_recent_record, 
+                            algorithm_for_reconciliation = paste0(algorithm_for_reconciliation, 
+                                                                  "_overlap:BB"))]
   
-  #--------------------------
-  # Blue - Red
-  # Rule 14: B-R 
-  #--------------------------
-  #right
-  overlap_B_R_right_red_id <- DT.xy[overlapping_right==1 & 
-                                      highest_quality.x == "3_blue" &
-                                      highest_quality.y == "4_red" ,
+  #------------
+  # Rule 8: B-R 
+  #------------
+  overlap_B_R <- DT[highest_quality.x == "3_blue" &
+                      highest_quality.y == "4_red",
+                    pregnancy_id.y]
+  
+  D3_pregnancy_overlap[pregnancy_id %in% overlap_B_R, 
+                       `:=`(pregnancy_start_date=(date_of_oldest_record - (maxgap/2)), 
+                            algorithm_for_reconciliation = paste0(algorithm_for_reconciliation, 
+                                                                  "_overlap:BR"))]
+  
+  
+  overlap_B_R_blue_id <- DT[highest_quality.x == "3_blue" &
+                              highest_quality.y == "4_red",
+                            pregnancy_id.x]
+  
+  D3_pregnancy_overlap[pregnancy_id %in% overlap_B_R_blue_id, 
+                       `:=`(pregnancy_end_date=date_of_most_recent_record, 
+                            algorithm_for_reconciliation = paste0(algorithm_for_reconciliation, 
+                                                                  "_overlap:BR"))]
+  
+  #------------
+  # Rule 9: R-G 
+  #------------
+  overlap_R_G <- DT[highest_quality.x == "4_red" &
+                      highest_quality.y == "1_green",
+                    pregnancy_id.x]
+  
+  D3_pregnancy_overlap[pregnancy_id %in% overlap_R_G, 
+                       `:=`(pregnancy_end_date=date_of_most_recent_record, 
+                            algorithm_for_reconciliation = paste0(algorithm_for_reconciliation, 
+                                                                  "_overlap:RG"))]
+
+  #-------------
+  # Rule 10: R-Y 
+  #-------------
+  overlap_R_Y_LB_SB_yellow_id <- DT[highest_quality.x == "4_red" &
+                                      highest_quality.y == "2_yellow" &
+                                      type_of_pregnancy_end.y %in% c("SB", "LB"),
                                     pregnancy_id.y]
   
-  D3_pregnancy_overlap[pregnancy_id %in% overlap_B_R_right_red_id, 
-                       pregnancy_start_date := pregnancy_end_date - maxgap/2]
+  D3_pregnancy_overlap[pregnancy_id %in% overlap_R_Y_LB_SB_yellow_id, 
+                       `:=`(pregnancy_start_date=pregnancy_end_date - 154, 
+                            algorithm_for_reconciliation = paste0(algorithm_for_reconciliation, 
+                                                                  "_overlap:RY"))]
   
-  overlap_B_R_right_blue_id <- DT.xy[overlapping_right==1 & 
-                                      highest_quality.x == "3_blue" &
-                                      highest_quality.y == "4_red" ,
-                                    pregnancy_id.x]
   
-  D3_pregnancy_overlap[pregnancy_id %in% overlap_B_R_right_blue_id, 
-                       pregnancy_end_date := date_of_most_recent_record]
+  overlap_R_Y_not_LB_SB_yellow_id <- DT[highest_quality.x == "4_red" &
+                                          highest_quality.y == "2_yellow" &
+                                          type_of_pregnancy_end.y %notin% c("SB", "LB"),
+                                        pregnancy_id.y]
   
-  #left
-  overlap_B_R_left <- DT.xy[overlapping_left==1 &
-                              highest_quality.x == "3_blue" &
+  D3_pregnancy_overlap[pregnancy_id %in% overlap_R_Y_not_LB_SB_yellow_id, 
+                       `:=`(vpregnancy_start_date=pregnancy_end_date - 42, 
+                            algorithm_for_reconciliation = paste0(algorithm_for_reconciliation, 
+                                                                  "_overlap:RY"))]
+  
+  
+  
+  overlap_R_Y_LB_SB_red_id <- DT[highest_quality.x == "4_red" &
+                                    highest_quality.y == "2_yellow",
+                                  pregnancy_id.x]
+  
+  D3_pregnancy_overlap[pregnancy_id %in% overlap_R_Y_LB_SB_red_id, 
+                       `:=`(pregnancy_end_date=date_of_most_recent_record, 
+                            algorithm_for_reconciliation = paste0(algorithm_for_reconciliation, 
+                                                                  "_overlap:RY"))]
+  
+  #-------------
+  # Rule 11: R-B 
+  #-------------
+  
+  overlap_R_B <- DT[highest_quality.x == "4_red" &
+                      highest_quality.y == "3_blue" ,
+                    pregnancy_id.x]
+  
+  D3_pregnancy_overlap[pregnancy_id %in% overlap_R_B, 
+                       `:=`(pregnancy_end_date=date_of_most_recent_record, 
+                            algorithm_for_reconciliation = paste0(algorithm_for_reconciliation, 
+                                                                  "_overlap:RB"))]
+  
+  #-------------
+  # Rule 12: R-R 
+  #-------------
+
+  overlap_R_R_left_id <- DT[highest_quality.x == "4_red" &
                               highest_quality.y == "4_red" ,
-                            pregnancy_id.y]
+                            pregnancy_id.x]
   
-  D3_pregnancy_overlap[pregnancy_id %in% overlap_B_R_left, 
-                       pregnancy_end_date := date_of_most_recent_record]
-  #--------------------------
-  # Red - Red
-  # Rule 14: B-R 
-  #--------------------------
-  #left
-  overlap_R_R_left <- DT.xy[overlapping_left == 1 &
-                               highest_quality.x == "4_red" &
+  overlap_R_R_right_id <- DT[highest_quality.x == "4_red" &
                                highest_quality.y == "4_red" ,
                              pregnancy_id.y]
   
-  D3_pregnancy_overlap[pregnancy_id %in% overlap_R_R_left, 
-                       pregnancy_end_date := date_of_most_recent_record]
+  D3_pregnancy_overlap[pregnancy_id %in% overlap_R_R_left_id, 
+                       `:=`(pregnancy_end_date=date_of_most_recent_record, 
+                            algorithm_for_reconciliation = paste0(algorithm_for_reconciliation, 
+                                                                  "_overlap:RR"))]
   
-  #right
-  overlap_R_R_right <- DT.xy[overlapping_right == 1 &
-                               highest_quality.x == "4_red" &
-                               highest_quality.y == "4_red" ,
-                             pregnancy_id.y]
-  
-  D3_pregnancy_overlap[pregnancy_id %in% overlap_R_R_right, 
-                       pregnancy_start_date := min(pregnancy_end_date - maxgap/2,
-                                                   date_of_oldest_record), 
-                       by="pregnancy_id" ]
-  
-  #----------------------------------------
-  # 2nd check for overlapping pregnancies
-  #----------------------------------------
-  
-  DT.x <- copy(D3_pregnancy_overlap)
-  
-  DT.x <- DT.x[, .(person_id,
-                   pregnancy_id,
-                   pregnancy_start_date,
-                   pregnancy_end_date,
-                   date_of_oldest_record,
-                   date_of_most_recent_record,
-                   highest_quality)]
-  
-  DT.y <- copy(DT.x)
-  
-  DT.xy <- merge(DT.x, DT.y, by = "person_id", allow.cartesian=TRUE)
-  DT.xy <- DT.xy[pregnancy_id.x != pregnancy_id.y]
-  
-  DT.xy[pregnancy_end_date.x >= pregnancy_start_date.y &
-          pregnancy_end_date.x <= pregnancy_end_date.y,
-        overlapping := 1]
-  
-  DT.xy[pregnancy_start_date.x >= pregnancy_start_date.y &
-          pregnancy_start_date.x <= pregnancy_end_date.y,
-        overlapping := 1]
-  
-  DT.xy[is.na(overlapping), overlapping := 0]
-  DT.xy.overlap <- DT.xy[overlapping == 1]
-  
-  pregnancy_still_overlapping <- unique(c(DT.xy.overlap[, pregnancy_id.x],
-                                          DT.xy.overlap[, pregnancy_id.y]))
-  
-  save(DT.xy.overlap, file=paste0(dirtemp,"D3_excluded_for_overlap.RData"))
-  
-  D3_group_overlap <- D3_group_overlap[ pregnancy_id %notin% pregnancy_still_overlapping]
-  D3_pregnancy_overlap <- D3_pregnancy_overlap[ pregnancy_id %notin% pregnancy_still_overlapping]
+  D3_pregnancy_overlap[pregnancy_id %in% overlap_R_R_right_id, 
+                       `:=`(vpregnancy_start_date=(date_of_oldest_record - (maxgap/2)), 
+                            algorithm_for_reconciliation = paste0(algorithm_for_reconciliation, 
+                                                                  "_overlap:RR"))]
+
 }
 
 
@@ -371,11 +389,11 @@ if(thisdatasource == "UOSL"){
 #------------------------
 # Gest-age at first record
 #------------------------
-D3_pregnancy_overlap[, gestage_at_first_record := date_of_oldest_record - pregnancy_start_date, by = "pregnancy_id" ]
+D3_pregnancy_overlap[, gestage_at_first_record := date_of_oldest_record - pregnancy_start_date, pregnancy_id]
 
 
 #--------
 # Saving
 #--------
-save(D3_group_overlap, file=paste0(dirtemp,"D3_group_overlap.RData"))
-save(D3_pregnancy_overlap, file=paste0(dirtemp,"D3_pregnancy_overlap.RData"))
+save(D3_group_overlap, file=paste0(thisdiroutput,"D3_group_overlap.RData"))
+save(D3_pregnancy_overlap, file=paste0(thisdiroutput,"D3_pregnancy_overlap.RData"))
