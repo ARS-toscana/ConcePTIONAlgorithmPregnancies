@@ -203,7 +203,7 @@ groups_of_pregnancies[PROMPT=="yes" & coloured_order=="1_green",order_quality:=2
 groups_of_pregnancies[ITEMSETS=="yes" & coloured_order=="1_green",order_quality:=3]
 groups_of_pregnancies[CONCEPTSETS=="yes" & coloured_order=="1_green",order_quality:=4] 
 
-groups_of_pregnancies[EUROCAT=="yes" & coloured_order=="1_green",order_quality:=5]
+groups_of_pregnancies[EUROCAT=="yes" & coloured_order=="2_yellow",order_quality:=5]
 
 if(thisdatasource == "THL"){
   groups_of_pregnancies[PROMPT=="yes" & coloured_order=="2_yellow",order_quality:=7] 

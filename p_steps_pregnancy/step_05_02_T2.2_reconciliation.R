@@ -2,7 +2,7 @@
 # Record Reconciliation
 #----------------------
 
-TEST = TRUE
+TEST = FALSE
 
 if (TEST){
   # Dir test
@@ -443,8 +443,8 @@ while (D3_gop[,.N]!=0) {
                         type_of_pregnancy_end != "UNK" & type_of_pregnancy_end_next_record != "UNK" &
                         type_of_pregnancy_end != type_of_pregnancy_end_next_record,
                       `:=`(algorithm_for_reconciliation = paste0(algorithm_for_reconciliation, "TypeDiff:", 
-                                                                 substr(coloured_order, 3, 3), "/", 
-                                                                 substr(coloured_order_next_record, 3, 3), "_" ))]
+                                                                toupper(substr(coloured_order, 3, 3)),  
+                                                                toupper(substr(coloured_order_next_record, 3, 3)), "_" ))]
     
     #### Green - Green
     

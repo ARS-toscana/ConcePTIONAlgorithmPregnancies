@@ -110,7 +110,7 @@ As reported in the sap, some records have both pregnancy start date and pregnanc
 
 - **10**  CONCEPSETS: procedure live birth
 
-- **11**  CONCEPSETS: stll birth
+- **11**  CONCEPSETS: still birth
 
 - **12**  CONCEPSETS: interruption
 
@@ -149,6 +149,7 @@ As reported in the sap, some records have both pregnancy start date and pregnanc
     </div>
   </body>
 </html>
+
 
 <br/>
 

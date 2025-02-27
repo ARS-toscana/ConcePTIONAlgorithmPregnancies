@@ -77,18 +77,25 @@ Dt_n_strata <- data.table(strata = c("Green_Discordant",
 Dt_n_strata[, sample_size := min(5, n), strata]
 
 iter_row = 1
-while (sum(Dt_n_strata[, sample_size]) < 35) {
-  tmp <- Dt_n_strata[iter_row, sample_size]
-  if(Dt_n_strata[iter_row, sample_size]>=5){
-    if( Dt_n_strata[iter_row, sample_size] < Dt_n_strata[iter_row, n]){
-      Dt_n_strata[iter_row, sample_size:= tmp + 1]
+
+if(sum(Dt_n_strata[, n]) <35){
+  stop("Fewer than 35 pregnancies have been identified; it is not possible to extract the validation sample. Please check the results.")
+}else{
+  while (sum(Dt_n_strata[, sample_size]) < 35) {
+    tmp <- Dt_n_strata[iter_row, sample_size]
+    if(Dt_n_strata[iter_row, sample_size]>=5){
+      if( Dt_n_strata[iter_row, sample_size] < Dt_n_strata[iter_row, n]){
+        Dt_n_strata[iter_row, sample_size:= tmp + 1]
+      }
+    }
+    iter_row = iter_row +1
+    if(iter_row == 8){
+      iter_row = 1
     }
   }
-  iter_row = iter_row +1
-  if(iter_row == 8){
-    iter_row = 1
-  }
 }
+
+
 
 #------------------------------
 # Sampling
