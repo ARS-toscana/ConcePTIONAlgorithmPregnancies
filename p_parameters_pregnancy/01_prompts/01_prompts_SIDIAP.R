@@ -19,7 +19,15 @@ meaning_of_survey_pregnancy[["SIDIAP"]][["other"]]<-list("primary_care_pregnanci
 
 
 meaning_of_survey_pregnancy_child <- vector(mode="list")
-meaning_of_relationship_child <- vector(mode="list")
 
-meaning_of_survey_pregnancy_child[["SIDIAP"]] <- NA
-meaning_of_relationship_child[["SIDIAP"]] <- NA
+meaning_of_survey_pregnancy_child[["SIDIAP"]][["livebirth_or_stillbirth"]]<-list("primary_care_pregnancies_livebirth_or_stillbirth")
+meaning_of_survey_pregnancy_child[["SIDIAP"]][["ongoing_pregnancy"]]<-list()
+meaning_of_survey_pregnancy_child[["SIDIAP"]][["spontaneous_abortion"]]<-list("primary_care_pregnancies_abortion")
+meaning_of_survey_pregnancy_child[["SIDIAP"]][["induced_termination"]]<-list("primary_care_pregnancies_termination")
+meaning_of_survey_pregnancy_child[["SIDIAP"]][["other"]]<-list("primary_care_pregnancies_other")
+
+meaning_of_relationship_child <- vector(mode="list")
+meaning_of_relationship_child[["SIDIAP"]]<-list("birth_mother")
+
+# meaning_of_survey_pregnancy_child[["SIDIAP"]] <- NA
+# meaning_of_relationship_child[["SIDIAP"]] <- NA
