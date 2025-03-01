@@ -55,6 +55,7 @@ concept_sets_of_pregnancy_eve <- c("Gestation_less24_UNK",
                                    
                                    "BirthNarrowBUNK",
                                    "BirthNarrowLB",
+                                   "BirthNarrowBUNSP", 
                                    
                                    "PostTermBUNSP",
                                    
@@ -161,7 +162,8 @@ concept_set_codes_pregnancy[["EndUnspecified"]] <- list()
 
 concept_set_codes_pregnancy[["BirthNarrowBUNK"]] <- list()
 concept_set_codes_pregnancy[["BirthNarrowLB"]] <- list()
-          
+concept_set_codes_pregnancy[["BirthNarrowBUNSP"]] <- list()
+
 concept_set_codes_pregnancy[["PostTermBUNSP"]] <- list()
             
 concept_set_codes_pregnancy[["PretermBUNSP"]] <- list()

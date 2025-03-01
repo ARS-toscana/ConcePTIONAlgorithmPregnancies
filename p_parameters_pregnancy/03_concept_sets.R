@@ -210,7 +210,8 @@ if(this_datasource_has_conceptsets){
   concept_sets_of_end_of_pregnancy_UNSP <- c("AtTermBUNSP",
                                              "EndUnspecified",
                                              "PostTermBUNSP",
-                                             "PretermBUNSP")
+                                             "PretermBUNSP", 
+                                             "BirthNarrowBUNSP")
   
   concept_sets_of_end_of_pregnancy_UNSP_procedures <- c("procedures_delivery")
   

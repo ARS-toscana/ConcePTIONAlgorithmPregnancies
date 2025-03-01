@@ -450,6 +450,7 @@ if(this_datasource_has_conceptsets){
   
   # defining start dates
   dataset_UNSP_concept_sets <- dataset_UNSP_concept_sets[concept_set == "EndUnspecified", pregnancy_start_date := pregnancy_end_date - 280]
+  dataset_UNSP_concept_sets <- dataset_UNSP_concept_sets[concept_set == "BirthNarrowBUNSP", pregnancy_start_date := pregnancy_end_date - 280]
   dataset_UNSP_concept_sets <- dataset_UNSP_concept_sets[concept_set == "PretermBUNSP", pregnancy_start_date := pregnancy_end_date - 250]
   dataset_UNSP_concept_sets <- dataset_UNSP_concept_sets[concept_set == "AtTermBUNSP", pregnancy_start_date := pregnancy_end_date - 280]
   dataset_UNSP_concept_sets <- dataset_UNSP_concept_sets[concept_set == "PostTermBUNSP", pregnancy_start_date := pregnancy_end_date - 300]
