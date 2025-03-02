@@ -22,13 +22,15 @@ if(this_datasource_has_conceptsets){
       code_list_tmp_no_dot <- gsub("\\.", "", code_list_tmp)
       
       if(concept_set_domains[[new_concept_name]] == "Diagnosis"){
-        concept_tmp_filtered <- concept_tmp[event_record_vocabulary == coding_sys & codvar %in% code_list_tmp_no_dot]
+        concept_tmp_filtered <- concept_tmp[event_record_vocabulary == coding_sys & 
+                                              (codvar %in% code_list_tmp_no_dot | codvar %in% code_list_tmp)]
         #code_descendent <- unique(concept_tmp[event_record_vocabulary == coding_sys & codvar %notin% code_list_tmp_no_dot, codvar])
         code_descendent <- unique(concept_tmp[codvar %notin% code_list_tmp_no_dot, codvar])
       }
       
       if(concept_set_domains[[new_concept_name]] == "Procedures"){
-        concept_tmp_filtered <- concept_tmp[procedure_code_vocabulary == coding_sys & codvar %in% code_list_tmp_no_dot]
+        concept_tmp_filtered <- concept_tmp[procedure_code_vocabulary == coding_sys & 
+                                              (codvar %in% code_list_tmp_no_dot | codvar %in% code_list_tmp)]
         #code_descendent <- unique(concept_tmp[procedure_code_vocabulary == coding_sys & codvar %notin% code_list_tmp_no_dot, codvar])
         code_descendent <- unique(concept_tmp[codvar %notin% code_list_tmp_no_dot, codvar])
       }
