@@ -29,12 +29,12 @@ itemset_AVpair_pregnancy[["GESTAGE_FROM_USOUNDS_DAYS"]][[files[i]]][["SIDIAP"]] 
 itemset_AVpair_pregnancy[["GESTAGE_FROM_USOUNDS_WEEKS"]][[files[i]]][["SIDIAP"]]  <- list()
 
 # specification DATESTARTPREGNANCY
-itemset_AVpair_pregnancy[["DATESTARTPREGNANCY"]][[files[i]]][["SIDIAP"]] <- list(list("Pregnancies","dur")) 
+itemset_AVpair_pregnancy[["DATESTARTPREGNANCY"]][[files[i]]][["SIDIAP"]] <- list(list("assir_embaras","dur")) 
 
 
 ########################################## END ###################################################### 
 
-itemset_AVpair_pregnancy[["DATEENDPREGNANCY"]][[files[i]]][["SIDIAP"]] <- list(list("Pregnancies","dpart")) 
+itemset_AVpair_pregnancy[["DATEENDPREGNANCY"]][[files[i]]][["SIDIAP"]] <- list(list("assir_embaras","dpart")) 
 
 ### specification END_LIVEBIRTH
 itemset_AVpair_pregnancy[["END_LIVEBIRTH"]][[files[i]]][["SIDIAP"]] <- list()
@@ -51,17 +51,17 @@ itemset_AVpair_pregnancy[["END_ABORTION"]][[files[i]]][["SIDIAP"]] <- list()
 
 ########################################### TYPE #######################################
 
-itemset_AVpair_pregnancy[["TYPE"]][[files[i]]][["SIDIAP"]] <- list(list("Pregnancies","ctanca"))
+itemset_AVpair_pregnancy[["TYPE"]][[files[i]]][["SIDIAP"]] <- list(list("assir_embaras","ctanca"))
 
 
 ################################ DICTINARY OF TYPE ##################################
 
-dictonary_of_itemset_pregnancy[["TYPE"]][["SIDIAP"]][["LB"]]<-list(list("Pregnancies", "P"))
-dictonary_of_itemset_pregnancy[["TYPE"]][["SIDIAP"]][["SB"]]<-list(list("Pregnancies", "MF"))
-dictonary_of_itemset_pregnancy[["TYPE"]][["SIDIAP"]][["SA"]]<-list(list("Pregnancies","A"))
-dictonary_of_itemset_pregnancy[["TYPE"]][["SIDIAP"]][["T"]]<-list(list("Pregnancies","IV"))
+dictonary_of_itemset_pregnancy[["TYPE"]][["SIDIAP"]][["LB"]]<-list(list("assir_embaras", "P"))
+dictonary_of_itemset_pregnancy[["TYPE"]][["SIDIAP"]][["SB"]]<-list(list("assir_embaras", "MF"))
+dictonary_of_itemset_pregnancy[["TYPE"]][["SIDIAP"]][["SA"]]<-list(list("assir_embaras","A"))
+dictonary_of_itemset_pregnancy[["TYPE"]][["SIDIAP"]][["T"]]<-list(list("assir_embaras","IV"))
 dictonary_of_itemset_pregnancy[["TYPE"]][["SIDIAP"]][["MD"]]<-list()
-dictonary_of_itemset_pregnancy[["TYPE"]][["SIDIAP"]][["ECT"]]<-list(list("Pregnancies","EE"))
+dictonary_of_itemset_pregnancy[["TYPE"]][["SIDIAP"]][["ECT"]]<-list(list("assir_embaras","EE"))
 dictonary_of_itemset_pregnancy[["TYPE"]][["SIDIAP"]][["UNK"]]<-list()
 
 
