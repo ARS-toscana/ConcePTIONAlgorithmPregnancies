@@ -230,6 +230,7 @@ groups_of_pregnancies[CONCEPTSET=="AtTermBUNSP", order_quality:=12]
 groups_of_pregnancies[CONCEPTSET=="PostTermBUNSP", order_quality:=12] 
 groups_of_pregnancies[CONCEPTSET=="PretermBUNSP", order_quality:=12] 
 groups_of_pregnancies[CONCEPTSET=="EndUnspecified", order_quality:=13] 
+groups_of_pregnancies[CONCEPTSET=="BirthNarrowBUNSP", order_quality:=13] 
 groups_of_pregnancies[CONCEPTSET=="procedures_delivery", order_quality:=14] 
 
 groups_of_pregnancies[CONCEPTSET=="Interruption_narrow", order_quality:=15]
