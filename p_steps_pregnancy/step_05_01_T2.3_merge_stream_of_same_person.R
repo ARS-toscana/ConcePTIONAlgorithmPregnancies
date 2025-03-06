@@ -256,9 +256,9 @@ groups_of_pregnancies[CONCEPTSET=="Birth_possible", order_quality:=25]
 
 groups_of_pregnancies[CONCEPTSETS=="yes" & coloured_order=="2_yellow" & eval(parse(text = condmeaning$PC)), order_quality:=30]
 
-groups_of_pregnancies[coloured_order=="3_blue", order_quality:=40]
+groups_of_pregnancies[coloured_order=="3_blue" & is.na(order_quality), order_quality:=40]
 
-groups_of_pregnancies[coloured_order=="4_red", order_quality:=50]
+groups_of_pregnancies[coloured_order=="4_red" & is.na(order_quality), order_quality:=50]
 
 groups_of_pregnancies[meaning_start_date %in% meaning_start_not_implying_pregnancy, order_quality:=99]
 
