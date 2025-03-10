@@ -458,6 +458,21 @@ if (this_datasource_has_prompt) {
                               column=column_GESTAGE_FROM_LMP_WEEKS)]
     
     
+    #DATESTARTPREGNANCY
+    dataset_pregnancies3[is.na(pregnancy_end_date) & !is.na(DATESTARTPREGNANCY),
+                         `:=`(pregnancy_end_date = survey_date, 
+                              meaning_end_date= "from_survey_date",
+                              imputed_end_of_pregnancy = 0)]
+    
+    dataset_pregnancies3[!is.na(pregnancy_start_date) & !is.na(DATESTARTPREGNANCY) & is.na(meaning_start_date),
+                         `:=`(meaning_start_date = "from_itemset_DATESTARTPREGNANCY",
+                              origin = table_DATESTARTPREGNANCY, 
+                              column = column_DATESTARTPREGNANCY)]
+    
+    
+    
+    
+    
     
     # impute pregnancy_start_date when pregnancy_end_date is not missing
     dataset_pregnancies3<-dataset_pregnancies3[!is.na(pregnancy_end_date) & is.na(pregnancy_start_date) & type_of_pregnancy_end=="LB",
@@ -485,6 +500,13 @@ if (this_datasource_has_prompt) {
                                                `:=`(pregnancy_start_date = pregnancy_end_date - 280, 
                                                     imputed_start_of_pregnancy = 1, 
                                                     meaning_start_date=paste0("imputed_itemset_from_",type_of_pregnancy_end))]
+    
+    dataset_pregnancies3<-dataset_pregnancies3[!is.na(pregnancy_end_date) & is.na(pregnancy_start_date) & type_of_pregnancy_end=="ECT",
+                                               `:=`(pregnancy_start_date = pregnancy_end_date - 70, 
+                                                    imputed_start_of_pregnancy = 1, 
+                                                    meaning_start_date=paste0("imputed_itemset_from_",type_of_pregnancy_end))]
+    
+    
     
     dataset_pregnancies3<-dataset_pregnancies3[is.na(imputed_start_of_pregnancy), imputed_start_of_pregnancy:=0]
     
