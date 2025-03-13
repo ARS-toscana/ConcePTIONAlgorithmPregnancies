@@ -95,7 +95,10 @@ if (this_datasource_has_prompt) {
     dataset_pregnancies0[,END_TERMINATION:=ymd(END_TERMINATION)]
     dataset_pregnancies0[,END_ABORTION:=ymd(END_ABORTION)]
     dataset_pregnancies0[,TYPE:=as.character(unclass(TYPE))]
+    
+    dataset_pregnancies0 <- dataset_pregnancies0[DATESTARTPREGNANCY != '0']
     dataset_pregnancies0[,DATESTARTPREGNANCY:=ymd(DATESTARTPREGNANCY)]
+    
     dataset_pregnancies0[,GESTAGE_FROM_DAPS_CRITERIA_DAYS:=as.numeric(unclass(GESTAGE_FROM_DAPS_CRITERIA_DAYS))]
     dataset_pregnancies0[,GESTAGE_FROM_DAPS_CRITERIA_WEEKS:=as.numeric(unclass(GESTAGE_FROM_DAPS_CRITERIA_WEEKS))]
     dataset_pregnancies0[,GESTAGE_FROM_USOUNDS_DAYS:=as.numeric(unclass(GESTAGE_FROM_USOUNDS_DAYS))]
