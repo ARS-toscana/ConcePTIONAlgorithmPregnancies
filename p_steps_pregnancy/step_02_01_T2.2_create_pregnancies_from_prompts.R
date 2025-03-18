@@ -87,6 +87,8 @@ if (this_datasource_has_prompt) {
     # create variable pregnancy_id as survey_date
     dataset_pregnancies0[,pregnancy_id:=paste0(person_id,"_",survey_id,"_",survey_date)] 
     
+    dataset_pregnancies0 <- dataset_pregnancies0[DATEENDPREGNANCY!='0']
+    
     # adapt format for variables used in computation:
     dataset_pregnancies0[,survey_date:=ymd(survey_date)]
     dataset_pregnancies0[,DATEENDPREGNANCY:=ymd(DATEENDPREGNANCY)]
@@ -95,10 +97,7 @@ if (this_datasource_has_prompt) {
     dataset_pregnancies0[,END_TERMINATION:=ymd(END_TERMINATION)]
     dataset_pregnancies0[,END_ABORTION:=ymd(END_ABORTION)]
     dataset_pregnancies0[,TYPE:=as.character(unclass(TYPE))]
-    
-    dataset_pregnancies0 <- dataset_pregnancies0[DATESTARTPREGNANCY != '0']
     dataset_pregnancies0[,DATESTARTPREGNANCY:=ymd(DATESTARTPREGNANCY)]
-    
     dataset_pregnancies0[,GESTAGE_FROM_DAPS_CRITERIA_DAYS:=as.numeric(unclass(GESTAGE_FROM_DAPS_CRITERIA_DAYS))]
     dataset_pregnancies0[,GESTAGE_FROM_DAPS_CRITERIA_WEEKS:=as.numeric(unclass(GESTAGE_FROM_DAPS_CRITERIA_WEEKS))]
     dataset_pregnancies0[,GESTAGE_FROM_USOUNDS_DAYS:=as.numeric(unclass(GESTAGE_FROM_USOUNDS_DAYS))]
@@ -460,7 +459,6 @@ if (this_datasource_has_prompt) {
                               origin=table_GESTAGE_FROM_LMP_WEEKS, 
                               column=column_GESTAGE_FROM_LMP_WEEKS)]
     
-    
     #DATESTARTPREGNANCY
     dataset_pregnancies3[is.na(pregnancy_end_date) & !is.na(DATESTARTPREGNANCY),
                          `:=`(pregnancy_end_date = survey_date, 
@@ -471,11 +469,6 @@ if (this_datasource_has_prompt) {
                          `:=`(meaning_start_date = "from_itemset_DATESTARTPREGNANCY",
                               origin = table_DATESTARTPREGNANCY, 
                               column = column_DATESTARTPREGNANCY)]
-    
-    
-    
-    
-    
     
     # impute pregnancy_start_date when pregnancy_end_date is not missing
     dataset_pregnancies3<-dataset_pregnancies3[!is.na(pregnancy_end_date) & is.na(pregnancy_start_date) & type_of_pregnancy_end=="LB",
@@ -499,26 +492,27 @@ if (this_datasource_has_prompt) {
                                                     imputed_start_of_pregnancy=1, 
                                                     meaning_start_date=paste0("imputed_itemset_from_",type_of_pregnancy_end))]
     
-    dataset_pregnancies3<-dataset_pregnancies3[!is.na(pregnancy_end_date) & is.na(pregnancy_start_date) & type_of_pregnancy_end=="UNK",
-                                               `:=`(pregnancy_start_date = pregnancy_end_date - 280, 
-                                                    imputed_start_of_pregnancy = 1, 
-                                                    meaning_start_date=paste0("imputed_itemset_from_",type_of_pregnancy_end))]
-    
     dataset_pregnancies3<-dataset_pregnancies3[!is.na(pregnancy_end_date) & is.na(pregnancy_start_date) & type_of_pregnancy_end=="ECT",
                                                `:=`(pregnancy_start_date = pregnancy_end_date - 70, 
                                                     imputed_start_of_pregnancy = 1, 
                                                     meaning_start_date=paste0("imputed_itemset_from_",type_of_pregnancy_end))]
     
-    
+    dataset_pregnancies3<-dataset_pregnancies3[!is.na(pregnancy_end_date) & is.na(pregnancy_start_date) & type_of_pregnancy_end=="UNK",
+                                               `:=`(pregnancy_start_date = pregnancy_end_date - 280, 
+                                                    imputed_start_of_pregnancy = 1, 
+                                                    meaning_start_date=paste0("imputed_itemset_from_",type_of_pregnancy_end))]
     
     dataset_pregnancies3<-dataset_pregnancies3[is.na(imputed_start_of_pregnancy), imputed_start_of_pregnancy:=0]
     
     
+
     # ONGOING and OTHERS
     dataset_pregnancies3<-dataset_pregnancies3[is.na(pregnancy_end_date) & type_of_pregnancy_end %in% c("UNK", "ONGOING"), 
                                                `:=`(pregnancy_end_date = pregnancy_start_date + 280, 
                                                     imputed_end_of_pregnancy = 1, 
                                                     meaning_end_date = paste0("imputed_itemset_from_", type_of_pregnancy_end))]
+    
+    
     
     
     # ONGOING_COVID
