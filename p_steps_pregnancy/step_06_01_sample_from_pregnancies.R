@@ -142,8 +142,9 @@ record_sample <- record_sample[, visit_occurrence_id := as.character(visit_occur
 
 record_sample <- record_sample[, survey_visit_id := survey_id]
 record_sample <- record_sample[is.na(survey_id) | survey_id == "", survey_visit_id := visit_occurrence_id]
+
 if(this_datasource_has_person_rel_table){
-  record_sample <- record_sample[is.na(survey_visit_id)| survey_visit_id == "", , survey_visit_id := child_id]
+  record_sample <- record_sample[is.na(survey_visit_id)| survey_visit_id == "", survey_visit_id := child_id]
   
 }
 #record_sample <- record_sample[, -c("survey_id", "visit_occurrence_id")]
