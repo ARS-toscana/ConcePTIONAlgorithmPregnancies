@@ -21,4 +21,4 @@ meaning_of_survey_pregnancy_child <- vector(mode="list")
 meaning_of_relationship_child <- vector(mode="list")
 
 meaning_of_survey_pregnancy_child[["SNDS"]] <- NA
-meaning_of_relationship_child[["SNDS"]] <- NA
+meaning_of_relationship_child[["SNDS"]] <- list("gestational_mother")
