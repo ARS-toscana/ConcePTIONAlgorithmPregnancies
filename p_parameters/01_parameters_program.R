@@ -89,6 +89,9 @@ if (!require("ranger")) install.packages("ranger")
 library(ranger)
 if (!require("readxl")) install.packages("readxl")
 library(readxl)
+if (!require("openxlsx")) install.packages("openxlsx")
+library(openxlsx)
+
 
 ###################################################################
 # LOAD MACRO and FUNCTIONS

@@ -1,3 +1,43 @@
+
+
+for (i in length(list_input_data)) {
+  
+  data_name <- paste0(list_input_data[i], ".", list_input_data_ext[i])
+  data_dir <- paste0(list_input_data_dir[i], data_name)
+  
+  if(data_name %notin% list.files(thisdirinput)){
+    load(data_dir)
+    write_xlsx(get[list_input_data[i]], 
+               paste0(thisdirinput_xlsx,
+                      list_input_data[i],
+                      ".xlsx"))
+  }else{
+    
+   # source(paste0(thisdirinput, "/load.R"))
+    
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 # list of datasets
 listdatasets <- c("D3_pregnancy_model")#, "D3_group_model")
 
