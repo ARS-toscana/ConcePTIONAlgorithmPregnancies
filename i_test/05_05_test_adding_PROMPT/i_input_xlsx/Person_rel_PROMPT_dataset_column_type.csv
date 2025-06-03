@@ -1,0 +1,7 @@
+"column","type"
+"child_id","character"
+"person_id","character"
+"origin_of_relationship","character"
+"meaning_of_relationship","character"
+"method_of_linkage","character"
+"birth_date","character"
