@@ -113,9 +113,9 @@ if(PRP[, .N] > 0){ # n of subject with imputed month of birth
   
   ids_to_exclude_2 <- D3_pregnancy_PR_PROMT_2[flag_rule_2 == 1, child_id] 
   
-  ids_to_keep_2 <- D3_pregnancy_PR_PROMT_2[child_id %notin% ids_to_exclude_1, child_id] 
+  ids_to_keep_2 <- D3_pregnancy_PR_PROMT_2[child_id %notin% ids_to_exclude_2, child_id] 
  
-  PRP_2 <- PRP[child_id %in% ids_to_keep_1, 
+  PRP_2 <- PRP[child_id %in% ids_to_keep_2, 
   .(
     pregnancy_id = paste0(person_id, "_imputed_PR_prompt"), 
     person_id = person_id,
