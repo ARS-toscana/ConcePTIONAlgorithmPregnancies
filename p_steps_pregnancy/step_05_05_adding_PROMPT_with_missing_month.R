@@ -143,19 +143,25 @@ if(PRP[, .N] > 0){ # n of subject with imputed month of birth
   PRP_new_preg <- rbindlist(list(PRP_1, PRP_2))
   
   #-----------------------------------------------
-  # rule 2: one pregnancy - LB, SB, ONGOING or UNK 
+  # rule 2: one pregnancy 
   #-----------------------------------------------
-  D3_pregnancy_PR_PROMT_2 <- merge(D3_pregnancy_PR_PROMT[type_of_pregnancy_end %in% c("LB", "SB", "ONGOING", "UNK"), 
+  D3_pregnancy_PR_PROMT_2 <- merge(D3_pregnancy_PR_PROMT[person_id %in%  PRP[child_id %in% child_ids, person_id], 
                                                          .(person_id, pregnancy_id, pregnancy_start_date, pregnancy_end_date)], 
                                    PRP[child_id %in% child_ids, .(person_id, child_id, birth_year)], 
                                    by = "person_id", 
                                    all = TRUE)
   
-  # keep multiple (or sigle) child to same preg, dischard child to multiple pregnancy, in the same year
-
+  D3_pregnancy_PR_PROMT_2 <- D3_pregnancy_PR_PROMT_2[year(pregnancy_end_date) == birth_year]
   
+  # find child to multiple pregnancy in the same year
+  ids_child_to_multiple_preg <- D3_pregnancy_PR_PROMT_2[year(pregnancy_end_date) == birth_year,
+                                                        .(n_preg = uniqueN(pregnancy_id)), 
+                                                        by = child_id][n_preg > 1, child_id]
   
+  child_ids <- child_ids[child_ids %notin% ids_child_to_multiple_preg]
   
+  # dischard child to multiple pregnancy in the same year
+  D3_pregnancy_PR_PROMT_2 <- D3_pregnancy_PR_PROMT_2[child_id %notin% ids_child_to_multiple_preg]
 
   
 }else{
