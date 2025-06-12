@@ -51,26 +51,26 @@ D3_group_PR_PROMPT <- D3_group_model
 D3_pregnancy_PR_PROMT <- D3_pregnancy_model
 PRP <- Person_rel_PROMPT_dataset[month_imputed == 1]
 
-if(PRP[, .N] > 0){ # n of subject with imputed month of birth
+#if(PRP[, .N] > 0){ # n of subject with imputed month of birth
 
   # check unique child_id
-  if(PRP[, .N] != uniqueN(PRP[, child_id])) stop("Child id associated to multiple pregnancies")
+  if(PRP[, .N] != uniqueN(PRP[, child_id])) stop("Child id associated to multiple mothers")
   
   # fix date and year  
   PRP[, birth_date_2 := ymd(birth_date)]
   PRP[, birth_year := year(birth_date_2)]
   
   # get ids
-  PRP_ids <- PRP[, person_id]
-  all_ids  <- D3_pregnancy_PR_PROMT[, person_id]
+  all_pregnancy_ids  <- D3_pregnancy_PR_PROMT[, person_id]
   child_ids <- PRP[, child_id]
   
   
   #---------------------------
   # Rule 1: no other pregnancy
   #---------------------------
-  PRP_1 <- PRP[person_id %notin% all_ids]
+  PRP_1 <- PRP[person_id %notin% all_pregnancy_ids]
   
+  # create new pregnancies from rule 1
   PRP_1 <- PRP_1[, .(
              pregnancy_id = paste0(person_id, "_imputed_PR_prompt"), 
              person_id = person_id, 
@@ -87,35 +87,62 @@ if(PRP[, .N] > 0){ # n of subject with imputed month of birth
              highest_quality = "??"
            )]
   
+  # order and generate new pregnancy_id
   PRP_1 <- PRP_1[order(birth_year)]
-  
   PRP_1[, pregnancy_id := paste0(pregnancy_id, "_", rleid(birth_year))] #### Assumption 1: child in the same year belong to the same pregnancy
   
-  
+  # update child_ids list to include
   child_ids <- child_ids[child_ids %notin% PRP_1[, child_id]]
   
   
+  #-----------------------------------------------------------
+  # Merge and remove childs with multiple possible pregnancies
+  #-----------------------------------------------------------
+  # merge with allow.cartesian
+  DT_merged <- merge(D3_pregnancy_PR_PROMT[, .(person_id, 
+                                               pregnancy_id, 
+                                               pregnancy_start_date, 
+                                               pregnancy_end_date, 
+                                               type_of_pregnancy_end)], 
+                     PRP[child_id %in% child_ids, .(person_id, 
+                                                    birth_year, 
+                                                    child_id)], 
+                     by = "person_id", 
+                     all = TRUE, 
+                     allow.cartesian = TRUE) 
   
-  #-------------------------------------------------------------------
-  # Rule 2: no other pregnancy start or pregnancy end in the same year 
-  #-------------------------------------------------------------------
-  D3_pregnancy_PR_PROMT_2 <- merge(D3_pregnancy_PR_PROMT[, .(person_id, pregnancy_start_date, pregnancy_end_date)], 
-                                   PRP[child_id %in% child_ids, .(person_id, birth_year, child_id)], 
-                                   by = "person_id", 
-                                   all = TRUE)
   
-  D3_pregnancy_PR_PROMT_2[, `:=`(year_pregnancy_start_date = year(pregnancy_start_date), 
-                                 year_pregnancy_end_date   = year(pregnancy_end_date))]
+  # remove child ids merged with more than 1 pregnancy end ("LB" or "non-LB") in the same year
+  DT_merged[, type_of_pregnancy_end_2 := fifelse(type_of_pregnancy_end == "LB", "LB", "non-LB")]
   
-  D3_pregnancy_PR_PROMT_2[birth_year == year_pregnancy_start_date |
-                            birth_year == year_pregnancy_end_date, 
-                          flag_rule_2 := 1]  # select all the child born in the same year of a pregnancy
+  child_multiple_preg <- DT_merged[year(pregnancy_end_date) == birth_year,
+                                   .(n_preg = uniqueN(pregnancy_id)),
+                                   by = .(child_id, type_of_pregnancy_end_2)][n_preg > 1, child_id]
   
-  ids_to_exclude_2 <- D3_pregnancy_PR_PROMT_2[flag_rule_2 == 1, child_id] 
+  # update child ids
+  child_ids <- child_ids[child_ids %notin% child_multiple_preg]
   
-  ids_to_keep_2 <- D3_pregnancy_PR_PROMT_2[child_id %notin% ids_to_exclude_2, child_id] 
- 
-  PRP_2 <- PRP[child_id %in% ids_to_keep_2, 
+  # update D3_merged
+  DT_merged <- DT_merged[ child_id %in% child_ids]
+  
+  
+  #----------------------------------------------------------------------
+  # Rule 2: no other pregnancy starts or ends in the "plausible" interval
+  #----------------------------------------------------------------------
+  
+  # define plausible start/end
+  DT_merged[, plausible_low := as.Date(paste0(birth_year - 1, "-03-04"))]
+  DT_merged[, plausible_up  := as.Date(paste0(birth_year, "-12-31"))]
+  
+  # select all the child NOT born in the same year of a pregnancy
+  child_rule_2 <- DT_merged[!(
+                            (plausible_low < pregnancy_start_date  & pregnancy_start_date < plausible_up) |
+                              (plausible_low < pregnancy_end_date  & pregnancy_end_date < plausible_up)
+                            ), 
+                            child_id]  
+  
+  
+  PRP_2 <- PRP[child_id %in% child_rule_2, 
   .(
     pregnancy_id = paste0(person_id, "_imputed_PR_prompt"), 
     person_id = person_id,
@@ -132,39 +159,75 @@ if(PRP[, .N] > 0){ # n of subject with imputed month of birth
     highest_quality = "??"
   )]
   
+  # order and generate new pregnancy_id
   PRP_2 <- PRP_2[order(birth_year)]
+  PRP_2[, pregnancy_id := paste0(pregnancy_id, "_2_", rleid(birth_year))] #### Assumption 1: child in the same year belong to the same pregnancy
   
-  PRP_2[, pregnancy_id := paste0(pregnancy_id, "_", rleid(birth_year))] #### Assumption 1: child in the same year belong to the same pregnancy
-  
+  # update child ids
   child_ids <- child_ids[child_ids %notin% PRP_2[, child_id]]
   
+  # update D3_merged
+  DT_merged <- DT_merged[ child_id %in% child_ids]
+  DT_merged <- DT_merged[, -c("plausible_low", "plausible_up", "type_of_pregnancy_end_2")]
   
-  ## rbind rule 1 and 1
-  PRP_new_preg <- rbindlist(list(PRP_1, PRP_2))
+  #------------------------------------------------------------------------
+  # Rule 3: LB/SB/UNK pregnancy ends in [27th july - 31st] dec previous yes 
+  #------------------------------------------------------------------------
+  # define variable for rule 3
+  DT_merged[, low_rule_3 := as.Date(paste0(birth_year - 1, "-07-26"))] ### date chosen in order to avoid overlap 
+  DT_merged[, up_rule_3  := as.Date(paste0(birth_year - 1, "-12-31"))]
+  DT_merged[, id_3 := seq_along(.I)]
   
-  #-----------------------------------------------
-  # rule 2: one pregnancy 
-  #-----------------------------------------------
-  D3_pregnancy_PR_PROMT_2 <- merge(D3_pregnancy_PR_PROMT[person_id %in%  PRP[child_id %in% child_ids, person_id], 
-                                                         .(person_id, pregnancy_id, pregnancy_start_date, pregnancy_end_date)], 
-                                   PRP[child_id %in% child_ids, .(person_id, child_id, birth_year)], 
-                                   by = "person_id", 
-                                   all = TRUE)
+  DT_merged[type_of_pregnancy_end %in% c("LB", "SB", "UNK"), type_3 := "LB_SB_UNK"]
+  DT_merged[type_of_pregnancy_end %in% c("T", "SA", "ECT", "UNF"), type_3 := "T_SA_ECT_UNF"]
   
-  D3_pregnancy_PR_PROMT_2 <- D3_pregnancy_PR_PROMT_2[year(pregnancy_end_date) == birth_year]
+  # retrieve all the years in which there is both a pregnancy end and a birth
+  DT_merged[birth_year == year(pregnancy_end_date), years_rule_3 := birth_year][is.na(years_rule_3), years_rule_3 := 0]
+  DT_merged[, years_rule_3 := max(years_rule_3), child_id]
+
+  # select child_ids that do not have other pregnancies in the 
+  child_ids_rule_3 <- DT_merged[(low_rule_3 < pregnancy_end_date & pregnancy_end_date < up_rule_3) &
+                                  years_rule_3 == 0, 
+                                child_id]
   
-  # find child to multiple pregnancy in the same year
-  ids_child_to_multiple_preg <- D3_pregnancy_PR_PROMT_2[year(pregnancy_end_date) == birth_year,
-                                                        .(n_preg = uniqueN(pregnancy_id)), 
-                                                        by = child_id][n_preg > 1, child_id]
+  PRP_3 <- PRP[child_id %in% child_ids_rule_3, 
+               .(
+                 pregnancy_id = paste0(person_id, "_imputed_PR_prompt"), 
+                 person_id = person_id,
+                 child_id = child_id, 
+                 pregnancy_start_date = as.Date(paste0(birth_year - 1, "-02-11")), 
+                 pregnancy_end_date = as.Date(paste0(birth_year, "-11-18")), 
+                 birth_year = birth_year,
+                 type_of_pregnancy_end = "LB", 
+                 imputed_start_of_pregnancy = 1,
+                 imputed_end_of_pregnancy = 1,
+                 PROMPT = "yes", 
+                 origin = "Person_Rel_month_imputed", 
+                 order_quality = "??", 
+                 highest_quality = "??"
+               )]
   
-  child_ids <- child_ids[child_ids %notin% ids_child_to_multiple_preg]
+  # order and generate new pregnancy_id
+  PRP_3 <- PRP_3[order(birth_year)]
+  PRP_3[, pregnancy_id := paste0(pregnancy_id, "_3_", rleid(birth_year))] #### Assumption 1: child in the same year belong to the same pregnancy
   
-  # dischard child to multiple pregnancy in the same year
-  D3_pregnancy_PR_PROMT_2 <- D3_pregnancy_PR_PROMT_2[child_id %notin% ids_child_to_multiple_preg]
+  # update child ids
+  child_ids <- child_ids[child_ids %notin% PRP_3[, child_id]]
+  
+  # update D3_merged
+  DT_merged <- DT_merged[ child_id %in% child_ids]
+  DT_merged <- DT_merged[, -c("years_rule_3", "low_rule_3", "up_rule_3")]
+  
+  
+  
 
   
-}else{
-  save(D3_group_PR_PROMPT, file=paste0(thisdiroutput,"D3_group_PR_PROMPT.RData"))
-  save(D3_pregnancy_PR_PROMT, file=paste0(thisdiroutput,"D3_pregnancy_PR_PROMT.RData"))
-}
+  
+  
+  
+  
+  
+# }else{
+#   save(D3_group_PR_PROMPT, file=paste0(thisdiroutput,"D3_group_PR_PROMPT.RData"))
+#   save(D3_pregnancy_PR_PROMT, file=paste0(thisdiroutput,"D3_pregnancy_PR_PROMT.RData"))
+# }
