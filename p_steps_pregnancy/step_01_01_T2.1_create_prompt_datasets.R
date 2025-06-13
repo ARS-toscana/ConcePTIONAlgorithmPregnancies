@@ -168,6 +168,10 @@ if(this_datasource_has_person_rel_table){
   setnames(Person_rel_PROMPT_dataset, "person_id", "child_id")
   setnames(Person_rel_PROMPT_dataset, "related_id", "person_id")
   
+  # Adding var for imputation
+  Person_rel_PROMPT_dataset[, month_imputed := 0]
+  Person_rel_PROMPT_dataset[, day_imputed := 0]
+  
   ##### Description #####
   if(HTML_files_creation){
     cat("Describing Person_rel_PROMPT_dataset \n")
