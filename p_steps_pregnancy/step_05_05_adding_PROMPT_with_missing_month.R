@@ -170,23 +170,20 @@ PRP <- Person_rel_PROMPT_dataset[month_imputed == 1]
   DT_merged <- DT_merged[ child_id %in% child_ids]
   DT_merged <- DT_merged[, -c("plausible_low", "plausible_up", "type_of_pregnancy_end_2")]
   
-  #------------------------------------------------------------------------
-  # Rule 3: LB/SB/UNK pregnancy ends in [27th july - 31st] dec previous yes 
-  #------------------------------------------------------------------------
+  #-------------------------------------------------------------------------
+  # Rule 3: LB/SB/UNK pregnancy ends in [27th july - 31st dec] previous year 
+  #-------------------------------------------------------------------------
   # define variable for rule 3
-  DT_merged[, low_rule_3 := as.Date(paste0(birth_year - 1, "-07-26"))] ### date chosen in order to avoid overlap 
+  DT_merged[, low_rule_3 := as.Date(paste0(birth_year - 1, "-07-26"))] ### to avoid overlap 
   DT_merged[, up_rule_3  := as.Date(paste0(birth_year - 1, "-12-31"))]
-  DT_merged[, id_3 := seq_along(.I)]
-  
-  DT_merged[type_of_pregnancy_end %in% c("LB", "SB", "UNK"), type_3 := "LB_SB_UNK"]
-  DT_merged[type_of_pregnancy_end %in% c("T", "SA", "ECT", "UNF"), type_3 := "T_SA_ECT_UNF"]
   
   # retrieve all the years in which there is both a pregnancy end and a birth
   DT_merged[birth_year == year(pregnancy_end_date), years_rule_3 := birth_year][is.na(years_rule_3), years_rule_3 := 0]
-  DT_merged[, years_rule_3 := max(years_rule_3), child_id]
+  DT_merged[, years_rule_3 := max(years_rule_3), child_id] # to be explained
 
   # select child_ids that do not have other pregnancies in the 
   child_ids_rule_3 <- DT_merged[(low_rule_3 < pregnancy_end_date & pregnancy_end_date < up_rule_3) &
+                                  type_of_pregnancy_end %in% c("LB", "SB", "UNK") &
                                   years_rule_3 == 0, 
                                 child_id]
   
@@ -216,15 +213,111 @@ PRP <- Person_rel_PROMPT_dataset[month_imputed == 1]
   
   # update D3_merged
   DT_merged <- DT_merged[ child_id %in% child_ids]
-  DT_merged <- DT_merged[, -c("years_rule_3", "low_rule_3", "up_rule_3")]
   
   
+  #----------------------------------------------------------------------------
+  # Rule 4: T/SA/ECT/UNF pregnancy ends in [27th july - 31st dec] previous year 
+  #----------------------------------------------------------------------------
+  # define variable for rule 3
+  DT_merged[, start_rule_4  := as.Date(paste0(birth_year - 1, "-03-26"))] ### to be sure that the pregnancy is finished at 1 jan
   
-
+  # select child_ids that do not have other pregnancies in the 
+  child_ids_rule_4 <- DT_merged[(low_rule_3 < pregnancy_end_date & pregnancy_end_date < up_rule_3) &
+                                  pregnancy_start_date < start_rule_4,
+                                  type_of_pregnancy_end %in% c("LB", "SB", "UNK") &
+                                  years_rule_3 == 0, 
+                                child_id]
   
   
+  PRP_4 <- PRP[child_id %in% child_ids_rule_4, 
+               .(
+                 pregnancy_id = paste0(person_id, "_imputed_PR_prompt"), 
+                 person_id = person_id,
+                 child_id = child_id, 
+                 pregnancy_start_date = as.Date(paste0(birth_year - 1, "-02-11")), 
+                 pregnancy_end_date = as.Date(paste0(birth_year, "-11-18")), 
+                 birth_year = birth_year,
+                 type_of_pregnancy_end = "LB", 
+                 imputed_start_of_pregnancy = 1,
+                 imputed_end_of_pregnancy = 1,
+                 PROMPT = "yes", 
+                 origin = "Person_Rel_month_imputed", 
+                 order_quality = "??", 
+                 highest_quality = "??"
+               )]
+  
+  # order and generate new pregnancy_id
+  PRP_3 <- PRP_3[order(birth_year)]
+  PRP_3[, pregnancy_id := paste0(pregnancy_id, "_4_", rleid(birth_year))] #### Assumption 1: child in the same year belong to the same pregnancy
+  
+  # update child ids
+  child_ids <- child_ids[child_ids %notin% PRP_4[, child_id]]
+  
+  # update D3_merged
+  DT_merged <- DT_merged[ child_id %in% child_ids]
+  DT_merged <- DT_merged[, -c("low_rule_3", "up_rule_3", "years_rule_3", "start_rule_4")]
+    
+  #-------------------------------------------------------------------
+  # Rule 5: pregnancy starts in [5th feb - 31st dec] and end next year 
+  #-------------------------------------------------------------------
+  # define variable for rule 3
+  DT_merged[, low_flag_rule_5 := as.Date(paste0(birth_year - 1, "-05-02"))] ### to avoid overlap 
+  DT_merged[, up_flag_rule_5  := as.Date(paste0(birth_year - 1, "-12-31"))]
+  
+  # retrieve all the years in which there is both a pregnancy end and a birth
+  DT_merged[(low_flag_rule_5 < pregnancy_end_date & pregnancy_end_date < up_flag_rule_5) |# no preg in the period before
+              year(pregnancy_end_date) == birth_year, # no end of pregnancy in the birth_year
+            flag_rule_5 := 1][is.na(flag_rule_5), flag_rule_5 := 0]
+  
+  DT_merged[, flag_rule_5 := max(flag_rule_5), child_id] 
+  
+  # select child_ids that do not have other pregnancies in the 
+  child_ids_rule_5 <- DT_merged[year(pregnancy_start_date) == birth_year &
+                                  year(pregnancy_end_date) > birth_year &
+                                  flag_rule_5 == 0, 
+                                child_id]
+  
+  PRP_5 <- PRP[child_id %in% child_ids_rule_5, 
+               .(
+                 pregnancy_id = paste0(person_id, "_imputed_PR_prompt"), 
+                 person_id = person_id,
+                 child_id = child_id, 
+                 pregnancy_start_date = as.Date(paste0(birth_year - 1, "-03-25")), 
+                 pregnancy_end_date = as.Date(paste0(birth_year, "-01-01")), 
+                 birth_year = birth_year,
+                 type_of_pregnancy_end = "LB", 
+                 imputed_start_of_pregnancy = 1,
+                 imputed_end_of_pregnancy = 1,
+                 PROMPT = "yes", 
+                 origin = "Person_Rel_month_imputed", 
+                 order_quality = "??", 
+                 highest_quality = "??"
+               )]
+  
+  # order and generate new pregnancy_id
+  PRP_5 <- PRP_5[order(birth_year)]
+  PRP_5[, pregnancy_id := paste0(pregnancy_id, "_5_", rleid(birth_year))] #### Assumption 1: child in the same year belong to the same pregnancy
+  
+  # update child ids
+  child_ids <- child_ids[child_ids %notin% PRP_5[, child_id]]
+  
+  # update D3_merged
+  DT_merged <- DT_merged[ child_id %in% child_ids]
+  DT_merged <- DT_merged[, -c("low_flag_rule_5", "up_flag_rule_5")]
+  
+  #---------------------
+  # Create new pregnancy
+  #---------------------
+  DT_new_preg <- rbindlist(list(PRP_1, PRP_2, PRP_3, PRP_4, PRP_5))
+  
+  #---------------------------------------------------------------
+  # Rule 6:	Only one LB/UNK pregnancy ending in 1st jan - 31st dec
+  #---------------------------------------------------------------
   
   
+  #-------------------------------------------------------------------------------
+  # Rule 7:	Only one SA/T/ETC  pregnancy starting in 26th mar prev year - 26th mar 
+  #-------------------------------------------------------------------------------
   
   
 # }else{
