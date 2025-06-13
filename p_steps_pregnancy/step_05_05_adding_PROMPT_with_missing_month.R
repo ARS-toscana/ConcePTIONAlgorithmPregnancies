@@ -136,7 +136,7 @@ PRP <- Person_rel_PROMPT_dataset[month_imputed == 1]
   
   PRP_2 <- PRP[child_id %in% child_rule_2, 
                 .(
-                  pregnancy_id = paste0(person_id, "_3_PR_prompt"), 
+                  pregnancy_id = paste0(person_id, "_2_PR_prompt"), 
                   person_id = person_id,
                   child_id = child_id, 
                   pregnancy_start_date = as.Date(paste0(birth_year - 1, "-09-24")), 
@@ -145,7 +145,7 @@ PRP <- Person_rel_PROMPT_dataset[month_imputed == 1]
   
   # order and generate new pregnancy_id
   PRP_2 <- PRP_2[order(year(pregnancy_end_date))]
-  PRP_2[, pregnancy_id := paste0(pregnancy_id, "_2_", rleid(year(pregnancy_end_date)))] #### Assumption 1: child in the same year belong to the same pregnancy
+  PRP_2[, pregnancy_id := paste0(pregnancy_id, "_", rleid(year(pregnancy_end_date)))] #### Assumption 1: child in the same year belong to the same pregnancy
   
   # update child ids
   child_ids <- child_ids[child_ids %notin% PRP_2[, child_id]]
@@ -182,7 +182,7 @@ PRP <- Person_rel_PROMPT_dataset[month_imputed == 1]
   
   # order and generate new pregnancy_id
   PRP_3 <- PRP_3[order(year(pregnancy_end_date))]
-  PRP_3[, pregnancy_id := paste0(pregnancy_id, "_3_", rleid(year(pregnancy_end_date)))] #### Assumption 1: child in the same year belong to the same pregnancy
+  PRP_3[, pregnancy_id := paste0(pregnancy_id, "_", rleid(year(pregnancy_end_date)))] #### Assumption 1: child in the same year belong to the same pregnancy
   
   # update child ids
   child_ids <- child_ids[child_ids %notin% PRP_3[, child_id]]
@@ -216,7 +216,7 @@ PRP <- Person_rel_PROMPT_dataset[month_imputed == 1]
   
   # order and generate new pregnancy_id
   PRP_3 <- PRP_3[order(year(pregnancy_end_date))]
-  PRP_3[, pregnancy_id := paste0(pregnancy_id, "_4_", rleid(year(pregnancy_end_date)))] #### Assumption 1: child in the same year belong to the same pregnancy
+  PRP_3[, pregnancy_id := paste0(pregnancy_id, "_", rleid(year(pregnancy_end_date)))] #### Assumption 1: child in the same year belong to the same pregnancy
   
   # update child ids
   child_ids <- child_ids[child_ids %notin% PRP_4[, child_id]]
@@ -256,7 +256,7 @@ PRP <- Person_rel_PROMPT_dataset[month_imputed == 1]
   
   # order and generate new pregnancy_id
   PRP_5 <- PRP_5[order(year(pregnancy_end_date))]
-  PRP_5[, pregnancy_id := paste0(pregnancy_id, "_5_", rleid(year(pregnancy_end_date)))] #### Assumption 1: child in the same year belong to the same pregnancy
+  PRP_5[, pregnancy_id := paste0(pregnancy_id, "_", rleid(year(pregnancy_end_date)))] #### Assumption 1: child in the same year belong to the same pregnancy
   
   # update child ids
   child_ids <- child_ids[child_ids %notin% PRP_5[, child_id]]
@@ -264,11 +264,7 @@ PRP <- Person_rel_PROMPT_dataset[month_imputed == 1]
   # update D3_merged
   DT_merged <- DT_merged[ child_id %in% child_ids]
   DT_merged <- DT_merged[, -c("low_flag_rule_5", "up_flag_rule_5")]
-  
-  #---------------------
-  # Create new pregnancy
-  #---------------------
-  DT_new_preg <- rbindlist(list(PRP_1, PRP_2, PRP_3, PRP_4, PRP_5))
+
   
   #---------------------------------------------------------------
   # Rule 6:	Only one LB/UNK pregnancy ending in 1st jan - 31st dec
@@ -286,7 +282,14 @@ PRP <- Person_rel_PROMPT_dataset[month_imputed == 1]
                  pregnancy_end_date
                )]
 
+  # order 
+  PRP_6 <- PRP_6[order(year(pregnancy_end_date))]
+ 
+  # update child ids
+  child_ids <- child_ids[child_ids %notin% PRP_6[, child_id]]
   
+  # update D3_merged
+  DT_merged <- DT_merged[ child_id %in% child_ids]
   #-------------------------------------------------------------------------------
   # Rule 7:	Only one SA/T/ETC  pregnancy starting in 26th mar prev year - 26th mar 
   #-------------------------------------------------------------------------------
@@ -313,6 +316,83 @@ PRP <- Person_rel_PROMPT_dataset[month_imputed == 1]
                                 pregnancy_start_date, 
                                 pregnancy_end_date = pregnancy_start_date + 280
                               )]
+  
+  # order 
+  PRP_7 <- PRP_7[order(year(pregnancy_end_date))]
+ 
+  # update child ids
+  child_ids <- child_ids[child_ids %notin% PRP_7[, child_id]]
+  
+  # update D3_merged
+  DT_merged <- DT_merged[ child_id %in% child_ids]
+  
+  #-----------
+  # Update D3s
+  #-----------
+  # Add new records in D3_group_model
+  DT_new_records <- rbindlist(list(PRP_1, PRP_2, PRP_3, PRP_4, PRP_5, PRP_6, PRP_7))
+  
+  DT_new_records <- DT_new_preg[, .(
+    pregnancy_id, 
+    person_id,
+    child_id, 
+    pregnancy_start_date, 
+    pregnancy_end_date, 
+    type_of_pregnancy_end = "LB", 
+    record_date = NA, 
+    meaning_start_date = NA,
+    meaning_end_date = NA,
+    order_quality = NA,
+    PROMPT = "yes", 
+    origin = "PERSON_RELATIONSHIP"
+  )]
+  
+  D3_group_PR_PROMPT <- rbind(D3_group_PR_PROMPT, DT_new_records, fill = T)
+  
+  # Add new pregnancies in D3_pregnancy_model
+  DT_new_pregnancy <- rbindlist(list(PRP_1, PRP_2, PRP_3, PRP_4, PRP_5))
+  
+  DT_new_pregnancy <- DT_new_pregnancy[, .(
+    pregnancy_id, 
+    person_id,
+    pregnancy_start_date, 
+    pregnancy_end_date, 
+    type_of_pregnancy_end = "LB", 
+    record_date = NA, 
+    meaning_start_date = NA,
+    meaning_end_date = NA,
+    highest_quality = NA,
+    PROMPT = "yes", 
+    origin = "PERSON_RELATIONSHIP", 
+    description = "PR_month_imputed", 
+    number_green = 0,
+    number_yellow = 0, 
+    number_blue = 0,
+    number_red = 1, 
+    highest_quality = "4_red"
+  )]
+  
+  D3_pregnancy_PR_PROMT <- rbind(D3_pregnancy_PR_PROMT, DT_new_pregnancy, fill = T)
+  
+  # Update pregnancies in D3_pregnancy_model
+  D3_pregnancy_PR_PROMT[pregnancy_id %in% PRP_6[, pregnancy_id], 
+                        `:=`(
+                          number_red = number_red + 1, 
+                          PROMPT = "yes", 
+                          description = paste0(description, "/PR_month_imputed")
+                        )]
+  
+  D3_pregnancy_PR_PROMT[pregnancy_id %in% PRP_7[, pregnancy_id], 
+                        `:=`(
+                          type_of_pregnancy_end = "LB", 
+                          pregnancy_end_date = pregnancy_start_date + 280,
+                          number_red = number_red + 1, 
+                          PROMPT = "yes", 
+                          description = paste0(description, "/PR_month_imputed")
+                        )]
+  
+  
+  
   
 # }else{
 #   save(D3_group_PR_PROMPT, file=paste0(thisdiroutput,"D3_group_PR_PROMPT.RData"))
