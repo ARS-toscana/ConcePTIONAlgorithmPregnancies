@@ -172,6 +172,10 @@ if(this_datasource_has_person_rel_table){
   Person_rel_PROMPT_dataset[, month_imputed := 0]
   Person_rel_PROMPT_dataset[, day_imputed := 0]
   
+  if(thisdatasource == 'SNDS' ){
+    Person_rel_PROMPT_dataset[, month_imputed := 1]
+  }
+  
   ##### Description #####
   if(HTML_files_creation){
     cat("Describing Person_rel_PROMPT_dataset \n")
