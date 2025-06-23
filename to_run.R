@@ -73,13 +73,8 @@ source(paste0(thisdir,"/p_steps_pregnancy/step_04_02_T2.2_create_flowchart.R"))
 source(paste0(thisdir,"/p_steps_pregnancy/step_05_01_T2.3_merge_stream_of_same_person.R"))
 system.time(source(paste0(thisdir,"/p_steps_pregnancy/step_05_02_T2.2_reconciliation.R")))
 system.time(source(paste0(thisdir,"/p_steps_pregnancy/step_05_03_predictive_model.R")))
+system.time(source(paste0(thisdir,"/p_steps_pregnancy/step_05_05_adding_PROMPT_with_missing_month.R")))
 system.time(source(paste0(thisdir,"/p_steps_pregnancy/step_05_04_check_overlap.R")))
-
-#
-#
-#
-
-
 system.time(source(paste0(thisdir,"/p_steps_pregnancy/step_05_05_create_D3_final.R")))
 
 # 06 SAMPLE FROM PREGNANCY COHORT 
