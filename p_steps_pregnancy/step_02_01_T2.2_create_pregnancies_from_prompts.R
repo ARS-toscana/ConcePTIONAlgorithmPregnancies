@@ -748,7 +748,8 @@ if (this_datasource_has_visit_occurrence_prompt) {
 
 if(this_datasource_has_person_rel_table){
   load(paste0(dirtemp, "Person_rel_PROMPT_dataset.RData"))
-  D3_Stream_PROMPTS_person_rel <- Person_rel_PROMPT_dataset[, .(person_id,
+  D3_Stream_PROMPTS_person_rel <- Person_rel_PROMPT_dataset[month_imputed == 0,
+                                                            .(person_id,
                                                                 pregnancy_id = paste0(child_id,
                                                                                       "_",
                                                                                       person_id,

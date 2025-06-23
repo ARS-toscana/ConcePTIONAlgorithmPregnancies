@@ -28,12 +28,12 @@ if (TEST){
 #---------------------
 # LOADING AND RENAMING
 #---------------------
-load(paste0(thisdirinput,"D3_group_model.RData"))
-load(paste0(thisdirinput,"D3_pregnancy_model.RData"))
+load(paste0(thisdirinput,"D3_group_PR_PROMPT.RData"))
+load(paste0(thisdirinput,"D3_pregnancy_PR_PROMT.RData"))
 
 #D3_group_overlap <-  D3_group_model
-D3_pregnancy_overlap <- D3_pregnancy_model
-D3_group_overlap <- D3_group_model
+D3_pregnancy_overlap <- D3_pregnancy_PR_PROMT
+D3_group_overlap <- D3_group_PR_PROMPT
 
 # Before
 #                           ------<>

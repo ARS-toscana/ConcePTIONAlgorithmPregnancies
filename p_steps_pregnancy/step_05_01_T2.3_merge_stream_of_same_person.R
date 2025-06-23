@@ -169,6 +169,7 @@ table(groups_of_pregnancies[,coloured_order], useNA = "ifany")
 # 13)	CONCEPSETS: unspecified delivery, meaning non primary care, pregnancy_start_date not available and imputed 
 # 14)	CONCEPSETS: unspecified delivery procedures, meaning non primary care, pregnancy_start_date not available and imputed 
 
+#######################
 # 15)	CONCEPSETS: interruption, meaning non primary care,  pregnancy_start_date not available and imputed
 # 16)	CONCEPSETS: interruption procedure, meaning non primary care,  pregnancy_start_date not available and imputed
 
