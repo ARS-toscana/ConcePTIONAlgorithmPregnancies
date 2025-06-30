@@ -7,7 +7,7 @@ TEST = FALSE
 if (TEST){
   
   # Directories test
-  testname <- "05_05_test_adding_PROMPT_one_UNK"
+  testname <- "05_05_test_adding_PROMPT_T_and_LB"
   
   thisdirinput <- file.path(dirtest,testname)
   dir.create(thisdirinput, showWarnings = F)
@@ -136,9 +136,11 @@ if(PRP[, .N] > 0){ # n of subject with imputed month of birth
   #--------------------------------------------------------------------------------
   # step 3: exclude all the other children with multiple pregnancy in the same year
   #--------------------------------------------------------------------------------
+  DT_merged[, type_new := fifelse(type_of_pregnancy_end == "LB", "LB", "nonLB")]
+  
   child_multiple_preg <- DT_merged[year(pregnancy_end_date) == birth_year,
                                     .(n_preg = uniqueN(pregnancy_id)),
-                                   by = .(child_id)][n_preg ==2, child_id]
+                                   by = .(child_id, type_new)][n_preg ==2, child_id]
   
   # update child ids
   child_ids <- child_ids[child_ids %notin% child_multiple_preg]
@@ -161,8 +163,10 @@ if(PRP[, .N] > 0){ # n of subject with imputed month of birth
                                 (plausible_end_low < pregnancy_end_date  & pregnancy_end_date < plausible_up), 
                               child_id]  
     
-    if(PRP[child_id %notin% child_rule_4, .N]>0){
-      PRP_4 <- PRP[child_id %notin% child_rule_4, 
+    
+    if(PRP[child_id %notin% child_rule_4 & child_id %in% child_ids, .N]>0){
+      PRP_4 <- PRP[child_id %notin% child_rule_4 &
+                     child_id %in% child_ids, 
                    .(
                      pregnancy_id = paste0(person_id, "_4_PR_prompt"), 
                      person_id = person_id,
@@ -335,7 +339,7 @@ if(PRP[, .N] > 0){ # n of subject with imputed month of birth
   DT_merged <- DT_merged[child_id %in% child_ids]
   
   #-----------------------------------------------------------
-  # Rule 9:	Only one UNK pregnancy ending in 1st jan - 31st dec
+  # Step 9:	Only one UNK pregnancy ending in 1st jan - 31st dec
   #-----------------------------------------------------------
   PRP_9 <- unique(DT_merged[year(pregnancy_start_date + 280) == birth_year &
                               type_of_pregnancy_end == "UNK", 
@@ -459,16 +463,18 @@ if(PRP[, .N] > 0){ # n of subject with imputed month of birth
   save(D3_group_PR_PROMPT, file=paste0(thisdiroutput,"D3_group_PR_PROMPT.RData"))
   save(D3_pregnancy_PR_PROMT, file=paste0(thisdiroutput,"D3_pregnancy_PR_PROMT.RData"))
   
+  D3_child_not_linked <- Person_rel_PROMPT_dataset[child_id %notin% D3_group_PR_PROMPT[, child_id]]
   
-  D3_child_not_linked <- Person_rel_PROMPT_dataset[child_id %notin% D3_group_PR_PROMPT[, child_id], 
-                                                   .(child_id, 
-                                                     person_id, 
-                                                     birth_date)]
+  D3_child_not_linked[, birth_year := year(ymd(birth_date))]
+  
+  D3_child_not_linked <- D3_child_not_linked[, .(child_id, 
+                                                 person_id, 
+                                                 birth_year)]
   
   save(D3_child_not_linked, file=paste0(thisdiroutput,"D3_child_not_linked.RData"))
-  
   
 }else{
   save(D3_group_PR_PROMPT, file=paste0(thisdiroutput,"D3_group_PR_PROMPT.RData"))
   save(D3_pregnancy_PR_PROMT, file=paste0(thisdiroutput,"D3_pregnancy_PR_PROMT.RData"))
 }
+
