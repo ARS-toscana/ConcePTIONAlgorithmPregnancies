@@ -181,7 +181,9 @@ if (dim(D3_Stream_EUROCAT)[1]!=0){
                                                                          meaning_end_date,
                                                                          type_of_pregnancy_end,
                                                                          survey_id,
-                                                                         EUROCAT)]
+                                                                         EUROCAT, 
+                                                                         imputed_start_of_pregnancy,
+                                                                         imputed_end_of_pregnancy)]
   
   save(D3_Stream_EUROCAT_check, file=paste0(dirtemp,"D3_Stream_EUROCAT_check.RData"))
   

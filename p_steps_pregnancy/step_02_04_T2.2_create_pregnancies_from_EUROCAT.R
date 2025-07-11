@@ -14,40 +14,68 @@ if(thisdatasource_has_EUROCAT){
   
   if (dim(D3_EUROCAT)[1]!=0){
     
-    D3_EUROCAT_intermediate<-D3_EUROCAT[,.(person_id_mother,birth_date,gestlength,type,survey_id)]
     
     # adapt format for variables used in computation:
-    suppressWarnings(D3_EUROCAT_intermediate[,birth_date:=ymd(birth_date)])
+    if(thisdatasource == "ATS"){
+      D3_EUROCAT_intermediate<-D3_EUROCAT[,.(person_id_mother,birthdate,gestlength,type,survey_id)]
+      suppressWarnings(D3_EUROCAT_intermediate[,birth_date:=ymd(birthdate)])
+    }else{
+      D3_EUROCAT_intermediate<-D3_EUROCAT[,.(person_id_mother,birth_date,gestlength,type,survey_id)]
+      suppressWarnings(D3_EUROCAT_intermediate[,birth_date:=ymd(birthdate)])
+    }
+    
     
     # create pregnancy_start_date from birth_date and gestlength
-    D3_EUROCAT_intermediate<-D3_EUROCAT_intermediate[,pregnancy_start_date:=birth_date-(gestlength*7)]
+    D3_EUROCAT_intermediate[, pregnancy_start_date := birth_date - (gestlength*7)]
+  
+    D3_EUROCAT_intermediate[, imputed_start_of_pregnancy := fifelse(is.na(pregnancy_start_date),1,0)]
     
-    D3_EUROCAT_intermediate<-D3_EUROCAT_intermediate[!is.na(pregnancy_start_date),meaning_start_date:="from_EUROCAT_gestlength"]
-    D3_EUROCAT_intermediate<-D3_EUROCAT_intermediate[!is.na(birth_date),meaning_end_date:="from_EUROCAT_birth_date"]
+    D3_EUROCAT_intermediate[, imputed_end_of_pregnancy := 0]
+    
+    D3_EUROCAT_intermediate[imputed_end_of_pregnancy == 0, pregnancy_start_date := birth_date - 280]
+    
+    D3_EUROCAT_intermediate[, meaning_end_date := "from_EUROCAT_birth_date"]
+    
+    D3_EUROCAT_intermediate[, meaning_start_date:= fifelse(imputed_start_of_pregnancy == 0,
+                                                           "from_EUROCAT_gestlength", 
+                                                           "imputed_from_EUROCAT_birth_date")]
+    
     # adjust type 
     # 1 = Live birth 
     # 2 = Stillbirth 
     # 3 = Spontaneous abortion 
     # 4 = TOPFA 
     # 9 = Not known 
-    D3_EUROCAT_intermediate<-D3_EUROCAT_intermediate[,type:=as.character(type)]
-    D3_EUROCAT_intermediate<-D3_EUROCAT_intermediate[type==1,type:="LB"]
-    D3_EUROCAT_intermediate<-D3_EUROCAT_intermediate[type==2,type:="SB"]
-    D3_EUROCAT_intermediate<-D3_EUROCAT_intermediate[type==3,type:="SA"]
-    D3_EUROCAT_intermediate<-D3_EUROCAT_intermediate[type==4,type:="TOPFA"]
-    D3_EUROCAT_intermediate<-D3_EUROCAT_intermediate[type==9,type:="UNK"]
+    D3_EUROCAT_intermediate[, type := as.character(type)]
+    D3_EUROCAT_intermediate[ type == 1 , type := "LB"]
+    D3_EUROCAT_intermediate[ type == 2 , type := "SB"]
+    D3_EUROCAT_intermediate[ type == 3 , type := "SA"]
+    D3_EUROCAT_intermediate[ type == 4 , type := "T"]
+    D3_EUROCAT_intermediate[ type == 9 , type := "UNK"]
     
     setnames(D3_EUROCAT_intermediate,"person_id_mother","person_id")
     setnames(D3_EUROCAT_intermediate,"birth_date","pregnancy_end_date")
     setnames(D3_EUROCAT_intermediate,"type","type_of_pregnancy_end")
     
-    D3_EUROCAT_intermediate<-D3_EUROCAT_intermediate[,EUROCAT:="yes"]
-    D3_EUROCAT_intermediate<-D3_EUROCAT_intermediate[,pregnancy_id:=paste0("EUROCAT_",seq_along(pregnancy_end_date))]
-    D3_EUROCAT_intermediate<-D3_EUROCAT_intermediate[,record_date:=pregnancy_end_date]
-    D3_EUROCAT_intermediate<-D3_EUROCAT_intermediate[,origin:="EUROCAT"]
-    D3_EUROCAT_intermediate<-D3_EUROCAT_intermediate[,meaning:="from_EUROCAT"]
+    D3_EUROCAT_intermediate[, EUROCAT := "yes"]
+    D3_EUROCAT_intermediate[, pregnancy_id := paste0("EUROCAT_",seq_along(pregnancy_end_date))]
+    D3_EUROCAT_intermediate[, record_date := pregnancy_end_date]
+    D3_EUROCAT_intermediate[, origin := "EUROCAT"]
+    D3_EUROCAT_intermediate[, meaning := "from_EUROCAT"]
     
-    D3_Stream_EUROCAT<-D3_EUROCAT_intermediate[,.(pregnancy_id,person_id,record_date,pregnancy_start_date,pregnancy_end_date,meaning_start_date,meaning_end_date,type_of_pregnancy_end,survey_id,EUROCAT, meaning)]
+    D3_Stream_EUROCAT<-D3_EUROCAT_intermediate[,.(pregnancy_id,
+                                                  person_id,
+                                                  record_date,
+                                                  pregnancy_start_date,
+                                                  pregnancy_end_date,
+                                                  meaning_start_date,
+                                                  meaning_end_date,
+                                                  type_of_pregnancy_end,
+                                                  survey_id,
+                                                  EUROCAT, 
+                                                  meaning, 
+                                                  imputed_start_of_pregnancy, 
+                                                  imputed_end_of_pregnancy)]
     
     
     ##### Description #####
