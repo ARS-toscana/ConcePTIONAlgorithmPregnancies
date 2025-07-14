@@ -87,7 +87,10 @@ if (this_datasource_has_prompt) {
     # create variable pregnancy_id as survey_date
     dataset_pregnancies0[,pregnancy_id:=paste0(person_id,"_",survey_id,"_",survey_date)] 
     
-    dataset_pregnancies0 <- dataset_pregnancies0[DATEENDPREGNANCY!='0']
+    if(thisdatasource == "SIDIAP"){
+      dataset_pregnancies0 <- dataset_pregnancies0[DATEENDPREGNANCY!='0']
+    }
+    
     
     # adapt format for variables used in computation:
     dataset_pregnancies0[,survey_date:=ymd(survey_date)]
