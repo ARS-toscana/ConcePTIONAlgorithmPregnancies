@@ -193,6 +193,9 @@ D3_pregnancy_reconciled[order_quality == 22, order_quality_desc :=  "CONCEPSETS:
 D3_pregnancy_reconciled[order_quality == 23, order_quality_desc :=  "CONCEPSETS: end date recorded, type UNK"]
 D3_pregnancy_reconciled[order_quality == 24, order_quality_desc :=  "CONCEPSETS: procedure with end date recorded, type UNK"]
 
+D3_pregnancy_reconciled[order_quality == 25, order_quality_desc :=  "CONCEPSETS: birth possible"]
+
+
 D3_pregnancy_reconciled[order_quality == 30, order_quality_desc :=  "CONCEPTSETS: meaning implying primary care"]
 D3_pregnancy_reconciled[order_quality == 40, order_quality_desc :=  "all Streams: blue"]
 D3_pregnancy_reconciled[order_quality == 50, order_quality_desc :=  "all Streams: red"]
