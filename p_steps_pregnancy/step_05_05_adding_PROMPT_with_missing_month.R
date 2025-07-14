@@ -409,7 +409,6 @@ if(PRP[, .N] > 0){ # n of subject with imputed month of birth
     )]
     
     D3_pregnancy_PR_PROMT <- rbind(D3_pregnancy_PR_PROMT, DT_new_pregnancy, fill = T, use.names = T)
-    D3_pregnancy_PR_PROMT[is.na(age_at_start_of_pregnancy),  age_at_start_of_pregnancy := 0][, age_at_start_of_pregnancy := max(age_at_start_of_pregnancy)]
   }
   
   # Update LB pregnancies in D3_pregnancy_model
@@ -458,6 +457,32 @@ if(PRP[, .N] > 0){ # n of subject with imputed month of birth
                             description = paste0(description, "/PR_month_imputed")
                           )]
   }
+  
+  
+  # Update Age at start of pregnancy  
+  load(paste0(thisdirinput, "D3_PERSONS.RData"))
+  D3_PERSONS <- D3_PERSONS[,  birth_date := as.Date(paste0(year_of_birth, "-", 
+                                                           month_of_birth, "-", 
+                                                           day_of_birth ))]
+  
+  # D3_pregnancy_PR_PROMT
+  D3_pregnancy_PR_PROMT <- merge(D3_pregnancy_PR_PROMT, 
+                                 D3_PERSONS[, .(person_id, birth_date)], 
+                                 all.x = TRUE,
+                                 by = "person_id")
+  
+  D3_pregnancy_PR_PROMT[, age_at_start_of_pregnancy := as.integer((pregnancy_start_date - birth_date) / 365)]
+  
+  
+  # D3_group_PR_PROMPT
+  D3_group_PR_PROMPT <- merge(D3_group_PR_PROMPT, 
+                              D3_PERSONS[, .(person_id, birth_date)], 
+                              all.x = TRUE,
+                              by = "person_id")
+  
+  D3_group_PR_PROMPT[, age_at_start_of_pregnancy := as.integer((pregnancy_start_date - birth_date) / 365)]
+  
+  
   
   # saving
   save(D3_group_PR_PROMPT, file=paste0(thisdiroutput,"D3_group_PR_PROMPT.RData"))
