@@ -113,6 +113,9 @@ maxgap_specific_meanings <- maxgap_specific_meanings_thisdatasource
 list_of_mean_max_gap <- list_of_meanings_with_specific_maxgap_thisdatasource
 
 
+D3_gop[, gestational_age := pregnancy_end_date - pregnancy_start_date]
+
+
 
 # checks
 
@@ -148,7 +151,10 @@ while (D3_gop[,.N]!=0) {
     D3_gop <- D3_gop[recon == 0, CONCEPTSETS_next_record:= shift(CONCEPTSETS, n = i, fill = NA, type=c("lead")), by = "pers_group_id"]
     # Meaning
     D3_gop <- D3_gop[recon == 0, meaning_next_record := shift(meaning, n = i, fill = NA, type=c("lead")), by = "pers_group_id"]
-    
+    # Gestage
+    D3_gop <- D3_gop[recon == 0, gestational_age_next_record := shift(gestational_age, n = i, fill = NA, type=c("lead")), by = "pers_group_id"]
+    # order quality 
+    D3_gop <- D3_gop[recon == 0, order_quality_next_record := shift(order_quality, n = i, fill = NA, type=c("lead")), by = "pers_group_id"]
     
     if(thisdatasource == "VID" | thisdatasource == "RDRU_FISABIO"){
       D3_gop <- D3_gop[recon == 0, origin_next_record:= shift(origin, n = i, fill = NA, type=c("lead")), by = "pers_group_id"]
@@ -380,6 +386,7 @@ while (D3_gop[,.N]!=0) {
                      `:=`(new_pregnancy_group = 1)]
     
     
+
     
     
     # # dividing SA e T
@@ -645,6 +652,17 @@ while (D3_gop[,.N]!=0) {
                            meaning_start_date = shift(meaning_start_date, n = i,  fill = "updated_from_blue_record", type=c("lead")))]
     
     
+    #---------------------------------------
+    # Additional Rule order quality ATS 14.5 
+    #---------------------------------------
+    D3_gop <- D3_gop[n == 1 & new_group_next_record != 1 &  recon == 0 & order_quality_next_record == 14.5,
+                     `:=`( pregnancy_start_date = pregnancy_end_date - gestage_next_record,
+                           algorithm_for_reconciliation = paste0(algorithm_for_reconciliation, "PR:OnlyStartUpdated_"),
+                           imputed_start_of_pregnancy = 0,
+                           meaning_start_date = shift(meaning_start_date, n = i,  fill = "updated_from_prompt", type=c("lead")))]
+    
+    
+
     # #### Red - Red
     # D3_gop <- D3_gop[n == 1 & new_group_next_record != 1 &  recon == 0 & coloured_order == "4_red" & coloured_order_next_record == "4_red" & 
     #                    start_diff == 0,

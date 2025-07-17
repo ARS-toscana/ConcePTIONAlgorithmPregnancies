@@ -234,6 +234,10 @@ groups_of_pregnancies[CONCEPTSET=="EndUnspecified", order_quality:=13]
 groups_of_pregnancies[CONCEPTSET=="BirthNarrowBUNSP", order_quality:=13] 
 groups_of_pregnancies[CONCEPTSET=="procedures_delivery", order_quality:=14] 
 
+if(thisdatasource == "ATS"){
+  groups_of_pregnancies[meaning_start_date = "from_itemset_GESTAGE_FROM_LMP_WEEKS", order_quality:=14.5]
+}
+
 groups_of_pregnancies[CONCEPTSET=="Interruption_narrow", order_quality:=15]
 groups_of_pregnancies[CONCEPTSET=="Medicated_VTP", order_quality:=16]
 groups_of_pregnancies[CONCEPTSET=="procedures_termination", order_quality:=16]

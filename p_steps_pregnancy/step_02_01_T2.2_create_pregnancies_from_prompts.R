@@ -448,20 +448,16 @@ if (this_datasource_has_prompt) {
     
     #GESTAGE_FROM_LMP_WEEKS
     dataset_pregnancies3[is.na(pregnancy_end_date) & !is.na(GESTAGE_FROM_LMP_WEEKS),
-                         pregnancy_end_date := survey_date]
+                         `:=`(pregnancy_end_date = survey_date, 
+                              pregnancy_start_date = survey_date - (GESTAGE_FROM_LMP_WEEKS*7), 
+                              meaning_end_date = "from_survey_date",
+                              meaning_start_date = "from_itemset_GESTAGE_FROM_LMP_WEEKS",
+                              origin = table_GESTAGE_FROM_LMP_WEEKS, 
+                              column = column_GESTAGE_FROM_LMP_WEEKS,
+                              imputed_end_of_pregnancy = 0,
+                              imputed_start_of_pregnancy = 0)]
     
-    dataset_pregnancies3[is.na(pregnancy_start_date) & !is.na(GESTAGE_FROM_LMP_WEEKS),
-                         pregnancy_start_date:=pregnancy_end_date-(GESTAGE_FROM_LMP_WEEKS*7)]
-    
-    dataset_pregnancies3[is.na(pregnancy_end_date) & is.na(pregnancy_start_date) & !is.na(GESTAGE_FROM_LMP_WEEKS),
-                         `:=`(pregnancy_start_date= survey_date - (GESTAGE_FROM_LMP_WEEKS*7),
-                              meaning_end_date= "from_survey_date",
-                              imputed_end_of_pregnancy = 1)]
-    
-    dataset_pregnancies3[!is.na(pregnancy_start_date) & !is.na(GESTAGE_FROM_LMP_WEEKS) & is.na(meaning_start_date),
-                         `:=`(meaning_start_date=paste0("from_itemset_","GESTAGE_FROM_LMP_WEEKS"),
-                              origin=table_GESTAGE_FROM_LMP_WEEKS, 
-                              column=column_GESTAGE_FROM_LMP_WEEKS)]
+
     
     #DATESTARTPREGNANCY
     dataset_pregnancies3[is.na(pregnancy_end_date) & !is.na(DATESTARTPREGNANCY),
