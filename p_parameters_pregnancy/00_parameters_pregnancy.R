@@ -6,7 +6,7 @@ datasources_EUROCAT <- c("TO_ADD","SAIL Databank", "VID") #@ use "TO_ADD" as exa
 thisdatasource_has_EUROCAT <- ifelse(thisdatasource %in% datasources_EUROCAT,TRUE,FALSE)
 
 #datasource with itemsets stream from medical observation
-datasource_with_itemsets_stream_from_medical_obs <- c("TO_ADD","BIFAP","VID","PHARMO","EpiChron","HSD") #@ use "TO_ADD" as example
+datasource_with_itemsets_stream_from_medical_obs <- c("TO_ADD","BIFAP","VID","PHARMO","EpiChron","HSD", "SNDS") #@ use "TO_ADD" as example
 this_datasource_has_itemsets_stream_from_medical_obs <- ifelse(thisdatasource %in% datasource_with_itemsets_stream_from_medical_obs,TRUE,FALSE) 
 
 #datasource with  prompt

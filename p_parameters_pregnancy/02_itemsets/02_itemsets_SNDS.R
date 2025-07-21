@@ -78,6 +78,32 @@ dictonary_of_itemset_pregnancy[["TYPE"]][["SNDS"]][["UNK"]]<-list()
 
 
 
+##### FROM MEDICAL_OBSERVATION
+
+### specification LastMestrualPeriod
+itemsetMED_AVpair_pregnancy[["LastMestrualPeriod"]][[files[i]]][["SNDS"]] <- list()
+
+### specification GestationalAge
+itemsetMED_AVpair_pregnancy[["GestationalAge"]][[files[i]]][["SNDS"]] <- list(list("HOSPITALISATION","AGE_GES"))
+
+### specification PregnancyTest
+itemsetMED_AVpair_pregnancy[["PregnancyTest"]][[files[i]]][["SNDS"]] <- list()
+
+### specification LastMestrualPeriodImplyingPregnancy
+itemsetMED_AVpair_pregnancy[["LastMestrualPeriodImplyingPregnancy"]][[files[i]]][["SNDS"]] <- list(list("HOSPITALISATION","DEL_REG_ENT"))
+
+
+
+
+
+
+################################ DICTIONARY OF PregnancyTest ##################################
+dictonary_of_itemset_PregnancyTest[["PregnancyTest"]][["positive"]]<-list(list("positive")) 
+
+################################ PARAMETERS for PregnancyTest ##################################
+days_from_start_PregnancyTest <- 30
+days_to_end_PregnancyTest <- 280
+
 
 
 
