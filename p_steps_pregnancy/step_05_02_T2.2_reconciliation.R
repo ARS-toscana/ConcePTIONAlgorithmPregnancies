@@ -598,18 +598,35 @@ while (D3_gop[,.N]!=0) {
                      `:=`(algorithm_for_reconciliation = paste0(algorithm_for_reconciliation, "YY:DiscordantEnd_"))]
     
     #### Yellow - Blue
-    D3_gop <- D3_gop[n == 1 & new_group_next_record != 1 &  recon == 0 & coloured_order == "2_yellow" & coloured_order_next_record == "3_blue" &
-                       start_diff == 0,
-                     `:=`( algorithm_for_reconciliation = paste0(algorithm_for_reconciliation, "YB:concordant_"),
-                           imputed_start_of_pregnancy = 0,
-                           meaning_start_date = shift(meaning_start_date, n = i,  fill = "updated_from_blue_record", type=c("lead")))]
     
-    D3_gop <- D3_gop[n == 1 & new_group_next_record != 1 &  recon == 0 & coloured_order == "2_yellow" & coloured_order_next_record == "3_blue" &
-                       start_diff != 0,
-                     `:=`( pregnancy_start_date = pregnancy_start_date_next_record,
-                           algorithm_for_reconciliation = paste0(algorithm_for_reconciliation, "YB:StartUpdated_"),
-                           imputed_start_of_pregnancy = 0,
-                           meaning_start_date = "updated_from_blue_record")]
+    if(thisdatasource == "SNDS"){
+      D3_gop <- D3_gop[n == 1 & new_group_next_record != 1 &  recon == 0 & coloured_order == "2_yellow" & coloured_order_next_record == "3_blue" &
+                         start_diff == 0 & meaning_start_date != "updated_from_blue_record",
+                       `:=`( algorithm_for_reconciliation = paste0(algorithm_for_reconciliation, "YB:concordant_"),
+                             imputed_start_of_pregnancy = 0,
+                             meaning_start_date = "updated_from_blue_record")]
+      
+      D3_gop <- D3_gop[n == 1 & new_group_next_record != 1 &  recon == 0 & coloured_order == "2_yellow" & coloured_order_next_record == "3_blue" &
+                         start_diff != 0 & meaning_start_date != "updated_from_blue_record",
+                       `:=`( pregnancy_start_date = pregnancy_start_date_next_record,
+                             algorithm_for_reconciliation = paste0(algorithm_for_reconciliation, "YB:StartUpdated_"),
+                             imputed_start_of_pregnancy = 0,
+                             meaning_start_date = "updated_from_blue_record")]
+    }else{
+      D3_gop <- D3_gop[n == 1 & new_group_next_record != 1 &  recon == 0 & coloured_order == "2_yellow" & coloured_order_next_record == "3_blue" &
+                         start_diff == 0,
+                       `:=`( algorithm_for_reconciliation = paste0(algorithm_for_reconciliation, "YB:concordant_"),
+                             imputed_start_of_pregnancy = 0,
+                             meaning_start_date = shift(meaning_start_date, n = i,  fill = "updated_from_blue_record", type=c("lead")))]
+      
+      D3_gop <- D3_gop[n == 1 & new_group_next_record != 1 &  recon == 0 & coloured_order == "2_yellow" & coloured_order_next_record == "3_blue" &
+                         start_diff != 0,
+                       `:=`( pregnancy_start_date = pregnancy_start_date_next_record,
+                             algorithm_for_reconciliation = paste0(algorithm_for_reconciliation, "YB:StartUpdated_"),
+                             imputed_start_of_pregnancy = 0,
+                             meaning_start_date = "updated_from_blue_record")]
+    }
+
     
     #### Yellow - Red
     D3_gop <- D3_gop[n == 1 & new_group_next_record != 1 &  recon == 0 & coloured_order == "2_yellow" & coloured_order_next_record == "4_red" &
