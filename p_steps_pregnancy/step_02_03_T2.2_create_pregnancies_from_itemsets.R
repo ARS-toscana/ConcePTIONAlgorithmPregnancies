@@ -35,6 +35,38 @@ if (this_datasource_has_itemsets_stream_from_medical_obs){
   # order dataset for person_id, 
   setorderv(dataset_item_sets,c("person_id","date"), na.last = T)
   
+  
+  
+  
+  
+  if (thisdatasource=="SNDS"){
+    
+
+    # GestationalAge
+    dataset_item_sets[item_set == "GestationalAge" & mo_unit == "weeks", 
+                      `:=`(pregnancy_start_date = date - (mo_source_value * 7),
+                           meaning_start_date = "from_itemset_GestationalAge")]
+    
+    
+    # LastMestrualPeriodImplyingPregnancy
+    dataset_item_sets[item_set=="LastMestrualPeriodImplyingPregnancy" & mo_unit == "days", 
+                      `:=`(pregnancy_start_date = date - mo_source_value,
+                           meaning_start_date = "from_itemset_LastMestrualPeriodImplyingPregnancy") ]  
+    
+    
+    # variables
+    dataset_item_sets[,`:=`(type_of_pregnancy_end := "UNK",
+                            pregnancy_end_date = pregnancy_start_date + 280, 
+                            pregnancy_ongoing_date = date, 
+                            meaning_ongoing_date = paste0("from_itemset_",item_set), 
+                            imputed_end_of_pregnancy = 1,  
+                            imputed_start_of_pregnancy = 0, 
+                            meaning_end_date = paste0("imputed_itemset_from_",item_set))]
+    
+  }
+  
+  
+  
   if (thisdatasource=="VID"){
     
     # start creating pregnancy_ongoing_date
