@@ -41,6 +41,7 @@ if (this_datasource_has_itemsets_stream_from_medical_obs){
   
   if (thisdatasource=="SNDS"){
     
+    dataset_item_sets <- dataset_item_sets[mo_source_value != "999"]
 
     # GestationalAge
     dataset_item_sets[item_set == "GestationalAge" & mo_unit == "weeks", 
