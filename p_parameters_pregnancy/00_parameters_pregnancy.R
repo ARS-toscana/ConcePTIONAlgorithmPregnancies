@@ -42,6 +42,15 @@ datasources_that_do_not_use_prediction_on_red <- c("EFEMERIS", "POMME", "THL", "
 this_datasource_do_not_use_prediction_on_red <- ifelse(thisdatasource %in% datasources_that_do_not_use_prediction_on_red, TRUE, FALSE) 
 
 
+#datasources for which pregnancies consisting only of red records end on the date of the most recent record
+datasources_that_end_red_pregnancies <- c("TO_ADD", "ARS", "FERR") #@ use "TO_ADD" as example
+this_datasource_ends_red_pregnancies  <- ifelse(thisdatasource %in% datasources_that_end_red_pregnancies,TRUE,FALSE) 
+
+#datasources that do not modify information from PROMPT
+datasource_that_does_not_modify_PROMPT <- c("TO_ADD","UOSL","VID","EFEMERIS", "POMME") #@ use "TO_ADD" as example
+this_datasource_does_not_modify_PROMPT <- ifelse(thisdatasource %in% datasource_that_does_not_modify_PROMPT,TRUE,FALSE) 
+
+
 
 if(this_datasource_has_prompt_child){
   this_datasource_has_prompt <- TRUE
