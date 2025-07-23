@@ -2,14 +2,6 @@
 # ALGORITMH FOR PREGNANCY SCRIPT: parameters to be filled
 #--------------------------------------------------------
 
-# list of datasources for which pregnancies consisting only of red records end on the date of the most recent record
-datasources_that_end_red_pregnancies <- c("TO_ADD", "ARS", "FERR") #@ use "TO_ADD" as example
-this_datasource_ends_red_pregnancies  <- ifelse(thisdatasource %in% datasources_that_end_red_pregnancies,TRUE,FALSE) 
-
-# list of datasources that do not modify information from PROMPT
-datasource_that_does_not_modify_PROMPT <- c("TO_ADD","UOSL","VID","SNDS") #@ use "TO_ADD" as example
-this_datasource_does_not_modify_PROMPT <- ifelse(thisdatasource %in% datasource_that_does_not_modify_PROMPT,TRUE,FALSE) 
-
 # list of meaning that are not implying pregnancy, but have info about it
 meaning_start_not_implying_pregnancy <- c("from_itemset_LastMestrualPeriod", 
                                           "imputed_from_service_for_ongoing_pregnancy", 
