@@ -14,8 +14,6 @@ if(thisdatasource_has_EUROCAT){
   
   if (dim(D3_EUROCAT)[1]!=0){
     
-    
-    # adapt format for variables used in computation:
     if(thisdatasource == "ATS"){
       D3_EUROCAT_intermediate<-D3_EUROCAT[,.(person_id_mother,birthdate,gestlength,type,survey_id)]
       suppressWarnings(D3_EUROCAT_intermediate[,birth_date:=ymd(birthdate)])
@@ -27,7 +25,7 @@ if(thisdatasource_has_EUROCAT){
     
     # create pregnancy_start_date from birth_date and gestlength
     D3_EUROCAT_intermediate[, pregnancy_start_date := birth_date - (gestlength*7)]
-  
+    
     D3_EUROCAT_intermediate[, imputed_start_of_pregnancy := fifelse(is.na(pregnancy_start_date),1,0)]
     
     D3_EUROCAT_intermediate[, imputed_end_of_pregnancy := 0]
@@ -39,7 +37,6 @@ if(thisdatasource_has_EUROCAT){
     D3_EUROCAT_intermediate[, meaning_start_date:= fifelse(imputed_start_of_pregnancy == 0,
                                                            "from_EUROCAT_gestlength", 
                                                            "imputed_from_EUROCAT_birth_date")]
-    
     # adjust type 
     # 1 = Live birth 
     # 2 = Stillbirth 

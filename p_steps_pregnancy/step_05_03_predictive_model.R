@@ -49,8 +49,10 @@ if(model_condition){
   
   D3_group_model[is.na(codvar) | codvar == "", record_type := meaning]
   
-  D3_group_model[is.na(record_type) & EUROCAT == "yes", record_type := "record_from_eurocat"]
   
+  D3_group_model[is.na(record_type)&EUROCAT == "yes",record_type:="record_from_EUROCAT"]
+  
+  D3_group_model[is.na(origin)&EUROCAT == "yes",origin:="EUROCAT"]
   
   #dividing red and green pregnancies 
   DT_green_blue <- D3_group_model[train_set == 1]
