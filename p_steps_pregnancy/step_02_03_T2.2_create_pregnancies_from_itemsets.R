@@ -41,18 +41,23 @@ if (this_datasource_has_itemsets_stream_from_medical_obs){
   
   if (thisdatasource=="SNDS"){
     
-    dataset_item_sets <- dataset_item_sets[mo_source_value != "999"]
+    dataset_item_sets[, mo_source_value := as.numeric(mo_source_value)]
+    
+    dataset_item_sets <- dataset_item_sets[(item_set == "GestationalAge" & (mo_source_value *7 - 11) < 310 ) |
+                                           (item_set == "LastMestrualPeriodImplyingPregnancy" & mo_source_value  < 310 )]
+
+    
 
     # GestationalAge
     dataset_item_sets[item_set == "GestationalAge" & mo_unit == "weeks", 
-                      `:=`(pregnancy_start_date = date - ((as.numeric(mo_source_value) * 7) - 11), 
+                      `:=`(pregnancy_start_date = date - (mo_source_value * 7 - 11), 
                            meaning_start_date = "from_itemset_GestationalAge")]
     
     # -11 = + 3 - 14, where + 3 days is explained by the unit of AGE_GES, which is in revolute weeks   
     
     # LastMestrualPeriodImplyingPregnancy
     dataset_item_sets[item_set=="LastMestrualPeriodImplyingPregnancy" & mo_unit == "days", 
-                      `:=`(pregnancy_start_date = date - as.numeric(mo_source_value),
+                      `:=`(pregnancy_start_date = date - mo_source_value,
                            meaning_start_date = "from_itemset_LastMestrualPeriodImplyingPregnancy") ]  
     
     

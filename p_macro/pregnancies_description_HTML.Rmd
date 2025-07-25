@@ -200,7 +200,10 @@ D3_pregnancy_reconciled[order_quality == 30, order_quality_desc :=  "CONCEPTSETS
 D3_pregnancy_reconciled[order_quality == 40, order_quality_desc :=  "all Streams: blue"]
 D3_pregnancy_reconciled[order_quality == 50, order_quality_desc :=  "all Streams: red"]
 
-D3_pregnancy_reconciled[order_quality == 14.5, order_quality_desc :=  "PROMPT end imputed as the 15th of the month"]
+D3_pregnancy_reconciled[order_quality == 14.5, order_quality_desc :=  "PROMPT: end imputed as the 15th of the month"]
+
+D3_pregnancy_reconciled[order_quality == 90, order_quality_desc :=  "PROMPT: day and month imputed"]
+
 
 quality_DF <- D3_pregnancy_reconciled[, order_quality_desc := as.factor(order_quality_desc)]
 quality_DF <- quality_DF[, .N, by = .(year_start_of_pregnancy, order_quality_desc)]

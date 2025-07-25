@@ -279,17 +279,27 @@ while (D3_gop[,.N]!=0) {
     #--------------------------
     D3_gop <- D3_gop[n == 1 & recon == 0 & !is.na(record_date_next_record) & 
                        coloured_order == "2_yellow" & coloured_order_next_record == "3_blue" &
-                       type_of_pregnancy_end %in% c("LB", "SB")&
-                       pregnancy_end_date - 308 > pregnancy_start_date_next_record &
-                       pregnancy_end_date - 168 < record_date_next_record, 
+                       type_of_pregnancy_end %in% c("LB", "SB") &
+                       pregnancy_end_date - 310 > pregnancy_start_date_next_record, 
                      `:=`(new_pregnancy_group = 1)]
     
-    D3_gop <- D3_gop[n == 1 & recon == 0 & !is.na(record_date_next_record) & 
-                       coloured_order == "2_yellow" & coloured_order_next_record == "3_blue" &
-                       type_of_pregnancy_end %in% list_of_not_LB_SB &
-                       pregnancy_end_date - 154 > pregnancy_start_date_next_record &
-                       pregnancy_end_date - gapallowed < record_date_next_record, 
-                     `:=`(new_pregnancy_group = 1)]
+
+    
+    if(thisdatasource == "SNDS"){
+      D3_gop <- D3_gop[n == 1 & recon == 0 & !is.na(record_date_next_record) & 
+                         coloured_order == "2_yellow" & coloured_order_next_record == "3_blue" &
+                         type_of_pregnancy_end %in% list_of_not_LB_SB &
+                         pregnancy_end_date - 168 > pregnancy_start_date_next_record &
+                         pregnancy_end_date - gapallowed < record_date_next_record, 
+                       `:=`(new_pregnancy_group = 1)]
+    }else{
+      D3_gop <- D3_gop[n == 1 & recon == 0 & !is.na(record_date_next_record) & 
+                         coloured_order == "2_yellow" & coloured_order_next_record == "3_blue" &
+                         type_of_pregnancy_end %in% list_of_not_LB_SB &
+                         pregnancy_end_date - 154 > pregnancy_start_date_next_record &
+                         pregnancy_end_date - gapallowed < record_date_next_record, 
+                       `:=`(new_pregnancy_group = 1)]
+    }
     
     
     

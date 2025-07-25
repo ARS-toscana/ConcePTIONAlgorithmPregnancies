@@ -376,6 +376,8 @@ if(PRP[, .N] > 0){ # n of subject with imputed month of birth
     record_date = pregnancy_end_date, 
     meaning_start_date = NA,
     meaning_end_date = NA,
+    imputed_start_of_pregnancy = 0, 
+    imputed_start_of_pregnancy = 0, 
     order_quality = 90,
     PROMPT = "yes", 
     origin = "PERSON_RELATIONSHIP"
@@ -399,6 +401,8 @@ if(PRP[, .N] > 0){ # n of subject with imputed month of birth
       PROMPT = "yes", 
       origin = "PERSON_RELATIONSHIP", 
       description = "PR_month_imputed", 
+      imputed_start_of_pregnancy = 0, 
+      imputed_start_of_pregnancy = 0,
       number_green = 0,
       number_yellow = 0, 
       number_blue = 0,
