@@ -7,7 +7,7 @@ TEST = FALSE
 if (TEST){
   
   # Directories test
-  testname <- "05_05_test_adding_PROMPT_T_and_LB"
+  testname <- "05_05_test_adding_duplicated_LB"
   
   thisdirinput <- file.path(dirtest,testname)
   dir.create(thisdirinput, showWarnings = F)
@@ -44,12 +44,20 @@ if (TEST){
 # Loading and renaming
 load(paste0(thisdirinput,"D3_group_model.RData"))
 load(paste0(thisdirinput,"D3_pregnancy_model.RData"))
-load(paste0(thisdirinput,"Person_rel_PROMPT_dataset.RData"))
-
 
 D3_group_PR_PROMPT <- D3_group_model
 D3_pregnancy_PR_PROMT <- D3_pregnancy_model
-PRP <- Person_rel_PROMPT_dataset[month_imputed == 1]
+
+if(this_datasource_has_person_rel_table){
+  
+  load(paste0(thisdirinput,"Person_rel_PROMPT_dataset.RData"))
+  PRP <- Person_rel_PROMPT_dataset[month_imputed == 1]
+  
+}else{
+  
+  PRP <- data.table()
+}
+
 
 if(PRP[, .N] > 0){ # n of subject with imputed month of birth
 
