@@ -395,6 +395,7 @@ if(PRP[, .N] > 0){ # n of subject with imputed month of birth
   
   # Add new pregnancies in D3_pregnancy_model
   DT_new_pregnancy <- rbindlist(list(PRP_1, PRP_4, PRP_5, PRP_6))
+  DT_new_pregnancy <- unique(DT_new_pregnancy[, -c("child_id" )])
   
   if(DT_new_pregnancy[, .N]>0){
     DT_new_pregnancy <- DT_new_pregnancy[, .(
