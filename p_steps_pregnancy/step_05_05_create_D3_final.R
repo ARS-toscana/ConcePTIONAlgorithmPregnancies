@@ -2,9 +2,10 @@
 load(paste0(dirtemp,"D3_group_overlap.RData"))
 load(paste0(dirtemp,"D3_pregnancy_overlap.RData"))
 
-D3_pregnancy_reconciled_before_excl <- D3_pregnancy_overlap
-D3_groups_of_pregnancies_reconciled_before_excl <- D3_group_overlap
+D3_pregnancy_reconciled_valid <- D3_pregnancy_overlap
+D3_groups_of_pregnancies_reconciled <- D3_group_overlap 
 
+# load D3_PERSONS
 D3_PERSONS <- data.table()
 files<-sub('\\.RData$', '', list.files(dirtemp))
 for (i in 1:length(files)) {
@@ -15,9 +16,6 @@ for (i in 1:length(files)) {
     D3_PERSONS <-D3_PERSONS[!(is.na(person_id) | person_id==""), ]
   }
 }
-
-D3_pregnancy_reconciled_valid <- D3_pregnancy_reconciled_before_excl
-D3_groups_of_pregnancies_reconciled <- D3_groups_of_pregnancies_reconciled_before_excl 
 
 
 # Replace meaning 99 with 50
@@ -100,51 +98,65 @@ D3_pregnancy_reconciled_valid <- D3_pregnancy_reconciled_valid[, .(pregnancy_id,
 
 
 #  Create D3_mother_child
-
 if (this_datasource_has_person_rel_table){
-  D3_mother_child_ids <- D3_groups_of_pregnancies_reconciled[!is.na(child_id)]
   
-  D3_mother_child_ids <- D3_mother_child_ids[pregnancy_id %in% D3_pregnancy_reconciled_valid[, pregnancy_id]]
+  D3_mother_child_ids <- D3_groups_of_pregnancies_reconciled[
+    !is.na(child_id) & pregnancy_id %in% D3_pregnancy_reconciled_valid[, pregnancy_id]
+    ]
   
-  D3_mother_child_ids <- D3_mother_child_ids[, .(person_id,
-                                                 child_id,
-                                                 pregnancy_id)]
+  D3_mother_child_ids <- unique(
+    D3_mother_child_ids[, .(person_id,
+                            child_id,
+                            pregnancy_id)]
+  )
   
-   load(paste0(dirtemp, "Person_rel_PROMPT_dataset.RData"))
+  # add origin and meaning
+  load(paste0(dirtemp, "Person_rel_PROMPT_dataset.RData"))
+  
    D3_mother_child_ids <- merge(D3_mother_child_ids,
-                                Person_rel_PROMPT_dataset[, -c("person_id", "method_of_linkage", "birth_date")],
+                                Person_rel_PROMPT_dataset[,.(child_id, 
+                                                             origin_of_relationship,
+                                                             meaning_of_relationship)],
                                 by = "child_id",
                                 all.x = TRUE)
-
-   D3_mother_child_ids <- unique(D3_mother_child_ids)
+   
+   # add number of child for pregnancy
    D3_mother_child_ids[, n_child := seq_along(.I), pregnancy_id][,n_child := max(n_child), pregnancy_id]
-   D3_mother_child_ids[is.na(n_child), n_child := 0]
    
-   D3_mother_child_ids[, n_pregnancy_for_child := seq_along(.I), child_id][,n_pregnancy_for_child := max(n_pregnancy_for_child), child_id]
+   # Create child_in_multiple_pregnancies
+   D3_mother_child_ids[, n_preg_per_child := seq_along(.I), child_id][,
+                          n_preg_per_child := max(n_preg_per_child), child_id][, 
+                           child_in_multiple_pregnancies := fifelse(n_preg_per_child > 1, 1, 0)]
    
-   D3_mother_child_ids[, n_pregnancy_for_child := max(n_pregnancy_for_child), pregnancy_id]
-   
-   D3_mother_child_ids[n_pregnancy_for_child > 1, child_in_multiple_pregnancies := 1][is.na(child_in_multiple_pregnancies), child_in_multiple_pregnancies := 0]
-   
-   D3_mother_child_ids <- D3_mother_child_ids[, -c("n_pregnancy_for_child")]
-   
-   D3_pregnancy_reconciled_valid <- merge(D3_pregnancy_reconciled_valid, 
-                                    D3_mother_child_ids[, .(pregnancy_id, n_child, child_in_multiple_pregnancies)],
-                                    all.x = TRUE,
-                                    by = c("pregnancy_id"))
-   
-   D3_pregnancy_reconciled_valid <- unique(D3_pregnancy_reconciled_valid)
    save(D3_mother_child_ids, file = paste0(diroutput, "D3_mother_child_ids.RData"))
    
+   # add child_in_multiple_pregnancies in D3_preg
+   D3_mother_child_ids_to_be_merged <- D3_mother_child_ids[
+     , child_in_multiple_pregnancies := max(child_in_multiple_pregnancies), pregnancy_id
+   ] 
+   
+   D3_mother_child_ids_to_be_merged <- unique(D3_mother_child_ids_to_be_merged[, .(pregnancy_id, 
+                                                                                   n_child, 
+                                                                                   child_in_multiple_pregnancies)])                                             
+   
+   D3_pregnancy_reconciled_valid <- merge(D3_pregnancy_reconciled_valid, 
+                                          D3_mother_child_ids_to_be_merged,
+                                          all.x = TRUE,
+                                          by = c("pregnancy_id"))
+   
+   D3_pregnancy_reconciled_valid[is.na(child_in_multiple_pregnancies), child_in_multiple_pregnancies := 0]
+   
+   D3_pregnancy_reconciled_valid <- unique(D3_pregnancy_reconciled_valid)
+   
+  
 }else{
-  D3_pregnancy_reconciled_valid[, `:=`(n_child = NA, child_in_multiple_pregnancies =NA)]
+  D3_pregnancy_reconciled_valid[, `:=`(n_child = NA, child_in_multiple_pregnancies = 0)]
 }
 
 
 
 
 # Adjusting prediction for yellow non-LB
-
 if(!is.na(max_gestage_yellow_no_LB_thisdatasource)){
   D3_pregnancy_reconciled_valid[type_of_pregnancy_end != "LB" & 
                                   highest_quality == "2_yellow" &
@@ -201,7 +213,7 @@ D3_survey_and_visit_ids <- D3_survey_and_visit_ids[!is.na(visit_occurrence_id) &
                                                    type_of_id := "visit_occurrence_id"]
 
 setnames(D3_survey_and_visit_ids, "survey_id", "id")
-D3_survey_and_visit_ids <- D3_survey_and_visit_ids[is.na(id), id := visit_occurrence_id]
+D3_survey_and_visit_ids[is.na(id), id := visit_occurrence_id]
 D3_survey_and_visit_ids <- D3_survey_and_visit_ids[, .(pregnancy_id,
                                                        person_id,
                                                        type_of_id,
