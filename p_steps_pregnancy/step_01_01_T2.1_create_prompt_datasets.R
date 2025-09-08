@@ -172,7 +172,7 @@ if(this_datasource_has_person_rel_table){
   Person_rel_PROMPT_dataset[, month_imputed := 0]
   Person_rel_PROMPT_dataset[, day_imputed := 0]
   
-  if(thisdatasource == 'SNDS' ){
+  if(this_datasource_has_child_birth_month_imputed){
     Person_rel_PROMPT_dataset[, month_imputed := 1]
   }
   

@@ -35,7 +35,7 @@ D3_group_model[imputed_start_of_pregnancy == 0,  train_set := 1]
 D3_group_model[is.na(train_set),  train_set := 0]
 D3_group_model[,  train_set := max(train_set), pregnancy_id]
 
-model_condition <- !this_datasource_do_not_use_prediction_on_red & D3_group_model[train_set == 1, .N] > 0
+model_condition <- !this_datasource_does_not_use_RF & D3_group_model[train_set == 1, .N] > 0
 
 #--------------
 # Running model
@@ -451,7 +451,7 @@ D3_pregnancy_model[, gestage_at_first_record := date_of_oldest_record - pregnanc
 #--------------------------------
 # This datasource use prediction
 #--------------------------------
-if(!this_datasource_do_not_use_prediction_on_red){
+if(!this_datasource_does_not_use_RF){
                  
   D3_pregnancy_model[(highest_quality == "4_red") &
                        !is.na(pregnancy_start_date_predicted),  

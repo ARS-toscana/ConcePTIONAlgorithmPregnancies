@@ -20,8 +20,9 @@ setwd(thisdir)
 # SET INPUT DIRECTORY    
 #---------------------
 
-#@ use this below if you want to set different INPUT DIRECTORY
-dirinput <- c(paste0(thisdir,"/i_input/")) # remember to use / instead of \
+# set here the input directory 
+dirinput <- c(paste0(thisdir,"/i_input/")) # <- directory to dummy data
+#example: dirinput <- "C:/Users/...path.../Instance_Folder/"
 
 #load parameters
 source(paste0(thisdir,"/p_parameters/01_parameters_program.R"))
@@ -65,7 +66,7 @@ source(paste0(thisdir,"/p_steps_pregnancy/step_03_02_T2.2_internal_consistency_f
 source(paste0(thisdir,"/p_steps_pregnancy/step_03_03_T2.2_internal_consistency_for_itemsets.R")) 
 source(paste0(thisdir,"/p_steps_pregnancy/step_03_04_T2.2_internal_consistency_for_EUROCAT.R")) 
 
-#04 PROCESS PREGNANCY
+# 04 PROCESS PREGNANCY
 source(paste0(thisdir,"/p_steps_pregnancy/step_04_01_T2.2_process_pregnancies_excluded.R")) 
 source(paste0(thisdir,"/p_steps_pregnancy/step_04_02_T2.2_create_flowchart.R")) 
 
