@@ -21,7 +21,9 @@ params:
 ---
 
 ```{r setup, include=FALSE}
+
 knitr::opts_chunk$set(echo = FALSE, warning = FALSE)
+
 ```
 
 ```{r parameters, include=FALSE}
