@@ -21,7 +21,7 @@ setwd(thisdir)
 #---------------------
 
 # set here the input directory 
-dirinput <- c(paste0(thisdir,"/i_input/")) # <- directory to dummy data
+dirinput <- c() # <- directory to dummy data
 #example: dirinput <- "C:/Users/...path.../Instance_Folder/"
 
 #load parameters
