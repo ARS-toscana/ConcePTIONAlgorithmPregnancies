@@ -45,33 +45,33 @@ Dt_n_strata <- data.table(strata = c("Green_Discordant",
                                      "Yellow_Concordant",
                                      "Blue",
                                      "Red"),
-                          n = c(D3_pregnancy_reconciled_valid[strata == "Green_Discordant"& 
-                                                                year(pregnancy_start_date) <= 2019 &
-                                                                year(pregnancy_start_date) >= 2015, 
+                          n = c(D3_pregnancy_reconciled_valid[strata == "Green_Discordant", #& 
+                                                              #                                       year(pregnancy_start_date) <= 2019 &
+                                                              #                                       year(pregnancy_start_date) >= 2015, 
                                                               .N],
-                                D3_pregnancy_reconciled_valid[strata == "Green_Concordant"& 
-                                                                year(pregnancy_start_date) <= 2019 &
-                                                                year(pregnancy_start_date) >= 2015, 
+                                D3_pregnancy_reconciled_valid[strata == "Green_Concordant", #& 
+                                                              #                                       year(pregnancy_start_date) <= 2019 &
+                                                              #                                       year(pregnancy_start_date) >= 2015, 
                                                               .N],
-                                D3_pregnancy_reconciled_valid[strata == "Yellow_Discordant"& 
-                                                                year(pregnancy_start_date) <= 2019 &
-                                                                year(pregnancy_start_date) >= 2015,
+                                D3_pregnancy_reconciled_valid[strata == "Yellow_Discordant", #& 
+                                                              #                                       year(pregnancy_start_date) <= 2019 &
+                                                              #                                       year(pregnancy_start_date) >= 2015, 
                                                               .N],
-                                D3_pregnancy_reconciled_valid[strata == "Yellow_SlightlyDiscordant"& 
-                                                                year(pregnancy_start_date) <= 2019 &
-                                                                year(pregnancy_start_date) >= 2015, 
+                                D3_pregnancy_reconciled_valid[strata == "Yellow_SlightlyDiscordant", #& 
+                                                              #                                       year(pregnancy_start_date) <= 2019 &
+                                                              #                                       year(pregnancy_start_date) >= 2015, 
                                                               .N],
-                                D3_pregnancy_reconciled_valid[strata == "Yellow_Concordant"& 
-                                                                year(pregnancy_start_date) <= 2019 &
-                                                                year(pregnancy_start_date) >= 2015,
+                                D3_pregnancy_reconciled_valid[strata == "Yellow_Concordant", #& 
+                                                              #                                       year(pregnancy_start_date) <= 2019 &
+                                                              #                                       year(pregnancy_start_date) >= 2015, 
                                                               .N],
-                                D3_pregnancy_reconciled_valid[strata == "Blue"& 
-                                                                year(pregnancy_start_date) <= 2019 &
-                                                                year(pregnancy_start_date) >= 2015, 
+                                D3_pregnancy_reconciled_valid[strata == "Blue", #& 
+                                                              #                                       year(pregnancy_start_date) <= 2019 &
+                                                              #                                       year(pregnancy_start_date) >= 2015, 
                                                               .N],
-                                D3_pregnancy_reconciled_valid[strata == "Red"& 
-                                                                year(pregnancy_start_date) <= 2019 &
-                                                                year(pregnancy_start_date) >= 2015,
+                                D3_pregnancy_reconciled_valid[strata == "Red", #& 
+                                                              #                                       year(pregnancy_start_date) <= 2019 &
+                                                              #                                       year(pregnancy_start_date) >= 2015, 
                                                               .N]))
 
 Dt_n_strata[, sample_size := min(5, n), strata]
@@ -114,9 +114,9 @@ if(thisdatasource == "DANREG"){
   }
 }else {
   for (i in Dt_n_strata[, strata]) {
-    tmp <- sample(x = D3_pregnancy_reconciled_valid[strata == i & 
-                                                      year(pregnancy_start_date) <= 2019 &
-                                                      year(pregnancy_start_date) >= 2015,
+    tmp <- sample(x = D3_pregnancy_reconciled_valid[strata == i, #& 
+                                                    # year(pregnancy_start_date) <= 2019 &
+                                                    # year(pregnancy_start_date) >= 2015,
                                                     pregnancy_id], 
                   size = Dt_n_strata[strata == i, sample_size], 
                   replace = FALSE)
