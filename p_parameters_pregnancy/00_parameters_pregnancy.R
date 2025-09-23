@@ -56,87 +56,9 @@ if(this_datasource_has_prompt_child){
 datasources_that_end_red_pregnancies <- c("TO_ADD", "ARS", "FERR") #@ use "TO_ADD" as example
 this_datasource_ends_red_pregnancies  <- ifelse(thisdatasource %in% datasources_that_end_red_pregnancies,TRUE,FALSE) 
 
-# datasources that do not modify information from PROMPT
-datasources_that_do_not_modify_PROMPT <- c("TO_ADD","UOSL","VID","EFEMERIS", "POMME") #@ use "TO_ADD" as example
-this_datasource_does_not_modify_PROMPT <- ifelse(thisdatasource %in% datasources_that_do_not_modify_PROMPT,TRUE,FALSE) 
-
 # datasources that use predictive model to estimate start of pregnancies
 datasources_that_do_not_use_RF <- c("EFEMERIS", "POMME", "THL", "RDRU_FISABIO", "DANREG","CASERTA")
 this_datasource_does_not_use_RF <- ifelse(thisdatasource %in% datasources_that_do_not_use_RF, TRUE, FALSE) 
 
-# Parameter for correcting predictive model
-max_gestage_yellow_no_LB <- vector(mode="list")
-max_gestage_yellow_no_LB[["UOSL"]] <- 84
 
-max_gestage_yellow_no_LB_thisdatasource = ifelse(
-  is.null(max_gestage_yellow_no_LB[[thisdatasource]]),
-  NA,
-  max_gestage_yellow_no_LB[[thisdatasource]])
-
-# Parameter for reconciliation: gapallowed
-gap_allowed_red_record <- vector(mode="list")
-gap_allowed_red_record[["HSD"]] <- 180 #270
-gap_allowed_red_record[["UOSL"]] <- 56
-
-gap_allowed_red_record_default <- 56
-
-gap_allowed_red_record_thisdatasource = ifelse(
-  is.null(gap_allowed_red_record[[thisdatasource]]),
-  gap_allowed_red_record_default,
-  gap_allowed_red_record[[thisdatasource]]
-  )
-
-# Parameter for reconciliation: maxgap - indicates the period after (or before) a pregnancy in which pregnancy are implausible, it is set at 28 days
-maxgap <- 28
-
-# Parameter for reconciliation: max gap for specific meaning
-maxgap_specific_meanings <- vector(mode="list")
-list_of_meanings_with_specific_maxgap <- vector(mode="list")
-
-
-maxgap_specific_meanings[["UOSL"]] <- 168
-
-list_of_meanings_with_specific_maxgap[["UOSL"]] <- c("primary_care_diagnosis",
-                                                     "primary_care")
-
-
-maxgap_specific_meanings_thisdatasource = ifelse(
-  is.null(maxgap_specific_meanings[[thisdatasource]]),
-  NA,
-  maxgap_specific_meanings[[thisdatasource]]
-  )
-
-list_of_meanings_with_specific_maxgap_thisdatasource = ifelse(
-  is.null(list_of_meanings_with_specific_maxgap[[thisdatasource]]),
-  NA,
-  list_of_meanings_with_specific_maxgap[[thisdatasource]]
-  )
-
-
-#--------------------------------------------
-# Parameter for description Dummy tables/HTML
-#--------------------------------------------
-
-year_start_descriptive <- 2019
-year_end_descriptive <- 2021
-
-# if(thisdatasource == "DANREG"){
-#   year_start_descriptive <- 2015
-#   year_end_descriptive <- 2018
-# }
-
-year_start_manuscript <- 2015
-year_end_manuscript <- 2019
-
-# description_period indicates the period for an extra html file 
-description_period <- vector(mode="list")
-
-description_period[["UOSL"]][["period_1"]] <- c(2008, 2020)
-#description_period[["UOSL"]][["period_2"]] <- c(2018, 2022) ...
-
-if(thisdatasource %in% names(description_period)){
-  description_period_this_datasource <- description_period[thisdatasource]
-}else{
-  description_period_this_datasource <- NULL
-}
 
