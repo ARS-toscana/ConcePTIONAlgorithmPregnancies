@@ -15,7 +15,7 @@ if (!require("rstudioapi")) install.packages("rstudioapi")
 thisdir<-setwd(dirname(rstudioapi::getSourceEditorContext()$path))
 thisdir<-setwd(dirname(rstudioapi::getSourceEditorContext()$path))
 setwd(thisdir)
-
+ 
 #---------------------
 # SET INPUT DIRECTORY    
 #---------------------
