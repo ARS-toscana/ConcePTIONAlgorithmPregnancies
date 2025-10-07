@@ -11,7 +11,7 @@ datasource_with_prompt <- c("TEST","ARS","PHARMO","UOSL","VID","CPRD","GePaRD","
 this_datasource_has_prompt <- ifelse(thisdatasource %in% datasource_with_prompt,TRUE,FALSE) 
 
 # datasource with CONCEPTSETS
-datasource_with_conceptsets <- c("TO_ADD","TEST","VID", "BIFAP", "CASERTA","SNDS","GePaRD","EpiChron","HSD", "SAIL Databank", "PHARMO", "UOSL","CPRD","SIDIAP", "DANREG" ,"KI", "ARS" , "FERR", "ATS")
+datasource_with_conceptsets <- c("TO_ADD","TEST","VID", "BIFAP", "CASERTA","SNDS","GePaRD","EpiChron","HSD", "SAIL Databank", "PHARMO", "UOSL","CPRD","SIDIAP", "DANREG" ,"KI", "FERR", "ATS")
 this_datasource_has_conceptsets <- ifelse(thisdatasource %in% datasource_with_conceptsets,TRUE,FALSE) 
 
 # datasources with itemsets stream from medical observation
@@ -57,7 +57,7 @@ datasources_that_end_red_pregnancies <- c("TO_ADD", "ARS", "FERR") #@ use "TO_AD
 this_datasource_ends_red_pregnancies  <- ifelse(thisdatasource %in% datasources_that_end_red_pregnancies,TRUE,FALSE) 
 
 # datasources that use predictive model to estimate start of pregnancies
-datasources_that_do_not_use_RF <- c("EFEMERIS", "POMME", "THL", "RDRU_FISABIO", "DANREG","CASERTA")
+datasources_that_do_not_use_RF <- c("EFEMERIS", "POMME", "THL", "RDRU_FISABIO", "DANREG","CASERTA", "ARS")
 this_datasource_does_not_use_RF <- ifelse(thisdatasource %in% datasources_that_do_not_use_RF, TRUE, FALSE) 
 
 
