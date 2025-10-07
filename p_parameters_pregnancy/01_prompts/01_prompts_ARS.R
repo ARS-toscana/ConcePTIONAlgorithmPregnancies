@@ -11,20 +11,20 @@ meaning_of_survey_pregnancy <- vector(mode="list")
 meaning_of_survey_pregnancy_child <- vector(mode="list")
 meaning_of_relationship_child <- vector(mode="list")
 
-meaning_of_survey_pregnancy[["ARS"]][["livebirth_or_stillbirth"]]<-list("birth_registry_mother")
+meaning_of_survey_pregnancy[["ARS"]][["livebirth_or_stillbirth"]]<-list("birth_reg_mother")
 meaning_of_survey_pregnancy[["ARS"]][["ongoing_pregnancy"]]<-list()
-meaning_of_survey_pregnancy[["ARS"]][["spontaneous_abortion"]]<-list("spontaneous_abortion_registry")
-meaning_of_survey_pregnancy[["ARS"]][["induced_termination"]]<-list("induced_termination_registry")
+meaning_of_survey_pregnancy[["ARS"]][["spontaneous_abortion"]]<-list("birth_reg_mother")
+meaning_of_survey_pregnancy[["ARS"]][["induced_termination"]]<-list("birth_reg_mother")
 meaning_of_survey_pregnancy[["ARS"]][["other"]]<-list()
 
 
-meaning_of_survey_pregnancy_child[["ARS"]][["livebirth_or_stillbirth"]]<-list("birth_registry_child")
+meaning_of_survey_pregnancy_child[["ARS"]][["livebirth_or_stillbirth"]]<-list("birth_reg_mother")
 meaning_of_survey_pregnancy_child[["ARS"]][["ongoing_pregnancy"]]<-list()
 meaning_of_survey_pregnancy_child[["ARS"]][["spontaneous_abortion"]]<-list()
 meaning_of_survey_pregnancy_child[["ARS"]][["induced_termination"]]<-list()
 meaning_of_survey_pregnancy_child[["ARS"]][["other"]]<-list()
 
-meaning_of_relationship_child[["ARS"]] <- list("gestational_mother", "birth_mother")
+meaning_of_relationship_child[["ARS"]] <- list("birth_reg_mother", "birth_reg_mother")
 
 ####### LOAD MEANING_OF_VISIT for ARS
 
