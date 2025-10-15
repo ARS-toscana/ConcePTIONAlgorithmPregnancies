@@ -1,65 +1,72 @@
-
 ## import D3_Streams...
 print("import D3_Streams, if present")
 files<-sub('\\.RData$', '', list.files(dirtemp))
 
-D3_Stream_PROMPTS_check<-data.table()
-for (i in 1:length(files)) {
-  if (str_detect(files[i],"^D3_Stream_PROMPTS_check")) { 
-    load(paste0(dirtemp,files[i],".RData")) 
-  }
-} 
-if(dim(D3_Stream_PROMPTS_check)[1]==0) {
+
+# load PROMPT, is not present create empty
+if("D3_Stream_PROMPTS_check" %in% files){
+  load(paste0(dirtemp, "D3_Stream_PROMPTS_check.RData"))
+}else{
   D3_Stream_PROMPTS_check<-data.table(PROMPT=character(0),so_source_value=character(0),survey_id=character(0))
 }
 
-
-D3_Stream_EUROCAT_check<-data.table()
-for (i in 1:length(files)) {
-  if (str_detect(files[i],"^D3_Stream_EUROCAT_check")) { 
-    load(paste0(dirtemp,files[i],".RData")) 
-  }
-} 
-if(dim(D3_Stream_EUROCAT_check)[1]==0) {
+# load EUROCAT, is not present create empty
+if("D3_Stream_EUROCAT_check" %in% files){
+  load(paste0(dirtemp, "D3_Stream_EUROCAT_check.RData"))
+}else{
   D3_Stream_EUROCAT_check<-data.table(EUROCAT=character(0))
 }
 
-D3_Stream_ITEMSETS_check<-data.table()
-for (i in 1:length(files)) {
-  if (str_detect(files[i],"^D3_Stream_ITEMSETS_check")) {
-    load(paste0(dirtemp,files[i],".RData"))
-  }
-}
-if(dim(D3_Stream_ITEMSETS_check)[1]==0) {
+# load ITEMSETS, is not present create empty
+if("D3_Stream_ITEMSETS_check" %in% files){
+  load(paste0(dirtemp, "D3_Stream_ITEMSETS_check.RData"))
+}else{
   D3_Stream_ITEMSETS_check<-data.table(ITEMSETS=character(0))
 }
 
-
-D3_Stream_CONCEPTSETS_check<-data.table()
-for (i in 1:length(files)) {
-  if (str_detect(files[i],"^D3_Stream_CONCEPTSETS_check")) {
-    load(paste0(dirtemp,files[i],".RData"))
-  }
-}
-if(dim(D3_Stream_CONCEPTSETS_check)[1]==0) {
+# load CONCEPTSETS, is not present create empty
+if("D3_Stream_CONCEPTSETS_check" %in% files){
+  load(paste0(dirtemp, "D3_Stream_CONCEPTSETS_check.RData"))
+}else{
   D3_Stream_CONCEPTSETS_check<-data.table(CONCEPTSETS=character(0))
 }
 
 
+
 # put together all the D3_Stream..
-groups_of_pregnancies<-rbind(D3_Stream_CONCEPTSETS_check,D3_Stream_PROMPTS_check,D3_Stream_EUROCAT_check,D3_Stream_ITEMSETS_check, fill=T)
+groups_of_pregnancies<-rbind(D3_Stream_CONCEPTSETS_check,
+                             D3_Stream_PROMPTS_check,
+                             D3_Stream_EUROCAT_check,
+                             D3_Stream_ITEMSETS_check, 
+                             fill=T)
+
+
+if(NROW(groups_of_pregnancies) == 0){
+  stop("No pregnancy has been retrived in any streams")
+}
+
 
 ## added check for missing variables
-if(sum(!str_detect(names(groups_of_pregnancies),"survey_id")) == length(names(groups_of_pregnancies))) {
-  groups_of_pregnancies<-groups_of_pregnancies[,survey_id:=""] }
-if(sum(!str_detect(names(groups_of_pregnancies),"visit_occurrence_id")) == length(names(groups_of_pregnancies))) {
-  groups_of_pregnancies<-groups_of_pregnancies[,visit_occurrence_id:=""]}
-if(sum(!str_detect(names(groups_of_pregnancies),"so_source_value")) == length(names(groups_of_pregnancies))) {
-  groups_of_pregnancies<-groups_of_pregnancies[,so_source_value:=""]}
-if(sum(!str_detect(names(groups_of_pregnancies),"coding_system")) == length(names(groups_of_pregnancies))) {
-  groups_of_pregnancies<-groups_of_pregnancies[,coding_system:=""]}
-if(sum(!str_detect(names(groups_of_pregnancies),"codvar")) == length(names(groups_of_pregnancies))) {
-  groups_of_pregnancies<-groups_of_pregnancies[,codvar:=""]}
+
+if("survey_id" %notin% names(groups_of_pregnancies)){
+  groups_of_pregnancies[, survey_id := ""]
+}
+
+if("visit_occurrence_id" %notin% names(groups_of_pregnancies)){
+  groups_of_pregnancies[, visit_occurrence_id := ""]
+}
+
+if("so_source_value" %notin% names(groups_of_pregnancies)){
+  groups_of_pregnancies[, so_source_value := ""]
+}
+
+if("coding_system" %notin% names(groups_of_pregnancies)){
+  groups_of_pregnancies[, coding_system := ""]
+}
+
+if("codvar" %notin% names(groups_of_pregnancies)){
+  groups_of_pregnancies[, codvar := ""]
+}
 
 if("pregnancy_ongoing_date" %notin% names(groups_of_pregnancies)){
   groups_of_pregnancies[, `:=`(pregnancy_ongoing_date = NA, meaning_ongoing_date = NA)]
@@ -72,6 +79,7 @@ if("CONCEPTSET" %notin% names(groups_of_pregnancies)){
 if("child_id" %notin% names(groups_of_pregnancies)){
   groups_of_pregnancies[, `:=`(child_id = NA)]
 }
+
 
 groups_of_pregnancies<-groups_of_pregnancies[,.(pregnancy_id,
                                                 person_id,
@@ -99,13 +107,14 @@ groups_of_pregnancies<-groups_of_pregnancies[,.(pregnancy_id,
                                                 child_id)]
 
 
-groups_of_pregnancies<-groups_of_pregnancies[is.na(PROMPT),PROMPT:="no"]
-groups_of_pregnancies<-groups_of_pregnancies[is.na(EUROCAT),EUROCAT:="no"]
-groups_of_pregnancies<-groups_of_pregnancies[is.na(CONCEPTSETS),CONCEPTSETS:="no"]
-groups_of_pregnancies<-groups_of_pregnancies[is.na(ITEMSETS),ITEMSETS:="no"]
 
-groups_of_pregnancies<-groups_of_pregnancies[is.na(imputed_start_of_pregnancy), imputed_start_of_pregnancy:=0]
-groups_of_pregnancies<-groups_of_pregnancies[is.na(imputed_end_of_pregnancy), imputed_end_of_pregnancy:=0]
+groups_of_pregnancies[is.na(PROMPT), PROMPT := "no"]
+groups_of_pregnancies[is.na(EUROCAT), EUROCAT := "no"]
+groups_of_pregnancies[is.na(CONCEPTSETS), CONCEPTSETS := "no"]
+groups_of_pregnancies[is.na(ITEMSETS), ITEMSETS := "no"]
+
+groups_of_pregnancies[is.na(imputed_start_of_pregnancy), imputed_start_of_pregnancy := 0]
+groups_of_pregnancies[is.na(imputed_end_of_pregnancy), imputed_end_of_pregnancy := 0]
 
 #An ordering of quality of records is established and stored in variable order_quality; records are of 
 # •	quality green if both pregnancy_start_date and pregnancy_end_date are recorded; (1-4)

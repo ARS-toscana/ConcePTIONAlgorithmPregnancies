@@ -113,6 +113,13 @@ included_pregnancies<-rbind(D3_Stream_PROMPTS_check,
 # rbind included and excluded record
 D3_all_stream <- rbind(excluded_pregnancies, included_pregnancies, fill = T)
 
+
+if(NROW(included_pregnancies) == 0){
+  stop("No pregnancy has been retrived in any streams")
+}
+
+
+
 #MNIP
 D3_all_stream[meaning_start_date %in% meaning_start_not_implying_pregnancy, MNIP:=1]
 
