@@ -430,7 +430,17 @@ if(!this_datasource_has_procedures) {
   } 
   
   print(paste0("Load CONCEPTSETS from PROCEDURES for ",thisdatasource))
-  source(paste0(dirparpregn,"03_conceptsets/03_conceptsets_",thisdatasource,".R"))
+  if(this_datasource_has_specific_procedures){
+    source(paste0(dirparpregn,"03_conceptsets/03_conceptsets_",thisdatasource,".R"))
+#  }else{
+#    concept_set_codes_pregnancy_datasource[["gestational_diabetes"]][[thisdatasource]][[""]] <- c()  #"90.26.7"
+#    concept_set_codes_pregnancy_datasource[["amniocentesis"]][[thisdatasource]][[""]] <- c("75.10.2", "75.10.3")
+#    concept_set_codes_pregnancy_datasource[["Chorionic_Villus_Sampling"]][[thisdatasource]][["ITA_procedures_coding_system"]] <- c("75.10.1")
+#    concept_set_codes_pregnancy_datasource[["others"]][[thisdatasource]][["ITA_procedures_coding_system"]] <- c("75.34.1")
+    
+    
+  }
+
   
   for (procedure in concept_sets_of_pregnancy_procedure){
     for (code in coding_system_of_pregnancy_procedure) {

@@ -14,6 +14,10 @@ this_datasource_has_prompt <- ifelse(thisdatasource %in% datasource_with_prompt,
 datasource_with_conceptsets <- c("TO_ADD","TEST","VID", "BIFAP", "CASERTA","SNDS","GePaRD","EpiChron","HSD", "SAIL Databank", "PHARMO", "UOSL","CPRD","SIDIAP", "DANREG" ,"KI", "ARS" , "FERR", "ATS")
 this_datasource_has_conceptsets <- ifelse(thisdatasource %in% datasource_with_conceptsets,TRUE,FALSE) 
 
+# datasource with specific PROCEDURES
+datasource_with_specific_procedures <- c("TO_ADD","TEST","VID", "BIFAP", "CASERTA","SNDS","GePaRD","EpiChron","HSD", "SAIL Databank", "PHARMO", "UOSL","CPRD","SIDIAP", "DANREG" ,"KI" , "FERR", "ATS")
+this_datasource_has_specific_procedures <- ifelse(thisdatasource %in% datasource_with_specific_procedures,TRUE,FALSE) 
+
 # datasources with itemsets stream from medical observation
 datasource_with_itemsets_stream_from_medical_obs <- c("BIFAP","VID","PHARMO","EpiChron","HSD", "SNDS") 
 this_datasource_has_itemsets_stream_from_medical_obs <- ifelse(thisdatasource %in% datasource_with_itemsets_stream_from_medical_obs,TRUE,FALSE) 
