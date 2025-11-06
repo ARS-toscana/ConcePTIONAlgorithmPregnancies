@@ -22,7 +22,7 @@ datasource_with_procedures <- c("TO_ADD","TEST","ARS","VID", "BIFAP", "CASERTA",
 this_datasource_has_procedures <- ifelse(thisdatasource %in% datasource_with_procedures,TRUE,FALSE) 
 
 # 6 .datasource with specific PROCEDURES
-datasource_with_specific_procedures <- c("TO_ADD","TEST","VID", "BIFAP", "CASERTA","SNDS","GePaRD","EpiChron","HSD", "SAIL Databank", "PHARMO", "UOSL","CPRD","SIDIAP", "DANREG" ,"KI" , "FERR", "ATS")
+datasource_with_specific_procedures <- c("TO_ADD","TEST","ARS","ATS", "BIFAP", "CASERTA","SNDS","GePaRD","EpiChron","HSD", "PHARMO", "UOSL","VID","THL")
 
 this_datasource_has_specific_procedures <- ifelse(thisdatasource %in% datasource_with_specific_procedures,TRUE,FALSE) 
 # 7. datasource with CONCEPTSETS
