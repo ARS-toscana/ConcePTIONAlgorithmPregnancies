@@ -607,11 +607,11 @@ if(this_datasource_does_not_modify_PROMPT){
   # check SB gestage
   if("SB" %in% vec.type.of.end){
     mean.gestage.SB = as.integer(D3_pregnancy_model[type_of_pregnancy_end == "SB" & 
-                                                      (gestage < 310 & gestage > 14), 
+                                                      (gestage < 310 & gestage > 154), 
                                                      mean(gestage)])
     
     D3_pregnancy_model[type_of_pregnancy_end == 'SB' & 
-                         (gestage > 310 | gestage < 14) &
+                         (gestage > 310 | gestage < 154) &
                          imputed_start_of_pregnancy == 1,
                        `:=`(pregnancy_start_date = pregnancy_end_date - mean.gestage.SB, 
                             algorithm_for_reconciliation = paste0(algorithm_for_reconciliation,
