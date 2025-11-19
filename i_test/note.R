@@ -1,0 +1,17 @@
+# di seguito i codici in cui è necessario parametrizzare
+
+#step_02_01_T2.2_create_pregnancies_from_prompts
+#step_02_03_T2.2_create_pregnancies_from_itemsets
+#step_02_04_T2.2_create_pregnancies_from_EUROCAT
+#step_03_02_T2.2_internal_consistency_for_conceptsets
+#step_05_01_T2.3_merge_stream_of_same_person
+#step_05_02_T2.2_reconciliation
+#step_05_04_check_overlap
+#step_06_01_sample_from_pregnancies
+#step_07_01_create_aggregated_tables
+#step_07_04_create_aggregated_tables_for_manuscript
+
+
+# di seguito i parametri non spiegati nella wiki
+#this_datasource_does_not_use_RF
+#this_datasource_does_not_modify_PROMPT
