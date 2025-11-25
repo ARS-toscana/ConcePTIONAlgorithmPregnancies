@@ -19,7 +19,7 @@ if (this_datasource_has_prompt) {
   
   study_variables_type_of_pregnancy <- c("TYPE")
   
-  if (thisdatasource=="GePaRD"){
+  if (this_datasource_has_different_start_pregnancy){
     study_variables_start_of_pregnancy <- c(study_variables_start_of_pregnancy,"EDD") 
   }
   
@@ -32,7 +32,7 @@ if (this_datasource_has_prompt) {
       load(paste0(dirtemp,studyvar,".RData"))
     }
     
-    if(thisdatasource == "CASERTA"){
+    if(this_datasource_has_specific_pregnancy_registry){
       load(paste0(dirtemp,"ONGOING_COVID_REG.RData"))
     }
     # merge with SURVEY_ID_BR both LMP and USOUNDS, define two variables start_of_pregnancy_LMP and start_of_pregnancy_USOUNDS, define pregnancy_id as survey_id
@@ -60,7 +60,7 @@ if (this_datasource_has_prompt) {
       setnames(dataset_pregnancies,"so_source_column", paste0("column_",studyvar))
     }
     
-    if(thisdatasource == "CASERTA"){
+    if(this_datasource_has_specific_pregnancy_registry){
       print("ONGOING_COVID_REG")
       studyvardataset <- ONGOING_COVID_REG
       dataset_pregnancies <- merge(dataset_pregnancies,
@@ -87,7 +87,7 @@ if (this_datasource_has_prompt) {
     # create variable pregnancy_id as survey_date
     dataset_pregnancies0[,pregnancy_id:=paste0(person_id,"_",survey_id,"_",survey_date)] 
     
-    if(thisdatasource == "SIDIAP"){
+    if(this_datasource_has_zero_as_date){
       dataset_pregnancies0 <- dataset_pregnancies0[DATEENDPREGNANCY!='0']
     }
     
@@ -107,13 +107,13 @@ if (this_datasource_has_prompt) {
     dataset_pregnancies0[,GESTAGE_FROM_LMP_DAYS:=as.numeric(unclass(GESTAGE_FROM_LMP_DAYS))]
     dataset_pregnancies0[,GESTAGE_FROM_LMP_WEEKS:=as.numeric(unclass(GESTAGE_FROM_LMP_WEEKS))]
     
-    if (thisdatasource=="GePaRD"){
+    if (this_datasource_has_different_start_pregnancy){
       dataset_pregnancies0[,EDD:=ymd(EDD)]
     }
     
     ## HANDLE EXCEPTION FOR DAPs
     # transform to NA incorrect values'
-    if(thisdatasource == 'SAIL Databank'){
+    if(this_datasource_has_incorrect_values){
       dataset_pregnancies0<-dataset_pregnancies0[GESTAGE_FROM_DAPS_CRITERIA_WEEKS==99, 
                                                  GESTAGE_FROM_DAPS_CRITERIA_WEEKS:=NA]
       
@@ -127,7 +127,7 @@ if (this_datasource_has_prompt) {
                                                  GESTAGE_FROM_USOUNDS_WEEKS:=NA]
     }
     
-    if(thisdatasource=="ARS" | thisdatasource=="TEST"){
+    if(this_datasource_has_specific_code_for_GESTAGE){
       dataset_pregnancies0<-dataset_pregnancies0[GESTAGE_FROM_LMP_WEEKS==99,GESTAGE_FROM_LMP_WEEKS:=NA]
       dataset_pregnancies0<-dataset_pregnancies0[GESTAGE_FROM_USOUNDS_WEEKS==99,GESTAGE_FROM_USOUNDS_WEEKS:=NA]
       dataset_pregnancies0<-dataset_pregnancies0[GESTAGE_FROM_USOUNDS_WEEKS==0,GESTAGE_FROM_USOUNDS_WEEKS:=NA]
@@ -269,7 +269,7 @@ if (this_datasource_has_prompt) {
 
 
     # classified DATEENDPREGNANCY with TYPE
-    if (thisdatasource=="DANREG"){
+    if (this_datasource_has_all_LB){
       dataset_pregnancies2[, type_of_pregnancy_end:="LB"]
     }
     
@@ -316,7 +316,7 @@ if (this_datasource_has_prompt) {
                              is.na(GESTAGE_FROM_DAPS_CRITERIA_DAYS)
                            ,type_of_pregnancy_end:="UNK"]
       
-    } else if (thisdatasource=="CASERTA"){
+    } else if (this_datasource_has_specific_pregnancy_registry){
       
       dataset_pregnancies2[pregnancy_end_date==DATEENDPREGNANCY & TYPE%in%unlist(dictonary_of_itemset_pregnancy_this_datasource[["LB"]]),type_of_pregnancy_end:="LB"]
       dataset_pregnancies2[pregnancy_end_date==DATEENDPREGNANCY & TYPE%in%unlist(dictonary_of_itemset_pregnancy_this_datasource[["T"]]) ,type_of_pregnancy_end:="T"]
@@ -354,7 +354,7 @@ if (this_datasource_has_prompt) {
                               so_source_value=DATESTARTPREGNANCY)]
     
     
-    if (thisdatasource=="GePaRD"){
+    if (this_datasource_has_different_start_pregnancy){
       dataset_pregnancies3<-dataset_pregnancies2[!is.na(EDD), pregnancy_start_date:=as.Date(EDD)-280]
       
       dataset_pregnancies3[!is.na(pregnancy_start_date),
@@ -519,7 +519,7 @@ if (this_datasource_has_prompt) {
     
     
     # ONGOING_COVID
-    if(thisdatasource == "CASERTA"){
+    if(this_datasource_has_specific_pregnancy_registry){
       dataset_pregnancies3 <- dataset_pregnancies3[column_ONGOING_COVID_REG != "gravidanza" | 
                                                      ONGOING_COVID_REG %in% unlist(dictonary_of_itemset_pregnancy_this_datasource$UNK)]
       
@@ -586,7 +586,7 @@ if (this_datasource_has_prompt) {
        END_STILLBIRTH, 
        END_TERMINATION)
     
-    if (thisdatasource=="GePaRD"){
+    if (this_datasource_has_different_start_pregnancy){
       rm(EDD)
     }
   }else{
