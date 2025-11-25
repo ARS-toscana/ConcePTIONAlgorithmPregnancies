@@ -48,6 +48,32 @@ this_datasource_has_child_birth_month_imputed <- ifelse(thisdatasource %in% data
 
 
 
+#datasource with different start pregnancy
+datasource_with_different_start_pregnancy <- c("GePaRD") 
+this_datasource_has_different_start_pregnancy <- ifelse(thisdatasource %in% datasource_with_different_start_pregnancy, TRUE, FALSE) 
+
+#datasource with specific pregnancy registry 
+datasource_with_specific_pregnancy_registry <- c("CASERTA") 
+this_datasource_has_specific_pregnancy_registry <- ifelse(thisdatasource %in% datasource_with_specific_pregnancy_registry, TRUE, FALSE) 
+
+#datasource with zero as date
+datasource_with_zero_as_date <- c("SIDIAP") 
+this_datasource_has_zero_as_date <- ifelse(thisdatasource %in% datasource_with_zero_as_date, TRUE, FALSE) 
+
+#datasource with incorrect values
+datasource_with_incorrect_values <- c("SAIL Databank") 
+this_datasource_has_incorrect_values <- ifelse(thisdatasource %in% datasource_with_incorrect_values, TRUE, FALSE) 
+
+
+#datasource with specific code for GESTAGE
+datasource_with_specific_code_for_GESTAGE <- c("ARS", "TEST") 
+this_datasource_has_specific_code_for_GESTAGE <- ifelse(thisdatasource %in% datasource_with_specific_code_for_GESTAGE, TRUE, FALSE) 
+
+#datasource with all LB
+datasource_with_all_LB <- c("DANREG") 
+this_datasource_has_all_LB <- ifelse(thisdatasource %in% datasource_with_all_LB, TRUE, FALSE) 
+
+
 
 if(this_datasource_has_prompt_child){
   this_datasource_has_prompt <- TRUE

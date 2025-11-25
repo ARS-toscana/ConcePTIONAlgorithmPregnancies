@@ -1,6 +1,6 @@
 # di seguito i codici in cui è necessario parametrizzare
 
-#step_02_01_T2.2_create_pregnancies_from_prompts
+#step_02_01_T2.2_create_pregnancies_from_prompts: row 276-->parametrizzare e fare un unico ciclo
 #step_02_03_T2.2_create_pregnancies_from_itemsets
 #step_02_04_T2.2_create_pregnancies_from_EUROCAT
 #step_03_02_T2.2_internal_consistency_for_conceptsets
