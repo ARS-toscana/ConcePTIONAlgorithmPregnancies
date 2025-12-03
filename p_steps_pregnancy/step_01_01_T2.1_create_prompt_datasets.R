@@ -14,6 +14,7 @@ if (this_datasource_has_prompt) {
       
       tmp <- fread(paste0(dirinput,files[i],".csv"), 
                    colClasses = list(character="person_id"))
+      
       if(this_datasource_has_prompt_child){
         tmp <- tmp[survey_meaning %in% c(unlist(meaning_of_survey_pregnancy_this_datasource), 
                                          unlist(meaning_of_survey_pregnancy_this_datasource_child)),]
@@ -26,8 +27,8 @@ if (this_datasource_has_prompt) {
     }
   }
   
-  SURVEY_ID_BR<-SURVEY_ID_BR[,survey_date:=ymd(survey_date)]
-  SURVEY_ID_BR<-unique(SURVEY_ID_BR, by=c("person_id","survey_id","survey_date"))
+  SURVEY_ID_BR[, survey_date := ymd(survey_date)]
+  SURVEY_ID_BR <- unique(SURVEY_ID_BR, by=c("person_id", "survey_id", "survey_date")) # adding a count of multiple occurence?
   
   #------------------------------------
   # Replace survey ID for child records
