@@ -41,12 +41,18 @@ this_datasource_has_prompt_child <- ifelse(thisdatasource %in% datasource_with_p
 datasource_with_related_id_correspondig_to_child <- c("THL", "ATS")
 this_datasource_has_related_id_correspondig_to_child <- ifelse(thisdatasource %in% datasource_with_related_id_correspondig_to_child, TRUE, FALSE) 
 
+<<<<<<< HEAD
 # 11. datasource with month of child birth imputed (only for person rel table)
 datasource_child_birth_month_imputed <- c("SNDS", "PHARMO") 
 this_datasource_has_child_birth_month_imputed <- ifelse(thisdatasource %in% datasource_child_birth_month_imputed, TRUE, FALSE)
 
 
 
+=======
+#datasource with prompt with child person_id
+datasource_with_prompt_child <- c("EFEMERIS", "POMME",  "THL", "FERR", "RDRU_FISABIO", "DANREG", "UOSL") 
+this_datasource_has_prompt_child <- ifelse(thisdatasource %in% datasource_with_prompt_child, TRUE, FALSE) 
+>>>>>>> dbb8be04f3d35391ec6220a7aae093c0045eb596
 
 #datasource with different start pregnancy
 datasource_with_different_start_pregnancy <- c("GePaRD") 
