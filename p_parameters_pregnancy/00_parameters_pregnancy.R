@@ -54,6 +54,10 @@ datasource_with_prompt_child <- c("EFEMERIS", "POMME",  "THL", "FERR", "RDRU_FIS
 this_datasource_has_prompt_child <- ifelse(thisdatasource %in% datasource_with_prompt_child, TRUE, FALSE) 
 >>>>>>> dbb8be04f3d35391ec6220a7aae093c0045eb596
 
+#-----------------------------------------------------------------------------------------------------------------------------
+# the following parameters are not listed in the wiki because they are dataset specific and they are only for specific purpose
+#-----------------------------------------------------------------------------------------------------------------------------
+
 #datasource with different start pregnancy
 datasource_with_different_start_pregnancy <- c("GePaRD") 
 this_datasource_has_different_start_pregnancy <- ifelse(thisdatasource %in% datasource_with_different_start_pregnancy, TRUE, FALSE) 
