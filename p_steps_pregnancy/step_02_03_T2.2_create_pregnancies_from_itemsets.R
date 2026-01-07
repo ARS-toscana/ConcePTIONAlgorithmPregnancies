@@ -96,6 +96,27 @@ if (this_datasource_has_itemsets_stream_from_medical_obs){
     dataset_item_sets<-dataset_item_sets[,type_of_pregnancy_end:="UNK"]
   }
   
+  if (thisdatasource=="DANREG"){
+    
+    dataset_item_sets[, mo_source_value := as.numeric(mo_source_value)]
+    
+    # start creating pregnancy_ongoing_date
+    dataset_item_sets<-dataset_item_sets[,`:=`(pregnancy_end_date=date, meaning_end_date=paste0("from_itemset_",item_set))]
+    
+    # then pregnancy_start_date
+    dataset_item_sets<-dataset_item_sets[item_set=="GestationalAge" & mo_unit=="days", 
+                                         `:=`(pregnancy_start_date=pregnancy_end_date-mo_source_value, 
+                                              meaning_start_date=paste0("from_itemset_",item_set)) ]
+    
+    #the pregnancy is ongoing and has a start date but has no end, then at term end of the pregnancy is assumed for the imputation
+    dataset_item_sets<-dataset_item_sets[, `:=`(imputed_end_of_pregnancy=1,  
+                                                imputed_start_of_pregnancy=0,
+                                                type_of_pregnancy_end="UNK",
+                                                pregnancy_ongoing_date=NA,
+                                                meaning_ongoing_date=NA)]
+  
+  }
+  
   
   if (thisdatasource=="BIFAP"){
     

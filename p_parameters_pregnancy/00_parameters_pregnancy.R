@@ -7,7 +7,7 @@ datasources_with_EUROCAT <- c("SAIL Databank", "VID", "ATS")
 thisdatasource_has_EUROCAT <- ifelse(thisdatasource %in% datasources_with_EUROCAT,TRUE,FALSE)
 
 # 2. datasources with itemsets stream from medical observation
-datasource_with_itemsets_stream_from_medical_obs <- c("BIFAP","VID","PHARMO","EpiChron","HSD", "SNDS") 
+datasource_with_itemsets_stream_from_medical_obs <- c("BIFAP","VID","PHARMO","EpiChron","HSD","SNDS","DANREG") 
 this_datasource_has_itemsets_stream_from_medical_obs <- ifelse(thisdatasource %in% datasource_with_itemsets_stream_from_medical_obs,TRUE,FALSE) 
 # 3. datasources with prompt
 datasource_with_prompt <- c("TEST","ARS","PHARMO","UOSL","VID","CPRD","GePaRD","EpiChron","SIDIAP","SAIL Databank","EFEMERIS", "POMME",  "DANREG" ,"KI", "THL", "FERR", "RDRU_FISABIO", "CASERTA", "ATS") 

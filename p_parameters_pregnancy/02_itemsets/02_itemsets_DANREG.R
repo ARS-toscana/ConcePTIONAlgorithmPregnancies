@@ -123,6 +123,41 @@ dictonary_of_itemset_pregnancy[["TYPE"]][["DANREG"]][["ECT"]]<-list()
 dictonary_of_itemset_pregnancy[["TYPE"]][["DANREG"]][["UNK"]]<-list()
 
 
+##### FROM MEDICAL_OBSERVATION
+
+### specification LastMestrualPeriod
+itemsetMED_AVpair_pregnancy[["LastMestrualPeriod"]][[files[i]]][["DANREG"]] <- list()
+
+
+### specification GestationalAge
+itemsetMED_AVpair_pregnancy[["GestationalAge"]][[files[i]]][["DANREG"]] <- list(list("resultater","resultatvaerdi"), list("t_diag", "c_tildiag") , list("t_psyk_diag", "c_tildiag"))
+
+
+### specification PregnancyTest
+itemsetMED_AVpair_pregnancy[["PregnancyTest"]][[files[i]]][["DANREG"]] <- list()
+
+
+### specification LastMestrualPeriodImplyingPregnancy
+itemsetMED_AVpair_pregnancy[["LastMestrualPeriodImplyingPregnancy"]][[files[i]]][["DANREG"]] <- list()
+
+
+################################ DICTIONARY OF PregnancyTest ##################################
+
+dictonary_of_itemset_PregnancyTest[["PregnancyTest"]][["positive"]]<-list(list("positive")) 
+
+
+
+################################ PARAMETERS for PregnancyTest ##################################
+days_from_start_PregnancyTest <- 30
+days_to_end_PregnancyTest <- 280
+
+
+
+
+
+
+
+
 
 
 
