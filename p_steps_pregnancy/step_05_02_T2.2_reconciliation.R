@@ -2,11 +2,11 @@
 # Record Reconciliation
 #----------------------
 
-TEST = FALSE
+TEST = TRUE
 
 if (TEST){
   # Dir test
-  testname <- "05_02_test_VID_maxgap_70"
+  testname <- "05_02_test_DANREG_hierarchy"
   thisdirinput <- file.path(dirtest,testname)
   dir.create(thisdirinput, showWarnings = F)
   
