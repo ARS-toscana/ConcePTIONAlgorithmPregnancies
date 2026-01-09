@@ -89,6 +89,21 @@ if(thisdatasource %in% names(description_period)){
 # ALGORITMH FOR PREGNANCY SCRIPT: parameters to be filled
 #--------------------------------------------------------
 
+# this parameter was created to solve the problem related to danish codes where primary 
+# meanings of diagnosis of records related to non live-birth end (T, SA, ECT, SB) are more reliable than records with non primary meanings
+
+# see step_05_01
+datasource_with_different_meaning_nonLB <- c("DANREG") 
+this_datasource_has_different_meaning_nonLB <- ifelse(thisdatasource %in% datasource_with_different_meaning_nonLB,TRUE,FALSE) 
+
+list_of_primary_meaning_more_reliable <- c("emergency_hospital_contact_primary",
+                                           "hospital_contact_less_than_12_hours_primary",
+                                           "hospital_contact_12_hours_or_more_primary",
+                                           "hospital_contact_for_deceased_primary",
+                                           "off_permises_hospital_contact_primary",
+                                           "virtual_hospital_contact_primary",
+                                           "diagnosis_from_hospital_without_patient_contact_primary")
+
 # list of meaning that are not implying pregnancy, but have info about it
 meaning_start_not_implying_pregnancy <- c("from_itemset_LastMestrualPeriod", 
                                           "imputed_from_service_for_ongoing_pregnancy", 

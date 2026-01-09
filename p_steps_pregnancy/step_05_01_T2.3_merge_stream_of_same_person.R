@@ -95,7 +95,8 @@ groups_of_pregnancies<-groups_of_pregnancies[,.(pregnancy_id,
                                                 coding_system, 
                                                 imputed_start_of_pregnancy,
                                                 imputed_end_of_pregnancy,
-                                                origin,meaning,
+                                                origin,
+                                                meaning,
                                                 so_source_value,
                                                 survey_id,
                                                 visit_occurrence_id,
@@ -256,6 +257,13 @@ groups_of_pregnancies[CONCEPTSET=="procedures_spontaneous_abortion", order_quali
 
 groups_of_pregnancies[CONCEPTSET=="Ectopicpregnancy", order_quality:=19]
 groups_of_pregnancies[CONCEPTSET=="procedures_ectopic", order_quality:=20]
+
+if(this_datasource_has_different_meaning_nonLB){
+  
+  groups_of_pregnancies[meaning %notin% list_of_primary_meaning_more_reliable & type_of_pregnancy_end %in% c("T", "SA", "SB", "ECT"), 
+                        order_quality:=20.5]
+  
+}
 
 groups_of_pregnancies[CONCEPTSET=="Stillbirth_possible", order_quality:=21]
 groups_of_pregnancies[CONCEPTSET=="Interruption_possible", order_quality:=21]
