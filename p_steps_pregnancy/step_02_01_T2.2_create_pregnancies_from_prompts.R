@@ -267,11 +267,6 @@ if (this_datasource_has_prompt) {
       
     }
 
-
-    # classified DATEENDPREGNANCY with TYPE
-    if (this_datasource_has_all_LB){
-      dataset_pregnancies2[, type_of_pregnancy_end:="LB"]
-    }
     
     if (thisdatasource=="PHARMO"){
       

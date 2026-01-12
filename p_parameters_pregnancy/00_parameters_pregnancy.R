@@ -72,11 +72,6 @@ this_datasource_has_incorrect_values <- ifelse(thisdatasource %in% datasource_wi
 datasource_with_specific_code_for_GESTAGE <- c("ARS", "TEST") 
 this_datasource_has_specific_code_for_GESTAGE <- ifelse(thisdatasource %in% datasource_with_specific_code_for_GESTAGE, TRUE, FALSE) 
 
-#datasource with all LB
-datasource_with_all_LB <- c("DANREG") 
-this_datasource_has_all_LB <- ifelse(thisdatasource %in% datasource_with_all_LB, TRUE, FALSE) 
-
-
 
 if(this_datasource_has_prompt_child){
   this_datasource_has_prompt <- TRUE
@@ -91,8 +86,8 @@ if(this_datasource_has_prompt_child){
 datasources_that_end_red_pregnancies <- c("TO_ADD", "ARS", "FERR") #@ use "TO_ADD" as example
 this_datasource_ends_red_pregnancies  <- ifelse(thisdatasource %in% datasources_that_end_red_pregnancies,TRUE,FALSE) 
 
-# datasources that use predictive model to estimate start of pregnancies
-datasources_that_do_not_use_RF <- c("EFEMERIS", "POMME", "THL", "RDRU_FISABIO", "DANREG","CASERTA")
+# datasources that do not use predictive model to estimate start of pregnancies
+datasources_that_do_not_use_RF <- c("EFEMERIS", "POMME", "THL", "RDRU_FISABIO", "CASERTA")
 this_datasource_does_not_use_RF <- ifelse(thisdatasource %in% datasources_that_do_not_use_RF, TRUE, FALSE) 
 
 

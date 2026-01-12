@@ -260,7 +260,7 @@ groups_of_pregnancies[CONCEPTSET=="procedures_ectopic", order_quality:=20]
 
 if(this_datasource_has_different_meaning_nonLB){
   
-  groups_of_pregnancies[meaning %notin% list_of_primary_meaning_more_reliable & type_of_pregnancy_end %in% c("T", "SA", "SB", "ECT"), 
+  groups_of_pregnancies[meaning %notin% list_of_primary_meaning_more_reliable & type_of_pregnancy_end %in% c("T", "SA", "ECT"), 
                         order_quality:=20.5]
   
 }
