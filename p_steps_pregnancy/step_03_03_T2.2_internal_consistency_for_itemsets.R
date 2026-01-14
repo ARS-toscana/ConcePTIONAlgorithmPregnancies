@@ -4,6 +4,8 @@ if (this_datasource_has_itemsets_stream_from_medical_obs){ # this_datasource_has
   ## import D3_Stream_ITEMSETS
   load(paste0(dirtemp,"D3_Stream_ITEMSETS.RData"))
   
+  if(D3_Stream_ITEMSETS[, .N]==0) stop("no itemsets retrived from medical observations")
+  
   # linkare D3_study_population_pregnancy with PERSONS, verify if person_id, visit_occurrence_id e survey_date are unique key.
   # create var link_to_person:=1 if it links with PERSONS, 
   

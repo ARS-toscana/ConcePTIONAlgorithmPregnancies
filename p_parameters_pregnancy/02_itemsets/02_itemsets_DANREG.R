@@ -16,7 +16,7 @@
 itemset_AVpair_pregnancy[["GESTAGE_FROM_DAPS_CRITERIA_WEEKS"]][[files[i]]][["DANREG"]] <- list()
 
 ### specification GESTAGE_FROM_DAPS_CRITERIA_DAYS
-itemset_AVpair_pregnancy[["GESTAGE_FROM_DAPS_CRITERIA_DAYS"]][[files[i]]][["DANREG"]] <- list(list("mfr_nyfoedte", "GESTATIONSALDER"))
+itemset_AVpair_pregnancy[["GESTAGE_FROM_DAPS_CRITERIA_DAYS"]][[files[i]]][["DANREG"]] <- list(list("mfr", "gestationsalder_dage"), list("hjemmefoedsler_blanket", "gestationsalder_dage"), list("doedsfoedsler_blanket", "gestationsalder_dage"), list("nyfoedte", "gestationsalder"))
 
 ### specification GESTAGE_FROM_LMP_WEEK
 itemset_AVpair_pregnancy[["GESTAGE_FROM_LMP_WEEKS"]][[files[i]]][["DANREG"]] <- list() 
@@ -103,7 +103,7 @@ itemset_AVpair_pregnancy[["END_ABORTION_CHILD"]][[files[i]]][["DANREG"]] <- list
 
 ############################# TYPE #############################################
 
-itemset_AVpair_pregnancy[["TYPE_CHILD"]][[files[i]]][["DANREG"]] <- list(list("mfr_nyfoedte", "LEVENDEFOEDTDOEDFOEDT"))
+itemset_AVpair_pregnancy[["TYPE_CHILD"]][[files[i]]][["DANREG"]] <- list(list("mfr", "levende_eller_doedfoedt"), list("nyfoedte", "levendefoedtdoedfoedt"))
 
 
 
@@ -114,8 +114,8 @@ itemset_AVpair_pregnancy[["TYPE_CHILD"]][[files[i]]][["DANREG"]] <- list(list("m
 #-------------------------------------------------------------------------------
 ########################### DICTINARY OF TYPE ##################################
 
-dictonary_of_itemset_pregnancy[["TYPE"]][["DANREG"]][["LB"]]<-list(list("mfr_nyfoedte", "1"))
-dictonary_of_itemset_pregnancy[["TYPE"]][["DANREG"]][["SB"]]<-list(list("mfr_nyfoedte", "2"))
+dictonary_of_itemset_pregnancy[["TYPE"]][["DANREG"]][["LB"]]<-list(list("mfr", "1"), list("nyfoedte", "1"))
+dictonary_of_itemset_pregnancy[["TYPE"]][["DANREG"]][["SB"]]<-list(list("mfr", "2"), list("nyfoedte", "2"))
 dictonary_of_itemset_pregnancy[["TYPE"]][["DANREG"]][["SA"]]<-list()
 dictonary_of_itemset_pregnancy[["TYPE"]][["DANREG"]][["T"]]<-list()
 dictonary_of_itemset_pregnancy[["TYPE"]][["DANREG"]][["MD"]]<-list()
