@@ -8,6 +8,9 @@ if(this_datasource_has_conceptsets){
     
   print('RETRIEVE FROM CDM RECORDS CORRESPONDING TO CONCEPT SETS')
   
+  # all_coding_system = unique(unlist(lapply(concept_set_codes_pregnancy, names)))
+  # coding_sys_exact_search = all_coding_system[all_coding_system %notin% c("CBV_procedure_code", 
+  #                                                                         "ITA_procedures_coding_system")]
   
   CreateConceptSetDatasets(concept_set_names = c(concept_set_pregnancy),
                            dataset = ConcePTION_CDM_tables,
@@ -25,17 +28,25 @@ if(this_datasource_has_conceptsets){
                            dirinput = dirinput,
                            diroutput = dirtemp,
                            extension = c("csv"),
-                           vocabularies_with_dot_wildcard = c("READ"))#,
-                           #vocabularies_with_exact_search_not_dot = c("Free_text", "ICD10CM", "ICD10GM", "ICD10", "ICD9CM",
-                           #                                            "ICD9", "ICPC", "ICPC2P", "SNOMED", "MEDCODEID", "ICD9PROC"))
+                           vocabularies_with_dot_wildcard = c("READ"),
+                           vocabularies_with_exact_search_not_dot =   c(
+                             "Free_text", "ICD10CM", "ICD10GM", "ICD10", "ICD9CM",
+                             "ICD9", "ICPC", "ICPC2P", "SNOMED", "MEDCODEID", 
+                             "ICD9PROC", "ICD10DA"))
+  
+                           #vocabularies_with_exact_search_not_dot = coding_sys_exact_search)
+  
+  
 
+  
+  
   
   ### Creating visit occurrence id if missing
   for (concept in concept_set_pregnancy) {
     
     load(paste0(dirtemp, concept, ".RData"))
     
-    descendant_concept <- paste0("descendant_", concept)
+    #descendant_concept <- paste0("descendant_", concept)
     
     if( nrow(get(concept)) > 0){
       assign("concept_temp", get(concept))
@@ -62,28 +73,27 @@ if(this_datasource_has_conceptsets){
                                                                    concept,   "_dummy_visit_occ_id_",
                                                                    seq_along(.I))]
       }
-      assign(descendant_concept, concept_temp)
-      save(list=descendant_concept, file=paste0(dirtemp, descendant_concept, ".RData"))
-      file.remove(paste0(dirtemp, concept, ".RData"))
+      assign(concept, concept_temp)
+      save(list=concept, file=paste0(dirtemp, concept, ".RData"))
     }else{
-      assign(descendant_concept, get(concept))
-      save(list=descendant_concept, file=paste0(dirtemp, descendant_concept, ".RData"))
-      file.remove(paste0(dirtemp, concept, ".RData"))
+      assign(concept, get(concept))
+      save(list=concept, file=paste0(dirtemp, concept, ".RData"))
     }
     
-   
-    
-    
+
     ## Selected meaning if necessary
     if (this_datasources_with_specific_algorithms){
-      if(nrow(get(descendant_concept)) > 0 & concept_set_domains[[concept]]=="Diagnosis"){
-        assign("concept_temp", get(descendant_concept))
+      
+      if(nrow(get(concept)) > 0 & concept_set_domains[[concept]]=="Diagnosis"){
+        assign("concept_temp", get(concept))
+        
         concept_temp <- concept_temp[eval(parse(text = select)),]
-        assign(descendant_concept, concept_temp)
-        save(list=descendant_concept, file=paste0(dirtemp, descendant_concept,".RData"))
+        
+        assign(concept, concept_temp)
+        save(list=concept, file=paste0(dirtemp, concept,".RData"))
       }
     }
-    rm(list = c(concept, descendant_concept))
+    rm(list = c(concept))
   }
   
   
@@ -107,7 +117,7 @@ if(this_datasource_has_conceptsets){
       setnames(PERSON_RELATIONSHIPS_child, "person_id_child", "person_id")
     }
     
-    for (concept in concept_set_pregnancy_descendant) {
+    for (c in concept_set_pregnancy) {
       
       if (endsWith(concept, '_CHILD')){
         
@@ -150,9 +160,8 @@ if(this_datasource_has_conceptsets){
         save(list=name_concept_mother, 
              file=paste0(dirtemp, name_concept_mother,".RData"))
         
-        if(name_concept_mother %notin% concept_set_pregnancy_descendant){
-          concept_set_pregnancy_descendant <- c(concept_set_pregnancy_descendant, name_concept_mother)
-          concept_set_pregnancy <- c(concept_set_pregnancy, substr(name_concept_mother, 12, nchar(name_concept_mother)))
+        if(name_concept_mother %notin% concept_set_pregnancy){
+          concept_set_pregnancy <- c(concept_set_pregnancy, name_concept_mother)
         }
         
         rm(list = concept)

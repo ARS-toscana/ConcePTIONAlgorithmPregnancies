@@ -51,8 +51,8 @@ system.time(source(paste0(thisdir,"/p_steps/step_01_3_T2.2_population_descriptio
 # 01 RETRIEVE RECORDS FRM CDM FOR PREGNANCY
 system.time(source(paste0(thisdir,"/p_steps_pregnancy/step_01_01_T2.1_create_prompt_datasets.R")))
 system.time(source(paste0(thisdir,"/p_steps_pregnancy/step_01_02_T2.1_create_itemsets_datasets.R")))
-system.time(source(paste0(thisdir,"/p_steps_pregnancy/step_01_03_T2.1_create_descendant_conceptset_datasets.R")))
-system.time(source(paste0(thisdir,"/p_steps_pregnancy/step_01_04_T2.1_create_conceptset_datasets.R")))
+system.time(source(paste0(thisdir,"/p_steps_pregnancy/step_01_03_T2.1_create_conceptset_datasets.R")))
+#system.time(source(paste0(thisdir,"/p_steps_pregnancy/step_01_04_T2.1_create_conceptset_datasets.R")))
 
 
 # 02 CREATE PREGNANCIES 

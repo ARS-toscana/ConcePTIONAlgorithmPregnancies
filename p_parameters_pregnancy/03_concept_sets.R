@@ -261,7 +261,7 @@ if(this_datasource_has_conceptsets){
   
   # conceptset descendants 
   
-  concept_set_pregnancy_descendant <- paste0("descendant_", concept_set_pregnancy)
+  #concept_set_pregnancy_descendant <- paste0("descendant_", concept_set_pregnancy)
   
   codes_used_in_this_run <- list_of_list_to_df(concept_set_codes_pregnancy)
   fwrite(codes_used_in_this_run, file = paste0(direxp, "concept_set_codes_pregnancy.csv"))

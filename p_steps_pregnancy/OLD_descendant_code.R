@@ -6,7 +6,7 @@ if(this_datasource_has_conceptsets){
                                                 code = character(), 
                                                 coding_system = character())
   
-  for (concept in concept_set_pregnancy_descendant) {
+  for (concept in concept_set_pregnancy) {
     
     load(paste0(dirtemp, concept, ".RData"))
     assign("concept_tmp", get(concept))

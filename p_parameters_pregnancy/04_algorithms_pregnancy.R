@@ -171,7 +171,10 @@ if(this_datasource_has_conceptsets){
 
 if(this_datasource_has_conceptsets){
   for (conceptset in concept_set_pregnancy){
-    concept_set_codes_pregnancy[[conceptset]][["ICD10DA"]] <- paste0('D', concept_set_codes_pregnancy[[conceptset]][["ICD10"]])
+    
+    if(!is.null(concept_set_codes_pregnancy[[conceptset]][["ICD10"]])){
+      concept_set_codes_pregnancy[[conceptset]][["ICD10DA"]] <- paste0('D',  concept_set_codes_pregnancy[[conceptset]][["ICD10"]])
+    }
     
   }
 }
