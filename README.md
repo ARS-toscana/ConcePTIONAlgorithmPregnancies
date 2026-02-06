@@ -1,6 +1,8 @@
-# ConcePTIONAlgorithmPregnancies
+# ConcePTION Pregnancy Algorithm
 
-The **statistical analysis plan** for the ConcePTION algorithm pregnancies is available at this [link](https://docs.google.com/document/d/1HzmoAOi9x9CSRZdg5qCwEHTQqMvJSthZ/edit).
+The manuscript describing the ConcePTION Pregnancy Algorithm is under review but a preprint is available [here](https://www.authorea.com/users/943555/articles/1313611-identifying-pregnancies-in-population-based-data-sources-development-and-application-of-the-conception-pregnancy-algorithm)
+
+The **statistical analysis plan** for the ConcePTION Pregnancy Algorithm is available at this [link](https://docs.google.com/document/d/1HzmoAOi9x9CSRZdg5qCwEHTQqMvJSthZ/edit).
 
 The [wiki](https://github.com/ARS-toscana/ConcePTIONAlgorithmPregnancies/wiki) of this repository contains detailed information on how to use the script, and in particular how to set parameters to tailor it to a new data source.
 
