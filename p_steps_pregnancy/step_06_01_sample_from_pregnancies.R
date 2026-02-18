@@ -103,16 +103,7 @@ if(sum(Dt_n_strata[, n]) <35){
 list_of_samples <- vector(mode = "list")
 
 
-if(thisdatasource == "DANREG"){
-  for (i in Dt_n_strata[, strata]) {
-    tmp <- sample(x = D3_pregnancy_reconciled_valid[strata == i & 
-                                                      year(pregnancy_start_date) >= 2020,
-                                                    pregnancy_id], 
-                  size = Dt_n_strata[strata == i, sample_size], 
-                  replace = FALSE)
-    list_of_samples[[i]] <- D3_pregnancy_reconciled_valid[pregnancy_id %in% tmp][, sample:= i]
-  }
-}else {
+
   for (i in Dt_n_strata[, strata]) {
     tmp <- sample(x = D3_pregnancy_reconciled_valid[strata == i, #& 
                                                     # year(pregnancy_start_date) <= 2019 &
@@ -122,7 +113,7 @@ if(thisdatasource == "DANREG"){
                   replace = FALSE)
     list_of_samples[[i]] <- D3_pregnancy_reconciled_valid[pregnancy_id %in% tmp][, sample:= i]
   }
-}
+
 
 
 
