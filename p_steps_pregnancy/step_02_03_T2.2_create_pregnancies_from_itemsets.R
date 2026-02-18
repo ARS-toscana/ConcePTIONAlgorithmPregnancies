@@ -98,7 +98,10 @@ if (this_datasource_has_itemsets_stream_from_medical_obs){
   
   if (thisdatasource=="DANREG"){
     
+    dataset_item_sets = dataset_item_sets[!(is.na(mo_source_value) | mo_source_value == '')]
+    
     dataset_item_sets[, mo_source_value := as.numeric(mo_source_value)]
+    
     
     # start creating pregnancy_ongoing_date
     dataset_item_sets<-dataset_item_sets[,`:=`(pregnancy_end_date=date, meaning_end_date=paste0("from_itemset_",item_set))]
