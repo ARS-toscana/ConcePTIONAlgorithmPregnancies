@@ -187,7 +187,7 @@ for (years_flowChart in list_flowChart_years) {
     # d) pregnancy_with_dates_out_of_range  
     # e) meaning not implying pregnancy
     
-    D3_all_stream_single_criteria <- D3_all_stream_tmp[MNIP == 1, MNIP := 1]
+    D3_all_stream_single_criteria <- D3_all_stream_tmp[MNIP == 1, exclusion := 1] #[MNIP == 1, MNIP := 1]
     D3_all_stream_single_criteria <- D3_all_stream_single_criteria[pregnancy_with_dates_out_of_range == 1, exclusion := 2]
     D3_all_stream_single_criteria <- D3_all_stream_single_criteria[record_date_not_in_spells == 1, exclusion := 3]
     D3_all_stream_single_criteria <- D3_all_stream_single_criteria[person_not_in_fertile_age == 1, exclusion := 4]
