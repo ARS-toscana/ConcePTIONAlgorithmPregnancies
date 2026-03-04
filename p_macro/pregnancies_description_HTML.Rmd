@@ -112,23 +112,27 @@ As reported in the sap, some records have both pregnancy start date and pregnanc
 
 - **11**  CONCEPSETS: still birth
 
-- **12**  CONCEPSETS: interruption
+- **12**  CONCEPSETS: at-term/post-term/pre-term birth unspecified
 
-- **13**  CONCEPSETS: procedure interruption
+- **13**  CONCEPSETS: birth unspecified
 
-- **14**  CONCEPTSETS: spontaneous abortion
+- **14**  CONCEPTSETS: procedure delivery
 
-- **15**  CONCEPTSETS: procedure spontaneous abortion
+- **14.5**  PROMPT: end imputed as the 15th of the month
 
-- **16**  CONCEPTSETS: ectopic-molar pregnancy
+- **15**  CONCEPTSETS: interruption
 
-- **17**  CONCEPTSETS: procedure ectopic-molar pregnancy
+- **16**  CONCEPTSETS: procedure interruption
 
-- **18**  CONCEPTSETS: pre-term/at-term/post-term birth
+- **17**  CONCEPTSETS: spontaneous abortion
 
-- **19**  CONCEPTSETS: birth
+- **18**  CONCEPTSETS: procedure spontaneous abortion
 
-- **20**  CONCEPTSETS: procedure birth
+- **19**  CONCEPTSETS: ectopic-molar pregnancy
+
+- **20**  CONCEPTSETS: procedure ectopic-molar pregnancy
+
+- **20.5**  CONCEPTSETS: non-birth ends of pregnancy with meaning not ‘primary’ 
 
 - **21**  CONCEPSETS: unspecified unfavorable outcome
 
@@ -138,11 +142,15 @@ As reported in the sap, some records have both pregnancy start date and pregnanc
 
 - **24**  CONCEPSETS: procedure with end date recorded, type UNK
 
+- **25**  CONCEPTSETS: birth possible
+
 - **30**  CONCEPTSETS: meaning implying primary care
 
 - **40**  all Streams: blue
 
 - **50**  all Streams: red
+
+- **90**  PROMPT: day and month imputed
 
 
 
@@ -173,9 +181,9 @@ D3_pregnancy_reconciled[order_quality == 10, order_quality_desc :=	"CONCEPSETS: 
 
 D3_pregnancy_reconciled[order_quality == 11, order_quality_desc :=	"CONCEPSETS: stll birth"]
 
-D3_pregnancy_reconciled[order_quality == 12, order_quality_desc :=  "CONCEPTSETS: pre-term/at-term/post-term birth"]
-D3_pregnancy_reconciled[order_quality == 13, order_quality_desc :=  "CONCEPTSETS: birth"]
-D3_pregnancy_reconciled[order_quality == 14, order_quality_desc :=  "CONCEPTSETS: procedure birth"]
+D3_pregnancy_reconciled[order_quality == 12, order_quality_desc :=  "CONCEPTSETS: pre-term/at-term/post-term birth unspecified"]
+D3_pregnancy_reconciled[order_quality == 13, order_quality_desc :=  "CONCEPTSETS: birth unspecified"]
+D3_pregnancy_reconciled[order_quality == 14, order_quality_desc :=  "CONCEPTSETS: procedure delivery"]
 
 
 D3_pregnancy_reconciled[order_quality == 15, order_quality_desc :=	"CONCEPSETS: interruption"]
@@ -186,6 +194,8 @@ D3_pregnancy_reconciled[order_quality == 18, order_quality_desc :=  "CONCEPTSETS
 
 D3_pregnancy_reconciled[order_quality == 19, order_quality_desc :=  "CONCEPTSETS: ectopic-molar pregnancy"]
 D3_pregnancy_reconciled[order_quality == 20, order_quality_desc :=  "CONCEPTSETS: procedure ectopic-molar pregnancy"]
+
+D3_pregnancy_reconciled[order_quality == 20.5, order_quality_desc :=  "CONCEPTSETS: non-birth ends of pregnancy with meaning not ‘primary’"]
 
 D3_pregnancy_reconciled[order_quality == 21, order_quality_desc :=  "CONCEPSETS: unspecified unfavorable outcome"]
 D3_pregnancy_reconciled[order_quality == 22, order_quality_desc :=  "CONCEPSETS: procedure unspecified unfavorable outcome"]
