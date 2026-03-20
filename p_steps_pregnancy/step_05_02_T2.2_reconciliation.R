@@ -6,7 +6,7 @@ TEST = FALSE
 
 if (TEST){
   # Dir test
-  testname <- "05_02_test_DANREG_hierarchy"
+  testname <- "05_02_test_DANREG_green_yellow_same_vis_occ_id"
   thisdirinput <- file.path(dirtest,testname)
   dir.create(thisdirinput, showWarnings = F)
   
@@ -130,6 +130,8 @@ while (D3_gop[,.N]!=0) {
   D3_gop <- D3_gop[, new_group := 0]
   D3_gop <- D3_gop[, n_max:= max(n), pers_group_id]
   
+  D3_gop[, type_end_already_updated_from_same_vis_occ_id:= 0]
+  
   for (i in seq(1, n_of_iteration)) {
     cat(paste0("reconciling record ", i, " of ", n_of_iteration, " \n"))
     
@@ -155,6 +157,8 @@ while (D3_gop[,.N]!=0) {
     D3_gop <- D3_gop[recon == 0, gestational_age_next_record := shift(gestational_age, n = i, fill = NA, type=c("lead")), by = "pers_group_id"]
     # order quality 
     D3_gop <- D3_gop[recon == 0, order_quality_next_record := shift(order_quality, n = i, fill = NA, type=c("lead")), by = "pers_group_id"]
+    # visit_occurrence_id
+    D3_gop <- D3_gop[recon == 0, visit_occurrence_id_next_record := shift(visit_occurrence_id, n = i, fill = NA, type=c("lead")), by = "pers_group_id"]
     
     if(thisdatasource == "VID" | thisdatasource == "RDRU_FISABIO"){
       D3_gop <- D3_gop[recon == 0, origin_next_record:= shift(origin, n = i, fill = NA, type=c("lead")), by = "pers_group_id"]
@@ -465,6 +469,20 @@ while (D3_gop[,.N]!=0) {
     
     #### Green - Green
     
+    if (thisdatasource=="DANREG") {
+
+      D3_gop <- D3_gop[ n == 1 & new_group_next_record != 1 & recon == 0 &  coloured_order == "1_green" & coloured_order_next_record == "1_green" &
+                          meaning=="gestational_age_for_nonbirth_pregnancy_end" & meaning_next_record=="gestational_age_for_nonbirth_pregnancy_end",
+                        `:=`(pregnancy_start_date = pregnancy_start_date_next_record,
+                             pregnancy_end_date = pregnancy_end_date_next_record,
+                             visit_occurrence_id = visit_occurrence_id_next_record,
+                             algorithm_for_reconciliation = paste0(algorithm_for_reconciliation, "GG:DatesUpdated_")
+                             )]
+
+    }
+    
+    
+    
     D3_gop <- D3_gop[ n == 1 & new_group_next_record != 1 & recon == 0 &  coloured_order == "1_green" & coloured_order_next_record == "1_green" & 
                         type_of_pregnancy_end != "LB" & type_of_pregnancy_end_next_record == "LB",
                       `:=`(type_of_pregnancy_end = "LB")]
@@ -550,6 +568,31 @@ while (D3_gop[,.N]!=0) {
     }
     
     #### Green - Yellow
+    if (thisdatasource=="DANREG") {
+      
+      D3_gop <- D3_gop[ n == 1 & new_group_next_record != 1 & recon == 0 &  coloured_order == "1_green" & coloured_order_next_record == "2_yellow" & 
+                          meaning=="gestational_age_for_nonbirth_pregnancy_end" & 
+                          ((visit_occurrence_id==visit_occurrence_id_next_record & type_end_already_updated_from_same_vis_occ_id==0)), 
+                        `:=`(type_of_pregnancy_end = type_of_pregnancy_end_next_record,
+                             type_end_already_updated_from_same_vis_occ_id = 1,
+                             algorithm_for_reconciliation = paste0(algorithm_for_reconciliation, "GY:typeUpdated_")
+                        )]
+      
+      D3_gop <- D3_gop[ n == 1 & new_group_next_record != 1 & recon == 0 &  coloured_order == "1_green" & coloured_order_next_record == "2_yellow" & 
+                          meaning=="gestational_age_for_nonbirth_pregnancy_end" & 
+                          type_of_pregnancy_end == "UNF", 
+                        `:=`(type_of_pregnancy_end = type_of_pregnancy_end_next_record,
+                             algorithm_for_reconciliation = paste0(algorithm_for_reconciliation, "GY:typeUpdated_")
+                        )]
+      
+      D3_gop <- D3_gop[ n == 1 & new_group_next_record != 1 & recon == 0 &  coloured_order == "1_green" & coloured_order_next_record == "2_yellow" & 
+                          meaning=="gestational_age_for_nonbirth_pregnancy_end" & type_of_pregnancy_end_next_record %in% c("LB", "SB"), 
+                        `:=`(pregnancy_end_date=pregnancy_end_date_next_record,
+                             algorithm_for_reconciliation = paste0(algorithm_for_reconciliation, "GY:discordantTypeUpdated_")
+                        )]
+      
+    }
+    
     D3_gop <- D3_gop[n == 1 & new_group_next_record != 1 &  recon == 0 & coloured_order == "1_green" & coloured_order_next_record == "2_yellow" &
                        end_diff == 0,
                      `:=`( algorithm_for_reconciliation = paste0(algorithm_for_reconciliation, "GY:concordant_"),

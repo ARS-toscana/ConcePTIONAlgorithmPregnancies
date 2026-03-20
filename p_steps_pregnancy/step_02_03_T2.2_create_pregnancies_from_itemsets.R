@@ -112,9 +112,9 @@ if (this_datasource_has_itemsets_stream_from_medical_obs){
                                               meaning_start_date=paste0("from_itemset_",item_set)) ]
     
     #the pregnancy is ongoing and has a start date but has no end, then at term end of the pregnancy is assumed for the imputation
-    dataset_item_sets<-dataset_item_sets[, `:=`(imputed_end_of_pregnancy=1,  
+    dataset_item_sets<-dataset_item_sets[, `:=`(imputed_end_of_pregnancy=0,  
                                                 imputed_start_of_pregnancy=0,
-                                                type_of_pregnancy_end="UNK",
+                                                type_of_pregnancy_end="UNF",
                                                 pregnancy_ongoing_date=NA,
                                                 meaning_ongoing_date=NA)]
   
