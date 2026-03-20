@@ -3,7 +3,7 @@
 #-----------------------------------------
 
 # datasources that do not modify information from PROMPT
-datasources_that_do_not_modify_PROMPT <- c("TO_ADD","UOSL","VID","EFEMERIS", "POMME") #@ use "TO_ADD" as example
+datasources_that_do_not_modify_PROMPT <- c("TO_ADD","UOSL","VID","EFEMERIS", "POMME", "DANREG") #@ use "TO_ADD" as example
 this_datasource_does_not_modify_PROMPT <- ifelse(thisdatasource %in% datasources_that_do_not_modify_PROMPT,TRUE,FALSE) 
 
 # Parameter for correcting predictive model
