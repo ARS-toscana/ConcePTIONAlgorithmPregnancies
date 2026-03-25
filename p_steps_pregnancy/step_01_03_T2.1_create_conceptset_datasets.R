@@ -8,9 +8,7 @@ if(this_datasource_has_conceptsets){
     
   print('RETRIEVE FROM CDM RECORDS CORRESPONDING TO CONCEPT SETS')
   
-  # all_coding_system = unique(unlist(lapply(concept_set_codes_pregnancy, names)))
-  # coding_sys_exact_search = all_coding_system[all_coding_system %notin% c("CBV_procedure_code", 
-  #                                                                         "ITA_procedures_coding_system")]
+  all_coding_system = unique(unlist(lapply(concept_set_codes_pregnancy, names)))
   
   CreateConceptSetDatasets(concept_set_names = c(concept_set_pregnancy),
                            dataset = ConcePTION_CDM_tables,
@@ -29,17 +27,7 @@ if(this_datasource_has_conceptsets){
                            diroutput = dirtemp,
                            extension = c("csv"),
                            vocabularies_with_dot_wildcard = c("READ"),
-                           vocabularies_with_exact_search_not_dot =   c(
-                             "Free_text", "ICD10CM", "ICD10GM", "ICD10", "ICD9CM",
-                             "ICD9", "ICPC", "ICPC2P", "SNOMED", "MEDCODEID", 
-                             "ICD9PROC", "ICD10DA"))
-  
-                           #vocabularies_with_exact_search_not_dot = coding_sys_exact_search)
-  
-  
-
-  
-  
+                           vocabularies_with_exact_search_not_dot = all_coding_system)
   
   ### Creating visit occurrence id if missing
   for (concept in concept_set_pregnancy) {
