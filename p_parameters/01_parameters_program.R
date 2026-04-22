@@ -172,7 +172,9 @@ thisdatasource_has_prescriptions <- ifelse(thisdatasource %in% datasources_presc
 #datasources_with_multiple_obs_period <- c("TO_ADD","EFEMERIS") #@ use "TO_ADD" as example
 #this_datasource_has_multiple_obs_period <- ifelse(thisdatasource %in% datasources_with_multiple_obs_period,TRUE,FALSE)
 
-
+# datasources with PERSON_RELATIONSHIP
+par_date <- vector(mode="list")
+par_date[["DANREG"]] <- as.Date("2024-12-31")
 
 #############################################
 #SAVE METADATA TO direxp
