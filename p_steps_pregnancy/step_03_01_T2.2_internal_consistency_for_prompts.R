@@ -42,12 +42,23 @@ if (this_datasource_has_prompt|this_datasource_has_person_rel_table) {
       D3_study_population_pregnancy1<- rbind(D3_study_population_pregnancy1, temp)
     }
     
+    # filter rows out of range from PERSON_RELATIONSHIP
+    
+    if (this_datasource_has_person_rel_table) { 
+      
+      tmp <- copy(D3_Stream_PROMPTS) 
+      tmp <- tmp[origin == "PERSON_RELATIONSHIP"]
+      tmp <- tmp[par_date[[thisdatasource]]>= pregnancy_end_date, pregnancy_with_dates_out_of_range := 0][
+                 par_date[[thisdatasource]]< pregnancy_end_date, pregnancy_with_dates_out_of_range := 1] 
+      
+      D3_study_population_pregnancy1 <- rbind(D3_study_population_pregnancy1,tmp) }
+    
     #-----------
     # tmp fix
     #-----------
-    tmp <- copy(D3_Stream_PROMPTS)
-    tmp <- tmp[origin == "PERSON_RELATIONSHIP"][, pregnancy_with_dates_out_of_range := 0]
-    D3_study_population_pregnancy1 <- rbind(D3_study_population_pregnancy1,tmp)
+    # tmp <- copy(D3_Stream_PROMPTS)
+    # tmp <- tmp[origin == "PERSON_RELATIONSHIP"][, pregnancy_with_dates_out_of_range := 0]
+    # D3_study_population_pregnancy1 <- rbind(D3_study_population_pregnancy1,tmp)
     #-----------
     
     table(D3_study_population_pregnancy1$pregnancy_with_dates_out_of_range) 
