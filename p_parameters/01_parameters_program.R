@@ -175,7 +175,7 @@ thisdatasource_has_prescriptions <- ifelse(thisdatasource %in% datasources_presc
 
 # datasources with PERSON_RELATIONSHIP
 par_date <- vector(mode="list")
-par_date[["DANREG"]] <- as.Date("2024-12-31")
+par_date[["DANREG"]] <- as.Date("2025-12-31")
 
 #############################################
 #SAVE METADATA TO direxp
