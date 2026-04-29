@@ -12,6 +12,7 @@ dirbase<-getwd() # Lot4
 diroutput <- paste0(thisdir,"/g_output/")
 dirtemp <- paste0(thisdir,"/g_intermediate/")
 direxp <- paste0(thisdir,"/g_export/")
+dirtest <- file.path(thisdir, "..", "i_test")
 direxpmanuscript <- paste0(thisdir,"/g_export_manuscript/")
 dirmacro <- paste0(thisdir,"/p_macro/")
 dirfigure <- paste0(thisdir,"/g_figure/")
