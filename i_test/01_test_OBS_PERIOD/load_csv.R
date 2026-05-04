@@ -36,15 +36,14 @@ for (namedataset in listdatasets) {
 
 
 for (namedataset in listdatasets){
-  # data <- fread(paste0(thisdir, "/", namedataset, ".csv") )
-  data <- as.data.table(readxl::read_excel((paste0(thisdir, "/", namedataset, ".xlsx") )))
+  data <- fread(paste0(thisdir, "/", namedataset, ".csv") )
+  # data <- as.data.table(readxl::read_excel((paste0(thisdir, "/", namedataset, ".xlsx") )))
   for (datevar in listdates[[namedataset]]) {
-    if (!is.na(baseline[[namedataset]][[datevar]])){
-      data[, (datevar) := as.Date(get(datevar) + baseline[[namedataset]][[datevar]])]
-    }else{
+  
       data <- data[, (datevar) := lubridate::ymd(get(datevar))]
-    }
+      
   }
+  
   assign(namedataset,data)
   fwrite(data, file = file.path(thisdir, paste0( namedataset,".csv")) )
 }

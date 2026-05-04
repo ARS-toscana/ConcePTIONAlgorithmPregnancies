@@ -10,11 +10,12 @@ print("COMPUTE SPELLS OF TIME FROM OBSERVATION_PERIODS")
 # OBSERVATION_PERIODS <- fread(paste0(dirinput,"OBSERVATION_PERIODS.csv"))
 if (TEST){
   testname <- "01_test_OBS_PERIOD"
-  dirinput <- file.path(dirtest,testname,"/")
-  diroutput <- file.path(dirinput,"g_output/")
+  # dirinput <- file.path(dirtest,testname,"/")
+  dirinput <- file.path(dirtest,testname)
+  diroutput <- file.path(dirinput,"g_output", "/")
   dir.create(diroutput, showWarnings = F)
 }else{
-  dirinput <- dirtemp
+  dirinput <- dirinput
   diroutput <- dirtemp
 }
 
@@ -23,7 +24,7 @@ OBSERVATION_PERIODS <- data.table()
 files<-sub('\\.csv$', '', list.files(dirinput))
 for (i in 1:length(files)) {
   if (str_detect(files[i],"^OBSERVATION_PERIODS")) {  
-    temp <- fread(paste0(dirinput,files[i],".csv"), colClasses = list( character="person_id"))
+    temp <- fread(paste0(dirinput,"/",files[i],".csv"), colClasses = list( character="person_id"))
     OBSERVATION_PERIODS <- rbind(OBSERVATION_PERIODS, temp,fill=T)
     rm(temp)
   }
@@ -55,7 +56,7 @@ if (this_datasource_has_subpopulations == FALSE){
     c("person_id", "entry_spell_category", "exit_spell_category", "num_spell", "op_meaning")
   )
   
-  save(output_spells_category,file=paste0(dirtemp,"output_spells_category.RData"))
+  save(output_spells_category,file=paste0(diroutput,"output_spells_category.RData"))
   
   rm(output_spells_category)
 }
@@ -170,7 +171,7 @@ if (this_datasource_has_subpopulations == TRUE){
       output_spells_category[[subpop]] <- output_spells_category_meaning_set[[concat_op_meaning_sets_in_subpop]]
     }
   }
-  save(output_spells_category,file=paste0(dirtemp,"output_spells_category.RData"))
+  save(output_spells_category,file=paste0(diroutput,"output_spells_category.RData"))
   rm(output_spells_category_meaning_set,output_spells_category)
 }
 
