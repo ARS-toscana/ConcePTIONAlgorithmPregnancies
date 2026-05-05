@@ -21,7 +21,7 @@ setwd(thisdir)
 # SET INPUT DIRECTORY    
 #---------------------
 
-TEST <- T
+TEST <- F
 
 # set here the input directory 
 dirinput <- c(paste0(thisdir,"/i_input/")) # <- directory to dummy data

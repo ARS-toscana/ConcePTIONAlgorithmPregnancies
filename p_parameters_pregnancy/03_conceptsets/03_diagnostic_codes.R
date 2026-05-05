@@ -141,8 +141,19 @@ concept_set_codes_pregnancy[["Stillbirth_possible"]] <- list()
 concept_set_codes_pregnancy[["Interruption_possible"]] <- list()
 concept_set_codes_pregnancy[["Spontaneousabortion_possible"]] <- list()
   
-# loading concepsets from csv 
-concept_set_codes_pregnancy_data_table <- as.data.table(read_excel(paste0(thisdir, "/p_parameters_pregnancy/03_conceptsets/PrA_Codelist_Zenodo.xlsx")))
+# loading concepsets from csv
+if(thisdatasource=="DANREG") {
+  
+  concept_set_codes_pregnancy_data_table <- as.data.table(read_csv(paste0(thisdir, "/p_parameters_pregnancy/03_conceptsets/Pregnancy_Algorithm_Codelists_with_selection.csv")))
+  
+} else {
+  
+  concept_set_codes_pregnancy_data_table <- as.data.table(read_excel(paste0(thisdir, "/p_parameters_pregnancy/03_conceptsets/PrA_Codelist_Zenodo.xlsx")))
+  
+}
+
+# remove rows with "exclude" tags
+concept_set_codes_pregnancy_data_table <- concept_set_codes_pregnancy_data_table[tags!="exclude" ,]
 
 ###--------------------------------------------------------------------
 # Concept in the FULL codelist ..........Concept used in the algorithm
@@ -256,9 +267,9 @@ concept_set_codes_pregnancy[["Gestation_more37_CHILD"]] <- concept_set_codes_pre
 #--------
 # Ongoing
 #--------
-concept_set_codes_pregnancy[["GESTDIAB"]] <- concept_set_codes_pregnancy_not_modified[["GESTDIAB_narrow"]] 
-concept_set_codes_pregnancy[["PREECLAMP"]] <- concept_set_codes_pregnancy_not_modified[["PREECLAMP_narrow"]] 
-concept_set_codes_pregnancy[["PREG_BLEEDING"]] <- concept_set_codes_pregnancy_not_modified[["BLEEDING_narrow"]] 
+# concept_set_codes_pregnancy[["GESTDIAB"]] <- concept_set_codes_pregnancy_not_modified[["GESTDIAB_narrow"]] 
+# concept_set_codes_pregnancy[["PREECLAMP"]] <- concept_set_codes_pregnancy_not_modified[["PREECLAMP_narrow"]] 
+# concept_set_codes_pregnancy[["PREG_BLEEDING"]] <- concept_set_codes_pregnancy_not_modified[["BLEEDING_narrow"]] 
 concept_set_codes_pregnancy[["FGR"]] <- concept_set_codes_pregnancy_not_modified[["FGR"]] 
 
 
@@ -276,6 +287,15 @@ for(coding_system in list_of_coding_syst){
                                                                           concept_set_codes_pregnancy_not_modified[["OngoingPregnancy6"]][[coding_system]],
                                                                           concept_set_codes_pregnancy_not_modified[["OngoingPregnancy7"]][[coding_system]],
                                                                           concept_set_codes_pregnancy_not_modified[["StartofPregnancy"]][[coding_system]])
+  
+  concept_set_codes_pregnancy[["GESTDIAB"]][[coding_system]] <- c(concept_set_codes_pregnancy_not_modified[["GESTDIAB_narrow"]][[coding_system]],
+                                                                  concept_set_codes_pregnancy_not_modified[["GESTDIAB_possible"]][[coding_system]])
+  
+  concept_set_codes_pregnancy[["PREECLAMP"]][[coding_system]] <- c(concept_set_codes_pregnancy_not_modified[["PREECLAMP_narrow"]][[coding_system]],
+                                                                   concept_set_codes_pregnancy_not_modified[["PREECLAMP_possible"]][[coding_system]])
+  
+  concept_set_codes_pregnancy[["PREG_BLEEDING"]][[coding_system]] <- c(concept_set_codes_pregnancy_not_modified[["PREG_BLEEDING_narrow"]][[coding_system]],
+                                                                       concept_set_codes_pregnancy_not_modified[["PREG_BLEEDING_possible"]][[coding_system]])
   
   #--------
   # End UNK

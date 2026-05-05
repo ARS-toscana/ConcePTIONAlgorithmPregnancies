@@ -8,16 +8,16 @@
 print("COMPUTE SPELLS OF TIME FROM OBSERVATION_PERIODS")
 
 # OBSERVATION_PERIODS <- fread(paste0(dirinput,"OBSERVATION_PERIODS.csv"))
-if (TEST){
-  testname <- "01_test_OBS_PERIOD"
-  # dirinput <- file.path(dirtest,testname,"/")
-  dirinput <- file.path(dirtest,testname)
-  diroutput <- file.path(dirinput,"g_output", "/")
-  dir.create(diroutput, showWarnings = F)
-}else{
-  dirinput <- dirinput
-  diroutput <- dirtemp
-}
+# if (TEST){
+#   testname <- "01_test_OBS_PERIOD"
+#   # dirinput <- file.path(dirtest,testname,"/")
+#   dirinput <- file.path(dirtest,testname)
+#   diroutput <- file.path(dirinput,"g_output", "/")
+#   dir.create(diroutput, showWarnings = F)
+# }else{
+#   dirinput <- dirinput
+#   diroutput <- dirtemp
+# }
 
 
 OBSERVATION_PERIODS <- data.table()
