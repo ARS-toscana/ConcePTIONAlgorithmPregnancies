@@ -6,7 +6,7 @@ TEST = FALSE
 
 if (TEST){
   # Dir test
-  testname <- "05_02_test_DANREG_green_yellow_same_vis_occ_id"
+  testname <- "05_02_test_DANREG_MO_record"
   thisdirinput <- file.path(dirtest,testname)
   dir.create(thisdirinput, showWarnings = F)
   
@@ -124,6 +124,12 @@ if(D3_gop[is.na(record_date), .N] > 0){
 }
 
 
+if(thisdatasource == 'DANREG'){
+  list_of_visit_occ_id_to_be_excluded = c()
+}
+
+
+
 while (D3_gop[,.N]!=0) {
   n_of_iteration <- max(D3_gop[, n])
   D3_gop <- D3_gop[, new_pregnancy_group := 0]
@@ -165,6 +171,15 @@ while (D3_gop[,.N]!=0) {
     }
 
     D3_gop <- D3_gop[recon == 0, record_description_next_record:= shift(record_description, n = i, fill = NA, type=c("lead")), by = "pers_group_id"]
+    
+    
+    
+    
+
+    if(thisdatasource == 'DANREG'){
+      D3_gop <- D3_gop[!(coloured_order == "2_yellow" & 
+                           visit_occurrence_id %in% list_of_visit_occ_id_to_be_excluded)]    }
+    
     
     #----------------------------------------------------------
     # Rule 1: Abs(Record date – record date next record) > 280
@@ -470,6 +485,14 @@ while (D3_gop[,.N]!=0) {
     #### Green - Green
     
     if (thisdatasource=="DANREG") {
+      
+      list_of_visit_occ_id_to_be_excluded = c(
+        list_of_visit_occ_id_to_be_excluded, 
+        D3_gop[ n == 1 & new_group_next_record != 1 & recon == 0 &  coloured_order == "1_green" & coloured_order_next_record == "1_green" &
+                  meaning=="gestational_age_for_nonbirth_pregnancy_end" & meaning_next_record=="gestational_age_for_nonbirth_pregnancy_end", 
+                visit_occurrence_id]
+                
+                )
 
       D3_gop <- D3_gop[ n == 1 & new_group_next_record != 1 & recon == 0 &  coloured_order == "1_green" & coloured_order_next_record == "1_green" &
                           meaning=="gestational_age_for_nonbirth_pregnancy_end" & meaning_next_record=="gestational_age_for_nonbirth_pregnancy_end",
