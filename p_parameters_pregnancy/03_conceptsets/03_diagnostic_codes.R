@@ -169,9 +169,6 @@ if(thisdatasource=="DANREG") {
 }
 
 
-
-concept_set_codes_pregnancy_data_table <-
-
 # remove rows with "exclude" tags
 concept_set_codes_pregnancy_data_table <- concept_set_codes_pregnancy_data_table[tags!="exclude" ,]
 
