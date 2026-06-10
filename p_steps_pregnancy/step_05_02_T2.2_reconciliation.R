@@ -2,7 +2,7 @@
 # Record Reconciliation
 #----------------------
 
-TEST = FALSE
+# TEST = FALSE
 
 if (TEST){
   # Dir test
@@ -497,7 +497,7 @@ while (D3_gop[,.N]!=0) {
       D3_gop <- D3_gop[ n == 1 & new_group_next_record != 1 & recon == 0 &  coloured_order == "1_green" & coloured_order_next_record == "1_green" &
                           meaning=="gestational_age_for_nonbirth_pregnancy_end" & meaning_next_record=="gestational_age_for_nonbirth_pregnancy_end",
                         `:=`(pregnancy_start_date = pregnancy_start_date_next_record,
-                             pregnancy_end_date = pregnancy_end_date_next_record,
+                             pregnancy_end_date = pregnancy_end_date_next_record, # N.B: 'next record' is older than the previous one in case the quality is the same (records ordered by 1) quality 2) record date with a descendant order) 
                              visit_occurrence_id = visit_occurrence_id_next_record,
                              algorithm_for_reconciliation = paste0(algorithm_for_reconciliation, "GG:DatesUpdated_")
                              )]
@@ -610,7 +610,7 @@ while (D3_gop[,.N]!=0) {
       
       D3_gop <- D3_gop[ n == 1 & new_group_next_record != 1 & recon == 0 &  coloured_order == "1_green" & coloured_order_next_record == "2_yellow" & 
                           meaning=="gestational_age_for_nonbirth_pregnancy_end" & type_of_pregnancy_end_next_record %in% c("LB", "SB"), 
-                        `:=`(pregnancy_end_date=pregnancy_end_date_next_record,
+                        `:=`(pregnancy_end_date=pregnancy_end_date_next_record, # N.B: 'next record' is older than the previous one in case the quality is the same (records ordered by 1) quality 2) record date with a descendant order) 
                              algorithm_for_reconciliation = paste0(algorithm_for_reconciliation, "GY:discordantTypeUpdated_")
                         )]
       
