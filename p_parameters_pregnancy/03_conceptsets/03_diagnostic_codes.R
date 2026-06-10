@@ -142,15 +142,35 @@ concept_set_codes_pregnancy[["Interruption_possible"]] <- list()
 concept_set_codes_pregnancy[["Spontaneousabortion_possible"]] <- list()
   
 # loading concepsets from csv
+
+# selection of codes provided by Aarhus team
+codes_DANREG <- as.data.table(read_excel(paste0(thisdir, "/p_parameters_pregnancy/03_conceptsets/260319_revision_of_ICD10DA_codes_proposed_by_Signe.xlsx")))
+codes_DANREG <- na.omit(codes_DANREG)
+codes_DANREG <- unique(codes_DANREG)
+codes_DANREG[, keep:=1]
+
+cols <- c("event_abbreviation", "coding_system", "code")
+codes_DANREG[, (cols) := lapply(.SD, function(x) gsub("\u00a0", "", x)), .SDcols = cols]
+#
+
 if(thisdatasource=="DANREG") {
   
   concept_set_codes_pregnancy_data_table <- as.data.table(read_csv(paste0(thisdir, "/p_parameters_pregnancy/03_conceptsets/Pregnancy_Algorithm_Codelists_with_selection.csv")))
-  
-} else {
+  # concept_set_codes_pregnancy_data_table <- concept_set_codes_pregnancy_data_table[code %in% codes_DANREG[coding_system==concept_set_codes_pregnancy_data_table[, coding_system] & event_abbreviation==event_abbreviation[, coding_system], code]]
+  concept_set_codes_pregnancy_data_table <- concept_set_codes_pregnancy_data_table[coding_system=="ICD10DA" ,]
+  concept_set_codes_pregnancy_data_table_m <- merge(concept_set_codes_pregnancy_data_table, codes_DANREG, by = c("event_abbreviation", "coding_system", "code"), all.x = T)
+  concept_set_codes_pregnancy_data_table_m2 <- concept_set_codes_pregnancy_data_table_m[event_abbreviation %in% c("ELECTTERM", "SpontaneousAbortion") & keep==1 | !event_abbreviation %in% c("ELECTTERM", "SpontaneousAbortion"),]
+  concept_set_codes_pregnancy_data_table <- concept_set_codes_pregnancy_data_table_m2[, keep:=NULL]
+
+  } else {
   
   concept_set_codes_pregnancy_data_table <- as.data.table(read_excel(paste0(thisdir, "/p_parameters_pregnancy/03_conceptsets/PrA_Codelist_Zenodo.xlsx")))
   
 }
+
+
+
+concept_set_codes_pregnancy_data_table <-
 
 # remove rows with "exclude" tags
 concept_set_codes_pregnancy_data_table <- concept_set_codes_pregnancy_data_table[tags!="exclude" ,]
