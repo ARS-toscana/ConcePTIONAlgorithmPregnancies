@@ -813,9 +813,9 @@ if (SA_first_record[, .N]==0){
 
 ___
 ```{r first_record_ECT}
-ECT_first_record <- D3_pregnancy_reconciled[type_of_pregnancy_end == "ECT"]
+ECT_first_record <- D3_pregnancy_reconciled[type_of_pregnancy_end == "ECT-MOL"]
 if (ECT_first_record[, .N]==0){
-  print("there is no ECT among the types of end of pregnancy" )
+  print("there is no ECT-MOL among the types of end of pregnancy" )
 }else{
   ECT_first_record <- ECT_first_record[, year_start_of_pregnancy := as.factor(year_start_of_pregnancy)]
   p <- ggplot(ECT_first_record, aes(x = days_before_first_record, 
