@@ -164,7 +164,7 @@ if(thisdatasource=="DANREG") {
 
   } else {
   
-  concept_set_codes_pregnancy_data_table <- as.data.table(read_excel(paste0(thisdir, "/p_parameters_pregnancy/03_conceptsets/PrA_Codelist_Zenodo.xlsx")))
+  concept_set_codes_pregnancy_data_table <- as.data.table(read_csv(paste0(thisdir, "/p_parameters_pregnancy/03_conceptsets/Pregnancy_Algorithm_Codelists.csv")))
   
 }
 
