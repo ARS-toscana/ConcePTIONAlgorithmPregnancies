@@ -1,5 +1,14 @@
 ##Retrieve from VISIT_OCCURRENCE_ID and from SURVEY_ID all the records that have the prompts listed in 04_prompts
 
+if (TEST){
+  testname <- "01_01_test_create_prompt_datasets"
+  dirinput <- file.path(dirtest,testname,"/")
+  diroutput <- file.path(dirtest,testname,"g_output", "/")
+}else{
+  dirinput <- dirinput
+  dirtemp <- dirtemp
+}
+
 #----------
 # SURVEY_ID
 #----------
@@ -78,8 +87,18 @@ if (this_datasource_has_prompt) {
                           PathOutputFolder= dirdescribe01_prompts)
     }
   }
+  
+  if (TEST){
+    
+    save(SURVEY_ID_BR, file=paste0(diroutput,"SURVEY_ID_BR.RData"))
+    
+  }else{
 
-  save(SURVEY_ID_BR, file=paste0(dirtemp,"SURVEY_ID_BR.RData"))
+    save(SURVEY_ID_BR, file=paste0(dirtemp,"SURVEY_ID_BR.RData"))
+    
+  }
+  
+  
   rm(SURVEY_ID_BR)
 }
 
@@ -119,7 +138,17 @@ if (this_datasource_has_visit_occurrence_prompt) {
                         PathOutputFolder= dirdescribe01_prompts)
   }
   
-  save(VISIT_OCCURRENCE_PREG, file=paste0(dirtemp,"VISIT_OCCURRENCE_PREG.RData"))
+  
+  if (TEST){
+    
+    save(VISIT_OCCURRENCE_PREG, file=paste0(diroutput,"VISIT_OCCURRENCE_PREG.RData"))
+    
+  }else{
+    
+    save(VISIT_OCCURRENCE_PREG, file=paste0(dirtemp,"VISIT_OCCURRENCE_PREG.RData"))
+    
+  }
+  
   rm(VISIT_OCCURRENCE_PREG)
   
 }
@@ -151,7 +180,16 @@ if(this_datasource_has_person_rel_table){
   }
   
   # Loading D3_PERSONS and merging child's date of birth
-  load(paste0(dirtemp, "D3_PERSONS.RData"))
+  
+  if (TEST){
+    
+    load(paste0(dirinput, "D3_PERSONS.RData"))
+    
+  }else{
+    
+    load(paste0(dirtemp, "D3_PERSONS.RData"))
+    
+  }
   
   # uniforming date format
   D3_PERSONS[, day_of_birth := as.character(day_of_birth)]
@@ -193,6 +231,17 @@ if(this_datasource_has_person_rel_table){
                         PathOutputFolder= dirdescribe01_prompts)
   }
   
-  save(Person_rel_PROMPT_dataset, file=paste0(dirtemp,"Person_rel_PROMPT_dataset.RData"))
+
+  if (TEST){
+    
+    save(Person_rel_PROMPT_dataset, file=paste0(diroutput,"Person_rel_PROMPT_dataset.RData"))
+    
+  }else{
+    
+    save(Person_rel_PROMPT_dataset, file=paste0(dirtemp,"Person_rel_PROMPT_dataset.RData"))
+    
+  }
+  
+  
   rm(Person_rel_PROMPT_dataset)
 }

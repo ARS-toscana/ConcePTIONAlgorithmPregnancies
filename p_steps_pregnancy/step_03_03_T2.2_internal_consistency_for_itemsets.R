@@ -211,10 +211,13 @@ if (this_datasource_has_itemsets_stream_from_medical_obs){ # this_datasource_has
   
   print("Internal consistency for ITEMSETS checked")
   
-}else{
-  D3_Stream_ITEMSETS_check <- data.table()
+  save(D3_Stream_ITEMSETS_check, file=paste0(dirtemp,"D3_Stream_ITEMSETS_check.RData"))
+  rm(D3_Stream_ITEMSETS_check)
+  
 } 
+# }else{
+#   D3_Stream_ITEMSETS_check <- data.table()
+# } 
 
-save(D3_Stream_ITEMSETS_check, file=paste0(dirtemp,"D3_Stream_ITEMSETS_check.RData"))
-rm(D3_Stream_ITEMSETS_check)
+
 
