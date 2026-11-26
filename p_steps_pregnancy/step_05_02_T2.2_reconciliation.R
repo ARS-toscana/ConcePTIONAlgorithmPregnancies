@@ -64,7 +64,18 @@ if(thisdatasource == "VID"){
                        -record_date),]
   D3_gop<-D3_gop[, YGrecon:=0]
   
-}else{
+} else if (thisdatasource == "DANREG") {
+  
+  D3_gop <- D3_gop[meaning == "gestational_age_for_nonbirth_pregnancy_end", pers_group_id := paste0(person_id, "_GA")]
+  
+  D3_gop <- D3_gop[, record_date_order := -as.integer(record_date)]
+  D3_gop <- D3_gop[meaning == "gestational_age_for_nonbirth_pregnancy_end",
+                   record_date_order := as.integer(record_date)]
+  D3_gop <- D3_gop[order(pers_group_id, 
+                         order_quality, 
+                         record_date_order),]
+  
+} else {
   
   D3_gop<-D3_gop[order(pers_group_id, 
                        order_quality, 
@@ -125,7 +136,7 @@ if(D3_gop[is.na(record_date), .N] > 0){
 
 
 if(thisdatasource == 'DANREG'){
-  list_of_visit_occ_id_to_be_excluded = c()
+  list_of_record_date_to_be_excluded = c()
 }
 
 
@@ -136,10 +147,19 @@ while (D3_gop[,.N]!=0) {
   D3_gop <- D3_gop[, new_group := 0]
   D3_gop <- D3_gop[, n_max:= max(n), pers_group_id]
   
-  D3_gop[, type_end_already_updated_from_same_vis_occ_id:= 0]
+  D3_gop[, type_end_already_updated_from_same_record_date:= 0]
   
   for (i in seq(1, n_of_iteration)) {
     cat(paste0("reconciling record ", i, " of ", n_of_iteration, " \n"))
+    
+    if(thisdatasource == 'DANREG'){
+
+      D3_gop <- D3_gop[!(coloured_order == "2_yellow" & meaning == "gestational_age_for_nonbirth_pregnancy_end" &
+                           paste0(person_id, "_", record_date) %in% list_of_record_date_to_be_excluded)]
+      D3_gop <- D3_gop[order(pers_group_id, n)][, n := seq_len(.N), by = "pers_group_id"]
+      D3_gop <- D3_gop[, number_of_records_in_the_group := .N, by = "pers_group_id"]
+      D3_gop <- D3_gop[, n_max := .N, by = "pers_group_id"]
+    }
     
     D3_gop <- D3_gop[, recon := 0]
     D3_gop <- D3_gop[number_of_records_in_the_group < i, recon :=1]
@@ -173,13 +193,10 @@ while (D3_gop[,.N]!=0) {
     D3_gop <- D3_gop[recon == 0, record_description_next_record:= shift(record_description, n = i, fill = NA, type=c("lead")), by = "pers_group_id"]
     
     
-    
-    
-
-    if(thisdatasource == 'DANREG'){
-      D3_gop <- D3_gop[!(coloured_order == "2_yellow" & 
-                           visit_occurrence_id %in% list_of_visit_occ_id_to_be_excluded)]    }
-    
+    # if(thisdatasource == 'DANREG'){
+    #   D3_gop <- D3_gop[!(coloured_order == "2_yellow" & 
+    #                        paste0(person_id, "_", record_date) %in% list_of_record_date_to_be_excluded)]    }
+    # 
     
     #----------------------------------------------------------
     # Rule 1: Abs(Record date – record date next record) > 280
@@ -486,20 +503,16 @@ while (D3_gop[,.N]!=0) {
     
     if (thisdatasource=="DANREG") {
       
-      list_of_visit_occ_id_to_be_excluded = c(
-        list_of_visit_occ_id_to_be_excluded, 
+      list_of_record_date_to_be_excluded = c(
+        list_of_record_date_to_be_excluded, 
         D3_gop[ n == 1 & new_group_next_record != 1 & recon == 0 &  coloured_order == "1_green" & coloured_order_next_record == "1_green" &
                   meaning=="gestational_age_for_nonbirth_pregnancy_end" & meaning_next_record=="gestational_age_for_nonbirth_pregnancy_end", 
-                visit_occurrence_id]
-                
-                )
+                paste0(person_id, "_", record_date_next_record)]
+      )
 
       D3_gop <- D3_gop[ n == 1 & new_group_next_record != 1 & recon == 0 &  coloured_order == "1_green" & coloured_order_next_record == "1_green" &
                           meaning=="gestational_age_for_nonbirth_pregnancy_end" & meaning_next_record=="gestational_age_for_nonbirth_pregnancy_end",
-                        `:=`(pregnancy_start_date = pregnancy_start_date_next_record,
-                             pregnancy_end_date = pregnancy_end_date_next_record, # N.B: 'next record' is older than the previous one in case the quality is the same (records ordered by 1) quality 2) record date with a descendant order) 
-                             visit_occurrence_id = visit_occurrence_id_next_record,
-                             algorithm_for_reconciliation = paste0(algorithm_for_reconciliation, "GG:DatesUpdated_")
+                        `:=`(algorithm_for_reconciliation = paste0(algorithm_for_reconciliation, "GG:OldestKept_")
                              )]
 
     }
@@ -595,9 +608,9 @@ while (D3_gop[,.N]!=0) {
       
       D3_gop <- D3_gop[ n == 1 & new_group_next_record != 1 & recon == 0 &  coloured_order == "1_green" & coloured_order_next_record == "2_yellow" & 
                           meaning=="gestational_age_for_nonbirth_pregnancy_end" & 
-                          ((visit_occurrence_id==visit_occurrence_id_next_record & type_end_already_updated_from_same_vis_occ_id==0)), 
+                          ((record_date==record_date_next_record & type_end_already_updated_from_same_record_date==0)), 
                         `:=`(type_of_pregnancy_end = type_of_pregnancy_end_next_record,
-                             type_end_already_updated_from_same_vis_occ_id = 1,
+                             type_end_already_updated_from_same_record_date = 1,
                              algorithm_for_reconciliation = paste0(algorithm_for_reconciliation, "GY:typeUpdated_")
                         )]
       
@@ -610,7 +623,7 @@ while (D3_gop[,.N]!=0) {
       
       D3_gop <- D3_gop[ n == 1 & new_group_next_record != 1 & recon == 0 &  coloured_order == "1_green" & coloured_order_next_record == "2_yellow" & 
                           meaning=="gestational_age_for_nonbirth_pregnancy_end" & type_of_pregnancy_end_next_record %in% c("LB", "SB"), 
-                        `:=`(pregnancy_end_date=pregnancy_end_date_next_record, # N.B: 'next record' is older than the previous one in case the quality is the same (records ordered by 1) quality 2) record date with a descendant order) 
+                        `:=`(pregnancy_end_date=pregnancy_end_date_next_record, 
                              algorithm_for_reconciliation = paste0(algorithm_for_reconciliation, "GY:discordantTypeUpdated_")
                         )]
       

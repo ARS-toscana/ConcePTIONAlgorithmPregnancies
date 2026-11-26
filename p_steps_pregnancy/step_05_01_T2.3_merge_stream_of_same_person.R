@@ -282,6 +282,13 @@ groups_of_pregnancies[coloured_order=="3_blue" & is.na(order_quality), order_qua
 
 groups_of_pregnancies[coloured_order=="4_red" & is.na(order_quality), order_quality:=50]
 
+if (thisdatasource == "DANREG") {
+  
+  groups_of_pregnancies[coloured_order=="1_green" & meaning=="gestational_age_for_nonbirth_pregnancy_end" ,order_quality:=4.5] 
+  groups_of_pregnancies[coloured_order=="2_yellow" & meaning=="gestational_age_for_nonbirth_pregnancy_end" ,order_quality:=4.6] 
+  
+}
+
 groups_of_pregnancies[meaning_start_date %in% meaning_start_not_implying_pregnancy, order_quality:=99]
 
 # table(groups_of_pregnancies[,order_quality], useNA = "ifany")
