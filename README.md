@@ -1,6 +1,6 @@
 # ConcePTION Pregnancy Algorithm
 
-The manuscript describing the ConcePTION Pregnancy Algorithm has been published and is available [here]([https://www.authorea.com/users/943555/articles/1313611-identifying-pregnancies-in-population-based-data-sources-development-and-application-of-the-conception-pregnancy-algorithm](https://onlinelibrary.wiley.com/doi/pdfdirect/10.1002/pds.70438))
+The manuscript describing the ConcePTION Pregnancy Algorithm has been published and is available [here](https://onlinelibrary.wiley.com/doi/pdfdirect/10.1002/pds.70438)
 
 The **statistical analysis plan** for the ConcePTION Pregnancy Algorithm is available at this [link](https://docs.google.com/document/d/1HzmoAOi9x9CSRZdg5qCwEHTQqMvJSthZ/edit).
 
